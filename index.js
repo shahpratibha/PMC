@@ -108,7 +108,7 @@ map.on('draw:created', function (e) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
     $.ajax({
-        url: 'http://localhost/PMC_Update2/process.php', // Path to the PHP script
+        url: 'http://localhost/PMC/process.php', // Path to the PHP script
         type: 'GET',
         dataType: 'json',
         success: function(response) {
