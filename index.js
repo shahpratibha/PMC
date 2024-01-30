@@ -99,69 +99,130 @@ var drawControl = new L.Control.Draw({
 map.addControl(drawControl);
 // var layer;
 map.on("draw:created", function (e) {
+  const works_aa_approval_id = "856";
   var layer = e.layer;
   drawnItems.addLayer(layer);
 
   var geoJSON = layer.toGeoJSON();
   var popupContent = UpdateArea(geoJSON);
   $.ajax({
-    url: API_URL + "/process.php", // Path to the PHP script
+    // url: API_URL + "/process.php", // Path to the PHP script
+    url: API_URL + "/API-Responses/all-project-data.json", // Path to the PHP script
     type: "GET",
     dataType: "json",
     success: function (response) {
-      if (response.success) {
-        // Add CSV data to the popup content
-        var csvData = response.data;
-        if (csvData) {
+      // if (response.success) {
+      if (response.status === 200) {
+        const responseData = response.data;
+        const csvData = responseData.projectData.filter(
+          (item) => item.project.works_aa_approval_id === works_aa_approval_id
+        );
+
+        const departmentData = responseData.depData.filter(
+          (item) => item.department_id === csvData[0].project.d_id
+        );
+
+        const zoneData = responseData.zoneData.filter(
+          (item) => item.zone_id === csvData[0].project.constituency_zone_id
+        );
+
+        const wardData = responseData.wardData.filter(
+          (item) => item.ward_id === csvData[0].project.constituency_ward_id
+        );
+
+        if (csvData.length > 0) {
           popupContent +=
-            "<tr><td>" +
-            csvData[0][0] +
-            "</td><td>" +
-            csvData[1][0] +
+            "<tr><td>Name of work</td><td>" +
+            csvData[0].project.name_of_work +
             "</td></tr>";
           popupContent +=
-            "<tr><td>" +
-            csvData[0][1] +
-            "</td><td>" +
-            csvData[1][1] +
+            "<tr><td>Department</td><td>" +
+            departmentData[0].department_name +
             "</td></tr>";
           popupContent +=
-            "<tr><td>" +
-            csvData[0][2] +
-            "</td><td>" +
-            csvData[1][2] +
+            "<tr><td>ID</td><td>" +
+            csvData[0].project.works_aa_approval_id +
+            "</td></tr>";
+          popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
+          popupContent +=
+            "<tr><td>Scope of work</td><td>" +
+            csvData[0].project.scope_of_work +
             "</td></tr>";
           popupContent +=
-            "<tr><td>" +
-            csvData[0][3] +
-            "</td><td>" +
-            csvData[1][3] +
+            "<tr><td>Work-type</td><td>" +
+            csvData[0].project.work_type +
             "</td></tr>";
           popupContent +=
-            "<tr><td>" +
-            csvData[0][6] +
-            "</td><td>" +
-            csvData[1][6] +
+            "<tr><td>Zone</td><td>" + zoneData[0].zone_name + "</td></tr>";
+          popupContent +=
+            "<tr><td>Ward</td><td>" + wardData[0].ward_name + "</td></tr>";
+          popupContent +=
+            "<tr><td>Prabhag no.</td><td>" +
+            csvData[0].project.constituency_prabhag_id +
             "</td></tr>";
           popupContent +=
-            "<tr><td>" +
-            csvData[0][7] +
-            "</td><td>" +
-            csvData[1][7] +
+            "<tr><td>Date of competition work</td><td>" +
+            csvData[0].project.created_date +
             "</td></tr>";
           popupContent +=
-            "<tr><td>" +
-            csvData[0][8] +
-            "</td><td>" +
-            csvData[1][8] +
+            "<tr><td>JE Name</td><td>" +
+            csvData[0].project.je_name +
             "</td></tr>";
-          popupContent +=
-            "<tr><td>" +
-            csvData[0][9] +
-            "</td><td>" +
-            csvData[1][9] +
-            "</td></tr>";
+          popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
         }
+
+        // Add CSV data to the popup content
+        // var csvData = response.data;
+        // if (csvData) {
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][0] +
+        //     "</td><td>" +
+        //     csvData[1][0] +
+        //     "</td></tr>";
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][1] +
+        //     "</td><td>" +
+        //     csvData[1][1] +
+        //     "</td></tr>";
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][2] +
+        //     "</td><td>" +
+        //     csvData[1][2] +
+        //     "</td></tr>";
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][3] +
+        //     "</td><td>" +
+        //     csvData[1][3] +
+        //     "</td></tr>";
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][6] +
+        //     "</td><td>" +
+        //     csvData[1][6] +
+        //     "</td></tr>";
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][7] +
+        //     "</td><td>" +
+        //     csvData[1][7] +
+        //     "</td></tr>";
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][8] +
+        //     "</td><td>" +
+        //     csvData[1][8] +
+        //     "</td></tr>";
+        //   popupContent +=
+        //     "<tr><td>" +
+        //     csvData[0][9] +
+        //     "</td><td>" +
+        //     csvData[1][9] +
+        //     "</td></tr>";
+        // }
 
         // Close the table tag
         popupContent += "</table>";
