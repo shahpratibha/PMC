@@ -1,6 +1,6 @@
 var map, geojson;
-// const API_URL = "http://localhost/PMC_Update2/";
-const API_URL = "http://localhost/PMC-Project/";
+const API_URL = "http://localhost/PMC/";
+// const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
 var map = L.map("map", {}).setView([18.52, 73.895], 14, L.CRS.EPSG4326);
