@@ -1,6 +1,6 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/";
-// const API_URL = "http://localhost/PMC-Project/";
+// const API_URL = "http://localhost/PMC/";
+const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
 var map = L.map("map", {}).setView([18.52, 73.895], 14, L.CRS.EPSG4326);
@@ -107,7 +107,7 @@ map.on("draw:created", function (e) {
   var popupContent = UpdateArea(geoJSON);
   $.ajax({
     // url: API_URL + "/process.php", // Path to the PHP script
-    url: API_URL + "/API-Responses/all-project-data.json", // Path to the PHP script
+    url: API_URL + "API-Responses/all-project-data.json", // Path to the PHP script
     type: "GET",
     dataType: "json",
     success: function (response) {
@@ -543,6 +543,65 @@ function toKMLFormat() {
 
   return kmlContent;
 }
+
+//  Bottom Data table
+$(document).ready(function () {
+  var dataTable;
+
+  $("#showTableBtn").click(function () {
+    $("#workTable tfoot th").each(function () {
+      var title = $("#workTable thead th").eq($(this).index()).text();
+      $(this).html(
+        '<input type="text" class="form-control" placeholder="Search ' +
+          title +
+          '" />'
+      );
+    });
+
+    $.ajax({
+      url: "API-Responses/dataTable-dummy-data.json",
+      method: "GET",
+      success: function (data) {
+        // Initialize or redraw DataTable with received data
+        if (!dataTable) {
+          dataTable = $("#workTable").DataTable({
+            data: data,
+            columns: [
+              { data: "nameOfWork" },
+              { data: "workType" },
+              { data: "workCompletionDate" },
+              { data: "zone" },
+              { data: "ward" },
+              { data: "prabhag" },
+            ],
+          });
+        } else {
+          dataTable.clear().rows.add(data).draw();
+        }
+        dataTable
+          .columns()
+          .eq(0)
+          .each(function (colIdx) {
+            $("input", dataTable.column(colIdx).footer()).on(
+              "keyup change",
+              function () {
+                dataTable.column(colIdx).search(this.value).draw();
+              }
+            );
+          });
+        $("#table-container").slideDown();
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching data:", error);
+      },
+    });
+  });
+
+  // Hide table on close button click
+  $("#closeTableBtn").click(function () {
+    $("#table-container").slideUp();
+  });
+});
 
 // function generateKML(coordinatesArray, featureData) {
 //     // Extract feature propertie
