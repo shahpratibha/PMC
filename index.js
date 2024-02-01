@@ -546,9 +546,16 @@ function toKMLFormat() {
 
 //  Bottom Data table
 $(document).ready(function () {
-  var dataTable;
+  var dataTable = null;
+  var tableContainer = $("#table-container");
 
   $("#showTableBtn").click(function () {
+    // If DataTable is already initialized, just show the table container
+    if (dataTable) {
+      tableContainer.slideDown();
+      return;
+    }
+
     $("#workTable tfoot th").each(function () {
       var title = $("#workTable thead th").eq($(this).index()).text();
       $(this).html(
@@ -559,25 +566,40 @@ $(document).ready(function () {
     });
 
     $.ajax({
-      url: "API-Responses/dataTable-dummy-data.json",
+      url: "API-Responses/all-project-data.json",
       method: "GET",
-      success: function (data) {
-        // Initialize or redraw DataTable with received data
-        if (!dataTable) {
-          dataTable = $("#workTable").DataTable({
-            data: data,
-            columns: [
-              { data: "nameOfWork" },
-              { data: "workType" },
-              { data: "workCompletionDate" },
-              { data: "zone" },
-              { data: "ward" },
-              { data: "prabhag" },
-            ],
-          });
-        } else {
-          dataTable.clear().rows.add(data).draw();
-        }
+      success: function (response) {
+        var data = response.data.projectData;
+
+        // Initialize DataTable if not already initialized
+        dataTable = $("#workTable").DataTable({
+          data: data.map(function (project) {
+            return [
+              project.project.name_of_work,
+              project.project.work_type,
+              project.project.created_date,
+              getZoneNameById(
+                project.project.constituency_zone_id,
+                response.data.zoneData
+              ),
+              getWardNameById(
+                project.project.constituency_ward_id,
+                response.data.wardData
+              ),
+              "", // Assuming this is for Prabhag data
+            ];
+          }),
+          columns: [
+            { title: "Name of Work" },
+            { title: "Work Type" },
+            { title: "Work Completion Date" },
+            { title: "Zone" },
+            { title: "Ward" },
+            { title: "Prabhag" },
+          ],
+        });
+
+        // Filter event for each column
         dataTable
           .columns()
           .eq(0)
@@ -589,7 +611,9 @@ $(document).ready(function () {
               }
             );
           });
-        $("#table-container").slideDown();
+
+        // Show the table container
+        tableContainer.slideDown();
       },
       error: function (xhr, status, error) {
         console.error("Error fetching data:", error);
@@ -597,11 +621,60 @@ $(document).ready(function () {
     });
   });
 
+  // Add event listener to DataTable rows
+  // Add event listener to DataTable rows
+  $("#workTable tbody").on("click", "tr", function () {
+    var data = dataTable.row(this).data();
+    var nameOfWork = data[0]; // Assuming the first column contains the name of the work
+
+    // Your logic to determine the coordinates of the highlighted area based on the clicked data
+    var highlightedAreaCoordinates = [
+      [18.532343, 73.917303],
+      [18.526969, 73.926744],
+      [18.533809, 73.928547],
+      [18.532343, 73.917303], // Example coordinates, replace with your actual coordinates
+    ];
+
+    // Create a polygon layer representing the highlighted area and add it to the map
+    var highlightedAreaLayer = L.polygon(highlightedAreaCoordinates, {
+      color: "red",
+      fillColor: "red",
+      fillOpacity: 0.5,
+    }).addTo(map);
+
+    // Fit the map view to the bounds of the highlighted area
+    map.fitBounds(highlightedAreaLayer.getBounds());
+  });
+
   // Hide table on close button click
   $("#closeTableBtn").click(function () {
-    $("#table-container").slideUp();
+    tableContainer.slideUp();
   });
 });
+
+function getZoneNameById(zoneId, zoneData) {
+  var filteredZone = zoneData.filter(function (zone) {
+    return zone.zone_id === zoneId;
+  });
+
+  if (filteredZone.length > 0) {
+    return filteredZone[0].zone_name;
+  } else {
+    return "";
+  }
+}
+
+function getWardNameById(wardId, wardData) {
+  var filteredWard = wardData.filter(function (ward) {
+    return ward.ward_id === wardId;
+  });
+
+  if (filteredWard.length > 0) {
+    return filteredWard[0].ward_name;
+  } else {
+    return "";
+  }
+}
 
 // function generateKML(coordinatesArray, featureData) {
 //     // Extract feature propertie
