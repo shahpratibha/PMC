@@ -157,3 +157,52 @@ main {
   border-radius: 50%;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
+
+.ui-autocomplete {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #ced4da;
+  border-top: none;
+  width: 300px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.ui-widget.ui-widget-content {
+  border: 1px solid #c5c5c5;
+  z-index: 99999;
+}
+
+.ui-menu-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ui-menu-item:hover {
+  background-color: #f8f9fa;
+  color: #000;
+}
+
+.ui-state-active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.ui-state-focus {
+  outline: none;
+}
+
+.ui-autocomplete::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ui-autocomplete::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.ui-autocomplete::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}

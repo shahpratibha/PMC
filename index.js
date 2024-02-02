@@ -3,7 +3,7 @@ var map, geojson;
 const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
-var map = L.map("map", {}).setView([18.52, 73.895], 14, L.CRS.EPSG4326);
+var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
 
 var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
@@ -30,26 +30,26 @@ var Esri_WorldImagery = L.tileLayer(
 var baseLayers = {};
 
 var wms_layer1 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/PMC/wms",
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
   {
-    // layers: layerName,
+    layers: "Revenue",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Final_Ward_PLU",
+    attribution: "Revenue",
     opacity: 1,
   }
 );
 
 var wms_layer12 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/PMC/wms", {
-    layers: "Final_Ward_PLU",
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "PMC_Layers",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Final_Ward_PLU",
+    attribution: "PMC_Layers",
     opacity: 1,
   })
   .addTo(map);
@@ -58,7 +58,8 @@ var WMSlayers = {
   OpenStreetMap: osm,
   "Esri World Imagery": Esri_WorldImagery,
   "Google Satellite": googleSat,
-  Final_Ward_PLU: wms_layer12,
+  PMC_Layers: wms_layer12,
+  Revenue: wms_layer1,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
@@ -650,6 +651,70 @@ $(document).ready(function () {
   $("#closeTableBtn").click(function () {
     tableContainer.slideUp();
   });
+});
+
+$(document).ready(function () {
+  let allProjectData;
+
+  $.ajax({
+    url: "API-Responses/all-project-data.json",
+    method: "GET",
+    success: function (data) {
+      allProjectData = data.data.projectData;
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching all project data:", error);
+    },
+  });
+
+  $("#searchInput").autocomplete({
+    minLength: 3,
+    source: function (request, response) {
+      let searchTerm = request.term;
+      if (searchTerm.length >= 3) {
+        let filteredData = allProjectData.filter(function (item) {
+          return (
+            item.project.name_of_work
+              .toLowerCase()
+              .indexOf(searchTerm.toLowerCase()) !== -1
+          );
+        });
+        let suggestions = filteredData.map((item) => item.project.name_of_work);
+        suggestions = suggestions.slice(0, 10);
+        response(suggestions);
+      } else {
+        response([]);
+      }
+    },
+    select: function (event, ui) {
+      $("#searchInput").val(ui.item.label);
+      drawHighlightedArea(ui.item.label);
+      return false;
+    },
+  });
+
+  function drawHighlightedArea(nameOfWork) {
+    let project = allProjectData.find(
+      (item) => item.project.name_of_work === nameOfWork
+    );
+
+    if (project) {
+      let highlightedAreaCoordinates = [
+        [18.532343, 73.917303],
+        [18.526969, 73.926744],
+        [18.533809, 73.928547],
+        [18.532343, 73.917303],
+      ];
+
+      let highlightedAreaLayer = L.polygon(highlightedAreaCoordinates, {
+        color: "red",
+        fillColor: "red",
+        fillOpacity: 0.5,
+      }).addTo(map);
+
+      map.fitBounds(highlightedAreaLayer.getBounds());
+    }
+  }
 });
 
 function getZoneNameById(zoneId, zoneData) {
