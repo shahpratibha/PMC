@@ -188,17 +188,11 @@
         <div class="col-md-2">
           <div class="form-group mt-5">
             <label>Layers Name (Year Wise)</label>
-            <select class="select2 form-control" multiple="multiple">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-            </select>
+            <select class="select2 form-control" multiple="multiple"></select>
           </div>
           <div class="form-group mt-5">
             <label>Layers Name (Amount)</label>
-            <select class="select2 form-control" multiple="multiple">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-            </select>
+            <select class="select2 form-control" multiple="multiple"></select>
           </div>
           <div class="form-group mt-5">
             <label for="admin_ward_name">Layers Name (Admin Ward Name)</label>
@@ -210,17 +204,19 @@
           </div>
           <div class="form-group mt-5">
             <label>Layers Name (Zone Name)</label>
-            <select class="select2 form-control" multiple="multiple">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-            </select>
+            <select
+              class="form-control"
+              multiple="multiple"
+              id="zones"
+            ></select>
           </div>
           <div class="form-group mt-5">
             <label>Layers Name (Village Name)</label>
-            <select class="select2 form-control" multiple="multiple">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-            </select>
+            <select
+              class="form-control"
+              multiple="multiple"
+              id="villages"
+            ></select>
           </div>
         </div>
 
@@ -234,16 +230,16 @@
         <!-- Right Sidebar -->
         <div class="col-md-2">
           <div class="form-group mt-5">
-            <label>Layers Name (Year Wise)</label>
+            <label>Amount</label>
             <select class="select2 form-control" multiple="multiple"></select>
           </div>
           <div class="form-group mt-5">
-            <label>Layers Name (Amount)</label>
+            <label>Dates</label>
             <select class="select2 form-control" multiple="multiple"></select>
           </div>
           <div class="form-group mt-5">
-            <label for="admin_ward_name">Layers Name (Admin Ward Name)</label>
-            <select class="form-control"></select>
+            <label for="admin_ward_name">Departments</label>
+            <select class="form-control" id="departments"></select>
           </div>
           <div class="form-group mt-5">
             <label>Layers Name (Zone Name)</label>
@@ -426,25 +422,62 @@
     <script>
       $(document).ready(function () {
         loadAdminWardName();
+        loadZones();
+        loadVillages();
       });
       function loadAdminWardName() {
         $.getJSON("APIS/PMC_Admin_Ward.php", function (data) {
-          var select = $("#admin_ward_name"); // Assuming you have a select element with class 'select2'
+          var select = $("#admin_ward_name");
 
-          // Clear existing options
           select.empty();
 
-          // Populate options from API data
           $.each(data, function (index, item) {
             select.append(
               $("<option>", {
-                value: item.fid, // Assuming your API response has a 'value' field
-                text: item.Ward_Office, // Assuming your API response has a 'text' field
+                value: item.fid,
+                text: item.Ward_Office,
               })
             );
           });
 
-          // Initialize Select2 after populating options
+          select.select2();
+        });
+      }
+
+      function loadZones() {
+        $.getJSON("APIS/Zone_layer.php", function (data) {
+          var select = $("#zones");
+
+          select.empty();
+
+          $.each(data, function (index, item) {
+            select.append(
+              $("<option>", {
+                value: item.fid,
+                text: item.Zone_Name,
+              })
+            );
+          });
+
+          select.select2();
+        });
+      }
+
+      function loadVillages() {
+        $.getJSON("APIS/all-project-data.php", function (data) {
+          var select = $("#departments");
+
+          select.empty();
+
+          $.each(data.depData, function (index, item) {
+            select.append(
+              $("<option>", {
+                value: item.fid,
+                text: item.Village_Name,
+              })
+            );
+          });
+
           select.select2();
         });
       }
