@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry Options</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+
+     
+ 
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<!-- leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+
+
+<!-- Include leaflet-omnivore for KML and KMZ support -->
+<!-- <script src="https://unpkg.com/leaflet-omnivore@0.10.0/leaflet-omnivore.min.js"></script> -->
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            display: block;
+            margin-bottom: 12px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        #map {
+            height: 400px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+    <!-- Include Leaflet CSS without integrity -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+</head>
+<body class="p-3">
+<form class="text-center d-grid gap-2 p-3">
+    <h3>Choose an Option</h3>
+    <button > <a href="index.html">Draw Geometry</a></button>
+
+    <label for="fileInput" class="btn btn-primary">
+  <input type="file" id="fileInput" accept=".kml, .kmz" onchange="loadFile()" />Upload KML
+    </label>
+<!-- 
+    <input type="text" id="coordinatesInput" placeholder="Enter coordinates (e.g., latitude, longitude)">
+    <button onclick="showCoordinates()">Show on Map</button> -->
+</form>
+
+<!-- Map container -->
+<div id="map"></div>
+
+<!-- Include Leaflet JS without integrity -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+       var map = L.map('map').setView([0, 0], 2); // Initialize Leaflet map
+ 
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+   attribution: '© OpenStreetMap contributors'
+ }).addTo(map);
+
+ function loadFile() {
+   var input = document.getElementById('fileInput');
+   var file = input.files[0];
+
+   if (file) {
+     var reader = new FileReader();
+
+     reader.onload = function (e) {
+       try {
+         var parser = new DOMParser();
+         var kmlDoc = parser.parseFromString(e.target.result, 'application/xml');
+         console.log(kmlDoc)
+         var coordinates = extractCoordinates(kmlDoc);
+         console.log(coordinates,"coordinates")
+         showCoordinatesOnMap(coordinates);
+       } catch (error) {
+         alert('Invalid KML/KMZ file!');
+       }
+     };
+
+     reader.readAsText(file);
+   }
+ }
+
+ function extractCoordinates(kmlDoc) {
+ var coordinates = [];
+
+ var placemarks = kmlDoc.querySelectorAll('Placemark');
+ console.log(placemarks,"placemarks")
+ placemarks.forEach(function (placemark) {
+     var coordinatesNode = placemark.querySelector('coordinates');
+     console.log(coordinatesNode)
+     if (coordinatesNode) {
+         var coordsArray = coordinatesNode.textContent.trim().split(' ');
+         var coords = coordsArray.map(coordString => {
+             var [lon, lat] = coordString.split(',');
+             return [parseFloat(lat), parseFloat(lon)];
+         });
+         console.log(coords)
+         coordinates.push(coords);
+     }
+ });
+
+ return coordinates;
+}
+
+
+ function showCoordinatesOnMap(coordinates) {
+   var polyline = L.polyline(coordinates).addTo(map);
+   map.fitBounds(polyline.getBounds());
+ }
+
+    // const markers = [];
+
+    // function showCoordinates() {
+    //     const coordinatesInput = document.getElementById('coordinatesInput');
+    //     const coordinates = coordinatesInput.value;
+
+    //     if (coordinates !== null && coordinates !== "") {
+    //         updateMarkers(coordinates);
+    //     } else {
+    //         alert("No coordinates entered. Please try again.");
+    //     }
+    // }
+
+    // function updateMarkers(coordinates) {
+    //     const [latitude, longitude] = coordinates.split(',');
+
+    //     // Clear existing markers
+    //     markers.forEach(marker => map.removeLayer(marker));
+    //     markers.length = 0;
+
+    //     // Add a new marker at the specified coordinates
+    //     const newMarker = L.marker([parseFloat(latitude), parseFloat(longitude)])
+    //         .addTo(map)
+    //         .bindPopup('Coordinates: ' + coordinates)
+    //         .openPopup();
+
+    //     // Keep track of the marker
+    //     markers.push(newMarker);
+
+    //     // Set the view to the entered coordinates
+    //     map.setView([parseFloat(latitude), parseFloat(longitude)], 13);
+
+    //     // Log the updated markers array
+    //     console.log("Markers updated:", markers);
+    // }
+</script>
+
+</body>
+</html>

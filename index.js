@@ -1,6 +1,6 @@
 var map, geojson;
-// const API_URL = "http://localhost/PMC/";
-const API_URL = "http://localhost/PMC-Project/";
+const API_URL = "http://localhost/PMC/";
+// const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
 var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
@@ -719,8 +719,8 @@ $(document).ready(function () {
 
         let highlightedAreaLayer = L.polygon(highlightedAreaCoordinates, {
           color: "red",
-          fillColor: "red",
-          fillOpacity: 0.5,
+          fillColor: "transparent",
+          fillOpacity: 0.1,
         }).addTo(map);
 
         map.fitBounds(highlightedAreaLayer.getBounds());
