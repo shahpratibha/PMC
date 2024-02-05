@@ -679,7 +679,7 @@ $(document).ready(function () {
               .indexOf(searchTerm.toLowerCase()) !== -1
           );
         });
-        let suggestions = filteredData.map((item) => item.project.name_of_work);
+        let suggestions = filteredData.map((item) => item.project.je_name);
         suggestions = suggestions.slice(0, 10);
         response(suggestions);
       } else {
