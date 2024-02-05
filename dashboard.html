@@ -299,132 +299,7 @@
       </div>
     </div>
     <script src="index.js"></script>
-    <script>
-      (function ($) {
-        // build: commit c09a8f6
-        !(function (e) {
-          "function" == typeof define && define.amd
-            ? define(["jquery"], e)
-            : e(jQuery);
-        })(function (e) {
-          var t;
-          e &&
-            e.fn &&
-            e.fn.select2 &&
-            e.fn.select2.amd &&
-            (t = e.fn.select2.amd.define),
-            t(
-              "select2/multi-checkboxes/dropdown",
-              [
-                "select2/utils",
-                "select2/dropdown",
-                "select2/dropdown/search",
-                "select2/dropdown/attachBody",
-              ],
-              function (e, t, n, s) {
-                return e.Decorate(e.Decorate(t, n), s);
-              }
-            ),
-            t(
-              "select2/multi-checkboxes/results",
-              ["jquery", "select2/utils", "select2/results"],
-              function (l, e, t) {
-                function n() {
-                  n.__super__.constructor.apply(this, arguments);
-                }
-                return (
-                  e.Extend(n, t),
-                  (n.prototype.highlightFirstItem = function () {
-                    this.ensureHighlightVisible();
-                  }),
-                  (n.prototype.bind = function (e) {
-                    e.on("open", function () {
-                      var e = this.$results
-                        .find(".select2-results__option[aria-selected]")
-                        .filter("[aria-selected=true]");
-                      (e.length, e).first().trigger("mouseenter");
-                    }),
-                      n.__super__.bind.apply(this, arguments);
-                  }),
-                  (n.prototype.template = function (e, t) {
-                    var n = this.options.get("templateResult"),
-                      s = this.options.get("escapeMarkup"),
-                      i = n(e, t);
-                    l(t).addClass("multi-checkboxes_wrap"),
-                      null == i
-                        ? (t.style.display = "none")
-                        : "string" == typeof i
-                        ? (t.innerHTML = s(i))
-                        : l(t).append(i);
-                  }),
-                  n
-                );
-              }
-            ),
-            t(
-              "select2/multi-checkboxes/selection",
-              [
-                "select2/utils",
-                "select2/selection/multiple",
-                "select2/selection/placeholder",
-                "select2/selection/single",
-                "select2/selection/eventRelay",
-              ],
-              function (e, t, n, s, i) {
-                var l = e.Decorate(t, n);
-                return (
-                  ((l = e.Decorate(l, i)).prototype.render = function () {
-                    return s.prototype.render.call(this);
-                  }),
-                  (l.prototype.update = function (e) {
-                    var t = this.$selection.find(
-                        ".select2-selection__rendered"
-                      ),
-                      n = "";
-                    if (0 === e.length)
-                      n = this.options.get("placeholder") || "";
-                    else {
-                      var s = {
-                        selected: e || [],
-                        all: this.$element.find("option") || [],
-                      };
-                      n = this.display(s, t);
-                    }
-                    t.empty().append(n), t.prop("title", n);
-                  }),
-                  l
-                );
-              }
-            );
-        });
-        //
-
-        $.fn.select2.amd.require(
-          [
-            "select2/multi-checkboxes/dropdown",
-            "select2/multi-checkboxes/selection",
-            "select2/multi-checkboxes/results",
-          ],
-          function (DropdownAdapter, SelectionAdapter, ResultsAdapter) {
-            $(".select2").select2({
-              //   placeholder: "Select",
-              closeOnSelect: false,
-              templateSelection: function (data) {
-                return (
-                  "Selected " +
-                  data.selected.length +
-                  " out of " +
-                  data.all.length
-                );
-              },
-              dropdownAdapter: DropdownAdapter,
-              selectionAdapter: SelectionAdapter,
-              resultsAdapter: ResultsAdapter,
-            });
-          }
-        );
-      })(jQuery);
-    </script>
+    <script src="select2.js"></script>
     <script>
       $(document).ready(function () {
         loadAdminWardName();
@@ -443,11 +318,58 @@
               $("<option>", {
                 value: item.fid,
                 text: item.Ward_Office,
+                "data-coordinates": item.geom, // Assuming coordinates are available in the API response
               })
             );
           });
 
-          select.select2();
+          // Trigger change event when the select box is loaded
+          select.trigger("change");
+
+          // Initialize Select2 with checkboxes and multiple mode
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // Event listener for change event
+          select.on("change", function () {
+            var selectedOptions = $(this).find(":selected");
+            var selectedCoordinates = [];
+
+            selectedOptions.each(function () {
+              selectedCoordinates.push($(this).data("coordinates"));
+            });
+
+            // Use the selected coordinates to draw on the map
+            console.log("Selected coordinates:", selectedCoordinates);
+
+            drawCoordinatesOnMap(selectedCoordinates);
+          });
         });
       }
 
@@ -462,11 +384,56 @@
               $("<option>", {
                 value: item.fid,
                 text: item.Zone_Name,
+                "data-coordinates": item.geom,
               })
             );
           });
 
-          select.select2();
+          // Trigger change event when the select box is loaded
+          select.trigger("change");
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // Event listener for change event
+          select.on("change", function () {
+            var selectedOptions = $(this).find(":selected");
+            var selectedCoordinates = [];
+
+            selectedOptions.each(function () {
+              selectedCoordinates.push($(this).data("coordinates"));
+            });
+
+            // Use the selected coordinates to draw on the map
+            console.log("Selected coordinates:", selectedCoordinates);
+
+            drawCoordinatesOnMap(selectedCoordinates);
+          });
         });
       }
 
@@ -481,11 +448,56 @@
               $("<option>", {
                 value: item.fid,
                 text: item.Village_Name,
+                "data-coordinates": item.geom,
               })
             );
           });
 
-          select.select2();
+          // Trigger change event when the select box is loaded
+          select.trigger("change");
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // Event listener for change event
+          select.on("change", function () {
+            var selectedOptions = $(this).find(":selected");
+            var selectedCoordinates = [];
+
+            selectedOptions.each(function () {
+              selectedCoordinates.push($(this).data("coordinates"));
+            });
+
+            // Use the selected coordinates to draw on the map
+            console.log("Selected coordinates:", selectedCoordinates);
+
+            drawCoordinatesOnMap(selectedCoordinates);
+          });
         });
       }
 
@@ -505,6 +517,47 @@
           });
 
           select.select2();
+        });
+      }
+
+      function drawCoordinatesOnMap(selectedCoordinates) {
+        // Assuming you have a Leaflet map instance named 'map'
+        // Clear previous layers from the map
+        map.eachLayer(function (layer) {
+          if (!(layer instanceof L.TileLayer)) {
+            map.removeLayer(layer);
+          }
+        });
+
+        // Loop through each set of coordinates and draw them on the map
+        // Loop through each set of coordinates and draw them on the map
+        selectedCoordinates.forEach(function (geometry) {
+          var type = geometry.type;
+          var coordinates = geometry.coordinates;
+
+          if (type === "Polygon") {
+            // For polygons
+            var polygon = L.polygon(coordinates, {
+              color: "red",
+              fillColor: "red",
+              fillOpacity: 0.5,
+            }).addTo(map);
+
+            // Fit the map bounds to the polygon
+            map.fitBounds(polygon.getBounds());
+          } else if (type === "MultiPolygon") {
+            // For multi-polygons
+            coordinates.forEach(function (polygonCoords) {
+              var polygon = L.polygon(polygonCoords, {
+                color: "red",
+                fillColor: "red",
+                fillOpacity: 0.5,
+              }).addTo(map);
+
+              // Fit the map bounds to the polygon
+              map.fitBounds(polygon.getBounds());
+            });
+          }
         });
       }
     </script>
