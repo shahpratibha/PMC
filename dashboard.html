@@ -229,31 +229,37 @@
 
         <!-- Right Sidebar -->
         <div class="col-md-2" style="background-color: #bbb;">
-          <div class="form-group mt-5">
+          <div class="form-group mt-4">
             <label>Amount</label>
             <select class="select2 form-control" multiple="multiple"></select>
           </div>
-          <div class="form-group mt-5">
+          <div class="form-group mt-4">
             <label>Dates</label>
             <select class="select2 form-control" multiple="multiple"></select>
           </div>
-          <div class="form-group mt-5">
+          <div class="form-group mt-4">
             <label for="admin_ward_name">Departments</label>
-            <select class="form-control" id="departments"></select>
+            <select
+              class="form-control"
+              id="departments"
+              multiple="multiple"
+            ></select>
           </div>
-          <div class="form-group mt-5">
-            <label>Layers Name (Zone Name)</label>
-            <select class="select2 form-control" multiple="multiple">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-            </select>
+          <div class="form-group mt-4">
+            <label>Layers Name (Project Status)</label>
+            <select class="select2 form-control" multiple="multiple"></select>
           </div>
-          <div class="form-group mt-5">
-            <label>Layers Name (Village Name)</label>
-            <select class="select2 form-control" multiple="multiple">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-            </select>
+          <div class="form-group mt-4">
+            <label>Layers Name (Work Type)</label>
+            <select class="select2 form-control" multiple="multiple"></select>
+          </div>
+          <div class="form-group mt-4">
+            <label>Select With Radius</label>
+            <select class="select2 form-control" multiple="multiple"></select>
+          </div>
+          <div class="form-group mt-4">
+            <label>Catchment Area</label>
+            <select class="select2 form-control" multiple="multiple"></select>
           </div>
         </div>
       </div>
@@ -424,6 +430,7 @@
         loadAdminWardName();
         loadZones();
         loadVillages();
+        loadDepartments();
       });
       function loadAdminWardName() {
         $.getJSON("APIS/PMC_Admin_Ward.php", function (data) {
@@ -464,16 +471,35 @@
       }
 
       function loadVillages() {
-        $.getJSON("APIS/all-project-data.php", function (data) {
-          var select = $("#departments");
+        $.getJSON("APIS/Village_Boundary.php", function (data) {
+          var select = $("#villages");
 
           select.empty();
 
-          $.each(data.depData, function (index, item) {
+          $.each(data, function (index, item) {
             select.append(
               $("<option>", {
                 value: item.fid,
                 text: item.Village_Name,
+              })
+            );
+          });
+
+          select.select2();
+        });
+      }
+
+      function loadDepartments() {
+        $.getJSON("API-Responses/all-project-data.json", function (data) {
+          var select = $("#departments");
+
+          select.empty();
+
+          $.each(data.data.depData, function (index, item) {
+            select.append(
+              $("<option>", {
+                value: item.department_id,
+                text: item.department_name,
               })
             );
           });
