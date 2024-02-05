@@ -188,7 +188,14 @@
         <div class="col-md-2" style="background-color: #bbb;">
           <div class="form-group mt-5">
             <label>Select Year</label>
-            <select class="select2 form-control"  multiple="multiple"></select>
+            <select class="select2 form-control"  multiple="multiple">
+              <option value="">2022-2023</option>
+              <option value="">2023-2024</option>
+              <option value="">2024-2025</option>
+
+
+            </select>
+           
           </div>
           <div class="form-group mt-5">
             <label>Layers Name (Amount)</label>
@@ -539,8 +546,8 @@
             // For polygons
             var polygon = L.polygon(coordinates, {
               color: "red",
-              fillColor: "red",
-              fillOpacity: 0.5,
+              fillColor: "transparent",
+              fillOpacity: 0.1,
             }).addTo(map);
 
             // Fit the map bounds to the polygon
@@ -550,8 +557,8 @@
             coordinates.forEach(function (polygonCoords) {
               var polygon = L.polygon(polygonCoords, {
                 color: "red",
-                fillColor: "red",
-                fillOpacity: 0.5,
+                fillColor: "transparent",
+                fillOpacity: 0.1,
               }).addTo(map);
 
               // Fit the map bounds to the polygon
