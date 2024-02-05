@@ -673,13 +673,17 @@ $(document).ready(function () {
       let searchTerm = request.term;
       if (searchTerm.length >= 3) {
         let filteredData = allProjectData.filter(function (item) {
-          return (
+          let nameOfWorkMatch =
             item.project.name_of_work
               .toLowerCase()
-              .indexOf(searchTerm.toLowerCase()) !== -1
-          );
+              .indexOf(searchTerm.toLowerCase()) !== -1;
+          let jeNameMatch =
+            item.project.je_name
+              .toLowerCase()
+              .indexOf(searchTerm.toLowerCase()) !== -1;
+          return nameOfWorkMatch || jeNameMatch;
         });
-        let suggestions = filteredData.map((item) => item.project.je_name);
+        let suggestions = filteredData.map((item) => item.project.name_of_work);
         suggestions = suggestions.slice(0, 10);
         response(suggestions);
       } else {
@@ -699,20 +703,28 @@ $(document).ready(function () {
     );
 
     if (project) {
-      let highlightedAreaCoordinates = [
-        [18.532343, 73.917303],
-        [18.526969, 73.926744],
-        [18.533809, 73.928547],
-        [18.532343, 73.917303],
-      ];
+      let allCoordinates = [];
 
-      let highlightedAreaLayer = L.polygon(highlightedAreaCoordinates, {
-        color: "red",
-        fillColor: "red",
-        fillOpacity: 0.5,
-      }).addTo(map);
+      if (project.gis && Array.isArray(project.gis)) {
+        project.gis.forEach((gisObject) => {
+          if (gisObject.geometry) {
+            let geometryCoordinates = JSON.parse(gisObject.geometry);
+            allCoordinates = allCoordinates.concat(geometryCoordinates);
+          }
+        });
+      }
 
-      map.fitBounds(highlightedAreaLayer.getBounds());
+      if (allCoordinates.length > 0) {
+        let highlightedAreaCoordinates = allCoordinates;
+
+        let highlightedAreaLayer = L.polygon(highlightedAreaCoordinates, {
+          color: "red",
+          fillColor: "red",
+          fillOpacity: 0.5,
+        }).addTo(map);
+
+        map.fitBounds(highlightedAreaLayer.getBounds());
+      }
     }
   }
 });
