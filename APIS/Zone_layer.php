@@ -9,7 +9,7 @@ try {
     }
 
     // Query to retrieve data from the table
-    $stmt = $pdo->query('SELECT fid, "Zone", "Zone_Name" FROM public."Zone_layer"');
+    $stmt = $pdo->query('SELECT fid, ST_AsGeoJSON(geom)::json as geom, "Zone", "Zone_Name" FROM public."Zone_layer"');
     
     // Fetch all data as an associative array
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
