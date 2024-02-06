@@ -1,6 +1,6 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/";
-// const API_URL = "http://localhost/PMC-Project/";
+// const API_URL = "http://localhost/PMC/";
+const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
 var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
@@ -389,16 +389,23 @@ function deleteRow() {
 
 function Savedata() {
   var geoJSONString = toGISformat();
+  geoJSONString = JSON.parse(geoJSONString);
+  let selectCoordinatesData = geoJSONString.features;
+  localStorage.setItem(
+    "selectCoordinatesData",
+    JSON.stringify(selectCoordinatesData)
+  );
+  window.location.href = "geometry_page.html";
 
-  console.log(geoJSONString, "llllllllllllllllllllllll");
-  $.ajax({
-    type: "POST",
-    url: "save.php",
-    data: { geoJSON: geoJSONString },
-    success: function (response) {
-      console.log(response);
-    },
-  });
+  // console.log(geoJSONString, "llllllllllllllllllllllll");
+  // $.ajax({
+  //   type: "POST",
+  //   url: "save.php",
+  //   data: { geoJSON: geoJSONString },
+  //   success: function (response) {
+  //     console.log(response);
+  //   },
+  // });
 }
 
 function SavetoKML() {
