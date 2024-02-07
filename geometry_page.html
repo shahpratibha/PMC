@@ -177,16 +177,10 @@
         return coordinates;
       }
 
-      function showCoordinatesOnMap(coordinates) {
-        var polyline = L.polyline(coordinates).addTo(map);
-        map.fitBounds(polyline.getBounds());
-      }
-
       $(document).ready(function () {
         if (localStorage.getItem("selectCoordinatesData") !== null) {
           let coordinatesData = localStorage.getItem("selectCoordinatesData");
           coordinatesData = JSON.parse(coordinatesData);
-
           coordinatesData.forEach(function (feature) {
             if (feature.geometry.type === "Polygon") {
               let coordinates = feature.geometry.coordinates[0].map((coord) => [

@@ -8,7 +8,10 @@
   width: auto;
   height: 90vh;
 }
-
+a{
+  text-decoration: none;
+  color: white;
+}
 /* styles.css */
 
 /* #popup-table {
@@ -50,7 +53,7 @@ td {
 }
 
 #popup-table {
-  max-width: 200px;
+  max-width: 300px;
   max-height: 300px;
   /* Set the maximum height for the table */
   overflow: auto;
@@ -66,9 +69,12 @@ td {
 }
 
 .popup-button {
+  width: 130px;
   margin-top: 10px;
+  margin-left: 10px;
+  font-weight: bold;
   /* Add some space between the buttons and the table */
-  padding: 5px 10px;
+  padding: 10px 25px;
   background-color: #4caf50;
   color: white;
   border: none;
@@ -209,10 +215,3 @@ main {
 
 
 /* side bar */
-
-.sidebar{
-  
-  Width:70px;
-Height:100vh;
-background-color: #163140;
-}

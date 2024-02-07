@@ -229,7 +229,7 @@ map.on("draw:created", function (e) {
 
         // Add buttons for adding and deleting rows
         popupContent +=
-          '<button class="popup-button" onclick="Savedata()">Save</button>';
+          '<button class="popup-button" onclick="Savedata()"><a href="geometry_page.html" style="text-decoration:none; color: white;">Save</a></button>';
         popupContent +=
           '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
@@ -316,7 +316,7 @@ map.on("draw:edited", function (e) {
 
           // Add buttons for adding and deleting rows
           popupContent +=
-            '<button class="popup-button" onclick="Savedata()">Save</button>';
+            '<a href="" style="text-decoration:none; color: white;"><button class="popup-button" onclick="Savedata()">Save</button></a>';
           popupContent +=
             '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
@@ -330,6 +330,9 @@ map.on("draw:edited", function (e) {
       },
     });
   });
+  var layer = e.layer;
+  drawnItems.addLayer(layer);
+  drawnLayer = layer;
 });
 
 function UpdateArea(geoJSON) {
@@ -387,14 +390,7 @@ function deleteRow() {
 }
 
 function Savedata() {
-  var geoJSONString = toGISformat();
-  geoJSONString = JSON.parse(geoJSONString);
-  let selectCoordinatesData = geoJSONString.features;
-  localStorage.setItem(
-    "selectCoordinatesData",
-    JSON.stringify(selectCoordinatesData)
-  );
-  window.location.href = "geometry_page.html";
+  // var geoJSONString = toGISformat();
 
   // console.log(geoJSONString, "llllllllllllllllllllllll");
   // $.ajax({
@@ -405,6 +401,10 @@ function Savedata() {
   //     console.log(response);
   //   },
   // });
+
+  const geoJSONString = JSON.stringify(layer.toGeoJSON());
+  const url = `geometry_form.html?geoJSON=${encodeURIComponent(geoJSONString)}`;
+  window.location.href = url;
 }
 
 function SavetoKML() {
