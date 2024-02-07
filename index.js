@@ -103,7 +103,6 @@ map.on("draw:created", function (e) {
   const works_aa_approval_id = "856";
   var layer = e.layer;
   drawnItems.addLayer(layer);
-
   var geoJSON = layer.toGeoJSON();
   var popupContent = UpdateArea(geoJSON);
   $.ajax({

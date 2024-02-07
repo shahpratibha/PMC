@@ -8,9 +8,25 @@ try {
         throw new Exception("PDO connection not found. Please check your configuration.");
     }
 
-    // Query to retrieve data from the table
-    $stmt = $pdo->query('SELECT "OBJECTID", ST_AsGeoJSON(geom)::json as geom, "Road_type", "Road_name", "Label", oneway, "Length", "Bridge1", "Shape_Length" FROM public."Exist_Road"');
-    
+    // Prepare the SQL query with placeholders
+    $sql = 'SELECT "OBJECTID", ST_AsGeoJSON(geom)::json as geom, "Road_type", "Road_name", "Label", oneway, "Length", "Bridge1", "Shape_Length"
+            FROM public."Exist_Road"
+            WHERE "Road_name" != :emptyString AND "Road_name" != :whitespace';
+
+    // Prepare the statement
+    $stmt = $pdo->prepare($sql);
+
+    // Bind parameters
+    $stmt->bindParam(':emptyString', $emptyString, PDO::PARAM_STR);
+    $stmt->bindParam(':whitespace', $whitespace, PDO::PARAM_STR);
+
+    // Set parameter values
+    $emptyString = '';
+    $whitespace = ' ';
+
+    // Execute the statement
+    $stmt->execute();
+
     // Fetch all data as an associative array
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
