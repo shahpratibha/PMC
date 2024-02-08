@@ -103,6 +103,7 @@ map.on("draw:created", function (e) {
   const works_aa_approval_id = "856";
   var layer = e.layer;
   drawnItems.addLayer(layer);
+
   var geoJSON = layer.toGeoJSON();
   var popupContent = UpdateArea(geoJSON);
   $.ajax({
@@ -387,7 +388,6 @@ function deleteRow() {
 }
 
 function Savedata() {
-<<<<<<< HEAD
   var geoJSONString = toGISformat();
   geoJSONString = JSON.parse(geoJSONString);
   let selectCoordinatesData = geoJSONString.features;
@@ -396,9 +396,6 @@ function Savedata() {
     JSON.stringify(selectCoordinatesData)
   );
   window.location.href = "geometry_page.html";
-=======
-  // var geoJSONString = toGISformat();
->>>>>>> 9899c1c6b4603407919e7c169ae77256eb3ac81a
 
   // console.log(geoJSONString, "llllllllllllllllllllllll");
   // $.ajax({
@@ -409,13 +406,6 @@ function Savedata() {
   //     console.log(response);
   //   },
   // });
-<<<<<<< HEAD
-=======
-
-  const geoJSONString = JSON.stringify(layer.toGeoJSON());
-  const url = `geometry_form.html?geoJSON=${encodeURIComponent(geoJSONString)}`;
-  window.location.href = url;
->>>>>>> 9899c1c6b4603407919e7c169ae77256eb3ac81a
 }
 
 function SavetoKML() {
