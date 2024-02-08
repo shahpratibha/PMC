@@ -68,6 +68,17 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
+// Add a search bar
+var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+var results = new L.LayerGroup().addTo(map);
+
+// Handle search results
+searchControl.on("results", function (data) {
+  results.clearLayers();
+  for (var i = data.results.length - 1; i >= 0; i--) {
+    results.addLayer(L.marker(data.results[i].latlng));
+  }
+});
 var drawControl = new L.Control.Draw({
   draw: {
     polyline: {
@@ -98,6 +109,7 @@ var drawControl = new L.Control.Draw({
   },
 });
 map.addControl(drawControl);
+
 // var layer;
 map.on("draw:created", function (e) {
   const works_aa_approval_id = "856";
