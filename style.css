@@ -9,7 +9,7 @@
   width: 100%;
   height: 90vh;
 }
-a{
+a {
   text-decoration: none;
   color: white;
 }
@@ -213,6 +213,8 @@ main {
   background-color: #888;
   border-radius: 4px;
 }
-
+.leaflet-touch .geocoder-control {
+  z-index: 9999999;
+}
 
 /* side bar */
