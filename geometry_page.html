@@ -173,32 +173,6 @@
         return coordinates;
       }
 
-<<<<<<< HEAD
- function showCoordinatesOnMap(coordinates) {
-   var polyline = L.polyline(coordinates).addTo(map);
-   map.fitBounds(polyline.getBounds());
- }
- // Get the geoJSON parameter from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const geoJSONString = urlParams.get('geoJSON');
-
-    // Parse the geoJSONString to obtain the geometry data
-    const geoJSON = JSON.parse(decodeURIComponent(geoJSONString));
-
-    var map = L.map('map').setView([0, 0], 2); // Initialize Leaflet map
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    function showGeometry() {
-        L.geoJSON(geoJSON).addTo(map);
-    }
-
-    // Call showGeometry function when the page loads
-    showGeometry();
-    // const markers = [];
-=======
       function showCoordinatesOnMap(coordinates) {
         var polyline = L.polyline(coordinates).addTo(map);
         map.fitBounds(polyline.getBounds());
@@ -208,7 +182,6 @@
         if (localStorage.getItem("selectCoordinatesData") !== null) {
           let coordinatesData = localStorage.getItem("selectCoordinatesData");
           coordinatesData = JSON.parse(coordinatesData);
->>>>>>> 169cd3ec878d0be5a4b80022474070e0c3d5b89e
 
           let polyline;
 
