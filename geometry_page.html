@@ -88,6 +88,10 @@
         text-decoration: none;
         color: white;
       }
+      .popup-table-container {
+        max-height: 200px; /* Adjust the height as needed */
+        overflow-y: auto;
+      }
     </style>
     <!-- Include Leaflet CSS without integrity -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -173,11 +177,6 @@
         return coordinates;
       }
 
-      function showCoordinatesOnMap(coordinates) {
-        var polyline = L.polyline(coordinates).addTo(map);
-        map.fitBounds(polyline.getBounds());
-      }
-
       $(document).ready(function () {
         if (localStorage.getItem("selectCoordinatesData") !== null) {
           let coordinatesData = localStorage.getItem("selectCoordinatesData");
@@ -191,19 +190,52 @@
                 coord[1],
                 coord[0],
               ]);
-              polyline = L.polygon(coordinates).addTo(map);
+              let polygon = L.polygon(coordinates).addTo(map);
+
+              // Bind popup to the polygon
+              polygon.bindPopup(getPopupContent(feature));
+
+              // Listen for click event on polygon to open popup
+              polygon.on("click", function (e) {
+                e.target.openPopup();
+              });
             } else if (feature.geometry.type === "LineString") {
               let coordinates = feature.geometry.coordinates.map((coord) => [
                 coord[1],
                 coord[0],
               ]);
-              polyline = L.polyline(coordinates).addTo(map);
+              let polyline = L.polyline(coordinates).addTo(map);
+
+              // Bind popup to the polyline
+              polyline.bindPopup(getPopupContent(feature));
+
+              // Listen for click event on polyline to open popup
+              polyline.on("click", function (e) {
+                e.target.openPopup();
+              });
             }
           });
 
-          map.fitBounds(polyline.getBounds());
+          // Fit map bounds
+          let bounds = L.latLngBounds(
+            coordinatesData.map((feature) => {
+              return L.geoJSON(feature).getBounds();
+            })
+          );
+          map.fitBounds(bounds);
         }
       });
+
+      function getPopupContent(feature) {
+        // Create and return the HTML content for the popup based on the feature data
+        let content = "<div class='popup-table-container'><table>";
+
+        for (const [key, value] of Object.entries(feature.properties)) {
+          content += `<tr><td>${key}</td><td>${value}</td></tr>`;
+        }
+        content += "</table></div>";
+        return content;
+      }
 
       // const markers = [];
 
