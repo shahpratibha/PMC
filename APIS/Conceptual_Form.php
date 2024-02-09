@@ -28,7 +28,7 @@ try {
     $projectOffice = $formDataArray['projectOffice'];
     $juniorName = $formDataArray['juniorName'];
     $contactNo = $formDataArray['contactNo'];
-    $dateIn = $formDataArray['dateIn'];
+    $dateIn = $formDataArray['dateIn']; 
     $zone = $formDataArray['zone'];
     $ward = $formDataArray['ward'];
     $prabhagName = $formDataArray['prabhagName'];

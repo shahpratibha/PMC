@@ -54,12 +54,27 @@ var wms_layer12 = L.tileLayer
   })
   .addTo(map);
 
+  var wms_layer3 = L.tileLayer.wms(
+
+    "https://geo.geopulsea.com/geoserver/pmc/wms", {
+        layers: "Data",
+        format: "image/png",
+        transparent: true,
+        tiled: true,
+        version: "1.1.0",
+        attribution: "Data",
+        opacity: 1,
+
+    }
+);
+
 var WMSlayers = {
   OpenStreetMap: osm,
   "Esri World Imagery": Esri_WorldImagery,
   "Google Satellite": googleSat,
   PMC_Layers: wms_layer12,
   Revenue: wms_layer1,
+  Data:wms_layer3,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
@@ -153,6 +168,22 @@ function removeAssociatedLayers(layerId) {
       if (associatedLayers.dashedLineLayer) map.removeLayer(associatedLayers.dashedLineLayer);
       delete associatedLayersRegistry[layerId]; // Clear the registry entry
   }
+}
+
+function checkPolylineIntersection(newPolyline) {
+  var existingPolylines = getExistingPolylines();
+  var totalIntersectionLength = 0;
+  var newPolylineLength = turf.length(newPolyline, {units: 'kilometers'});
+
+  existingPolylines.forEach(function(polyline) {
+      var intersection = turf.intersect(newPolyline, polyline);
+      if (intersection) {
+          totalIntersectionLength += turf.length(intersection, {units: 'kilometers'});
+      }
+  });
+
+  var intersectionPercentage = (totalIntersectionLength / newPolylineLength) * 100;
+  return intersectionPercentage <= 20;
 }
 
 // var layer;
@@ -465,23 +496,23 @@ function deleteRow() {
 
 function Savedata() {
   var geoJSONString = toGISformat();
-  geoJSONString = JSON.parse(geoJSONString);
-  let selectCoordinatesData = geoJSONString.features;
+  var geoJSONStringJson = JSON.parse(geoJSONString);
+  let selectCoordinatesData = geoJSONStringJson.features;
   localStorage.setItem(
     "selectCoordinatesData",
     JSON.stringify(selectCoordinatesData)
   );
-  window.location.href = "geometry_page.html";
+  //window.location.href = "geometry_page.html";
 
-  // console.log(geoJSONString, "llllllllllllllllllllllll");
-  // $.ajax({
-  //   type: "POST",
-  //   url: "save.php",
-  //   data: { geoJSON: geoJSONString },
-  //   success: function (response) {
-  //     console.log(response);
-  //   },
-  // });
+  console.log(geoJSONString, "llllllllllllllllllllllll");
+  $.ajax({
+    type: "POST",
+    url: "APIS/gis_save.php",
+    data: { geoJSON: geoJSONString },
+    success: function (response) {
+      console.log(response);
+    },
+  });
 }
 
 function SavetoKML() {
