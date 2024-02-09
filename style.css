@@ -124,6 +124,11 @@ td {
   color: white;
 }
 
+#workTableDashboard thead th {
+  background-color: black;
+  color: white;
+}
+
 /* Flexbox layout */
 body {
   display: flex;
@@ -148,6 +153,23 @@ main {
   z-index: 99999;
 }
 #table-container tbody tr {
+  cursor: pointer;
+}
+
+#table-container-dashboard {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 400px; /* Adjust the maximum height as needed */
+  overflow-y: scroll;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-top: 1px solid #ccc;
+  z-index: 99999;
+}
+#table-container-dashboard tbody tr {
   cursor: pointer;
 }
 .close-button {

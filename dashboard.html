@@ -88,6 +88,19 @@
     <!-- Leaflet.draw JavaScript -->
     <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
+    <!-- Esri Leaflet JavaScript -->
+    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+
+    <!-- Esri Leaflet Geocoder JavaScript -->
+    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+
+    <!-- Esri Leaflet Geocoder CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css"
+    />
+
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -120,6 +133,11 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <style>
       .multi-checkboxes_wrap:before {
         font-family: fontAwesome;
@@ -188,26 +206,18 @@
         <div class="col-md-2" style="background-color: #bbb">
           <div class="form-group mt-5">
             <label>Select Year</label>
-            <select class="select2 form-control" multiple="multiple">
-              <option>2022-2023</option>
-              <option>2023-2024</option>
-              <option>2024-2025</option>
-            </select>
-          </div>
-          <div class="form-group mt-5">
-            <label>Layers Name (Amount)</label>
-            <select class="select2 form-control" multiple="multiple"></select>
-          </div>
-          <div class="form-group mt-5">
-            <label for="admin_ward_name">Layers Name (Admin Ward Name)</label>
             <select
               class="select2 form-control"
               multiple="multiple"
-              id="admin_ward_name"
+              id="project_fi"
             ></select>
           </div>
+          <!-- <div class="form-group mt-5">
+            <label>Layers Name (Amount)</label>
+            <select class="select2 form-control" multiple="multiple"></select>
+          </div> -->
           <div class="form-group mt-5">
-            <label>Layers Name (Zone Name)</label>
+            <label>Zone Name</label>
             <select
               class="form-control"
               multiple="multiple"
@@ -215,7 +225,15 @@
             ></select>
           </div>
           <div class="form-group mt-5">
-            <label>Layers Name (Village Name)</label>
+            <label for="admin_ward_name">Ward Name</label>
+            <select
+              class="select2 form-control"
+              multiple="multiple"
+              id="admin_ward_name"
+            ></select>
+          </div>
+          <div class="form-group mt-5">
+            <label>Village Name</label>
             <select
               class="form-control"
               multiple="multiple"
@@ -234,13 +252,64 @@
         <!-- Right Sidebar -->
         <div class="col-md-2" style="background-color: #bbb">
           <div class="form-group mt-4">
-            <label>Amount</label>
-            <select class="select2 form-control" multiple="multiple"></select>
+            <div class="accordion" id="projectCostAccordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="projectCostHeading">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#projectCostCollapse"
+                    aria-expanded="false"
+                    aria-controls="projectCostCollapse"
+                  >
+                    Project Cost
+                  </button>
+                </h2>
+                <div
+                  id="projectCostCollapse"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="projectCostHeading"
+                  data-bs-parent="#projectCostAccordion"
+                >
+                  <div class="accordion-body">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <select class="form-select" id="amount_comparison">
+                            <option value="greater_than">Greater Than</option>
+                            <option value="less_than">Less Than</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 mt-3">
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="amount_value"
+                            placeholder="Enter amount"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="form-group mt-4">
-            <label>Dates</label>
-            <select class="select2 form-control" multiple="multiple"></select>
+            <label for="date_range">Date Range</label>
+            <input
+              type="text"
+              class="form-control"
+              id="date_range"
+              placeholder="Select Date Range"
+              readonly
+            />
           </div>
+
           <div class="form-group mt-4">
             <label for="admin_ward_name">Departments</label>
             <select
@@ -250,218 +319,397 @@
             ></select>
           </div>
           <div class="form-group mt-4">
-            <label>Layers Name (Project Status)</label>
-            <select class="select2 form-control" multiple="multiple"></select>
+            <label>Project Status</label>
+            <select
+              class="select2 form-control"
+              multiple="multiple"
+              id="stage"
+            ></select>
           </div>
           <div class="form-group mt-4">
-            <label>Layers Name (Work Type)</label>
-            <select class="select2 form-control" multiple="multiple"></select>
+            <label>Work Type</label>
+            <select
+              class="select2 form-control"
+              multiple="multiple"
+              id="work_type"
+            ></select>
           </div>
-          <div class="form-group mt-4">
+          <!-- <div class="form-group mt-4">
             <label>Select With Radius</label>
             <select class="select2 form-control" multiple="multiple"></select>
           </div>
           <div class="form-group mt-4">
             <label>Catchment Area</label>
             <select class="select2 form-control" multiple="multiple"></select>
-          </div>
+          </div> -->
         </div>
       </div>
 
-      <div id="table-container">
-        <button id="closeTableBtn" class="close-button">
+      <div id="table-container-dashboard">
+        <button id="closeTableBtnDashboard" class="close-button">
           <i class="fas fa-times"></i>
         </button>
 
         <table
-          id="workTable"
+          id="workTableDashboard"
           class="table table-bordered table-hover"
           style="width: 100% !important"
         >
           <thead>
             <tr>
-              <th>Name of Work</th>
-              <th>Work Type</th>
-              <th>Work Completion Date</th>
               <th>Zone</th>
               <th>Ward</th>
-              <th>Prabhag</th>
+              <th>Department</th>
+              <th>Ward Scope</th>
+              <th>Ward Name</th>
+              <th>Work Type</th>
+              <th>Date</th>
+              <th>Tender Amount</th>
+              <th>JE Name</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <th>Name of Work</th>
-              <th>Work Type</th>
-              <th>Work Completion Date</th>
               <th>Zone</th>
               <th>Ward</th>
-              <th>Prabhag</th>
+              <th>Department</th>
+              <th>Ward Scope</th>
+              <th>Ward Name</th>
+              <th>Work Type</th>
+              <th>Date</th>
+              <th>Tender Amount</th>
+              <th>JE Name</th>
             </tr>
           </tfoot>
           <tbody></tbody>
         </table>
+        <div class="row" style="background-color: #ffffff; padding: 45px 15px">
+          <div class="col-md-6">
+            <canvas id="myPieChart" width="500" height="500"></canvas>
+          </div>
+          <div class="col-md-6">
+            <canvas id="myLineChart" width="600" height="500"></canvas>
+          </div>
+        </div>
       </div>
     </div>
     <script src="index.js"></script>
     <script src="select2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JavaScript -->
+    <!-- JavaScript -->
     <script>
       $(document).ready(function () {
+        var amountValueInput = document.getElementById("amount_value");
+
+        amountValueInput.addEventListener("keyup", function (event) {
+          if (event.keyCode === 13) {
+            filterDataAndDrawMap();
+          }
+        });
+        $("#date_range")
+          .datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: false,
+            todayHighlight: true,
+            clearBtn: true,
+            multidate: true,
+            multidateSeparator: " to ",
+            forceParse: false,
+          })
+          .on("changeDate", function (e) {
+            var selectedDates = e.dates;
+            if (selectedDates.length === 2) {
+              var fromDate = selectedDates[0];
+              var toDate = selectedDates[1];
+
+              // Validate that toDate is greater than fromDate
+              if (toDate <= fromDate) {
+                alert("To date must be greater than From date.");
+                // Clear the selected dates
+                $("#date_range").datepicker("clearDates");
+              }
+              filterDataAndDrawMap();
+              // yourFunction(selectedDates[0], selectedDates[1]);
+              $("#date_range").datepicker("hide");
+            }
+          });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        loadAllData();
+      });
+
+      function loadAllData() {
+        $.getJSON("APIS/IWMS_DATA.php", function (data) {
+          allData = data;
+          loadInitialData();
+        });
+      }
+
+      function loadInitialData() {
         loadAdminWardName();
         loadZones();
         loadVillages();
         loadDepartments();
-      });
+        loadWorkTypes();
+        loadProjectFi();
+        loadStage();
+      }
+
+      function filterDataAndDrawMap() {
+        var selectedDepartments = $("#departments").val();
+        var selectedWorkTypes = $("#work_type").val();
+        var selectedZones = $("#zones").val();
+        var selectedWards = $("#admin_ward_name").val();
+        var selectedProjectFi = $("#project_fi").val();
+        var selectedStage = $("#stage").val();
+        var selectedDateRange = $("#date_range").val();
+        var selectedAmountComparison = $("#amount_comparison").val();
+        var selectedAmountValue = $("#amount_value").val();
+
+        // Check if any filter values are not empty
+        if (
+          !$.isEmptyObject(selectedDepartments) ||
+          !$.isEmptyObject(selectedWorkTypes) ||
+          !$.isEmptyObject(selectedZones) ||
+          !$.isEmptyObject(selectedWards) ||
+          !$.isEmptyObject(selectedStage) ||
+          !$.isEmptyObject(selectedDateRange) ||
+          !$.isEmptyObject(selectedAmountValue) ||
+          !$.isEmptyObject(selectedProjectFi)
+        ) {
+          // Filter data based on selected filters
+          var filteredData = filterData(
+            selectedDepartments,
+            selectedWorkTypes,
+            selectedZones,
+            selectedWards,
+            selectedProjectFi,
+            selectedStage,
+            selectedDateRange,
+            selectedAmountValue,
+            selectedAmountComparison
+          );
+
+          // Extract coordinates from filtered data
+          var allCoordinates = [];
+          $("#workTableDashboard tbody").html("");
+          $.each(filteredData.projects_data, function (index, project) {
+            var proData = `<tr>
+                    <td>${project.zone}</td>
+                    <td>${project.ward}</td>
+                    <td>${project.departme_1}</td>
+                    <td>${project.ward}</td>
+                    <td>${project.ward}</td>
+                    <td>${project.work_type}</td>
+                    <td>${project.created_at}</td>
+                    <td>${project.tender_amo}</td>
+                    <td>${project.je_name}</td>
+                </tr>`;
+            $("#workTableDashboard tbody").append(proData);
+            if (project.geom) {
+              let geometryCoordinates = JSON.parse(project.geom);
+              allCoordinates.push(geometryCoordinates);
+            }
+          });
+          var tableContainer = $("#table-container-dashboard");
+          tableContainer.slideDown();
+
+          $("#closeTableBtnDashboard").click(function () {
+            tableContainer.slideUp();
+          });
+
+          console.log("All coordinates:", allCoordinates);
+
+          // Draw coordinates on map
+          drawCoordinatesOnMap(allCoordinates);
+        } else {
+          console.log("No filters selected. Map will not be drawn.");
+        }
+      }
+
+      function filterData(
+        selectedDepartments,
+        selectedWorkTypes,
+        selectedZones,
+        selectedWards,
+        selectedProjectFi,
+        selectedStage,
+        selectedDateRange,
+        selectedAmountValue,
+        selectedAmountComparison
+      ) {
+        // Parse the selected date range string to extract start and end dates if provided
+        var startDate, endDate;
+        if (selectedDateRange) {
+          var dateRangeParts = selectedDateRange.split(" to ");
+          startDate = new Date(dateRangeParts[0]);
+          endDate = new Date(dateRangeParts[1]);
+        }
+
+        // Filter data based on selected filters
+        var filteredData = {
+          projects_data: [],
+        };
+
+        $.each(allData.projects_data, function (index, project) {
+          var dateInRange = true;
+          if (selectedDateRange) {
+            // Check if the project date is within the provided date range
+            var projectDate = new Date(project.created_at.replace(/-/g, "/"));
+            dateInRange = projectDate >= startDate && projectDate <= endDate;
+          }
+
+          var amountComparisonValid = true;
+          if (!$.isEmptyObject(selectedAmountValue)) {
+            // Apply the amount comparison only if selectedAmountValue is not null
+            if (selectedAmountComparison === "greater_than") {
+              amountComparisonValid =
+                parseFloat(project.tender_amo) >
+                parseFloat(selectedAmountValue);
+            } else if (selectedAmountComparison === "less_than") {
+              amountComparisonValid =
+                parseFloat(project.tender_amo) <
+                parseFloat(selectedAmountValue);
+            }
+          }
+
+          if (
+            (selectedDepartments.length === 0 ||
+              selectedDepartments.includes(project.departme_1)) &&
+            (selectedWorkTypes.length === 0 ||
+              selectedWorkTypes.includes(project.work_type)) &&
+            (selectedZones.length === 0 ||
+              selectedZones.includes(project.zone)) &&
+            (selectedWards.length === 0 ||
+              selectedWards.includes(project.ward)) &&
+            (selectedStage.length === 0 ||
+              selectedStage.includes(project.stage)) &&
+            (selectedProjectFi.length === 0 ||
+              selectedProjectFi.includes(project.project_fi)) &&
+            dateInRange &&
+            amountComparisonValid
+          ) {
+            filteredData.projects_data.push(project);
+          }
+        });
+
+        return filteredData;
+      }
+
       function loadAdminWardName() {
-        $.getJSON("APIS/PMC_Admin_Ward.php", function (data) {
-          var select = $("#admin_ward_name");
+        var select = $("#admin_ward_name");
+        select.empty();
 
-          select.empty();
+        // Populate select options with all zones
+        $.each(allData.wards, function (index, item) {
+          select.append(
+            $("<option>", {
+              value: item,
+              text: item,
+            })
+          );
+        });
 
-          $.each(data, function (index, item) {
-            // Manipulate coordinates: swap latitude with longitude and vice versa
-            var coordinates = item.geom
-              .split(",")
-              .map(function (coord) {
-                var parts = coord.trim().split(" ");
-                return parts.reverse().join(" ");
-              })
-              .join(",");
+        // Destroy the existing Select2 instance, if it exists
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
 
-            select.append(
-              $("<option>", {
-                value: item.fid,
-                text: item.Ward_Office,
-                "data-coordinates": coordinates, // Reversed coordinates
-                zones: item.Zone,
-              })
+        // Initialize Select2 with the updated options
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
             );
-          });
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
 
-          // Trigger change event when the select box is loaded
-          select.trigger("change");
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
 
-          // Initialize Select2 with checkboxes and multiple mode
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // Event listener for change event
-          select.on("change", function () {
-            var selectedOptions = $(this).find(":selected");
-            var selectedCoordinates = [];
-            var selectedZones = [];
-
-            selectedOptions.each(function () {
-              selectedCoordinates.push($(this).data("coordinates"));
-              selectedZones.push($(this).attr("zones"));
-            });
-
-            // Use the selected coordinates to draw on the map
-            console.log("Selected coordinates:", selectedCoordinates);
-            getSelectedZones(selectedZones);
-
-            drawCoordinatesOnMap(selectedCoordinates);
-          });
+        // Event listener for change event
+        select.on("change", function () {
+          filterDataAndDrawMap();
         });
       }
 
-      function loadZones(selectedZones = "") {
-        // Construct the API URL with query parameters for selected zones
-        var apiUrl = "APIS/Zone_layer.php";
-        if (selectedZones) {
-          apiUrl += "?selectedZones=" + encodeURIComponent(selectedZones);
+      function loadZones() {
+        var select = $("#zones");
+        select.empty();
+
+        // Populate select options with all zones
+        $.each(allData.zones, function (index, item) {
+          select.append(
+            $("<option>", {
+              value: item,
+              text: item,
+            })
+          );
+        });
+
+        // Destroy the existing Select2 instance, if it exists
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
         }
 
-        // Make the API request
-        $.getJSON(apiUrl, function (data) {
-          var select = $("#zones");
+        // Initialize Select2 with the updated options
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
 
-          select.empty();
-
-          $.each(data, function (index, item) {
-            select.append(
-              $("<option>", {
-                value: item.fid,
-                text: item.Zone_Name,
-                "data-coordinates": item.geom,
-              })
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
             );
-          });
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
 
-          // Destroy the existing Select2 instance, if it exists
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
 
-          // Initialize Select2 with the updated options
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // Event listener for change event
-          select.on("change", function () {
-            var selectedOptions = $(this).find(":selected");
-            var selectedCoordinates = [];
-
-            selectedOptions.each(function () {
-              selectedCoordinates.push($(this).data("coordinates"));
-            });
-
-            // Use the selected coordinates to draw on the map
-            console.log("Selected coordinates:", selectedCoordinates);
-
-            drawCoordinatesOnMap(selectedCoordinates);
-          });
+        // Event listener for change event
+        select.on("change", function () {
+          // var selectedZones = $("#zones").val();
+          // loadAdminWardName(selectedZones);
+          filterDataAndDrawMap();
         });
       }
 
@@ -530,66 +778,216 @@
       }
 
       function loadDepartments() {
-        $.getJSON("APIS/Exist_Road.php", function (data) {
-          var select = $("#departments");
+        var select = $("#departments");
+        select.empty();
 
-          select.empty();
+        // Populate select options with department names from allData
+        $.each(allData.department_names, function (index, item) {
+          select.append(
+            $("<option>", {
+              value: item,
+              text: item,
+            })
+          );
+        });
 
-          $.each(data, function (index, item) {
-            select.append(
-              $("<option>", {
-                value: item.OBJECTID,
-                text: item.Road_name,
-                "data-coordinates": item.geom,
-              })
+        select.trigger("change");
+
+        // Initialize Select2 with checkboxes and multiple mode
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
             );
-          });
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
 
-          // Trigger change event when the select box is loaded
-          select.trigger("change");
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
 
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
+        // Event listener for change event
+        select.on("change", function () {
+          filterDataAndDrawMap();
+        });
+      }
 
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
+      function loadWorkTypes() {
+        var select = $("#work_type");
+        select.empty();
 
-          // Event listener for change event
-          select.on("change", function () {
-            var selectedOptions = $(this).find(":selected");
-            var selectedCoordinates = [];
+        // Populate select options with work types from allData
+        $.each(allData.work_types, function (index, item) {
+          select.append(
+            $("<option>", {
+              value: item,
+              text: item,
+            })
+          );
+        });
 
-            selectedOptions.each(function () {
-              selectedCoordinates.push($(this).data("coordinates"));
-            });
+        select.trigger("change");
 
-            // Use the selected coordinates to draw on the map
-            console.log("Selected coordinates:", selectedCoordinates);
+        // Initialize Select2 with checkboxes and multiple mode
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
 
-            drawCoordinatesOnMap(selectedCoordinates);
-          });
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // Event listener for change event
+        select.on("change", function () {
+          filterDataAndDrawMap();
+        });
+      }
+
+      function loadProjectFi() {
+        var select = $("#project_fi");
+        select.empty();
+
+        // Populate select options with all zones
+        $.each(allData.project_fi, function (index, item) {
+          select.append(
+            $("<option>", {
+              value: item,
+              text: item,
+            })
+          );
+        });
+
+        // Destroy the existing Select2 instance, if it exists
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        // Initialize Select2 with the updated options
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // Event listener for change event
+        select.on("change", function () {
+          filterDataAndDrawMap();
+        });
+      }
+
+      function loadStage() {
+        var select = $("#stage");
+        select.empty();
+
+        // Populate select options with all zones
+        $.each(allData.stage, function (index, item) {
+          select.append(
+            $("<option>", {
+              value: item,
+              text: item,
+            })
+          );
+        });
+
+        // Destroy the existing Select2 instance, if it exists
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        // Initialize Select2 with the updated options
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // Event listener for change event
+        select.on("change", function () {
+          filterDataAndDrawMap();
         });
       }
 
@@ -657,11 +1055,79 @@
         });
       }
 
-      function getSelectedZones(selectedZones) {
-        // Convert the array to a Set to remove duplicates
-        const uniqueZones = [...new Set(selectedZones)];
-        loadZones(selectedZones);
-      }
+      // function getSelectedZones(selectedZones) {
+      //   // Convert the array to a Set to remove duplicates
+      //   const uniqueZones = [...new Set(selectedZones)];
+      //   loadAdminWardName(selectedZones);
+      // }
+    </script>
+    <script>
+      // Get the canvas element
+      var ctx = document.getElementById("myPieChart").getContext("2d");
+
+      // Create the pie chart
+      var myPieChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [12, 19, 3, 5, 2],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.5)",
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(255, 206, 86, 0.5)",
+                "rgba(75, 192, 192, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: false, // Set to true if you want the chart to resize with the window
+        },
+      });
+    </script>
+    <script>
+      // Get the canvas element
+      var ctx = document.getElementById("myLineChart").getContext("2d");
+
+      // Create the line chart
+      var myLineChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+          ],
+          datasets: [
+            {
+              label: "My Dataset",
+              data: [65, 59, 80, 81, 56, 55, 40], // Sample data for the line chart
+              fill: false, // Fill area under the line
+              borderColor: "rgb(75, 192, 192)", // Line color
+              tension: 0.1, // Line tension (0 is straight lines, 1 is smooth curves)
+            },
+          ],
+        },
+        options: {
+          responsive: false, // Set to true if you want the chart to resize with the window
+        },
+      });
     </script>
   </body>
 </html>
