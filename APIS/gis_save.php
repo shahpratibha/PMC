@@ -1,52 +1,38 @@
-
 <?php
 require 'config.php';
 
 header('Content-Type: application/json');
 
-// Extract geometry type and coordinates from GeoJSON data
-// $geometryType = $data['geometry']['type'];
+$data = json_decode(file_get_contents('php://input'), true);
 
-$data = json_decode($_POST['geoJSON'], true);
+if (!isset($data['geoJSON'])) {
+    echo json_encode(["error" => "GeoJSON data not provided"]);
+    exit; 
+}
 
-print_r($data);
+$geoJSONData = json_decode($data['geoJSON'], true);
+$roadLength = isset($data['roadLength']) ? $data['roadLength'] : null;
+$bufferWidth = isset($data['bufferWidth']) ? $data['bufferWidth'] : null;
 
-$geometryType = $data['features'][0]['geometry']['type'];
+if (is_null($geoJSONData)) {
+    echo json_encode(["error" => "Invalid GeoJSON format"]);
+    exit; 
+}
 
-$dd = $data['features'][0]['properties'];
+$geometry = $geoJSONData['features'][0]['geometry'];
+$geometryJSON = json_encode($geometry);
 
+$stmt = $pdo->prepare("INSERT INTO geodata (geometry, length, width) VALUES (ST_GeomFromGeoJSON(:geometry), :length, :width)");
 
-
-$stmt = $pdo->prepare("INSERT INTO geodata (geometry) VALUES (ST_GeomFromGeoJSON(:geometry))");
-
-// Bind parameters
-// $stmt->bindParam(':geometry', json_encode($data['geometry']), PDO::PARAM_STR);
-$stmt->bindParam(':geometry', json_encode($data['features'][0]['geometry']), PDO::PARAM_STR);
-$stmt->bindParam(':type', $geometryType, PDO::PARAM_STR);
-
-// ''''''''''added from here
-
-$stmt = $pdo->prepare("INSERT INTO geodata (geometry)
-                        VALUES (ST_GeomFromGeoJSON(:geometry))");
-
-// Bind parameters
-$stmt->bindParam(':geometry', json_encode($data['features'][0]['geometry']), PDO::PARAM_STR);
-$stmt->bindParam(':type', $geometryType, PDO::PARAM_STR);
-// foreach ($dd as $key => $value) {
-// Assuming you have key1, value1, key2, value2 in your $data array
-$stmt->bindParam(':key1', $key1, PDO::PARAM_STR);
-$stmt->bindParam(':value1', $value1, PDO::PARAM_STR);
-$stmt->bindParam(':key2', $key2, PDO::PARAM_STR);
-$stmt->bindParam(':value2', $value2, PDO::PARAM_INT);
+$stmt->bindParam(':geometry', $geometryJSON, PDO::PARAM_STR);
+$stmt->bindParam(':length', $roadLength, PDO::PARAM_STR); 
+$stmt->bindParam(':width', $bufferWidth, PDO::PARAM_STR);
 
 try {
-    // Execute the prepared statement
     $stmt->execute();
-    echo "Data successfully saved to the database";
+    $lastInsertId = $pdo->lastInsertId();
+    echo json_encode(["message" => "Data successfully saved to the database", "lastInsertId" => $lastInsertId]);
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo json_encode(["error" => $e->getMessage()]);
 }
-// }
-
 ?>
-

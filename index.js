@@ -504,14 +504,30 @@ function Savedata() {
   );
   //window.location.href = "geometry_page.html";
 
-  console.log(geoJSONString, "llllllllllllllllllllllll");
+  var roadLenght = localStorage.getItem('roadLenght');
+  var bufferWidth = localStorage.getItem('bufferWidth');
+  var lastInsertedId = localStorage.getItem('lastInsertedId');
+
+  var payload = JSON.stringify({
+    geoJSON: geoJSONString,
+    roadLength: roadLenght,
+    bufferWidth: bufferWidth,
+    gis_id :lastInsertedId ,
+  });
+
+
   $.ajax({
     type: "POST",
     url: "APIS/gis_save.php",
-    data: { geoJSON: geoJSONString },
+    data: payload, 
+    contentType: "application/json", 
     success: function (response) {
       console.log(response);
+    
     },
+    error: function (xhr, status, error) {
+      console.error("Save failed:", error);
+    }
   });
 }
 
