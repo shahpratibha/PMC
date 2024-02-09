@@ -110,76 +110,128 @@ var drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
 
+// function for added buffer 
+
+var associatedLayersRegistry = {};
+
+function createBufferAndDashedLine(polylineLayer,roadLenght,bufferWidth) {
+  console.log(bufferWidth);
+  var geoJSON = polylineLayer.toGeoJSON();
+  var buffered = turf.buffer(geoJSON, bufferWidth, { units: 'meters' }); // Adjust buffer size as needed
+
+  var bufferLayer = L.geoJSON(buffered, {
+      style: {
+          color: "#000000",
+          weight: 4,
+          opacity: 0.5,
+          lineJoin: 'round'
+      }
+  }).addTo(map);
+
+  var dashedLineLayer = L.geoJSON(geoJSON, {
+      style: {
+          color: "#ffffff",
+          weight: 2,
+          opacity: 1,
+          dashArray: '10, 10',
+          lineJoin: 'round'
+      }
+  }).addTo(map);
+
+  // Store references to the associated layers
+  associatedLayersRegistry[polylineLayer._leaflet_id] = {
+      bufferLayer: bufferLayer,
+      dashedLineLayer: dashedLineLayer
+  };
+}
+
+
+function removeAssociatedLayers(layerId) {
+  var associatedLayers = associatedLayersRegistry[layerId];
+  if (associatedLayers) {
+      if (associatedLayers.bufferLayer) map.removeLayer(associatedLayers.bufferLayer);
+      if (associatedLayers.dashedLineLayer) map.removeLayer(associatedLayers.dashedLineLayer);
+      delete associatedLayersRegistry[layerId]; // Clear the registry entry
+  }
+}
+
 // var layer;
 map.on("draw:created", function (e) {
   const works_aa_approval_id = "856";
+
+  if (e.layerType === 'polyline') {
+    var length = turf.length(e.layer.toGeoJSON(), {units: 'kilometers'});
+    var roadLenght = localStorage.getItem('roadLenght');
+    console.log(roadLenght);
+    if (length > roadLenght) {
+      alert(`The polyline is longer than ${roadLenght} kilometers. Please draw a shorter polyline.`);
+        return; // Stop further processing
+    }
+}
   var layer = e.layer;
   drawnItems.addLayer(layer);
 
+  if (e.layerType === 'polyline') {
+    
+    var bufferWidth = localStorage.getItem('bufferWidth');
+
+    
+    createBufferAndDashedLine(layer,roadLenght,bufferWidth);
+}
+
+
   var geoJSON = layer.toGeoJSON();
   var popupContent = UpdateArea(geoJSON);
+  var lastInsertedId = localStorage.getItem('lastInsertedId');
   $.ajax({
     // url: API_URL + "/process.php", // Path to the PHP script
-    url: API_URL + "API-Responses/all-project-data.json", // Path to the PHP script
+    url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
     type: "GET",
+    data: { id: lastInsertedId },
     dataType: "json",
     success: function (response) {
+      
       // if (response.success) {
-      if (response.status === 200) {
+      if (response.data != undefined) {
         const responseData = response.data;
-        const csvData = responseData.projectData.filter(
-          (item) => item.project.works_aa_approval_id === works_aa_approval_id
-        );
-
-        const departmentData = responseData.depData.filter(
-          (item) => item.department_id === csvData[0].project.d_id
-        );
-
-        const zoneData = responseData.zoneData.filter(
-          (item) => item.zone_id === csvData[0].project.constituency_zone_id
-        );
-
-        const wardData = responseData.wardData.filter(
-          (item) => item.ward_id === csvData[0].project.constituency_ward_id
-        );
-
-        if (csvData.length > 0) {
+        console.log(responseData)
+        if (responseData != undefined) {
           popupContent +=
             "<tr><td>Name of work</td><td>" +
-            csvData[0].project.name_of_work +
+            responseData.work_name +
             "</td></tr>";
           popupContent +=
             "<tr><td>Department</td><td>" +
-            departmentData[0].department_name +
+            responseData.department +
             "</td></tr>";
           popupContent +=
             "<tr><td>ID</td><td>" +
-            csvData[0].project.works_aa_approval_id +
+            responseData.works_aa_approval_id +
             "</td></tr>";
           popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
           popupContent +=
             "<tr><td>Scope of work</td><td>" +
-            csvData[0].project.scope_of_work +
+            responseData.scope_of_work +
             "</td></tr>";
           popupContent +=
             "<tr><td>Work-type</td><td>" +
-            csvData[0].project.work_type +
+            responseData.work_type +
             "</td></tr>";
           popupContent +=
-            "<tr><td>Zone</td><td>" + zoneData[0].zone_name + "</td></tr>";
+            "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
           popupContent +=
-            "<tr><td>Ward</td><td>" + wardData[0].ward_name + "</td></tr>";
+            "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
           popupContent +=
             "<tr><td>Prabhag no.</td><td>" +
-            csvData[0].project.constituency_prabhag_id +
+            responseData.project_no +
             "</td></tr>";
           popupContent +=
             "<tr><td>Date of competition work</td><td>" +
-            csvData[0].project.created_date +
+            responseData.created_date +
             "</td></tr>";
           popupContent +=
             "<tr><td>JE Name</td><td>" +
-            csvData[0].project.je_name +
+            responseData.junior_engineer_name +
             "</td></tr>";
           popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
         }
@@ -264,6 +316,18 @@ map.on("draw:edited", function (e) {
   e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
+    var roadLenght = localStorage.getItem('roadLenght');
+    var bufferWidth = localStorage.getItem('bufferWidth');
+
+
+     // Check for and remove existing associated layers
+     removeAssociatedLayers(layer._leaflet_id);
+
+     if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
+      createBufferAndDashedLine(layer,roadLenght,bufferWidth);
+   }
+
+
 
     $.ajax({
       url: API_URL + "process.php", // Path to the PHP script

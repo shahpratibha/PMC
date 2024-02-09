@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             margin: 50px;
             background-color: transparent;
         }
+
         form {
             max-width: 900px;
             margin: auto;
@@ -21,6 +23,7 @@
             display: flex;
             flex-wrap: wrap;
         }
+
         h2 {
             width: 100%;
             text-align: center;
@@ -28,13 +31,16 @@
             margin-bottom: 30px;
             color: #007bff;
         }
+
         label {
             width: calc(50% - 12px);
             margin-bottom: 12px;
             font-weight: bold;
             color: #333;
         }
-        input, select {
+
+        input,
+        select {
             width: calc(50% - 12px);
             padding: 8px;
             margin-bottom: 12px;
@@ -42,6 +48,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         textarea {
             width: 50%;
             resize: vertical;
@@ -52,6 +59,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         button {
             width: 100%;
             padding: 10px;
@@ -62,113 +70,157 @@
             cursor: pointer;
             transition: background-color 0.1s;
         }
+
         button:hover {
             background-color: #084074;
         }
     </style>
 </head>
+
 <body>
     <h2>Create Work</h2>
-    <form id="projectForm" action="form.php" method="post">
-<label for="projectNo">Project No:</label>
-<input type="text" id="projectNo" name="projectNo" required>
-<label for="aaWork">Name of AA work:</label>
-<input type="text" id="aaWork" name="aaWork" required>
- 
+    <form id="projectForm"  method="post">
+        <label for="projectNo">Project No:</label>
+        <input type="text" id="projectNo" name="projectNo" required>
+        <label for="aaWork">Name of AA work:</label>
+        <input type="text" id="aaWork" name="aaWork" required>
+
         <label for="workType">Work Type:</label>
-<select id="workType" name="workType" required>
-<option value="Select Work Type">Select Work Type</option>  
-<option value="Emergency And Special Work">Emergency And Special Work</option>
-<option value="Maintenance Work">Maintenance Work</option>
-<option value="New">New</option>
-<option value="Repair Work">Repair Work</option>
-<option value="Spill Work">Spill Work</option>
-</select>
- 
+        <select id="workType" name="workType" required>
+            <option value="Select Work Type">Select Work Type</option>
+            <option value="Emergency And Special Work">Emergency And Special Work</option>
+            <option value="Maintenance Work">Maintenance Work</option>
+            <option value="New">New</option>
+            <option value="Repair Work">Repair Work</option>
+            <option value="Spill Work">Spill Work</option>
+        </select>
+
         <label for="scopeOfWork">Scope of Work:</label>
-<textarea id="scopeOfWork" name="scopeOfWork" rows="4" required></textarea>
- 
+        <textarea id="scopeOfWork" name="scopeOfWork" rows="4" required></textarea>
+
         <label for="projectFinancialYear">Project Financial Year:</label>
-<select input id="projectFinancialYear" name="projectFinancialYear" required>
-<option value="Select projectFinancialYear">Select Project Financial Year</option>  
-<option value="2022-2023">2022-2023</option>
-<option value="2023-2024">2023-2024</option>
-<option value="2024-2025">2024-2025</option>
-</select>
- 
+        <select input id="projectFinancialYear" name="projectFinancialYear" required>
+            <option value="Select projectFinancialYear">Select Project Financial Year</option>
+            <option value="2022-2023">2022-2023</option>
+            <option value="2023-2024">2023-2024</option>
+            <option value="2024-2025">2024-2025</option>
+        </select>
+
         <label for="department">Department:</label>
-<select id="department" name="department" required>
-<option value="Select Department">Select Department</option>
-<option value="Building">Building</option>
-<option value="Drainage">Drainage</option>
-<option value="Education Department (Primary)">Education Department (Primary)</option>
-<option value="Electrical">Electrical</option>
-<option value="Environment">Environment</option>
-<option value="Garden">Garden</option>
-<option value="Garden Horticulture">Garden Horticulture</option>
-<option value="Project Work">Project Work</option>
-<option value="Road">Road</option>
-<option value="Solid waste Management">Solid waste Management</option>
-<option value="Water Supply">Water Supply</option>
-</select>
- 
+        <select id="department" name="department" required>
+            <option value="Select Department">Select Department</option>
+            <option value="Building">Building</option>
+            <option value="Drainage">Drainage</option>
+            <option value="Education Department (Primary)">Education Department (Primary)</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Environment">Environment</option>
+            <option value="Garden">Garden</option>
+            <option value="Garden Horticulture">Garden Horticulture</option>
+            <option value="Project Work">Project Work</option>
+            <option value="Road">Road</option>
+            <option value="Solid waste Management">Solid waste Management</option>
+            <option value="Water Supply">Water Supply</option>
+        </select>
+
         <label for="projectType">Project Type:</label>
-<input type="text" id="projectType" name="projectType" required>
- 
+        <input type="text" id="projectType" name="projectType" required>
+
         <label for="projectOffice">Project Office:</label>
-<input type="text" id="projectOffice" name="projectOffice" required>
- 
+        <input type="text" id="projectOffice" name="projectOffice" required>
+
         <label for="juniorName">Junior Engineer Name:</label>
-<input type="text" id="juniorName" name="juniorName" required>
- 
+        <input type="text" id="juniorName" name="juniorName" required>
+
         <label for="contactNo">Contact No:</label>
-<input type="tel" id="contactNo" name="contactNo" required>
- 
+        <input type="tel" id="contactNo" name="contactNo" required>
+
         <label for="dateIn">Date-In:</label>
-<input type="date" id="dateIn" name="dateIn" required>
- 
+        <input type="date" id="dateIn" name="dateIn" required>
+
         <label for="zone">Zone:</label>
-<select id="zone" name="zone" required>
-<option value="Select Zone">Select Zone</option>
-<option value="D.M.C. Zone 1">D.M.C. Zone 1</option>
-<option value="D.M.C. Zone 2">D.M.C. Zone 2</option>
-<option value="D.M.C. Zone 3">D.M.C. Zone 3</option>
-<option value="D.M.C. Zone 4">D.M.C. Zone 4</option>
-<option value="D.M.C. Zone 5">D.M.C. Zone 5</option>
-</select>
- 
+        <select id="zone" name="zone" required>
+            <option value="Select Zone">Select Zone</option>
+            <option value="D.M.C. Zone 1">D.M.C. Zone 1</option>
+            <option value="D.M.C. Zone 2">D.M.C. Zone 2</option>
+            <option value="D.M.C. Zone 3">D.M.C. Zone 3</option>
+            <option value="D.M.C. Zone 4">D.M.C. Zone 4</option>
+            <option value="D.M.C. Zone 5">D.M.C. Zone 5</option>
+        </select>
+
         <label for="ward">Ward:</label>
-<select id="ward" name="ward" required>
-<option value="Select Ward">Select Ward</option>
-<option value="Yeravada Kalas Dhanori">Yeravada Kalas Dhanori</option>
-<option value="Dhole Patil Ward">Dhole Patil Ward</option>
-<option value="Nagar Road - Vadgaonsheri">Nagar Road - Vadgaonsheri</option>
-<option value="Shivajinagar - Ghole Road">Shivajinagar - Ghole Road</option>
-<option value="Aundh - Baner">Aundh - Baner</option>
-<option value="Kothrud - Bawdhan">Kothrud - Bawdhan</option>
-<option value="Warje - Karvenagar">Warje - Karvenagar</option>
-<option value="Dhankawadi - Sahakar Nagar">Dhankawadi - Sahakar Nagar</option>
-<option value="Sinhgad Road Ward">Sinhgad Road Ward</option>
-<option value="Wanawadi - Ramtekadi">Wanawadi - Ramtekadi</option>
-<option value="Hadapsar - Mundhwa">Hadapsar - Mundhwa</option>
-<option value="Kondhwa - Yewalewadi">Kondhwa - Yewalewadi</option>
-<option value="Bhavani Peth">Bhavani Peth</option>
-<option value="Bibwewadi">Bibwewadi</option>
-<option value="Kasaba VishramBagwada">Kasaba VishramBagwada</option>
-</select>
- 
+        <select id="ward" name="ward" required>
+            <option value="Select Ward">Select Ward</option>
+            <option value="Yeravada Kalas Dhanori">Yeravada Kalas Dhanori</option>
+            <option value="Dhole Patil Ward">Dhole Patil Ward</option>
+            <option value="Nagar Road - Vadgaonsheri">Nagar Road - Vadgaonsheri</option>
+            <option value="Shivajinagar - Ghole Road">Shivajinagar - Ghole Road</option>
+            <option value="Aundh - Baner">Aundh - Baner</option>
+            <option value="Kothrud - Bawdhan">Kothrud - Bawdhan</option>
+            <option value="Warje - Karvenagar">Warje - Karvenagar</option>
+            <option value="Dhankawadi - Sahakar Nagar">Dhankawadi - Sahakar Nagar</option>
+            <option value="Sinhgad Road Ward">Sinhgad Road Ward</option>
+            <option value="Wanawadi - Ramtekadi">Wanawadi - Ramtekadi</option>
+            <option value="Hadapsar - Mundhwa">Hadapsar - Mundhwa</option>
+            <option value="Kondhwa - Yewalewadi">Kondhwa - Yewalewadi</option>
+            <option value="Bhavani Peth">Bhavani Peth</option>
+            <option value="Bibwewadi">Bibwewadi</option>
+            <option value="Kasaba VishramBagwada">Kasaba VishramBagwada</option>
+        </select>
+
         <label for="prabhagName">Prabhag Name:</label>
-<input type="text" id="prabhagName" name="prabhagName" required>
- 
-         <button type="button" onclick="goToNextPage()">Next</button>
-</form>
- 
+        <input type="text" id="prabhagName" name="prabhagName" required>
+        <label for="Width">Width</label>
+        <input type="text" id="Width" name="Width" required>
+        <label for="Length">Length</label>
+        <input type="text" id="Length" name="Length" required>
+
+        <button type="button" onclick="submitForm()" >Next</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
         function goToNextPage() {
             // Add logic to navigate to the new page
             window.location.href = "geometry_page.html";
         }
     </script>
- 
+
+<script>
+    function submitForm() {
+        // Prevent the form from submitting the traditional way
+        event.preventDefault();
+
+        console.log("hlelo")
+        
+        // Gather form data
+        const formData = new FormData(document.getElementById('projectForm'));
+        
+        // Convert FormData to an object for Axios
+        let formObject = {};
+        formData.forEach((value, key) => { formObject[key] = value; });
+        
+        // Use Axios to submit form data
+        axios.post('Apis/Conceptual_Form.php', formObject)
+            .then(function(response) {
+                console.log(response)
+                localStorage.setItem('lastInsertedId', response.data.data.id);
+                localStorage.setItem('bufferWidth', response.data.data.width);
+                localStorage.setItem('roadLenght', response.data.data.lenght);
+                
+                setTimeout(function() {
+                      window.location.href = "geometry_page.html";
+                 }, 2000); // 1000 milliseconds = 1 second
+            })
+            .catch(function(error) {
+                console.log(error);
+                // Handle error
+                alert('There was an error submitting the form.');
+            });
+    }
+</script>
+
+
 </body>
+
 </html>
