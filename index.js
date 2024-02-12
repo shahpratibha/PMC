@@ -90,6 +90,20 @@ var wms_layer15 = L.tileLayer
   })
   .addTo(map);
 
+  var wms_layer3 = L.tileLayer.wms(
+
+    "https://geo.geopulsea.com/geoserver/pmc/wms", {
+        layers: "Data",
+        format: "image/png",
+        transparent: true,
+        tiled: true,
+        version: "1.1.0",
+        attribution: "Data",
+        opacity: 1,
+
+    }
+);
+
 var WMSlayers = {
   OpenStreetMap: osm,
   "Esri World Imagery": Esri_WorldImagery,
@@ -99,6 +113,7 @@ var WMSlayers = {
   Village_Boundary: wms_layer14,
   IWMS_point: wms_layer15,
   Revenue: wms_layer1,
+  Data:wms_layer3,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
@@ -193,6 +208,22 @@ function removeAssociatedLayers(layerId) {
       map.removeLayer(associatedLayers.dashedLineLayer);
     delete associatedLayersRegistry[layerId]; // Clear the registry entry
   }
+}
+
+function checkPolylineIntersection(newPolyline) {
+  var existingPolylines = getExistingPolylines();
+  var totalIntersectionLength = 0;
+  var newPolylineLength = turf.length(newPolyline, {units: 'kilometers'});
+
+  existingPolylines.forEach(function(polyline) {
+      var intersection = turf.intersect(newPolyline, polyline);
+      if (intersection) {
+          totalIntersectionLength += turf.length(intersection, {units: 'kilometers'});
+      }
+  });
+
+  var intersectionPercentage = (totalIntersectionLength / newPolylineLength) * 100;
+  return intersectionPercentage <= 20;
 }
 
 // var layer;
@@ -500,23 +531,39 @@ function deleteRow() {
 
 function Savedata() {
   var geoJSONString = toGISformat();
-  geoJSONString = JSON.parse(geoJSONString);
-  let selectCoordinatesData = geoJSONString.features;
+  var geoJSONStringJson = JSON.parse(geoJSONString);
+  let selectCoordinatesData = geoJSONStringJson.features;
   localStorage.setItem(
     "selectCoordinatesData",
     JSON.stringify(selectCoordinatesData)
   );
-  window.location.href = "geometry_page.html";
+  //window.location.href = "geometry_page.html";
 
-  // console.log(geoJSONString, "llllllllllllllllllllllll");
-  // $.ajax({
-  //   type: "POST",
-  //   url: "save.php",
-  //   data: { geoJSON: geoJSONString },
-  //   success: function (response) {
-  //     console.log(response);
-  //   },
-  // });
+  var roadLenght = localStorage.getItem('roadLenght');
+  var bufferWidth = localStorage.getItem('bufferWidth');
+  var lastInsertedId = localStorage.getItem('lastInsertedId');
+
+  var payload = JSON.stringify({
+    geoJSON: geoJSONString,
+    roadLength: roadLenght,
+    bufferWidth: bufferWidth,
+    gis_id :lastInsertedId ,
+  });
+
+
+  $.ajax({
+    type: "POST",
+    url: "APIS/gis_save.php",
+    data: payload, 
+    contentType: "application/json", 
+    success: function (response) {
+      console.log(response);
+    
+    },
+    error: function (xhr, status, error) {
+      console.error("Save failed:", error);
+    }
+  });
 }
 
 function SavetoKML() {

@@ -12,12 +12,10 @@ try {
 
      $rawData = file_get_contents('php://input');
 
-        // Parse the FormData into an associative array
-
+ 
         $formDataArray = json_decode($rawData, true);
 
-    
-    // Retrieve form data
+
     $projectNo = $formDataArray['projectNo'];
     $aaWork = $formDataArray['aaWork'];
     $workType = $formDataArray['workType'];
@@ -28,14 +26,13 @@ try {
     $projectOffice = $formDataArray['projectOffice'];
     $juniorName = $formDataArray['juniorName'];
     $contactNo = $formDataArray['contactNo'];
-    $dateIn = $formDataArray['dateIn'];
+    $dateIn = $formDataArray['dateIn']; 
     $zone = $formDataArray['zone'];
     $ward = $formDataArray['ward'];
     $prabhagName = $formDataArray['prabhagName'];
     $Width = $formDataArray['Width'];
     $Length = $formDataArray['Length'];
 
-    // Prepare SQL statement to insert data
     $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_type, project_office, junior_engineer_name, contact_no, date_in, zone, ward, prabhag_name,width,length) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
     $stmt = $pdo->prepare($sql);
@@ -52,7 +49,7 @@ try {
     ]);
     
 } catch (Exception $e) {
-    // Handle any exceptions
+ 
     echo json_encode(['error' => true, 'message' => $e->getMessage()]);
 }
 ?>
