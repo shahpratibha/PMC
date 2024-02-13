@@ -128,6 +128,14 @@
         attribution: "© OpenStreetMap contributors",
       }).addTo(map);
 
+      function showCoordinatesOnMap(coordinates) {
+    for (var i = 0; i < coordinates.length; i++) {
+        var marker = L.polyline(coordinates[i]).addTo(map);
+        map.fitBounds( marker.getBounds());
+    }
+}
+
+
       function loadFile() {
         var input = document.getElementById("fileInput");
         var file = input.files[0];
@@ -142,10 +150,13 @@
                 e.target.result,
                 "application/xml"
               );
-              console.log(kmlDoc);
+              console.log(kmlDoc,"kml");
               var coordinates = extractCoordinates(kmlDoc);
-              console.log(coordinates, "coordinates");
+              console.log(coordinates, coordinates[0].length);
               showCoordinatesOnMap(coordinates);
+    //           for (var i = 0; i < coordinates[0].length; i++) {
+    //      L.marker(coordinates[i]).addTo(map);
+    // }
             } catch (error) {
               alert("Invalid KML/KMZ file!");
             }
@@ -169,7 +180,7 @@
               var [lon, lat] = coordString.split(",");
               return [parseFloat(lat), parseFloat(lon)];
             });
-            console.log(coords);
+            // console.log(coords);
             coordinates.push(coords);
           }
         });
@@ -237,6 +248,8 @@
         return content;
       }
 
+
+   
       // const markers = [];
 
       // function showCoordinates() {
