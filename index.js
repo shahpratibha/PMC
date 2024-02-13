@@ -44,12 +44,48 @@ var wms_layer1 = L.tileLayer.wms(
 
 var wms_layer12 = L.tileLayer
   .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
-    layers: "PMC_Layers",
+    layers: "Admin_Ward",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "PMC_Layers",
+    attribution: "Admin_Ward",
+    opacity: 1,
+  })
+  .addTo(map);
+
+var wms_layer13 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Zone_layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "Zone_layer",
+    opacity: 1,
+  })
+  .addTo(map);
+
+var wms_layer14 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Village_Boundary",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "Village_Boundary",
+    opacity: 1,
+  })
+  .addTo(map);
+
+var wms_layer15 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "IWMS_point",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "IWMS_point",
     opacity: 1,
   })
   .addTo(map);
@@ -88,7 +124,10 @@ var WMSlayers = {
   OpenStreetMap: osm,
   "Esri World Imagery": Esri_WorldImagery,
   "Google Satellite": googleSat,
-  PMC_Layers: wms_layer12,
+  Zone_layer: wms_layer13,
+  Admin_Ward: wms_layer12,
+  Village_Boundary: wms_layer14,
+  IWMS_point: wms_layer15,
   Revenue: wms_layer1,
   Data:wms_layer3,
   geodata:wms_layer4,
@@ -149,7 +188,7 @@ var drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
 
-// function for added buffer 
+// function for added buffer
 
 var associatedLayersRegistry = {};
 
@@ -160,39 +199,40 @@ function createBufferAndDashedLine(polylineLayer,roadLenght,bufferWidth) {
   var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: 'meters' }); // Adjust buffer size as needed
 
   var bufferLayer = L.geoJSON(buffered, {
-      style: {
-          color: "#000000",
-          weight: 4,
-          opacity: 0.5,
-          lineJoin: 'round'
-      }
+    style: {
+      color: "#000000",
+      weight: 4,
+      opacity: 0.5,
+      lineJoin: "round",
+    },
   }).addTo(map);
 
   var dashedLineLayer = L.geoJSON(geoJSON, {
-      style: {
-          color: "#ffffff",
-          weight: 2,
-          opacity: 1,
-          dashArray: '10, 10',
-          lineJoin: 'round'
-      }
+    style: {
+      color: "#ffffff",
+      weight: 2,
+      opacity: 1,
+      dashArray: "10, 10",
+      lineJoin: "round",
+    },
   }).addTo(map);
 
   // Store references to the associated layers
   associatedLayersRegistry[polylineLayer._leaflet_id] = {
-      bufferLayer: bufferLayer,
-      dashedLineLayer: dashedLineLayer
+    bufferLayer: bufferLayer,
+    dashedLineLayer: dashedLineLayer,
   };
 }
-
 
 function removeAssociatedLayers(layerId) {
   var associatedLayers = associatedLayersRegistry[layerId];
   if (associatedLayers) {
-      if (associatedLayers.bufferLayer) map.removeLayer(associatedLayers.bufferLayer);
-      if (associatedLayers.dashedLineLayer) map.removeLayer(associatedLayers.dashedLineLayer);
-      delete associatedLayersRegistry[layerId]; // Clear the registry entry
-  }
+    if (associatedLayers.bufferLayer)
+      map.removeLayer(associatedLayers.bufferLayer);
+    if (associatedLayers.dashedLineLayer)
+      map.removeLayer(associatedLayers.dashedLineLayer);
+    delete associatedLayersRegistry[layerId]; // Clear the registry entry
+  }
 }
 
 function checkPolylineIntersection(newPolyline) {
@@ -323,18 +363,15 @@ map.on("draw:created", function (e) {
       alert(`The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`);
         return; // Stop further processing
     }
-}
+  }
   var layer = e.layer;
   drawnItems.addLayer(layer);
 
-  if (e.layerType === 'polyline') {
-    
-    var bufferWidth = localStorage.getItem('bufferWidth');
+  if (e.layerType === "polyline") {
+    var bufferWidth = localStorage.getItem("bufferWidth");
 
-    
-    createBufferAndDashedLine(layer,roadLenght,bufferWidth);
-}
-
+    createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+  }
 
   var geoJSON = layer.toGeoJSON();
   var popupContent = UpdateArea(geoJSON);
@@ -347,7 +384,6 @@ map.on("draw:created", function (e) {
     data: { id: lastInsertedId },
     dataType: "json",
     success: function (response) {
-      
       // if (response.success) {
       if (response.data != undefined) {
         const responseData = response.data;
@@ -474,18 +510,15 @@ map.on("draw:edited", function (e) {
   e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
-    var roadLenght = localStorage.getItem('roadLenght');
-    var bufferWidth = localStorage.getItem('bufferWidth');
+    var roadLenght = localStorage.getItem("roadLenght");
+    var bufferWidth = localStorage.getItem("bufferWidth");
 
+    // Check for and remove existing associated layers
+    removeAssociatedLayers(layer._leaflet_id);
 
-     // Check for and remove existing associated layers
-     removeAssociatedLayers(layer._leaflet_id);
-
-     if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
-      createBufferAndDashedLine(layer,roadLenght,bufferWidth);
-   }
-
-
+    if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
+      createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+    }
 
     $.ajax({
       url: API_URL + "process.php", // Path to the PHP script
