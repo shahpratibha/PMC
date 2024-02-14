@@ -662,8 +662,7 @@ function Savedata(lastDrawnPolylineId) {
     "selectCoordinatesData",
     JSON.stringify(selectCoordinatesData)
   );
-  //window.location.href = "geometry_page.html";
-
+  
   var roadLenght = localStorage.getItem('roadLenght');
   var bufferWidth = localStorage.getItem('bufferWidth');
   var lastInsertedId = localStorage.getItem('lastInsertedId');
@@ -691,6 +690,8 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json", 
     success: function (response) {
       console.log(response);
+      window.location.href = "geometry_page.html";
+
     
     },
     error: function (xhr, status, error) {
@@ -747,6 +748,8 @@ function Savedata(lastDrawnPolylineId) {
       contentType: "application/json",
       success: function (response) {
           console.log("Styled buffered line saved successfully:", response);
+          window.location.href = "geometry_page.html";
+
       },
       error: function (xhr, status, error) {
           console.error("Save failed:", error);

@@ -1,290 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Geometry Options</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
 
-    <!-- leaflet -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geometry Options</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
 
-    <!-- leaflet -->
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
-    <!-- Include leaflet-omnivore for KML and KMZ support -->
-    <!-- <script src="https://unpkg.com/leaflet-omnivore@0.10.0/leaflet-omnivore.min.js"></script> -->
-    <style>
-      /* Global Styles */
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #f5f5f5;
-      }
+  <!-- leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-      h2 {
-        color: #333;
-      }
+  <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
 
-      form {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
 
-      button {
-        display: block;
-        margin-bottom: 12px;
-        background-color: #4caf50;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
+  <!-- Include leaflet-omnivore for KML and KMZ support -->
+  <!-- <script src="https://unpkg.com/leaflet-omnivore@0.10.0/leaflet-omnivore.min.js"></script> -->
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
 
-      button:hover {
-        background-color: #45a049;
-      }
+    h2 {
+      color: #333;
+    }
 
-      input[type="file"] {
-        display: none;
-      }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-      #map {
-        height: 400px;
-        margin-top: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-      }
-      a {
-        text-decoration: none;
-        color: white;
-      }
-      .popup-table-container {
-        max-height: 200px; /* Adjust the height as needed */
-        overflow-y: auto;
-      }
-    </style>
-    <!-- Include Leaflet CSS without integrity -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  </head>
-  <body class="p-3">
-    <form class="text-center d-grid gap-2 p-3">
-      <h3>Choose an Option</h3>
-      <button><a href="index.html">Draw Geometry</a></button>
+    button {
+      display: block;
+      margin-bottom: 12px;
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-      <label for="fileInput" class="btn btn-primary">
-        <input
-          type="file"
-          id="fileInput"
-          accept=".kml, .kmz"
-          onchange="loadFile()"
-        />Upload KML
-      </label>
-      <!-- 
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    #map {
+      height: 400px;
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .popup-table-container {
+      max-height: 200px;
+      /* Adjust the height as needed */
+      overflow-y: auto;
+    }
+  </style>
+  <!-- Include Leaflet CSS without integrity -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body class="p-3">
+  <form class="text-center d-grid gap-2 p-3">
+    <h3>Choose an Option</h3>
+    <button><a href="index.html">Draw Geometry</a></button>
+
+    <label for="fileInput" class="btn btn-primary">
+      <input type="file" id="fileInput" accept=".kml, .kmz" onchange="loadFile()" />Upload KML
+    </label>
+    <!-- 
     <input type="text" id="coordinatesInput" placeholder="Enter coordinates (e.g., latitude, longitude)">
     <button onclick="showCoordinates()">Show on Map</button> -->
-    </form>
+  </form>
 
-    <!-- Map container -->
-    <div id="map"></div>
+  <!-- Map container -->
+  <div id="map"></div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- Include Leaflet JS without integrity -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- Include Leaflet JS without integrity -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <script>
-      var map = L.map("map").setView([0, 0], 2); // Initialize Leaflet map
+  <script>
+    var map = L.map("map").setView([ 0, 0 ], 2); // Initialize Leaflet map
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
 
-      function showCoordinatesOnMap(coordinates) {
-    for (var i = 0; i < coordinates.length; i++) {
-        var marker = L.polyline(coordinates[i]).addTo(map);
-        map.fitBounds( marker.getBounds());
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors",
+    }).addTo(map);
+
+    function showCoordinatesOnMap(coordinates) {
+      for (var i = 0; i < coordinates.length; i++) {
+        var marker = L.polyline(coordinates[ i ]).addTo(map);
+        map.fitBounds(marker.getBounds());
+      }
     }
-}
 
 
-      function loadFile() {
-        var input = document.getElementById("fileInput");
-        var file = input.files[0];
 
-        if (file) {
-          var reader = new FileReader();
 
-          reader.onload = function (e) {
-            try {
-              var parser = new DOMParser();
-              var kmlDoc = parser.parseFromString(
-                e.target.result,
-                "application/xml"
-              );
-              console.log(kmlDoc,"kml");
-              var coordinates = extractCoordinates(kmlDoc);
-              console.log(coordinates, coordinates[0].length);
-              showCoordinatesOnMap(coordinates);
-    //           for (var i = 0; i < coordinates[0].length; i++) {
-    //      L.marker(coordinates[i]).addTo(map);
-    // }
-            } catch (error) {
-              alert("Invalid KML/KMZ file!");
-            }
-          };
 
-          reader.readAsText(file);
+    function getWFSUrl() {
+      const geoserverBaseUrl = "https://geo.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+      const params = {
+        service: "WFS",
+        version: "1.0.0",
+        request: "GetFeature",
+        typeName: "pmc:geodata", // Keep the workspace:layer format
+        outputFormat: "application/json",
+        srsName: "EPSG:4326"
+      };
+      const queryString = new URLSearchParams(params).toString();
+      return `${geoserverBaseUrl}?${queryString}`;
+    }
+
+
+    async function getGeodataFeatures() {
+      try {
+        const url = getWFSUrl();
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const geojson = await response.json();
+        return geojson.features; // Assuming the response is a GeoJSON object
+      } catch (error) {
+        console.error("Error fetching geodata features:", error);
+        return []; // Return an empty array in case of error
+      }
+    }
+
+
+    function checkOverlapWithGeodata(newFeature, geodataFeatures) {
+      let totalOverlapArea = 0;
+      let newFeatureArea = 0;
+      let conversionFactor = 0; // Used for converting lengths to areas for LineStrings
+
+      // Convert newFeature to a buffer if it's a LineString to approximate as a Polygon
+      if (newFeature.geometry.type === "LineString") {
+        newFeature = turf.buffer(newFeature, 0.001, { units: 'kilometers' }); // Buffer size might need adjustment
+        conversionFactor = 0.001; // Assuming a narrow buffer width for conversion factor
       }
 
-      function extractCoordinates(kmlDoc) {
-        var coordinates = [];
 
-        var placemarks = kmlDoc.querySelectorAll("Placemark");
-        console.log(placemarks, "placemarks");
-        placemarks.forEach(function (placemark) {
-          var coordinatesNode = placemark.querySelector("coordinates");
-          console.log(coordinatesNode);
-          if (coordinatesNode) {
-            var coordsArray = coordinatesNode.textContent.trim().split(" ");
-            var coords = coordsArray.map((coordString) => {
-              var [lon, lat] = coordString.split(",");
-              return [parseFloat(lat), parseFloat(lon)];
-            });
-            // console.log(coords);
-            coordinates.push(coords);
+      if (newFeature.geometry.type === "Polygon" || newFeature.geometry.type === "MultiPolygon") {
+        newFeatureArea = turf.area(newFeature);
+      }
+
+
+
+      geodataFeatures.forEach(function (feature) {
+        // Convert feature to a buffer if it's a LineString
+        if (feature.geometry.type === "LineString") {
+          feature = turf.buffer(feature, 0.001, { units: 'kilometers' }); // Adjust buffer size as necessary
+        }
+
+        if (feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon") {
+          let intersection = turf.intersect(newFeature, feature);
+
+          if (intersection) {
+            totalOverlapArea += turf.area(intersection);
           }
-        });
-
-        return coordinates;
-      }
-
-      $(document).ready(function () {
-        if (localStorage.getItem("selectCoordinatesData") !== null) {
-          let coordinatesData = localStorage.getItem("selectCoordinatesData");
-          coordinatesData = JSON.parse(coordinatesData);
-
-          let polyline;
-
-          coordinatesData.forEach(function (feature) {
-            if (feature.geometry.type === "Polygon") {
-              let coordinates = feature.geometry.coordinates[0].map((coord) => [
-                coord[1],
-                coord[0],
-              ]);
-              let polygon = L.polygon(coordinates).addTo(map);
-
-              // Bind popup to the polygon
-              polygon.bindPopup(getPopupContent(feature));
-
-              // Listen for click event on polygon to open popup
-              polygon.on("click", function (e) {
-                e.target.openPopup();
-              });
-            } else if (feature.geometry.type === "LineString") {
-              let coordinates = feature.geometry.coordinates.map((coord) => [
-                coord[1],
-                coord[0],
-              ]);
-              let polyline = L.polyline(coordinates).addTo(map);
-
-              // Bind popup to the polyline
-              polyline.bindPopup(getPopupContent(feature));
-
-              // Listen for click event on polyline to open popup
-              polyline.on("click", function (e) {
-                e.target.openPopup();
-              });
-            }
-          });
-
-          // Fit map bounds
-          let bounds = L.latLngBounds(
-            coordinatesData.map((feature) => {
-              return L.geoJSON(feature).getBounds();
-            })
-          );
-          map.fitBounds(bounds);
         }
       });
 
-      function getPopupContent(feature) {
-        // Create and return the HTML content for the popup based on the feature data
-        let content = "<div class='popup-table-container'><table>";
+      let overlapPercentage = 0;
+      if (newFeatureArea > 0) {
+        overlapPercentage = (totalOverlapArea / newFeatureArea) * 100;
+      }
 
-        for (const [key, value] of Object.entries(feature.properties)) {
-          content += `<tr><td>${key}</td><td>${value}</td></tr>`;
-        }
-        content += "</table></div>";
-        return content;
+      // Adjust calculation if the original newFeature was a LineString
+      if (newFeature.geometry.type === "LineString" && conversionFactor > 0) {
+        let newFeatureLength = turf.length(newFeature, { units: 'kilometers' });
+        let estimatedArea = newFeatureLength * conversionFactor;
+
+        overlapPercentage = (totalOverlapArea / estimatedArea) * 100;
       }
 
 
-   
-      // const markers = [];
 
-      // function showCoordinates() {
-      //     const coordinatesInput = document.getElementById('coordinatesInput');
-      //     const coordinates = coordinatesInput.value;
+      return overlapPercentage <= 20;
+    }
 
-      //     if (coordinates !== null && coordinates !== "") {
-      //         updateMarkers(coordinates);
-      //     } else {
-      //         alert("No coordinates entered. Please try again.");
-      //     }
-      // }
 
-      // function updateMarkers(coordinates) {
-      //     const [latitude, longitude] = coordinates.split(',');
 
-      //     // Clear existing markers
-      //     markers.forEach(marker => map.removeLayer(marker));
-      //     markers.length = 0;
 
-      //     // Add a new marker at the specified coordinates
-      //     const newMarker = L.marker([parseFloat(latitude), parseFloat(longitude)])
-      //         .addTo(map)
-      //         .bindPopup('Coordinates: ' + coordinates)
-      //         .openPopup();
 
-      //     // Keep track of the marker
-      //     markers.push(newMarker);
 
-      //     // Set the view to the entered coordinates
-      //     map.setView([parseFloat(latitude), parseFloat(longitude)], 13);
+    function loadFile() {
+      var input = document.getElementById("fileInput");
+      var file = input.files[ 0 ];
 
-      //     // Log the updated markers array
-      //     console.log("Markers updated:", markers);
-      // }
-    </script>
-  </body>
+      if (file) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          try {
+            var parser = new DOMParser();
+            var kmlDoc = parser.parseFromString(
+              e.target.result,
+              "application/xml"
+            );
+            console.log(kmlDoc, "kml");
+            var coordinates = extractCoordinates(kmlDoc);
+            console.log(coordinates, coordinates[ 0 ].length);
+
+            coordinates.forEach(function (coords) {
+              // Convert KML coordinates to a GeoJSON-like structure for the polyline
+              var geoJSON = {
+                type: "Feature",
+                properties: {}, // Add any relevant properties here
+                geometry: {
+                  type: "LineString",
+                  coordinates: coords.map(function (coord) {
+                    return [ coord[ 1 ], coord[ 0 ] ]; // Flip coords for GeoJSON (longitude, latitude)
+                  })
+                }
+              };
+
+
+
+              getGeodataFeatures().then(function (geodataFeatures) {
+                var isAllowed = checkOverlapWithGeodata(geoJSON, geodataFeatures);
+
+                if (isAllowed) {
+                  // Add the feature to the map if overlap is 20% or less
+                  L.geoJSON(buffered, {
+                    style: function (feature) {
+                      // Define style here if needed
+
+                      return {
+                        color: "#000000",
+                        weight: 4,
+                        opacity: 0.5,
+                        lineJoin: "round",
+                      };
+                    }
+                  }).addTo(drawnItems);
+                } else {
+                  alert('Road overlaps more than 20% with existing Road.');
+                  // Do not add the new feature to the map
+                }
+              });
+
+
+
+              if (e.layerType === 'polyline') {
+                var length = turf.length(geoJSON, { units: 'kilometers' });
+                var roadLenght = localStorage.getItem('roadLenght');
+                if (length > roadLenght) {
+                  alert(`The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`);
+                  return; // Stop further processing
+                }
+              }
+
+
+
+              // Example: Create a buffer around the polyline as done in `createBufferAndDashedLine`
+              var bufferWidth = localStorage.getItem('bufferWidth');
+              var roadLength = localStorage.getItem('roadLength');
+              var lastInsertedId = localStorage.getItem('lastInsertedId');
+
+              var buffered = turf.buffer(geoJSON, bufferWidth, { units: 'meters' }); // Use bufferWidth from localStorage or a default value
+              var bufferGeoJSONString = JSON.stringify(buffered);
+
+              // Prepare payload in the same format as Savedata function
+              var payload = JSON.stringify({
+                geoJSON: bufferGeoJSONString,
+                roadLength: roadLength, // Assume this value is retrieved similar to how `Savedata` does
+                bufferWidth: bufferWidth, // Assume this value is retrieved from localStorage or a default
+                gis_id: lastInsertedId, // Assume this value is managed similarly as in `Savedata`
+              });
+
+              // Send the payload to the server
+              $.ajax({
+                type: "POST",
+                url: "APIS/kml_save.php",
+                data: payload,
+                contentType: "application/json",
+                success: function (response) {
+                  console.log("KML data successfully saved:", response);
+                },
+                error: function (xhr, status, error) {
+                  console.error("Save failed:", error);
+                }
+              });
+            });
+
+            
+            showCoordinatesOnMap(coordinates);
+
+
+            
+
+
+
+
+
+
+          } catch (error) {
+            console.log(error);
+          }
+        };
+
+        reader.readAsText(file);
+      }
+    }
+
+
+
+    // function loadFile() {
+    //   var input = document.getElementById("fileInput");
+    //   var file = input.files[ 0 ];
+
+    //   if (file) {
+    //     var reader = new FileReader();
+
+    //     reader.onload = function (e) {
+    //       try {
+    //         var parser = new DOMParser();
+    //         var kmlDoc = parser.parseFromString(e.target.result, "application/xml");
+    //         var coordinates = extractCoordinates(kmlDoc);
+
+    //         // Assuming the coordinates extracted are for polylines
+
+    //       } catch (error) {
+    //         alert("Invalid KML/KMZ file!");
+    //       }
+    //     };
+
+    //     reader.readAsText(file);
+    //   }
+    // }
+
+
+
+
+
+
+    function extractCoordinates(kmlDoc) {
+      var coordinates = [];
+
+      var placemarks = kmlDoc.querySelectorAll("Placemark");
+      console.log(placemarks, "placemarks");
+      placemarks.forEach(function (placemark) {
+        var coordinatesNode = placemark.querySelector("coordinates");
+        console.log(coordinatesNode);
+        if (coordinatesNode) {
+          var coordsArray = coordinatesNode.textContent.trim().split(" ");
+          var coords = coordsArray.map((coordString) => {
+            var [ lon, lat ] = coordString.split(",");
+            return [ parseFloat(lat), parseFloat(lon) ];
+          });
+          // console.log(coords);
+          coordinates.push(coords);
+        }
+      });
+
+      return coordinates;
+    }
+
+    $(document).ready(function () {
+      if (localStorage.getItem("selectCoordinatesData") !== null) {
+        let coordinatesData = localStorage.getItem("selectCoordinatesData");
+        coordinatesData = JSON.parse(coordinatesData);
+
+        let polyline;
+
+        coordinatesData.forEach(function (feature) {
+          if (feature.geometry.type === "Polygon") {
+            let coordinates = feature.geometry.coordinates[ 0 ].map((coord) => [
+              coord[ 1 ],
+              coord[ 0 ],
+            ]);
+            let polygon = L.polygon(coordinates).addTo(map);
+
+            // Bind popup to the polygon
+            polygon.bindPopup(getPopupContent(feature));
+
+            // Listen for click event on polygon to open popup
+            polygon.on("click", function (e) {
+              e.target.openPopup();
+            });
+          } else if (feature.geometry.type === "LineString") {
+            let coordinates = feature.geometry.coordinates.map((coord) => [
+              coord[ 1 ],
+              coord[ 0 ],
+            ]);
+            let polyline = L.polyline(coordinates).addTo(map);
+
+            // Bind popup to the polyline
+            polyline.bindPopup(getPopupContent(feature));
+
+            // Listen for click event on polyline to open popup
+            polyline.on("click", function (e) {
+              e.target.openPopup();
+            });
+          }
+        });
+
+        // Fit map bounds
+        let bounds = L.latLngBounds(
+          coordinatesData.map((feature) => {
+            return L.geoJSON(feature).getBounds();
+          })
+        );
+        map.fitBounds(bounds);
+      }
+    });
+
+    function getPopupContent(feature) {
+      // Create and return the HTML content for the popup based on the feature data
+      let content = "<div class='popup-table-container'><table>";
+
+      for (const [ key, value ] of Object.entries(feature.properties)) {
+        content += `<tr><td>${key}</td><td>${value}</td></tr>`;
+      }
+      content += "</table></div>";
+      return content;
+    }
+
+
+
+    // const markers = [];
+
+    // function showCoordinates() {
+    //     const coordinatesInput = document.getElementById('coordinatesInput');
+    //     const coordinates = coordinatesInput.value;
+
+    //     if (coordinates !== null && coordinates !== "") {
+    //         updateMarkers(coordinates);
+    //     } else {
+    //         alert("No coordinates entered. Please try again.");
+    //     }
+    // }
+
+    // function updateMarkers(coordinates) {
+    //     const [latitude, longitude] = coordinates.split(',');
+
+    //     // Clear existing markers
+    //     markers.forEach(marker => map.removeLayer(marker));
+    //     markers.length = 0;
+
+    //     // Add a new marker at the specified coordinates
+    //     const newMarker = L.marker([parseFloat(latitude), parseFloat(longitude)])
+    //         .addTo(map)
+    //         .bindPopup('Coordinates: ' + coordinates)
+    //         .openPopup();
+
+    //     // Keep track of the marker
+    //     markers.push(newMarker);
+
+    //     // Set the view to the entered coordinates
+    //     map.setView([parseFloat(latitude), parseFloat(longitude)], 13);
+
+    //     // Log the updated markers array
+    //     console.log("Markers updated:", markers);
+    // }
+  </script>
+</body>
+
 </html>
