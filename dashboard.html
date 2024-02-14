@@ -338,60 +338,57 @@
         <div class="col-md-8">
           <main>
             <div id="map"></div>
+            <div id="table-container-dashboard">
+              <button id="closeTableBtnDashboard" class="close-button">
+                <i class="fas fa-times"></i>
+              </button>
+              <table
+                id="workTableDashboard"
+                class="table table-bordered table-hover"
+              >
+                <thead>
+                  <tr>
+                    <th>Zone</th>
+                    <th>Ward</th>
+                    <th>Department</th>
+                    <!-- <th>Ward Scope</th>
+                  <th>Ward Name</th> -->
+                    <th>Work Type</th>
+                    <!-- <th>Date</th> -->
+                    <th>Tender Amount</th>
+                    <th>JE Name</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Zone</th>
+                    <th>Ward</th>
+                    <th>Department</th>
+                    <!-- <th>Ward Scope</th>
+                  <th>Ward Name</th> -->
+                    <th>Work Type</th>
+                    <th>Date</th>
+                    <th>Tender Amount</th>
+                    <th>JE Name</th>
+                  </tr>
+                </tfoot>
+                <tbody></tbody>
+              </table>
+            </div>
           </main>
         </div>
 
         <!-- Right Sidebar -->
         <div class="col-md-2" style="background-color: #bbb">
           <div class="row" style="background-color: #ffffff">
-            <div class="col-md-12 mt-5">
+            <div class="col-md-12 mt-5 mb-3">
               <canvas id="myPieChart" width="230" height="230"></canvas>
             </div>
-            <div class="col-md-12 mt-5">
-              <canvas id="myLineChart" width="230" height="230"></canvas>
+            <div class="col-md-12 mt-5 mb-3">
+              <canvas id="myLineChart" width="230" height="300"></canvas>
             </div>
           </div>
         </div>
-      </div>
-
-      <div id="table-container-dashboard">
-        <button id="closeTableBtnDashboard" class="close-button">
-          <i class="fas fa-times"></i>
-        </button>
-
-        <table
-          id="workTableDashboard"
-          class="table table-bordered table-hover"
-          style="width: 100% !important"
-        >
-          <thead>
-            <tr>
-              <th>Zone</th>
-              <th>Ward</th>
-              <th>Department</th>
-              <!-- <th>Ward Scope</th>
-              <th>Ward Name</th> -->
-              <th>Work Type</th>
-              <th>Date</th>
-              <th>Tender Amount</th>
-              <th>JE Name</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>Zone</th>
-              <th>Ward</th>
-              <th>Department</th>
-              <!-- <th>Ward Scope</th>
-              <th>Ward Name</th> -->
-              <th>Work Type</th>
-              <th>Date</th>
-              <th>Tender Amount</th>
-              <th>JE Name</th>
-            </tr>
-          </tfoot>
-          <tbody></tbody>
-        </table>
       </div>
     </div>
     <script src="index.js"></script>
@@ -452,6 +449,21 @@
       //   });
       // }
 
+      function fitbou(filter) {
+        var layer = "pmc:IWMS_point";
+        var urlm =
+          "https://geo.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+          layer +
+          "&CQL_FILTER=" +
+          filter +
+          "&outputFormat=application/json";
+
+        $.getJSON(urlm, function (data) {
+          geojson = L.geoJson(data, {});
+          map.fitBounds(geojson.getBounds());
+        });
+      }
+
       function loadInitialData() {
         loadAdminWardName();
         loadZones();
@@ -503,6 +515,8 @@
           console.log("No filters selected. Map will not be drawn.");
         }
       }
+      var myPieChart;
+      var myLineChart;
 
       function filterData(
         selectedDepartments,
@@ -585,8 +599,11 @@
           cqlFilter = `created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
         }
 
+        fitbou(cqlFilter);
+
         wms_layer15.setParams({
           CQL_FILTER: cqlFilter,
+          styles: "pointhighlight",
         });
 
         var geoServerURL =
@@ -595,33 +612,236 @@
 
         $.getJSON(geoServerURL, function (data) {
           filteredData = data;
+          var workTypeCounts = {};
+          var stageCounts = {};
 
-          var allCoordinates = [];
           $("#workTableDashboard tbody").html("");
-          $.each(filteredData.features, function (index, project) {
-            var proData = `<tr>
-                    <td>${project.properties.zone}</td>
-                    <td>${project.properties.ward}</td>
-                    <td>${project.properties.departme_1}</td>
-                    <td>${project.properties.work_type}</td>
-                    <td>${project.properties.created_at}</td>
-                    <td>${project.properties.tender_amo}</td>
-                    <td>${project.properties.je_name}</td>
-                </tr>`;
+          filteredData.features.forEach(function (project) {
+            var proData = `<tr data-coordinates='${JSON.stringify(
+              project.geometry
+            )}'>
+            <td>${project.properties.zone}</td>
+            <td>${project.properties.ward}</td>
+            <td>${project.properties.departme_1}</td>
+            <td>${project.properties.work_type}</td>
+            <td>${project.properties.tender_amo}</td>
+            <td>${project.properties.je_name}</td>
+          </tr>`;
             $("#workTableDashboard tbody").append(proData);
-            if (project.geom) {
-              let geometryCoordinates = JSON.parse(project.geom);
-              allCoordinates.push(geometryCoordinates);
+
+            // Update workTypeCounts object
+            var workType = project.properties.work_type;
+            if (workType) {
+              workTypeCounts[workType] = (workTypeCounts[workType] || 0) + 1;
             }
+
+            var stage = project.properties.stage;
+            var date = new Date(project.properties.created_at);
+            var monthYear = date.toLocaleString("default", {
+              month: "long",
+              year: "numeric",
+            });
+
+            if (!stageCounts[stage]) {
+              stageCounts[stage] = {};
+            }
+            if (!stageCounts[stage][monthYear]) {
+              stageCounts[stage][monthYear] = 0;
+            }
+            stageCounts[stage][monthYear]++;
+          });
+
+          $("#workTableDashboard tbody").on("click", "tr", function () {
+            var coordinatesStr = $(this).data("coordinates");
+
+            var coordinatesObj = coordinatesStr;
+
+            var coordinatesArray = coordinatesObj.coordinates;
+
+            var marker = L.marker([
+              coordinatesArray[1],
+              coordinatesArray[0],
+            ]).addTo(map);
+
+            marker
+              .bindPopup("Marker location: " + coordinatesArray.join(", "))
+              .openPopup();
+
+            map.fitBounds(geojson.getBounds());
+            
           });
 
           var tableContainer = $("#table-container-dashboard");
           tableContainer.slideDown();
+          tableContainer.css({
+            display: "flex",
+            "justify-content": "center",
+          });
 
           $("#closeTableBtnDashboard").click(function () {
             tableContainer.slideUp();
           });
+
+          if (myPieChart) {
+            myPieChart.destroy();
+          }
+
+          // Assuming workTypeCounts contains counts of unique work types
+          var workTypes = Object.keys(workTypeCounts);
+          var workTypeCountsData = Object.values(workTypeCounts);
+
+          var ctx = document.getElementById("myPieChart").getContext("2d");
+
+          // Create the pie chart
+          myPieChart = new Chart(ctx, {
+            type: "pie",
+            data: {
+              labels: workTypes, // Use workTypes as labels
+              datasets: [
+                {
+                  label: "# of Votes",
+                  data: workTypeCountsData, // Use workTypeCountsData as data
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.5)",
+                    "rgba(54, 162, 235, 0.5)",
+                    "rgba(255, 206, 86, 0.5)",
+                    "rgba(75, 192, 192, 0.5)",
+                    "rgba(153, 102, 255, 0.5)",
+                  ],
+                  borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                  ],
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: false,
+              plugins: {
+                legend: {
+                  position: "bottom",
+                },
+              },
+            },
+          });
+
+          // Create/update the line chart for stages
+          if (myLineChart) {
+            myLineChart.destroy();
+          }
+
+          var ctxLine = document.getElementById("myLineChart").getContext("2d");
+
+          var lastSixMonths = getLastSixMonthsFromData(filteredData.features);
+
+          var datasets = [];
+
+          Object.keys(stageCounts).forEach(function (stage) {
+            var data = lastSixMonths.map(function (monthYear) {
+              return stageCounts[stage][monthYear] || 0;
+            });
+
+            datasets.push({
+              label: stage,
+              data: data,
+              borderColor: getRandomColor(),
+              fill: false,
+            });
+          });
+
+          myLineChart = new Chart(ctxLine, {
+            type: "line",
+            data: {
+              labels: lastSixMonths,
+              datasets: datasets,
+            },
+            options: {
+              responsive: false,
+              plugins: {
+                legend: {
+                  position: "bottom",
+                },
+              },
+              scales: {
+                x: {
+                  ticks: {
+                    display: true,
+                    position: "below",
+                  },
+                },
+                y: {
+                  ticks: {
+                    display: true,
+                  },
+                },
+              },
+            },
+          });
         });
+
+        function getRandomColor() {
+          var letters = "0123456789ABCDEF";
+          var color = "#";
+          for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+          return color;
+        }
+
+        function getLastSixMonthsFromData(data) {
+          var lastSixMonths = [];
+          var today = new Date();
+          var sixMonthsAgo = new Date(
+            today.getFullYear(),
+            today.getMonth() - 6,
+            1
+          );
+          var months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
+
+          data.forEach(function (project) {
+            var date = new Date(project.properties.created_at);
+            if (date >= sixMonthsAgo && date <= today) {
+              var monthYear =
+                months[date.getMonth()] + " " + date.getFullYear();
+              if (!lastSixMonths.includes(monthYear)) {
+                lastSixMonths.push(monthYear);
+              }
+            }
+          });
+
+          lastSixMonths.sort(function (a, b) {
+            var dateA = new Date(
+              a.split(" ")[1],
+              months.indexOf(a.split(" ")[0]),
+              1
+            );
+            var dateB = new Date(
+              b.split(" ")[1],
+              months.indexOf(b.split(" ")[0]),
+              1
+            );
+            return dateA - dateB;
+          });
+
+          return lastSixMonths;
+        }
 
         return filteredData;
       }
@@ -1236,94 +1456,6 @@
       //   const uniqueZones = [...new Set(selectedZones)];
       //   loadAdminWardName(selectedZones);
       // }
-    </script>
-    <script>
-      // Get the canvas element
-      var ctx = document.getElementById("myPieChart").getContext("2d");
-
-      // Create the pie chart
-      var myPieChart = new Chart(ctx, {
-        type: "pie",
-        data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [12, 19, 3, 5, 2],
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.5)",
-                "rgba(54, 162, 235, 0.5)",
-                "rgba(255, 206, 86, 0.5)",
-                "rgba(75, 192, 192, 0.5)",
-                "rgba(153, 102, 255, 0.5)",
-              ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-              ],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          responsive: false, // Set to true if you want the chart to resize with the window
-          plugins: {
-            legend: {
-              position: "bottom", // Display legend below the chart
-            },
-          },
-        },
-      });
-    </script>
-    <script>
-      // Get the canvas element
-      var ctx = document.getElementById("myLineChart").getContext("2d");
-
-      // Create the line chart
-      var myLineChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-          ],
-          datasets: [
-            {
-              label: "My Dataset",
-              data: [65, 59, 80, 81, 56, 55, 40], // Sample data for the line chart
-              fill: false, // Fill area under the line
-              borderColor: "rgb(75, 192, 192)", // Line color
-              tension: 0.1, // Line tension (0 is straight lines, 1 is smooth curves)
-            },
-          ],
-        },
-        options: {
-          responsive: false, // Set to true if you want the chart to resize with the window
-          scales: {
-            x: {
-              ticks: {
-                display: true,
-                // Change the position of x-axis labels to below the chart
-                // If you want to display labels on top, set 'above' instead of 'below'
-                position: "below",
-              },
-            },
-            y: {
-              ticks: {
-                display: true,
-              },
-            },
-          },
-        },
-      });
     </script>
   </body>
 </html>

@@ -159,10 +159,10 @@ main {
 
 #table-container-dashboard {
   display: none;
-  position: fixed;
-  bottom: 0;
+  position: relative;
+  bottom: 400px;
   left: 0;
-  width: 100%;
+  /* width: 100%; */
   max-height: 400px; /* Adjust the maximum height as needed */
   overflow-y: scroll;
   background-color: rgba(255, 255, 255, 0.8);
@@ -170,12 +170,15 @@ main {
   border-top: 1px solid #ccc;
   z-index: 99999;
 }
+#table-container-dashboard thead th {
+  white-space: nowrap;
+}
 #table-container-dashboard tbody tr {
   cursor: pointer;
 }
 .close-button {
   position: absolute;
-  top: 60px;
+  top: 15px;
   right: 5px;
   padding: 5px 10px;
   z-index: 999;
