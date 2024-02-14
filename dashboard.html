@@ -177,12 +177,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
               <form class="d-flex" role="search">
+                <select
+                  class="form-select me-2"
+                  aria-label="Select search category"
+                  id="search_type"
+                >
+                  <option value="">Select Type</option>
+                  <option value="zone">Zone</option>
+                  <option value="ward">Ward</option>
+                  <option value="village">Village</option>
+                  <option value="departme_1">Department</option>
+                  <option value="work_type">Work Type</option>
+                  <option value="stage">Stage</option>
+                </select>
                 <input
                   class="form-control me-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  id="searchInput"
+                  id="searchInputDashboard"
                 />
                 <div
                   id="autocompleteSuggestions"
@@ -661,7 +674,6 @@
               .openPopup();
 
             map.fitBounds(geojson.getBounds());
-            
           });
 
           var tableContainer = $("#table-container-dashboard");
@@ -1449,6 +1461,57 @@
       //   const uniqueZones = [...new Set(selectedZones)];
       //   loadAdminWardName(selectedZones);
       // }
+
+      $(document).ready(function () {
+        $("#searchInputDashboard").autocomplete({
+          minLength: 3,
+          source: function (request, response) {
+            let searchTerm = request.term;
+            let searchType = $("#search_type").val();
+
+            if (searchTerm.length >= 3 && searchType) {
+              let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
+
+              let geoServerURL = `https://geo.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+                cqlFilter
+              )}`;
+
+              $.getJSON(geoServerURL, function (data) {
+                let suggestions = data.features.map(
+                  (feature) => feature.properties[searchType]
+                );
+
+                suggestions = suggestions.filter(
+                  (value, index, self) => self.indexOf(value) === index
+                );
+
+                suggestions = suggestions.slice(0, 10);
+                response(suggestions);
+              });
+            } else {
+              response([]);
+            }
+          },
+          select: function (event, ui) {
+            $("#searchInputDashboard").val(ui.item.label);
+
+            let searchType = $("#search_type").val();
+            let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
+            fitbou(cqlFilterSelected);
+            wms_layer15.setParams({
+              CQL_FILTER: cqlFilterSelected,
+              styles: "pointhighlight",
+            });
+
+            return false;
+          },
+        });
+      });
+
+      function drawGeometries(selectedData) {
+        // Implement logic to draw the selected geometries on the map
+        // You can access the geometries from selectedData.features
+      }
     </script>
   </body>
 </html>
