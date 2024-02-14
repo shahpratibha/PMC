@@ -20,7 +20,7 @@ if (is_null($geoJSONData)) {
 }
 
 
-$geometry = $geoJSONData['features'][0]['geometry'];
+$geometry = $geoJSONData['geometry'];
 $geometryJSON = json_encode($geometry);
 
 $stmt = $pdo->prepare("INSERT INTO geodata (geometry, length, width) VALUES (ST_GeomFromGeoJSON(:geometry), :length, :width)");
