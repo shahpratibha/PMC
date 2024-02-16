@@ -702,21 +702,9 @@
 
           $("#workTableDashboard tbody").on("click", "tr", function () {
             var coordinatesStr = $(this).data("coordinates");
-
             var coordinatesObj = coordinatesStr;
-
-            var coordinatesArray = coordinatesObj.coordinates;
-
-            var marker = L.marker([
-              coordinatesArray[1],
-              coordinatesArray[0],
-            ]).addTo(map);
-
-            marker
-              .bindPopup("Marker location: " + coordinatesArray.join(", "))
-              .openPopup();
-
-            map.fitBounds(geojson.getBounds());
+            var bounds = L.geoJSON(coordinatesObj).getBounds();
+            map.fitBounds(bounds);
           });
 
           var tableContainer = $("#table-container-dashboard");
