@@ -155,6 +155,9 @@
         font-weight: 600;
         margin-left: 0px;
       }
+      body {
+        overflow-y: hidden;
+      }
     </style>
   </head>
   <body>
@@ -214,7 +217,7 @@
         </nav>
       </header>
 
-      <div class="row">
+      <div class="row" id="pdfDataDownload">
         <!-- Left Sidebar -->
         <div class="col-md-2" style="background-color: #bbb">
           <div class="form-group">
@@ -337,7 +340,6 @@
               id="work_type"
             ></select>
           </div>
-        
         </div>
 
         <!-- Main Content -->
@@ -373,7 +375,7 @@
                     <!-- <th>Ward Scope</th>
                   <th>Ward Name</th> -->
                     <th>Work Type</th>
-                    <th>Date</th>
+                    <!-- <th>Date</th> -->
                     <th>Tender Amount</th>
                     <th>JE Name</th>
                   </tr>
@@ -385,13 +387,23 @@
         </div>
 
         <!-- Right Sidebar -->
-        <div class="col-md-2" style="background-color: #bbb">
+        <div class="col-md-2" style="background-color: #fff">
           <div class="row" style="background-color: #ffffff">
-            <div class="col-md-12 mt-5 mb-3">
+            <div class="col-md-12 mt-3 mb-3">
               <canvas id="myPieChart" width="230" height="230"></canvas>
             </div>
-            <div class="col-md-12 mt-5 mb-3">
+            <div class="col-md-12 mt-3 mb-3">
               <canvas id="myLineChart" width="230" height="300"></canvas>
+            </div>
+            <div class="col-md-12">
+              <button
+                type="button"
+                class="btn btn-danger btn-block btn-lg w-100"
+                id="generatePdfBtn"
+                onclick="takeScreenshot()"
+              >
+                Download Report
+              </button>
             </div>
           </div>
         </div>
@@ -399,11 +411,35 @@
     </div>
     <script src="index.js"></script>
     <script src="select2.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/0.7.0/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 
     <!-- JavaScript -->
     <!-- JavaScript -->
     <script>
+      function takeScreenshot() {
+        html2canvas(document.getElementById("map"), {
+          useCORS: false,
+        }).then(function (canvas) {
+          var imgData = canvas.toDataURL("image/png");
+
+          var pdf = new jsPDF();
+          pdf.addImage(imgData, "PNG", 15, 25, 180, 135);
+
+          var imgHeight = canvas.height;
+
+          var img = new Image();
+          img.onload = function () {
+            pdf.addImage(img, "PNG", 15, 170, 180, 80);
+            pdf.save("map.pdf"); // Save PDF
+          };
+          // img.src = "finalLegend.png";
+        });
+      }
+
       $(document).ready(function () {
         var amountValueInput = document.getElementById("amount_value");
 
@@ -677,6 +713,7 @@
           });
 
           var tableContainer = $("#table-container-dashboard");
+          var isClosed = false;
           tableContainer.slideDown();
           tableContainer.css({
             display: "flex",
@@ -684,7 +721,20 @@
           });
 
           $("#closeTableBtnDashboard").click(function () {
-            tableContainer.slideUp();
+            if (!isClosed) {
+              // Change icon to plus
+              $(this).html('<i class="fas fa-plus"></i>');
+              tableContainer.css({
+                bottom: "50px",
+              });
+            } else {
+              // Change icon to times
+              $(this).html('<i class="fas fa-times"></i>');
+              tableContainer.css({
+                bottom: "400px",
+              });
+            }
+            isClosed = !isClosed; // Toggle the state
           });
 
           if (myPieChart) {
@@ -704,7 +754,6 @@
               labels: workTypes, // Use workTypes as labels
               datasets: [
                 {
-                  label: "# of Votes",
                   data: workTypeCountsData, // Use workTypeCountsData as data
                   backgroundColor: [
                     "rgba(255, 99, 132, 0.5)",
@@ -728,7 +777,20 @@
               responsive: false,
               plugins: {
                 legend: {
-                  position: "bottom",
+                  display: true,
+                  position: "bottom", // Position legend at the bottom of the graph
+                },
+                datalabels: {
+                  formatter: (value, ctx) => {
+                    let sum = 0;
+                    let dataArr = ctx.chart.data.datasets[0].data;
+                    dataArr.forEach((data) => {
+                      sum += data;
+                    });
+                    let percentage = ((value / sum) * 100).toFixed(2) + "%";
+                    return percentage;
+                  },
+                  color: "#fff",
                 },
               },
             },

@@ -89,36 +89,56 @@ var wms_layer15 = L.tileLayer
     opacity: 1,
   })
   .addTo(map);
+var wms_layer16 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "PMC_Layers",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "PMC_Layers",
+    opacity: 1,
+    maxZoom: 25,
+  })
+  .addTo(map);
 
-  var wms_layer3 = L.tileLayer.wms(
+var wms_layer17 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Exist_Road",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "Exist_Road",
+    opacity: 1,
+    maxZoom: 25,
+  })
+  .addTo(map);
 
-    "https://geo.geopulsea.com/geoserver/pmc/wms", {
-        layers: "Data",
-        format: "image/png",
-        transparent: true,
-        tiled: true,
-        version: "1.1.0",
-        attribution: "Data",
-        opacity: 1,
-
-    }
+var wms_layer3 = L.tileLayer.wms(
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Data",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "Data",
+    opacity: 1,
+  }
 );
 
-
-var wms_layer4 = L.tileLayer.wms(
-
-  "https://geo.geopulsea.com/geoserver/pmc/wms", {
-      layers: "geodata",
-      format: "image/png",
-      transparent: true,
-      tiled: true,
-      version: "1.1.0",
-      attribution: "geodata",
-      opacity: 1,
-
-    }
-).addTo(map);
-
+var wms_layer4 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "geodata",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "geodata",
+    opacity: 1,
+  })
+  .addTo(map);
 
 var WMSlayers = {
   OpenStreetMap: osm,
@@ -128,9 +148,11 @@ var WMSlayers = {
   Admin_Ward: wms_layer12,
   Village_Boundary: wms_layer14,
   IWMS_point: wms_layer15,
+  PMC_Layers: wms_layer16,
+  Exist_Road: wms_layer17,
   Revenue: wms_layer1,
-  Data:wms_layer3,
-  geodata:wms_layer4,
+  Data: wms_layer3,
+  geodata: wms_layer4,
 };
 function refreshWMSLayer() {
   // Remove the layer from the map
@@ -139,7 +161,7 @@ function refreshWMSLayer() {
   wms_layer4.addTo(map);
 }
 
-refreshWMSLayer()
+refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 
 // FeatureGroup to store drawn items
@@ -192,11 +214,10 @@ map.addControl(drawControl);
 
 var associatedLayersRegistry = {};
 
-
-function createBufferAndDashedLine(polylineLayer,roadLenght,bufferWidth) {
+function createBufferAndDashedLine(polylineLayer, roadLenght, bufferWidth) {
   var geoJSON = polylineLayer.toGeoJSON();
-  var halfBufferWidth = bufferWidth / 2 ;
-  var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: 'meters' }); // Adjust buffer size as needed
+  var halfBufferWidth = bufferWidth / 2;
+  var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: "meters" }); // Adjust buffer size as needed
 
   var bufferLayer = L.geoJSON(buffered, {
     style: {
@@ -238,130 +259,128 @@ function removeAssociatedLayers(layerId) {
 function checkPolylineIntersection(newPolyline) {
   var existingPolylines = getExistingPolylines();
   var totalIntersectionLength = 0;
-  var newPolylineLength = turf.length(newPolyline, {units: 'kilometers'});
+  var newPolylineLength = turf.length(newPolyline, { units: "kilometers" });
 
-  existingPolylines.forEach(function(polyline) {
-      var intersection = turf.intersect(newPolyline, polyline);
-      if (intersection) {
-          totalIntersectionLength += turf.length(intersection, {units: 'kilometers'});
-      }
+  existingPolylines.forEach(function (polyline) {
+    var intersection = turf.intersect(newPolyline, polyline);
+    if (intersection) {
+      totalIntersectionLength += turf.length(intersection, {
+        units: "kilometers",
+      });
+    }
   });
 
-  var intersectionPercentage = (totalIntersectionLength / newPolylineLength) * 100;
+  var intersectionPercentage =
+    (totalIntersectionLength / newPolylineLength) * 100;
   return intersectionPercentage <= 20;
 }
 
 function getWFSUrl() {
   const geoserverBaseUrl = "https://geo.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
-      service: "WFS",
-      version: "1.0.0",
-      request: "GetFeature",
-      typeName: "pmc:geodata", // Keep the workspace:layer format
-      outputFormat: "application/json",
-      srsName: "EPSG:4326"
+    service: "WFS",
+    version: "1.0.0",
+    request: "GetFeature",
+    typeName: "pmc:geodata", // Keep the workspace:layer format
+    outputFormat: "application/json",
+    srsName: "EPSG:4326",
   };
   const queryString = new URLSearchParams(params).toString();
   return `${geoserverBaseUrl}?${queryString}`;
 }
 
-
 async function getGeodataFeatures() {
   try {
-      const url = getWFSUrl();
-      const response = await fetch(url);
-      if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const geojson = await response.json();
-      return geojson.features; // Assuming the response is a GeoJSON object
+    const url = getWFSUrl();
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const geojson = await response.json();
+    return geojson.features; // Assuming the response is a GeoJSON object
   } catch (error) {
-      console.error("Error fetching geodata features:", error);
-      return []; // Return an empty array in case of error
+    console.error("Error fetching geodata features:", error);
+    return []; // Return an empty array in case of error
   }
 }
 
-
 function checkOverlapWithGeodata(newFeature, geodataFeatures) {
-    let totalOverlapArea = 0;
-    let newFeatureArea = 0;
-    let conversionFactor = 0; // Used for converting lengths to areas for LineStrings
+  let totalOverlapArea = 0;
+  let newFeatureArea = 0;
+  let conversionFactor = 0; // Used for converting lengths to areas for LineStrings
 
-    // Convert newFeature to a buffer if it's a LineString to approximate as a Polygon
-    if (newFeature.geometry.type === "LineString") {
-        newFeature = turf.buffer(newFeature, 0.001, {units: 'kilometers'}); // Buffer size might need adjustment
-        conversionFactor = 0.001; // Assuming a narrow buffer width for conversion factor
+  // Convert newFeature to a buffer if it's a LineString to approximate as a Polygon
+  if (newFeature.geometry.type === "LineString") {
+    newFeature = turf.buffer(newFeature, 0.001, { units: "kilometers" }); // Buffer size might need adjustment
+    conversionFactor = 0.001; // Assuming a narrow buffer width for conversion factor
+  }
+
+  if (
+    newFeature.geometry.type === "Polygon" ||
+    newFeature.geometry.type === "MultiPolygon"
+  ) {
+    newFeatureArea = turf.area(newFeature);
+  }
+
+  geodataFeatures.forEach(function (feature) {
+    // Convert feature to a buffer if it's a LineString
+    if (feature.geometry.type === "LineString") {
+      feature = turf.buffer(feature, 0.001, { units: "kilometers" }); // Adjust buffer size as necessary
     }
 
-  
-    if (newFeature.geometry.type === "Polygon" || newFeature.geometry.type === "MultiPolygon") {
-        newFeatureArea = turf.area(newFeature);
+    if (
+      feature.geometry.type === "Polygon" ||
+      feature.geometry.type === "MultiPolygon"
+    ) {
+      let intersection = turf.intersect(newFeature, feature);
+
+      if (intersection) {
+        totalOverlapArea += turf.area(intersection);
+      }
     }
+  });
 
-  
+  let overlapPercentage = 0;
+  if (newFeatureArea > 0) {
+    overlapPercentage = (totalOverlapArea / newFeatureArea) * 100;
+  }
 
-    geodataFeatures.forEach(function(feature) {
-        // Convert feature to a buffer if it's a LineString
-        if (feature.geometry.type === "LineString") {
-            feature = turf.buffer(feature, 0.001, {units: 'kilometers'}); // Adjust buffer size as necessary
-        }
+  // Adjust calculation if the original newFeature was a LineString
+  if (newFeature.geometry.type === "LineString" && conversionFactor > 0) {
+    let newFeatureLength = turf.length(newFeature, { units: "kilometers" });
+    let estimatedArea = newFeatureLength * conversionFactor;
 
-        if (feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon") {
-            let intersection = turf.intersect(newFeature, feature);
-           
-            if (intersection) {
-                totalOverlapArea += turf.area(intersection);
-            }
-        }
-    });
+    overlapPercentage = (totalOverlapArea / estimatedArea) * 100;
+  }
 
-    let overlapPercentage = 0;
-    if (newFeatureArea > 0) {
-        overlapPercentage = (totalOverlapArea / newFeatureArea) * 100;
-    }
-
-    // Adjust calculation if the original newFeature was a LineString
-    if (newFeature.geometry.type === "LineString" && conversionFactor > 0) {
-        let newFeatureLength = turf.length(newFeature, {units: 'kilometers'});
-        let estimatedArea = newFeatureLength * conversionFactor;
-      
-        overlapPercentage = (totalOverlapArea / estimatedArea) * 100;
-    }
-
-
-
-    return overlapPercentage <= 20;
+  return overlapPercentage <= 20;
 }
-
-
-
 
 // var layer;
 map.on("draw:created", function (e) {
   const works_aa_approval_id = "856";
   var newFeature = e.layer.toGeoJSON();
 
-
-  getGeodataFeatures().then(function(geodataFeatures) {
+  getGeodataFeatures().then(function (geodataFeatures) {
     var isAllowed = checkOverlapWithGeodata(newFeature, geodataFeatures);
-  
+
     if (isAllowed) {
-        // Add the feature to the map if overlap is 20% or less
-        drawnItems.addLayer(e.layer);
+      // Add the feature to the map if overlap is 20% or less
+      drawnItems.addLayer(e.layer);
     } else {
-        alert('Road overlaps more than 20% with existing Road.');
-        // Do not add the new feature to the map
+      alert("Road overlaps more than 20% with existing Road.");
+      // Do not add the new feature to the map
     }
-});
+  });
 
-
-
-  if (e.layerType === 'polyline') {
-    var length = turf.length(e.layer.toGeoJSON(), {units: 'kilometers'});
-    var roadLenght = localStorage.getItem('roadLenght');
+  if (e.layerType === "polyline") {
+    var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
+    var roadLenght = localStorage.getItem("roadLenght");
     if (length > roadLenght) {
-      alert(`The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`);
-        return; // Stop further processing
+      alert(
+        `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`
+      );
+      return; // Stop further processing
     }
   }
   var layer = e.layer;
@@ -375,8 +394,8 @@ map.on("draw:created", function (e) {
 
   var geoJSON = layer.toGeoJSON();
   var popupContent = UpdateArea(geoJSON);
-  var lastInsertedId = localStorage.getItem('lastInsertedId');
-  var lastDrawnPolylineId = layer._leaflet_id
+  var lastInsertedId = localStorage.getItem("lastInsertedId");
+  var lastDrawnPolylineId = layer._leaflet_id;
   $.ajax({
     // url: API_URL + "/process.php", // Path to the PHP script
     url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
@@ -387,7 +406,7 @@ map.on("draw:created", function (e) {
       // if (response.success) {
       if (response.data != undefined) {
         const responseData = response.data;
- 
+
         if (responseData != undefined) {
           popupContent +=
             "<tr><td>Name of work</td><td>" +
@@ -662,15 +681,17 @@ function Savedata(lastDrawnPolylineId) {
     "selectCoordinatesData",
     JSON.stringify(selectCoordinatesData)
   );
-  
-  var roadLenght = localStorage.getItem('roadLenght');
-  var bufferWidth = localStorage.getItem('bufferWidth');
-  var lastInsertedId = localStorage.getItem('lastInsertedId');
 
+  var roadLenght = localStorage.getItem("roadLenght");
+  var bufferWidth = localStorage.getItem("bufferWidth");
+  var lastInsertedId = localStorage.getItem("lastInsertedId");
 
-  var polylineLayerId = lastDrawnPolylineId ; // You need to set this to the correct ID
+  var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
   var bufferGeoJSONString = "{}";
-  if (associatedLayersRegistry[polylineLayerId] && associatedLayersRegistry[polylineLayerId].bufferLayer) {
+  if (
+    associatedLayersRegistry[polylineLayerId] &&
+    associatedLayersRegistry[polylineLayerId].bufferLayer
+  ) {
     var bufferLayer = associatedLayersRegistry[polylineLayerId].bufferLayer;
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
@@ -679,91 +700,82 @@ function Savedata(lastDrawnPolylineId) {
     geoJSON: bufferGeoJSONString,
     roadLength: roadLenght,
     bufferWidth: bufferWidth,
-    gis_id :lastInsertedId ,
+    gis_id: lastInsertedId,
   });
-
 
   $.ajax({
     type: "POST",
     url: "APIS/gis_save.php",
-    data: payload, 
-    contentType: "application/json", 
+    data: payload,
+    contentType: "application/json",
     success: function (response) {
       console.log(response);
       window.location.href = "geometry_page.html";
-
-    
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
-    }
+    },
   });
 }
-
 
 function Savedata(lastDrawnPolylineId) {
   // Retrieve the GeoJSON representation of the buffer
   var bufferGeoJSON = {}; // Initialize as an empty object
-  if (associatedLayersRegistry[lastDrawnPolylineId] && associatedLayersRegistry[lastDrawnPolylineId].bufferLayer) {
-      bufferGeoJSON = associatedLayersRegistry[lastDrawnPolylineId].bufferLayer.toGeoJSON();
+  if (
+    associatedLayersRegistry[lastDrawnPolylineId] &&
+    associatedLayersRegistry[lastDrawnPolylineId].bufferLayer
+  ) {
+    bufferGeoJSON =
+      associatedLayersRegistry[lastDrawnPolylineId].bufferLayer.toGeoJSON();
 
-      // Define the style for the buffered line
-      var bufferedLineStyle = {
-          color: "#000000",
-          weight: 4,
-          opacity: 0.5,
-          lineJoin: 'round',
-          dashArray: '10, 10' // Assuming you want the dashed line style
-      };
+    // Define the style for the buffered line
+    var bufferedLineStyle = {
+      color: "#000000",
+      weight: 4,
+      opacity: 0.5,
+      lineJoin: "round",
+      dashArray: "10, 10", // Assuming you want the dashed line style
+    };
 
-      // Embed the style directly within the GeoJSON object
-      bufferGeoJSON.properties = bufferGeoJSON.properties || {}; // Ensure properties exist
-      bufferGeoJSON.properties.style = bufferedLineStyle;
+    // Embed the style directly within the GeoJSON object
+    bufferGeoJSON.properties = bufferGeoJSON.properties || {}; // Ensure properties exist
+    bufferGeoJSON.properties.style = bufferedLineStyle;
   } else {
-      console.error("Layer ID not found in registry.");
-      return;
+    console.error("Layer ID not found in registry.");
+    return;
   }
 
   // Serialize the modified GeoJSON object to a string
   var bufferedGeoJSONString = JSON.stringify(bufferGeoJSON);
 
   // Prepare other relevant data
-  var roadLength = localStorage.getItem('roadLength');
-  var bufferWidth = localStorage.getItem('bufferWidth');
-  var lastInsertedId = localStorage.getItem('lastInsertedId');
+  var roadLength = localStorage.getItem("roadLength");
+  var bufferWidth = localStorage.getItem("bufferWidth");
+  var lastInsertedId = localStorage.getItem("lastInsertedId");
 
   // Construct the payload to include the styled buffered line's GeoJSON
   var payload = JSON.stringify({
-      geoJSON: bufferedGeoJSONString,
-      roadLength: roadLength,
-      bufferWidth: bufferWidth,
-      gis_id: lastInsertedId,
+    geoJSON: bufferedGeoJSONString,
+    roadLength: roadLength,
+    bufferWidth: bufferWidth,
+    gis_id: lastInsertedId,
   });
 
   // AJAX request to the server to save the data
   $.ajax({
-      type: "POST",
-      url: "APIS/gis_save.php",
-      data: payload,
-      contentType: "application/json",
-      success: function (response) {
-          console.log("Styled buffered line saved successfully:", response);
-          window.location.href = "geometry_page.html";
-
-      },
-      error: function (xhr, status, error) {
-          console.error("Save failed:", error);
-      }
+    type: "POST",
+    url: "APIS/gis_save.php",
+    data: payload,
+    contentType: "application/json",
+    success: function (response) {
+      console.log("Styled buffered line saved successfully:", response);
+      window.location.href = "geometry_page.html";
+    },
+    error: function (xhr, status, error) {
+      console.error("Save failed:", error);
+    },
   });
 }
-
-
-
-
-
-
-
-
 
 function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
@@ -1117,44 +1129,42 @@ function getWardNameById(wardId, wardData) {
   }
 }
 
-
-
 map.on("contextmenu", (e) => {
   let size = map.getSize();
   let bbox = map.getBounds().toBBoxString();
-  let layer = 'pmc:Data';
-  let style = 'pmc:Data';
-  let urrr =
-  `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`
+  let layer = "pmc:Data";
+  let style = "pmc:Data";
+  let urrr = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+    e.containerPoint.x
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+    size.x
+  }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
   if (urrr) {
-  fetch(urrr)
+    fetch(urrr)
       .then((response) => response.json())
       .then((html) => {
-          var htmldata = html.features[0].properties;
-          let keys = Object.keys(htmldata);
-          let values = Object.values(htmldata);
-          let txtk1 = "";
-          var xx = 0;
-          for (let gb in keys) {
-              txtk1 += "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
-              xx += 1;
-          }
-                  
+        var htmldata = html.features[0].properties;
+        let keys = Object.keys(htmldata);
+        let values = Object.values(htmldata);
+        let txtk1 = "";
+        var xx = 0;
+        for (let gb in keys) {
+          txtk1 +=
+            "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
+          xx += 1;
+        }
 
-                  let detaildata1 =
-                      "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
-                      txtk1 +
-                      "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng +
-                      "</td></tr></table></div>";
+        let detaildata1 =
+          "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
+          txtk1 +
+          "</td></tr><tr><td>Co-Ordinates</td><td>" +
+          e.latlng +
+          "</td></tr></table></div>";
 
-                  L.popup()
-                      .setLatLng(e.latlng)
-                      .setContent(detaildata1)
-                      .openOn(map);
-      
+        L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
       });
-}
+  }
 });
 
 // function generateKML(coordinatesArray, featureData) {
