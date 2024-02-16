@@ -238,6 +238,7 @@
               class="form-control"
               multiple="multiple"
               id="zones"
+              onchange="loadAdminWardNameAndFilter();"
             ></select>
           </div>
           <div class="form-group mt-2">
@@ -246,6 +247,7 @@
               class="select2 form-control"
               multiple="multiple"
               id="admin_ward_name"
+              onchange="loadVillagesAndFilter()"
             ></select>
           </div>
           <div class="form-group mt-2">
@@ -254,6 +256,34 @@
               class="form-control"
               multiple="multiple"
               id="villages"
+              onchange="loadDepartmentsAndFilter();"
+            ></select>
+          </div>
+
+          <div class="form-group mt-2">
+            <label for="admin_ward_name">Departments</label>
+            <select
+              class="form-control"
+              id="departments"
+              multiple="multiple"
+              onchange="loadStagesAndFilter();"
+            ></select>
+          </div>
+          <div class="form-group mt-2">
+            <label>Project Status</label>
+            <select
+              class="select2 form-control"
+              multiple="multiple"
+              id="stage"
+              onchange="loadWorkTypesAndFilter();"
+            ></select>
+          </div>
+          <div class="form-group mt-2">
+            <label>Work Type</label>
+            <select
+              class="select2 form-control"
+              multiple="multiple"
+              id="work_type"
             ></select>
           </div>
 
@@ -314,31 +344,6 @@
               placeholder="Select Date Range"
               readonly
             />
-          </div>
-
-          <div class="form-group mt-2">
-            <label for="admin_ward_name">Departments</label>
-            <select
-              class="form-control"
-              id="departments"
-              multiple="multiple"
-            ></select>
-          </div>
-          <div class="form-group mt-2">
-            <label>Project Status</label>
-            <select
-              class="select2 form-control"
-              multiple="multiple"
-              id="stage"
-            ></select>
-          </div>
-          <div class="form-group mt-2">
-            <label>Work Type</label>
-            <select
-              class="select2 form-control"
-              multiple="multiple"
-              id="work_type"
-            ></select>
           </div>
         </div>
 
@@ -578,7 +583,19 @@
         // Filter data based on selected filters
         var filteredData = [];
 
-        // Add conditions to the filter object based on selected filters
+        if (selectedProjectFi.length > 0) {
+          filter.project_fi = selectedProjectFi
+            .map((projectFi) => `'${projectFi}'`)
+            .join(",");
+        }
+
+        if (selectedZones.length > 0) {
+          filter.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
+        }
+        if (selectedWards.length > 0) {
+          filter.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
+        }
+
         if (selectedDepartments.length > 0) {
           filter.departme_1 = selectedDepartments
             .map((department) => `'${department}'`)
@@ -589,17 +606,7 @@
             .map((workType) => `'${workType}'`)
             .join(",");
         }
-        if (selectedZones.length > 0) {
-          filter.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
-        }
-        if (selectedWards.length > 0) {
-          filter.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
-        }
-        if (selectedProjectFi.length > 0) {
-          filter.project_fi = selectedProjectFi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-        }
+
         if (selectedStage.length > 0) {
           filter.stage = selectedStage.map((stage) => `'${stage}'`).join(",");
         }
@@ -913,41 +920,35 @@
         return filteredData;
       }
 
-      function loadAdminWardName() {
-        var select = $("#admin_ward_name");
+      function loadProjectFi() {
+        var select = $("#project_fi");
         select.empty();
 
         $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json",
+          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
           function (data) {
-            // Use a Set to store unique work types
-            var wardSet = new Set();
+            var projectFiSet = new Set();
 
-            // Populate the Set with work types
             $.each(data.features, function (index, feature) {
-              var ward = feature.properties.ward;
-              wardSet.add(ward);
+              var project_fi = feature.properties.project_fi;
+              projectFiSet.add(project_fi);
             });
 
-            // Convert the Set to an array
-            var uniqueWard = Array.from(wardSet);
+            var uniqueProjectFiSet = Array.from(projectFiSet);
 
-            // Populate select options with unique work types
-            $.each(uniqueWard, function (index, ward) {
+            $.each(uniqueProjectFiSet, function (index, project_fi) {
               select.append(
                 $("<option>", {
-                  value: ward,
-                  text: ward,
+                  value: project_fi,
+                  text: project_fi,
                 })
               );
             });
 
-            // Destroy the existing Select2 instance, if it exists
             if (select.hasClass("select2-hidden-accessible")) {
               select.select2("destroy");
             }
 
-            // Initialize Select2 with the updated options
             select.select2({
               templateResult: function (option) {
                 if (!option.id) {
@@ -977,16 +978,8 @@
               multiple: true,
             });
 
-            // Event listener for change event
             select.on("change", function () {
-              // var selectedWard = $(this).val();
-              // const wardFilter = selectedWard
-              //   .map((ward) => `'${ward}'`)
-              //   .join(",");
-
-              // wms_layer15.setParams({
-              //   CQL_FILTER: `ward IN (${wardFilter})`,
-              // });
+              loadZones();
               filterDataAndDrawMap();
             });
           }
@@ -997,461 +990,563 @@
         var select = $("#zones");
         select.empty();
 
-        $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=Zone_layer&propertyName=zone_name&outputFormat=application/json",
-          function (data) {
-            // Populate select options with GeoServer data
-            $.each(data.features, function (index, feature) {
-              var zoneName = feature.properties.zone_name; // Adjust this based on your GeoServer data structure
-              select.append(
-                $("<option>", {
-                  value: zoneName,
-                  text: zoneName,
-                })
-              );
-            });
+        var project_fi = $("#project_fi").val();
 
-            // Destroy the existing Select2 instance, if it exists
-            if (select.hasClass("select2-hidden-accessible")) {
-              select.select2("destroy");
-            }
+        var geoServerURL =
+          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+        if (project_fi.length > 0) {
+          project_fi = project_fi
+            .map((projectFi) => `'${projectFi}'`)
+            .join(",");
 
-            // Initialize Select2 with the updated options
-            select.select2({
-              templateResult: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+          let cqlFilter = `project_fi  IN (${project_fi})`;
+          geoServerURL =
+            "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+            encodeURIComponent(cqlFilter);
+        }
 
-                var $option = $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                    option.text +
-                    "</span>"
-                );
-                return $option;
-              },
-              templateSelection: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+        $.getJSON(geoServerURL, function (data) {
+          var zoneSet = new Set();
 
-                return $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                    option.text +
-                    "</span>"
-                );
-              },
-              closeOnSelect: false,
-              dropdownParent: select.parent(),
-              multiple: true,
-            });
+          $.each(data.features, function (index, feature) {
+            var zone = feature.properties.zone;
+            zoneSet.add(zone);
+          });
 
-            // Event listener for change event
-            select.on("change", function () {
-              // var selectedZones = $(this).val();
-              // const zoneFilter = selectedZones
-              //   .map((zone) => `'${zone}'`)
-              //   .join(",");
+          var uniqueZoneSet = Array.from(zoneSet);
 
-              // wms_layer15.setParams({
-              //   CQL_FILTER: `zone IN (${zoneFilter})`,
-              // });
-              filterDataAndDrawMap();
-            });
+          $.each(uniqueZoneSet, function (index, zone) {
+            select.append(
+              $("<option>", {
+                value: zone,
+                text: zone,
+              })
+            );
+          });
+
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
           }
-        );
+
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // select.on("change", function () {
+          //   loadAdminWardName();
+          //   filterDataAndDrawMap();
+          // });
+        });
+      }
+
+      function loadAdminWardName() {
+        var select = $("#admin_ward_name");
+        select.empty();
+        var project_fi = $("#project_fi").val();
+        var zones = $("#zones").val();
+        let cqlFilter = "";
+
+        if (project_fi.length > 0) {
+          project_fi = project_fi
+            .map((projectFi) => `'${projectFi}'`)
+            .join(",");
+          cqlFilter = `project_fi IN (${project_fi})`;
+        }
+
+        if (zones.length > 0) {
+          zones = zones.map((zone) => `'${zone}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+        }
+
+        var geoServerURL =
+          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
+          encodeURIComponent(cqlFilter);
+
+        $.getJSON(geoServerURL, function (data) {
+          var wardSet = new Set();
+
+          $.each(data.features, function (index, feature) {
+            var ward = feature.properties.ward;
+            wardSet.add(ward);
+          });
+
+          var uniqueWard = Array.from(wardSet);
+
+          $.each(uniqueWard, function (index, ward) {
+            select.append(
+              $("<option>", {
+                value: ward,
+                text: ward,
+              })
+            );
+          });
+
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
+          }
+
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // select.on("change", function () {
+          //   loadVillages();
+          //   filterDataAndDrawMap();
+          // });
+        });
       }
 
       function loadVillages() {
         var select = $("#villages");
         select.empty();
 
-        $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=Village_Boundary&propertyName=Village_Name&outputFormat=application/json",
-          function (data) {
-            // Populate select options with GeoServer data
-            $.each(data.features, function (index, feature) {
-              var villageName = feature.properties.Village_Name; // Adjust this based on your GeoServer data structure
-              select.append(
-                $("<option>", {
-                  value: villageName,
-                  text: villageName,
-                })
-              );
-            });
+        var project_fi = $("#project_fi").val();
+        var zones = $("#zones").val();
+        var wards = $("#admin_ward_name").val();
+        let cqlFilter = "";
 
-            // Destroy the existing Select2 instance, if it exists
-            if (select.hasClass("select2-hidden-accessible")) {
-              select.select2("destroy");
-            }
+        if (project_fi.length > 0) {
+          project_fi = project_fi
+            .map((projectFi) => `'${projectFi}'`)
+            .join(",");
+          cqlFilter = `project_fi IN (${project_fi})`;
+        }
 
-            // Initialize Select2 with the updated options
-            select.select2({
-              templateResult: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+        if (zones.length > 0) {
+          zones = zones.map((zone) => `'${zone}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+        }
+        if (wards.length > 0) {
+          wards = wards.map((ward) => `'${ward}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+        }
 
-                var $option = $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                    option.text +
-                    "</span>"
-                );
-                return $option;
-              },
-              templateSelection: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+        var geoServerURL =
+          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
+          encodeURIComponent(cqlFilter);
 
-                return $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                    option.text +
-                    "</span>"
-                );
-              },
-              closeOnSelect: false,
-              dropdownParent: select.parent(),
-              multiple: true,
-            });
+        $.getJSON(geoServerURL, function (data) {
+          var villageSet = new Set();
+          $.each(data.features, function (index, feature) {
+            var village = feature.properties.village;
+            villageSet.add(village);
+          });
 
-            // Event listener for change event
-            select.on("change", function () {
-              // var selectedVillages = $(this).val();
-              // const villageFilter = selectedVillages
-              //   .map((village) => `'${village}'`)
-              //   .join(",");
+          var uniqueVillage = Array.from(villageSet);
 
-              // wms_layer15.setParams({
-              //   CQL_FILTER: `village IN (${villageFilter})`,
-              // });
-              filterDataAndDrawMap();
-            });
+          $.each(uniqueVillage, function (index, village) {
+            select.append(
+              $("<option>", {
+                value: village,
+                text: village,
+              })
+            );
+          });
+
+          // Destroy the existing Select2 instance, if it exists
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
           }
-        );
+
+          // Initialize Select2 with the updated options
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // select.on("change", function () {
+          //   loadDepartments();
+          //   filterDataAndDrawMap();
+          // });
+        });
       }
 
       function loadDepartments() {
         var select = $("#departments");
         select.empty();
 
-        $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json",
-          function (data) {
-            // Use a Set to store unique department names
-            var departmentSet = new Set();
+        var project_fi = $("#project_fi").val();
+        var zones = $("#zones").val();
+        var wards = $("#admin_ward_name").val();
+        var villages = $("#villages").val();
+        let cqlFilter = "";
 
-            // Populate the Set with department names
-            $.each(data.features, function (index, feature) {
-              var department = feature.properties.departme_1;
-              departmentSet.add(department);
-            });
+        if (project_fi.length > 0) {
+          project_fi = project_fi
+            .map((projectFi) => `'${projectFi}'`)
+            .join(",");
+          cqlFilter = `project_fi IN (${project_fi})`;
+        }
 
-            // Convert the Set to an array
-            var uniqueDepartments = Array.from(departmentSet);
+        if (zones.length > 0) {
+          zones = zones.map((zone) => `'${zone}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+        }
+        if (wards.length > 0) {
+          wards = wards.map((ward) => `'${ward}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+        }
+        if (villages.length > 0) {
+          villages = villages.map((village) => `'${village}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
+        }
 
-            // Populate select options with unique department names
-            $.each(uniqueDepartments, function (index, department) {
-              select.append(
-                $("<option>", {
-                  value: department,
-                  text: department,
-                })
-              );
-            });
+        var geoServerURL =
+          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
+          encodeURIComponent(cqlFilter);
 
-            // Destroy the existing Select2 instance, if it exists
-            if (select.hasClass("select2-hidden-accessible")) {
-              select.select2("destroy");
-            }
+        $.getJSON(geoServerURL, function (data) {
+          var departmentSet = new Set();
 
-            // Initialize Select2 with the updated options
-            select.select2({
-              templateResult: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+          $.each(data.features, function (index, feature) {
+            var department = feature.properties.departme_1;
+            departmentSet.add(department);
+          });
 
-                var $option = $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                    option.text +
-                    "</span>"
-                );
-                return $option;
-              },
-              templateSelection: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+          var uniqueDepartments = Array.from(departmentSet);
 
-                return $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                    option.text +
-                    "</span>"
-                );
-              },
-              closeOnSelect: false,
-              dropdownParent: select.parent(),
-              multiple: true,
-            });
+          $.each(uniqueDepartments, function (index, department) {
+            select.append(
+              $("<option>", {
+                value: department,
+                text: department,
+              })
+            );
+          });
 
-            // Event listener for change event
-            select.on("change", function () {
-              // var selectedDepartments = $(this).val();
-              // const departmentFilter = selectedDepartments
-              //   .map((department) => `'${department}'`)
-              //   .join(",");
-
-              // wms_layer15.setParams({
-              //   CQL_FILTER: `departme_1 IN (${departmentFilter})`,
-              // });
-              filterDataAndDrawMap();
-            });
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
           }
-        );
-      }
 
-      function loadWorkTypes() {
-        var select = $("#work_type");
-        select.empty();
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
 
-        $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json",
-          function (data) {
-            // Use a Set to store unique work types
-            var workTypeSet = new Set();
-
-            // Populate the Set with work types
-            $.each(data.features, function (index, feature) {
-              var workType = feature.properties.work_type;
-              workTypeSet.add(workType);
-            });
-
-            // Convert the Set to an array
-            var uniqueWorkTypes = Array.from(workTypeSet);
-
-            // Populate select options with unique work types
-            $.each(uniqueWorkTypes, function (index, workType) {
-              select.append(
-                $("<option>", {
-                  value: workType,
-                  text: workType,
-                })
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
               );
-            });
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
 
-            // Destroy the existing Select2 instance, if it exists
-            if (select.hasClass("select2-hidden-accessible")) {
-              select.select2("destroy");
-            }
-
-            // Initialize Select2 with the updated options
-            select.select2({
-              templateResult: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
-
-                var $option = $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                    option.text +
-                    "</span>"
-                );
-                return $option;
-              },
-              templateSelection: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
-
-                return $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                    option.text +
-                    "</span>"
-                );
-              },
-              closeOnSelect: false,
-              dropdownParent: select.parent(),
-              multiple: true,
-            });
-
-            // Event listener for change event
-            select.on("change", function () {
-              // var selectedWorkTypes = $(this).val();
-              // const workTypesFilter = selectedWorkTypes
-              //   .map((workType) => `'${workType}'`)
-              //   .join(",");
-
-              // // Assuming wms_layer12 is the correct layer to set parameters
-              // wms_layer15.setParams({
-              //   CQL_FILTER: `work_type IN (${workTypesFilter})`,
-              // });
-              filterDataAndDrawMap();
-            });
-          }
-        );
-      }
-
-      function loadProjectFi() {
-        var select = $("#project_fi");
-        select.empty();
-
-        $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
-          function (data) {
-            // Use a Set to store unique work types
-            var projectFiSet = new Set();
-
-            // Populate the Set with work types
-            $.each(data.features, function (index, feature) {
-              var project_fi = feature.properties.project_fi;
-              projectFiSet.add(project_fi);
-            });
-
-            // Convert the Set to an array
-            var uniqueProjectFiSet = Array.from(projectFiSet);
-
-            // Populate select options with unique work types
-            $.each(uniqueProjectFiSet, function (index, project_fi) {
-              select.append(
-                $("<option>", {
-                  value: project_fi,
-                  text: project_fi,
-                })
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
               );
-            });
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
 
-            // Destroy the existing Select2 instance, if it exists
-            if (select.hasClass("select2-hidden-accessible")) {
-              select.select2("destroy");
-            }
-
-            // Initialize Select2 with the updated options
-            select.select2({
-              templateResult: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
-
-                var $option = $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                    option.text +
-                    "</span>"
-                );
-                return $option;
-              },
-              templateSelection: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
-
-                return $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                    option.text +
-                    "</span>"
-                );
-              },
-              closeOnSelect: false,
-              dropdownParent: select.parent(),
-              multiple: true,
-            });
-
-            // Event listener for change event
-            select.on("change", function () {
-              // var selectedProjectFi = $(this).val();
-              // const projectFiFilter = selectedProjectFi
-              //   .map((project_fi) => `'${project_fi}'`)
-              //   .join(",");
-
-              // // Assuming wms_layer12 is the correct layer to set parameters
-              // wms_layer15.setParams({
-              //   CQL_FILTER: `project_fi IN (${projectFiFilter})`,
-              // });
-              filterDataAndDrawMap();
-            });
-          }
-        );
+          // select.on("change", function () {
+          //   loadStage();
+          //   filterDataAndDrawMap();
+          // });
+        });
       }
 
       function loadStage() {
         var select = $("#stage");
         select.empty();
 
-        $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json",
-          function (data) {
-            // Use a Set to store unique work types
-            var stageSet = new Set();
+        var project_fi = $("#project_fi").val();
+        var zones = $("#zones").val();
+        var wards = $("#admin_ward_name").val();
+        var villages = $("#villages").val();
+        var departments = $("#departments").val();
+        let cqlFilter = "";
 
-            // Populate the Set with work types
-            $.each(data.features, function (index, feature) {
-              var stage = feature.properties.stage;
-              stageSet.add(stage);
-            });
+        if (project_fi.length > 0) {
+          project_fi = project_fi
+            .map((projectFi) => `'${projectFi}'`)
+            .join(",");
+          cqlFilter = `project_fi IN (${project_fi})`;
+        }
 
-            // Convert the Set to an array
-            var uniqueStageSet = Array.from(stageSet);
+        if (zones.length > 0) {
+          zones = zones.map((zone) => `'${zone}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+        }
+        if (wards.length > 0) {
+          wards = wards.map((ward) => `'${ward}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+        }
+        if (villages.length > 0) {
+          villages = villages.map((village) => `'${village}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
+        }
+        if (departments.length > 0) {
+          departments = departments
+            .map((department) => `'${department}'`)
+            .join(",");
+          cqlFilter +=
+            (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
+        }
 
-            // Populate select options with unique work types
-            $.each(uniqueStageSet, function (index, stage) {
-              select.append(
-                $("<option>", {
-                  value: stage,
-                  text: stage,
-                })
-              );
-            });
+        var geoServerURL =
+          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
+          encodeURIComponent(cqlFilter);
 
-            // Destroy the existing Select2 instance, if it exists
-            if (select.hasClass("select2-hidden-accessible")) {
-              select.select2("destroy");
-            }
+        $.getJSON(geoServerURL, function (data) {
+          var stageSet = new Set();
 
-            // Initialize Select2 with the updated options
-            select.select2({
-              templateResult: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+          $.each(data.features, function (index, feature) {
+            var stage = feature.properties.stage;
+            stageSet.add(stage);
+          });
 
-                var $option = $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                    option.text +
-                    "</span>"
-                );
-                return $option;
-              },
-              templateSelection: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
+          var uniqueStageSet = Array.from(stageSet);
 
-                return $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                    option.text +
-                    "</span>"
-                );
-              },
-              closeOnSelect: false,
-              dropdownParent: select.parent(),
-              multiple: true,
-            });
+          $.each(uniqueStageSet, function (index, stage) {
+            select.append(
+              $("<option>", {
+                value: stage,
+                text: stage,
+              })
+            );
+          });
 
-            // Event listener for change event
-            select.on("change", function () {
-              // var selectedStage = $(this).val();
-              // const stageFilter = selectedStage
-              //   .map((stage) => `'${stage}'`)
-              //   .join(",");
-
-              // // Assuming wms_layer12 is the correct layer to set parameters
-              // wms_layer15.setParams({
-              //   CQL_FILTER: `stage IN (${stageFilter})`,
-              // });
-              filterDataAndDrawMap();
-            });
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
           }
-        );
+
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // select.on("change", function () {
+          //   loadWorkTypes();
+          //   filterDataAndDrawMap();
+          // });
+        });
+      }
+
+      function loadWorkTypes() {
+        var select = $("#work_type");
+        select.empty();
+
+        var project_fi = $("#project_fi").val();
+        var zones = $("#zones").val();
+        var wards = $("#admin_ward_name").val();
+        var villages = $("#villages").val();
+        var departments = $("#departments").val();
+        var stages = $("#stage").val();
+        let cqlFilter = "";
+
+        if (project_fi.length > 0) {
+          project_fi = project_fi
+            .map((projectFi) => `'${projectFi}'`)
+            .join(",");
+          cqlFilter = `project_fi IN (${project_fi})`;
+        }
+
+        if (zones.length > 0) {
+          zones = zones.map((zone) => `'${zone}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+        }
+        if (wards.length > 0) {
+          wards = wards.map((ward) => `'${ward}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+        }
+        if (villages.length > 0) {
+          villages = villages.map((village) => `'${village}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
+        }
+        if (departments.length > 0) {
+          departments = departments
+            .map((department) => `'${department}'`)
+            .join(",");
+          cqlFilter +=
+            (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
+        }
+        if (stages.length > 0) {
+          stages = stages.map((stage) => `'${stage}'`).join(",");
+          cqlFilter += (cqlFilter ? " AND " : "") + `stage IN (${stages})`;
+        }
+
+        var geoServerURL =
+          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
+          encodeURIComponent(cqlFilter);
+
+        $.getJSON(geoServerURL, function (data) {
+          var workTypeSet = new Set();
+
+          // Populate the Set with work types
+          $.each(data.features, function (index, feature) {
+            var workType = feature.properties.work_type;
+            workTypeSet.add(workType);
+          });
+
+          // Convert the Set to an array
+          var uniqueWorkTypes = Array.from(workTypeSet);
+
+          // Populate select options with unique work types
+          $.each(uniqueWorkTypes, function (index, workType) {
+            select.append(
+              $("<option>", {
+                value: workType,
+                text: workType,
+              })
+            );
+          });
+
+          // Destroy the existing Select2 instance, if it exists
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
+          }
+
+          // Initialize Select2 with the updated options
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                  option.text +
+                  "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                  option.text +
+                  "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          // Event listener for change event
+          select.on("change", function () {
+            // var selectedWorkTypes = $(this).val();
+            // const workTypesFilter = selectedWorkTypes
+            //   .map((workType) => `'${workType}'`)
+            //   .join(",");
+
+            // // Assuming wms_layer12 is the correct layer to set parameters
+            // wms_layer15.setParams({
+            //   CQL_FILTER: `work_type IN (${workTypesFilter})`,
+            // });
+            filterDataAndDrawMap();
+          });
+        });
       }
 
       function drawCoordinatesOnMap(selectedCoordinates) {
@@ -1573,6 +1668,29 @@
       function drawGeometries(selectedData) {
         // Implement logic to draw the selected geometries on the map
         // You can access the geometries from selectedData.features
+      }
+
+      function loadAdminWardNameAndFilter() {
+        loadAdminWardName();
+        filterDataAndDrawMap();
+      }
+
+      function loadVillagesAndFilter() {
+        loadVillages();
+        filterDataAndDrawMap();
+      }
+
+      function loadDepartmentsAndFilter() {
+        loadDepartments();
+        filterDataAndDrawMap();
+      }
+      function loadStagesAndFilter() {
+        loadStage();
+        filterDataAndDrawMap();
+      }
+      function loadWorkTypesAndFilter() {
+        loadWorkTypes();
+        filterDataAndDrawMap();
       }
     </script>
   </body>
