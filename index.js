@@ -1,6 +1,6 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC_a/";
-// const API_URL = "http://localhost/PMC-Project/";
+// const API_URL = "http://localhost/PMC_Final/";
+const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
 var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
@@ -9,6 +9,7 @@ var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
   {
     maxZoom: 20,
+
     subdomains: ["mt0", "mt1", "mt2", "mt3"],
   }
 );
@@ -44,6 +45,19 @@ var wms_layer1 = L.tileLayer.wms(
 
 var wms_layer12 = L.tileLayer
   .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "PMC_Layers",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "PMC_Layers",
+    opacity: 1,
+    maxZoom: 25,
+  })
+  .addTo(map);
+
+var wms_layer11 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
     layers: "Admin_Ward",
     format: "image/png",
     transparent: true,
@@ -54,8 +68,9 @@ var wms_layer12 = L.tileLayer
   })
   .addTo(map);
 
-var wms_layer13 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+var wms_layer13 = L.tileLayer.wms(
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  {
     layers: "Zone_layer",
     format: "image/png",
     transparent: true,
@@ -63,8 +78,8 @@ var wms_layer13 = L.tileLayer
     version: "1.1.0",
     attribution: "Zone_layer",
     opacity: 1,
-  })
-  .addTo(map);
+  }
+);
 
 var wms_layer14 = L.tileLayer
   .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
@@ -89,31 +104,6 @@ var wms_layer15 = L.tileLayer
     opacity: 1,
   })
   .addTo(map);
-var wms_layer16 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
-    layers: "PMC_Layers",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    attribution: "PMC_Layers",
-    opacity: 1,
-    maxZoom: 25,
-  })
-  .addTo(map);
-
-var wms_layer17 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Exist_Road",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    attribution: "Exist_Road",
-    opacity: 1,
-    maxZoom: 25,
-  })
-  .addTo(map);
 
 var wms_layer3 = L.tileLayer.wms(
   "https://geo.geopulsea.com/geoserver/pmc/wms",
@@ -128,8 +118,13 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
-var wms_layer4 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+// console.log(localStorage," ")
+var wardname = localStorage.getItem("wardname");
+console.log(wardname, "wardname");
+
+var wms_layer4 = L.tileLayer.wms(
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  {
     layers: "geodata",
     format: "image/png",
     transparent: true,
@@ -137,23 +132,50 @@ var wms_layer4 = L.tileLayer
     version: "1.1.0",
     attribution: "geodata",
     opacity: 1,
-  })
-  .addTo(map);
+    maxZoom: 25,
+  }
+);
+
+var ward_names = L.tileLayer.wms(
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Admin_Ward",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "Admin_Ward",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
+
+var exist_roads = L.tileLayer.wms(
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "pmc:Exist_Road",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "pmc:Exist_Road",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
 
 var WMSlayers = {
   OpenStreetMap: osm,
   "Esri World Imagery": Esri_WorldImagery,
   "Google Satellite": googleSat,
-  Zone_layer: wms_layer13,
-  Admin_Ward: wms_layer12,
-  Village_Boundary: wms_layer14,
-  IWMS_point: wms_layer15,
-  PMC_Layers: wms_layer16,
-  Exist_Road: wms_layer17,
+  PMC_Layers: wms_layer12,
+  Admin_Ward: wms_layer11,
   Revenue: wms_layer1,
   Data: wms_layer3,
   geodata: wms_layer4,
+  exist_roads: exist_roads,
 };
+
 function refreshWMSLayer() {
   // Remove the layer from the map
   map.removeLayer(wms_layer4);
@@ -162,7 +184,34 @@ function refreshWMSLayer() {
 }
 
 refreshWMSLayer();
+
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
+L.control
+  .scale({ position: "bottomright", metric: true, imperial: false })
+  .addTo(map);
+
+function fitbou(filter) {
+  var layer = "pmc:Admin_Ward";
+  var urlm =
+    "https://geo.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    layer +
+    "&CQL_FILTER=" +
+    filter +
+    "&outputFormat=application/json";
+
+  $.getJSON(urlm, function (data) {
+    geojson = L.geoJson(data, {});
+    map.fitBounds(geojson.getBounds());
+  });
+}
+
+var cql_filterm = `Ward_Name='${wardname}'`;
+fitbou(cql_filterm);
+ward_names.setParams({
+  cql_filter: cql_filterm,
+  styles: "highlight",
+});
+ward_names.addTo(map).bringToFront();
 
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
@@ -179,6 +228,7 @@ searchControl.on("results", function (data) {
     results.addLayer(L.marker(data.results[i].latlng));
   }
 });
+
 var drawControl = new L.Control.Draw({
   draw: {
     polyline: {
@@ -208,16 +258,247 @@ var drawControl = new L.Control.Draw({
     remove: true,
   },
 });
-map.addControl(drawControl);
+// map.addControl(drawControl);
+
+toggleDrawControl();
+console.log(map.getZoom(), "map.getZoom()");
+function toggleDrawControl() {
+  if (map.getZoom() > 15) {
+    map.addControl(drawControl);
+  } else {
+    map.removeControl(drawControl);
+  }
+}
+L.control.scale({ metric: true, imperial: false }).addTo(map);
+// legend\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+// Define the custom control with the hand icon
+// Define the custom control with the hand icon
+var HandControl = L.Control.extend({
+  onAdd: function (map) {
+    var container = L.DomUtil.create(
+      "div",
+      "leaflet-bar leaflet-control leaflet-control-custom"
+    );
+    container.innerHTML =
+      '<div class="leaflet-control-custom-hand-icon"></div>';
+    container.style.cursor = "grab";
+
+    container.onclick = function () {
+      // Your custom logic for the hand icon click event
+      console.log("Hand icon clicked");
+    };
+
+    return container;
+  },
+});
+
+// Add the custom control to the map
+var handControl = new HandControl({ position: "bottomleft" });
+handControl.addTo(map);
+
+// GeoServer URL
+var geoserverUrl = "https://geo.geopulsea.com/geoserver";
+
+// Create a legend control
+var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Fetch capabilities to get all layers in the 'pmc' workspace
+  fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
+    .then((response) => response.text())
+    .then((data) => {
+      // Parse capabilities XML response
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(data, "text/xml");
+
+      // Extract layer names and legend URLs for layers in the 'pmc' workspace
+      var layers = xml.querySelectorAll('Layer[queryable="1"]');
+      layers.forEach(function (layer) {
+        var layerName = layer.querySelector("Name").textContent;
+        if (layerName.startsWith("pmc:")) {
+          var legendUrl =
+            geoserverUrl +
+            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+            layerName;
+          div.innerHTML +=
+            "<p><strong>" +
+            layerName +
+            "</strong></p>" +
+            '<img src="' +
+            legendUrl +
+            '" alt="' +
+            layerName +
+            ' legend"><br>';
+        }
+      });
+
+      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+      div.style.position = "fixed";
+      div.style.bottom = "0";
+      div.style.right = "0";
+      div.style.height = "60vh";
+      div.style.width = "300px";
+      div.style.overflowY = "auto";
+      div.style.backgroundColor = "white";
+      div.style.border = "1px solid #ccc";
+      div.style.padding = "10px";
+    })
+    .catch((error) => {
+      console.error("Error fetching capabilities:", error);
+    });
+
+  return div;
+};
+
+legend.addTo(map);
+
+// for legend////////////////////////////////////////////////////////////////////
+
+// Create a custom control for the north arrow
+var northArrowControl = L.Control.extend({
+  options: {
+    position: "topright",
+  },
+
+  onAdd: function (map) {
+    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+    container.innerHTML = '<div class="north-arrow">↑</div>';
+    return container;
+  },
+});
+
+// Add the custom north arrow control to the map
+map.addControl(new northArrowControl());
+
+// North Arraow\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+// {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+var editableLayers = new L.FeatureGroup().addTo(map);
+
+map.on("click", function (e) {
+  let size = map.getSize();
+  let bbox = map.getBounds().toBBoxString();
+  let layer = "pmc:Exist_Road";
+
+  var url = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+    e.containerPoint.x
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+    size.x
+  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      highlightFeature(data);
+    });
+});
+
+function highlightFeature(featureData) {
+  // Check if any features are present in the featureData
+  if (
+    !featureData ||
+    !featureData.features ||
+    featureData.features.length === 0
+  ) {
+    alert("No feature available. Click on a feature to edit.");
+    return;
+  }
+
+  // Clear existing editable layers
+  editableLayers.clearLayers();
+
+  // Get the first feature from the featureData
+  var feature = featureData.features[0];
+
+  var geojsonLayer = L.geoJSON(feature, {
+    style: {
+      color: "red",
+      weight: 3,
+      opacity: 1,
+      fillOpacity: 0.5,
+    },
+  });
+
+  editableLayers.addLayer(geojsonLayer);
+
+  if (editableLayers.getLayers().length > 0) {
+    map.fitBounds(editableLayers.getBounds());
+  }
+}
+
+editableLayers.on("contextmenu", function (e) {
+  // Check if there is a selected feature
+  if (editableLayers.getLayers().length > 0) {
+    var selectedFeature = editableLayers.getLayers()[0];
+
+    // Get the coordinates of the right-clicked point
+    var latlng = e.latlng;
+
+    // Check if the selected feature contains the right-clicked point
+    // if (selectedFeature && selectedFeature.getLatLng && selectedFeature.getLatLng().equals(latlng)) {
+    // Create a popup with the selected feature's properties
+    var popupContent = "<h3>Selected Feature</h3>";
+    // for (var property in selectedFeature.feature.properties) {
+    //   popupContent += '<strong>' + property + ':</strong> ' + selectedFeature.feature.properties[property] + '<br>';
+    // }
+
+    // Add buttons for saving data and editing feature
+    popupContent += '<br><button id="saveDataButton">Save Data</button>';
+    popupContent += '<button id="editFeatureButton">Edit Feature</button>';
+
+    var popup = L.popup()
+      .setLatLng(latlng)
+      .setContent(popupContent)
+      .openOn(map);
+
+    // Add click event listener for save data button
+    document
+      .getElementById("saveDataButton")
+      .addEventListener("click", function () {
+        // Your save data logic here
+        alert("Data saved!");
+      });
+
+    // Add click event listener for edit feature button
+    document
+      .getElementById("editFeatureButton")
+      .addEventListener("click", function () {
+        // Your edit feature logic here
+        alert("Editing feature!");
+
+        selectedFeature.eachLayer(function (layer) {
+          if (layer.editing) {
+            layer.editing.enable();
+          } else {
+            layer.on("click", function () {
+              if (this.editing) {
+                this.editing.enable();
+              }
+            });
+          }
+        });
+      });
+  }
+});
+
+// {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+// Event listener for map zoomend event
+map.on("zoomend", toggleDrawControl);
 
 // function for added buffer
 
 var associatedLayersRegistry = {};
 
 function createBufferAndDashedLine(polylineLayer, roadLenght, bufferWidth) {
+  console.log(bufferWidth);
   var geoJSON = polylineLayer.toGeoJSON();
-  var halfBufferWidth = bufferWidth / 2;
-  var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: "meters" }); // Adjust buffer size as needed
+  var buffered = turf.buffer(geoJSON, bufferWidth, { units: "meters" }); // Adjust buffer size as needed
 
   var bufferLayer = L.geoJSON(buffered, {
     style: {
@@ -376,9 +657,10 @@ map.on("draw:created", function (e) {
   if (e.layerType === "polyline") {
     var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
     var roadLenght = localStorage.getItem("roadLenght");
+    console.log(roadLenght);
     if (length > roadLenght) {
       alert(
-        `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`
+        `The polyline is longer than ${roadLenght} kilometers. Please draw a shorter polyline.`
       );
       return; // Stop further processing
     }
@@ -396,6 +678,7 @@ map.on("draw:created", function (e) {
   var popupContent = UpdateArea(geoJSON);
   var lastInsertedId = localStorage.getItem("lastInsertedId");
   var lastDrawnPolylineId = layer._leaflet_id;
+
   $.ajax({
     // url: API_URL + "/process.php", // Path to the PHP script
     url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
@@ -406,7 +689,7 @@ map.on("draw:created", function (e) {
       // if (response.success) {
       if (response.data != undefined) {
         const responseData = response.data;
-
+        console.log(responseData);
         if (responseData != undefined) {
           popupContent +=
             "<tr><td>Name of work</td><td>" +
@@ -505,9 +788,7 @@ map.on("draw:created", function (e) {
         popupContent += "</table>";
 
         // Add buttons for adding and deleting rows
-        popupContent += `
-        <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-    `;
+        popupContent += `<button class="popup-button" onclick="Savedata(${lastDrawnPolylineId})">Save</button>`;
         popupContent +=
           '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
@@ -681,6 +962,7 @@ function Savedata(lastDrawnPolylineId) {
     "selectCoordinatesData",
     JSON.stringify(selectCoordinatesData)
   );
+  //window.location.href = "geometry_page.html";
 
   var roadLenght = localStorage.getItem("roadLenght");
   var bufferWidth = localStorage.getItem("bufferWidth");
@@ -697,11 +979,13 @@ function Savedata(lastDrawnPolylineId) {
   }
 
   var payload = JSON.stringify({
-    geoJSON: bufferGeoJSONString,
+    geoJSON: geoJSONString,
     roadLength: roadLenght,
     bufferWidth: bufferWidth,
     gis_id: lastInsertedId,
   });
+
+  console.log(payload, "payload");
 
   $.ajax({
     type: "POST",
@@ -710,7 +994,6 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-      window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
@@ -769,7 +1052,6 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log("Styled buffered line saved successfully:", response);
-      window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
@@ -1167,6 +1449,229 @@ map.on("contextmenu", (e) => {
   }
 });
 
+// thi line is added\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+// map.on("contextmenu", (e) => {
+//   let size = map.getSize();
+//   let bbox = map.getBounds().toBBoxString();
+//   let layer = 'pmc:Admin_Ward';
+//   let style = 'pmc:Admin_Ward';
+//   let urrr =
+//     `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`
+
+//   if (urrr) {
+//     fetch(urrr)
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const features = data.features;
+//         if (features && features.length > 0) {
+//           const properties = features[0].properties;
+//           const wardName = properties.Ward_Name;
+//           const zone = properties.Zone;
+
+//           let detaildata1 =
+//             "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
+//             "<tr><td>Ward Name</td><td>" + wardName + "</td></tr>" +
+//             "<tr><td>Zone</td><td>" + zone + "</td></tr>" +
+//             "<tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
+
+//           L.popup()
+//             .setLatLng(e.latlng)
+//             .setContent(detaildata1)
+//             .openOn(map);
+//         }
+//       });
+//   }
+// });
+
+// thi line is added\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+map.on("dblclick", function (e) {
+  let size = map.getSize();
+  let bbox = map.getBounds().toBBoxString();
+  let layer = "pmc:Data";
+  let style = "pmc:Data";
+  let urrr = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+    e.containerPoint.x
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+    size.x
+  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+  // you can use this url for further processing such as fetching data from server or showing it on the map
+
+  if (urrr) {
+    fetch(urrr)
+      .then((response) => response.json())
+      .then((html) => {
+        // var htmldata = html.features[0].properties;
+        if (html.features && html.features.length > 0) {
+          var htmldata = html.features[0].properties;
+
+          var geometryType = html.features[0].geometry.type;
+          console.log(geometryType, "geometryType");
+
+          if (geometryType === "MultiPolygon" || geometryType === "Polygon") {
+            var coordinatesArray = html.features[0].geometry.coordinates[0][0];
+          } else if (
+            geometryType === "MultiLineString" ||
+            geometryType === "LineString"
+          ) {
+            var coordinatesArray = html.features[0].geometry.coordinates[0];
+          } else if (
+            geometryType === "MultiPoint" ||
+            geometryType === "Point"
+          ) {
+            var coordinatesArray = html.features[0].geometry.coordinates;
+          }
+
+          var coordinatesWithAltitude = coordinatesArray.map(function (coord) {
+            return [coord[0].toFixed(15), coord[1].toFixed(15), 0];
+          });
+
+          // function generateKML(geometryType, coordinatesArray) {
+          //     // Your generateKML function implementation
+          // }
+
+          // }
+
+          function generateKML(geometryType, coordinatesArray) {
+            var kml = `<?xml version="1.0" encoding="UTF-8"?>
+                      <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+                      <Document>
+                          <name>UPolygon.kml</name>
+                          <StyleMap id="m_ylw-pushpin">
+                              <Pair>
+                                  <key>normal</key>
+                                  <styleUrl>#s_ylw-pushpin</styleUrl>
+                              </Pair>
+                              <Pair>
+                                  <key>highlight</key>
+                                  <styleUrl>#s_ylw-pushpin_hl</styleUrl>
+                              </Pair>
+                          </StyleMap>
+                          <Style id="s_ylw-pushpin">
+                              <IconStyle>
+                                  <scale>1.1</scale>
+                                  <Icon>
+                                      <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+                                  </Icon>
+                                  <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+                              </IconStyle>
+                              <LineStyle>
+                                  <color>ff00ff00</color>
+                                  <width>5</width>
+                              </LineStyle>
+                              <PolyStyle>
+                                  <color>80ffffff</color>
+                              </PolyStyle>
+                          </Style>
+                          <Style id="s_ylw-pushpin_hl">
+                              <IconStyle>
+                                  <scale>1.3</scale>
+                                  <Icon>
+                                      <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+                                  </Icon>
+                                  <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+                              </IconStyle>
+                              <LineStyle>
+                                  <color>ff00ff00</color>
+                                  <width>5</width>
+                              </LineStyle>
+                              <PolyStyle>
+                                  <color>80ffffff</color>
+                              </PolyStyle>
+                          </Style>`;
+
+            if (geometryType === "MultiPolygon" || geometryType === "Polygon") {
+              kml += `<Placemark>
+                      <name>Untitled Polygon</name>
+                      <styleUrl>#m_ylw-pushpin</styleUrl>
+                      <Polygon>
+                          <tessellate>1</tessellate>
+                          <outerBoundaryIs>
+                              <LinearRing>
+                                  <coordinates>
+                                  ${coordinatesArray.join(" ")}
+                                  </coordinates>
+                              </LinearRing>
+                          </outerBoundaryIs>
+                      </Polygon>
+                    </Placemark>`;
+            } else if (
+              geometryType === "MultiLineString" ||
+              geometryType === "MultiLineString"
+            ) {
+              kml += `<Placemark>
+                      <name>Untitled Line</name>
+                      <styleUrl>#m_ylw-pushpin</styleUrl>
+                      <LineString>
+                          <tessellate>1</tessellate>
+                          <coordinates>
+                          ${coordinatesArray.join(" ")}
+                          </coordinates>
+                      </LineString>
+                    </Placemark>`;
+            } else if (
+              geometryType === "MultiPoint" ||
+              geometryType === "Point"
+            ) {
+              kml += `<Placemark>
+                      <name>Untitled Point</name>
+                      <styleUrl>#m_ylw-pushpin</styleUrl>
+                      <Point>
+                        <coordinates>
+                          ${coordinatesArray.join(", ")}
+                        </coordinates>
+                      </Point>
+                    </Placemark>`;
+            }
+
+            kml += `</Document>
+                  </kml>`;
+
+            return kml;
+          }
+
+          var kmlContent = generateKML(geometryType, coordinatesWithAltitude);
+          console.log(kmlContent, "kmlContent");
+        }
+
+        var ssDownload = document.createElement("a");
+        ssDownload.href =
+          "data:application/vnd.google-earth.kml+xml;charset=utf-8," +
+          encodeURIComponent(kmlContent);
+        ssDownload.download = "polygon.kml";
+        ssDownload.textContent = "Download KML";
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+        var ssOpenInGoogleEarth = document.createElement("a");
+        ssOpenInGoogleEarth.href =
+          "https://earth.google.com/web/search/" + lat + "," + lng;
+        ssOpenInGoogleEarth.target = "_blank";
+        ssOpenInGoogleEarth.textContent = "Open in Google Earth";
+        var ssOpenInGoogleMap = document.createElement("a");
+        ssOpenInGoogleMap.href =
+          "https://www.google.com/maps?q=" + lat + "," + lng;
+        ssOpenInGoogleMap.target = "_blank";
+        ssOpenInGoogleMap.textContent = "Open in Google Map";
+
+        // Create a div element to hold the links
+        var container = L.DomUtil.create("div");
+        container.appendChild(ssDownload);
+        container.appendChild(document.createElement("br")); // Add a line break between the links
+        container.appendChild(ssOpenInGoogleEarth);
+        container.appendChild(document.createElement("br")); // Add a line break between the links
+        container.appendChild(ssOpenInGoogleMap);
+
+        // Create a Leaflet popup and set its content to the container
+        var popup = L.popup()
+          .setLatLng(e.latlng)
+          .setContent(container)
+          .openOn(map);
+      });
+  }
+});
+
 // function generateKML(coordinatesArray, featureData) {
 //     // Extract feature propertie
 
@@ -1241,3 +1746,189 @@ map.on("contextmenu", (e) => {
 //                     </kml>`;
 //     return kml;
 // }
+
+map.on("dblclick", function (e) {
+  let size = map.getSize();
+  let bbox = map.getBounds().toBBoxString();
+  let layer = "pmc:Data";
+  let style = "pmc:Data";
+  let urrr = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+    e.containerPoint.x
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+    size.x
+  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+  // you can use this url for further processing such as fetching data from server or showing it on the map
+
+  if (urrr) {
+    fetch(urrr)
+      .then((response) => response.json())
+      .then((html) => {
+        // var htmldata = html.features[0].properties;
+        if (html.features && html.features.length > 0) {
+          var htmldata = html.features[0].properties;
+
+          var geometryType = html.features[0].geometry.type;
+          console.log(geometryType, "geometryType");
+
+          if (geometryType === "MultiPolygon" || geometryType === "Polygon") {
+            var coordinatesArray = html.features[0].geometry.coordinates[0][0];
+          } else if (
+            geometryType === "MultiLineString" ||
+            geometryType === "LineString"
+          ) {
+            var coordinatesArray = html.features[0].geometry.coordinates[0];
+          } else if (
+            geometryType === "MultiPoint" ||
+            geometryType === "Point"
+          ) {
+            var coordinatesArray = html.features[0].geometry.coordinates;
+          }
+
+          var coordinatesWithAltitude = coordinatesArray.map(function (coord) {
+            return [coord[0].toFixed(15), coord[1].toFixed(15), 0];
+          });
+
+          // function generateKML(geometryType, coordinatesArray) {
+          //     // Your generateKML function implementation
+          // }
+
+          // }
+
+          function generateKML(geometryType, coordinatesArray) {
+            var kml = `<?xml version="1.0" encoding="UTF-8"?>
+                      <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+                      <Document>
+                          <name>UPolygon.kml</name>
+                          <StyleMap id="m_ylw-pushpin">
+                              <Pair>
+                                  <key>normal</key>
+                                  <styleUrl>#s_ylw-pushpin</styleUrl>
+                              </Pair>
+                              <Pair>
+                                  <key>highlight</key>
+                                  <styleUrl>#s_ylw-pushpin_hl</styleUrl>
+                              </Pair>
+                          </StyleMap>
+                          <Style id="s_ylw-pushpin">
+                              <IconStyle>
+                                  <scale>1.1</scale>
+                                  <Icon>
+                                      <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+                                  </Icon>
+                                  <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+                              </IconStyle>
+                              <LineStyle>
+                                  <color>ff00ff00</color>
+                                  <width>5</width>
+                              </LineStyle>
+                              <PolyStyle>
+                                  <color>80ffffff</color>
+                              </PolyStyle>
+                          </Style>
+                          <Style id="s_ylw-pushpin_hl">
+                              <IconStyle>
+                                  <scale>1.3</scale>
+                                  <Icon>
+                                      <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+                                  </Icon>
+                                  <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+                              </IconStyle>
+                              <LineStyle>
+                                  <color>ff00ff00</color>
+                                  <width>5</width>
+                              </LineStyle>
+                              <PolyStyle>
+                                  <color>80ffffff</color>
+                              </PolyStyle>
+                          </Style>`;
+
+            if (geometryType === "MultiPolygon" || geometryType === "Polygon") {
+              kml += `<Placemark>
+                      <name>Untitled Polygon</name>
+                      <styleUrl>#m_ylw-pushpin</styleUrl>
+                      <Polygon>
+                          <tessellate>1</tessellate>
+                          <outerBoundaryIs>
+                              <LinearRing>
+                                  <coordinates>
+                                  ${coordinatesArray.join(" ")}
+                                  </coordinates>
+                              </LinearRing>
+                          </outerBoundaryIs>
+                      </Polygon>
+                    </Placemark>`;
+            } else if (
+              geometryType === "MultiLineString" ||
+              geometryType === "MultiLineString"
+            ) {
+              kml += `<Placemark>
+                      <name>Untitled Line</name>
+                      <styleUrl>#m_ylw-pushpin</styleUrl>
+                      <LineString>
+                          <tessellate>1</tessellate>
+                          <coordinates>
+                          ${coordinatesArray.join(" ")}
+                          </coordinates>
+                      </LineString>
+                    </Placemark>`;
+            } else if (
+              geometryType === "MultiPoint" ||
+              geometryType === "Point"
+            ) {
+              kml += `<Placemark>
+                      <name>Untitled Point</name>
+                      <styleUrl>#m_ylw-pushpin</styleUrl>
+                      <Point>
+                        <coordinates>
+                          ${coordinatesArray.join(", ")}
+                        </coordinates>
+                      </Point>
+                    </Placemark>`;
+            }
+
+            kml += `</Document>
+                  </kml>`;
+
+            return kml;
+          }
+
+          var kmlContent = generateKML(geometryType, coordinatesWithAltitude);
+          console.log(kmlContent, "kmlContent");
+        }
+
+        var ssDownload = document.createElement("a");
+        ssDownload.href =
+          "data:application/vnd.google-earth.kml+xml;charset=utf-8," +
+          encodeURIComponent(kmlContent);
+        ssDownload.download = "polygon.kml";
+        ssDownload.textContent = "Download KML";
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+        var ssOpenInGoogleEarth = document.createElement("a");
+        ssOpenInGoogleEarth.href =
+          "https://earth.google.com/web/search/" + lat + "," + lng;
+        ssOpenInGoogleEarth.target = "_blank";
+        ssOpenInGoogleEarth.textContent = "Open in Google Earth";
+        var ssOpenInGoogleMap = document.createElement("a");
+        ssOpenInGoogleMap.href =
+          "https://www.google.com/maps?q=" + lat + "," + lng;
+        ssOpenInGoogleMap.target = "_blank";
+        ssOpenInGoogleMap.textContent = "Open in Google Map";
+
+        // Create a div element to hold the links
+        var container = L.DomUtil.create("div");
+        container.appendChild(ssDownload);
+        container.appendChild(document.createElement("br")); // Add a line break between the links
+        container.appendChild(ssOpenInGoogleEarth);
+        container.appendChild(document.createElement("br")); // Add a line break between the links
+        container.appendChild(ssOpenInGoogleMap);
+
+        // Create a Leaflet popup and set its content to the container
+        var popup = L.popup()
+          .setLatLng(e.latlng)
+          .setContent(container)
+          .openOn(map);
+      });
+  }
+});
