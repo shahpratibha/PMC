@@ -153,12 +153,12 @@ var ward_names = L.tileLayer.wms(
 var exist_roads = L.tileLayer.wms(
   "https://geo.geopulsea.com/geoserver/pmc/wms",
   {
-    layers: "pmc:Exist_Road",
+    layers: "pmc:Roads1",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "pmc:Exist_Road",
+    attribution: "pmc:Roads1",
     opacity: 1,
     maxZoom: 25,
   }
@@ -173,7 +173,7 @@ var WMSlayers = {
   Revenue: wms_layer1,
   Data: wms_layer3,
   geodata: wms_layer4,
-  exist_roads: exist_roads,
+  exist_roads: Roads1,
 };
 
 function refreshWMSLayer() {
