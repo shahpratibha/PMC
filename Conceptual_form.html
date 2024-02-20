@@ -1,193 +1,394 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PMC_Form</title>
+        <link rel="stylesheet" href="C_form.css">
+        <link rel="stylesheet" href="demo.css">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Information Form</title>
-    <style>
-        /* Add your styles here */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 50px;
-            background-color: transparent;
-        }
+        <!-- ============================ -->
+        <!-- bootstrap -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
 
-        form {
-            max-width: 900px;
-            margin: auto;
-            padding: 40px;
-            background-color: transparent;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-wrap: wrap;
-        }
+        <!-- fontawsome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+            integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+        <!-- leaflet -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin />
 
-        h2 {
-            width: 100%;
-            text-align: center;
-            margin-top: 50px;
-            margin-bottom: 30px;
-            color: #007bff;
-        }
+        <!-- leaflet -->
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin></script>
 
-        label {
-            width: calc(50% - 12px);
-            margin-bottom: 12px;
-            font-weight: bold;
-            color: #333;
-        }
+        <!-- leaflet-ajax -->
+        <script
+            src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
 
-        input,
-        select {
-            width: calc(50% - 12px);
-            padding: 8px;
-            margin-bottom: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+        <!-- fontawsome -->
+        <link
+            rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
 
-        textarea {
-            width: 50%;
-            resize: vertical;
-            height: 100px;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.1s;
-        }
+        <!-- Leflet for adding draw tool start-->
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet"
+            href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-        button:hover {
-            background-color: #084074;
-        }
-    </style>
-</head>
+        <!-- Leaflet JavaScript -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<body>
-    <h2>Create Work</h2>
-    <form id="projectForm"  method="post">
-        <label for="projectNo">Project No:</label>
-        <input type="text" id="projectNo" name="projectNo" required>
-        <label for="aaWork">Name of AA work:</label>
-        <input type="text" id="aaWork" name="aaWork" required>
+        <!-- Leaflet.draw CSS -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
 
-        <label for="workType">Work Type:</label>
-        <select id="workType" name="workType" required>
-            <option value="Select Work Type">Select Work Type</option>
-            <option value="Emergency And Special Work">Emergency And Special Work</option>
-            <option value="Maintenance Work">Maintenance Work</option>
-            <option value="New">New</option>
-            <option value="Repair Work">Repair Work</option>
-            <option value="Spill Work">Spill Work</option>
-        </select>
+        <!-- Leaflet.draw JavaScript -->
+        <script
+            src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-        <label for="scopeOfWork">Scope of Work:</label>
-        <textarea id="scopeOfWork" name="scopeOfWork" rows="4" required></textarea>
+        <!-- Include jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-        <label for="projectFinancialYear">Project Financial Year:</label>
-        <select input id="projectFinancialYear" name="projectFinancialYear" required>
-            <option value="Select projectFinancialYear">Select Project Financial Year</option>
-            <option value="2022-2023">2022-2023</option>
-            <option value="2023-2024">2023-2024</option>
-            <option value="2024-2025">2024-2025</option>
-        </select>
+        <!-- Leflet for adding draw tool END -->
 
-        <label for="department">Department:</label>
-        <select id="department" name="department" required>
-            <option value="Select Department">Select Department</option>
-            <option value="Building">Building</option>
-            <option value="Drainage">Drainage</option>
-            <option value="Education Department (Primary)">Education Department (Primary)</option>
-            <option value="Electrical">Electrical</option>
-            <option value="Environment">Environment</option>
-            <option value="Garden">Garden</option>
-            <option value="Garden Horticulture">Garden Horticulture</option>
-            <option value="Project Work">Project Work</option>
-            <option value="Road">Road</option>
-            <option value="Solid waste Management">Solid waste Management</option>
-            <option value="Water Supply">Water Supply</option>
-        </select>
+        <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
 
-        <label for="projectType">Project Type:</label>
-        <input type="text" id="projectType" name="projectType" required>
+        <script
+            src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+        <script
+            src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
-        <label for="projectOffice">Project Office:</label>
-        <input type="text" id="projectOffice" name="projectOffice" required>
+        <!-- html2pdfcdn -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+            integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
 
-        <label for="juniorName">Junior Engineer Name:</label>
-        <input type="text" id="juniorName" name="juniorName" required>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
 
-        <label for="contactNo">Contact No:</label>
-        <input type="tel" id="contactNo" name="contactNo" required>
+        <script
+            src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+        <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet"
+            href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+            rel="stylesheet" />
+        <script
+            src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
+            integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <label for="dateIn">Date-In:</label>
-        <input type="date" id="dateIn" name="dateIn" required>
+    </head>
+    <body id="body-pd" class="bg-light">
+        <header class="header" id="header">
+            <div><h5>GeoPulse</h5></div>
+            <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg"
+                    alt> </div>
+        </header>
+        <div class="l-navbar" id="nav-bar">
+            <nav class="nav">
+                <div>
+                    <a href="#" class="nav_logo">
+                    </a>
+                    <div class="nav_list">
+                        <div class="nav_link active">
+                            <i class="fas fa-filter nav_icon"></i>
 
-        <label for="zone">Zone:</label>
-        <select id="zone" name="zone" required>
-            <option value="Select Zone">Select Zone</option>
-            <option value="D.M.C. Zone 1">D.M.C. Zone 1</option>
-            <option value="D.M.C. Zone 2">D.M.C. Zone 2</option>
-            <option value="D.M.C. Zone 3">D.M.C. Zone 3</option>
-            <option value="D.M.C. Zone 4">D.M.C. Zone 4</option>
-            <option value="D.M.C. Zone 5">D.M.C. Zone 5</option>
-        </select>
+                        </div>
+                        <a href="#" class="nav_link">
+                            <i class="bx bx-file nav_icon"></i>
+                        </a>
 
-        <label for="ward">Ward:</label>
-        <select id="ward" name="ward" required>
-            <option value="Select Ward">Select Ward</option>
-            <option value="Yeravada Kalas Dhanori">Yeravada Kalas Dhanori</option>
-            <option value="Dhole Patil Ward">Dhole Patil Ward</option>
-            <option value="Nagar Road - Vadgaonsheri">Nagar Road - Vadgaonsheri</option>
-            <option value="Shivajinagar - Ghole Road">Shivajinagar - Ghole Road</option>
-            <option value="Aundh - Baner">Aundh - Baner</option>
-            <option value="Kothrud - Bawdhan">Kothrud - Bawdhan</option>
-            <option value="Warje - Karvenagar">Warje - Karvenagar</option>
-            <option value="Dhankawadi - Sahakar Nagar">Dhankawadi - Sahakar Nagar</option>
-            <option value="Sinhgad Road Ward">Sinhgad Road Ward</option>
-            <option value="Wanawadi - Ramtekadi">Wanawadi - Ramtekadi</option>
-            <option value="Hadapsar - Mundhwa">Hadapsar - Mundhwa</option>
-            <option value="Kondhwa - Yewalewadi">Kondhwa - Yewalewadi</option>
-            <option value="Bhavani Peth">Bhavani Peth</option>
-            <option value="Bibwewadi">Bibwewadi</option>
-            <option value="Kasaba VishramBagwada">Kasaba VishramBagwada</option>
-        </select>
+                        <a href="#" class="nav_link">
+                            <i class='bx bx-bookmark nav_icon'></i>
+                        </a>
 
-        <label for="prabhagName">Prabhag Name:</label>
-        <input type="text" id="prabhagName" name="prabhagName" required>
-        <label for="Width">Width</label>
-        <input type="text" id="Width" name="Width" required>
-        <label for="Length">Length</label>
-        <input type="text" id="Length" name="Length" required>
+                        <a href="#" class="nav_link">
+                            <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="#" class="nav_link"> <i
+                        class='bx bx-log-out nav_icon'></i>
+                </a>
+            </nav>
+        </div>
+        <div id="content">
+            <!--Container Main start-->
+            <!-- Button container -->
+            <div id="button-container">
+                <button class="toggle-button" id="create-work-button"
+                    onclick="showCreateWork()">CREATE WORK</button>
+                <!-- <button class="toggle-button" id="map-view-button" onclick="showMapView()">MARK AREA</button> -->
+            </div>
+            <!-- Form section -->
+            <section id="form-section">
 
-        <button type="button" onclick="submitForm()" >Next</button>
-    </form>
+                <!-- <h2>Create Work</h2> -->
+                <form id="projectForm" method="post">
+                    <label for="projectNo">Project No:</label>
+                    <input type="text" id="projectNo" name="projectNo" required>
+                    <label for="aaWork">Name of AA work:</label>
+                    <input type="text" id="aaWork" name="aaWork" required>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                    <label for="workType">Work Type:</label>
+                    <select id="workType" name="workType" required>
+                        <option value="Select Work Type">Select Work
+                            Type</option>
+                        <option value="Emergency And Special Work">Emergency And
+                            Special Work</option>
+                        <option value="Maintenance Work">Maintenance
+                            Work</option>
+                        <option value="New">New</option>
+                        <option value="Repair Work">Repair Work</option>
+                        <option value="Spill Work">Spill Work</option>
+                    </select>
 
-    <script>
-        function goToNextPage() {
+                    <label for="scopeOfWork">Scope of Work:</label>
+                    <textarea id="scopeOfWork" name="scopeOfWork" rows="4"
+                        required></textarea>
+
+                    <label for="projectFinancialYear">Project Financial
+                        Year:</label>
+                    <select input id="projectFinancialYear"
+                        name="projectFinancialYear" required>
+                        <option value="Select projectFinancialYear">Select
+                            Project Financial Year</option>
+                        <option value="2022-2023">2022-2023</option>
+                        <option value="2023-2024">2023-2024</option>
+                        <option value="2024-2025">2024-2025</option>
+                    </select>
+
+                    <label for="department">Department:</label>
+                    <select id="department" name="department" required>
+                        <option value="Select Department">Select
+                            Department</option>
+                        <option value="Building">Building</option>
+                        <option value="Drainage">Drainage</option>
+                        <option value="Education Department (Primary)">Education
+                            Department (Primary)</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="Environment">Environment</option>
+                        <option value="Garden">Garden</option>
+                        <option value="Garden Horticulture">Garden
+                            Horticulture</option>
+                        <option value="Project Work">Project Work</option>
+                        <option value="Road">Road</option>
+                        <option value="Solid waste Management">Solid waste
+                            Management</option>
+                        <option value="Water Supply">Water Supply</option>
+                    </select>
+
+                    <label for="projectType">Project Type:</label>
+                    <input type="text" id="projectType" name="projectType"
+                        required>
+
+                    <label for="projectOffice">Project Office:</label>
+                    <input type="text" id="projectOffice" name="projectOffice"
+                        required>
+
+                    <label for="juniorName">Junior Engineer Name:</label>
+                    <input type="text" id="juniorName" name="juniorName"
+                        required>
+
+                    <label for="contactNo">Contact No:</label>
+                    <input type="tel" id="contactNo" name="contactNo" required>
+
+                    <label for="dateIn">Date-In:</label>
+                    <input type="date" id="dateIn" name="dateIn" required>
+
+                    <label for="zone">Zone:</label>
+                    <select id="zone" name="zone" required>
+                        <option value="Select Zone">Select Zone</option>
+                        <option value="D.M.C. Zone 1">D.M.C. Zone 1</option>
+                        <option value="D.M.C. Zone 2">D.M.C. Zone 2</option>
+                        <option value="D.M.C. Zone 3">D.M.C. Zone 3</option>
+                        <option value="D.M.C. Zone 4">D.M.C. Zone 4</option>
+                        <option value="D.M.C. Zone 5">D.M.C. Zone 5</option>
+                    </select>
+
+                    <!-- <label for="ward">Ward:</label> -->
+                    <!-- // thi line is added\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+                    <label for="ward">Ward:</label>
+                    <select id="ward" name="ward" required>
+                        <option value="Select Ward">Select Ward</option>
+                        <option value="	Bavdhan - Kothrud Depot"> Bavdhan -
+                            Kothrud Depot </option>
+                        <option value="Baner - Balewadi - Pashan"> Baner -
+                            Balewadi - Pashan </option>
+                        <option value="Salisbury Park - Maharshi Nagar">
+                            Salisbury Park - Maharshi Nagar </option>
+                        <option value="Koregaon Park - Ghorpadi"> Koregaon Park
+                            - Ghorpadi </option>
+                        <option value="Kharadi - Chandan Nagar"> Kharadi -
+                            Chandan Nagar </option>
+                        <option value="Kalas - Dhanori"> Kalas - Dhanori
+                        </option>
+                        <option value="Viman Nagar - Somnath Nagar"> Viman Nagar
+                            - Somnath Nagar </option>
+                        <option value="Nagpur Chawl - Phule Nagar"> Nagpur Chawl
+                            - Phule Nagar </option>
+                        <option value="Yerawada"> Yerawada </option>
+                        <option value="Mundhwa - Magarpatta City"> Mundhwa -
+                            Magarpatta City </option>
+                        <option value="Ramtekdi Sayyed Nagar"> Ramtekdi Sayyed
+                            Nagar </option>
+                        <option value="Sahakar Nagar - Padmavati"> Sahakar Nagar
+                            - Padmavati </option>
+                        <option value="Wadagaon Sheri - Kalyani Nagar"> Wadagaon
+                            Sheri - Kalyani Nagar </option>
+                        <option value="Tadiwala Road - Sasoon Hospital">
+                            Tadiwala Road - Sasoon Hospital </option>
+                        <option value="Hadapsar Gaothan - Satavwadi"> Hadapsar
+                            Gaothan - Satavwadi </option>
+                        <option value="Mohammadwadi - Kausar Baug"> Mohammadwadi
+                            - Kausar Baug </option>
+                        <option value="Kondhwa Khurd - Mitha Nagar"> Kondhwa
+                            Khurd - Mitha Nagar </option>
+                        <option value="Wanwadi"> Wanwadi </option>
+                        <option value="Market Yard - Lower Indira Nagar"> Market
+                            Yard - Lower Indira Nagar </option>
+                        <option value="Navi Peth - Parvati"> Navi Peth - Parvati
+                        </option>
+                        <option value="Khadakmal Aali - Mahatma Phule Peth">
+                            Khadakmal Aali - Mahatma Phule Peth </option>
+                        <option value="Lohia Nagar - Kasewadi"> Lohia Nagar -
+                            Kasewadi </option>
+                        <option value="Rajiv Gandhi Garden - Balaji Nagar">
+                            Rajiv Gandhi Garden - Balaji Nagar </option>
+                        <option value="Upper Super Indira Nagar"> Upper Super
+                            Indira Nagar </option>
+                        <option value="Dhankawadi - Ambegaon Pathar"> Dhankawadi
+                            - Ambegaon Pathar </option>
+                        <option value="Vadgaon Budruk - Hingne Khurd"> Vadgaon
+                            Budruk - Hingne Khurd </option>
+                        <option value="Janata Vasahat - Dattawadi"> Janata
+                            Vasahat - Dattawadi </option>
+                        <option value="Kasba Peth - Somwar Peth"> Kasba Peth -
+                            Somwar Peth </option>
+                        <option value="Rasta Peth - Raviwar Peth"> Rasta Peth -
+                            Raviwar Peth </option>
+                        <option
+                            value="Savitribai Phule Pune University - Wakdewadi">
+                            Savitribai Phule Pune University -
+                            Wakdewadi </option>
+                        <option value="Aundh - Bopodi"> Aundh - Bopodi </option>
+                        <option value="Ambegaon Datta Nagar - Katraj Gaothan">
+                            Ambegaon Datta Nagar - Katraj Gaothan </option>
+                        <option value="Kondhwa Budruk - Yewalewadi	"> Kondhwa
+                            Budruk - Yewalewadi </option>
+                        <option value="Deccan Gymkhana - Model Colony"> Deccan
+                            Gymkhana - Model Colony </option>
+                        <option value="Erandwane - Happy Colony"> Erandwane -
+                            Happy Colony </option>
+                        <option value="Shaniwar Peth - Sadashiv Peth"> Shaniwar
+                            Peth - Sadashiv Peth </option>
+                        <option value="Vadgaon Dhayari - Sun City"> Vadgaon
+                            Dhayari - Sun City </option>
+                        <option value="Warje Malwadi"> Warje Malwadi </option>
+                        <option value="Mayur Colony - Dahanukar Colony"> Mayur
+                            Colony - Dahanukar Colony </option>
+                        <option value="Karve Nagar"> Karve Nagar </option>
+                        <option value="Rambaug Colony - Shivtirth Nagar">
+                            Rambaug Colony - Shivtirth Nagar </option>
+                        <option value="11 Villages Merged in PMC in 2017"> 11
+                            Villages Merged in PMC in 2017 </option>
+                        <option value="11 Villages Merged in PMC in 2017"> 11
+                            Villages Merged in PMC in 2017 </option>
+                        <option value="11 Villages Merged in PMC in 2017"> 11
+                            Villages Merged in PMC in 2017 </option>
+                        <option value="11 Villages Merged in PMC in 2017"> 11
+                            Villages Merged in PMC in 2017 </option>
+                        <option value="11 Villages Merged in PMC in 2017"> 11
+                            Villages Merged in PMC in 2017 </option>
+                        <option value="11 Villages Merged in PMC in 2017"> 11
+                            Villages Merged in PMC in 2017 </option>
+                        <option value="11 Villages Merged in PMC in 2017"> 11
+                            Villages Merged in PMC in 2017 </option>
+
+                    </select>
+
+                    <label for="prabhagName">Prabhag Name:</label>
+                    <input type="text" id="prabhagName" name="prabhagName"
+                        required>
+                    <label for="Width">Width</label>
+                    <input type="text" id="Width" name="Width" required>
+                    <label for="Length">Length</label>
+                    <input type="text" id="Length" name="Length" required>
+                    <a class="submitbtn" href="geometry_page.html">
+                        <button type="button"
+                            onclick="submitForm()">Next</button>
+                    </a>
+                </form>
+            </section>
+            <!-- form section end -->
+
+        </div>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
+            integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- <script src="C_form.js"></script> -->
+
+        <script>
+             function goToNextPage() {
             // Add logic to navigate to the new page
             window.location.href = "geometry_page.html";
         }
-    </script>
-
-<script>
-    function submitForm() {
+            function submitForm() {
         // Prevent the form from submitting the traditional way
         event.preventDefault();
 
@@ -207,6 +408,7 @@
                 localStorage.setItem('lastInsertedId', response.data.data.id);
                 localStorage.setItem('bufferWidth', response.data.data.width);
                 localStorage.setItem('roadLenght', response.data.data.lenght);
+                localStorage.setItem('wardname', response.data.data.wardname);
                 
                 setTimeout(function() {
                       window.location.href = "geometry_page.html";
@@ -218,9 +420,6 @@
                 alert('There was an error submitting the form.');
             });
     }
-</script>
-
-
-</body>
-
+        </script>
+    </body>
 </html>
