@@ -298,224 +298,108 @@ var HandControl = L.Control.extend({
   },
 });
 
-
-
 // Define the custom control with the hand icon
 // Define the custom control with the hand icon
 var HandControl = L.Control.extend({
-    onAdd: function (map) {
-      var container = L.DomUtil.create(
-        "div",
-        "leaflet-bar leaflet-control leaflet-control-custom"
-      );
-      container.innerHTML =
-        '<div class="leaflet-control-custom-hand-icon"></div>';
-      container.style.cursor = "grab";
-  
-      container.onclick = function () {
-        // Your custom logic for the hand icon click event
-        console.log("Hand icon clicked");
-      };
-  
-      return container;
-    },
-  });
-  
-  // Add the custom control to the map
-  var handControl = new HandControl({ position: "bottomleft" });
-  handControl.addTo(map);
-  
-  // GeoServer URL
-  var geoserverUrl = "https://geo.geopulsea.com/geoserver";
-  
-  // Create a legend control
-  var legend = L.control({ position: "bottomright" });
-  
-  legend.onAdd = function (map) {
-    var div = L.DomUtil.create("div", "info legend");
-  
-    // Fetch capabilities to get all layers in the 'pmc' workspace
-    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
-      .then((response) => response.text())
-      .then((data) => {
-        // Parse capabilities XML response
-        var parser = new DOMParser();
-        var xml = parser.parseFromString(data, "text/xml");
-  
-        // Extract layer names and legend URLs for layers in the 'pmc' workspace
-        var layers = xml.querySelectorAll('Layer[queryable="1"]');
-        layers.forEach(function (layer) {
-          var layerName = layer.querySelector("Name").textContent;
-          if (layerName.startsWith("pmc:")) {
-            var legendUrl =
-              geoserverUrl +
-              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-              layerName;
-            div.innerHTML +=
-              "<p><strong>" +
-              layerName +
-              "</strong></p>" +
-              '<img src="' +
-              legendUrl +
-              '" alt="' +
-              layerName +
-              ' legend"><br>';
-          }
-        });
-  
-        // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-        div.style.position = "fixed";
-        div.style.bottom = "0";
-        div.style.right = "0";
-        div.style.height = "40vh";
-        div.style.width = "300px";
-        div.style.overflowY = "auto";
-        div.style.backgroundColor = "white";
-        div.style.border = "1px solid #ccc";
-        div.style.padding = "10px";
-      })
-      .catch((error) => {
-        console.error("Error fetching capabilities:", error);
+  onAdd: function (map) {
+    var container = L.DomUtil.create(
+      "div",
+      "leaflet-bar leaflet-control leaflet-control-custom"
+    );
+    container.innerHTML =
+      '<div class="leaflet-control-custom-hand-icon"></div>';
+    container.style.cursor = "grab";
+
+    container.onclick = function () {
+      // Your custom logic for the hand icon click event
+      console.log("Hand icon clicked");
+    };
+
+    return container;
+  },
+});
+
+// Add the custom control to the map
+var handControl = new HandControl({ position: "bottomleft" });
+handControl.addTo(map);
+
+// GeoServer URL
+var geoserverUrl = "https://geo.geopulsea.com/geoserver";
+
+// Create a legend control
+var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Fetch capabilities to get all layers in the 'pmc' workspace
+  fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
+    .then((response) => response.text())
+    .then((data) => {
+      // Parse capabilities XML response
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(data, "text/xml");
+
+      // Extract layer names and legend URLs for layers in the 'pmc' workspace
+      var layers = xml.querySelectorAll('Layer[queryable="1"]');
+      layers.forEach(function (layer) {
+        var layerName = layer.querySelector("Name").textContent;
+        if (layerName.startsWith("pmc:")) {
+          var legendUrl =
+            geoserverUrl +
+            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+            layerName;
+          div.innerHTML +=
+            "<p><strong>" +
+            layerName +
+            "</strong></p>" +
+            '<img src="' +
+            legendUrl +
+            '" alt="' +
+            layerName +
+            ' legend"><br>';
+        }
       });
-  
-    return div;
-  };
-  
-  legend.addTo(map);
-  
-  // for legend////////////////////////////////////////////////////////////////////
-  
+
+      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+      div.style.position = "fixed";
+      div.style.bottom = "0";
+      div.style.right = "0";
+      div.style.height = "40vh";
+      div.style.width = "300px";
+      div.style.overflowY = "auto";
+      div.style.backgroundColor = "white";
+      div.style.border = "1px solid #ccc";
+      div.style.padding = "10px";
+    })
+    .catch((error) => {
+      console.error("Error fetching capabilities:", error);
+    });
+
+  return div;
+};
+
+legend.addTo(map);
+
+// for legend////////////////////////////////////////////////////////////////////
+
 //   // Create a custom control for the north arrow
 //   var northArrowControl = L.Control.extend({
 //     options: {
 //       position: "bottomleft",
 //     },
-  
+
 //     onAdd: function (map) {
 //       var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
 //       container.innerHTML = '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
 //       return container;
 //     },
 //   });
-  
+
 //   // Add the custom north arrow control to the map
 //   map.addControl(new northArrowControl());
-  
 
 // North Arraow\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-// {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
-
-var editableLayers = new L.FeatureGroup().addTo(map);
-
-map.on("click", function (e) {
-  let size = map.getSize();
-  let bbox = map.getBounds().toBBoxString();
-  let layer = "pmc:Exist_Road";
-
-  var url = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-    e.containerPoint.x
-  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-    size.x
-  }&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      highlightFeature(data);
-    });
-});
-
-function highlightFeature(featureData) {
-  // Check if any features are present in the featureData
-  if (
-    !featureData ||
-    !featureData.features ||
-    featureData.features.length === 0
-  ) {
-    alert("No feature available. Click on a feature to edit.");
-    return;
-  }
-
-  // Clear existing editable layers
-  editableLayers.clearLayers();
-
-  // Get the first feature from the featureData
-  var feature = featureData.features[0];
-
-  var geojsonLayer = L.geoJSON(feature, {
-    style: {
-      color: "red",
-      weight: 3,
-      opacity: 1,
-      fillOpacity: 0.5,
-    },
-  });
-
-  editableLayers.addLayer(geojsonLayer);
-
-  if (editableLayers.getLayers().length > 0) {
-    map.fitBounds(editableLayers.getBounds());
-  }
-}
-
-editableLayers.on("contextmenu", function (e) {
-  // Check if there is a selected feature
-  if (editableLayers.getLayers().length > 0) {
-    var selectedFeature = editableLayers.getLayers()[0];
-
-    // Get the coordinates of the right-clicked point
-    var latlng = e.latlng;
-
-    // Check if the selected feature contains the right-clicked point
-    // if (selectedFeature && selectedFeature.getLatLng && selectedFeature.getLatLng().equals(latlng)) {
-    // Create a popup with the selected feature's properties
-    var popupContent = "<h3>Selected Feature</h3>";
-    // for (var property in selectedFeature.feature.properties) {
-    //   popupContent += '<strong>' + property + ':</strong> ' + selectedFeature.feature.properties[property] + '<br>';
-    // }
-
-    // Add buttons for saving data and editing feature
-    popupContent += '<br><button id="saveDataButton">Save Data</button>';
-    popupContent += '<button id="editFeatureButton">Edit Feature</button>';
-
-    var popup = L.popup()
-      .setLatLng(latlng)
-      .setContent(popupContent)
-      .openOn(map);
-
-    // Add click event listener for save data button
-    document
-      .getElementById("saveDataButton")
-      .addEventListener("click", function () {
-        // Your save data logic here
-        alert("Data saved!");
-      });
-
-    // Add click event listener for edit feature button
-    document
-      .getElementById("editFeatureButton")
-      .addEventListener("click", function () {
-        // Your edit feature logic here
-        alert("Editing feature!");
-
-        selectedFeature.eachLayer(function (layer) {
-          if (layer.editing) {
-            layer.editing.enable();
-          } else {
-            layer.on("click", function () {
-              if (this.editing) {
-                this.editing.enable();
-              }
-            });
-          }
-        });
-      });
-  }
-});
-
-// {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 
 // Event listener for map zoomend event
 map.on("zoomend", toggleDrawControl);
@@ -1040,7 +924,7 @@ function Savedata(lastDrawnPolylineId) {
 //**************************************************line mesure*************************************************************
 L.control
   .polylineMeasure({
-    position: "topright",
+    position: "topleft",
     unit: "kilometres",
     showBearings: true,
     clearMeasurementsOnStop: false,
@@ -1051,7 +935,7 @@ L.control
 
 //**********************************************************area measure**********************************************************************
 var measureControl = new L.Control.Measure({
-  position: "topright",
+  position: "topleft",
 });
 measureControl.addTo(map);
 
