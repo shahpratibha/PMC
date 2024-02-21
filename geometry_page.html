@@ -1,402 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PMC_Form</title>
-    <link rel="stylesheet" href="C_form.css" />
-    <link rel="stylesheet" href="demo.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-    />
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Preview page</title>
+        <link rel="stylesheet" href="C_form.css">
+        <link rel="stylesheet" href="demo.css">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
 
-    <!-- ============================ -->
-    <!-- bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
+        <!-- ============================ -->
+        <!-- bootstrap -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
 
-    <!-- fontawsome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
-      integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <!-- leaflet -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin
-    />
+        <!-- fontawsome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+            integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+        <!-- leaflet -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin />
 
-    <!-- leaflet -->
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin
-    ></script>
+        <!-- leaflet -->
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin></script>
 
-    <!-- leaflet-ajax -->
-    <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
+        <!-- leaflet-ajax -->
+        <script
+            src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
 
-    <!-- fontawsome -->
-    <link
-      rel="stylesheet"
-      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+        <!-- fontawsome -->
+        <link
+            rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    <!-- Leflet for adding draw tool start-->
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <!-- Leflet for adding draw tool start-->
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet"
+            href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <!-- Leaflet JavaScript -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <!-- Leaflet.draw CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"
-    />
+        <!-- Leaflet.draw CSS -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
 
-    <!-- Leaflet.draw JavaScript -->
-    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+        <!-- Leaflet.draw JavaScript -->
+        <script
+            src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <!-- Include jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <!-- Leflet for adding draw tool END -->
+        <!-- Leflet for adding draw tool END -->
 
-    <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
+        <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+        <script
+            src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+        <script
+            src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
-    <!-- html2pdfcdn -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
-      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+        <!-- html2pdfcdn -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+            integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
 
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  </head>
-  <body id="body-pd" class="bg-light">
-    <header class="header" id="header">
-      <div><h5>GeoPulse</h5></div>
-      <div class="header_img">
-        <img src="https://i.imgur.com/hczKIze.jpg" alt />
-      </div>
-    </header>
-    <div class="l-navbar" id="nav-bar">
-      <nav class="nav">
-        <div>
-          <a href="#" class="nav_logo"> </a>
-          <div class="nav_list">
-            <div class="nav_link active">
-              <i class="fas fa-filter nav_icon"></i>
+        <script  src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+        <script  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <link  rel="stylesheet"  href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <link  href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+            rel="stylesheet" />
+        <script  src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    </head>
+    <body id="body-pd" class="bg-light">
+        <header class="header" id="header">
+            <div><h5>GeoPulse</h5></div>
+            <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt> </div>
+        </header>
+        <div class="l-navbar" id="nav-bar">
+          <nav class="nav">
+            <div>
+              <a href="#" class="nav_logo"> </a>
+  
+              <div class="nav_list">
+                <a class="nav_link active"  href="index.html" title="Draw Menually">
+                  <i class="fa-solid fa-pen-ruler"></i>
+                </a>
+  
+                <a class="nav_link active" href="index.html" title="Edit features">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+              
+  
+                
+                <div class="nav_link" title="Download Report">
+                  <i
+                    class="fa-solid fa-file-arrow-down nav_icon"
+                    id="generatePdfBtn"
+                    onclick="takeScreenshot()"
+                  >
+                  </i>
+                </div>
+              </div>
             </div>
             <a href="#" class="nav_link">
-              <i class="bx bx-file nav_icon"></i>
+              <i class="bx bx-log-out nav_icon"></i>
             </a>
-
-            <a href="#" class="nav_link">
-              <i class="bx bx-bookmark nav_icon"></i>
-            </a>
-
-            <a href="#" class="nav_link">
-              <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-            </a>
-          </div>
+          </nav>
         </div>
-        <a href="#" class="nav_link">
-          <i class="bx bx-log-out nav_icon"></i>
-        </a>
-      </nav>
-    </div>
-    <div id="content">
-      <!--Container Main start-->
-      <!-- Button container -->
-      <div id="button-container">
-        <button class="toggle-button" id="map-view-button">MARK AREA</button>
-      </div>
+        <div id="content" style="width: 100%;" class="container">
+                <!--Container Main start-->
+            <!-- Button container -->
+            <div id="button-container" class="mt-4">
+              
+              
+            </div>
+           
+          
+          
+            <section id="map-section" class="mt-5">
+                <!-- <h2>MARK AREA</h2> -->
+               
+               
+          
+                  <form class="mt-5" >
+                    <h5 class="text-secondary">Preview Map</h5>
+                    <div id="map"></div>
+                    <h6 class="text-secondary pt-4">Table</h6>
+                    <div></div>
+                  </form>
+                <!-- Table -->
+                
+            </section>
+        </div>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-      <section id="map-section">
-        <!-- <h2>MARK AREA</h2> -->
-        <form>
-          <h5 class="pt-3">Choose Option</h5>
-          <div
-            class="pt-5"
-            style="margin-left: -11%; font-size: 12px; color: black"
-          >
-            <p>to mark area on map page choose a method</p>
-          </div>
-          <div class="markbtn">
-            <a
-              href="index.html"
-              class="toggle-btn fw-bold"
-              style="text-decoration: none"
-              >DRAW MANUALLY</a
-            >
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- <script src="C_form.js"></script> -->
 
-            <!-- <label for="fileInput" class="toggle-btn1 btn btn-outline-secondary"> -->
-            <input
-              class="toggle-btn1 btn btn-outline-secondary"
-              type="file"
-              id="fileInput"
-              accept=".kml, .kmz"
-              onchange="loadFile()"
-              title="Upload KML"
-            />
-            <!-- </label> -->
-          </div>
-        </form>
-        <form>
-          <div id="map"></div>
-        </form>
-        <!-- Your map area code -->
-      </section>
-    </div>
+        <script>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
-      integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="C_form.js"></script> -->
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "© OpenStreetMap contributors",
+}).addTo(map);
 
-    <script>
-      var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
 
-      function showCoordinatesOnMap(coordinates) {
-        for (var i = 0; i < coordinates.length; i++) {
-          var marker = L.polyline(coordinates[i]).addTo(map);
-          map.fitBounds(marker.getBounds());
-        }
+function showCoordinatesOnMap(coordinates) {
+      for (var i = 0; i < coordinates.length; i++) {
+        var marker = L.polyline(coordinates[i]).addTo(map);
+        map.fitBounds(marker.getBounds());
       }
+    }
 
-      // =================================================
+// =================================================
 
-      // ================================================
-      function loadFile() {
-        var input = document.getElementById("fileInput");
-        var file = input.files[0];
 
-        if (file) {
-          var reader = new FileReader();
+// ================================================
+function loadFile() {
+  var input = document.getElementById("fileInput");
+  var file = input.files[0];
 
-          reader.onload = function (e) {
-            try {
-              var parser = new DOMParser();
-              var kmlDoc = parser.parseFromString(
-                e.target.result,
-                "application/xml"
-              );
-              console.log(kmlDoc);
-              var coordinates = extractCoordinates(kmlDoc);
-              console.log(coordinates, "coordinatesextracted");
-              showCoordinatesOnMap(coordinates);
-            } catch (error) {
-              alert("Invalid KML/KMZ file!");
-            }
-          };
+  if (file) {
+    var reader = new FileReader();
 
-          reader.readAsText(file);
-        }
+    reader.onload = function (e) {
+      try {
+        var parser = new DOMParser();
+        var kmlDoc = parser.parseFromString(
+          e.target.result,
+          "application/xml"
+        );
+        console.log(kmlDoc);
+        var coordinates = extractCoordinates(kmlDoc);
+        console.log(coordinates, "coordinatesextracted");
+        showCoordinatesOnMap(coordinates);
+      } catch (error) {
+        alert("Invalid KML/KMZ file!");
       }
+    };
 
-      function extractCoordinates(kmlDoc) {
-        var coordinates = [];
+    reader.readAsText(file);
+  }
+}
 
-        var placemarks = kmlDoc.querySelectorAll("Placemark");
-        console.log(placemarks, "placemarks");
-        placemarks.forEach(function (placemark) {
-          var coordinatesNode = placemark.querySelector("coordinates");
-          console.log(coordinatesNode);
-          if (coordinatesNode) {
-            var coordsArray = coordinatesNode.textContent.trim().split(" ");
-            var coords = coordsArray.map((coordString) => {
-              var [lon, lat] = coordString.split(",");
-              return [parseFloat(lat), parseFloat(lon)];
-            });
-            coordinates.push(coords);
-          }
-        });
+function extractCoordinates(kmlDoc) {
+  var coordinates = [];
 
-        return coordinates;
-      }
-
-      $(document).ready(function () {
-        if (localStorage.getItem("selectCoordinatesData") !== null) {
-          let coordinatesData = localStorage.getItem("selectCoordinatesData");
-          coordinatesData = JSON.parse(coordinatesData);
-
-          let polyline;
-
-          coordinatesData.forEach(function (feature) {
-            if (feature.geometry.type === "Polygon") {
-              let coordinates = feature.geometry.coordinates[0].map((coord) => [
-                coord[1],
-                coord[0],
-              ]);
-              let polygon = L.polygon(coordinates).addTo(map);
-
-              // Bind popup to the polygon
-              polygon.bindPopup(getPopupContent(feature));
-
-              // Listen for click event on polygon to open popup
-              polygon.on("click", function (e) {
-                e.target.openPopup();
-              });
-            } else if (
-              feature.geometry.type === "LineString" ||
-              feature.geometry.type === "MultiLineString"
-            ) {
-              let coordinates = feature.geometry.coordinates.map((innerArray) =>
-                innerArray.map((coord) => [coord[1], coord[0]])
-              );
-
-              let highlightedAreaLayer = L.polygon(coordinates, {
-                color: "red",
-                fillColor: "red",
-                fillOpacity: 0.5,
-              }).addTo(map);
-
-              // Fit the map view to the bounds of the highlighted area
-              map.fitBounds(highlightedAreaLayer.getBounds());
-
-              // Assuming `polyline` was intended to be `highlightedAreaLayer` based on the context
-              highlightedAreaLayer.bindPopup(getPopupContent(feature));
-
-              // Listen for click event on highlightedAreaLayer to open popup
-              highlightedAreaLayer.on("click", function (e) {
-                e.target.openPopup();
-              });
-            }
-          });
-
-          // Fit map bounds
-          let bounds = L.latLngBounds(
-            coordinatesData.map((feature) => {
-              return L.geoJSON(feature).getBounds();
-            })
-          );
-          map.fitBounds(bounds);
-        }
+  var placemarks = kmlDoc.querySelectorAll("Placemark");
+  console.log(placemarks, "placemarks");
+  placemarks.forEach(function (placemark) {
+    var coordinatesNode = placemark.querySelector("coordinates");
+    console.log(coordinatesNode);
+    if (coordinatesNode) {
+      var coordsArray = coordinatesNode.textContent.trim().split(" ");
+      var coords = coordsArray.map((coordString) => {
+        var [lon, lat] = coordString.split(",");
+        return [parseFloat(lat), parseFloat(lon)];
       });
+      coordinates.push(coords);
+    }
+  });
 
-      function getPopupContent(feature) {
-        // Create and return the HTML content for the popup based on the feature data
-        let content = "<div class='popup-table-container'><table>";
-        if (localStorage.getItem("conceptual_form_data")) {
-          const formDataFromStorage = JSON.parse(
-            localStorage.getItem("conceptual_form_data")
-          );
-          for (const property in formDataFromStorage) {
-            content += `<tr><td>${property}</td><td>${formDataFromStorage[property]}</td></tr>`;
-          }
-        } else {
-          for (const [key, value] of Object.entries(feature.properties)) {
-            content += `<tr><td>${key}</td><td>${value}</td></tr>`;
-          }
-        }
+  return coordinates;
+}
 
-        content += "</table></div>";
-        return content;
+$(document).ready(function () {
+  if (localStorage.getItem("selectCoordinatesData") !== null) {
+    let coordinatesData = localStorage.getItem("selectCoordinatesData");
+    coordinatesData = JSON.parse(coordinatesData);
+
+    let polyline;
+
+    coordinatesData.forEach(function (feature) {
+      if (feature.geometry.type === "Polygon") {
+        let coordinates = feature.geometry.coordinates[0].map((coord) => [
+          coord[1],
+          coord[0],
+        ]);
+        let polygon = L.polygon(coordinates).addTo(map);
+
+        // Bind popup to the polygon
+        polygon.bindPopup(getPopupContent(feature));
+
+        // Listen for click event on polygon to open popup
+        polygon.on("click", function (e) {
+          e.target.openPopup();
+        });
+      } else if (feature.geometry.type === "LineString") {
+        let coordinates = feature.geometry.coordinates.map((coord) => [
+          coord[1],
+          coord[0],
+        ]);
+        let polyline = L.polyline(coordinates).addTo(map);
+
+        // Bind popup to the polyline
+        polyline.bindPopup(getPopupContent(feature));
+
+        // Listen for click event on polyline to open popup
+        polyline.on("click", function (e) {
+          e.target.openPopup();
+        });
+    //   } else if (feature.geometry.type === "LineString") {
+    //     let coordinates = feature.geometry.coordinates.map((coord) => [
+    //       coord[1],
+    //       coord[0],
+    //     ]);
+    //     let polyline = L.polyline(coordinates).addTo(map);
+
+    //     // Bind popup to the polyline
+    //     polyline.bindPopup(getPopupContent(feature));
+
+    //     // Listen for click event on polyline to open popup
+    //     polyline.on("click", function (e) {
+    //       e.target.openPopup();
+    //     });
       }
+    });
 
-      //  const markers = [];
+    // Fit map bounds
+    let bounds = L.latLngBounds(
+      coordinatesData.map((feature) => {
+        return L.geoJSON(feature).getBounds();
+      })
+    );
+    map.fitBounds(bounds);
+  }
+});
 
-      //       function showCoordinates() {
-      //           const coordinatesInput = document.getElementById('coordinatesInput');
-      //           const coordinates = coordinatesInput.value;
+function getPopupContent(feature) {
+  // Create and return the HTML content for the popup based on the feature data
+  let content = "<div class='popup-table-container'><table>";
 
-      //           if (coordinates !== null && coordinates !== "") {
-      //               updateMarkers(coordinates);
-      //           } else {
-      //               alert("No coordinates entered. Please try again.");
-      //           }
-      //       }
+  for (const [key, value] of Object.entries(feature.properties)) {
+    content += `<tr><td>${key}</td><td>${value}</td></tr>`;
+  }
+  content += "</table></div>";
+  return content;
+}
 
-      //       function updateMarkers(coordinates) {
-      //           const [latitude, longitude] = coordinates.split(',');
+//  const markers = [];
 
-      //           // Clear existing markers
-      //           markers.forEach(marker => map.removeLayer(marker));
-      //           markers.length = 0;
+//       function showCoordinates() {
+//           const coordinatesInput = document.getElementById('coordinatesInput');
+//           const coordinates = coordinatesInput.value;
 
-      //           // Add a new marker at the specified coordinates
-      //           const newMarker = L.marker([parseFloat(latitude), parseFloat(longitude)])
-      //               .addTo(map)
-      //               .bindPopup('Coordinates: ' + coordinates)
-      //               .openPopup();
+//           if (coordinates !== null && coordinates !== "") {
+//               updateMarkers(coordinates);
+//           } else {
+//               alert("No coordinates entered. Please try again.");
+//           }
+//       }
 
-      //           // Keep track of the marker
-      //           markers.push(newMarker);
+//       function updateMarkers(coordinates) {
+//           const [latitude, longitude] = coordinates.split(',');
 
-      //           // Set the view to the entered coordinates
-      //           map.setView([parseFloat(latitude), parseFloat(longitude)], 13);
+//           // Clear existing markers
+//           markers.forEach(marker => map.removeLayer(marker));
+//           markers.length = 0;
 
-      //           // Log the updated markers array
-      //           console.log("Markers updated:", markers);
-      //       }
-    </script>
-  </body>
+//           // Add a new marker at the specified coordinates
+//           const newMarker = L.marker([parseFloat(latitude), parseFloat(longitude)])
+//               .addTo(map)
+//               .bindPopup('Coordinates: ' + coordinates)
+//               .openPopup();
+
+//           // Keep track of the marker
+//           markers.push(newMarker);
+
+//           // Set the view to the entered coordinates
+//           map.setView([parseFloat(latitude), parseFloat(longitude)], 13);
+
+//           // Log the updated markers array
+//           console.log("Markers updated:", markers);
+//       }
+        </script>
+    </body>
 </html>
