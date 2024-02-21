@@ -128,6 +128,17 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style>
+      #workTable tr th {
+        white-space: nowrap;
+      }
+      #table-container {
+        width: 90%;
+        overflow-y: hidden;
+        margin: 0 auto;
+        overflow-x: scroll;
+      }
+    </style>
   </head>
   <body id="body-pd" class="bg-light">
     <header class="header" id="header">
@@ -204,6 +215,35 @@
         </form>
         <!-- Your map area code -->
       </section>
+      <div id="table-container">
+        <table
+          id="workTable"
+          class="table table-bordered table-hover"
+          style="width: 100% !important"
+        >
+          <thead>
+            <tr>
+              <th>Project No</th>
+              <th>Name of AA work</th>
+              <th>Work Type</th>
+              <th>Scope of Work</th>
+              <th>Project Financial Year</th>
+              <th>Department</th>
+              <th>Project Type</th>
+              <th>Project Office</th>
+              <th>Junior Engineer Name</th>
+              <th>Contact No</th>
+              <th>Date-In</th>
+              <th>Zone</th>
+              <th>Ward</th>
+              <th>Prabhag Name</th>
+              <th>Width</th>
+              <th>Length</th>
+            </tr>
+          </thead>
+          <tbody id="workTableData"></tbody>
+        </table>
+      </div>
     </div>
 
     <script
@@ -284,6 +324,17 @@
       }
 
       $(document).ready(function () {
+        if (localStorage.getItem("conceptual_form_data")) {
+          const formDataFromStorage = JSON.parse(
+            localStorage.getItem("conceptual_form_data")
+          );
+          contentData = `<tr>`;
+          for (const property in formDataFromStorage) {
+            contentData += `<td>${formDataFromStorage[property]}</td>`;
+          }
+          contentData += `</tr>`;
+          $("#workTableData").html(contentData);
+        }
         if (localStorage.getItem("selectCoordinatesData") !== null) {
           let coordinatesData = localStorage.getItem("selectCoordinatesData");
           coordinatesData = JSON.parse(coordinatesData);
@@ -313,7 +364,7 @@
                 innerArray.map((coord) => [coord[1], coord[0]])
               );
 
-              let highlightedAreaLayer = L.polygon(coordinates, {
+              let highlightedAreaLayer = L.polyline(coordinates, {
                 color: "red",
                 fillColor: "red",
                 fillOpacity: 0.5,
