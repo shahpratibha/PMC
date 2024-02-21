@@ -1,6 +1,6 @@
 var map, geojson;
-// const API_URL = "http://localhost/PMC_Final/";
-const API_URL = "http://localhost/PMC-Project/";
+const API_URL = "http://localhost/PMC_a/";
+// const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
 var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
@@ -298,6 +298,27 @@ var HandControl = L.Control.extend({
   },
 });
 
+// Define the custom control with the hand icon
+// Define the custom control with the hand icon
+var HandControl = L.Control.extend({
+  onAdd: function (map) {
+    var container = L.DomUtil.create(
+      "div",
+      "leaflet-bar leaflet-control leaflet-control-custom"
+    );
+    container.innerHTML =
+      '<div class="leaflet-control-custom-hand-icon"></div>';
+    container.style.cursor = "grab";
+
+    container.onclick = function () {
+      // Your custom logic for the hand icon click event
+      console.log("Hand icon clicked");
+    };
+
+    return container;
+  },
+});
+
 // Add the custom control to the map
 var handControl = new HandControl({ position: "bottomleft" });
 handControl.addTo(map);
@@ -344,7 +365,7 @@ legend.onAdd = function (map) {
       div.style.position = "fixed";
       div.style.bottom = "0";
       div.style.right = "0";
-      div.style.height = "60vh";
+      div.style.height = "40vh";
       div.style.width = "300px";
       div.style.overflowY = "auto";
       div.style.backgroundColor = "white";
@@ -362,21 +383,21 @@ legend.addTo(map);
 
 // for legend////////////////////////////////////////////////////////////////////
 
-// Create a custom control for the north arrow
-var northArrowControl = L.Control.extend({
-  options: {
-    position: "topright",
-  },
+//   // Create a custom control for the north arrow
+//   var northArrowControl = L.Control.extend({
+//     options: {
+//       position: "bottomleft",
+//     },
 
-  onAdd: function (map) {
-    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
-    container.innerHTML = '<div class="north-arrow">↑</div>';
-    return container;
-  },
-});
+//     onAdd: function (map) {
+//       var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+//       container.innerHTML = '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
+//       return container;
+//     },
+//   });
 
-// Add the custom north arrow control to the map
-map.addControl(new northArrowControl());
+//   // Add the custom north arrow control to the map
+//   map.addControl(new northArrowControl());
 
 // North Arraow\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 

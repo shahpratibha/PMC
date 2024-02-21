@@ -44,7 +44,8 @@ try {
         'data' => [
             'id' => $lastInsertId,
             'width' => $Width,
-            'lenght' => $Length
+            'lenght' => $Length,
+            'wardname' => $ward
         ]
     ]);
     
