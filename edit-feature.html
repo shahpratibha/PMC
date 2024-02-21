@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PMC</title>
-    <link rel="stylesheet" href="C_form.css" />
+    <!-- <link rel="stylesheet" href="C_form.css" /> -->
     <link rel="stylesheet" href="style1.css" />
     <link rel="stylesheet" href="demo.css" />
     <style>
       #map {
-        top: 70px;
-        left: 45px;
+        top: 64px;
+        left: 55px;
         height: 90vh;
         width: 97%;
       }
@@ -208,14 +208,6 @@
                 </i>
               </div>
 
-              <div class="nav_link" title="Show Table">
-                <i
-                  class="fa-solid fa-file-arrow-down nav_icon"
-                  id="showTableBtn"
-                >
-                </i>
-              </div>
-
               <!-- <a  href="#" class="nav_link"> 
                               <i class='bx bx-bookmark nav_icon'></i> 
                           </a>  -->
@@ -314,6 +306,180 @@
           },
         });
       });
+
+      // {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+      var editableLayers = new L.FeatureGroup().addTo(map);
+
+      map.on("click", function (e) {
+        let size = map.getSize();
+        let bbox = map.getBounds().toBBoxString();
+        let layer = "pmc:Exist_Road";
+
+        var url = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+          e.containerPoint.x
+        )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+          size.x
+        }&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            highlightFeature(data);
+          });
+      });
+
+      function highlightFeature(featureData) {
+        // Check if any features are present in the featureData
+        if (
+          !featureData ||
+          !featureData.features ||
+          featureData.features.length === 0
+        ) {
+          alert("No feature available. Click on a feature to edit.");
+          return;
+        }
+
+        // Clear existing editable layers
+        editableLayers.clearLayers();
+
+        // Get the first feature from the featureData
+        var feature = featureData.features[0];
+
+        var geojsonLayer = L.geoJSON(feature, {
+          style: {
+            color: "red",
+            weight: 3,
+            opacity: 1,
+            fillOpacity: 0.5,
+          },
+        });
+
+        editableLayers.addLayer(geojsonLayer);
+
+        if (editableLayers.getLayers().length > 0) {
+          map.fitBounds(editableLayers.getBounds());
+        }
+      }
+
+      editableLayers.on("contextmenu", function (e) {
+        // Check if there is a selected feature
+        if (editableLayers.getLayers().length > 0) {
+          var selectedFeature = editableLayers.getLayers()[0];
+
+          // Get the coordinates of the right-clicked point
+          var latlng = e.latlng;
+          var popupContent = "<h3>Selected Feature</h3>";
+          if (localStorage.getItem("conceptual_form_data")) {
+            const formDataFromStorage = JSON.parse(
+              localStorage.getItem("conceptual_form_data")
+            );
+            for (const property in formDataFromStorage) {
+              popupContent +=
+                "<strong>" +
+                property +
+                ":</strong> " +
+                formDataFromStorage[property] +
+                "<br>";
+            }
+          }
+
+          // Check if the selected feature contains the right-clicked point
+          // if (selectedFeature && selectedFeature.getLatLng && selectedFeature.getLatLng().equals(latlng)) {
+          // Create a popup with the selected feature's properties
+
+          // for (var property in selectedFeature.feature.properties) {
+          //   popupContent += '<strong>' + property + ':</strong> ' + selectedFeature.feature.properties[property] + '<br>';
+          // }
+
+          // Add buttons for saving data and editing feature
+          popupContent += '<br><button id="saveDataButton">Save Data</button>';
+          popupContent +=
+            '<button id="editFeatureButton">Edit Feature</button>';
+
+          var popup = L.popup()
+            .setLatLng(latlng)
+            .setContent(popupContent)
+            .openOn(map);
+
+          // Add click event listener for save data button
+          // Add click event listener for save data button
+          document
+            .getElementById("saveDataButton")
+            .addEventListener("click", function () {
+              var featureData = selectedFeature.toGeoJSON();
+              var featureId = featureData.features[0].id;
+              let formDataFromStorage;
+              if (localStorage.getItem("conceptual_form_data")) {
+                formDataFromStorage = JSON.parse(
+                  localStorage.getItem("conceptual_form_data")
+                );
+              }
+
+              var roadLength =
+                formDataFromStorage &&
+                formDataFromStorage.hasOwnProperty("Length")
+                  ? formDataFromStorage.Length
+                  : 10;
+
+              var bufferWidth =
+                formDataFromStorage &&
+                formDataFromStorage.hasOwnProperty("Width")
+                  ? formDataFromStorage.Width
+                  : 20;
+
+              var payload = JSON.stringify({
+                geoJSON: featureData,
+                roadLength: roadLength,
+                bufferWidth: bufferWidth,
+                gis_id: featureId,
+              });
+
+              let selectCoordinatesData = featureData.features;
+              localStorage.setItem(
+                "selectCoordinatesData",
+                JSON.stringify(selectCoordinatesData)
+              );
+
+              $.ajax({
+                type: "POST",
+                url: "APIS/gis_update.php",
+                data: payload,
+                contentType: "application/json",
+                success: function (response) {
+                  alert("Saved Successfully");
+                  window.location.href = "geometry_page.html";
+                },
+                error: function (xhr, status, error) {
+                  console.error("Save failed:", error);
+                },
+              });
+            });
+
+          // Add click event listener for edit feature button
+          document
+            .getElementById("editFeatureButton")
+            .addEventListener("click", function () {
+              // Your edit feature logic here
+              alert("Editing feature!");
+
+              selectedFeature.eachLayer(function (layer) {
+                if (layer.editing) {
+                  layer.editing.enable();
+                } else {
+                  layer.on("click", function () {
+                    if (this.editing) {
+                      this.editing.enable();
+                    }
+                  });
+                }
+              });
+            });
+        }
+      });
+
+      // {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
     </script>
   </body>
 </html>
