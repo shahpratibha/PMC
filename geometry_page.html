@@ -138,6 +138,9 @@
         margin: 0 auto;
         overflow-x: scroll;
       }
+      #table-container {
+        display: none;
+      }
     </style>
   </head>
   <body id="body-pd" class="bg-light">
@@ -331,6 +334,7 @@
 
       $(document).ready(function () {
         if (localStorage.getItem("conceptual_form_data")) {
+          $("#table-container").show();
           const formDataFromStorage = JSON.parse(
             localStorage.getItem("conceptual_form_data")
           );
@@ -344,7 +348,6 @@
         if (localStorage.getItem("selectCoordinatesData") !== null) {
           let coordinatesData = localStorage.getItem("selectCoordinatesData");
           coordinatesData = JSON.parse(coordinatesData);
-
           let polyline;
 
           coordinatesData.forEach(function (feature) {
@@ -366,8 +369,15 @@
               feature.geometry.type === "LineString" ||
               feature.geometry.type === "MultiLineString"
             ) {
-              let coordinates = feature.geometry.coordinates.map((innerArray) =>
-                innerArray.map((coord) => [coord[1], coord[0]])
+              console.log(feature.geometry.coordinates);
+              let coordinates = feature.geometry.coordinates.map(
+                (innerArray) => {
+                  if (Array.isArray(innerArray[0])) {
+                    return innerArray.map((coord) => [coord[1], coord[0]]);
+                  } else {
+                    return [innerArray[1], innerArray[0]];
+                  }
+                }
               );
 
               let highlightedAreaLayer = L.polyline(coordinates, {

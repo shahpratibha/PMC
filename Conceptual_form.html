@@ -457,9 +457,11 @@
             localStorage.setItem("roadLenght", response.data.data.lenght);
             localStorage.setItem("wardname", response.data.data.wardname);
             localStorage.setItem(
-              "conceptual_form_data",
+              "conceptual_form_data_temp",
               JSON.stringify(formObject)
             );
+            localStorage.removeItem("conceptual_form_data");
+            localStorage.removeItem("selectCoordinatesData");
             setTimeout(function () {
               window.location.href = "geometry_page.html";
             }, 2000); // 1000 milliseconds = 1 second
