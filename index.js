@@ -275,118 +275,6 @@ function toggleDrawControl() {
 // Event listener for map zoomend event
 map.on("zoomend", toggleDrawControl);
 
-// GeoServer URL
-var geoserverUrl = "https://geo.geopulsea.com/geoserver";
-
-// Variable to keep track of legend visibility
-var legendVisible = true;
-
-// Add the WMS Legend control to the map
-var legendControl = L.control({ position: "bottomright" });
-
-legendControl.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
-
-  // Function to fetch and populate the legend
-  function updateLegend() {
-    // Clear the existing legend
-    div.innerHTML = '';
-
-    // Fetch capabilities to get all layers in the 'pmc' workspace
-    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
-      .then((response) => response.text())
-      .then((data) => {
-        // Parse capabilities XML response
-        var parser = new DOMParser();
-        var xml = parser.parseFromString(data, "text/xml");
-
-        // Extract layer names and legend URLs for layers in the 'pmc' workspace
-        var layers = xml.querySelectorAll('Layer[queryable="1"]');
-        layers.forEach(function (layer) {
-          var layerName = layer.querySelector("Name").textContent;
-          if (layerName.startsWith("pmc:")) {
-            var legendUrl =
-              geoserverUrl +
-              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-              layerName;
-            div.innerHTML +=
-              "<p><strong>" +
-              layerName +
-              "</strong></p>" +
-              '<img src="' +
-              legendUrl +
-              '" alt="' +
-              layerName +
-              ' legend"><br>';
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching capabilities:", error);
-      });
-  }
-
-  // Initially update the legend
-  updateLegend();
-
-  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-  div.style.position = "fixed";
-  div.style.bottom = "0";
-  div.style.right = "0";
-  div.style.height = "40vh";
-  div.style.width = "300px";
-  div.style.overflowY = "auto";
-  div.style.backgroundColor = "white";
-  div.style.border = "1px solid #ccc";
-  div.style.padding = "10px";
-
-  // Toggle legend visibility function
-  function toggleLegend() {
-    if (legendVisible) {
-      div.style.display = "none";
-      legendVisible = false;
-    } else {
-      div.style.display = "block";
-      legendVisible = true;
-    }
-  }
-
-  // Add event listener to the legend control
-  div.addEventListener('click', toggleLegend);
-
-  return div;
-};
-
-legendControl.addTo(map);
-
-// Add minimize button
-var minimizeButton = L.control({ position: "topright" });
-
-minimizeButton.onAdd = function (map) {
-  var button = L.DomUtil.create("button", "minimize-button");
-  button.innerHTML = "<i class='fas fa-minus'></i>"; // Font Awesome minus icon
-
-  // Toggle legend visibility when the button is clicked
-  button.onclick = function () {
-    var legendDiv = document.querySelector(".info.legend");
-    if (legendDiv.style.display === "none") {
-      legendDiv.style.display = "block";
-      button.innerHTML = "legend<i class='fas fa-minus bg-success text-light fw-bold fs-3'></i>";
-      legendVisible = true;
-    } else {
-      legendDiv.style.display = "none";
-      button.innerHTML = "legend<i class='fas fa-plus'></i>";
-      legendVisible = false;
-    }
-  };
-
-  return button;
-};
-
-minimizeButton.addTo(map);
-
-  // for legend////////////////////////////////////////////////////////////////////
-  
 //   // Create a custom control for the north arrow
 //   var northArrowControl = L.Control.extend({
 //     options: {
@@ -1637,90 +1525,139 @@ map.on("dblclick", function (e) {
   }
 });
 
-// Define the custom control with the hand icon
-// Define the custom control with the hand icon
-// var HandControl = L.Control.extend({
-//   onAdd: function (map) {
-//     var container = L.DomUtil.create(
-//       "div",
-//       "leaflet-bar leaflet-control leaflet-control-custom"
-//     );
-//     container.innerHTML =
-//       '<div class="leaflet-control-custom-hand-icon"></div>';
-//     container.style.cursor = "grab";
 
-//     container.onclick = function () {
-//       // Your custom logic for the hand icon click event
-//       console.log("Hand icon clicked");
-//     };
+// GeoServer URL
+var geoserverUrl = "https://geo.geopulsea.com/geoserver";
 
-//     return container;
-//   },
-// });
+// Variable to keep track of legend visibility
+var legendVisible = true;
 
-// // Add the custom control to the map
-// var handControl = new HandControl({ position: "bottomleft" });
-// handControl.addTo(map);
+// Add the WMS Legend control to the map
+var legendControl = L.control({ position: "topright" });
 
-// // GeoServer URL
-// var geoserverUrl = "https://geo.geopulsea.com/geoserver";
+legendControl.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
 
-// // Create a legend control
-// var legend = L.control({ position: "bottomright" });
+  // Function to fetch and populate the legend
+  function updateLegend() {
+    // Clear the existing legend
+    div.innerHTML = '';
 
-// legend.onAdd = function (map) {
-//   var div = L.DomUtil.create("div", "info legend");
+    // Fetch capabilities to get all layers in the 'pmc' workspace
+    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
+      .then((response) => response.text())
+      .then((data) => {
+        // Parse capabilities XML response
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(data, "text/xml");
 
-//   // Fetch capabilities to get all layers in the 'pmc' workspace
-//   fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
-//     .then((response) => response.text())
-//     .then((data) => {
-//       // Parse capabilities XML response
-//       var parser = new DOMParser();
-//       var xml = parser.parseFromString(data, "text/xml");
+        // Extract layer names and legend URLs for layers in the 'pmc' workspace
+        var layers = xml.querySelectorAll('Layer[queryable="1"]');
+        layers.forEach(function (layer) {
+          var layerName = layer.querySelector("Name").textContent;
+          if (layerName.startsWith("pmc:")) {
+            var legendUrl =
+              geoserverUrl +
+              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+              layerName;
+            div.innerHTML +=
+              "<p><strong>" +
+              layerName +
+              "</strong></p>" +
+              '<img src="' +
+              legendUrl +
+              '" alt="' +
+              layerName +
+              ' legend"><br>';
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching capabilities:", error);
+      });
+  }
 
-//       // Extract layer names and legend URLs for layers in the 'pmc' workspace
-//       var layers = xml.querySelectorAll('Layer[queryable="1"]');
-//       layers.forEach(function (layer) {
-//         var layerName = layer.querySelector("Name").textContent;
-//         if (layerName.startsWith("pmc:")) {
-//           var legendUrl =
-//             geoserverUrl +
-//             "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-//             layerName;
-//           div.innerHTML +=
-//             "<p><strong>" +
-//             layerName +
-//             "</strong></p>" +
-//             '<img src="' +
-//             legendUrl +
-//             '" alt="' +
-//             layerName +
-//             ' legend"><br>';
-//         }
-//       });
+  // Initially update the legend
+  updateLegend();
 
-//       // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-//       div.style.position = "fixed";
-//       div.style.bottom = "0";
-//       div.style.right = "0";
-//       div.style.height = "60vh";
-//       div.style.width = "300px";
-//       div.style.overflowY = "auto";
-//       div.style.backgroundColor = "white";
-//       div.style.border = "1px solid #ccc";
-//       div.style.padding = "10px";
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching capabilities:", error);
-//     });
+  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+  div.style.position = "fixed";
+  div.style.bottom = "0";
+  div.style.right = "0";
+  div.style.height = "40vh";
+  div.style.width = "300px";
+  div.style.overflowY = "auto";
+  div.style.backgroundColor = "white";
+  div.style.border = "1px solid #ccc";
+  div.style.padding = "10px";
+  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
 
-//   return div;
-// };
+  // Toggle legend visibility function
+  function toggleLegend() {
+    if (legendVisible) {
+      div.style.height = "0"; // Minimize the legend
+      legendVisible = false;
+    } else {
+      div.style.height = "40vh"; // Maximize the legend
+      legendVisible = true;
+    }
+  }
 
-// legend.addTo(map);
+  // Add event listener to the legend control
+  div.addEventListener('click', toggleLegend);
 
-// Create a legend control
+  return div;
+};
+
+// legendControl.addTo(map);
+
+// Add collapsible button
+var collapseButton = L.control({ position: "topright" });
+
+collapseButton.onAdd = function (map) {
+  var button = L.DomUtil.create("button", "collapse-button");
+  button.innerHTML = "<i class='fa-solid fa-bars'></i>"; // Initial text
+
+  // Apply styling
+  button.style.backgroundColor = "white";
+  button.style.border = "2px solid #bbb";
+  button.style.width = "35px";
+  button.style.height = "35px";
+  button.style.borderRadius = "5px";
+  button.style.color = "black";
+  button.style.padding = "10px";
+  button.style.textAlign = "center";
+  button.style.textDecoration = "none";
+  button.style.display = "block";
+  button.style.margin = "10px";
+  button.style.cursor = "pointer";
+  button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
+
+  // Toggle legend visibility when the button is clicked
+  button.onclick = function () {
+    var legendDiv = document.querySelector(".info.legend");
+    if (legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+      legendDiv.style.height = "40vh";
+      legendDiv.style.display = "block"; // Make sure it's visible if it was hidden
+      button.innerHTML = "<i class='fas fa-minus'></i>";
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = true;
+    } else {
+      legendDiv.style.height = "0";
+      button.innerHTML = "<i class='fas fa-plus'></i>";
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = false;
+    }
+  };
+
+  return button;
+};
+
+collapseButton.addTo(map);
+
+  // for legend////////////////////////////////////////////////////////////////////
+  
+
 // Create a legend control
 var legend = L.control({ position: "bottomright" });
 
@@ -1732,7 +1669,9 @@ legend.onAdd = function (map) {
 
   // Create a button to toggle the visibility of the legend content
   var toggleButton = L.DomUtil.create("button", "legend-toggle");
-  toggleButton.innerHTML = "Legend";
+  toggleButton.innerHTML = "";
+  toggleButton.style.backgroundColor = "transparent";
+
   toggleButton.onclick = function () {
     if (div.style.display === "none") {
       div.style.display = "block";

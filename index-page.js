@@ -103,6 +103,8 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
+
+
 var wms_layer4 = L.tileLayer
   .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
     layers: "geodata",
@@ -140,6 +142,8 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
+
+
 
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);
@@ -181,8 +185,20 @@ var drawControl = new L.Control.Draw({
     remove: true,
   },
 });
-map.addControl(drawControl);
+// map.addControl(drawControl);
 
+toggleDrawControl();
+console.log(map.getZoom(), "map.getZoom()");
+function toggleDrawControl() {
+  if (map.getZoom() > 15) {
+    map.addControl(drawControl);
+  } else {
+    map.removeControl(drawControl);
+  }
+}
+
+// Event listener for map zoomend event
+map.on("zoomend", toggleDrawControl);
 // function for added buffer
 
 var associatedLayersRegistry = {};

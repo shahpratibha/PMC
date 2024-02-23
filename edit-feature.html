@@ -7,6 +7,11 @@
     <!-- <link rel="stylesheet" href="C_form.css" /> -->
     <link rel="stylesheet" href="style1.css" />
     <link rel="stylesheet" href="demo.css" />
+    <!-- legend -->
+ 
+
+ <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
+ <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
     <style>
       #map {
         top: 64px;
@@ -139,13 +144,40 @@
       rel="stylesheet"
       href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
     />
+
+    
+    <!-- MousePosition -->
+    <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+    <link
+      rel="stylesheet"
+      href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css"
+    />
+
+    <!-- line-measure -->
+    <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
+    <script src="libs/polyline-measure/line-measure.js"></script>
+    <link
+      rel="stylesheet"
+      href="libs/leaflet-measure-master/leaflet-measure.css"
+    />
+    <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+    <script src="libs/feat.js"></script>
+
+      <!-- legend -->
+ 
+
+ <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
+ <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
+
+
+    
   </head>
   <body>
     <div class="container-fluid">
       <header class="header justify-content-between" id="header">
         <div><h5>GeoPulse</h5></div>
         <div class="d-flex justify-content-between ms-auto" role="search">
-          <div class="input-group">
+          <!-- <div class="input-group">
             <select
               class="form-select ms-auto"
               aria-label="Select search category"
@@ -179,7 +211,7 @@
             >
               <i class="fa-solid fa-trash"></i>
             </button>
-          </div>
+          </div> -->
           &nbsp;&nbsp;&nbsp;&nbsp;
           <div class="header_img">
             <img src="https://i.imgur.com/hczKIze.jpg" alt />
@@ -192,29 +224,24 @@
             <a href="#" class="nav_logo"> </a>
 
             <div class="nav_list">
-              <div class="nav_link active">
-                <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
-              </div>
+              <a class="nav_link active"  href="index.html" title="Draw Menually">
+                <i class="fa-solid fa-pen-ruler"></i>
+              </a>
 
-              <!-- <div class="closebtn" onclick="closeNav()">&times; -->
+              <a class="nav_link active" href="edit-feature.html" title="Edit features">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+            
 
-              <!-- </div> -->
-              <div class="nav_link" title="Download Report">
+              
+              <!-- <div class="nav_link" title="Download Report">
                 <i
                   class="fa-solid fa-file-arrow-down nav_icon"
                   id="generatePdfBtn"
                   onclick="takeScreenshot()"
                 >
                 </i>
-              </div>
-
-              <!-- <a  href="#" class="nav_link"> 
-                              <i class='bx bx-bookmark nav_icon'></i> 
-                          </a>  -->
-
-              <a href="#" class="nav_link">
-                <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-              </a>
+              </div> -->
             </div>
           </div>
           <a href="#" class="nav_link">
