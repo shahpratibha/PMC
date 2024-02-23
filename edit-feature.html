@@ -262,6 +262,16 @@
     <script src="index.js"></script>
     <script>
       $(document).ready(function () {
+        var wardname = localStorage.getItem("wardname");
+        if (wardname) {
+          var cql_filterm = `Ward_Name='${wardname}'`;
+          fitbou(cql_filterm);
+          ward_names.setParams({
+            cql_filter: cql_filterm,
+            styles: "highlight",
+          });
+          ward_names.addTo(map).bringToFront();
+        }
         $("#searchInputDashboard").autocomplete({
           minLength: 3,
           source: function (request, response) {
@@ -337,7 +347,14 @@
           !featureData.features ||
           featureData.features.length === 0
         ) {
-          alert("No feature available. Click on a feature to edit.");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Oops...",
+            text: "No feature available. Click on a feature to edit.",
+            showConfirmButton: false,
+            timer: 2100,
+          });
           return;
         }
 
@@ -450,8 +467,18 @@
                 data: payload,
                 contentType: "application/json",
                 success: function (response) {
-                  alert("Saved Successfully");
-                  window.location.href = "geometry_page.html";
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Success",
+                    text: "Saved Successfully",
+                    showConfirmButton: false,
+                    timer: 2100,
+                  });
+
+                  setTimeout(() => {
+                    window.location.href = "geometry_page.html";
+                  }, 2100);
                 },
                 error: function (xhr, status, error) {
                   console.error("Save failed:", error);
@@ -463,9 +490,6 @@
           document
             .getElementById("editFeatureButton")
             .addEventListener("click", function () {
-              // Your edit feature logic here
-              alert("Editing feature!");
-
               selectedFeature.eachLayer(function (layer) {
                 if (layer.editing) {
                   layer.editing.enable();

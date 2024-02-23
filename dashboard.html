@@ -706,7 +706,14 @@
 
               // Validate that toDate is greater than fromDate
               if (toDate <= fromDate) {
-                alert("To date must be greater than From date.");
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: "Oops...",
+                  text: "To date must be greater than From date.",
+                  showConfirmButton: false,
+                  timer: 2100,
+                });
                 // Clear the selected dates
                 $("#date_range").datepicker("clearDates");
               }

@@ -469,7 +469,14 @@
           .catch(function (error) {
             console.log(error);
             // Handle error
-            alert("There was an error submitting the form.");
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Oops...",
+              text: "There was an error submitting the form.",
+              showConfirmButton: false,
+              timer: 2100,
+            });
           });
       }
     </script>

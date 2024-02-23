@@ -130,10 +130,6 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
-// console.log(localStorage," ")
-var wardname = localStorage.getItem("wardname");
-console.log(wardname, "wardname");
-
 var wms_layer4 = L.tileLayer.wms(
   "https://geo.geopulsea.com/geoserver/pmc/wms",
   {
@@ -201,14 +197,6 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
-
-var cql_filterm = `Ward_Name='${wardname}'`;
-fitbou(cql_filterm);
-ward_names.setParams({
-  cql_filter: cql_filterm,
-  styles: "highlight",
-});
-ward_names.addTo(map).bringToFront();
 
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
@@ -562,7 +550,14 @@ map.on("draw:created", function (e) {
       // Add the feature to the map if overlap is 20% or less
       drawnItems.addLayer(e.layer);
     } else {
-      alert("Road overlaps more than 10% with existing Road.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: "Road overlaps more than 20% with existing Road.",
+        showConfirmButton: false,
+        timer: 2100,
+      });
       // Do not add the new feature to the map
     }
   });
@@ -570,11 +565,15 @@ map.on("draw:created", function (e) {
   if (e.layerType === "polyline") {
     var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
     var roadLenght = localStorage.getItem("roadLenght");
-    console.log(roadLenght);
     if (length > roadLenght) {
-      alert(
-        `The polyline is longer than ${roadLenght} kilometers. Please draw a shorter polyline.`
-      );
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
+        showConfirmButton: false,
+        timer: 2100,
+      });
       return; // Stop further processing
     }
   }
@@ -810,7 +809,6 @@ function deleteRow() {
   if (table.rows.length > 2) {
     table.deleteRow(-1);
     rowIndex--;
-    alert("Delete Row button clicked!");
   }
 }
 
@@ -922,22 +920,22 @@ function Savedata(lastDrawnPolylineId) {
 }
 
 //**************************************************line mesure*************************************************************
-L.control
-  .polylineMeasure({
-    position: "topleft",
-    unit: "kilometres",
-    showBearings: true,
-    clearMeasurementsOnStop: false,
-    showClearControl: true,
-    showUnitControl: true,
-  })
-  .addTo(map);
+// L.control
+//   .polylineMeasure({
+//     position: "topleft",
+//     unit: "kilometres",
+//     showBearings: true,
+//     clearMeasurementsOnStop: false,
+//     showClearControl: true,
+//     showUnitControl: true,
+//   })
+//   .addTo(map);
 
 //**********************************************************area measure**********************************************************************
-var measureControl = new L.Control.Measure({
-  position: "topleft",
-});
-measureControl.addTo(map);
+// var measureControl = new L.Control.Measure({
+//   position: "topleft",
+// });
+// measureControl.addTo(map);
 
 function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
@@ -1693,3 +1691,41 @@ var northArrowControl = L.Control.extend({
 
 // Add the custom north arrow control to the map
 map.addControl(new northArrowControl());
+
+map.on("contextmenu", (e) => {
+  let size = map.getSize();
+  let bbox = map.getBounds().toBBoxString();
+  let layer = "pmc:Data";
+  let style = "pmc:Data";
+  let urrr = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+    e.containerPoint.x
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+    size.x
+  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+  if (urrr) {
+    fetch(urrr)
+      .then((response) => response.json())
+      .then((html) => {
+        var htmldata = html.features[0].properties;
+        let keys = Object.keys(htmldata);
+        let values = Object.values(htmldata);
+        let txtk1 = "";
+        var xx = 0;
+        for (let gb in keys) {
+          txtk1 +=
+            "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
+          xx += 1;
+        }
+
+        let detaildata1 =
+          "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
+          txtk1 +
+          "</td></tr><tr><td>Co-Ordinates</td><td>" +
+          e.latlng +
+          "</td></tr></table></div>";
+
+        L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+      });
+  }
+});

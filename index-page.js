@@ -41,6 +41,19 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }
 );
+var ward_names = L.tileLayer.wms(
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Admin_Ward",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "Admin_Ward",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
 
 var wms_layer12 = L.tileLayer
   .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
@@ -115,6 +128,33 @@ var wms_layer4 = L.tileLayer
   })
   .addTo(map);
 
+var wms_layer16 = L.tileLayer
+  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+    layers: "PMC_Layers",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "PMC_Layers",
+    opacity: 1,
+    maxZoom: 25,
+  })
+  .addTo(map);
+
+var wms_layer17 = L.tileLayer.wms(
+  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Exist_Road",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    attribution: "Exist_Road",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
+
 var WMSlayers = {
   OpenStreetMap: osm,
   "Esri World Imagery": Esri_WorldImagery,
@@ -123,6 +163,8 @@ var WMSlayers = {
   Admin_Ward: wms_layer12,
   Village_Boundary: wms_layer14,
   IWMS_point: wms_layer15,
+  PMC_Layers: wms_layer16,
+  Exist_Road: wms_layer17,
   Revenue: wms_layer1,
   Data: wms_layer3,
   geodata: wms_layer4,
@@ -140,6 +182,21 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
+
+function fitbou(filter) {
+  var layer = "pmc:Admin_Ward";
+  var urlm =
+    "https://geo.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    layer +
+    "&CQL_FILTER=" +
+    filter +
+    "&outputFormat=application/json";
+
+  $.getJSON(urlm, function (data) {
+    geojson = L.geoJson(data, {});
+    map.fitBounds(geojson.getBounds());
+  });
+}
 
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);
@@ -341,7 +398,14 @@ map.on("draw:created", function (e) {
       // Add the feature to the map if overlap is 20% or less
       drawnItems.addLayer(e.layer);
     } else {
-      alert("Road overlaps more than 20% with existing Road.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: "Road overlaps more than 20% with existing Road.",
+        showConfirmButton: false,
+        timer: 2100,
+      });
       // Do not add the new feature to the map
     }
   });
@@ -350,9 +414,15 @@ map.on("draw:created", function (e) {
     var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
     var roadLenght = localStorage.getItem("roadLenght");
     if (length > roadLenght) {
-      alert(
-        `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`
-      );
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
+        showConfirmButton: false,
+        timer: 2100,
+      });
+
       return; // Stop further processing
     }
   }
@@ -642,7 +712,6 @@ function deleteRow() {
   if (table.rows.length > 2) {
     table.deleteRow(-1);
     rowIndex--;
-    alert("Delete Row button clicked!");
   }
 }
 
@@ -1106,6 +1175,19 @@ function getWardNameById(wardId, wardData) {
   }
 }
 
+var northArrowControl = L.Control.extend({
+  options: {
+    position: "bottomleft",
+  },
+
+  onAdd: function (map) {
+    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+    container.innerHTML =
+      '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
+    return container;
+  },
+});
+map.addControl(new northArrowControl());
 map.on("contextmenu", (e) => {
   let size = map.getSize();
   let bbox = map.getBounds().toBBoxString();
