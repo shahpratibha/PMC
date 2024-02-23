@@ -126,11 +126,22 @@ td {
 }
 
 #workTableDashboard thead th {
-  background-color: black;
+  background-color: #163140;
   color: white;
 }
+.chart{
 
-/* Flexbox layout */
+  top: 50%;
+  z-index: 99999;
+
+
+}
+.chartdeshboard {
+  
+  z-index: 99999; 
+
+
+}
 body {
   display: flex;
   flex-direction: column;
@@ -157,13 +168,15 @@ main {
   cursor: pointer;
 }
 
+
+
 #table-container-dashboard {
   display: none;
   position: relative;
-  bottom: 400px;
-  left: 0;
-  /* width: 100%; */
-  max-height: 400px; /* Adjust the maximum height as needed */
+  width: 97%;
+  bottom: 230px;
+  left: 4%;
+  max-height: 300px; 
   overflow-y: scroll;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
@@ -175,19 +188,23 @@ main {
 }
 #table-container-dashboard tbody tr {
   cursor: pointer;
+  font-size: 10px;
 }
 .close-button {
   position: absolute;
-  top: 15px;
+  height: 30px;
+  width: 30px;
+  top: 5px;
   right: 5px;
-  padding: 5px 10px;
+  padding: 5px ;
   z-index: 999;
   cursor: pointer;
   background-color: #dc3545;
   color: #fff;
   border: none;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  z-index: 999999;
 }
 
 .ui-autocomplete {
