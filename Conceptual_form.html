@@ -154,13 +154,13 @@
               <i class="bx bx-file nav_icon"></i>
             </a>
 
-            <a href="#" class="nav_link">
+            <!-- <a href="#" class="nav_link">
               <i class="bx bx-bookmark nav_icon"></i>
-            </a>
+            </a> -->
 
-            <a href="#" class="nav_link">
+            <!-- <a href="#" class="nav_link">
               <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-            </a>
+            </a> -->
           </div>
         </div>
         <a href="#" class="nav_link">
@@ -411,7 +411,7 @@
           <input type="text" id="Width" name="Width" required />
           <label for="Length">Length</label>
           <input type="text" id="Length" name="Length" required />
-          <a class="submitbtn" href="geometry_page.html">
+          <a class="submitbtn" href="index.html">
             <button type="button" onclick="submitForm()">Next</button>
           </a>
         </form>
@@ -434,7 +434,7 @@
     <script>
       function goToNextPage() {
         // Add logic to navigate to the new page
-        window.location.href = "geometry_page.html";
+        window.location.href = "index.html";
       }
       function submitForm() {
         // Prevent the form from submitting the traditional way
@@ -463,7 +463,7 @@
             localStorage.removeItem("conceptual_form_data");
             localStorage.removeItem("selectCoordinatesData");
             setTimeout(function () {
-              window.location.href = "geometry_page.html";
+              window.location.href = "index.html";
             }, 2000); // 1000 milliseconds = 1 second
           })
           .catch(function (error) {
