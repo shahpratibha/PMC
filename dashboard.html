@@ -945,8 +945,22 @@
           $("#workTableDashboard tbody").on("click", "tr", function () {
             var coordinatesStr = $(this).data("coordinates");
             var coordinatesObj = coordinatesStr;
-            var bounds = L.geoJSON(coordinatesObj).getBounds();
-            map.fitBounds(bounds);
+            var boundsLayer = L.geoJSON(coordinatesObj, {
+              style: {
+                fillColor: "blue", // Fill color
+                fillOpacity: 0.3, // Fill opacity
+                color: "blue", // Border color
+                weight: 2, // Border weight
+              },
+            }).addTo(map); // Add the bounds layer to the map
+
+            var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
+            map.fitBounds(bounds).setZoom(14); // Fit map to the bounds and set zoom level
+
+            // Optionally, you can remove the bounds layer after a certain duration
+            setTimeout(function () {
+              map.removeLayer(boundsLayer);
+            }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
           });
 
           var tableContainer = $("#table-container-dashboard");

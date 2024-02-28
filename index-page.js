@@ -410,22 +410,103 @@ map.on("draw:created", function (e) {
     }
   });
 
-  if (e.layerType === "polyline") {
-    var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
-    var roadLenght = localStorage.getItem("roadLenght");
-    if (length > roadLenght) {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Oops...",
-        text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
-        showConfirmButton: false,
-        timer: 2100,
-      });
+  // Function to update roadLength in localStorage and redraw the line
+  function updateRoadLength(newRoadLength) {
+    localStorage.setItem("roadLenght", newRoadLength);
+    redrawLine();
+  }
 
-      return; // Stop further processing
+  function redrawLine() {
+    var drawnPolyline = e.layer.toGeoJSON();
+    var roadLength = parseFloat(localStorage.getItem("roadLenght"));
+
+    var startPoint = drawnPolyline.geometry.coordinates[0];
+    var endPoint =
+      drawnPolyline.geometry.coordinates[
+        drawnPolyline.geometry.coordinates.length - 1
+      ];
+
+    startPoint = [startPoint[1], startPoint[0]];
+    endPoint = [endPoint[1], endPoint[0]];
+
+    var trimmedCoordinates = [];
+    var alongPoint = turf.along(drawnPolyline, roadLength, {
+      units: "kilometers",
+    });
+    var trimmedPoint = alongPoint.geometry.coordinates;
+    trimmedPoint = [trimmedPoint[1], trimmedPoint[0]];
+    trimmedCoordinates.push(startPoint, trimmedPoint);
+
+    drawnItems.removeLayer(e.layer);
+
+    e.layer.setLatLngs(trimmedCoordinates);
+
+    var layer = e.layer;
+    drawnItems.addLayer(layer);
+
+    if (e.layerType === "polyline") {
+      var bufferWidth = localStorage.getItem("bufferWidth");
+
+      createBufferAndDashedLine(layer, roadLenght, bufferWidth);
     }
   }
+
+  if (e.layerType === "polyline") {
+    var drawnPolyline = e.layer.toGeoJSON();
+    var roadLenght = localStorage.getItem("roadLenght");
+    var roadLength = localStorage.getItem("roadLenght");
+
+    var startPoint = drawnPolyline.geometry.coordinates[0];
+    var endPoint =
+      drawnPolyline.geometry.coordinates[
+        drawnPolyline.geometry.coordinates.length - 1
+      ];
+
+    startPoint = [startPoint[1], startPoint[0]];
+    endPoint = [endPoint[1], endPoint[0]];
+
+    var trimmedCoordinates = [];
+
+    var distance = turf.distance(startPoint, endPoint, { units: "kilometers" });
+
+    if (distance > roadLenght) {
+      // Swal.fire({
+      //   position: "center",
+      //   icon: "error",
+      //   title: "Oops...",
+      //   text: "The line has been trimmed to 1 kilometer.",
+      //   showConfirmButton: false,
+      //   timer: 2100,
+      // });
+      $("#roadLengthModal").modal("show");
+      document.getElementById("newRoadLengthInput").value = roadLength;
+
+      $("#roadLengthForm").submit(function (e) {
+        e.preventDefault();
+        var newRoadLength = parseFloat(
+          document.getElementById("newRoadLengthInput").value
+        );
+        updateRoadLength(newRoadLength); // Update roadLength and redraw the line
+      });
+
+      // Event listener for modal hidden event
+      $("#roadLengthModal").on("hidden.bs.modal", function () {
+        redrawLine(); // Redraw the line when the modal is closed
+      });
+
+      var alongPoint = turf.along(drawnPolyline, roadLenght, {
+        units: "kilometers",
+      });
+      var trimmedPoint = alongPoint.geometry.coordinates;
+      trimmedPoint = [trimmedPoint[1], trimmedPoint[0]];
+      trimmedCoordinates.push(startPoint, trimmedPoint);
+    } else {
+      trimmedCoordinates.push(startPoint, endPoint);
+    }
+
+    e.layer.setLatLngs(trimmedCoordinates);
+  }
+
   var layer = e.layer;
   drawnItems.addLayer(layer);
 
