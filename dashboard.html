@@ -173,7 +173,7 @@
       rel="stylesheet"
       href="libs/leaflet-measure-master/leaflet-measure.css"
     />
-    <!-- <script src="libs/leaflet-measure-master/leaflet-measure.js"></script> -->
+    <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
     <script src="libs/feat.js"></script>
 
       <!-- legend -->
@@ -493,13 +493,7 @@
               </i>
             </div>
 
-            <!-- <a  href="#" class="nav_link"> 
-                            <i class='bx bx-bookmark nav_icon'></i> 
-                        </a>  -->
-
-            <!-- <a href="#" class="nav_link">
-              <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-            </a> -->
+           
           </div>
         </div>
         <a href="#" class="nav_link">
@@ -595,23 +589,9 @@
       // -----------------------------------
 
       document.addEventListener("DOMContentLoaded", function () {
-        // const mapContainer = document.getElementById("mapContainer");
         const map = document.getElementById("map");
         const rightSidebar = document.querySelector(".chart");
 
-        // Function to collapse the map
-        // function collapseMap() {
-        //   mapContainer.style.display = "none";
-        // }
-
-        // // Function to expand the map
-        // function expandMap() {
-        //   mapContainer.style.display = "block";
-        // }
-
-        // Event listener for right sidebar visibility
-        // rightSidebar.addEventListener("mouseenter", collapseMap);
-        // rightSidebar.addEventListener("mouseleave", expandMap);
       });
 
       // /////////////////----------------------------------
@@ -632,7 +612,6 @@
             pdf.addImage(img, "PNG", 15, 170, 180, 80);
             pdf.save("map.pdf"); // Save PDF
           };
-          // img.src = "finalLegend.png";
         });
       }
 
@@ -668,7 +647,38 @@
                   title: "Oops...",
                   text: "To date must be greater than From date.",
                   showConfirmButton: false,
-                  timer: 2100,
+                  // timer: 2100,
+                  showCloseButton: true,
+                    customClass: {
+                      popup: 'custom-modal-class',
+                      icon: 'custom-icon-class',
+                      title: 'custom-title-class',
+                      content: 'custom-text-class',
+                      closeButton: 'custom-close-button-class'
+                    },
+                    showClass: {
+                      popup: 'swal2-show',
+                      backdrop: 'swal2-backdrop-show',
+                      icon: 'swal2-icon-show'
+                    },
+                    hideClass: {
+                      popup: 'swal2-hide',
+                      backdrop: 'swal2-backdrop-hide',
+                      icon: 'swal2-icon-hide'
+                    },
+                    didOpen: () => {
+                      // Apply custom styles directly to the modal elements
+                      document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
+                      document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
+                      document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
+                      document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
+                      document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
+                      document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
+                      document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
+                      document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
+                      document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
+                      document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
+                    }
                 });
                 // Clear the selected dates
                 $("#date_range").datepicker("clearDates");
@@ -898,12 +908,34 @@
             stageCounts[stage][monthYear]++;
           });
 
+          // $("#workTableDashboard tbody").on("click", "tr", function () {
+          //   var coordinatesStr = $(this).data("coordinates");
+          //   var coordinatesObj = coordinatesStr;
+          //   var bounds = L.geoJSON(coordinatesObj).getBounds();
+          //   map.fitBounds(bounds);
+          // });
+          
           $("#workTableDashboard tbody").on("click", "tr", function () {
             var coordinatesStr = $(this).data("coordinates");
             var coordinatesObj = coordinatesStr;
-            var bounds = L.geoJSON(coordinatesObj).getBounds();
-            map.fitBounds(bounds);
+            var boundsLayer = L.geoJSON(coordinatesObj, {
+              style: {
+                fillColor: "blue", // Fill color
+                fillOpacity: 0.3, // Fill opacity
+                color: "blue", // Border color
+                weight: 2, // Border weight
+              },
+            }).addTo(map); // Add the bounds layer to the map
+
+            var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
+            map.fitBounds(bounds).setZoom(14); // Fit map to the bounds and set zoom level
+
+            // Optionally, you can remove the bounds layer after a certain duration
+            setTimeout(function () {
+              map.removeLayer(boundsLayer);
+            }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
           });
+
 
           var tableContainer = $("#table-container-dashboard");
           var isClosed = false;

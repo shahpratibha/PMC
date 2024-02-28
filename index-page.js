@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC-Project/";
+const API_URL = "http://localhost/PMC-Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -412,8 +412,39 @@ map.on("draw:created", function (e) {
         title: "Oops...",
         text: "Road overlaps more than 10% with existing Road.",
         showConfirmButton: false,
-        timer: 2100,
+        showCloseButton: true,
+        customClass: {
+          popup: 'custom-modal-class',
+          icon: 'custom-icon-class',
+          title: 'custom-title-class',
+          content: 'custom-text-class',
+          closeButton: 'custom-close-button-class'
+        },
+        showClass: {
+          popup: 'swal2-show',
+          backdrop: 'swal2-backdrop-show',
+          icon: 'swal2-icon-show'
+        },
+        hideClass: {
+          popup: 'swal2-hide',
+          backdrop: 'swal2-backdrop-hide',
+          icon: 'swal2-icon-hide'
+        },
+        didOpen: () => {
+          // Apply custom styles directly to the modal elements
+          document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
+          document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
+          document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
+          document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
+          document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
+          document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
+          document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
+          document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
+          document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
+          document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
+        }
       });
+      
       // Do not add the new feature to the map
     }
   });
@@ -428,8 +459,40 @@ map.on("draw:created", function (e) {
         title: "Oops...",
         text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
         showConfirmButton: false,
-        timer: 2100,
+        showCloseButton: true,
+        customClass: {
+          popup: 'custom-modal-class',
+          icon: 'custom-icon-class',
+          title: 'custom-title-class',
+          content: 'custom-text-class',
+          closeButton: 'custom-close-button-class'
+        },
+        showClass: {
+          popup: 'swal2-show',
+          backdrop: 'swal2-backdrop-show',
+          icon: 'swal2-icon-show'
+        },
+        hideClass: {
+          popup: 'swal2-hide',
+          backdrop: 'swal2-backdrop-hide',
+          icon: 'swal2-icon-hide'
+        },
+        didOpen: () => {
+          // Apply custom styles directly to the modal elements
+          document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
+          document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
+          document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
+          document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
+          document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
+          document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
+          document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
+          document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
+          document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
+          document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
+        }
       });
+      
+    
 
       return; // Stop further processing
     }
@@ -1086,7 +1149,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img class="north-arrow" src="north-image.png" alt="" style="width: 60px; border:none; background-color:white; height: 60px;">'
+      '<img  src="north_image1.jpg" alt="" style="width: 70px; border:2px solid gray; border-radius:50%;  height: 70px;">'
 
       return container;
   },

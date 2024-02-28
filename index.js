@@ -1745,7 +1745,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img class="north-arrow" src="north-image.png" alt="" style="width: 60px; background-color:white; border:none;  height: 60px;">'
+      '<img  src="north_image1.jpg" alt="" style="width: 70px; border:2px solid gray; border-radius:50%;   height: 70px;">'
       return container;
   },
 });
