@@ -13,6 +13,8 @@
         height: 90vh;
         width: 97%;
       }
+
+      
     </style>
     <!-- bootstrap -->
     <link
@@ -137,13 +139,43 @@
       rel="stylesheet"
       href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
     />
+
+    
+    <!-- MousePosition -->
+    <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+    <link
+      rel="stylesheet"
+      href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css"
+    />
+
+    <!-- line-measure -->
+    <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
+    <script src="libs/polyline-measure/line-measure.js"></script>
+    <link
+      rel="stylesheet"
+      href="libs/leaflet-measure-master/leaflet-measure.css"
+    />
+    <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.js"></script>
+ 
+<link href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.css" rel="stylesheet"> -->
+    <script src="libs/feat.js"></script>
+
+      <!-- legend -->
+ 
+
+ <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
+ <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
+
+
   </head>
   <body>
     <div class="container-fluid">
       <header class="header justify-content-between" id="header">
         <div><h5>GeoPulse</h5></div>
         <div class="d-flex justify-content-between ms-auto" role="search">
-          <div class="input-group">
+          <!-- <div class="input-group">
             <select
               class="form-select ms-auto"
               aria-label="Select search category"
@@ -177,7 +209,7 @@
             >
               <i class="fa-solid fa-trash"></i>
             </button>
-          </div>
+          </div> -->
           &nbsp;&nbsp;&nbsp;&nbsp;
           <div class="header_img">
             <img src="https://i.imgur.com/hczKIze.jpg" alt />
@@ -190,29 +222,14 @@
             <a href="#" class="nav_logo"> </a>
 
             <div class="nav_list">
-              <div class="nav_link active">
-                <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
-              </div>
-
-              <!-- <div class="closebtn" onclick="closeNav()">&times; -->
-
-              <!-- </div> -->
-              <div class="nav_link" title="Download Report">
-                <i
-                  class="fa-solid fa-file-arrow-down nav_icon"
-                  id="generatePdfBtn"
-                  onclick="takeScreenshot()"
-                >
-                </i>
-              </div>
-
-              <!-- <a  href="#" class="nav_link"> 
-                                  <i class='bx bx-bookmark nav_icon'></i> 
-                              </a>  -->
-
-              <a href="#" class="nav_link">
-                <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
+              <a class="nav_link active"  href="index.html" title="Draw Menually">
+                <i class="fa-solid fa-pen-ruler"></i>
               </a>
+
+              <!-- <a class="nav_link active" href="edit-feature.html" title="Edit features">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a> -->
+            
             </div>
           </div>
           <a href="#" class="nav_link">
@@ -222,6 +239,7 @@
       </div>
       <main>
         <div id="map"></div>
+      
       </main>
       <div id="table-container">
         <button id="closeTableBtn" class="close-button">
@@ -245,6 +263,7 @@
           </thead>
           <tfoot>
             <tr>
+              
               <th>Name of Work</th>
               <th>Work Type</th>
               <th>Work Completion Date</th>
@@ -367,6 +386,249 @@
           },
         });
       });
+
+
+      
+//**************************************************line mesure*************************************************************
+L.control
+  .polylineMeasure({
+    position: "topright",
+    unit: "kilometres",
+    showBearings: true,
+    clearMeasurementsOnStop: false,
+    showClearControl: true,
+    showUnitControl: true,
+  })
+  .addTo(map);
+
+//**********************************************************area measure**********************************************************************
+var measureControl = new L.Control.Measure({
+  position: "topright",
+});
+measureControl.addTo(map);
+
+
+// Create a custom control
+var editControl = L.control({ position: 'topleft' });
+
+// Define the HTML content for the control
+editControl.onAdd = function(map) {
+  var div = L.DomUtil.create('div', 'edit-control');
+  div.innerHTML = '<a class="edit_feature" href="edit-feature.html" style="border:2px solid #bbb; margin-top:30px; border-radius:5px; background-color:white; padding:8px 5px 8px 5px ;"><i class="fa-solid fa-pen-to-square" style="width:15px; height: 15px;  color:grey;"></i></a>';
+  return div;
+};
+
+// Add the control to the map
+editControl.addTo(map);
+
+
+// GeoServer URL
+var geoserverUrl = "https://geo.geopulsea.com/geoserver";
+
+// Variable to keep track of legend visibility
+var legendVisible = true;
+
+// Add the WMS Legend control to the map
+var legendControl = L.control({ position: "topright" });
+
+legendControl.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Function to fetch and populate the legend
+  function updateLegend() {
+    // Clear the existing legend
+    div.innerHTML = '';
+
+    // Fetch capabilities to get all layers in the 'pmc' workspace
+    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
+      .then((response) => response.text())
+      .then((data) => {
+        // Parse capabilities XML response
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(data, "text/xml");
+
+        // Extract layer names and legend URLs for layers in the 'pmc' workspace
+        var layers = xml.querySelectorAll('Layer[queryable="1"]');
+        layers.forEach(function (layer) {
+          var layerName = layer.querySelector("Name").textContent;
+          if (layerName.startsWith("pmc:")) {
+            var legendUrl =
+              geoserverUrl +
+              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+              layerName;
+            div.innerHTML +=
+              "<p><strong>" +
+              layerName +
+              "</strong></p>" +
+              '<img src="' +
+              legendUrl +
+              '" alt="' +
+              layerName +
+              ' legend"><br>';
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching capabilities:", error);
+      });
+  }
+
+  // Initially update the legend
+  updateLegend();
+
+  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+  div.style.position = "fixed";
+  div.style.bottom = "0";
+  div.style.right = "0";
+  div.style.height = "40vh";
+  div.style.width = "300px";
+  div.style.overflowY = "auto";
+  div.style.backgroundColor = "white";
+  div.style.border = "1px solid #ccc";
+  div.style.padding = "10px";
+  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
+
+  // Toggle legend visibility function
+  function toggleLegend() {
+    if (legendVisible) {
+      div.style.height = "0"; // Minimize the legend
+      legendVisible = false;
+    } else {
+      div.style.height = "40vh"; // Maximize the legend
+      legendVisible = true;
+    }
+  }
+
+  // Add event listener to the legend control
+  div.addEventListener('click', toggleLegend);
+
+  return div;
+};
+
+// legendControl.addTo(map);
+
+// Add collapsible button
+var collapseButton = L.control({ position: "topright" });
+
+collapseButton.onAdd = function (map) {
+  var button = L.DomUtil.create("button", "collapse-button");
+  button.innerHTML = "<i class='fa-solid fa-bars'></i>"; // Initial text
+
+  // Apply styling
+  button.style.backgroundColor = "white";
+  button.style.border = "2px solid #bbb";
+  button.style.width = "35px";
+  button.style.height = "35px";
+  button.style.borderRadius = "5px";
+  button.style.color = "black";
+  button.style.padding = "10px";
+  button.style.textAlign = "center";
+  button.style.textDecoration = "none";
+  button.style.display = "block";
+  button.style.margin = "10px";
+  button.style.cursor = "pointer";
+  button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
+
+  // Toggle legend visibility when the button is clicked
+  button.onclick = function () {
+    var legendDiv = document.querySelector(".info.legend");
+    if (legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+      legendDiv.style.height = "40vh";
+      legendDiv.style.display = "block"; // Make sure it's visible if it was hidden
+      button.innerHTML = "<i class='fas fa-minus'></i>";
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = true;
+    } else {
+      legendDiv.style.height = "0";
+      button.innerHTML = "<i class='fas fa-plus'></i>";
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = false;
+    }
+  };
+
+  return button;
+};
+
+collapseButton.addTo(map);
+
+  // for legend////////////////////////////////////////////////////////////////////
+  
+
+// Create a legend control
+var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Initially hide the legend content
+  div.style.display = "none";
+
+  // Create a button to toggle the visibility of the legend content
+  var toggleButton = L.DomUtil.create("button", "legend-toggle");
+  toggleButton.innerHTML = "";
+  toggleButton.style.backgroundColor = "transparent";
+
+  toggleButton.onclick = function () {
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  };
+  div.appendChild(toggleButton);
+
+  // Fetch capabilities to get all layers in the 'pmc' workspace
+  fetch(
+    "https://geo.geopulsea.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+  )
+    .then((response) => response.text())
+    .then((data) => {
+      // Parse capabilities XML response
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(data, "text/xml");
+
+      // Extract layer names and legend URLs for layers in the 'pmc' workspace
+      var layers = xml.querySelectorAll('Layer[queryable="1"]');
+      layers.forEach(function (layer) {
+        var layerName = layer.querySelector("Name").textContent;
+        if (layerName.startsWith("pmc:")) {
+          var legendUrl =
+            this.geoserverUrl +
+            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+            layerName;
+          div.innerHTML +=
+            "<p><strong>" +
+            layerName +
+            "</strong></p>" +
+            '<img src="' +
+            legendUrl +
+            '" alt="' +
+            layerName +
+            ' legend"><br>';
+        }
+      });
+
+      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+      div.style.position = "fixed";
+      div.style.bottom = "0";
+      div.style.right = "0";
+      div.style.height = "60vh";
+      div.style.width = "300px";
+      div.style.overflowY = "auto";
+      div.style.backgroundColor = "white";
+      div.style.border = "1px solid #ccc";
+      div.style.padding = "10px";
+    })
+    .catch((error) => {
+      console.error("Error fetching capabilities:", error);
+    });
+
+  return div;
+};
+
+legend.addTo(map);
+
+
     </script>
   </body>
 </html>

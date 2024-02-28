@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC-Project/";
+const API_URL = "http://localhost/PMC-Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -220,26 +220,31 @@ var drawControl = new L.Control.Draw({
         className: "leaflet-div-icon", // specify the icon class
       }),
     },
-    polygon: {
-      shapeOptions: {
-        color: "blue", // set the color for the polygon border
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6), // set the size of the icon
-        className: "leaflet-div-icon", // specify the icon class
-      }),
-    },
+    polygon: false,
+
     circle: false,
-    marker: true,
-    rectangle: true,
+    marker: false,
+    rectangle: false,
   },
   edit: {
     featureGroup: drawnItems,
-    remove: true,
+    remove: false,
   },
 });
-map.addControl(drawControl);
+// map.addControl(drawControl);
 
+toggleDrawControl();
+console.log(map.getZoom(), "map.getZoom()");
+function toggleDrawControl() {
+  if (map.getZoom() > 15) {
+    map.addControl(drawControl);
+  } else {
+    map.removeControl(drawControl);
+  }
+}
+
+// Event listener for map zoomend event
+map.on("zoomend", toggleDrawControl);
 // function for added buffer
 
 var associatedLayersRegistry = {};
@@ -302,7 +307,7 @@ function checkPolylineIntersection(newPolyline) {
 
   var intersectionPercentage =
     (totalIntersectionLength / newPolylineLength) * 100;
-  return intersectionPercentage <= 20;
+  return intersectionPercentage <= 10;
 }
 
 function getWFSUrl() {
@@ -383,7 +388,7 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
     overlapPercentage = (totalOverlapArea / estimatedArea) * 100;
   }
 
-  return overlapPercentage <= 20;
+  return overlapPercentage <= 10;
 }
 
 // var layer;
@@ -395,17 +400,56 @@ map.on("draw:created", function (e) {
     var isAllowed = checkOverlapWithGeodata(newFeature, geodataFeatures);
 
     if (isAllowed) {
-      // Add the feature to the map if overlap is 20% or less
+      // Add the feature to the map if overlap is 10% or less
       drawnItems.addLayer(e.layer);
     } else {
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Oops...",
-        text: "Road overlaps more than 20% with existing Road.",
+        text: "Road overlaps more than 10% with existing Road.",
         showConfirmButton: false,
-        timer: 2100,
+        showCloseButton: true,
+        customClass: {
+          popup: "custom-modal-class",
+          icon: "custom-icon-class",
+          title: "custom-title-class",
+          content: "custom-text-class",
+          closeButton: "custom-close-button-class",
+        },
+        showClass: {
+          popup: "swal2-show",
+          backdrop: "swal2-backdrop-show",
+          icon: "swal2-icon-show",
+        },
+        hideClass: {
+          popup: "swal2-hide",
+          backdrop: "swal2-backdrop-hide",
+          icon: "swal2-icon-hide",
+        },
+        didOpen: () => {
+          // Apply custom styles directly to the modal elements
+          document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+          document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+          document.querySelector(".custom-title-class").style.fontSize =
+            "1.5em"; // Set your desired title size
+          document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.backgroundColor = "#f44336"; // Red background color
+          document.querySelector(".custom-close-button-class").style.color =
+            "white"; // White text color
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.borderRadius = "0"; // Rounded corners
+          document.querySelector(".custom-close-button-class").style.padding =
+            "5px"; // Padding around the close button
+          document.querySelector(".custom-close-button-class").style.fontSize =
+            "20px"; // Font size of the close button
+        },
       });
+
       // Do not add the new feature to the map
     }
   });
@@ -571,59 +615,6 @@ map.on("draw:created", function (e) {
             "</td></tr>";
           popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
         }
-
-        // Add CSV data to the popup content
-        // var csvData = response.data;
-        // if (csvData) {
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][0] +
-        //     "</td><td>" +
-        //     csvData[1][0] +
-        //     "</td></tr>";
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][1] +
-        //     "</td><td>" +
-        //     csvData[1][1] +
-        //     "</td></tr>";
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][2] +
-        //     "</td><td>" +
-        //     csvData[1][2] +
-        //     "</td></tr>";
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][3] +
-        //     "</td><td>" +
-        //     csvData[1][3] +
-        //     "</td></tr>";
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][6] +
-        //     "</td><td>" +
-        //     csvData[1][6] +
-        //     "</td></tr>";
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][7] +
-        //     "</td><td>" +
-        //     csvData[1][7] +
-        //     "</td></tr>";
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][8] +
-        //     "</td><td>" +
-        //     csvData[1][8] +
-        //     "</td></tr>";
-        //   popupContent +=
-        //     "<tr><td>" +
-        //     csvData[0][9] +
-        //     "</td><td>" +
-        //     csvData[1][9] +
-        //     "</td></tr>";
-        // }
 
         // Close the table tag
         popupContent += "</table>";
@@ -844,65 +835,6 @@ function Savedata(lastDrawnPolylineId) {
     },
   });
 }
-
-// function Savedata(lastDrawnPolylineId) {
-//   // Retrieve the GeoJSON representation of the buffer
-//   var bufferGeoJSON = {}; // Initialize as an empty object
-//   if (
-//     associatedLayersRegistry[lastDrawnPolylineId] &&
-//     associatedLayersRegistry[lastDrawnPolylineId].bufferLayer
-//   ) {
-//     bufferGeoJSON =
-//       associatedLayersRegistry[lastDrawnPolylineId].bufferLayer.toGeoJSON();
-
-//     // Define the style for the buffered line
-//     var bufferedLineStyle = {
-//       color: "#000000",
-//       weight: 4,
-//       opacity: 0.5,
-//       lineJoin: "round",
-//       dashArray: "10, 10", // Assuming you want the dashed line style
-//     };
-
-//     // Embed the style directly within the GeoJSON object
-//     bufferGeoJSON.properties = bufferGeoJSON.properties || {}; // Ensure properties exist
-//     bufferGeoJSON.properties.style = bufferedLineStyle;
-//   } else {
-//     console.error("Layer ID not found in registry.");
-//     return;
-//   }
-
-//   // Serialize the modified GeoJSON object to a string
-//   var bufferedGeoJSONString = JSON.stringify(bufferGeoJSON);
-
-//   // Prepare other relevant data
-//   var roadLength = localStorage.getItem("roadLength");
-//   var bufferWidth = localStorage.getItem("bufferWidth");
-//   var lastInsertedId = localStorage.getItem("lastInsertedId");
-
-//   // Construct the payload to include the styled buffered line's GeoJSON
-//   var payload = JSON.stringify({
-//     geoJSON: bufferedGeoJSONString,
-//     roadLength: roadLength,
-//     bufferWidth: bufferWidth,
-//     gis_id: lastInsertedId,
-//   });
-
-//   // AJAX request to the server to save the data
-//   $.ajax({
-//     type: "POST",
-//     url: "APIS/gis_save.php",
-//     data: payload,
-//     contentType: "application/json",
-//     success: function (response) {
-//       console.log("Styled buffered line saved successfully:", response);
-//       window.location.href = "geometry_page.html";
-//     },
-//     error: function (xhr, status, error) {
-//       console.error("Save failed:", error);
-//     },
-//   });
-// }
 
 function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
@@ -1126,7 +1058,6 @@ $(document).ready(function () {
   });
 
   // Add event listener to DataTable rows
-  // Add event listener to DataTable rows
   $("#workTable tbody").on("click", "tr", function () {
     var data = dataTable.row(this).data();
     var nameOfWork = data[0]; // Assuming the first column contains the name of the work
@@ -1255,6 +1186,8 @@ function getWardNameById(wardId, wardData) {
     return "";
   }
 }
+// You can also customize the scale options
+L.control.scale().addTo(map);
 
 var northArrowControl = L.Control.extend({
   options: {
@@ -1264,7 +1197,9 @@ var northArrowControl = L.Control.extend({
   onAdd: function (map) {
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
-      '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
+      // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
+      '<img  src="north_image1.jpg" alt="" style="width: 70px; border:2px solid gray; border-radius:50%;  height: 70px;">';
+
     return container;
   },
 });
@@ -1296,7 +1231,7 @@ map.on("contextmenu", (e) => {
         }
 
         let detaildata1 =
-          "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
+          "<div style='max-height: 350px; max-width:200px;'><table  style='width:80%;' class='popup-table' >" +
           txtk1 +
           "</td></tr><tr><td>Co-Ordinates</td><td>" +
           e.latlng +

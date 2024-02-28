@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PMC_Form</title>
+    <title>Preview page</title>
     <link rel="stylesheet" href="C_form.css" />
     <link rel="stylesheet" href="demo.css" />
     <link
@@ -128,18 +128,30 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <style>
+      #map {
+        height: 450px;
+        width: 100%;
+      }
+      form {
+        max-width: 100%;
+        margin: auto;
+        padding: 20px;
+        background-color: transparent;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-wrap: wrap;
+      }
       #workTable tr th {
         white-space: nowrap;
       }
       #table-container {
-        width: 90%;
+        width: 100%;
         overflow-y: hidden;
         margin: 0 auto;
         overflow-x: scroll;
-      }
-      #table-container {
-        display: none;
       }
     </style>
   </head>
@@ -154,21 +166,28 @@
       <nav class="nav">
         <div>
           <a href="#" class="nav_logo"> </a>
+
           <div class="nav_list">
-            <div class="nav_link active">
-              <i class="fas fa-filter nav_icon"></i>
-            </div>
-            <a href="#" class="nav_link">
-              <i class="bx bx-file nav_icon"></i>
+            <a class="nav_link active" href="index.html" title="Draw Menually">
+              <i class="fa-solid fa-pen-ruler"></i>
             </a>
 
-            <a href="#" class="nav_link">
-              <i class="bx bx-bookmark nav_icon"></i>
+            <a
+              class="nav_link active"
+              href="edit-feature.html"
+              title="Edit features"
+            >
+              <i class="fa-solid fa-pen-to-square"></i>
             </a>
 
-            <a href="#" class="nav_link">
-              <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-            </a>
+            <!-- <div class="nav_link" title="Download Report">
+                  <i
+                    class="fa-solid fa-file-arrow-down nav_icon"
+                    id="generatePdfBtn"
+                    onclick="takeScreenshot()"
+                  >
+                  </i>
+                </div> -->
           </div>
         </div>
         <a href="#" class="nav_link">
@@ -176,83 +195,60 @@
         </a>
       </nav>
     </div>
-    <div id="content">
+    <div id="content" style="width: 100%" class="container">
       <!--Container Main start-->
       <!-- Button container -->
-      <div id="button-container">
-        <button class="toggle-button" id="map-view-button">MARK AREA</button>
-      </div>
+      <div id="button-container" class="mt-4"></div>
 
-      <section id="map-section">
+      <section id="map-section" class="mt-5">
         <!-- <h2>MARK AREA</h2> -->
-        <form>
-          <h5 class="pt-3">Choose Option</h5>
-          <div
-            class="pt-5"
-            style="margin-left: -11%; font-size: 12px; color: black"
-          >
-            <p>to mark area on map page choose a method</p>
-          </div>
-          <div class="markbtn">
-            <a
-              href="index.html"
-              class="toggle-btn fw-bold"
-              style="text-decoration: none"
-              >DRAW MANUALLY</a
-            >
-            <a
-              href="edit-feature.html"
-              class="toggle-btn fw-bold"
-              style="text-decoration: none"
-              >EDIT FEATURE</a
-            >
 
-            <!-- <label for="fileInput" class="toggle-btn1 btn btn-outline-secondary"> -->
-            <!-- <input
-              class="toggle-btn1 btn btn-outline-secondary"
-              type="file"
-              id="fileInput"
-              accept=".kml, .kmz"
-              onchange="loadFile()"
-              title="Upload KML"
-            /> -->
-            <!-- </label> -->
+        <form class="mt-5" style="overflow: hidden">
+          <div style="margin: 0; float: left">
+            <h5 class="text-secondary">Preview Map</h5>
+          </div>
+          <div style="float: right; margin-top: -40px; margin-left: 95%">
+            <i
+              class="fa-solid fa-print text-primary"
+              id="generatePdfBtn"
+              onclick="takeScreenshot()"
+              style="font-size: 25px"
+            ></i>
+          </div>
+
+          <div id="map"></div>
+
+          <div id="table-container">
+            <table
+              id="workTable"
+              class="table table-bordered table-hover"
+              style="width: 100% !important"
+            >
+              <thead>
+                <tr>
+                  <th>Project No</th>
+                  <th>Name of AA work</th>
+                  <th>Work Type</th>
+                  <th>Scope of Work</th>
+                  <th>Project Financial Year</th>
+                  <th>Department</th>
+                  <th>Project Type</th>
+                  <th>Project Office</th>
+                  <th>Junior Engineer Name</th>
+                  <th>Contact No</th>
+                  <th>Date-In</th>
+                  <th>Zone</th>
+                  <th>Ward</th>
+                  <th>Prabhag Name</th>
+                  <th>Width</th>
+                  <th>Length</th>
+                </tr>
+              </thead>
+              <tbody id="workTableData"></tbody>
+            </table>
           </div>
         </form>
-        <form>
-          <div id="map"></div>
-        </form>
-        <!-- Your map area code -->
       </section>
-      <div id="table-container">
-        <table
-          id="workTable"
-          class="table table-bordered table-hover"
-          style="width: 100% !important"
-        >
-          <thead>
-            <tr>
-              <th>Project No</th>
-              <th>Name of AA work</th>
-              <th>Work Type</th>
-              <th>Scope of Work</th>
-              <th>Project Financial Year</th>
-              <th>Department</th>
-              <th>Project Type</th>
-              <th>Project Office</th>
-              <th>Junior Engineer Name</th>
-              <th>Contact No</th>
-              <th>Date-In</th>
-              <th>Zone</th>
-              <th>Ward</th>
-              <th>Prabhag Name</th>
-              <th>Width</th>
-              <th>Length</th>
-            </tr>
-          </thead>
-          <tbody id="workTableData"></tbody>
-        </table>
-      </div>
     </div>
 
     <script
@@ -369,7 +365,7 @@
               feature.geometry.type === "LineString" ||
               feature.geometry.type === "MultiLineString"
             ) {
-              // console.log(feature.geometry.coordinates);
+              console.log(feature.geometry.coordinates);
               let coordinates = feature.geometry.coordinates.map(
                 (innerArray) => {
                   if (Array.isArray(innerArray[0])) {
@@ -428,42 +424,6 @@
         content += "</table></div>";
         return content;
       }
-
-      //  const markers = [];
-
-      //       function showCoordinates() {
-      //           const coordinatesInput = document.getElementById('coordinatesInput');
-      //           const coordinates = coordinatesInput.value;
-
-      //           if (coordinates !== null && coordinates !== "") {
-      //               updateMarkers(coordinates);
-      //           } else {
-      //               alert("No coordinates entered. Please try again.");
-      //           }
-      //       }
-
-      //       function updateMarkers(coordinates) {
-      //           const [latitude, longitude] = coordinates.split(',');
-
-      //           // Clear existing markers
-      //           markers.forEach(marker => map.removeLayer(marker));
-      //           markers.length = 0;
-
-      //           // Add a new marker at the specified coordinates
-      //           const newMarker = L.marker([parseFloat(latitude), parseFloat(longitude)])
-      //               .addTo(map)
-      //               .bindPopup('Coordinates: ' + coordinates)
-      //               .openPopup();
-
-      //           // Keep track of the marker
-      //           markers.push(newMarker);
-
-      //           // Set the view to the entered coordinates
-      //           map.setView([parseFloat(latitude), parseFloat(longitude)], 13);
-
-      //           // Log the updated markers array
-      //           console.log("Markers updated:", markers);
-      //       }
     </script>
   </body>
 </html>

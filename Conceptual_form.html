@@ -134,6 +134,68 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+
+
+    <style>
+      .custom-modal-class {
+    width: 300px; 
+    height: 200px;
+    font-size:20px ; 
+  }
+  .custom-icon-class {
+    font-size: 10px; /* Set your desired icon size */
+  }
+  
+  .custom-title-class {
+    font-size: 1.5em; /* Set your desired title size */
+  }
+  
+  .custom-text-class {
+    font-size: 1em; /* Set your desired text size */
+  }
+  .custom-close-button-class {
+  background-color: #f44336; 
+  border: 2px solid #f44336;
+  color: white; 
+  border-radius: 0; 
+  padding: 5px; 
+  font-size: 20px;
+}
+
+.custom-close-button-class:hover {
+  /* Add your custom hover styles for the close button here */
+  background-color: #d32f2f; /* Darker red background color on hover */
+}
+      .swal2-show {
+      animation: swal2-show 0.3s ease; /* Set the transition with ease */
+    }
+
+    .swal2-hide {
+      animation: swal2-hide 0.3s ease; /* Set the transition with ease */
+    }
+
+    @keyframes swal2-show {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes swal2-hide {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+    </style>
   </head>
   <body id="body-pd" class="bg-light">
     <header class="header" id="header">
@@ -154,13 +216,7 @@
               <i class="bx bx-file nav_icon"></i>
             </a>
 
-            <a href="#" class="nav_link">
-              <i class="bx bx-bookmark nav_icon"></i>
-            </a>
-
-            <a href="#" class="nav_link">
-              <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-            </a>
+            
           </div>
         </div>
         <a href="#" class="nav_link">
@@ -408,10 +464,10 @@
           <label for="prabhagName">Prabhag Name:</label>
           <input type="text" id="prabhagName" name="prabhagName" required />
           <label for="Width">Width</label>
-          <input type="text" id="Width" name="Width" required />
+          <input type="text" id="Width" name="Width" placeholder="Width in m" required />
           <label for="Length">Length</label>
-          <input type="text" id="Length" name="Length" required />
-          <a class="submitbtn" href="geometry_page.html">
+          <input type="text" id="Length" name="Length" placeholder="Width in km & m" required />
+          <a class="submitbtn" >
             <button type="button" onclick="submitForm()">Next</button>
           </a>
         </form>
@@ -432,10 +488,71 @@
     <!-- <script src="C_form.js"></script> -->
 
     <script>
+
+
+      // function goToNextPage() {
+      //   // Add logic to navigate to the new page
+      //   window.location.href = "index.html";
+        
+
+      //   // On index page load
+      //   window.onload = function() {
+      //     Swal.fire({
+      //       position: "center",
+      //       title: "draw tool show after 200m",
+      //       showConfirmButton: false,
+      //       customClass: {
+      //           popup: 'custom-modal-class',
+      //           icon: 'custom-icon-class',
+      //           title: 'custom-title-class',
+      //           content: 'custom-text-class',
+      //           closeButton: 'custom-close-button-class'
+      //         },
+      //         showClass: {
+      //           popup: 'swal2-show',
+      //           backdrop: 'swal2-backdrop-show',
+      //           icon: 'swal2-icon-show'
+      //         },
+      //         hideClass: {
+      //           popup: 'swal2-hide',
+      //           backdrop: 'swal2-backdrop-hide',
+      //           icon: 'swal2-icon-hide'
+      //         }
+      //     });
+      //   }
+      // }
+
       function goToNextPage() {
-        // Add logic to navigate to the new page
-        window.location.href = "geometry_page.html";
-      }
+  // Add logic to navigate to the new page
+  window.location.href = "index.html";
+
+  // Show popup after a slight delay to ensure the page has fully loaded
+  setTimeout(() => {
+    Swal.fire({
+      position: "center",
+      title: "draw tool show after 200m",
+      showConfirmButton: false,
+      customClass: {
+          popup: 'custom-modal-class',
+          icon: 'custom-icon-class',
+          title: 'custom-title-class',
+          content: 'custom-text-class',
+          closeButton: 'custom-close-button-class'
+        },
+        showClass: {
+          popup: 'swal2-show',
+          backdrop: 'swal2-backdrop-show',
+          icon: 'swal2-icon-show'
+        },
+        hideClass: {
+          popup: 'swal2-hide',
+          backdrop: 'swal2-backdrop-hide',
+          icon: 'swal2-icon-hide'
+        }
+    });
+  }, 500); // Adjust the delay as needed
+}
+
       function submitForm() {
         // Prevent the form from submitting the traditional way
         event.preventDefault();
@@ -463,19 +580,37 @@
             localStorage.removeItem("conceptual_form_data");
             localStorage.removeItem("selectCoordinatesData");
             setTimeout(function () {
-              window.location.href = "geometry_page.html";
+              window.location.href = "index.html";
             }, 2000); // 1000 milliseconds = 1 second
           })
           .catch(function (error) {
             console.log(error);
-            // Handle error
+            
             Swal.fire({
               position: "center",
               icon: "error",
               title: "Oops...",
-              text: "There was an error submitting the form.",
+              text: "Please Fill the form.",
               showConfirmButton: false,
-              timer: 2100,
+            
+              showCloseButton: true, 
+              customClass: {
+                popup: 'custom-modal-class',
+                icon: 'custom-icon-class',
+                title: 'custom-title-class',
+                content: 'custom-text-class',
+                closeButton: 'custom-close-button-class'
+              },
+              showClass: {
+                popup: 'swal2-show',
+                backdrop: 'swal2-backdrop-show',
+                icon: 'swal2-icon-show'
+              },
+              hideClass: {
+                popup: 'swal2-hide',
+                backdrop: 'swal2-backdrop-hide',
+                icon: 'swal2-icon-hide'
+              }
             });
           });
       }
