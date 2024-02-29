@@ -116,8 +116,6 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
-
-
 var wms_layer4 = L.tileLayer
   .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
     layers: "geodata",
@@ -213,8 +211,7 @@ searchControl.on("results", function (data) {
 });
 var drawControl = new L.Control.Draw({
   draw: {
-    polyline:
-    {
+    polyline: {
       shapeOptions: {
         color: "red", // set the color for the polygon border
       },
@@ -223,8 +220,8 @@ var drawControl = new L.Control.Draw({
         className: "leaflet-div-icon", // specify the icon class
       }),
     },
-    polygon: false, 
-   
+    polygon: false,
+
     circle: false,
     marker: false,
     rectangle: false,
@@ -414,89 +411,146 @@ map.on("draw:created", function (e) {
         showConfirmButton: false,
         showCloseButton: true,
         customClass: {
-          popup: 'custom-modal-class',
-          icon: 'custom-icon-class',
-          title: 'custom-title-class',
-          content: 'custom-text-class',
-          closeButton: 'custom-close-button-class'
+          popup: "custom-modal-class",
+          icon: "custom-icon-class",
+          title: "custom-title-class",
+          content: "custom-text-class",
+          closeButton: "custom-close-button-class",
         },
         showClass: {
-          popup: 'swal2-show',
-          backdrop: 'swal2-backdrop-show',
-          icon: 'swal2-icon-show'
+          popup: "swal2-show",
+          backdrop: "swal2-backdrop-show",
+          icon: "swal2-icon-show",
         },
         hideClass: {
-          popup: 'swal2-hide',
-          backdrop: 'swal2-backdrop-hide',
-          icon: 'swal2-icon-hide'
+          popup: "swal2-hide",
+          backdrop: "swal2-backdrop-hide",
+          icon: "swal2-icon-hide",
         },
         didOpen: () => {
           // Apply custom styles directly to the modal elements
-          document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
-          document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
-          document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
-          document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
-          document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
-          document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
-          document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
-          document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
-          document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
-          document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
-        }
+          document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+          document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+          document.querySelector(".custom-title-class").style.fontSize =
+            "1.5em"; // Set your desired title size
+          document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.backgroundColor = "#f44336"; // Red background color
+          document.querySelector(".custom-close-button-class").style.color =
+            "white"; // White text color
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.borderRadius = "0"; // Rounded corners
+          document.querySelector(".custom-close-button-class").style.padding =
+            "5px"; // Padding around the close button
+          document.querySelector(".custom-close-button-class").style.fontSize =
+            "20px"; // Font size of the close button
+        },
       });
-      
+
       // Do not add the new feature to the map
     }
   });
 
-  if (e.layerType === "polyline") {
-    var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
-    var roadLenght = localStorage.getItem("roadLenght");
-    if (length > roadLenght) {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Oops...",
-        text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
-        showConfirmButton: false,
-        showCloseButton: true,
-        customClass: {
-          popup: 'custom-modal-class',
-          icon: 'custom-icon-class',
-          title: 'custom-title-class',
-          content: 'custom-text-class',
-          closeButton: 'custom-close-button-class'
-        },
-        showClass: {
-          popup: 'swal2-show',
-          backdrop: 'swal2-backdrop-show',
-          icon: 'swal2-icon-show'
-        },
-        hideClass: {
-          popup: 'swal2-hide',
-          backdrop: 'swal2-backdrop-hide',
-          icon: 'swal2-icon-hide'
-        },
-        didOpen: () => {
-          // Apply custom styles directly to the modal elements
-          document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
-          document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
-          document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
-          document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
-          document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
-          document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
-          document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
-          document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
-          document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
-          document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
-        }
-      });
-      
-    
+  // Function to update roadLength in localStorage and redraw the line
+  function updateRoadLength(newRoadLength) {
+    localStorage.setItem("roadLenght", newRoadLength);
+    redrawLine();
+  }
 
-      return; // Stop further processing
+  function redrawLine() {
+    var drawnPolyline = e.layer.toGeoJSON();
+    var roadLength = parseFloat(localStorage.getItem("roadLenght"));
+
+    var startPoint = drawnPolyline.geometry.coordinates[0];
+    var endPoint =
+      drawnPolyline.geometry.coordinates[
+        drawnPolyline.geometry.coordinates.length - 1
+      ];
+
+    startPoint = [startPoint[1], startPoint[0]];
+    endPoint = [endPoint[1], endPoint[0]];
+
+    var trimmedCoordinates = [];
+    var alongPoint = turf.along(drawnPolyline, roadLength, {
+      units: "kilometers",
+    });
+    var trimmedPoint = alongPoint.geometry.coordinates;
+    trimmedPoint = [trimmedPoint[1], trimmedPoint[0]];
+    trimmedCoordinates.push(startPoint, trimmedPoint);
+
+    drawnItems.removeLayer(e.layer);
+
+    e.layer.setLatLngs(trimmedCoordinates);
+
+    var layer = e.layer;
+    drawnItems.addLayer(layer);
+
+    if (e.layerType === "polyline") {
+      var bufferWidth = localStorage.getItem("bufferWidth");
+
+      createBufferAndDashedLine(layer, roadLenght, bufferWidth);
     }
   }
+
+  if (e.layerType === "polyline") {
+    var drawnPolyline = e.layer.toGeoJSON();
+    var roadLenght = localStorage.getItem("roadLenght");
+    var roadLength = localStorage.getItem("roadLenght");
+
+    var startPoint = drawnPolyline.geometry.coordinates[0];
+    var endPoint =
+      drawnPolyline.geometry.coordinates[
+        drawnPolyline.geometry.coordinates.length - 1
+      ];
+
+    startPoint = [startPoint[1], startPoint[0]];
+    endPoint = [endPoint[1], endPoint[0]];
+
+    var trimmedCoordinates = [];
+
+    var distance = turf.distance(startPoint, endPoint, { units: "kilometers" });
+
+    if (distance > roadLenght) {
+      // Swal.fire({
+      //   position: "center",
+      //   icon: "error",
+      //   title: "Oops...",
+      //   text: "The line has been trimmed to 1 kilometer.",
+      //   showConfirmButton: false,
+      //   timer: 2100,
+      // });
+      $("#roadLengthModal").modal("show");
+      document.getElementById("newRoadLengthInput").value = roadLength;
+
+      $("#roadLengthForm").submit(function (e) {
+        e.preventDefault();
+        var newRoadLength = parseFloat(
+          document.getElementById("newRoadLengthInput").value
+        );
+        updateRoadLength(newRoadLength); // Update roadLength and redraw the line
+      });
+
+      // Event listener for modal hidden event
+      $("#roadLengthModal").on("hidden.bs.modal", function () {
+        redrawLine(); // Redraw the line when the modal is closed
+      });
+
+      var alongPoint = turf.along(drawnPolyline, roadLenght, {
+        units: "kilometers",
+      });
+      var trimmedPoint = alongPoint.geometry.coordinates;
+      trimmedPoint = [trimmedPoint[1], trimmedPoint[0]];
+      trimmedCoordinates.push(startPoint, trimmedPoint);
+    } else {
+      trimmedCoordinates.push(startPoint, endPoint);
+    }
+
+    e.layer.setLatLngs(trimmedCoordinates);
+  }
+
   var layer = e.layer;
   drawnItems.addLayer(layer);
 
@@ -561,7 +615,6 @@ map.on("draw:created", function (e) {
             "</td></tr>";
           popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
         }
-
 
         // Close the table tag
         popupContent += "</table>";
@@ -733,8 +786,6 @@ function deleteRow() {
     rowIndex--;
   }
 }
-
-
 
 function Savedata(lastDrawnPolylineId) {
   var geoJSONString = toGISformat();
@@ -1006,7 +1057,6 @@ $(document).ready(function () {
     });
   });
 
-
   // Add event listener to DataTable rows
   $("#workTable tbody").on("click", "tr", function () {
     var data = dataTable.row(this).data();
@@ -1139,7 +1189,6 @@ function getWardNameById(wardId, wardData) {
 // You can also customize the scale options
 L.control.scale().addTo(map);
 
-
 var northArrowControl = L.Control.extend({
   options: {
     position: "bottomleft",
@@ -1149,9 +1198,9 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="north_image1.jpg" alt="" style="width: 70px; border:2px solid gray; border-radius:50%;  height: 70px;">'
+      '<img  src="north_image1.jpg" alt="" style="width: 70px; border:2px solid gray; border-radius:50%;  height: 70px;">';
 
-      return container;
+    return container;
   },
 });
 map.addControl(new northArrowControl());
@@ -1192,8 +1241,6 @@ map.on("contextmenu", (e) => {
       });
   }
 });
-
-
 
 // function generateKML(coordinatesArray, featureData) {
 //     // Extract feature propertie
