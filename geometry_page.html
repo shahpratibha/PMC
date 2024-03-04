@@ -280,6 +280,19 @@
       // =================================================
 
       // ================================================
+
+      // Create a custom control
+var drawControl = L.control({ position: 'topleft' });
+
+// Define the HTML content for the control
+drawControl.onAdd = function(map) {
+  var div = L.DomUtil.create('div', 'draw-control');
+  div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb; margin-top:30px; border-radius:5px; background-color:white; padding:8px 5px 8px 5px ;"> <img src="png/007-writing.png" style="width: 30px; height: 30px;"></a>';
+  return div;
+};
+
+// Add the control to the map
+drawControl.addTo(map);
       function loadFile() {
         var input = document.getElementById("fileInput");
         var file = input.files[0];
@@ -424,6 +437,9 @@
         content += "</table></div>";
         return content;
       }
+
+
+      
     </script>
   </body>
 </html>

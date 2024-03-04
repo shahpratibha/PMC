@@ -15,9 +15,9 @@
     <style>
       #map {
         top: 64px;
-        left: 55px;
+        left: 0px;
         height: 90vh;
-        width: 97%;
+        width: 100%;
       }
     </style>
 
@@ -214,23 +214,20 @@
           </div> -->
           &nbsp;&nbsp;&nbsp;&nbsp;
           <div class="header_img">
-            <img src="https://i.imgur.com/hczKIze.jpg" alt />
+            <img src="user.png" alt />
           </div>
         </div>
       </header>
-      <div class="l-navbar" id="nav-bar">
+      <!-- <div class="l-navbar" id="nav-bar">
         <nav class="nav">
           <div>
             <a href="#" class="nav_logo"> </a>
 
             <div class="nav_list">
               <a class="nav_link active"  href="index.html" title="Draw Menually">
-                <i class="fa-solid fa-pen-ruler"></i>
+                <i class="fa-solid fa-pencil"></i>
               </a>
 
-              <!-- <a class="nav_link active" href="edit-feature.html" title="Edit features">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a> -->
           
             </div>
           </div>
@@ -238,7 +235,7 @@
             <i class="bx bx-log-out nav_icon"></i>
           </a>
         </nav>
-      </div>
+      </div> -->
       <main>
         <div id="map"></div>
       </main>
@@ -246,6 +243,18 @@
     </div>
     <script src="index.js"></script>
     <script>
+      // Create a custom control
+var drawControl = L.control({ position: 'topleft' });
+
+// Define the HTML content for the control
+drawControl.onAdd = function(map) {
+  var div = L.DomUtil.create('div', 'draw-control');
+  div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:8px 5px 15px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 30px; height: 30px; padding:3px;"></a>';
+  return div;
+};
+
+// Add the control to the map
+drawControl.addTo(map);
       $(document).ready(function () {
         var wardname = localStorage.getItem("wardname");
         if (wardname) {
@@ -266,7 +275,7 @@
             if (searchTerm.length >= 3 && searchType) {
               let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-              let geoServerURL = `https://geo.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+              let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
                 cqlFilter
               )}`;
 
@@ -311,7 +320,7 @@
         let bbox = map.getBounds().toBBoxString();
         let layer = "pmc:Exist_Road";
 
-        var url = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+        var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
           size.x
@@ -331,17 +340,58 @@
           !featureData ||
           !featureData.features ||
           featureData.features.length === 0
-        ) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Oops...",
-            text: "No feature available. Click on a feature to edit.",
-            showConfirmButton: false,
-            timer: 2100,
-          });
-          return;
-        }
+        )
+        //  {
+        //   Swal.fire({
+        //     position: "center",
+        //     icon: "error",
+        //     title: "Oops...",
+        //     text: "No feature available. Click on a feature to edit.",
+        //     showConfirmButton: false,
+        //     showCloseButton: true,
+        // customClass: {
+        //   popup: "custom-modal-class",
+        //   icon: "custom-icon-class",
+        //   title: "custom-title-class",
+        //   content: "custom-text-class",
+        //   closeButton: "custom-close-button-class",
+        // },
+        // showClass: {
+        //   popup: "swal2-show",
+        //   backdrop: "swal2-backdrop-show",
+        //   icon: "swal2-icon-show",
+        // },
+        // hideClass: {
+        //   popup: "swal2-hide",
+        //   backdrop: "swal2-backdrop-hide",
+        //   icon: "swal2-icon-hide",
+        // },
+        // didOpen: () => {
+        //   // Apply custom styles directly to the modal elements
+        //   document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+        //   document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+        //   document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+        //   document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+        //   document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+        //   document.querySelector(".custom-title-class").style.fontSize =
+        //     "1.5em"; // Set your desired title size
+        //   document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+        //   document.querySelector(
+        //     ".custom-close-button-class"
+        //   ).style.backgroundColor = "#f44336"; // Red background color
+        //   document.querySelector(".custom-close-button-class").style.color =
+        //     "white"; // White text color
+        //   document.querySelector(
+        //     ".custom-close-button-class"
+        //   ).style.borderRadius = "0"; // Rounded corners
+        //   document.querySelector(".custom-close-button-class").style.padding =
+        //     "5px"; // Padding around the close button
+        //   document.querySelector(".custom-close-button-class").style.fontSize =
+        //     "20px"; // Font size of the close button
+        // },
+        //   });
+        //   return;
+        // }
 
         // Clear existing editable layers
         editableLayers.clearLayers();
@@ -458,7 +508,47 @@
                     title: "Success",
                     text: "Saved Successfully",
                     showConfirmButton: false,
-                    timer: 2100,
+                                  showCloseButton: true,
+                      customClass: {
+                        popup: "custom-modal-class",
+                        icon: "custom-icon-class",
+                        title: "custom-title-class",
+                        content: "custom-text-class",
+                        closeButton: "custom-close-button-class",
+                      },
+                      showClass: {
+                        popup: "swal2-show",
+                        backdrop: "swal2-backdrop-show",
+                        icon: "swal2-icon-show",
+                      },
+                      hideClass: {
+                        popup: "swal2-hide",
+                        backdrop: "swal2-backdrop-hide",
+                        icon: "swal2-icon-hide",
+                      },
+                      didOpen: () => {
+                        // Apply custom styles directly to the modal elements
+                        document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+                        document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+                        document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+                        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+                        document.querySelector(".custom-icon-class").style.transition ="all o.5s ease";
+                        document.querySelector(".custom-title-class").style.fontSize =
+                          "1.5em"; // Set your desired title size
+                        document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+                        document.querySelector(
+                          ".custom-close-button-class"
+                        ).style.backgroundColor = "#f44336"; // Red background color
+                        document.querySelector(".custom-close-button-class").style.color =
+                          "white"; // White text color
+                        document.querySelector(
+                          ".custom-close-button-class"
+                        ).style.borderRadius = "0"; // Rounded corners
+                        document.querySelector(".custom-close-button-class").style.padding =
+                          "5px"; // Padding around the close button
+                        document.querySelector(".custom-close-button-class").style.fontSize =
+                          "20px"; // Font size of the close button
+                      },
                   });
 
                   setTimeout(() => {

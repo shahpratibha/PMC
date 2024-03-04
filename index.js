@@ -30,7 +30,7 @@ var Esri_WorldImagery = L.tileLayer(
 var baseLayers = {};
 
 var wms_layer1 = L.tileLayer.wms(
-  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Revenue",
     format: "image/png",
@@ -43,7 +43,7 @@ var wms_layer1 = L.tileLayer.wms(
 );
 
 var wms_layer12 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "PMC_Layers",
     format: "image/png",
     transparent: true,
@@ -56,7 +56,7 @@ var wms_layer12 = L.tileLayer
   .addTo(map);
 
 var wms_layer11 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "Admin_Ward",
     format: "image/png",
     transparent: true,
@@ -68,7 +68,7 @@ var wms_layer11 = L.tileLayer
   .addTo(map);
 
 var wms_layer13 = L.tileLayer.wms(
-  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -81,7 +81,7 @@ var wms_layer13 = L.tileLayer.wms(
 );
 
 var wms_layer14 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "Village_Boundary",
     format: "image/png",
     transparent: true,
@@ -93,7 +93,7 @@ var wms_layer14 = L.tileLayer
   .addTo(map);
 
 var wms_layer15 = L.tileLayer
-  .wms("https://geo.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -105,7 +105,7 @@ var wms_layer15 = L.tileLayer
   .addTo(map);
 
 var wms_layer17 = L.tileLayer.wms(
-  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Exist_Road",
     format: "image/png",
@@ -118,7 +118,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Data",
     format: "image/png",
@@ -131,7 +131,7 @@ var wms_layer3 = L.tileLayer.wms(
 ).addTo(map);
 
 var wms_layer4 = L.tileLayer.wms(
-  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "geodata",
     format: "image/png",
@@ -145,7 +145,7 @@ var wms_layer4 = L.tileLayer.wms(
 );
 
 var ward_names = L.tileLayer.wms(
-  "https://geo.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Admin_Ward",
     format: "image/png",
@@ -186,7 +186,7 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 function fitbou(filter) {
   var layer = "pmc:Admin_Ward";
   var urlm =
-    "https://geo.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -294,7 +294,7 @@ map.on("click", function (e) {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Exist_Road";
 
-  var url = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
@@ -314,10 +314,11 @@ function highlightFeature(featureData) {
     !featureData ||
     !featureData.features ||
     featureData.features.length === 0
-  ) {
-    alert("No feature available. Click on a feature to edit.");
-    return;
-  }
+  )
+  //  {
+  //   alert("No feature available. Click on a feature to edit.");
+  //   return;
+  // }
 
   // Clear existing editable layers
   editableLayers.clearLayers();
@@ -467,7 +468,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://geo.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://pmc.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -563,10 +564,51 @@ map.on("draw:created", function (e) {
         position: "center",
         icon: "error",
         title: "Oops...",
-        text: "Road overlaps more than 20% with existing Road.",
+        text: "Road overlaps more than 10% with existing Road.",
         showConfirmButton: false,
-        timer: 2100,
+        showCloseButton: true,
+        customClass: {
+          popup: "custom-modal-class",
+          icon: "custom-icon-class",
+          title: "custom-title-class",
+          content: "custom-text-class",
+          closeButton: "custom-close-button-class",
+        },
+        showClass: {
+          popup: "swal2-show",
+          backdrop: "swal2-backdrop-show",
+          icon: "swal2-icon-show",
+        },
+        hideClass: {
+          popup: "swal2-hide",
+          backdrop: "swal2-backdrop-hide",
+          icon: "swal2-icon-hide",
+        },
+        didOpen: () => {
+          // Apply custom styles directly to the modal elements
+          document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+          document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+          document.querySelector(".custom-modal-class").style.transition ="all 1.2s ease";
+          document.querySelector(".custom-icon-class").style.transition ="all 1.2s ease";
+          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+          document.querySelector(".custom-title-class").style.fontSize =
+            "1.5em"; // Set your desired title size
+          document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.backgroundColor = "#f44336"; // Red background color
+          document.querySelector(".custom-close-button-class").style.color =
+            "white"; // White text color
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.borderRadius = "0"; // Rounded corners
+          document.querySelector(".custom-close-button-class").style.padding =
+            "5px"; // Padding around the close button
+          document.querySelector(".custom-close-button-class").style.fontSize =
+            "20px"; // Font size of the close button
+        },
       });
+
       // Do not add the new feature to the map
     }
   });
@@ -581,8 +623,49 @@ map.on("draw:created", function (e) {
         title: "Oops...",
         text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
         showConfirmButton: false,
-        timer: 2100,
+        showCloseButton: true,
+        customClass: {
+          popup: "custom-modal-class",
+          icon: "custom-icon-class",
+          title: "custom-title-class",
+          content: "custom-text-class",
+          closeButton: "custom-close-button-class",
+        },
+        showClass: {
+          popup: "swal2-show",
+          backdrop: "swal2-backdrop-show",
+          icon: "swal2-icon-show",
+        },
+        hideClass: {
+          popup: "swal2-hide",
+          backdrop: "swal2-backdrop-hide",
+          icon: "swal2-icon-hide",
+        },
+        didOpen: () => {
+          // Apply custom styles directly to the modal elements
+          document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+          document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+          document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+          document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+          document.querySelector(".custom-title-class").style.fontSize =
+            "1.5em"; // Set your desired title size
+          document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.backgroundColor = "#f44336"; // Red background color
+          document.querySelector(".custom-close-button-class").style.color =
+            "white"; // White text color
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.borderRadius = "0"; // Rounded corners
+          document.querySelector(".custom-close-button-class").style.padding =
+            "5px"; // Padding around the close button
+          document.querySelector(".custom-close-button-class").style.fontSize =
+            "20px"; // Font size of the close button
+        },
       });
+
       return; // Stop further processing
     }
   }
@@ -1303,7 +1386,7 @@ map.on("contextmenu", (e) => {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
@@ -1345,7 +1428,7 @@ map.on("dblclick", function (e) {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
@@ -1528,7 +1611,7 @@ map.on("dblclick", function (e) {
 
 
 // GeoServer URL
-var geoserverUrl = "https://geo.geopulsea.com/geoserver";
+var geoserverUrl = "https://pmc.geopulsea.com/geoserver";
 
 // Variable to keep track of legend visibility
 var legendVisible = true;
@@ -1640,12 +1723,12 @@ collapseButton.onAdd = function (map) {
     if (legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
       legendDiv.style.height = "40vh";
       legendDiv.style.display = "block"; // Make sure it's visible if it was hidden
-      button.innerHTML = "<i class='fas fa-minus'></i>";
+      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = true;
     } else {
       legendDiv.style.height = "0";
-      button.innerHTML = "<i class='fas fa-plus'></i>";
+      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = false;
     }
@@ -1684,7 +1767,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://geo.geopulsea.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://pmc.geopulsea.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -1745,7 +1828,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="north_image1.jpg" alt="" style="width: 70px; border:2px solid gray; border-radius:50%;   height: 70px;">'
+      '<img  src="png/002-cardinal-point.png" alt="" style="width: 60px; border:none; border-radius:50%; height:80px;">';
       return container;
   },
 });
@@ -1758,7 +1841,7 @@ map.on("contextmenu", (e) => {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://geo.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
