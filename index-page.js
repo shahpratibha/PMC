@@ -35,7 +35,7 @@ var wms_layer1 = L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Revenue",
+    // attribution: "Revenue",
     opacity: 1,
   }
 );
@@ -47,7 +47,7 @@ var ward_names = L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Admin_Ward",
+    // attribution: "Admin_Ward",
     opacity: 1,
     maxZoom: 25,
   }
@@ -60,7 +60,7 @@ var wms_layer12 = L.tileLayer
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Admin_Ward",
+    // attribution: "Admin_Ward",
     opacity: 1,
   })
   .addTo(map);
@@ -72,7 +72,7 @@ var wms_layer13 = L.tileLayer
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Zone_layer",
+    // attribution: "Zone_layer",
     opacity: 1,
   })
   .addTo(map);
@@ -84,7 +84,7 @@ var wms_layer14 = L.tileLayer
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Village_Boundary",
+    // attribution: "Village_Boundary",
     opacity: 1,
   })
   .addTo(map);
@@ -96,7 +96,7 @@ var wms_layer15 = L.tileLayer
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "IWMS_point",
+    // attribution: "IWMS_point",
     opacity: 1,
   })
   .addTo(map);
@@ -109,7 +109,7 @@ var wms_layer3 = L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Data",
+    // attribution: "Data",
     opacity: 1,
   }
 );
@@ -121,7 +121,7 @@ var wms_layer4 = L.tileLayer
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "geodata",
+    // attribution: "geodata",
     opacity: 1,
   })
   .addTo(map);
@@ -133,7 +133,7 @@ var wms_layer16 = L.tileLayer
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "PMC_Layers",
+    // attribution: "PMC_Layers",
     opacity: 1,
     maxZoom: 25,
   })
@@ -147,7 +147,7 @@ var wms_layer17 = L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    attribution: "Exist_Road",
+    // attribution: "Exist_Road",
     opacity: 1,
     maxZoom: 25,
   }
@@ -1245,7 +1245,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" alt="" style="width: 70px; border:none; border-radius:50%; height:50px;">';
+      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px;">';
 
     return container;
   },
@@ -1288,78 +1288,3 @@ map.on("contextmenu", (e) => {
       });
   }
 });
-
-// function generateKML(coordinatesArray, featureData) {
-//     // Extract feature propertie
-
-//     var area = featureData.properties.Area;
-//     var id = featureData.properties.ID;
-
-//     var kml =`<?xml version="1.0" encoding="UTF-8"?>
-//                 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-//                 <Document>
-//                     <name>UPolygon.kml</name>
-//                     <StyleMap id="m_ylw-pushpin">
-//                         <Pair>
-//                             <key>normal</key>
-//                             <styleUrl>#s_ylw-pushpin</styleUrl>
-//                         </Pair>
-//                         <Pair>
-//                             <key>highlight</key>
-//                             <styleUrl>#s_ylw-pushpin_hl</styleUrl>
-//                         </Pair>
-//                     </StyleMap>
-//                     <Style id="s_ylw-pushpin">
-//                         <IconStyle>
-//                             <scale>1.1</scale>
-//                             <Icon>
-//                                 <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
-//                             </Icon>
-//                             <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
-//                         </IconStyle>
-//                         <LineStyle>
-//                             <color>ff00ff00</color>
-//                             <width>5</width>
-//                         </LineStyle>
-//                         <PolyStyle>
-//                             <color>80ffffff</color>
-//                         </PolyStyle>
-//                     </Style>
-//                     <Style id="s_ylw-pushpin_hl">
-//                         <IconStyle>
-//                             <scale>1.3</scale>
-//                             <Icon>
-//                                 <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
-//                             </Icon>
-//                             <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
-//                         </IconStyle>
-//                         <LineStyle>
-//                             <color>ff00ff00</color>
-//                             <width>5</width>
-//                         </LineStyle>
-//                         <PolyStyle>
-//                             <color>80ffffff</color>
-//                         </PolyStyle>
-//                     </Style>
-//                     <Placemark>
-//                         <name>Untitled Polygon</name>
-//                         <styleUrl>#m_ylw-pushpin</styleUrl>
-//                         <Polygon>
-//                             <tessellate>1</tessellate>
-//                             <outerBoundaryIs>
-//                                 <LinearRing>
-//                                     <coordinates>
-//                                     ${coordinatesArray.join(' ')}
-//                                     </coordinates>
-//                                     </LinearRing>
-//                                 </outerBoundaryIs>
-//                             </Polygon>
-//                             <description><![CDATA[
-//                                 <p><b>Area:</b> ${area}</p>
-//                                 <p><b>ID:</b> ${id}</p>
-//                             ]]></description>
-//                         </Placemark>
-//                     </Document>
-//                     </kml>`;
-//     return kml;
-// }

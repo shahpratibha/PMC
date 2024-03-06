@@ -125,9 +125,11 @@ td {
   color: white;
 }
 
+
 #workTableDashboard thead th {
-  background-color: #163140;
-  color: white;
+  /* background-color: #163140; */
+  color: black;
+  font-weight: bold;
 }
 .chart{
 
@@ -144,8 +146,9 @@ td {
 }
 
 .leaflet-control-scale-line {
-  font-size:20px; /* Adjust the font size as needed */
+  font-size:15px; /* Adjust the font size as needed */
 }
+
 body {
   display: flex;
   flex-direction: column;
@@ -160,11 +163,11 @@ main {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: 30%;
   max-height: 400px; /* Adjust the maximum height as needed */
   overflow-y: scroll;
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
+  /* padding: 20px; */
   border-top: 1px solid #ccc;
   z-index: 99999;
 }
@@ -172,43 +175,53 @@ main {
   cursor: pointer;
 }
 
-
-
 #table-container-dashboard {
   display: none;
   position: relative;
-  width: 96%;
+  width: 450px;
   bottom: 230px;
-  left: 4%;
+  left: 67%;
+  top:20%;
   max-height: 300px; 
   overflow-y: scroll;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
+  background-color: #fff;
+  /* background-color: rgba(255, 255, 255, 0.8); */
+  padding-top: 10px;
   border-top: 1px solid #ccc;
+  border-radius: 5px;
   z-index: 99999;
+  box-shadow:10px 10px 20px rgba(0, 0, 0, 0.7); /* Add shadow */
 }
 #table-container-dashboard thead th {
   white-space: nowrap;
+  font-size: 12px;
 }
 #table-container-dashboard tbody tr {
   cursor: pointer;
-  font-size: 10px;
+  font-size: 8px;
 }
 .close-button {
   position: absolute;
-  height: 30px;
-  width: 30px;
-  top: 5px;
-  right: 5px;
-  padding: 5px ;
+  height: 20px;
+  width: 20px;
+  top: 0px;
+  right: 0px;
+  padding:0 10px 20px 5px;
   z-index: 999;
   cursor: pointer;
-  background-color: #dc3545;
-  color: #fff;
+  background-color: transparent;
+  color: red;
+  font-weight: bold;
   border: none;
   /* border-radius: 50%; */
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   z-index: 999999;
+}
+
+.close-button:hover{
+  color: white;
+  background-color: red;
+  border-radius: 5px;
 }
 
 .ui-autocomplete {

@@ -224,38 +224,36 @@
         height: 100%;
         width: 0;
         position: fixed;
-        z-index: 1;
-        top: 100;
-        left: 60px;
+        z-index: 1;  
+        left: 80px;
         background-color: #f3f3f3;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 60px;
-        overflow: scroll;
+        padding-top: 10px;
+        overflow-y: scroll;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7); /* Add shadow */
       }
 
       .sidebar a {
         text-decoration: none;
-        padding: 8px 8px 8px 38px;
+        padding: 0px 8px 8px 38px;
       }
      
       .sidebar .form-group {
-        padding: 8px 8px 8px 38px;
-
+        padding: 0px 8px 8px 38px;
         font-size: 13px;
         color: black;
         display: block;
         transition: 0.3s;
       }
 
-      /* .sidebar a:hover {
-            color: black;
-        } */
+      
 
       .sidebar .closebtn {
         position: absolute;
         color: red;
-        top: 50px;
+        top: -10px;
         right: -10px;
         font-size: 30px;
         font-weight: bold;
@@ -282,8 +280,8 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
         >&times;</a
       >
-
-      <div class="form-group pt-5">
+      
+      <div class="form-group ">
         <label>Select Year</label>
         <select
           style="width: 180px"
@@ -506,12 +504,12 @@
       <div id="map"></div>
       
     
-        <div class="row tabchart">
-            <div id="table-container-dashboard" class="">
+            <div class="row tabchart">
+              <div id="table-container-dashboard" class="">
                 <button id="closeTableBtnDashboard" class="close-button">
-                  <i class="fas fa-minus" style="font-weight: bold; margin-top: -10%; "></i>
+                  <i class="fas fa-minus" style="font-weight: bold; margin-top: -10%; width: 10px;"></i>
                 </button>
-                <table id="workTableDashboard" class="table table-bordered table-hover" style="height:100px; overflow-y: scroll;">
+                <table id="workTableDashboard" class="table table-bordered table-hover" style="height:100px; width: 100px; overflow-y: scroll; ">
                     <thead>
                         <tr>
                             <th>Zone</th>
@@ -522,33 +520,24 @@
                             <th>JE Name</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Ward</th>
-                            <th>Department</th>
-                            <th>Work Type</th>
-                            <th>Tender Amount</th>
-                            <th>JE Name</th>
-                        </tr>
-                    </tfoot>
+                    
                     <tbody></tbody>
                 </table>
 
-                <div class="chartdeshboard col-md-2 bg-light p-2  ">
-                  <div class="col-md-6 mt-5 p-2 bg-light " >
+                <!-- <div class="chartdeshboard col-md-1 bg-light"> -->
+                  <!-- <div class="col-md-6 mt-5 p-2 bg-light  " >
                       <canvas id="myPieChart" width="200" height="200"></canvas>
-                  </div>
-                  <div class="col-md-6 mt-3 mb-3 bg-light ">
+                  </div> -->
+                  <!-- <div class="col-md-6 mt-3 mb-3 bg-light ">
                       <canvas id="myLineChart" width="250" height="300"></canvas>
-                  </div>
+                  </div> -->
+                <!-- </div> -->
               </div>
             </div>
     
-            <div class="chart col-md-4" style="background-color: transparent;">
-               
-            </div>
-        </div>
+            <!-- <div class="chart col-md-4" style="background-color: transparent;">
+             
+        </div> -->
     
     
     
@@ -566,18 +555,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script>
-      // var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
-
-      // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      //     attribution: "© OpenStreetMap contributors",
-      // }).addTo(map);
-    </script>
 
     <script>
       function openNav() {
         document.getElementById("mySidenav").style.width = "250px";
-        document.getElementById("content").style.marginLeft = "250px";
+        document.getElementById("mySidenav").style.height = "500px";
+        document.getElementById("mySidenav").style.zIndex = "99999";
+        document.getElementById("mySidenav").style.top = "75px";
+        // document.getElementById("mySidenav").style.marginLeft = "65px";
+        document.getElementById("mySidenav").style.scrollbarWidth = "thin";
+
+        document.getElementById("content").style.marginLeft = "0";
+        document.getElementById("content").style.zIndex= "0";
+
       }
 
       function closeNav() {
@@ -588,32 +578,32 @@
       //
       // -----------------------------------
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const map = document.getElementById("map");
-        const rightSidebar = document.querySelector(".chart");
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   const map = document.getElementById("map");
+      //   const rightSidebar = document.querySelector(".chart");
 
-      });
+      // });
 
       // /////////////////----------------------------------
 
-      function takeScreenshot() {
-        html2canvas(document.getElementById("map"), {
-          useCORS: false,
-        }).then(function (canvas) {
-          var imgData = canvas.toDataURL("image/png");
+      // function takeScreenshot() {
+      //   html2canvas(document.getElementById("map"), {
+      //     useCORS: false,
+      //   }).then(function (canvas) {
+      //     var imgData = canvas.toDataURL("image/png");
 
-          var pdf = new jsPDF();
-          pdf.addImage(imgData, "PNG", 15, 25, 180, 135);
+      //     var pdf = new jsPDF();
+      //     pdf.addImage(imgData, "PNG", 15, 25, 180, 135);
 
-          var imgHeight = canvas.height;
+      //     var imgHeight = canvas.height;
 
-          var img = new Image();
-          img.onload = function () {
-            pdf.addImage(img, "PNG", 15, 170, 180, 80);
-            pdf.save("map.pdf"); // Save PDF
-          };
-        });
-      }
+      //     var img = new Image();
+      //     img.onload = function () {
+      //       pdf.addImage(img, "PNG", 15, 170, 180, 80);
+      //       pdf.save("map.pdf"); // Save PDF
+      //     };
+      //   });
+      // }
 
       $(document).ready(function () {
         var amountValueInput = document.getElementById("amount_value");
@@ -697,17 +687,11 @@
         loadInitialData();
       });
 
-      // function loadAllData() {
-      //   $.getJSON("APIS/IWMS_DATA.php", function (data) {
-      //     allData = data;
-      //     loadInitialData();
-      //   });
-      // }
-
+      
       function fitbou(filter) {
         var layer = "pmc:IWMS_point";
         var urlm =
-          "https://geo.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+          "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
           layer +
           "&CQL_FILTER=" +
           filter +
@@ -864,7 +848,7 @@
         });
 
         var geoServerURL =
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -908,13 +892,6 @@
             stageCounts[stage][monthYear]++;
           });
 
-          // $("#workTableDashboard tbody").on("click", "tr", function () {
-          //   var coordinatesStr = $(this).data("coordinates");
-          //   var coordinatesObj = coordinatesStr;
-          //   var bounds = L.geoJSON(coordinatesObj).getBounds();
-          //   map.fitBounds(bounds);
-          // });
-          
           $("#workTableDashboard tbody").on("click", "tr", function () {
             var coordinatesStr = $(this).data("coordinates");
             var coordinatesObj = coordinatesStr;
@@ -948,13 +925,13 @@
           $("#closeTableBtnDashboard").click(function () {
             if (!isClosed) {
               // Change icon to plus
-              $(this).html('<i class="fa-regular fa-window-maximize"></i>');
+              $(this).html('<i class="fa-regular fa-window-maximize" style="font-weight: bold; margin-top: -10%; width:10px "></i>');
               tableContainer.css({
                 bottom: "0",
               });
             } else {
               // Change icon to times
-              $(this).html(' <i class="fas fa-minus" style="font-weight: bold; margin-top: -10%; "></i>');
+              $(this).html(' <i class="fas fa-minus" style="font-weight: bold; margin-top: -10%; width:10px; "></i>');
               tableContainer.css({
                 bottom: "230px",
               });
@@ -1143,7 +1120,7 @@
         select.empty();
 
         $.getJSON(
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
           function (data) {
             var projectFiSet = new Set();
 
@@ -1211,7 +1188,7 @@
         var project_fi = $("#project_fi").val();
 
         var geoServerURL =
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
         if (project_fi.length > 0) {
           project_fi = project_fi
             .map((projectFi) => `'${projectFi}'`)
@@ -1219,7 +1196,7 @@
 
           let cqlFilter = `project_fi  IN (${project_fi})`;
           geoServerURL =
-            "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+            "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
             encodeURIComponent(cqlFilter);
         }
 
@@ -1302,7 +1279,7 @@
         }
 
         var geoServerURL =
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -1390,7 +1367,7 @@
         }
 
         var geoServerURL =
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -1484,7 +1461,7 @@
         }
 
         var geoServerURL =
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -1585,7 +1562,7 @@
         }
 
         var geoServerURL =
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -1691,7 +1668,7 @@
         }
 
         var geoServerURL =
-          "https://geo.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -1847,7 +1824,7 @@
             if (searchTerm.length >= 3 && searchType) {
               let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-              let geoServerURL = `https://geo.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+              let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
                 cqlFilter
               )}`;
 

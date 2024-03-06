@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <!-- leaflet -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+    <style>
+        #map{
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+
+  <div id="map"></div>
+
+    <script>
+        //Add Basemap
+var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
+
+var googleSat = L.tileLayer(
+  "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+  {
+    maxZoom: 20,
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }
+);
+
+var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  // attribution:
+  //   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+
+var Esri_WorldImagery = L.tileLayer(
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  {
+    // attribution:
+    //   "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+  }
+);
+
+
+var wms_layer1 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Revenue",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Revenue",
+    opacity: 1,
+  }
+);
+
+var wms_layer12 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "PMC_Layers",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "PMC_Layers",
+    opacity: 1,
+    maxZoom: 21,
+  })
+  .addTo(map);
+
+var wms_layer11 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Admin_Ward",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Admin_Ward",
+    opacity: 1,
+  })
+  .addTo(map);
+
+var wms_layer13 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Zone_layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Zone_layer",
+    opacity: 1,
+  }
+);
+
+var wms_layer14 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Village_Boundary",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Village_Boundary",
+    opacity: 1,
+  })
+  .addTo(map);
+
+var wms_layer15 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "IWMS_point",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "IWMS_point",
+    opacity: 1,
+  })
+  .addTo(map);
+
+var wms_layer17 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Exist_Road",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Exist_Road",
+    opacity: 1,
+    maxZoom: 21,
+  }
+);
+var wms_layer3 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Data",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Data",
+    opacity: 1,
+  }
+).addTo(map);
+
+var wms_layer4 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "geodata",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "geodata",
+    opacity: 1,
+    maxZoom: 21,
+  }
+);
+
+var ward_names = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Admin_Ward",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Admin_Ward",
+    opacity: 1,
+    maxZoom: 21,
+  }
+);
+// Define base layers
+var baseLayers = {
+  "OpenStreetMap": osm,
+  "Esri World Imagery": Esri_WorldImagery,
+  "Google Satellite": googleSat
+};
+
+// Define overlay layers
+var overlayLayers = {
+  "PMC Layers": wms_layer12,
+  "Admin Ward": wms_layer11,
+  "Revenue": wms_layer1,
+  "Exist Road": wms_layer17,
+  "Data": wms_layer3,
+  "Geodata": wms_layer4,
+  "Ward Names": ward_names
+};
+// Create a Leaflet scale control
+var scaleControl = L.control.scale().addTo(map);
+
+// Create a Leaflet layer control
+var layerControl = L.control.layers(baseLayers, overlayLayers, {
+  position: 'bottomleft' // Position the control at the bottom left
+}).addTo(map);
+
+// Style the layer control to be horizontal
+var container = layerControl.getContainer();
+container.style.width = 'auto'; // Set width to auto to allow horizontal layout
+container.style.maxWidth = '100%'; // Set max width to allow responsiveness
+
+// Style the input elements to be inline
+var inputs = container.querySelectorAll('input');
+inputs.forEach(input => {
+  input.style.display = 'inline-block';
+});
+
+// Style the scale control to position it to the left of the layer control
+var scaleContainer = scaleControl.getContainer();
+scaleContainer.style.position = 'absolute';
+scaleContainer.style.left = '10px'; // Adjust the left position as needed
+
+// Adjust the position of the layer control to leave space for the scale control
+var layerContainer = layerControl.getContainer();
+layerContainer.style.marginLeft = scaleContainer.offsetWidth + 20 + 'px'; // Adjust the margin as needed
+// Style the labels to display inline and have margin
+var labels = container.querySelectorAll('label');
+labels.forEach(label => {
+  label.style.display = 'inline-block';
+  label.style.marginRight = '10px'; // Adjust margin as needed
+});
+
+    </script>
+
+</body>
+</html>

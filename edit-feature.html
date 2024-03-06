@@ -177,65 +177,14 @@
       <header class="header justify-content-between" id="header">
         <div><h5>GeoPulse</h5></div>
         <div class="d-flex justify-content-between ms-auto" role="search">
-          <!-- <div class="input-group">
-            <select
-              class="form-select ms-auto"
-              aria-label="Select search category"
-              id="search_type"
-              style="width: 90px; border-radius: 10px"
-            >
-              <option value="">Select Type</option>
-              <option value="zone">Zone</option>
-              <option value="ward">Ward</option>
-              <option value="village">Village</option>
-              <option value="departme_1">Department</option>
-              <option value="work_type">Work Type</option>
-              <option value="stage">Stage</option>
-            </select>
-            <input
-              class="form-control ms-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              id="searchInputDashboard"
-              style="height: 40px; width: 200px; border-radius: 10px"
-            />
-            <div
-              id="autocompleteSuggestions"
-              class="autocomplete-suggestions"
-            ></div>
-            <button
-              class="btn btn-outline-danger"
-              type="submit"
-              style="width: 50px; border-radius: 10px"
-            >
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div> -->
+        
           &nbsp;&nbsp;&nbsp;&nbsp;
           <div class="header_img">
             <img src="user.png" alt />
           </div>
         </div>
       </header>
-      <!-- <div class="l-navbar" id="nav-bar">
-        <nav class="nav">
-          <div>
-            <a href="#" class="nav_logo"> </a>
-
-            <div class="nav_list">
-              <a class="nav_link active"  href="index.html" title="Draw Menually">
-                <i class="fa-solid fa-pencil"></i>
-              </a>
-
-          
-            </div>
-          </div>
-          <a href="#" class="nav_link">
-            <i class="bx bx-log-out nav_icon"></i>
-          </a>
-        </nav>
-      </div> -->
+     
       <main>
         <div id="map"></div>
       </main>
@@ -249,7 +198,7 @@ var drawControl = L.control({ position: 'topleft' });
 // Define the HTML content for the control
 drawControl.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:8px 5px 15px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 30px; height: 30px; padding:3px;"></a>';
+  div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:10px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></a>';
   return div;
 };
 

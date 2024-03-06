@@ -170,6 +170,7 @@ var WMSlayers = {
   geodata: wms_layer4,
 };
 
+
 function refreshWMSLayer() {
   // Remove the layer from the map
   map.removeLayer(wms_layer4);
@@ -179,9 +180,8 @@ function refreshWMSLayer() {
 
 refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
-// L.control
-//   .scale({ position: "bottomright", metric: true, imperial: false })
-//   .addTo(map);
+control.setPosition('topright');
+
 
 function fitbou(filter) {
   var layer = "pmc:Admin_Ward";
@@ -266,24 +266,6 @@ function toggleDrawControl() {
 // Event listener for map zoomend event
 map.on("zoomend", toggleDrawControl);
 
-//   // Create a custom control for the north arrow
-//   var northArrowControl = L.Control.extend({
-//     options: {
-//       position: "bottomleft",
-//     },
-  
-//     onAdd: function (map) {
-//       var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
-//       container.innerHTML = '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-//       return container;
-//     },
-//   });
-  
-//   // Add the custom north arrow control to the map
-//   map.addControl(new northArrowControl());
-  
-
-// North Arraow\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 // {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 
@@ -1693,7 +1675,6 @@ legendControl.onAdd = function (map) {
   return div;
 };
 
-// legendControl.addTo(map);
 
 // Add collapsible button
 var collapseButton = L.control({ position: "topright" });
@@ -1720,14 +1701,25 @@ collapseButton.onAdd = function (map) {
   // Toggle legend visibility when the button is clicked
   button.onclick = function () {
     var legendDiv = document.querySelector(".info.legend");
-    if (legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+    if (
+      legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+     
+
+      legendDiv.style.display ="block";
       legendDiv.style.height = "40vh";
-      legendDiv.style.display = "block"; // Make sure it's visible if it was hidden
+      legendDiv.style.width = "200px";
+      legendDiv.style.top ="44%";
+      legendDiv.style.right ="10px";
+      legendDiv.style.scrollbarWidth = "thin";
+      legendDiv.style.scrollbarColor =  "#163140 white"; 
+      legendDiv.style.borderRadius= "20px"; 
+      legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
       button.innerHTML = "<i class='fa-solid fa-bars'></i>";
+
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = true;
     } else {
-      legendDiv.style.height = "0";
+      legendDiv.style.display = "none";
       button.innerHTML = "<i class='fa-solid fa-bars'></i>";
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = false;
@@ -1739,7 +1731,6 @@ collapseButton.onAdd = function (map) {
 
 collapseButton.addTo(map);
 
-  // for legend////////////////////////////////////////////////////////////////////
   
 
 // Create a legend control
@@ -1828,7 +1819,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" alt="" style="width: 60px; border:none; border-radius:50%; height:80px;">';
+      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px;">';
       return container;
   },
 });
@@ -1876,4 +1867,4 @@ map.on("contextmenu", (e) => {
 // zoom
 
 // Customize the zoom control position
-map.zoomControl.setPosition('topleft');
+map.zoomControl.setPosition('bottomright');
