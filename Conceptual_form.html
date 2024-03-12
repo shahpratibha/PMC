@@ -200,8 +200,8 @@
   <body id="body-pd" class="bg-light">
     <header class="header" id="header">
       <div><h5>GeoPulse</h5></div>
-      <div class="header_img">
-        <img src="https://i.imgur.com/hczKIze.jpg" alt />
+      <div class="header_img me-5">
+        <img src="user.png"  alt />
       </div>
     </header>
     <div class="l-navbar" id="nav-bar">
@@ -563,12 +563,14 @@
         let formObject = {};
         formData.forEach((value, key) => {
           formObject[key] = value;
-        });
 
+        });
+        console.log(formObject,"formObject")
         // Use Axios to submit form data
         axios
           .post("Apis/Conceptual_Form.php", formObject)
           .then(function (response) {
+            console.log(response.data.data.id,"response.data.data.id")
             localStorage.setItem("lastInsertedId", response.data.data.id);
             localStorage.setItem("bufferWidth", response.data.data.width);
             localStorage.setItem("roadLenght", response.data.data.lenght);

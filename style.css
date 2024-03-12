@@ -125,9 +125,13 @@ td {
   color: white;
 }
 
-
+#workTableDashboard{
+  top: 10%;
+  width: 70%;
+}
 #workTableDashboard thead th {
   /* background-color: #163140; */
+ 
   color: black;
   font-weight: bold;
 }
@@ -167,7 +171,7 @@ main {
   max-height: 400px; /* Adjust the maximum height as needed */
   overflow-y: scroll;
   background-color: rgba(255, 255, 255, 0.8);
-  /* padding: 20px; */
+  padding-left: 20px;
   border-top: 1px solid #ccc;
   z-index: 99999;
 }
@@ -178,12 +182,13 @@ main {
 #table-container-dashboard {
   display: none;
   position: relative;
-  width: 450px;
+  width: 570px;
   bottom: 230px;
-  left: 67%;
+  left: 60%;
   top:20%;
   max-height: 300px; 
   overflow-y: scroll;
+  overflow-x: hidden;
   background-color: #fff;
   /* background-color: rgba(255, 255, 255, 0.8); */
   padding-top: 10px;
@@ -219,8 +224,9 @@ main {
 }
 
 .close-button:hover{
-  color: white;
-  background-color: red;
+  /* color: white; */
+
+  background-color: transparent;
   border-radius: 5px;
 }
 

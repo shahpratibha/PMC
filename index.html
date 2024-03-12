@@ -360,17 +360,17 @@ measureControl.addTo(map);
 
 
 // Create a custom control
-var drawControl = L.control({ position: 'topleft' });
+var drawControls = L.control({ position: 'topleft' });
 
 // Define the HTML content for the control
-drawControl.onAdd = function(map) {
+drawControls.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'draw-control');
   div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:10px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></a>';
   return div;
 };
 
 // Add the control to the map
-drawControl.addTo(map);
+drawControls.addTo(map);
 // Create a custom control
 var editControl = L.control({ position: 'topleft' });
 
@@ -384,7 +384,14 @@ editControl.onAdd = function(map) {
 // Add the control to the map
 editControl.addTo(map);
 
+// Add click event listeners to the buttons
+document.getElementById("drawButton").addEventListener("click", function() {
+  this.style.backgroundColor = "#ccc"; // Change background color when clicked
+});
 
+document.getElementById("editButton").addEventListener("click", function() {
+  this.style.backgroundColor = "#ccc"; // Change background color when clicked
+});
 
 // GeoServer URL
 var geoserverUrl = "https://pmc.geopulsea.com/geoserver";

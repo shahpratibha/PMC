@@ -25,101 +25,59 @@ var Esri_WorldImagery = L.tileLayer(
     //   "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
   }
 );
-// <!-- -----------------layer displayed------------------------ -->
-
 var baseLayers = {};
-
+ 
 var wms_layer1 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
-    layers: "Revenue",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "Revenue",
-    opacity: 1,
-  }
-);
-
-var wms_layer12 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "PMC_Layers",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "PMC_Layers",
-    opacity: 1,
-    maxZoom: 21,
-  })
-  .addTo(map);
-
-var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Admin_Ward",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "Admin_Ward",
-    opacity: 1,
-  })
-  .addTo(map);
-
-var wms_layer13 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "Zone_layer",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "Zone_layer",
-    opacity: 1,
-  }
-);
-
-var wms_layer14 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Village_Boundary",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "Village_Boundary",
-    opacity: 1,
-  })
-  .addTo(map);
-
-var wms_layer15 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "IWMS_point",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "IWMS_point",
-    opacity: 1,
-  })
-  .addTo(map);
-
-var wms_layer17 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "Exist_Road",
+    layers: "Roads",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
     // attribution: "Exist_Road",
     opacity: 1,
-    maxZoom: 21,
   }
 );
-var wms_layer3 = L.tileLayer.wms(
+ 
+var wms_layer12 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "PMC_Boundary",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "DP_Roads",
+    opacity: 1,
+    maxZoom: 25,
+  }).addTo(map);
+ 
+var wms_layer11 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Reservations",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Reservations",
+    opacity: 1,
+  });
+ 
+var wms_layer13 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
+    layers: "Drainage_data",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Drainage_data",
+    opacity: 1,
+  }
+);
+ 
+var wms_layer14 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -127,9 +85,49 @@ var wms_layer3 = L.tileLayer.wms(
     version: "1.1.0",
     // attribution: "Data",
     opacity: 1,
+  });
+ 
+var wms_layer15 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Revenue",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Revenue",
+    opacity: 1,
+  });
+ 
+var wms_layer17 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Village_Boundary",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Village_Boundary",
+    opacity: 1,
+    maxZoom: 25,
   }
-).addTo(map);
-
+);
+var wms_layer3 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "PMC_Layers",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "PMC_Layers",
+    opacity: 1,
+  }
+);
+ 
+// console.log(localStorage," ")
+var wardname = localStorage.getItem("wardname");
+console.log(wardname, "wardname");
+ 
 var wms_layer4 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
@@ -140,44 +138,87 @@ var wms_layer4 = L.tileLayer.wms(
     version: "1.1.0",
     // attribution: "geodata",
     opacity: 1,
-    maxZoom: 21,
+    maxZoom: 25,
   }
 );
-
-var ward_names = L.tileLayer.wms(
+ 
+var IWMS_point = L.tileLayer
+.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  layers: "IWMS_point",
+  format: "image/png",
+  transparent: true,
+  tiled: true,
+  version: "1.1.0",
+  // attribution: "DP_Roads",
+  opacity: 1,
+  maxZoom: 25,
+});
+ 
+var IWMS_line = L.tileLayer
+.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  layers: "IWMS_line",
+  format: "image/png",
+  transparent: true,
+  tiled: true,
+  version: "1.1.0",
+  // attribution: "Reservations",
+  opacity: 1,
+});
+ ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
+ 
+var ward_boundary= L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
-    layers: "Admin_Ward",
+    layers: "ward_boundary1",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "Admin_Ward",
+    // attribution: "geodata",
     opacity: 1,
-    maxZoom: 21,
+    maxZoom: 25,
   }
 );
-
+ 
+var Zone_layer= L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Zone_layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "geodata",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
+ 
+ 
+// //////////////////////////added 11-03-2023/////////////////////////////////////////
+ 
 var WMSlayers = {
-  OpenStreetMap: osm,
-  "Esri World Imagery": Esri_WorldImagery,
-  "Google Satellite": googleSat,
-  PMC_Layers: wms_layer12,
-  Admin_Ward: wms_layer11,
-  Revenue: wms_layer1,
-  Exist_Road: wms_layer17,
-  Data: wms_layer3,
+  "OSM": osm,
+  "Esri": Esri_WorldImagery,
+  "Satellite": googleSat,
+  Roads: wms_layer1,
+  Boundary: wms_layer12,
+  Amenity: wms_layer11,
+  Drainage: wms_layer13,
+  Data: wms_layer14,
+  Revenue: wms_layer15,
+  Village: wms_layer17,
+  PMC: wms_layer3,
   geodata: wms_layer4,
 };
-
-
+ 
 function refreshWMSLayer() {
   // Remove the layer from the map
   map.removeLayer(wms_layer4);
   // Add the layer again
   wms_layer4.addTo(map);
 }
-
+ 
 refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
@@ -232,16 +273,6 @@ var drawControl = new L.Control.Draw({
       }),
     },
     polygon: false,
-    // {
-    //   shapeOptions: {
-    //     color: "blue", // set the color for the polygon border
-    //   },
-      // icon: false,
-      //  new L.DivIcon({
-      //   iconSize: new L.Point(6, 6), // set the size of the icon
-      //   className: "leaflet-div-icon", // specify the icon class
-      // }),
-    // },
     circle: false,
     marker: false,
     rectangle: false,
@@ -332,13 +363,8 @@ editableLayers.on("contextmenu", function (e) {
     // Get the coordinates of the right-clicked point
     var latlng = e.latlng;
 
-    // Check if the selected feature contains the right-clicked point
-    // if (selectedFeature && selectedFeature.getLatLng && selectedFeature.getLatLng().equals(latlng)) {
-    // Create a popup with the selected feature's properties
     var popupContent = "<h3>Selected Feature</h3>";
-    // for (var property in selectedFeature.feature.properties) {
-    //   popupContent += '<strong>' + property + ':</strong> ' + selectedFeature.feature.properties[property] + '<br>';
-    // }
+
 
     // Add buttons for saving data and editing feature
     popupContent += '<br><button id="saveDataButton">Save Data</button>';
@@ -1653,8 +1679,10 @@ legendControl.onAdd = function (map) {
   div.style.height = "40vh";
   div.style.width = "300px";
   div.style.overflowY = "auto";
+  div.style.scrollbarWidth ="thin";
   div.style.backgroundColor = "white";
   div.style.border = "1px solid #ccc";
+  div.style.borderRadius ="10px";
   div.style.padding = "10px";
   div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
 
@@ -1794,8 +1822,10 @@ legend.onAdd = function (map) {
       div.style.height = "60vh";
       div.style.width = "300px";
       div.style.overflowY = "auto";
+      div.style.scrollbarWidth ="thin";
       div.style.backgroundColor = "white";
       div.style.border = "1px solid #ccc";
+      div.style.borderRadius ="10px";
       div.style.padding = "10px";
     })
     .catch((error) => {
