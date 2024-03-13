@@ -209,11 +209,16 @@ drawControl.addTo(map);
         if (wardname) {
           var cql_filterm = `Ward_Name='${wardname}'`;
           fitbou(cql_filterm);
+
+
+          
           ward_names.setParams({
             cql_filter: cql_filterm,
             styles: "highlight",
           });
           ward_names.addTo(map).bringToFront();
+
+
         }
         $("#searchInputDashboard").autocomplete({
           minLength: 3,

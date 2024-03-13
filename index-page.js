@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC-Final/";
+const API_URL = "http://localhost/PMC4/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -29,7 +29,7 @@ var baseLayers = {};
 var wms_layer1 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
-    layers: "Roads",
+    layers: "Exist_Road",
     format: "image/png",
     transparent: true,
     tiled: true,
@@ -41,7 +41,7 @@ var wms_layer1 = L.tileLayer.wms(
  
 var wms_layer12 = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "PMC_Boundary",
+    layers: "DP_Roads",
     format: "image/png",
     transparent: true,
     tiled: true,
@@ -49,7 +49,7 @@ var wms_layer12 = L.tileLayer
     // attribution: "DP_Roads",
     opacity: 1,
     maxZoom: 25,
-  }).addTo(map);
+  });
  
 var wms_layer11 = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -123,9 +123,31 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
  
+
+// /////////////////////////////////addded  11-03-2023//////////////////////////////////////////
+
+var ward_names= L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "PMC_Admin_Ward",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "geodata",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
+
+
+
+// /////////////////////////////////addded  11-03-2023//////////////////////////////////////////
+
 // console.log(localStorage," ")
 var wardname = localStorage.getItem("wardname");
 console.log(wardname, "wardname");
+
  
 var wms_layer4 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
@@ -139,15 +161,15 @@ var wms_layer4 = L.tileLayer.wms(
     opacity: 1,
     maxZoom: 25,
   }
-).addTo(map);
+);
  
  
 var WMSlayers = {
   OpenStreetMap: osm,
   "Esri World Imagery": Esri_WorldImagery,
   "Google Satellite": googleSat,
-  Roads: wms_layer1,
-  PMC_Boundary: wms_layer12,
+  Exist_Road: wms_layer1,
+  DP_Roads: wms_layer12,
   Reservations: wms_layer11,
   Drainage_data: wms_layer13,
   Data: wms_layer14,
@@ -172,16 +194,17 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function fitbou(filter) {
-  var layer = "pmc:Admin_Ward";
+  var layer = "pmc:PMC_Admin_Ward";
   var urlm =
     "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
     "&outputFormat=application/json";
-
+console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
+    console.log(geojson,"geojson")
     map.fitBounds(geojson.getBounds());
   });
 }
