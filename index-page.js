@@ -195,6 +195,29 @@ var Zone_layer= L.tileLayer.wms(
  
  
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
+
+
+
+var ward_names = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "PMC_Admin_Ward",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Village_Boundary",
+    opacity: 1,
+   
+  }
+);
+
+
+
+
+
+
+
  
 var WMSlayers = {
   "OSM": osm,
@@ -238,10 +261,10 @@ function fitbou(filter) {
 console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
-    console.log(geojson,"geojson")
     map.fitBounds(geojson.getBounds());
   });
 }
+
 
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);

@@ -22,21 +22,21 @@ try {
     $scopeOfWork = $formDataArray['scopeOfWork'];
     $projectFinancialYear = $formDataArray['projectFinancialYear'];
     $department = $formDataArray['department'];
-    $projectType = $formDataArray['projectType'];
+    // $projectType = $formDataArray['projectType'];
     $projectOffice = $formDataArray['projectOffice'];
     $juniorName = $formDataArray['juniorName'];
     $contactNo = $formDataArray['contactNo'];
     $dateIn = $formDataArray['dateIn']; 
     $zone = $formDataArray['zone'];
     $ward = $formDataArray['ward'];
-    $prabhagName = $formDataArray['prabhagName'];
+    // $prabhagName = $formDataArray['prabhagName'];
     $Width = $formDataArray['Width'];
     $Length = $formDataArray['Length'];
 
-    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_type, project_office, junior_engineer_name, contact_no, date_in, zone, ward, prabhag_name,width,length) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_office, junior_engineer_name, contact_no, date_in, zone, ward,width,length) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$projectNo, $aaWork, $workType, $scopeOfWork, $projectFinancialYear, $department, $projectType, $projectOffice, $juniorName, $contactNo, $dateIn, $zone, $ward, $prabhagName,$Width,$Length]);
+    $stmt->execute([$projectNo, $aaWork, $workType, $scopeOfWork, $projectFinancialYear, $department,  $projectOffice, $juniorName, $contactNo, $dateIn, $zone, $ward, $Width,$Length]);
     $lastInsertId = $pdo->lastInsertId();
     echo json_encode([
         'success' => true, 
