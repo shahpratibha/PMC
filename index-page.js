@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
+const API_URL = "http://localhost/PMC_Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -29,7 +29,7 @@ var baseLayers = {};
 var wms_layer1 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
-    layers: "Exist_Road",
+    layers: "Roads",
     format: "image/png",
     transparent: true,
     tiled: true,
@@ -41,7 +41,7 @@ var wms_layer1 = L.tileLayer.wms(
  
 var wms_layer12 = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "DP_Roads",
+    layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
     tiled: true,
@@ -49,7 +49,7 @@ var wms_layer12 = L.tileLayer
     // attribution: "DP_Roads",
     opacity: 1,
     maxZoom: 25,
-  });
+  }).addTo(map);
  
 var wms_layer11 = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -123,31 +123,9 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
  
-
-// /////////////////////////////////addded  11-03-2023//////////////////////////////////////////
-
-var ward_names= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "PMC_Admin_Ward",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "geodata",
-    opacity: 1,
-    maxZoom: 25,
-  }
-);
-
-
-
-// /////////////////////////////////addded  11-03-2023//////////////////////////////////////////
-
 // console.log(localStorage," ")
 var wardname = localStorage.getItem("wardname");
 console.log(wardname, "wardname");
-
  
 var wms_layer4 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
@@ -163,19 +141,73 @@ var wms_layer4 = L.tileLayer.wms(
   }
 );
  
+var IWMS_point = L.tileLayer
+.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  layers: "IWMS_point",
+  format: "image/png",
+  transparent: true,
+  tiled: true,
+  version: "1.1.0",
+  // attribution: "DP_Roads",
+  opacity: 1,
+  maxZoom: 25,
+});
+ 
+var IWMS_line = L.tileLayer
+.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  layers: "IWMS_line",
+  format: "image/png",
+  transparent: true,
+  tiled: true,
+  version: "1.1.0",
+  // attribution: "Reservations",
+  opacity: 1,
+});
+ ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
+ 
+var ward_boundary= L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "ward_boundary1",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "geodata",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
+ 
+var Zone_layer= L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "Zone_layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "geodata",
+    opacity: 1,
+    maxZoom: 25,
+  }
+);
+ 
+ 
+// //////////////////////////added 11-03-2023/////////////////////////////////////////
  
 var WMSlayers = {
-  OpenStreetMap: osm,
-  "Esri World Imagery": Esri_WorldImagery,
-  "Google Satellite": googleSat,
-  Exist_Road: wms_layer1,
-  DP_Roads: wms_layer12,
-  Reservations: wms_layer11,
-  Drainage_data: wms_layer13,
+  "OSM": osm,
+  "Esri": Esri_WorldImagery,
+  "Satellite": googleSat,
+  Roads: wms_layer1,
+  Boundary: wms_layer12,
+  Amenity: wms_layer11,
+  Drainage: wms_layer13,
   Data: wms_layer14,
   Revenue: wms_layer15,
-  Village_Boundary: wms_layer17,
-  PMC_Layers: wms_layer3,
+  Village: wms_layer17,
+  PMC: wms_layer3,
   geodata: wms_layer4,
 };
  
@@ -188,6 +220,8 @@ function refreshWMSLayer() {
  
 refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
+control.setPosition('topright');
+
 
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();

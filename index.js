@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
+const API_URL = "http://localhost/PMC_Final/";
 // const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
@@ -193,29 +193,6 @@ var Zone_layer= L.tileLayer.wms(
     maxZoom: 25,
   }
 );
-
-
-// /////////////////////////////////addded  13-03-2023//////////////////////////////////////////
-
-
-// this is layer is only layer for zoom to layer when ward is selected in conceptual form
-var ward_names= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "PMC_Admin_Ward",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "geodata",
-    opacity: 1,
-    maxZoom: 25,
-  }
-);
-
-
-
-// /////////////////////////////////addded  13-03-2023//////////////////////////////////////////
  
  
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
@@ -248,7 +225,7 @@ control.setPosition('topright');
 
 
 function fitbou(filter) {
-  var layer = "pmc:PMC_Admin_Ward";
+  var layer = "pmc:Admin_Ward";
   var urlm =
     "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
