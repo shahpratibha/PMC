@@ -198,19 +198,19 @@ var Zone_layer= L.tileLayer.wms(
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
 
-var ward_names = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "PMC_Admin_Ward",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "Village_Boundary",
-    opacity: 1,
+// var ward_names = L.tileLayer.wms(
+//   "https://pmc.geopulsea.com/geoserver/pmc/wms",
+//   {
+//     layers: "PMC_Admin_Ward",
+//     format: "image/png",
+//     transparent: true,
+//     tiled: true,
+//     version: "1.1.0",
+//     // attribution: "Village_Boundary",
+//     opacity: 1,
    
-  }
-);
+//   }
+// );
 
 
  
@@ -242,7 +242,7 @@ control.setPosition('topright');
 
 
 function fitbou(filter) {
-  var layer = "pmc:PMC_Admin_Ward";
+  var layer = "pmc:ward_boundary1";
   var urlm =
     "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
