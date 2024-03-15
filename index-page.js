@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC_Final/";
+const API_URL = "http://localhost/PMC4/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -198,19 +198,19 @@ var Zone_layer= L.tileLayer.wms(
 
 
 
-var ward_names = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "PMC_Admin_Ward",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "Village_Boundary",
-    opacity: 1,
+// var ward_names = L.tileLayer.wms(
+//   "https://pmc.geopulsea.com/geoserver/pmc/wms",
+//   {
+//     layers: "PMC_Admin_Ward",
+//     format: "image/png",
+//     transparent: true,
+//     tiled: true,
+//     version: "1.1.0",
+//     // attribution: "Village_Boundary",
+//     opacity: 1,
    
-  }
-);
+//   }
+// );
 
 
 
@@ -251,7 +251,7 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function fitbou(filter) {
-  var layer = "pmc:PMC_Admin_Ward";
+  var layer = "pmc:ward_boundary1";
   var urlm =
     "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
@@ -520,6 +520,16 @@ map.on("draw:created", function (e) {
         },
       });
 
+
+
+      function refreshWMSLayer() {
+        // Remove the layer from the map
+        map.removeLayer(wms_layer4);
+        // Add the layer again
+        wms_layer4.addTo(map);
+      }
+       
+      refreshWMSLayer();
       // Do not add the new feature to the map
     }
   });
