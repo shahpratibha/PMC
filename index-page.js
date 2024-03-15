@@ -520,6 +520,16 @@ map.on("draw:created", function (e) {
         },
       });
 
+
+
+      function refreshWMSLayer() {
+        // Remove the layer from the map
+        map.removeLayer(wms_layer4);
+        // Add the layer again
+        wms_layer4.addTo(map);
+      }
+       
+      refreshWMSLayer();
       // Do not add the new feature to the map
     }
   });

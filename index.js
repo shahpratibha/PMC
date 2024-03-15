@@ -38,7 +38,7 @@ var wms_layer1 = L.tileLayer.wms(
     // attribution: "Exist_Road",
     opacity: 1,
   }
-);
+).addTo(map);
  
 var wms_layer12 = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -301,6 +301,8 @@ var drawControl = new L.Control.Draw({
 });
 // map.addControl(drawControl);
 
+
+
 toggleDrawControl();
 console.log(map.getZoom(), "map.getZoom()");
 function toggleDrawControl() {
@@ -317,110 +319,110 @@ map.on("zoomend", toggleDrawControl);
 
 // {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 
-var editableLayers = new L.FeatureGroup().addTo(map);
+// var editableLayers = new L.FeatureGroup().addTo(map);
 
-map.on("click", function (e) {
-  let size = map.getSize();
-  let bbox = map.getBounds().toBBoxString();
-  let layer = "pmc:Exist_Road";
+// map.on("click", function (e) {
+//   let size = map.getSize();
+//   let bbox = map.getBounds().toBBoxString();
+//   let layer = "pmc:Exist_Road";
 
-  var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-    e.containerPoint.x
-  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-    size.x
-  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+//   var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+//     e.containerPoint.x
+//   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+//     size.x
+//   }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      highlightFeature(data);
-    });
-});
+//   fetch(url)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(data);
+//       highlightFeature(data);
+//     });
+// });
 
-function highlightFeature(featureData) {
-  // Check if any features are present in the featureData
-  if (
-    !featureData ||
-    !featureData.features ||
-    featureData.features.length === 0
-  )
-  //  {
-  //   alert("No feature available. Click on a feature to edit.");
-  //   return;
-  // }
+// function highlightFeature(featureData) {
+//   // Check if any features are present in the featureData
+//   if (
+//     !featureData ||
+//     !featureData.features ||
+//     featureData.features.length === 0
+//   )
+//   //  {
+//   //   alert("No feature available. Click on a feature to edit.");
+//   //   return;
+//   // }
 
-  // Clear existing editable layers
-  editableLayers.clearLayers();
+//   // Clear existing editable layers
+//   editableLayers.clearLayers();
 
-  // Get the first feature from the featureData
-  var feature = featureData.features[0];
+//   // Get the first feature from the featureData
+//   var feature = featureData.features[0];
 
-  var geojsonLayer = L.geoJSON(feature, {
-    style: {
-      color: "red",
-      weight: 3,
-      opacity: 1,
-      fillOpacity: 0.5,
-    },
-  });
+//   var geojsonLayer = L.geoJSON(feature, {
+//     style: {
+//       color: "red",
+//       weight: 3,
+//       opacity: 1,
+//       fillOpacity: 0.5,
+//     },
+//   });
 
-  editableLayers.addLayer(geojsonLayer);
+//   editableLayers.addLayer(geojsonLayer);
 
-  if (editableLayers.getLayers().length > 0) {
-    map.fitBounds(editableLayers.getBounds());
-  }
-}
+//   if (editableLayers.getLayers().length > 0) {
+//     map.fitBounds(editableLayers.getBounds());
+//   }
+// }
 
-editableLayers.on("contextmenu", function (e) {
-  // Check if there is a selected feature
-  if (editableLayers.getLayers().length > 0) {
-    var selectedFeature = editableLayers.getLayers()[0];
+// editableLayers.on("contextmenu", function (e) {
+//   // Check if there is a selected feature
+//   if (editableLayers.getLayers().length > 0) {
+//     var selectedFeature = editableLayers.getLayers()[0];
 
-    // Get the coordinates of the right-clicked point
-    var latlng = e.latlng;
+//     // Get the coordinates of the right-clicked point
+//     var latlng = e.latlng;
 
-    var popupContent = "<h3>Selected Feature</h3>";
+//     var popupContent = "<h3>Selected Feature</h3>";
 
 
-    // Add buttons for saving data and editing feature
-    popupContent += '<br><button id="saveDataButton">Save Data</button>';
-    popupContent += '<button id="editFeatureButton">Edit Feature</button>';
+//     // Add buttons for saving data and editing feature
+//     popupContent += '<br><button id="saveDataButton">Save Data</button>';
+//     popupContent += '<button id="editFeatureButton">Edit Feature</button>';
 
-    var popup = L.popup()
-      .setLatLng(latlng)
-      .setContent(popupContent)
-      .openOn(map);
+//     var popup = L.popup()
+//       .setLatLng(latlng)
+//       .setContent(popupContent)
+//       .openOn(map);
 
-    // Add click event listener for save data button
-    document
-      .getElementById("saveDataButton")
-      .addEventListener("click", function () {
-        // Your save data logic here
-        alert("Data saved!");
-      });
+//     // Add click event listener for save data button
+//     document
+//       .getElementById("saveDataButton")
+//       .addEventListener("click", function () {
+//         // Your save data logic here
+//         alert("Data saved!");
+//       });
 
-    // Add click event listener for edit feature button
-    document
-      .getElementById("editFeatureButton")
-      .addEventListener("click", function () {
-        // Your edit feature logic here
-        alert("Editing feature!");
+//     // Add click event listener for edit feature button
+//     document
+//       .getElementById("editFeatureButton")
+//       .addEventListener("click", function () {
+//         // Your edit feature logic here
+//         alert("Editing feature!");
 
-        selectedFeature.eachLayer(function (layer) {
-          if (layer.editing) {
-            layer.editing.enable();
-          } else {
-            layer.on("click", function () {
-              if (this.editing) {
-                this.editing.enable();
-              }
-            });
-          }
-        });
-      });
-  }
-});
+//         selectedFeature.eachLayer(function (layer) {
+//           if (layer.editing) {
+//             layer.editing.enable();
+//           } else {
+//             layer.on("click", function () {
+//               if (this.editing) {
+//                 this.editing.enable();
+//               }
+//             });
+//           }
+//         });
+//       });
+//   }
+// });
 
 // {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 
