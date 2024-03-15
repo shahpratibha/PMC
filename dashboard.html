@@ -1,446 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PMC</title>
-    <link rel="stylesheet" href="C_form.css" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="png/pmcjpeg.jpg" type="image/x-icon">
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-    />
 
-    <!-- ============================ -->
-    <!-- bootstrap -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <!-- <link
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PMC</title>
+  <link rel="stylesheet" href="C_form.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="png/pmcjpeg.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
+
+  <!-- ============================ -->
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+
+
+  <!-- jquery -->
+
+
+
+
+
+  <!-- <link
       rel="stylesheet"
       href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
     /> -->
-      <!-- Include DataTables CSS -->
-      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    
-       <!-- Include DataTables JS -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    
-      <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
+  <!-- Include DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
-    <!-- fontawsome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
-      integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <!-- leaflet -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin
-    />
 
-    <!-- leaflet -->
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin
-    ></script>
+  <!-- Include DataTables JS -->
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
-    <!-- to geojson -->
-    <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
 
-    <!-- leaflet-ajax -->
-    <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
+  <!-- fontawsome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+    integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin />
 
-    <!-- fontawsome -->
-    <link
-      rel="stylesheet"
-      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+  <!-- leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <!-- to geojson -->
+  <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script>
 
-    <!-- Leflet for adding draw tool start-->
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- leaflet-ajax -->
+  <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
 
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- fontawsome -->
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Leaflet.draw CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"
-    />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    <!-- Leaflet.draw JavaScript -->
-    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-    <!-- Esri Leaflet JavaScript -->
-    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+  <!-- Leflet for adding draw tool start-->
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <!-- Esri Leaflet Geocoder JavaScript -->
-    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <!-- Esri Leaflet Geocoder CSS -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css"
-    />
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha384-EK+9FhLeLjMtoIkg6wI3GvY5zPzzuBNYYGk60s7Y7trby5Cr5SoV0U8rssez6J8S" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha384-3hxxuF2FJ23oEeqWrYkzOWZC9qYcu32/7v1+K9tZtG5DXtNwkkr8Wt5IbSLz1Odg" crossorigin="anonymous"></script>
-    <!-- Leflet for adding draw tool END -->
+  <!-- Leaflet.draw CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
 
-    <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
+  <!-- Leaflet.draw JavaScript -->
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+  <!-- Esri Leaflet JavaScript -->
+  <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <!-- <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script> -->
+  <!-- Esri Leaflet Geocoder JavaScript -->
+  <script
+    src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
 
-    <!-- html2pdfcdn -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
-      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+  <!-- Esri Leaflet Geocoder CSS -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+    integrity="sha384-EK+9FhLeLjMtoIkg6wI3GvY5zPzzuBNYYGk60s7Y7trby5Cr5SoV0U8rssez6J8S" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+    integrity="sha384-3hxxuF2FJ23oEeqWrYkzOWZC9qYcu32/7v1+K9tZtG5DXtNwkkr8Wt5IbSLz1Odg"
+    crossorigin="anonymous"></script>
+  <!-- Leflet for adding draw tool END -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <!-- <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script> -->
 
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <!-- html2pdfcdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+    integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 
-    <!-- MousePosition -->
-    <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
-    <link
-      rel="stylesheet"
-      href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css"
-    />
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
 
-    <!-- line-measure -->
-    <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
-    <script src="libs/polyline-measure/line-measure.js"></script>
-    <link
-      rel="stylesheet"
-      href="libs/leaflet-measure-master/leaflet-measure.css"
-    />
-    <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
-    <script src="libs/feat.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
-      <!-- legend -->
- 
 
- <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
- <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
 
-    <style>
-      .leaflet-control-layers-list{
-        width: 200px;
-        height: 200px;
-        overflow-y: scroll;
-        scrollbar-width: thin;
-        font-size: 9px;
-        padding: 0px;
-      }
-      .leaflet-control-layers-overlays{
-        width: 100%;
-      }
-      #map {
-        top: 64px;
-        left: 55px;
-        height: 90vh;
-        width: 97%;
-      }
-      .multi-checkboxes_wrap:before {
-        font-family: fontAwesome;
-        color: #999;
-        content: "\f096";
-        /* width: 25px;
+  <!-- MousePosition -->
+  <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+  <link rel="stylesheet" href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css" />
+
+  <!-- line-measure -->
+  <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
+  <script src="libs/polyline-measure/line-measure.js"></script>
+  <link rel="stylesheet" href="libs/leaflet-measure-master/leaflet-measure.css" />
+  <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+  <script src="libs/feat.js"></script>
+
+  <!-- legend -->
+
+
+  <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
+  <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
+
+  <style>
+    .leaflet-control-layers-list {
+      width: 200px;
+      height: 200px;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      font-size: 9px;
+      padding: 0px;
+    }
+
+    .leaflet-control-layers-overlays {
+      width: 100%;
+    }
+
+    #map {
+      top: 64px;
+      left: 55px;
+      height: 90vh;
+      width: 97%;
+    }
+
+    .multi-checkboxes_wrap:before {
+      font-family: fontAwesome;
+      color: #999;
+      content: "\f096";
+      /* width: 25px;
         height: 25px;
         padding-right: 10px; */
-      }
-      .multi-checkboxes_wrap[aria-selected="true"]:before {
-        content: "\f14a";
-      }
+    }
 
-      .form-control {
-        height: 30px;
-        padding: auto;
-      }
-      .accordion-button {
-        height: 30px;
-        font-size: 12px;
-      }
-      .form-select {
-        justify-content: center;
-        margin-left: -35px;
-        /* width: 50px; */
-      }
-      .accordion-body .form-control {
-        margin-left: -35px;
-      }
-      .accordion-button:hover {
-        background-color: #bbb;
-      }
+    .multi-checkboxes_wrap[aria-selected="true"]:before {
+      content: "\f14a";
+    }
+
+    .form-control {
+      height: 30px;
+      padding: auto;
+    }
+
+    .accordion-button {
+      height: 30px;
+      font-size: 12px;
+    }
+
+    .form-select {
+      justify-content: center;
+      margin-left: -35px;
+      /* width: 50px; */
+    }
+
+    .accordion-body .form-control {
+      margin-left: -35px;
+    }
+
+    .accordion-button:hover {
+      background-color: #bbb;
+    }
+
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      left: 80px;
+      background-color: #f3f3f3;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 10px;
+      overflow-y: scroll;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      /* Add shadow */
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      padding: 0px 8px 8px 38px;
+    }
+
+    .sidebar .form-group {
+      padding: 0px 8px 8px 38px;
+      font-size: 13px;
+      color: black;
+      display: block;
+      transition: 0.3s;
+    }
+
+
+
+    .sidebar .closebtn {
+      position: absolute;
+      color: red;
+      top: 0px;
+      right: -3px;
+      /* font-size: 30px; */
+      font-weight: bold;
+      margin-left: 50px;
+    }
+
+    #content {
+      transition: margin-left 0.5s;
+      /* padding: 16px; */
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+      display: none;
+    }
+
+    .dataTables_length {
+      display: none;
+    }
+
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_processing,
+    .dataTables_wrapper .dataTables_paginate {
+      color: #333;
+      font-size: 10px;
+      position: absolute;
+      left: 30px;
+      right: 30px;
+    }
+
+    @media screen and (max-height: 450px) {
       .sidebar {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 1;  
-        left: 80px;
-        background-color: #f3f3f3;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 10px;
-        overflow-y: scroll;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7); /* Add shadow */
+        padding-top: 15px;
       }
 
       .sidebar a {
-        text-decoration: none;
-        padding: 0px 8px 8px 38px;
+        font-size: 18px;
       }
-     
-      .sidebar .form-group {
-        padding: 0px 8px 8px 38px;
-        font-size: 13px;
-        color: black;
-        display: block;
-        transition: 0.3s;
-      }
+    }
+  </style>
+</head>
 
-      
+<body class="overflow-hidden" id="body-pd" class="" style="background-color: #f3f3f3">
+  <div class="sidebar" id="mySidenav" type="button">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
+        style="width: 15px; "></i></a>
 
-      .sidebar .closebtn {
-        position: absolute;
-        color: red;
-        top: 0px;
-        right: -3px;
-        /* font-size: 30px; */
-        font-weight: bold;
-        margin-left: 50px;
-      }
+    <div class="form-group ">
+      <label>Select Year</label>
+      <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_fi">
+        <option value=""></option>
+      </select>
+    </div>
 
-      #content {
-        transition: margin-left 0.5s;
-        /* padding: 16px; */
-      }
-      .dataTables_wrapper .dataTables_filter{
-        display: none;
-      }
-      .dataTables_length{
-        display: none;
-      }
+    <div class="form-group mt-2">
+      <label>Zone Name</label>
+      <select id="zones" style="width: 180px" class="form-control select2" multiple="multiple"
+        onchange="loadAdminWardNameAndFilter();">
+        <option value=""></option>
+      </select>
+    </div>
 
-      .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
-          color: #333;
-          font-size: 10px;
-          position: absolute;
-          left: 30px;
-          right: 30px;
-      }
-      @media screen and (max-height: 450px) {
-        .sidebar {
-          padding-top: 15px;
-        }
-        .sidebar a {
-          font-size: 18px;
-        }
-      }
-    </style>
-  </head>
-  <body class="overflow-hidden" id="body-pd" class="" style="background-color: #f3f3f3">
-    <div class="sidebar" id="mySidenav" type="button">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-        ><i class="fa-solid fa-minus" style="width: 15px; "></i></a
-      >
-      
-      <div class="form-group ">
-        <label>Select Year</label>
-        <select
-          style="width: 180px"
-          class="select2 form-control"
-          multiple="multiple"
-          id="project_fi"
-        >
-          <option value=""></option>
-        </select>
-      </div>
+    <div class="form-group mt-2">
+      <label for="admin_ward_name">Ward Name</label>
+      <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width: 180px"
+        onchange="loadVillagesAndFilter()">
+        <option value=""></option>
+      </select>
+    </div>
 
-      <div class="form-group mt-2">
-        <label>Zone Name</label>
-        <select
-          id="zones"
-          style="width: 180px"
-          class="form-control select2"
-          multiple="multiple"
-          onchange="loadAdminWardNameAndFilter();"
-        >
-          <option value=""></option>
-        </select>
-      </div>
+    <div class="form-group mt-2">
+      <label>Village Name</label>
+      <select class="form-control select2" multiple="multiple" id="villages" style="width: 180px"
+        onchange="loadDepartmentsAndFilter();">
+        <option value=""></option>
+      </select>
+    </div>
 
-      <div class="form-group mt-2">
-        <label for="admin_ward_name">Ward Name</label>
-        <select
-          class="select2 form-control"
-          multiple="multiple"
-          id="admin_ward_name"
-          style="width: 180px"
-          onchange="loadVillagesAndFilter()"
-        >
-          <option value=""></option>
-        </select>
-      </div>
+    <div class="form-group mt-2">
+      <label for="admin_ward_name">Departments</label>
+      <select class="form-control select2" id="departments" style="width: 180px" multiple="multiple"
+        onchange="loadStagesAndFilter();">
+        <option value=""></option>
+      </select>
+    </div>
+    <div class="form-group mt-2">
+      <label>Project Status</label>
+      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="stage"
+        onchange="loadWorkTypesAndFilter();">
+        <option value=""></option>
+      </select>
+    </div>
+    <div class="form-group mt-2">
+      <label>Work Type</label>
+      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="work_type">
+        <option value=""></option>
+      </select>
+    </div>
 
-      <div class="form-group mt-2">
-        <label>Village Name</label>
-        <select
-          class="form-control select2"
-          multiple="multiple"
-          id="villages"
-          style="width: 180px"
-          onchange="loadDepartmentsAndFilter();"
-        >
-          <option value=""></option>
-        </select>
-      </div>
 
-      <div class="form-group mt-2">
-        <label for="admin_ward_name">Departments</label>
-        <select
-          class="form-control select2"
-          id="departments"
-          style="width: 180px"
-          multiple="multiple"
-          onchange="loadStagesAndFilter();"
-        >
-          <option value=""></option>
-        </select>
-      </div>
-      <div class="form-group mt-2">
-        <label>Project Status</label>
-        <select
-          class="select2 form-control"
-          multiple="multiple"
-          style="width: 180px"
-          id="stage"
-          onchange="loadWorkTypesAndFilter();"
-        >
-          <option value=""></option>
-        </select>
-      </div>
-      <div class="form-group mt-2">
-        <label>Work Type</label>
-        <select
-          class="select2 form-control"
-          multiple="multiple"
-          style="width: 180px"
-          id="work_type"
-        >
-          <option value=""></option>
-        </select>
-      </div>
 
-   
-
-      <div class="form-group mt-3">
-        <div class="accordion" id="projectCostAccordion">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="projectCostHeading">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#projectCostCollapse"
-                aria-expanded="false"
-                aria-controls="projectCostCollapse"
-              >
-                Project Cost
-              </button>
-            </h2>
-            <div
-              id="projectCostCollapse"
-              class="accordion-collapse collapse"
-              aria-labelledby="projectCostHeading"
-              data-bs-parent="#projectCostAccordion"
-            >
-              <div class="accordion-body">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <select class="form-select" id="amount_comparison">
-                        <option value="greater_than">Greater Than</option>
-                        <option value="less_than">Less Than</option>
-                      </select>
-                    </div>
+    <div class="form-group mt-3">
+      <div class="accordion" id="projectCostAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="projectCostHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#projectCostCollapse" aria-expanded="false" aria-controls="projectCostCollapse">
+              Project Cost
+            </button>
+          </h2>
+          <div id="projectCostCollapse" class="accordion-collapse collapse" aria-labelledby="projectCostHeading"
+            data-bs-parent="#projectCostAccordion">
+            <div class="accordion-body">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12">
+                    <select class="form-select" id="amount_comparison">
+                      <option value="greater_than">Greater Than</option>
+                      <option value="less_than">Less Than</option>
+                    </select>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12 mt-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="amount_value"
-                        placeholder="Enter amount"
-                      />
-                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 mt-3">
+                    <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
                   </div>
                 </div>
               </div>
@@ -448,561 +372,553 @@
           </div>
         </div>
       </div>
-
-      <div class="form-group mt-2">
-        <label for="date_range">Date Range</label>
-        <input type="text" name="" class="form-control" id="date_range" />
-      </div>
-
-    
     </div>
-    <header class="header justify-content-between" id="header">
-      <div><h5>GeoPulse</h5></div>
-      <div class="d-flex justify-content-between ms-auto" role="search">
-        <div class="input-group">
-          <select
-            class="form-select ms-auto"
-            aria-label="Select search category"
-            id="search_type"
-            style="width: 90px; border-radius: 10px"
-          >
-            <option value="">Select Type</option>
-            <option value="zone">Zone</option>
-            <option value="ward">Ward</option>
-            <option value="village">Village</option>
-            <option value="departme_1">Department</option>
-            <option value="work_type">Work Type</option>
-            <option value="stage">Stage</option>
-          </select>
-          <input
-            class="form-control ms-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            id="searchInputDashboard"
-            style="height: 40px; width: 200px; border-radius: 10px"
-          />
-          <div
-            id="autocompleteSuggestions"
-            class="autocomplete-suggestions"
-          ></div>
-          
-        </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div class="header_img">
-          <img src="user.png" alt />
-        </div>
+
+    <div class="form-group mt-2">
+      <label for="date_range">Date Range</label>
+      <input type="text" name="" class="form-control" id="date_range" />
+    </div>
+
+
+  </div>
+  <header class="header justify-content-between" id="header">
+    <div>
+      <h5>GeoPulse</h5>
+    </div>
+    <div class="d-flex justify-content-between ms-auto" role="search">
+      <div class="input-group">
+        <!-- <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
+          style="width: 90px; border-radius: 10px">
+          <option value="">Select Type</option>
+          <option value="zone">Zone</option>
+          <option value="ward">Ward</option>
+          <option value="village">Village</option>
+          <option value="departme_1">Department</option>
+          <option value="work_type">Work Type</option>
+          <option value="stage">Stage</option>
+        </select> -->
+
+        <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
+          style="width: 90px; border-radius: 10px">
+          <option value="">Select Type</option>
+        </select>
+
+        <input class="form-control ms-2" type="search" placeholder="Search" aria-label="Search"
+          id="searchInputDashboard" style="height: 40px; width: 200px; border-radius: 10px" />
+        <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
+
       </div>
-    </header>
-    <div class="l-navbar" id="nav-bar">
-      <nav class="nav">
-        <div>
-          <a href="#" class="nav_logo"> </a>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="header_img">
+        <img src="user.png" alt />
+      </div>
+    </div>
+  </header>
+  <div class="l-navbar" id="nav-bar">
+    <nav class="nav">
+      <div>
+        <a href="#" class="nav_logo"> </a>
 
-          <div class="nav_list">
-            <div class="nav_link active">
-              <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
-            </div>
+        <div class="nav_list">
+          <div class="nav_link active">
+            <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
+          </div>
 
-            <div class="closebtn" onclick="closeNav()">&times;
+          <div class="closebtn" onclick="closeNav()">&times;
 
             <!-- </div> -->
             <div class="nav_link" title="Download Report">
-              <i
-                class="fa-solid fa-file-arrow-down nav_icon"
-                id="generatePdfBtn"
-                onclick="takeScreenshot()"
-              >
+              <i class="fa-solid fa-file-arrow-down nav_icon" id="generatePdfBtn" onclick="takeScreenshot()">
               </i>
             </div>
 
-           
+
           </div>
         </div>
         <a href="#" class="nav_link">
           <i class="bx bx-log-out nav_icon"></i>
         </a>
-      </nav>
+    </nav>
+  </div>
+
+  <div id="content">
+    <div id="map"></div>
+
+
+    <div class="row tabchart">
+      <div id="table-container-dashboard">
+
+        <button id="closeTableBtnDashboard" class="close-button">
+          <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: -10%; width: 10px;"></i>
+        </button>
+        <div id="tablestats"
+          style="float: left; top: 5px; position: absolute; font-weight: bold; left:10px; color:sienna; font-size: 12px;">
+        </div>
+        <table id="workTableDashboard" class="table table-bordered table-hover"
+          style="margin-top: 30px; height:100px; width: 100px; overflow-y: scroll; ">
+          <thead>
+            <tr>
+              <th>Zone</th>
+              <th>Ward</th>
+              <th>Department</th>
+              <th>Work Type</th>
+              <th>Tender Amount</th>
+              <th>JE Name</th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+        </table>
+
+
+      </div>
     </div>
 
-    <div id="content">
-      <div id="map"></div>
-      
-    
-            <div class="row tabchart">
-              <div id="table-container-dashboard" >
-                
-                <button id="closeTableBtnDashboard" class="close-button">
-                  <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: -10%; width: 10px;"></i>
-                </button>
-                <div id="tablestats" style="float: left; top: 5px; position: absolute; font-weight: bold; left:10px; color:sienna; font-size: 12px;"  ></div>
-                <table id="workTableDashboard" class="table table-bordered table-hover" style="margin-top: 30px; height:100px; width: 100px; overflow-y: scroll; ">
-                    <thead >
-                        <tr >
-                            <th>Zone</th>
-                            <th>Ward</th>
-                            <th>Department</th>
-                            <th>Work Type</th>
-                            <th>Tender Amount</th>
-                            <th>JE Name</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody></tbody>
-                </table>
+  </div>
+  <script src="index.js"></script>
+  <script src="select2.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
+    integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 
-                
-              </div>
-            </div>
-    
-    </div>
-    <script src="index.js"></script>
-    <script src="select2.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
-      integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-    <script>
-      function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-        document.getElementById("mySidenav").style.height = "500px";
-        document.getElementById("mySidenav").style.zIndex = "99999";
-        document.getElementById("mySidenav").style.top = "75px";
-        // document.getElementById("mySidenav").style.marginLeft = "65px";
-        document.getElementById("mySidenav").style.scrollbarWidth = "thin";
+  <script>
 
-        document.getElementById("content").style.marginLeft = "0";
-        document.getElementById("content").style.zIndex= "0";
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("mySidenav").style.height = "500px";
+      document.getElementById("mySidenav").style.zIndex = "99999";
+      document.getElementById("mySidenav").style.top = "75px";
+      // document.getElementById("mySidenav").style.marginLeft = "65px";
+      document.getElementById("mySidenav").style.scrollbarWidth = "thin";
 
+      document.getElementById("content").style.marginLeft = "0";
+      document.getElementById("content").style.zIndex = "0";
+
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("content").style.marginLeft = "0";
+    }
+
+
+    $(function () {
+      $("#mySidenav").draggable();
+    });
+    //
+    // -----------------------------------
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   const map = document.getElementById("map");
+    //   const rightSidebar = document.querySelector(".chart");
+
+    // });
+
+    // /////////////////----------------------------------
+
+    // function takeScreenshot() {
+    //   html2canvas(document.getElementById("map"), {
+    //     useCORS: false,
+    //   }).then(function (canvas) {
+    //     var imgData = canvas.toDataURL("image/png");
+
+    //     var pdf = new jsPDF();
+    //     pdf.addImage(imgData, "PNG", 15, 25, 180, 135);
+
+    //     var imgHeight = canvas.height;
+
+    //     var img = new Image();
+    //     img.onload = function () {
+    //       pdf.addImage(img, "PNG", 15, 170, 180, 80);
+    //       pdf.save("map.pdf"); // Save PDF
+    //     };
+    //   });
+    // }
+
+    $(document).ready(function () {
+      var amountValueInput = document.getElementById("amount_value");
+
+      amountValueInput.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+          filterDataAndDrawMap();
+        }
+      });
+      $("#date_range")
+        .datepicker({
+          format: "yyyy-mm-dd",
+          autoclose: false,
+          todayHighlight: true,
+          clearBtn: true,
+          multidate: true,
+          multidateSeparator: " to ",
+          forceParse: false,
+        })
+        .on("changeDate", function (e) {
+          var selectedDates = e.dates;
+          if (selectedDates.length === 2) {
+            var fromDate = selectedDates[0];
+            var toDate = selectedDates[1];
+
+            // Validate that toDate is greater than fromDate
+            if (toDate <= fromDate) {
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Oops...",
+                text: "To date must be greater than From date.",
+                showConfirmButton: false,
+                // timer: 2100,
+                showCloseButton: true,
+                customClass: {
+                  popup: 'custom-modal-class',
+                  icon: 'custom-icon-class',
+                  title: 'custom-title-class',
+                  content: 'custom-text-class',
+                  closeButton: 'custom-close-button-class'
+                },
+                showClass: {
+                  popup: 'swal2-show',
+                  backdrop: 'swal2-backdrop-show',
+                  icon: 'swal2-icon-show'
+                },
+                hideClass: {
+                  popup: 'swal2-hide',
+                  backdrop: 'swal2-backdrop-hide',
+                  icon: 'swal2-icon-hide'
+                },
+                didOpen: () => {
+                  // Apply custom styles directly to the modal elements
+                  document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
+                  document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
+                  document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
+                  document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
+                  document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
+                  document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
+                  document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
+                  document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
+                  document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
+                  document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
+                }
+              });
+              // Clear the selected dates
+              $("#date_range").datepicker("clearDates");
+            }
+            filterDataAndDrawMap();
+            // yourFunction(selectedDates[0], selectedDates[1]);
+            $("#date_range").datepicker("hide");
+          }
+        });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      // loadAllData();
+      loadInitialData();
+    });
+
+
+    // function fitbou(filter) {
+    //   var layer = "pmc:IWMS_point";
+    //   var urlm =
+    //     "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    //     layer +
+    //     "&CQL_FILTER=" +
+    //     filter +
+    //     "&outputFormat=application/json";
+
+    //   $.getJSON(urlm, function (data) {
+    //     geojson = L.geoJson(data, {});
+    //     map.fitBounds(geojson.getBounds());
+    //   });
+    // }
+    // -------------------added 11-2-24------------------------
+    function fitbou(filter) {
+      layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      layers.forEach(function (layerName) {
+        var urlm =
+          "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+          layerName +
+          "&CQL_FILTER=" +
+          filter +
+          "&outputFormat=application/json";
+
+        $.getJSON(urlm, function (data) {
+          console.log(data)
+          geojson = L.geoJson(data, {});
+          map.fitBounds(geojson.getBounds());
+        });
+      });
+    }
+    // -------------------added 11-2-24------------------------
+
+
+    function loadInitialData() {
+      loadAdminWardName();
+      loadZones();
+      loadVillages();
+      loadDepartments();
+      loadWorkTypes();
+      loadProjectFi();
+      loadStage();
+    }
+
+    function filterDataAndDrawMap() {
+      var selectedDepartments = $("#departments").val();
+      var selectedWorkTypes = $("#work_type").val();
+      var selectedZones = $("#zones").val();
+      var selectedWards = $("#admin_ward_name").val();
+      var selectedVillages = $("#villages").val();
+      var selectedProjectFi = $("#project_fi").val();
+      var selectedStage = $("#stage").val();
+      var selectedDateRange = $("#date_range").val();
+      var selectedAmountComparison = $("#amount_comparison").val();
+      var selectedAmountValue = $("#amount_value").val();
+
+      // Check if any filter values are not empty
+      if (
+        !$.isEmptyObject(selectedDepartments) ||
+        !$.isEmptyObject(selectedWorkTypes) ||
+        !$.isEmptyObject(selectedZones) ||
+        !$.isEmptyObject(selectedWards) ||
+        !$.isEmptyObject(selectedVillages) ||
+        !$.isEmptyObject(selectedStage) ||
+        !$.isEmptyObject(selectedDateRange) ||
+        !$.isEmptyObject(selectedAmountValue) ||
+        !$.isEmptyObject(selectedProjectFi)
+      ) {
+        // Filter data based on selected filters
+        var filteredData = filterData(
+          selectedDepartments,
+          selectedWorkTypes,
+          selectedZones,
+          selectedWards,
+          selectedVillages,
+          selectedProjectFi,
+          selectedStage,
+          selectedDateRange,
+          selectedAmountValue,
+          selectedAmountComparison
+        );
+      } else {
+        console.log("No filters selected. Map will not be drawn.");
+      }
+    }
+    var myPieChart;
+    var myLineChart;
+
+    function filterData(
+      selectedDepartments,
+      selectedWorkTypes,
+      selectedZones,
+      selectedWards,
+      selectedVillages,
+      selectedProjectFi,
+      selectedStage,
+      selectedDateRange,
+      selectedAmountValue,
+      selectedAmountComparison
+    ) {
+      // Create a filter object to store the CQL filter conditions
+      var filter = {};
+      // added 11-03-2024
+
+      var filter_for_ward = {};
+      var filter_for_zone = {};
+
+      // added 11-03-2024
+      // Filter data based on selected filters
+      var filteredData = [];
+
+      if (selectedProjectFi.length > 0) {
+        filter.project_fi = selectedProjectFi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
       }
 
-      function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("content").style.marginLeft = "0";
+      if (selectedZones.length > 0) {
+        filter.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
+      }
+      if (selectedWards.length > 0) {
+        filter.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
       }
 
+      if (selectedDepartments.length > 0) {
+        filter.departme_1 = selectedDepartments
+          .map((department) => `'${department}'`)
+          .join(",");
+      }
 
-      $( function() {
-    $("#mySidenav").draggable();
-  } );
-      //
-      // -----------------------------------
+      // added 11-03-2024
+      if (selectedZones.length > 0) {
+        filter_for_zone.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
+      }
+      if (selectedWards.length > 0) {
+        filter_for_ward.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
+      }
 
-      // document.addEventListener("DOMContentLoaded", function () {
-      //   const map = document.getElementById("map");
-      //   const rightSidebar = document.querySelector(".chart");
+      // added 11-03-2024
 
+      if (selectedWorkTypes.length > 0) {
+        filter.work_type = selectedWorkTypes
+          .map((workType) => `'${workType}'`)
+          .join(",");
+      }
+
+      if (selectedStage.length > 0) {
+        filter.stage = selectedStage.map((stage) => `'${stage}'`).join(",");
+      }
+      if (selectedVillages.length > 0) {
+        filter.village = selectedVillages
+          .map((village) => `'${village}'`)
+          .join(",");
+      }
+
+      // Create the CQL filter string from the filter object
+      var cqlFilter = Object.entries(filter)
+        .map(([key, value]) => `${key} IN (${value})`)
+        .join(" AND ");
+
+
+      // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
+      var cqlFilter_ward = Object.entries(filter_for_ward)
+        .map(([key, value]) => `${key} IN (${value})`)
+        .join(" AND ");
+
+      var cqlFilter_zone = Object.entries(filter_for_zone)
+        .map(([key, value]) => `${key} IN (${value})`)
+        .join(" AND ");
+
+      // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
+
+      // Apply the amount filter if selectedAmountValue is not null
+      if (selectedAmountValue && selectedAmountValue.trim() !== "") {
+        var amountCondition = `tender_amo ${selectedAmountComparison === "greater_than" ? ">" : "<"
+          } ${parseFloat(selectedAmountValue)}`;
+        // If other filters are applied, append "AND" to the amount condition
+        if (cqlFilter !== "") {
+          cqlFilter += ` AND ${amountCondition}`;
+        } else {
+          // Otherwise, use only the amount condition
+          cqlFilter = amountCondition;
+        }
+      }
+
+      var startDate, endDate;
+      if (selectedDateRange) {
+        var dateRangeParts = selectedDateRange.split(" to ");
+        startDate = new Date(dateRangeParts[0]);
+        endDate = new Date(dateRangeParts[1]);
+      }
+
+      if (selectedDateRange && cqlFilter !== "") {
+        cqlFilter += ` AND created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
+      } else if (selectedDateRange) {
+        cqlFilter = `created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
+      }
+
+      // fitbou(cqlFilter);
+
+      // wms_layer15.setParams({
+      //   CQL_FILTER: cqlFilter,
+      //   styles: "pointhighlight",
       // });
 
-      // /////////////////----------------------------------
+      // ********************added new modification 11-03-2023*******************************************
 
-      // function takeScreenshot() {
-      //   html2canvas(document.getElementById("map"), {
-      //     useCORS: false,
-      //   }).then(function (canvas) {
-      //     var imgData = canvas.toDataURL("image/png");
+      // console.log(cqlFilter,"cqlFilterfilter",cqlFilter_ward,cqlFilter_zone)
 
-      //     var pdf = new jsPDF();
-      //     pdf.addImage(imgData, "PNG", 15, 25, 180, 135);
+      fitbou(cqlFilter);
 
-      //     var imgHeight = canvas.height;
 
-      //     var img = new Image();
-      //     img.onload = function () {
-      //       pdf.addImage(img, "PNG", 15, 170, 180, 80);
-      //       pdf.save("map.pdf"); // Save PDF
-      //     };
-      //   });
-      // }
-
-      $(document).ready(function () {
-        var amountValueInput = document.getElementById("amount_value");
-
-        amountValueInput.addEventListener("keyup", function (event) {
-          if (event.keyCode === 13) {
-            filterDataAndDrawMap();
-          }
-        });
-        $("#date_range")
-          .datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: false,
-            todayHighlight: true,
-            clearBtn: true,
-            multidate: true,
-            multidateSeparator: " to ",
-            forceParse: false,
-          })
-          .on("changeDate", function (e) {
-            var selectedDates = e.dates;
-            if (selectedDates.length === 2) {
-              var fromDate = selectedDates[0];
-              var toDate = selectedDates[1];
-
-              // Validate that toDate is greater than fromDate
-              if (toDate <= fromDate) {
-                Swal.fire({
-                  position: "center",
-                  icon: "error",
-                  title: "Oops...",
-                  text: "To date must be greater than From date.",
-                  showConfirmButton: false,
-                  // timer: 2100,
-                  showCloseButton: true,
-                    customClass: {
-                      popup: 'custom-modal-class',
-                      icon: 'custom-icon-class',
-                      title: 'custom-title-class',
-                      content: 'custom-text-class',
-                      closeButton: 'custom-close-button-class'
-                    },
-                    showClass: {
-                      popup: 'swal2-show',
-                      backdrop: 'swal2-backdrop-show',
-                      icon: 'swal2-icon-show'
-                    },
-                    hideClass: {
-                      popup: 'swal2-hide',
-                      backdrop: 'swal2-backdrop-hide',
-                      icon: 'swal2-icon-hide'
-                    },
-                    didOpen: () => {
-                      // Apply custom styles directly to the modal elements
-                      document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
-                      document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
-                      document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
-                      document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
-                      document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
-                      document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
-                      document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
-                      document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
-                      document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
-                      document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
-                    }
-                });
-                // Clear the selected dates
-                $("#date_range").datepicker("clearDates");
-              }
-              filterDataAndDrawMap();
-              // yourFunction(selectedDates[0], selectedDates[1]);
-              $("#date_range").datepicker("hide");
-            }
-          });
-      });
-    </script>
-
-    <script>
-      $(document).ready(function () {
-        // loadAllData();
-        loadInitialData();
+      IWMS_point.setParams({
+        CQL_FILTER: cqlFilter,
+        // styles: "point", // Assuming "pointhighlight" is a predefined style
       });
 
-      
-      // function fitbou(filter) {
-      //   var layer = "pmc:IWMS_point";
-      //   var urlm =
-      //     "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-      //     layer +
-      //     "&CQL_FILTER=" +
-      //     filter +
-      //     "&outputFormat=application/json";
+      // console.log("addded")
+      IWMS_point.addTo(map).bringToFront();
 
-      //   $.getJSON(urlm, function (data) {
-      //     geojson = L.geoJson(data, {});
-      //     map.fitBounds(geojson.getBounds());
-      //   });
-      // }
-// -------------------added 11-2-24------------------------
-                function fitbou(filter) {
-                  layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
-            layers.forEach(function (layerName) {
-              var urlm =
-                "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-                layerName +
-                "&CQL_FILTER=" +
-                filter +
-                "&outputFormat=application/json";
-          
-              $.getJSON(urlm, function (data) {
-                console.log(data)
-                geojson = L.geoJson(data, {});
-                map.fitBounds(geojson.getBounds());
-              });
-            });
-          }
-// -------------------added 11-2-24------------------------
- 
-
-      function loadInitialData() {
-        loadAdminWardName();
-        loadZones();
-        loadVillages();
-        loadDepartments();
-        loadWorkTypes();
-        loadProjectFi();
-        loadStage();
-      }
-
-      function filterDataAndDrawMap() {
-        var selectedDepartments = $("#departments").val();
-        var selectedWorkTypes = $("#work_type").val();
-        var selectedZones = $("#zones").val();
-        var selectedWards = $("#admin_ward_name").val();
-        var selectedVillages = $("#villages").val();
-        var selectedProjectFi = $("#project_fi").val();
-        var selectedStage = $("#stage").val();
-        var selectedDateRange = $("#date_range").val();
-        var selectedAmountComparison = $("#amount_comparison").val();
-        var selectedAmountValue = $("#amount_value").val();
-
-        // Check if any filter values are not empty
-        if (
-          !$.isEmptyObject(selectedDepartments) ||
-          !$.isEmptyObject(selectedWorkTypes) ||
-          !$.isEmptyObject(selectedZones) ||
-          !$.isEmptyObject(selectedWards) ||
-          !$.isEmptyObject(selectedVillages) ||
-          !$.isEmptyObject(selectedStage) ||
-          !$.isEmptyObject(selectedDateRange) ||
-          !$.isEmptyObject(selectedAmountValue) ||
-          !$.isEmptyObject(selectedProjectFi)
-        ) {
-          // Filter data based on selected filters
-          var filteredData = filterData(
-            selectedDepartments,
-            selectedWorkTypes,
-            selectedZones,
-            selectedWards,
-            selectedVillages,
-            selectedProjectFi,
-            selectedStage,
-            selectedDateRange,
-            selectedAmountValue,
-            selectedAmountComparison
-          );
-        } else {
-          console.log("No filters selected. Map will not be drawn.");
-        }
-      }
-      var myPieChart;
-      var myLineChart;
-
-      function filterData(
-        selectedDepartments,
-        selectedWorkTypes,
-        selectedZones,
-        selectedWards,
-        selectedVillages,
-        selectedProjectFi,
-        selectedStage,
-        selectedDateRange,
-        selectedAmountValue,
-        selectedAmountComparison
-      ) {
-        // Create a filter object to store the CQL filter conditions
-        var filter = {};
-        // added 11-03-2024
-        
-        var filter_for_ward = {};
-                var filter_for_zone = {};
-        
-        // added 11-03-2024
-        // Filter data based on selected filters
-        var filteredData = [];
-
-        if (selectedProjectFi.length > 0) {
-          filter.project_fi = selectedProjectFi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-        }
-
-        if (selectedZones.length > 0) {
-          filter.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
-        }
-        if (selectedWards.length > 0) {
-          filter.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
-        }
-
-        if (selectedDepartments.length > 0) {
-          filter.departme_1 = selectedDepartments
-            .map((department) => `'${department}'`)
-            .join(",");
-        }
-
-          // added 11-03-2024
-        if (selectedZones.length > 0) {
-          filter_for_zone.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
-        }
-        if (selectedWards.length > 0) {
-          filter_for_ward.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
-        }
- 
-        // added 11-03-2024
-
-        if (selectedWorkTypes.length > 0) {
-          filter.work_type = selectedWorkTypes
-            .map((workType) => `'${workType}'`)
-            .join(",");
-        }
-
-        if (selectedStage.length > 0) {
-          filter.stage = selectedStage.map((stage) => `'${stage}'`).join(",");
-        }
-        if (selectedVillages.length > 0) {
-          filter.village = selectedVillages
-            .map((village) => `'${village}'`)
-            .join(",");
-        }
-
-        // Create the CQL filter string from the filter object
-        var cqlFilter = Object.entries(filter)
-          .map(([key, value]) => `${key} IN (${value})`)
-          .join(" AND ");
+      IWMS_line.setParams({
+        CQL_FILTER: cqlFilter,
+        // styles: "line",
+      });
+      // console.log("addded")
+      IWMS_line.addTo(map).bringToFront();
 
 
-          // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
-          var cqlFilter_ward = Object.entries(filter_for_ward)
-          .map(([key, value]) => `${key} IN (${value})`)
-          .join(" AND ");
- 
-          var cqlFilter_zone = Object.entries(filter_for_zone)
-          .map(([key, value]) => `${key} IN (${value})`)
-          .join(" AND ");
- 
-            // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
-
-        // Apply the amount filter if selectedAmountValue is not null
-        if (selectedAmountValue && selectedAmountValue.trim() !== "") {
-          var amountCondition = `tender_amo ${
-            selectedAmountComparison === "greater_than" ? ">" : "<"
-          } ${parseFloat(selectedAmountValue)}`;
-          // If other filters are applied, append "AND" to the amount condition
-          if (cqlFilter !== "") {
-            cqlFilter += ` AND ${amountCondition}`;
-          } else {
-            // Otherwise, use only the amount condition
-            cqlFilter = amountCondition;
-          }
-        }
-
-        var startDate, endDate;
-        if (selectedDateRange) {
-          var dateRangeParts = selectedDateRange.split(" to ");
-          startDate = new Date(dateRangeParts[0]);
-          endDate = new Date(dateRangeParts[1]);
-        }
-
-        if (selectedDateRange && cqlFilter !== "") {
-          cqlFilter += ` AND created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
-        } else if (selectedDateRange) {
-          cqlFilter = `created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
-        }
-
-        // fitbou(cqlFilter);
-
-        // wms_layer15.setParams({
-        //   CQL_FILTER: cqlFilter,
-        //   styles: "pointhighlight",
-        // });
-
-              // ********************added new modification 11-03-2023*******************************************
- 
-        // console.log(cqlFilter,"cqlFilterfilter",cqlFilter_ward,cqlFilter_zone)
- 
-        fitbou(cqlFilter);
- 
- 
-        IWMS_point.setParams({
-          CQL_FILTER: cqlFilter,
-          // styles: "point", // Assuming "pointhighlight" is a predefined style
-        });
-     
-        // console.log("addded")
-        IWMS_point.addTo(map).bringToFront();
- 
-        IWMS_line.setParams({
-          CQL_FILTER: cqlFilter,
-          // styles: "line",
-        });
-        // console.log("addded")
-        IWMS_line.addTo(map).bringToFront();
- 
- 
-        if (cqlFilter_ward) {
+      if (cqlFilter_ward) {
         ward_boundary.setParams({
           CQL_FILTER: cqlFilter_ward,
           styles: "pmc:Highlight_polygon", // Assuming "pointhighlight" is a predefined style
         }).addTo(map).bringToFront();
       }
- 
- 
+
+
       if (cqlFilter_zone) {
         Zone_layer.setParams({
           CQL_FILTER: cqlFilter_zone,
           styles: "pmc:Highlight_polygon", // Assuming "pointhighlight" is a predefined style
         }).addTo(map).bringToFront();
       }
- 
-// ////////////////////////////added 11-03-2024
 
-        // var geoServerURL =
-        //   "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
-        //   encodeURIComponent(cqlFilter);
+      // ////////////////////////////added 11-03-2024
+
+      // var geoServerURL =
+      //   "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
+      //   encodeURIComponent(cqlFilter);
 
 
-// ********************added new modification 11-03-2023*******************************************
- 
-        var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
-        var typeName = layers.join(',');
- 
-        var geoServerURL =
-                  "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
-                  typeName +
-                  "&outputFormat=application/json&CQL_FILTER=" +
-                  encodeURIComponent(cqlFilter);
- 
- 
- 
-           // ********************added new modification 11-03-2023*******************************************
+      // ********************added new modification 11-03-2023*******************************************
 
-        $.getJSON(geoServerURL, function (data) {
-          filteredData = data;
-          var workTypeCounts = {};
-          var stageCounts = {};
+      var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      var typeName = layers.join(',');
 
-            // //////////////////////addded 11-03-2023////////////////////////////////////////////////
-            var totalTenderAmount = 0;
- 
-            // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        typeName +
+        "&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
 
-            // pegination
-            $(document).ready(function() {
-            $('#workTableDashboard').DataTable();
+
+
+      // ********************added new modification 11-03-2023*******************************************
+
+      $.getJSON(geoServerURL, function (data) {
+        filteredData = data;
+        var workTypeCounts = {};
+        var stageCounts = {};
+
+        // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+        var totalTenderAmount = 0;
+
+        // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+
+        // pegination
+        $(document).ready(function () {
+          $('#workTableDashboard').DataTable();
         });
-            // 
+        // 
 
-          $("#workTableDashboard tbody").html("");
-          filteredData.features.forEach(function (project) {
+        $("#workTableDashboard tbody").html("");
+        filteredData.features.forEach(function (project) {
 
-            // //////////////////////addded 11-03-2023////////////////////////////////////////////////
- 
-            var tenderAmount = parseFloat(project.properties.tender_amo);
-                totalTenderAmount += tenderAmount;
-            var totalcountofselectedrecords = filteredData.totalFeatures;
-            // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+
+          var tenderAmount = parseFloat(project.properties.tender_amo);
+          totalTenderAmount += tenderAmount;
+          var totalcountofselectedrecords = filteredData.totalFeatures;
+          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
 
 
-            var proData = `<tr data-coordinates='${JSON.stringify(
-              project.geometry
-            )}'>
+          var proData = `<tr data-coordinates='${JSON.stringify(
+            project.geometry
+          )}'>
             <td>${project.properties.zone}</td>
             <td>${project.properties.ward}</td>
             <td>${project.properties.departme_1}</td>
@@ -1010,1054 +926,1139 @@
             <td>${project.properties.tender_amo}</td>
             <td>${project.properties.je_name}</td>
           </tr>`;
-            $("#workTableDashboard tbody").append(proData);
+          $("#workTableDashboard tbody").append(proData);
 
-             // //////////////////////addded 11-03-2023////////////////////////////////////////////////
-              // console.log(totalTenderAmount.toFixed(2))
-              console.log(totalTenderAmount, totalcountofselectedrecords,'helooooooooooooo');
+          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+          // console.log(totalTenderAmount.toFixed(2))
+          console.log(totalTenderAmount, totalcountofselectedrecords, 'helooooooooooooo');
 
-              $("#tablestats").html(`Total Project Tender Amount: ${totalTenderAmount.toFixed(2)} ,
+          $("#tablestats").html(`Total Project Tender Amount: ${totalTenderAmount.toFixed(2)} ,
               Total Projects: ${totalcountofselectedrecords}`);
-              // console.log(totalTenderAmount, totalcountofselectedrecords,'helooooooooooooo');
-              
-              // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+          // console.log(totalTenderAmount, totalcountofselectedrecords,'helooooooooooooo');
 
-            // Update workTypeCounts object
-            var workType = project.properties.work_type;
-            if (workType) {
-              workTypeCounts[workType] = (workTypeCounts[workType] || 0) + 1;
-            }
+          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
 
-            var stage = project.properties.stage;
-            var date = new Date(project.properties.created_at);
-            var monthYear = date.toLocaleString("default", {
-              month: "long",
-              year: "numeric",
-            });
-
-            if (!stageCounts[stage]) {
-              stageCounts[stage] = {};
-            }
-            if (!stageCounts[stage][monthYear]) {
-              stageCounts[stage][monthYear] = 0;
-            }
-            stageCounts[stage][monthYear]++;
-          });
-
-          $("#workTableDashboard tbody").on("click", "tr", function () {
-            var coordinatesStr = $(this).data("coordinates");
-            var coordinatesObj = coordinatesStr;
-            var boundsLayer = L.geoJSON(coordinatesObj, {
-              style: {
-                fillColor: "blue", // Fill color
-                fillOpacity: 0.3, // Fill opacity
-                color: "blue", // Border color
-                weight: 2, // Border weight
-              },
-            }).addTo(map); // Add the bounds layer to the map
-
-            var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
-            map.fitBounds(bounds).setZoom(16); // Fit map to the bounds and set zoom level
-
-            // Optionally, you can remove the bounds layer after a certain duration
-            setTimeout(function () {
-              map.removeLayer(boundsLayer);
-            }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
-          });
-// drag and drop
-                  $( function() {
-            $("#table-container-dashboard").draggable();
-          } );
-
-          // -----------------------
-          var tableContainer = $("#table-container-dashboard");
-          var isClosed = false;
-          tableContainer.slideDown();
-          tableContainer.css({
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          });
-
-          $("#closeTableBtnDashboard").click(function () {
-            if (!isClosed) {
-
-              $(this).html('<i class="fa-regular fa-window-maximize" style="font-weight: bold; margin-top: -20%; margin-left:-15px; width:35px; background-color:transparent; "></i>');
-              tableContainer.css({
-                paddingTop:"10px",
-                bottom: "60px",
-                left: "97%",
-                width:"30px",
-                height:"25px",
-                border:"2px solid #bbb",
-                overflow: "hidden",
-                // display:"none",
-              });
-            } else {
-              // Change icon to times
-              $(this).html(' <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: -10%; width:10px; "></i>');
-              tableContainer.css({
-                // display:"block",
-                bottom: "230px",
-                width:"570px",
-                height:"500px",
-                // top:"20%",
-                left: "60%",
-                overflowY:"scroll",
-                overflowX:"hidden",
-              });
-            }
-            isClosed = !isClosed; // Toggle the state
-          });
-
-          if (myPieChart) {
-            myPieChart.destroy();
+          // Update workTypeCounts object
+          var workType = project.properties.work_type;
+          if (workType) {
+            workTypeCounts[workType] = (workTypeCounts[workType] || 0) + 1;
           }
 
-          // Assuming workTypeCounts contains counts of unique work types
-          var workTypes = Object.keys(workTypeCounts);
-          var workTypeCountsData = Object.values(workTypeCounts);
-
-          var ctx = document.getElementById("myPieChart").getContext("2d");
-
-          // Create the pie chart
-          myPieChart = new Chart(ctx, {
-            type: "pie",
-            data: {
-              labels: workTypes, // Use workTypes as labels
-              datasets: [
-                {
-                  data: workTypeCountsData, // Use workTypeCountsData as data
-                  backgroundColor: [
-                    "rgba(255, 99, 132, 0.5)",
-                    "rgba(54, 162, 235, 0.5)",
-                    "rgba(255, 206, 86, 0.5)",
-                    "rgba(75, 192, 192, 0.5)",
-                    "rgba(153, 102, 255, 0.5)",
-                  ],
-                  borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                  ],
-                  borderWidth: 1,
-                },
-              ],
-            },
-            options: {
-              responsive: false,
-              plugins: {
-                legend: {
-                  display: true,
-                  // position: "bottom", // Position legend at the bottom of the graph
-                },
-                datalabels: {
-                  formatter: (value, ctx) => {
-                    let sum = 0;
-                    let dataArr = ctx.chart.data.datasets[0].data;
-                    dataArr.forEach((data) => {
-                      sum += data;
-                    });
-                    let percentage = ((value / sum) * 100).toFixed(2) + "%";
-                    return percentage;
-                  },
-                  color: "#fff",
-                },
-              },
-            },
+          var stage = project.properties.stage;
+          var date = new Date(project.properties.created_at);
+          var monthYear = date.toLocaleString("default", {
+            month: "long",
+            year: "numeric",
           });
 
-          // Create/update the line chart for stages
-          if (myLineChart) {
-            myLineChart.destroy();
+          if (!stageCounts[stage]) {
+            stageCounts[stage] = {};
           }
-
-          var ctxLine = document.getElementById("myLineChart").getContext("2d");
-
-          var lastSixMonths = getLastSixMonthsFromData(filteredData.features);
-
-          var datasets = [];
-
-          Object.keys(stageCounts).forEach(function (stage) {
-            var data = lastSixMonths.map(function (monthYear) {
-              return stageCounts[stage][monthYear] || 0;
-            });
-
-            datasets.push({
-              label: stage,
-              data: data,
-              borderColor: getRandomColor(),
-              fill: false,
-            });
-          });
-
-          myLineChart = new Chart(ctxLine, {
-            type: "line",
-            data: {
-              labels: lastSixMonths,
-              datasets: datasets,
-            },
-            options: {
-              responsive: false,
-              plugins: {
-                legend: {
-                  position: "bottom",
-                },
-              },
-              scales: {
-                x: {
-                  ticks: {
-                    display: true,
-                    position: "below",
-                  },
-                },
-                y: {
-                  ticks: {
-                    display: true,
-                  },
-                },
-              },
-            },
-          });
+          if (!stageCounts[stage][monthYear]) {
+            stageCounts[stage][monthYear] = 0;
+          }
+          stageCounts[stage][monthYear]++;
         });
 
-        function getRandomColor() {
-          var letters = "0123456789ABCDEF";
-          var color = "#";
-          for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-          }
-          return color;
-        }
+        $("#workTableDashboard tbody").on("click", "tr", function () {
+          var coordinatesStr = $(this).data("coordinates");
+          var coordinatesObj = coordinatesStr;
+          var boundsLayer = L.geoJSON(coordinatesObj, {
+            style: {
+              fillColor: "blue", // Fill color
+              fillOpacity: 0.3, // Fill opacity
+              color: "blue", // Border color
+              weight: 2, // Border weight
+            },
+          }).addTo(map); // Add the bounds layer to the map
 
-        function getLastSixMonthsFromData(data) {
-          var lastSixMonths = [];
-          var today = new Date();
-          var sixMonthsAgo = new Date(
-            today.getFullYear(),
-            today.getMonth() - 6,
-            1
-          );
-          var months = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-          ];
+          var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
+          map.fitBounds(bounds).setZoom(16); // Fit map to the bounds and set zoom level
 
-          data.forEach(function (project) {
-            var date = new Date(project.properties.created_at);
-            if (date >= sixMonthsAgo && date <= today) {
-              var monthYear =
-                months[date.getMonth()] + " " + date.getFullYear();
-              if (!lastSixMonths.includes(monthYear)) {
-                lastSixMonths.push(monthYear);
-              }
-            }
-          });
+          // Optionally, you can remove the bounds layer after a certain duration
+          setTimeout(function () {
+            map.removeLayer(boundsLayer);
+          }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
+        });
+        // drag and drop
+        $(function () {
+          $("#table-container-dashboard").draggable();
+        });
 
-          lastSixMonths.sort(function (a, b) {
-            var dateA = new Date(
-              a.split(" ")[1],
-              months.indexOf(a.split(" ")[0]),
-              1
-            );
-            var dateB = new Date(
-              b.split(" ")[1],
-              months.indexOf(b.split(" ")[0]),
-              1
-            );
-            return dateA - dateB;
-          });
+        // -----------------------
+        var tableContainer = $("#table-container-dashboard");
+        var isClosed = false;
+        tableContainer.slideDown();
+        tableContainer.css({
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        });
 
-          return lastSixMonths;
-        }
+        $("#closeTableBtnDashboard").click(function () {
+          if (!isClosed) {
 
-        return filteredData;
-      }
-
-      function loadProjectFi() {
-        var select = $("#project_fi");
-        select.empty();
-
-        $.getJSON(
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
-          function (data) {
-            var projectFiSet = new Set();
-
-            $.each(data.features, function (index, feature) {
-              var project_fi = feature.properties.project_fi;
-              projectFiSet.add(project_fi);
+            $(this).html('<i class="fa-regular fa-window-maximize" style="font-weight: bold; margin-top: -20%; margin-left:-15px; width:35px; background-color:transparent; "></i>');
+            tableContainer.css({
+              paddingTop: "10px",
+              bottom: "60px",
+              left: "97%",
+              width: "30px",
+              height: "25px",
+              border: "2px solid #bbb",
+              overflow: "hidden",
+              // display:"none",
             });
-
-            var uniqueProjectFiSet = Array.from(projectFiSet);
-
-            $.each(uniqueProjectFiSet, function (index, project_fi) {
-              select.append(
-                $("<option>", {
-                  value: project_fi,
-                  text: project_fi,
-                })
-              );
-            });
-
-            if (select.hasClass("select2-hidden-accessible")) {
-              select.select2("destroy");
-            }
-
-            select.select2({
-              templateResult: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
-
-                var $option = $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                    option.text +
-                    "</span>"
-                );
-                return $option;
-              },
-              templateSelection: function (option) {
-                if (!option.id) {
-                  return option.text;
-                }
-
-                return $(
-                  '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                    option.text +
-                    "</span>"
-                );
-              },
-              closeOnSelect: false,
-              dropdownParent: select.parent(),
-              multiple: true,
-            });
-
-            select.on("change", function () {
-              loadZones();
-              filterDataAndDrawMap();
+          } else {
+            // Change icon to times
+            $(this).html(' <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: -10%; width:10px; "></i>');
+            tableContainer.css({
+              // display:"block",
+              bottom: "230px",
+              width: "570px",
+              height: "500px",
+              // top:"20%",
+              left: "60%",
+              overflowY: "scroll",
+              overflowX: "hidden",
             });
           }
-        );
-      }
-
-      function loadZones() {
-        var select = $("#zones");
-        select.empty();
-
-        var project_fi = $("#project_fi").val();
-
-        var geoServerURL =
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
-        if (project_fi.length > 0) {
-          project_fi = project_fi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-
-          let cqlFilter = `project_fi  IN (${project_fi})`;
-          geoServerURL =
-            "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
-            encodeURIComponent(cqlFilter);
-        }
-
-        $.getJSON(geoServerURL, function (data) {
-          var zoneSet = new Set();
-
-          $.each(data.features, function (index, feature) {
-            var zone = feature.properties.zone;
-            zoneSet.add(zone);
-          });
-
-          var uniqueZoneSet = Array.from(zoneSet);
-
-          $.each(uniqueZoneSet, function (index, zone) {
-            select.append(
-              $("<option>", {
-                value: zone,
-                text: zone,
-              })
-            );
-          });
-
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // select.on("change", function () {
-          //   loadAdminWardName();
-          //   filterDataAndDrawMap();
-          // });
-        });
-      }
-
-      function loadAdminWardName() {
-        var select = $("#admin_ward_name");
-        select.empty();
-        var project_fi = $("#project_fi").val();
-        var zones = $("#zones").val();
-        let cqlFilter = "";
-
-        if (project_fi.length > 0) {
-          project_fi = project_fi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-          cqlFilter = `project_fi IN (${project_fi})`;
-        }
-
-        if (zones.length > 0) {
-          zones = zones.map((zone) => `'${zone}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-        }
-
-        var geoServerURL =
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-
-        $.getJSON(geoServerURL, function (data) {
-          var wardSet = new Set();
-
-          $.each(data.features, function (index, feature) {
-            var ward = feature.properties.ward;
-            wardSet.add(ward);
-          });
-
-          var uniqueWard = Array.from(wardSet);
-
-          $.each(uniqueWard, function (index, ward) {
-            select.append(
-              $("<option>", {
-                value: ward,
-                text: ward,
-              })
-            );
-          });
-
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // select.on("change", function () {
-          //   loadVillages();
-          //   filterDataAndDrawMap();
-          // });
-        });
-      }
-
-      function loadVillages() {
-        var select = $("#villages");
-        select.empty();
-
-        var project_fi = $("#project_fi").val();
-        var zones = $("#zones").val();
-        var wards = $("#admin_ward_name").val();
-        let cqlFilter = "";
-
-        if (project_fi.length > 0) {
-          project_fi = project_fi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-          cqlFilter = `project_fi IN (${project_fi})`;
-        }
-
-        if (zones.length > 0) {
-          zones = zones.map((zone) => `'${zone}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-        }
-        if (wards.length > 0) {
-          wards = wards.map((ward) => `'${ward}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
-        }
-
-        var geoServerURL =
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-
-        $.getJSON(geoServerURL, function (data) {
-          var villageSet = new Set();
-          $.each(data.features, function (index, feature) {
-            var village = feature.properties.village;
-            villageSet.add(village);
-          });
-
-          var uniqueVillage = Array.from(villageSet);
-
-          $.each(uniqueVillage, function (index, village) {
-            select.append(
-              $("<option>", {
-                value: village,
-                text: village,
-              })
-            );
-          });
-
-          // Destroy the existing Select2 instance, if it exists
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-
-          // Initialize Select2 with the updated options
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // select.on("change", function () {
-          //   loadDepartments();
-          //   filterDataAndDrawMap();
-          // });
-        });
-      }
-
-      function loadDepartments() {
-        var select = $("#departments");
-        select.empty();
-
-        var project_fi = $("#project_fi").val();
-        var zones = $("#zones").val();
-        var wards = $("#admin_ward_name").val();
-        var villages = $("#villages").val();
-        let cqlFilter = "";
-
-        if (project_fi.length > 0) {
-          project_fi = project_fi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-          cqlFilter = `project_fi IN (${project_fi})`;
-        }
-
-        if (zones.length > 0) {
-          zones = zones.map((zone) => `'${zone}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-        }
-        if (wards.length > 0) {
-          wards = wards.map((ward) => `'${ward}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
-        }
-        if (villages.length > 0) {
-          villages = villages.map((village) => `'${village}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
-        }
-
-        var geoServerURL =
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-
-        $.getJSON(geoServerURL, function (data) {
-          var departmentSet = new Set();
-
-          $.each(data.features, function (index, feature) {
-            var department = feature.properties.departme_1;
-            departmentSet.add(department);
-          });
-
-          var uniqueDepartments = Array.from(departmentSet);
-
-          $.each(uniqueDepartments, function (index, department) {
-            select.append(
-              $("<option>", {
-                value: department,
-                text: department,
-              })
-            );
-          });
-
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // select.on("change", function () {
-          //   loadStage();
-          //   filterDataAndDrawMap();
-          // });
-        });
-      }
-
-      function loadStage() {
-        var select = $("#stage");
-        select.empty();
-
-        var project_fi = $("#project_fi").val();
-        var zones = $("#zones").val();
-        var wards = $("#admin_ward_name").val();
-        var villages = $("#villages").val();
-        var departments = $("#departments").val();
-        let cqlFilter = "";
-
-        if (project_fi.length > 0) {
-          project_fi = project_fi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-          cqlFilter = `project_fi IN (${project_fi})`;
-        }
-
-        if (zones.length > 0) {
-          zones = zones.map((zone) => `'${zone}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-        }
-        if (wards.length > 0) {
-          wards = wards.map((ward) => `'${ward}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
-        }
-        if (villages.length > 0) {
-          villages = villages.map((village) => `'${village}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
-        }
-        if (departments.length > 0) {
-          departments = departments
-            .map((department) => `'${department}'`)
-            .join(",");
-          cqlFilter +=
-            (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
-        }
-
-        var geoServerURL =
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-
-        $.getJSON(geoServerURL, function (data) {
-          var stageSet = new Set();
-
-          $.each(data.features, function (index, feature) {
-            var stage = feature.properties.stage;
-            stageSet.add(stage);
-          });
-
-          var uniqueStageSet = Array.from(stageSet);
-
-          $.each(uniqueStageSet, function (index, stage) {
-            select.append(
-              $("<option>", {
-                value: stage,
-                text: stage,
-              })
-            );
-          });
-
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // select.on("change", function () {
-          //   loadWorkTypes();
-          //   filterDataAndDrawMap();
-          // });
-        });
-      }
-
-      function loadWorkTypes() {
-        var select = $("#work_type");
-        select.empty();
-
-        var project_fi = $("#project_fi").val();
-        var zones = $("#zones").val();
-        var wards = $("#admin_ward_name").val();
-        var villages = $("#villages").val();
-        var departments = $("#departments").val();
-        var stages = $("#stage").val();
-        let cqlFilter = "";
-
-        if (project_fi.length > 0) {
-          project_fi = project_fi
-            .map((projectFi) => `'${projectFi}'`)
-            .join(",");
-          cqlFilter = `project_fi IN (${project_fi})`;
-        }
-
-        if (zones.length > 0) {
-          zones = zones.map((zone) => `'${zone}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-        }
-        if (wards.length > 0) {
-          wards = wards.map((ward) => `'${ward}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
-        }
-        if (villages.length > 0) {
-          villages = villages.map((village) => `'${village}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
-        }
-        if (departments.length > 0) {
-          departments = departments
-            .map((department) => `'${department}'`)
-            .join(",");
-          cqlFilter +=
-            (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
-        }
-        if (stages.length > 0) {
-          stages = stages.map((stage) => `'${stage}'`).join(",");
-          cqlFilter += (cqlFilter ? " AND " : "") + `stage IN (${stages})`;
-        }
-
-        var geoServerURL =
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-
-        $.getJSON(geoServerURL, function (data) {
-          var workTypeSet = new Set();
-
-          // Populate the Set with work types
-          $.each(data.features, function (index, feature) {
-            var workType = feature.properties.work_type;
-            workTypeSet.add(workType);
-          });
-
-          // Convert the Set to an array
-          var uniqueWorkTypes = Array.from(workTypeSet);
-
-          // Populate select options with unique work types
-          $.each(uniqueWorkTypes, function (index, workType) {
-            select.append(
-              $("<option>", {
-                value: workType,
-                text: workType,
-              })
-            );
-          });
-
-          // Destroy the existing Select2 instance, if it exists
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-
-          // Initialize Select2 with the updated options
-          select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                  option.text +
-                  "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                  option.text +
-                  "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-
-          // Event listener for change event
-          select.on("change", function () {
-            // var selectedWorkTypes = $(this).val();
-            // const workTypesFilter = selectedWorkTypes
-            //   .map((workType) => `'${workType}'`)
-            //   .join(",");
-
-            // // Assuming wms_layer12 is the correct layer to set parameters
-            // wms_layer15.setParams({
-            //   CQL_FILTER: `work_type IN (${workTypesFilter})`,
-            // });
-            filterDataAndDrawMap();
-          });
-        });
-      }
-
-      function drawCoordinatesOnMap(selectedCoordinates) {
-        // Assuming you have a Leaflet map instance named 'map'
-
-        // Clear previous layers from the map
-        map.eachLayer(function (layer) {
-          if (!(layer instanceof L.TileLayer)) {
-            map.removeLayer(layer);
-          }
+          isClosed = !isClosed; // Toggle the state
         });
 
-        // Loop through each set of coordinates and draw them on the map
-        selectedCoordinates.forEach(function (geometry) {
-          var type = geometry.type;
-          var coordinates = geometry.coordinates;
+        if (myPieChart) {
+          myPieChart.destroy();
+        }
 
-          coordinates = coordinates.map(function (coord) {
-            return [coord[1], coord[0]]; // Swap longitude and latitude
-          });
+        // Assuming workTypeCounts contains counts of unique work types
+        var workTypes = Object.keys(workTypeCounts);
+        var workTypeCountsData = Object.values(workTypeCounts);
 
-          if (type === "Polygon" || type === "MultiPolygon") {
-            // For both polygons and multi-polygons
-            var polygon = L.geoJSON(geometry, {
-              style: function (feature) {
-                return {
-                  color: "red",
-                  fillColor: "transparent",
-                  fillOpacity: 0.1,
-                };
+        var ctx = document.getElementById("myPieChart").getContext("2d");
+
+        // Create the pie chart
+        myPieChart = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: workTypes, // Use workTypes as labels
+            datasets: [
+              {
+                data: workTypeCountsData, // Use workTypeCountsData as data
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.5)",
+                  "rgba(54, 162, 235, 0.5)",
+                  "rgba(255, 206, 86, 0.5)",
+                  "rgba(75, 192, 192, 0.5)",
+                  "rgba(153, 102, 255, 0.5)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(153, 102, 255, 1)",
+                ],
+                borderWidth: 1,
               },
-            }).addTo(map);
-
-            // Fit the map bounds to the polygon
-            map.fitBounds(polygon.getBounds());
-          } else if (type === "MultiLineString") {
-            // For both LineString and MultiLineString
-            var polyline = L.geoJSON(geometry, {
-              style: function (feature) {
-                return {
-                  color: "black", // Change color to black for roads
-                  weight: 5, // Increase weight for road-like appearance
-                  dashArray: "10, 10", // Add a dash array for a dashed line appearance
-                };
-              },
-            }).addTo(map);
-
-            // Fit the map bounds to the polyline
-            map.fitBounds(polyline.getBounds());
-          } else if (type === "LineString") {
-            // For both LineString and MultiLineString
-            var polyline = L.geoJSON(geometry, {
-              style: function (feature) {
-                return {
-                  color: "blue", // Change color to black for roads
-                  weight: 2, // Increase weight for road-like appearance
-                };
-              },
-            }).addTo(map);
-
-            // Fit the map bounds to the polyline
-            map.fitBounds(polyline.getBounds());
-          }
-        });
-      }
-
-      // function getSelectedZones(selectedZones) {
-      //   // Convert the array to a Set to remove duplicates
-      //   const uniqueZones = [...new Set(selectedZones)];
-      //   loadAdminWardName(selectedZones);
-      // }
-
-      $(document).ready(function () {
-        $("#searchInputDashboard").autocomplete({
-          minLength: 3,
-          source: function (request, response) {
-            let searchTerm = request.term;
-            let searchType = $("#search_type").val();
-
-            if (searchTerm.length >= 3 && searchType) {
-              let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
-
-              let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
-                cqlFilter
-              )}`;
-
-              $.getJSON(geoServerURL, function (data) {
-                let suggestions = data.features.map(
-                  (feature) => feature.properties[searchType]
-                );
-
-                suggestions = suggestions.filter(
-                  (value, index, self) => self.indexOf(value) === index
-                );
-
-                suggestions = suggestions.slice(0, 10);
-                response(suggestions);
-              });
-            } else {
-              response([]);
-            }
+            ],
           },
-          select: function (event, ui) {
-            $("#searchInputDashboard").val(ui.item.label);
+          options: {
+            responsive: false,
+            plugins: {
+              legend: {
+                display: true,
+                // position: "bottom", // Position legend at the bottom of the graph
+              },
+              datalabels: {
+                formatter: (value, ctx) => {
+                  let sum = 0;
+                  let dataArr = ctx.chart.data.datasets[0].data;
+                  dataArr.forEach((data) => {
+                    sum += data;
+                  });
+                  let percentage = ((value / sum) * 100).toFixed(2) + "%";
+                  return percentage;
+                },
+                color: "#fff",
+              },
+            },
+          },
+        });
 
-            let searchType = $("#search_type").val();
-            let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
-            fitbou(cqlFilterSelected);
-            wms_layer15.setParams({
-              CQL_FILTER: cqlFilterSelected,
-              styles: "pointhighlight",
-            });
+        // Create/update the line chart for stages
+        if (myLineChart) {
+          myLineChart.destroy();
+        }
 
-            return false;
+        var ctxLine = document.getElementById("myLineChart").getContext("2d");
+
+        var lastSixMonths = getLastSixMonthsFromData(filteredData.features);
+
+        var datasets = [];
+
+        Object.keys(stageCounts).forEach(function (stage) {
+          var data = lastSixMonths.map(function (monthYear) {
+            return stageCounts[stage][monthYear] || 0;
+          });
+
+          datasets.push({
+            label: stage,
+            data: data,
+            borderColor: getRandomColor(),
+            fill: false,
+          });
+        });
+
+        myLineChart = new Chart(ctxLine, {
+          type: "line",
+          data: {
+            labels: lastSixMonths,
+            datasets: datasets,
+          },
+          options: {
+            responsive: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+            },
+            scales: {
+              x: {
+                ticks: {
+                  display: true,
+                  position: "below",
+                },
+              },
+              y: {
+                ticks: {
+                  display: true,
+                },
+              },
+            },
           },
         });
       });
 
-      function drawGeometries(selectedData) {
-        // Implement logic to draw the selected geometries on the map
-        // You can access the geometries from selectedData.features
+      function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
       }
 
-      function loadAdminWardNameAndFilter() {
-        loadAdminWardName();
-        filterDataAndDrawMap();
+      function getLastSixMonthsFromData(data) {
+        var lastSixMonths = [];
+        var today = new Date();
+        var sixMonthsAgo = new Date(
+          today.getFullYear(),
+          today.getMonth() - 6,
+          1
+        );
+        var months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        data.forEach(function (project) {
+          var date = new Date(project.properties.created_at);
+          if (date >= sixMonthsAgo && date <= today) {
+            var monthYear =
+              months[date.getMonth()] + " " + date.getFullYear();
+            if (!lastSixMonths.includes(monthYear)) {
+              lastSixMonths.push(monthYear);
+            }
+          }
+        });
+
+        lastSixMonths.sort(function (a, b) {
+          var dateA = new Date(
+            a.split(" ")[1],
+            months.indexOf(a.split(" ")[0]),
+            1
+          );
+          var dateB = new Date(
+            b.split(" ")[1],
+            months.indexOf(b.split(" ")[0]),
+            1
+          );
+          return dateA - dateB;
+        });
+
+        return lastSixMonths;
       }
 
-      function loadVillagesAndFilter() {
-        loadVillages();
-        filterDataAndDrawMap();
+      return filteredData;
+    }
+
+    function loadProjectFi() {
+      var select = $("#project_fi");
+      select.empty();
+
+      $.getJSON(
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+        function (data) {
+          var projectFiSet = new Set();
+
+          $.each(data.features, function (index, feature) {
+            var project_fi = feature.properties.project_fi;
+            projectFiSet.add(project_fi);
+          });
+
+          var uniqueProjectFiSet = Array.from(projectFiSet);
+
+          $.each(uniqueProjectFiSet, function (index, project_fi) {
+            select.append(
+              $("<option>", {
+                value: project_fi,
+                text: project_fi,
+              })
+            );
+          });
+
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
+          }
+
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          select.on("change", function () {
+            loadZones();
+            filterDataAndDrawMap();
+          });
+        }
+      );
+    }
+
+    function loadZones() {
+      var select = $("#zones");
+      select.empty();
+
+      var project_fi = $("#project_fi").val();
+
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+      if (project_fi.length > 0) {
+        project_fi = project_fi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
+
+        let cqlFilter = `project_fi  IN (${project_fi})`;
+        geoServerURL =
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+          encodeURIComponent(cqlFilter);
       }
 
-      function loadDepartmentsAndFilter() {
-        loadDepartments();
-        filterDataAndDrawMap();
+      $.getJSON(geoServerURL, function (data) {
+        var zoneSet = new Set();
+
+        $.each(data.features, function (index, feature) {
+          var zone = feature.properties.zone;
+          zoneSet.add(zone);
+        });
+
+        var uniqueZoneSet = Array.from(zoneSet);
+
+        $.each(uniqueZoneSet, function (index, zone) {
+          select.append(
+            $("<option>", {
+              value: zone,
+              text: zone,
+            })
+          );
+        });
+
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+              option.text +
+              "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+              option.text +
+              "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // select.on("change", function () {
+        //   loadAdminWardName();
+        //   filterDataAndDrawMap();
+        // });
+      });
+    }
+
+    function loadAdminWardName() {
+      var select = $("#admin_ward_name");
+      select.empty();
+      var project_fi = $("#project_fi").val();
+      var zones = $("#zones").val();
+      let cqlFilter = "";
+
+      if (project_fi.length > 0) {
+        project_fi = project_fi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
+        cqlFilter = `project_fi IN (${project_fi})`;
       }
-      function loadStagesAndFilter() {
-        loadStage();
-        filterDataAndDrawMap();
+
+      if (zones.length > 0) {
+        zones = zones.map((zone) => `'${zone}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
       }
-      function loadWorkTypesAndFilter() {
-        loadWorkTypes();
-        filterDataAndDrawMap();
+
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
+
+      $.getJSON(geoServerURL, function (data) {
+        var wardSet = new Set();
+
+        $.each(data.features, function (index, feature) {
+          var ward = feature.properties.ward;
+          wardSet.add(ward);
+        });
+
+        var uniqueWard = Array.from(wardSet);
+
+        $.each(uniqueWard, function (index, ward) {
+          select.append(
+            $("<option>", {
+              value: ward,
+              text: ward,
+            })
+          );
+        });
+
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+              option.text +
+              "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+              option.text +
+              "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // select.on("change", function () {
+        //   loadVillages();
+        //   filterDataAndDrawMap();
+        // });
+      });
+    }
+
+    function loadVillages() {
+      var select = $("#villages");
+      select.empty();
+
+      var project_fi = $("#project_fi").val();
+      var zones = $("#zones").val();
+      var wards = $("#admin_ward_name").val();
+      let cqlFilter = "";
+
+      if (project_fi.length > 0) {
+        project_fi = project_fi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
+        cqlFilter = `project_fi IN (${project_fi})`;
       }
-    </script>
-  </body>
+
+      if (zones.length > 0) {
+        zones = zones.map((zone) => `'${zone}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+      }
+      if (wards.length > 0) {
+        wards = wards.map((ward) => `'${ward}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+      }
+
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
+
+      $.getJSON(geoServerURL, function (data) {
+        var villageSet = new Set();
+        $.each(data.features, function (index, feature) {
+          var village = feature.properties.village;
+          villageSet.add(village);
+        });
+
+        var uniqueVillage = Array.from(villageSet);
+
+        $.each(uniqueVillage, function (index, village) {
+          select.append(
+            $("<option>", {
+              value: village,
+              text: village,
+            })
+          );
+        });
+
+        // Destroy the existing Select2 instance, if it exists
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        // Initialize Select2 with the updated options
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+              option.text +
+              "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+              option.text +
+              "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // select.on("change", function () {
+        //   loadDepartments();
+        //   filterDataAndDrawMap();
+        // });
+      });
+    }
+
+    function loadDepartments() {
+      var select = $("#departments");
+      select.empty();
+
+      var project_fi = $("#project_fi").val();
+      var zones = $("#zones").val();
+      var wards = $("#admin_ward_name").val();
+      var villages = $("#villages").val();
+      let cqlFilter = "";
+
+      if (project_fi.length > 0) {
+        project_fi = project_fi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
+        cqlFilter = `project_fi IN (${project_fi})`;
+      }
+
+      if (zones.length > 0) {
+        zones = zones.map((zone) => `'${zone}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+      }
+      if (wards.length > 0) {
+        wards = wards.map((ward) => `'${ward}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+      }
+      if (villages.length > 0) {
+        villages = villages.map((village) => `'${village}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
+      }
+
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
+
+      $.getJSON(geoServerURL, function (data) {
+        var departmentSet = new Set();
+
+        $.each(data.features, function (index, feature) {
+          var department = feature.properties.departme_1;
+          departmentSet.add(department);
+        });
+
+        var uniqueDepartments = Array.from(departmentSet);
+
+        $.each(uniqueDepartments, function (index, department) {
+          select.append(
+            $("<option>", {
+              value: department,
+              text: department,
+            })
+          );
+        });
+
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+              option.text +
+              "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+              option.text +
+              "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // select.on("change", function () {
+        //   loadStage();
+        //   filterDataAndDrawMap();
+        // });
+      });
+    }
+
+    function loadStage() {
+      var select = $("#stage");
+      select.empty();
+
+      var project_fi = $("#project_fi").val();
+      var zones = $("#zones").val();
+      var wards = $("#admin_ward_name").val();
+      var villages = $("#villages").val();
+      var departments = $("#departments").val();
+      let cqlFilter = "";
+
+      if (project_fi.length > 0) {
+        project_fi = project_fi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
+        cqlFilter = `project_fi IN (${project_fi})`;
+      }
+
+      if (zones.length > 0) {
+        zones = zones.map((zone) => `'${zone}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+      }
+      if (wards.length > 0) {
+        wards = wards.map((ward) => `'${ward}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+      }
+      if (villages.length > 0) {
+        villages = villages.map((village) => `'${village}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
+      }
+      if (departments.length > 0) {
+        departments = departments
+          .map((department) => `'${department}'`)
+          .join(",");
+        cqlFilter +=
+          (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
+      }
+
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
+
+      $.getJSON(geoServerURL, function (data) {
+        var stageSet = new Set();
+
+        $.each(data.features, function (index, feature) {
+          var stage = feature.properties.stage;
+          stageSet.add(stage);
+        });
+
+        var uniqueStageSet = Array.from(stageSet);
+
+        $.each(uniqueStageSet, function (index, stage) {
+          select.append(
+            $("<option>", {
+              value: stage,
+              text: stage,
+            })
+          );
+        });
+
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+              option.text +
+              "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+              option.text +
+              "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // select.on("change", function () {
+        //   loadWorkTypes();
+        //   filterDataAndDrawMap();
+        // });
+      });
+    }
+
+    function loadWorkTypes() {
+      var select = $("#work_type");
+      select.empty();
+
+      var project_fi = $("#project_fi").val();
+      var zones = $("#zones").val();
+      var wards = $("#admin_ward_name").val();
+      var villages = $("#villages").val();
+      var departments = $("#departments").val();
+      var stages = $("#stage").val();
+      let cqlFilter = "";
+
+      if (project_fi.length > 0) {
+        project_fi = project_fi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
+        cqlFilter = `project_fi IN (${project_fi})`;
+      }
+
+      if (zones.length > 0) {
+        zones = zones.map((zone) => `'${zone}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+      }
+      if (wards.length > 0) {
+        wards = wards.map((ward) => `'${ward}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+      }
+      if (villages.length > 0) {
+        villages = villages.map((village) => `'${village}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
+      }
+      if (departments.length > 0) {
+        departments = departments
+          .map((department) => `'${department}'`)
+          .join(",");
+        cqlFilter +=
+          (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
+      }
+      if (stages.length > 0) {
+        stages = stages.map((stage) => `'${stage}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `stage IN (${stages})`;
+      }
+
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
+
+      $.getJSON(geoServerURL, function (data) {
+        var workTypeSet = new Set();
+
+        // Populate the Set with work types
+        $.each(data.features, function (index, feature) {
+          var workType = feature.properties.work_type;
+          workTypeSet.add(workType);
+        });
+
+        // Convert the Set to an array
+        var uniqueWorkTypes = Array.from(workTypeSet);
+
+        // Populate select options with unique work types
+        $.each(uniqueWorkTypes, function (index, workType) {
+          select.append(
+            $("<option>", {
+              value: workType,
+              text: workType,
+            })
+          );
+        });
+
+        // Destroy the existing Select2 instance, if it exists
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        // Initialize Select2 with the updated options
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+              option.text +
+              "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+              option.text +
+              "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // Event listener for change event
+        select.on("change", function () {
+          // var selectedWorkTypes = $(this).val();
+          // const workTypesFilter = selectedWorkTypes
+          //   .map((workType) => `'${workType}'`)
+          //   .join(",");
+
+          // // Assuming wms_layer12 is the correct layer to set parameters
+          // wms_layer15.setParams({
+          //   CQL_FILTER: `work_type IN (${workTypesFilter})`,
+          // });
+          filterDataAndDrawMap();
+        });
+      });
+    }
+
+    function drawCoordinatesOnMap(selectedCoordinates) {
+      // Assuming you have a Leaflet map instance named 'map'
+
+      // Clear previous layers from the map
+      map.eachLayer(function (layer) {
+        if (!(layer instanceof L.TileLayer)) {
+          map.removeLayer(layer);
+        }
+      });
+
+      // Loop through each set of coordinates and draw them on the map
+      selectedCoordinates.forEach(function (geometry) {
+        var type = geometry.type;
+        var coordinates = geometry.coordinates;
+
+        coordinates = coordinates.map(function (coord) {
+          return [coord[1], coord[0]]; // Swap longitude and latitude
+        });
+
+        if (type === "Polygon" || type === "MultiPolygon") {
+          // For both polygons and multi-polygons
+          var polygon = L.geoJSON(geometry, {
+            style: function (feature) {
+              return {
+                color: "red",
+                fillColor: "transparent",
+                fillOpacity: 0.1,
+              };
+            },
+          }).addTo(map);
+
+          // Fit the map bounds to the polygon
+          map.fitBounds(polygon.getBounds());
+        } else if (type === "MultiLineString") {
+          // For both LineString and MultiLineString
+          var polyline = L.geoJSON(geometry, {
+            style: function (feature) {
+              return {
+                color: "black", // Change color to black for roads
+                weight: 5, // Increase weight for road-like appearance
+                dashArray: "10, 10", // Add a dash array for a dashed line appearance
+              };
+            },
+          }).addTo(map);
+
+          // Fit the map bounds to the polyline
+          map.fitBounds(polyline.getBounds());
+        } else if (type === "LineString") {
+          // For both LineString and MultiLineString
+          var polyline = L.geoJSON(geometry, {
+            style: function (feature) {
+              return {
+                color: "blue", // Change color to black for roads
+                weight: 2, // Increase weight for road-like appearance
+              };
+            },
+          }).addTo(map);
+
+          // Fit the map bounds to the polyline
+          map.fitBounds(polyline.getBounds());
+        }
+      });
+    }
+
+    // function getSelectedZones(selectedZones) {
+    //   // Convert the array to a Set to remove duplicates
+    //   const uniqueZones = [...new Set(selectedZones)];
+    //   loadAdminWardName(selectedZones);
+    // }
+
+    ////////////////////////15-03-2024////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    function fetchDataFromIWMSPoint(columnName, callback) {
+      // Use AJAX to fetch data from IWMS_Point table based on the selected column name
+      $.ajax({
+        url: 'APIS/search.php',
+        method: 'GET',
+        data: { column: columnName },
+        dataType: "json",
+        success: function (response) {
+          if (response.data !== undefined) {
+            const responseData = response.data;
+            // console.log(responseData);
+            // Assuming responseData is an array of strings
+            callback(responseData);
+          }
+        },
+
+      });
+    }
+
+
+
+    $(document).ready(function () {
+      var columns = [
+        "works_aa_a",
+        "name_of_wo", "scope_of_w", "je_name", "contact_no", "tender_amo", "gis_id", "ward", "stage", "no_of_road", "length",
+        "width", "measure_in", "Label"
+      ];
+
+      var select = document.getElementById("search_type");
+
+      for (var i = 0; i < columns.length; i++) {
+        var option = document.createElement("option");
+        option.text = columns[i];
+        option.value = columns[i];
+        select.appendChild(option);
+      }
+    });
+
+
+
+    $("#search_type").change(function () {
+      var selectedValue = $(this).val();
+      fetchDataFromIWMSPoint(selectedValue, function (data) {
+        // console.log(data)
+        $("#searchInputDashboard").autocomplete({
+
+          source: function(request, response) {
+                        // const marathiText = /^[\u0900-\u097F\s]*$/;
+                        var array = [request.term];
+                        console.log(array)
+                        response(data)
+          }
+        
+        });
+
+      });
+    });
+
+    $("#searchInputDashboard").change(function () {
+      var selectedValue1 = $(this).val();
+      var searchtypefield = $("#search_type").val();
+      let cqlFilter = `${searchtypefield} ILIKE '%${selectedValue1}%'`;
+      console.log(cqlFilter)
+
+      fitbou(cqlFilter)
+      IWMS_point.setParams({
+        CQL_FILTER: cqlFilter,
+        // styles: "point", // Assuming "pointhighlight" is a predefined style
+      });
+
+      console.log("addded")
+      IWMS_point.addTo(map).bringToFront();
+      fitbou(cqlFilter)
+
+    })
+
+
+  
+    ////////////////////////15-03-2024////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  //  (function () {
+  //     $("#searchInputDashboard").autocomplete({
+  //       // minLength: 3,
+  //       source: function (request, response) {
+  //         let searchTerm = request.term;
+  //         let searchType = $("#search_type").val();
+  //         console.log(searchTerm,searchType)
+  //         if (searchTerm.length >= 3 && searchType) {
+  //           let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
+
+  //           let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+  //             cqlFilter
+  //           )}`;
+
+  //           $.getJSON(geoServerURL, function (data) {
+  //             let suggestions = data.features.map(
+  //               (feature) => feature.properties[searchType]
+  //             );
+
+  //             suggestions = suggestions.filter(
+  //               (value, index, self) => self.indexOf(value) === index
+  //             );
+
+  //             suggestions = suggestions.slice(0, 10);
+  //             response(suggestions);
+  //           });
+  //         } else {
+  //           response([]);
+  //         }
+  //       },
+  //       select: function (event, ui) {
+  //         $("#searchInputDashboard").val(ui.item.label);
+
+  //         let searchType = $("#search_type").val();
+  //         let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
+  //         fitbou(cqlFilterSelected);
+  //         wms_layer15.setParams({
+  //           CQL_FILTER: cqlFilterSelected,
+  //           styles: "pointhighlight",
+  //         });
+
+  //         return false;
+  //       },
+  //     });
+  //   });
+
+    function drawGeometries(selectedData) {
+      // Implement logic to draw the selected geometries on the map
+      // You can access the geometries from selectedData.features
+    }
+
+    function loadAdminWardNameAndFilter() {
+      loadAdminWardName();
+      filterDataAndDrawMap();
+    }
+
+    function loadVillagesAndFilter() {
+      loadVillages();
+      filterDataAndDrawMap();
+    }
+
+    function loadDepartmentsAndFilter() {
+      loadDepartments();
+      filterDataAndDrawMap();
+    }
+    function loadStagesAndFilter() {
+      loadStage();
+      filterDataAndDrawMap();
+    }
+    function loadWorkTypesAndFilter() {
+      loadWorkTypes();
+      filterDataAndDrawMap();
+    }
+  </script>
+</body>
+
 </html>
