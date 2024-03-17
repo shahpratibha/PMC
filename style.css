@@ -3,6 +3,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+/* Table fixed*/
+
+#thead{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
 /* nav */
 /*  */
 /* #map {
@@ -421,3 +432,46 @@ background-color: #d32f2f; /* Darker red background color on hover */
       transform: scale(0.8);
     }
   }
+
+
+
+/* icon update  */
+
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  position: relative;
+  top: 66px;
+}
+
+.leaflet-touch .geocoder-control-suggestions {
+  top: 100px
+}
+
+
+.leaflet-right {
+  right: 0;
+  position: relative;
+  top: 500px;
+}
+.leaflet-right .leaflet-control {
+  position: relative;
+  margin-right: 10px;
+  top: 50px;
+}
+
+ /* .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+  position: relative;
+  top: 60px;
+}  */
+
+/* leaflet-control {
+  position: relative;
+  z-index: 800;
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+  top: -4px;
+}   */ 
