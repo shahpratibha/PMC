@@ -211,6 +211,7 @@ main {
   border-radius: 5px;
   z-index: 99999;
   box-shadow:10px 10px 20px rgba(0, 0, 0, 0.7); /* Add shadow */
+  transition: 0s;
 }
 #table-container-dashboard thead th {
   white-space: nowrap;
