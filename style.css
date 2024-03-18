@@ -139,7 +139,7 @@ td {
   #workTableDashboard {
     max-width: 70%;
     position: relative;
-    left: 50%;
+    left: 25%;
 
 }
 #workTableDashboard thead th {
@@ -197,7 +197,7 @@ main {
   display: none;
   position: relative;
   width: 570px;
-  bottom: 230px;
+  bottom: 310px;
   left: 60%;
   top:20%;
   max-height: 300px; 
