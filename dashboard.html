@@ -385,22 +385,13 @@
 
 
   </div>
-  <header class="header justify-content-between" id="header">
+  <header class="header justify-content-between bg-transparent" id="header">
     <div>
-      <h5>GeoPulse</h5>
+      <h5 class="text-success">GeoPulse</h5>
     </div>
     <div class="d-flex justify-content-between ms-auto" role="search">
       <div class="input-group">
-        <!-- <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
-          style="width: 90px; border-radius: 10px">
-          <option value="">Select Type</option>
-          <option value="zone">Zone</option>
-          <option value="ward">Ward</option>
-          <option value="village">Village</option>
-          <option value="departme_1">Department</option>
-          <option value="work_type">Work Type</option>
-          <option value="stage">Stage</option>
-        </select> -->
+       
 
         <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
           style="width: 90px; border-radius: 10px">
@@ -476,6 +467,11 @@
               <th>Work Type</th>
               <th>Tender Amount</th>
               <th>JE Name</th>
+              <th>Contractor Name</th>
+              <th>Project Office</th>
+              <th>Budget Code</th>
+              <th>Start Date</th>
+              <th>End Date</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -576,7 +572,7 @@
   <script>
     function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("mySidenav").style.height = "500px";
+      document.getElementById("mySidenav").style.height = "350px";
       document.getElementById("mySidenav").style.zIndex = "99999";
       document.getElementById("mySidenav").style.top = "75px";
       // document.getElementById("mySidenav").style.marginLeft = "65px";
@@ -949,7 +945,7 @@
       if (cqlFilter_zone) {
         Zone_layer.setParams({
           CQL_FILTER: cqlFilter_zone,
-          styles: "pmc:Highlight_polygon", // Assuming "pointhighlight" is a predefined style
+          styles: "pmc:Highlight_Zone", // Assuming "pointhighlight" is a predefined style
         }).addTo(map).bringToFront();
       }
 
@@ -1010,7 +1006,11 @@
             <td>${project.properties.departme_1}</td>
             <td>${project.properties.work_type}</td>
             <td>${project.properties.tender_amo}</td>
-            <td>${project.properties.je_name}</td>
+            <td>${project.properties.Agency}</td>
+            <td>${project.properties.Project_Office}</td> 
+            <td>${project.properties.Budget_Code}</td>
+            <td>${project.properties.created_at}</td>
+            <td>${project.properties.Work_Completion_Date}</td>
           </tr>`;
           $("#workTableDashboard tbody").append(proData);
 

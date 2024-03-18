@@ -136,15 +136,18 @@ td {
   color: white;
 }
 
-#workTableDashboard{
-  top: 10%;
-  width: 70%;
+  #workTableDashboard {
+    max-width: 70%;
+    position: relative;
+    left: 50%;
+
 }
 #workTableDashboard thead th {
   /* background-color: #163140; */
  
   color: black;
   font-weight: bold;
+  
 }
 .chart{
 
@@ -199,7 +202,8 @@ main {
   top:20%;
   max-height: 300px; 
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: scroll;
+  scrollbar-width: thin;
   background-color: #fff;
   /* background-color: rgba(255, 255, 255, 0.8); */
   padding-top: 10px;
@@ -453,7 +457,7 @@ background-color: #d32f2f; /* Darker red background color on hover */
 .leaflet-right {
   right: 0;
   position: relative;
-  top: 500px;
+  top: 550px;
 }
 .leaflet-right .leaflet-control {
   position: relative;
