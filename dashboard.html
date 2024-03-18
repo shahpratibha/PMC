@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+  
 
 <head>
   <meta charset="UTF-8" />
@@ -20,8 +20,16 @@
 
 
 
-    
-  
+  <!-- jquery -->
+
+
+
+
+
+  <!-- <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
+    /> -->
   <!-- Include DataTables CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
@@ -139,7 +147,13 @@
   <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
   <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
 
+ 
+
   <style>
+    .leaflet-control-layers-toggle {
+      top: 0;
+    }
+
     .leaflet-control-layers-list {
       width: 200px;
       height: 200px;
@@ -147,6 +161,7 @@
       scrollbar-width: thin;
       font-size: 9px;
       padding: 0px;
+
     }
 
     .leaflet-control-layers-overlays {
@@ -154,10 +169,12 @@
     }
 
     #map {
-      top: 64px;
+      top: 0px;
       left: 55px;
-      height: 90vh;
+      height: 100vh;
       width: 97%;
+      z-index: 0;
+
     }
 
     .multi-checkboxes_wrap:before {
@@ -205,7 +222,7 @@
       left: 80px;
       background-color: #f3f3f3;
       overflow-x: hidden;
-      transition: 0.5s;
+      transition: 0s;
       padding-top: 10px;
       overflow-y: scroll;
       border-radius: 10px;
@@ -271,6 +288,11 @@
       .sidebar a {
         font-size: 18px;
       }
+    }
+    #thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
   </style>
 </head>
@@ -374,22 +396,13 @@
 
 
   </div>
-  <header class="header justify-content-between" id="header">
+  <header class="header justify-content-between bg-transparent" id="header">
     <div>
-      <h5>GeoPulse</h5>
+      <h5 class="text-primary fw-bold">Geo<span class="text-danger">Pulse</span></h5>
     </div>
     <div class="d-flex justify-content-between ms-auto" role="search">
       <div class="input-group">
-        <!-- <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
-          style="width: 90px; border-radius: 10px">
-          <option value="">Select Type</option>
-          <option value="zone">Zone</option>
-          <option value="ward">Ward</option>
-          <option value="village">Village</option>
-          <option value="departme_1">Department</option>
-          <option value="work_type">Work Type</option>
-          <option value="stage">Stage</option>
-        </select> -->
+       
 
         <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
           style="width: 90px; border-radius: 10px">
@@ -442,13 +455,21 @@
       <div id="table-container-dashboard">
 
         <button id="closeTableBtnDashboard" class="close-button">
-          <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: -10%; width: 10px;"></i>
+          <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width: 10px; position: fixed;"></i>
         </button>
+
         <div id="tablestats"
           style="float: left; top: 5px; position: absolute; font-weight: bold; left:10px; color:sienna; font-size: 12px;">
         </div>
+
+        <button id="printButton" onclick="printData()"
+          style="float: left; top:-3px; position: absolute;left:500px; color:green; font-size: 12px; background-color: transparent; height: 29px; width: 35px;">
+          <i class="fa-solid fa-file-export" style="float: left; top: 0px;left: 400px;"></i>
+        </button>
+
+
         <table id="workTableDashboard" class="table table-bordered table-hover"
-          style="margin-top: 30px; height:100px; width: 100px; overflow: scroll; scrollbar-width: thin; ">
+          style="margin-top: 30px; height:100px; width: 100px; overflow-y: scroll; ">
           <thead>
             <tr>
               <th>Zone</th>
@@ -456,23 +477,93 @@
               <th>Department</th>
               <th>Work Type</th>
               <th>Tender Amount</th>
-              <th>Agency Name</th>
-              <th>Project Office</th>
-              <th>Budget code </th>
-              <th>Start Date</th>
-              <th>End Date</th>
-
+              <th>JE Name</th>
             </tr>
           </thead>
-
           <tbody></tbody>
         </table>
-
-
       </div>
     </div>
-
   </div>
+
+
+
+  <!-- Include DataTables JS -->
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+  <!-- leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Leaflet.draw JavaScript -->
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+  <!-- Esri Leaflet JavaScript -->
+  <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+
+  <!-- Esri Leaflet Geocoder JavaScript -->
+  <script
+    src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+    integrity="sha384-3hxxuF2FJ23oEeqWrYkzOWZC9qYcu32/7v1+K9tZtG5DXtNwkkr8Wt5IbSLz1Odg"
+    crossorigin="anonymous"></script>
+  <!-- Leflet for adding draw tool END -->
+
+  <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
+
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <!-- <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script> -->
+
+  <!-- html2pdfcdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+    integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+  <!-- MousePosition -->
+  <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+
+  <script src="libs/polyline-measure/line-measure.js"></script>
+  <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+  <script src="libs/feat.js"></script>
+
+  <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
+
+
+  <!-- to geojson -->
+  <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script>
+
+  <!-- leaflet-ajax -->
+  <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+    integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
   <script src="index.js"></script>
   <script src="select2.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
@@ -485,10 +576,9 @@
 
 
   <script>
-
     function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("mySidenav").style.height = "500px";
+      document.getElementById("mySidenav").style.height = "350px";
       document.getElementById("mySidenav").style.zIndex = "99999";
       document.getElementById("mySidenav").style.top = "75px";
       // document.getElementById("mySidenav").style.marginLeft = "65px";
@@ -861,7 +951,7 @@
       if (cqlFilter_zone) {
         Zone_layer.setParams({
           CQL_FILTER: cqlFilter_zone,
-          styles: "pmc:Highlight_polygon", // Assuming "pointhighlight" is a predefined style
+          styles: "pmc:Highlight_Zone", // Assuming "pointhighlight" is a predefined style
         }).addTo(map).bringToFront();
       }
 
@@ -909,8 +999,20 @@
           // //////////////////////addded 11-03-2023////////////////////////////////////////////////
 
           var tenderAmount = parseFloat(project.properties.tender_amo);
-          totalTenderAmount += tenderAmount;
+
+          // console.log("tenderAmount:", tenderAmount); // Debugging output
+                  if (!isNaN(tenderAmount)) {
+            totalTenderAmount += tenderAmount;
+        } else {
+            console.log("Invalid tender amount:", project.properties.tender_amo);
+        }
+
+
+          // totalTenderAmount += tenderAmount;
           var totalcountofselectedrecords = filteredData.totalFeatures;
+
+          var totalTenderAmountInLakh = totalTenderAmount / 100000; // Convert to lakh
+
           // //////////////////////addded 11-03-2023////////////////////////////////////////////////
 
 
@@ -922,12 +1024,7 @@
             <td>${project.properties.departme_1}</td>
             <td>${project.properties.work_type}</td>
             <td>${project.properties.tender_amo}</td>
-            <td>${project.properties.Agency}</td>
-            <td>${project.properties.Project_Office}</td>
-            <td>${project.properties.Budget_Code}</td>
-            <td>${project.properties.created_at}</td>
-            <td>${project.properties.Work_Completion_Date}</td>
-
+            <td>${project.properties.je_name}</td>
           </tr>`;
           $("#workTableDashboard tbody").append(proData);
 
@@ -935,8 +1032,13 @@
           // console.log(totalTenderAmount.toFixed(2))
           console.log(totalTenderAmount, totalcountofselectedrecords, 'helooooooooooooo');
 
-          $("#tablestats").html(`Total Project Tender Amount: ${totalTenderAmount.toFixed(2)} ,
+          // $("#tablestats").html(`Total Project Tender Amount: ${totalTenderAmount.toFixed(2)} ,
+          //     Total Projects: ${totalcountofselectedrecords}`);
+
+          
+          $("#tablestats").html(`Total Project Tender Amount (in lakh): ${totalTenderAmountInLakh.toFixed(2)} ,
               Total Projects: ${totalcountofselectedrecords}`);
+
           // console.log(totalTenderAmount, totalcountofselectedrecords,'helooooooooooooo');
 
           // //////////////////////addded 11-03-2023////////////////////////////////////////////////
@@ -1015,18 +1117,16 @@
             });
           } else {
             // Change icon to times
-            $(this).html(' <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: -10%; width:10px; "></i>');
+            $(this).html(' <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width:10px; position:fixed "></i>');
             tableContainer.css({
               // display:"block",
-              bottom: "230px",
+              bottom: "310px",
               width: "570px",
               height: "500px",
               // top:"20%",
               left: "60%",
               overflowY: "scroll",
-              overflowX: "scroll",
-             
-              scrollbarWidth:"thin",
+              overflowX: "hidden",
             });
           }
           isClosed = !isClosed; // Toggle the state
@@ -2065,6 +2165,81 @@
       filterDataAndDrawMap();
     }
   </script>
-</body>
 
+
+
+  <script>
+
+    // //working on csv form
+
+    // function printData() {
+    //   const table = document.getElementById("table-container-dashboard");
+    //   const rows = table.querySelectorAll("tr");
+    //   let csvContent = "data:text/csv;charset=utf-8,";
+
+    //   rows.forEach(function (row) {
+    //     const rowData = [];
+    //     row.querySelectorAll("td").forEach(function (cell) {
+    //       rowData.push(cell.innerText);
+    //     });
+    //     csvContent += rowData.join(",") + "\n";
+    //   });
+
+
+
+    //   const link = document.createElement("a");
+    //   link.setAttribute("href", encodeURI(csvContent));
+    //   link.setAttribute("download", "data.csv");
+
+
+    //   document.body.appendChild(link);
+
+
+    //   link.click();
+    // }
+
+          function printData() {
+          const table = $('#workTableDashboard').DataTable();
+          const totalRecords = table.page.info().recordsTotal;
+          const pages = Math.ceil(totalRecords / table.page.info().length);
+
+          let csvContent = "data:text/csv;charset=utf-8,";
+          let headers = [];
+
+          // Get table headers
+          table.columns().every(function () {
+              headers.push($(this.header()).text());
+          });
+          csvContent += headers.join(",") + "\n";
+
+          // Iterate through each page
+          for (let i = 0; i < pages; i++) {
+              table.page(i).draw(false); // Move to page i
+
+              // Get data from the current page
+              table.rows().every(function () {
+                  const rowData = [];
+                  $(this.node()).find('td').each(function () {
+                      rowData.push($(this).text().trim());
+                  });
+                  csvContent += rowData.join(",") + "\n";
+              });
+          }
+
+          // Restore to the first page
+          table.page(0).draw(false);
+
+          // Create a link to download the CSV file
+          const link = document.createElement("a");
+          link.setAttribute("href", encodeURI(csvContent));
+          link.setAttribute("download", "data.csv");
+          document.body.appendChild(link);
+
+          // Trigger click event to start download
+          link.click();
+      }
+
+  </script>
+
+</body>
 </html>
