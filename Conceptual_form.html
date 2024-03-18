@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PMC</title>
-    <link rel="icon" href="png/pmcjpeg.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="C_form.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>PMC</title>
+		<link rel="icon" href="png/pmcjpeg.jpg" type="image/x-icon" />
+		<link rel="stylesheet" href="C_form.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
 
 		<!-- ============================ -->
 		<!-- bootstrap -->
@@ -69,13 +69,21 @@
 			<section id="form-section">
 				<!-- <h2>Create Work</h2> -->
 				<form id="projectForm" method="post">
+					<div class="mb-3 d-flex align-items-center fetchDataButtonContainer">
+						<label for="Id" class="form-label me-2">Id:</label>
+						<div class="flex-grow-1 me-2">
+							<input type="text" class="form-control" id="Id" name="Id" required />
+						</div>
+						<button id="fetchDataButton" type="button" class="btn btn-primary btn-sm">Fetch Data</button>
+					</div>
+
 					<label for="projectNo">Project No:</label>
-					<input type="text" id="projectNo" name="projectNo" required />
+					<input type="text" id="projectNo" name="projectNo" required disabled />
 					<label for="aaWork">Name of AA work:</label>
-					<textarea type="text" id="aaWork" name="aaWork" rows="4" required></textarea>
+					<textarea type="text" id="aaWork" name="aaWork" rows="4" required disabled></textarea>
 
 					<label for="workType">Work Type:</label>
-					<select id="workType" name="workType" required>
+					<select id="workType" name="workType" required disabled>
 						<option value="Select Work Type">Select Work Type</option>
 						<option value="Emergency And Special Work">Emergency And Special Work</option>
 						<option value="Maintenance Work">Maintenance Work</option>
@@ -85,10 +93,10 @@
 					</select>
 
 					<label for="scopeOfWork">Scope of Work:</label>
-					<input id="scopeOfWork" name="scopeOfWork" rows="4" required>
+					<input id="scopeOfWork" name="scopeOfWork" rows="4" required disabled />
 
 					<label for="projectFinancialYear">Project Financial Year:</label>
-					<select input id="projectFinancialYear" name="projectFinancialYear" required>
+					<select input id="projectFinancialYear" name="projectFinancialYear" required disabled>
 						<option value="Select projectFinancialYear">Select Project Financial Year</option>
 						<option value="2022-2023">2022-2023</option>
 						<option value="2023-2024">2023-2024</option>
@@ -96,7 +104,7 @@
 					</select>
 
 					<label for="department">Department:</label>
-					<select id="department" name="department" required>
+					<select id="department" name="department" required disabled>
 						<option value="">Select Department</option>
 						<option value="Road">Road</option>
 						<option value="Building">Building</option>
@@ -118,19 +126,19 @@
 					</select>
 
 					<label for="projectOffice">Project Office:</label>
-					<input type="text" id="projectOffice" name="projectOffice" required />
+					<input type="text" id="projectOffice" name="projectOffice" required disabled />
 
 					<label for="juniorName">Junior Engineer Name:</label>
-					<input type="text" id="juniorName" name="juniorName" required />
+					<input type="text" id="juniorName" name="juniorName" required disabled />
 
 					<label for="contactNo">Contact No:</label>
-					<input type="tel" id="contactNo" name="contactNo" required />
+					<input type="tel" id="contactNo" name="contactNo" required disabled />
 
 					<label for="dateIn">Date-In:</label>
-					<input type="date" id="dateIn" name="dateIn" required />
+					<input type="date" id="dateIn" name="dateIn" required disabled />
 
 					<label for="zone">Zone:</label>
-					<select id="zone" name="zone" required>
+					<select id="zone" name="zone" required disabled>
 						<option value=" ">Select Zone</option>
 						<option value="D.M.C. Zone 1">D.M.C. Zone 1</option>
 						<option value="D.M.C. Zone 2">D.M.C. Zone 2</option>
@@ -142,7 +150,7 @@
 					<!-- <label for="ward">Ward:</label> -->
 					<!-- // thi line is added\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 					<label for="ward">Ward:</label>
-					<select id="ward" name="ward" required>
+					<select id="ward" name="ward" required disabled>
 						<option value="Select Ward">Select Ward</option>
 						<option value="Yeravada Kalas Dhanori">Yeravada Kalas Dhanori</option>
 						<option value="Dhole Patil Ward">Dhole Patil Ward</option>
@@ -160,6 +168,9 @@
 						<option value="Bibwewadi">Bibwewadi</option>
 						<option value="Kasaba VishramBagwada">Kasaba VishramBagwada</option>
 					</select>
+
+					<label for="ward">Budget Code:</label>
+					<input type="text" id="budgetCodes" name="budgetCodes" placeholder="budget code" required  disabled/>
 
 					<label for="Width">Width</label>
 					<input type="text" id="Width" name="Width" placeholder="Width in m" required />
@@ -480,42 +491,92 @@
 			];
 
 			document.addEventListener('DOMContentLoaded', function () {
-				function getQueryParam(param) {
-					const urlParams = new URLSearchParams(window.location.search);
-					return urlParams.get(param);
-				}
+				const fetchDataButton = document.getElementById('fetchDataButton');
 
-				const worksAaApprovalId = getQueryParam('id');
+				// Event listener for the Fetch Data button
+				fetchDataButton.addEventListener('click', function () {
+					const worksAaApprovalId = document.getElementById('Id').value;
+					if (worksAaApprovalId) {
+						fetchAndFillFormData(worksAaApprovalId);
+					} else {
+						alert('No ID provided .');
+					}
+				});
+
+				// function getQueryParam(param) {
+				// 	const urlParams = new URLSearchParams(window.location.search);
+				// 	return urlParams.get(param);
+				// }
+
+				// const worksAaApprovalId = getQueryParam('id');
 
 				function fetchAndFillFormData(id) {
 					fetch('api-responses/all-project-data.json')
 						.then((response) => response.json())
 						.then((data) => {
+							
 							const project = data.data.projectData.find(
 								(project) => project.project.works_aa_approval_id === id
 							);
 
-							if(!project){
-								alert('project with this works_aa_approval_id is not found')
-								return
+
+
+							if (!project) {
+								alert('project with this works_aa_approval_id is not found');
+								return;
 							}
 
 							let department = depData.find((dep) => dep.department_id == project.project.d_id);
 							let zone = zoneData.find((dep) => dep.zone_id == project.project.constituency_zone_id);
 							let ward = wardData.find((ward) => ward.zone_id == project.project.constituency_ward_id);
 
-							console.log(project);
+							
 
 							if (project) {
+                              
+							
+
+								let budgetCodes = project?.budget_data?.map(budget => budget.budget_code.trim()).join(', ');
+
+								if(budgetCodes){
+									document.getElementById('budgetCodes').value = budgetCodes; 
+
+								}
+
+								
 								document.getElementById('projectNo').value = project.project.sys_proj_id || '';
 								document.getElementById('aaWork').value = project.project.name_of_work || '';
 								document.getElementById('scopeOfWork').value = project.project.scope_of_work || '';
 								document.getElementById('projectFinancialYear').value =
 									project.project.project_financial_year || '';
-								document.getElementById('projectOffice').value = project.project.scope_of_work || '';
+
 								document.getElementById('juniorName').value = project.project.je_name || '';
 								document.getElementById('contactNo').value = project.project.contact || '';
 								document.getElementById('dateIn').value = project.project.con_appr_date || '';
+
+								if (project.project.project_from) {
+									let projectOfficeValue = '';
+
+									
+									switch (project.project.project_from) {
+										case '1':
+											projectOfficeValue = 'Main Office';
+											break;
+										case '2':
+											projectOfficeValue = 'Zone Office';
+											break;
+										case '3':
+											projectOfficeValue = 'Ward Office';
+											break;
+										default:
+											projectOfficeValue = 'Unknown'; 
+									}
+
+									
+									document.getElementById('projectOffice').value = projectOfficeValue;
+								}
+
+
 
 								if (department) {
 									document.getElementById('department').value = department.department_name;
@@ -525,12 +586,9 @@
 									document.getElementById('zone').value = zone.zone_name;
 								}
 
-                
-
-                if (ward) {
+								if (ward) {
 									document.getElementById('ward').value = ward.ward_name;
 								}
-
 
 								let workTypeSelect = document.getElementById('workType');
 								for (let i = 0; i < workTypeSelect.options.length; i++) {

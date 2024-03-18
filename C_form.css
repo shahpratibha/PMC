@@ -549,3 +549,12 @@ a {
             transform: scale(0.8);
           }
         }
+
+        .fetchDataButtonContainer{
+            width: 100%;
+        }
+
+        #fetchDataButton{
+            width: 200px;
+            margin-top: -10px;
+        }
