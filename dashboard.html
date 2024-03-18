@@ -387,7 +387,7 @@
   </div>
   <header class="header justify-content-between bg-transparent" id="header">
     <div>
-      <h5 class="text-success">GeoPulse</h5>
+      <h5 class="text-primary fw-bold">Geo<span class="text-danger">Pulse</span></h5>
     </div>
     <div class="d-flex justify-content-between ms-auto" role="search">
       <div class="input-group">
@@ -2164,84 +2164,79 @@
     }
   </script>
 
+
+
   <script>
 
-    //print data 
+    // //working on csv form
 
     // function printData() {
-    //   var printableData = document.getElementById('table-container-dashboard').innerHTML;
+    //   const table = document.getElementById("table-container-dashboard");
+    //   const rows = table.querySelectorAll("tr");
+    //   let csvContent = "data:text/csv;charset=utf-8,";
 
-    //   var printWindow = window.open('', '_blank');
-    //   printWindow.document.write('<html><head><title>Print</title></head><body>');
-    //   printWindow.document.write(printableData);
-    //   printWindow.document.write('</body></html>');
-    //   printWindow.document.write('dataTables');
-    //   printWindow.document.close();
-    //   printWindow.print();
+    //   rows.forEach(function (row) {
+    //     const rowData = [];
+    //     row.querySelectorAll("td").forEach(function (cell) {
+    //       rowData.push(cell.innerText);
+    //     });
+    //     csvContent += rowData.join(",") + "\n";
+    //   });
+
+
+
+    //   const link = document.createElement("a");
+    //   link.setAttribute("href", encodeURI(csvContent));
+    //   link.setAttribute("download", "data.csv");
+
+
+    //   document.body.appendChild(link);
+
+
+    //   link.click();
     // }
 
-    // function printData(filename){
-    //   var data=[];
-    //   var rows=document.querySelectorAll("table tr");
+          function printData() {
+          const table = $('#workTableDashboard').DataTable();
+          const totalRecords = table.page.info().recordsTotal;
+          const pages = Math.ceil(totalRecords / table.page.info().length);
 
-    //   for(var i=0;i<rows.length;i++){
-    //     var row = [],cols = rows[i].querySelectorAll("td","th");
+          let csvContent = "data:text/csv;charset=utf-8,";
+          let headers = [];
 
-    //     for(var j=0;j<cols.length;j++){
-    //       row.push(cols[j].innerText);
-    //     }
-    //     data.push(row.join(","));
-    //   }
-    //   downloadCSVFile(data.join("\n"),filename);
-    // }
+          // Get table headers
+          table.columns().every(function () {
+              headers.push($(this.header()).text());
+          });
+          csvContent += headers.join(",") + "\n";
 
-    // function downloadCSVFile(csv,filename){
-    //   var csv_file,download_link
-    //   csv_file=new Blob([csv],{type: "text/csv"});
-    //   download_link = document.createElement("a");
-    //   download_link.download=filename;
-    //   download_link.href=window.URL.createObjectURL(csv_file);
-    //   download_link.style.display="none";
-    //   document.body.appendChild(download_link);
-    //   download_link.click();
-    // }
-    //   </script>
+          // Iterate through each page
+          for (let i = 0; i < pages; i++) {
+              table.page(i).draw(false); // Move to page i
 
+              // Get data from the current page
+              table.rows().every(function () {
+                  const rowData = [];
+                  $(this.node()).find('td').each(function () {
+                      rowData.push($(this).text().trim());
+                  });
+                  csvContent += rowData.join(",") + "\n";
+              });
+          }
 
+          // Restore to the first page
+          table.page(0).draw(false);
 
-  <script>
+          // Create a link to download the CSV file
+          const link = document.createElement("a");
+          link.setAttribute("href", encodeURI(csvContent));
+          link.setAttribute("download", "data.csv");
+          document.body.appendChild(link);
 
-    //working on csv form
+          // Trigger click event to start download
+          link.click();
+      }
 
-    function printData() {
-      const table = document.getElementById("table-container-dashboard");
-      const rows = table.querySelectorAll("tr");
-      let csvContent = "data:text/csv;charset=utf-8,";
-
-      rows.forEach(function (row) {
-        const rowData = [];
-        row.querySelectorAll("td").forEach(function (cell) {
-          rowData.push(cell.innerText);
-        });
-        csvContent += rowData.join(",") + "\n";
-      });
-
-
-      //     const newWindow = window.open();
-      //     newWindow.document.write('<pre>' + csvContent + '</pre>');
-      //     newWindow.document.close();
-      // }
-
-      const link = document.createElement("a");
-      link.setAttribute("href", encodeURI(csvContent));
-      link.setAttribute("download", "data.csv");
-
-
-      document.body.appendChild(link);
-
-
-      link.click();
-    }
   </script>
 
 </body>
