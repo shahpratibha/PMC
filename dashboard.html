@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PMC</title>
-    <link rel="stylesheet" href="C_form.css" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-    />
+
 
 <head>
   <meta charset="UTF-8" />
@@ -34,16 +20,8 @@
 
 
 
-  <!-- jquery -->
-
-
-
-
-
-  <!-- <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
-    /> -->
+    
+  
   <!-- Include DataTables CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
@@ -470,7 +448,7 @@
           style="float: left; top: 5px; position: absolute; font-weight: bold; left:10px; color:sienna; font-size: 12px;">
         </div>
         <table id="workTableDashboard" class="table table-bordered table-hover"
-          style="margin-top: 30px; height:100px; width: 100px; overflow-y: scroll; ">
+          style="margin-top: 30px; height:100px; width: 100px; overflow: scroll; scrollbar-width: thin; ">
           <thead>
             <tr>
               <th>Zone</th>
@@ -478,7 +456,12 @@
               <th>Department</th>
               <th>Work Type</th>
               <th>Tender Amount</th>
-              <th>JE Name</th>
+              <th>Agency Name</th>
+              <th>Project Office</th>
+              <th>Budget code </th>
+              <th>Start Date</th>
+              <th>End Date</th>
+
             </tr>
           </thead>
 
@@ -939,7 +922,12 @@
             <td>${project.properties.departme_1}</td>
             <td>${project.properties.work_type}</td>
             <td>${project.properties.tender_amo}</td>
-            <td>${project.properties.je_name}</td>
+            <td>${project.properties.Agency}</td>
+            <td>${project.properties.Project_Office}</td>
+            <td>${project.properties.Budget_Code}</td>
+            <td>${project.properties.created_at}</td>
+            <td>${project.properties.Work_Completion_Date}</td>
+
           </tr>`;
           $("#workTableDashboard tbody").append(proData);
 
@@ -1021,7 +1009,8 @@
               width: "30px",
               height: "25px",
               border: "2px solid #bbb",
-              overflow: "hidden",
+              overflowX: "scroll",
+              overflowY: "scroll",
               // display:"none",
             });
           } else {
@@ -1035,7 +1024,9 @@
               // top:"20%",
               left: "60%",
               overflowY: "scroll",
-              overflowX: "hidden",
+              overflowX: "scroll",
+             
+              scrollbarWidth:"thin",
             });
           }
           isClosed = !isClosed; // Toggle the state
