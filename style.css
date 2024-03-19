@@ -58,9 +58,9 @@ td {
 
 } */
 
-.leaflet-draw-toolbar{
+/* .leaflet-draw-toolbar{
   display: none;
-} 
+}  */
 .leaflet-popup-content-wrapper {
   max-height: 300px;
   /* Set the maximum height for the table */
