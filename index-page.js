@@ -301,18 +301,111 @@ var drawControl = new L.Control.Draw({
 });
 // map.addControl(drawControl);
 
-toggleDrawControl();
-console.log(map.getZoom(), "map.getZoom()");
+
+  // Create a custom control
+  var customDrawControls = L.control({ position: 'topleft' });
+
+  // Define the HTML content for the control
+  customDrawControls.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'draw-control');
+    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:10px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
+    customDrawControlsContainer = div;
+    return div;
+  };
+
+  // Add the control to the map
+  customDrawControls.addTo(map);
+
+// toggleDrawControl();
+// console.log(map.getZoom(), "map.getZoom()");
+// function toggleDrawControl() {
+//   if (map.getZoom() > 15) {
+//     map.addControl(drawControl);
+//   } else {
+//     map.removeControl(drawControl);
+//   }
+// }
+
+var isDrawControlAdded = false;
+
+
 function toggleDrawControl() {
-  if (map.getZoom() > 15) {
-    map.addControl(drawControl);
-  } else {
+  if (isDrawControlAdded) {
     map.removeControl(drawControl);
+    isDrawControlAdded = false;
+  } else {
+    map.addControl(drawControl);
+    isDrawControlAdded = true;
   }
 }
 
 // Event listener for map zoomend event
-map.on("zoomend", toggleDrawControl);
+// map.on("zoomend", toggleDrawControl);
+
+
+document.querySelector('.draw_feature').addEventListener('click', function(event) {
+  event.preventDefault();
+  // Toggle draw control when the "Draw Feature" button is clicked
+ 
+  console.log("click on button ")
+
+  if (map.getZoom() > 15) {
+    toggleDrawControl();
+
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Oops...",
+          text: "Zoom In to 200 m zoom range",
+          showConfirmButton: false,
+          showCloseButton: true,
+          customClass: {
+            popup: "custom-modal-class",
+            icon: "custom-icon-class",
+            title: "custom-title-class",
+            content: "custom-text-class",
+            closeButton: "custom-close-button-class",
+          },
+          showClass: {
+            popup: "swal2-show",
+            backdrop: "swal2-backdrop-show",
+            icon: "swal2-icon-show",
+          },
+          hideClass: {
+            popup: "swal2-hide",
+            backdrop: "swal2-backdrop-hide",
+            icon: "swal2-icon-hide",
+          },
+          didOpen: () => {
+            // Apply custom styles directly to the modal elements
+            document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+            document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+            document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+            document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-title-class").style.fontSize =
+              "1.5em"; // Set your desired title size
+            document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.backgroundColor = "#f44336"; // Red background color
+            document.querySelector(".custom-close-button-class").style.color =
+              "white"; // White text color
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.borderRadius = "0"; // Rounded corners
+            document.querySelector(".custom-close-button-class").style.padding =
+              "5px"; // Padding around the close button
+            document.querySelector(".custom-close-button-class").style.fontSize =
+              "20px"; // Font size of the close button
+          },
+        });
+  
+      }
+});
+
+
 // function for added buffer
 
 var associatedLayersRegistry = {};

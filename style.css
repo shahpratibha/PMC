@@ -3,6 +3,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+/* Table fixed*/
+
+#thead{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
 /* nav */
 /*  */
 /* #map {
@@ -125,15 +136,18 @@ td {
   color: white;
 }
 
-#workTableDashboard{
-  top: 10%;
-  width: 70%;
+  #workTableDashboard {
+    max-width: 70%;
+    position: relative;
+    left: 25%;
+
 }
 #workTableDashboard thead th {
   /* background-color: #163140; */
  
   color: black;
   font-weight: bold;
+  
 }
 .chart{
 
@@ -183,12 +197,13 @@ main {
   display: none;
   position: relative;
   width: 570px;
-  bottom: 230px;
+  bottom: 310px;
   left: 60%;
   top:20%;
   max-height: 300px; 
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: scroll;
+  scrollbar-width: thin;
   background-color: #fff;
   /* background-color: rgba(255, 255, 255, 0.8); */
   padding-top: 10px;
@@ -196,6 +211,7 @@ main {
   border-radius: 5px;
   z-index: 99999;
   box-shadow:10px 10px 20px rgba(0, 0, 0, 0.7); /* Add shadow */
+  transition: 0s;
 }
 #table-container-dashboard thead th {
   white-space: nowrap;
@@ -421,3 +437,46 @@ background-color: #d32f2f; /* Darker red background color on hover */
       transform: scale(0.8);
     }
   }
+
+
+
+/* icon update  */
+
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  position: relative;
+  top: 66px;
+}
+
+.leaflet-touch .geocoder-control-suggestions {
+  top: 100px
+}
+
+
+.leaflet-right {
+  right: 0;
+  position: relative;
+  top: 550px;
+}
+.leaflet-right .leaflet-control {
+  position: relative;
+  margin-right: 10px;
+  top: 50px;
+}
+
+ /* .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+  position: relative;
+  top: 60px;
+}  */
+
+/* leaflet-control {
+  position: relative;
+  z-index: 800;
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+  top: -4px;
+}   */ 

@@ -164,6 +164,19 @@ var IWMS_line = L.tileLayer
   // attribution: "Reservations",
   opacity: 1,
 });
+
+var wms_layer16 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "OSM_Road",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Exist_Road",
+    opacity: 1,
+  }
+);
  ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
  
 var ward_boundary= L.tileLayer.wms(
@@ -227,6 +240,7 @@ var WMSlayers = {
   Village: wms_layer17,
   PMC: wms_layer3,
   geodata: wms_layer4,
+  OSMRoad : wms_layer16,
 };
  
 function refreshWMSLayer() {

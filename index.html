@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PMC</title>
-  <link rel="icon" href="png/pmcjpeg.jpg" type="image/x-icon">
+  <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="C_form.css" />
   <style>
@@ -311,18 +310,7 @@
     measureControl.addTo(map);
 
 
-    // Create a custom control
-    var drawControls = L.control({ position: 'topleft' });
-
-    // Define the HTML content for the control
-    drawControls.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'draw-control');
-      div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:10px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></a>';
-      return div;
-    };
-
-    // Add the control to the map
-    drawControls.addTo(map);
+  
     // Create a custom control
     var editControl = L.control({ position: 'topleft' });
 
@@ -351,6 +339,8 @@
     function performTask() {
       // Perform your task here
       console.log('Task performed');
+
+    
 
       var editableLayers = new L.FeatureGroup().addTo(map);
 
@@ -635,6 +625,12 @@
       // Change the button's onclick function to stop the task
       button.onclick = function () {
         button.innerHTML = 'Perform Task';
+          var drawFeatureButton = document.querySelector('.draw_feature');
+            if (drawFeatureButton) {
+              drawFeatureButton.removeAttribute('disabled');
+            }
+           
+
         // Remove the click event listener from the map
         map.off("click");
         // Reset any ongoing operation here
@@ -646,15 +642,45 @@
       var button = L.DomUtil.create('button', 'custom-button');
       button.innerHTML = 'Perform Task';
       button.onclick = function () {
+        var drawFeatureButton = document.querySelector('.draw_feature');
         if (button.innerHTML === 'Perform Task') {
           button.innerHTML = 'Stop Task';
           performTask();
+
+         
+      // Remove the draw control if it's currently added
+          if (isDrawControlAdded) {
+            map.removeControl(drawControl);
+            isDrawControlAdded = false;
+          }
+
+            if (drawFeatureButton) {
+              drawFeatureButton.setAttribute('disabled', true);
+            }
+            else{
+              drawFeatureButton.setAttribute('disabled', false);
+            }
+
         } else {
-          button.innerHTML = 'Perform Task';
-          // Stop task or reset any ongoing operation here
-        }
-      };
-      return button;
+
+          if (drawFeatureButton) {
+              drawFeatureButton.setAttribute('disabled', false);
+            }
+
+              // button.innerHTML = 'Perform Task';
+              // Add the draw control back if it's not currently added
+              if (!isDrawControlAdded) {
+              map.addControl(drawControl);
+              isDrawControlAdded = true;
+            }
+
+            // Show the custom draw controls button
+            if (drawFeatureButton) {
+              drawFeatureButton.setAttribute('disabled', false);
+            }
+              }
+            };
+            return button;
     };
 
     // Add the control to the map
