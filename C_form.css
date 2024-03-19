@@ -227,7 +227,7 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    background-color: transparent;
+    background-color: var(--white-color);
     z-index: var(--z-fixed);
     transition: .5s;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box-shadow property */
