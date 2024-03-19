@@ -838,7 +838,7 @@
 
       IWMS_point.setParams({
         CQL_FILTER: cqlFilter,
-        // styles: "point", // Assuming "pointhighlight" is a predefined style
+        styles: "point", // Assuming "pointhighlight" is a predefined style
       });
 
       // console.log("addded")
@@ -846,7 +846,7 @@
 
       IWMS_line.setParams({
         CQL_FILTER: cqlFilter,
-        // styles: "line",
+        styles: "line",
       });
       // console.log("addded")
       IWMS_line.addTo(map).bringToFront();
@@ -1965,7 +1965,7 @@
     $("#searchInputDashboard").change(function () {
       var selectedValue1 = $(this).val();
       var searchtypefield = $("#search_type").val();
-      let cqlFilter = `${searchtypefield} ILIKE '%${selectedValue1}%'`;
+      let cqlFilter = `${searchtypefield} = '${selectedValue1}'`;
       console.log(cqlFilter)
 
       fitbou(cqlFilter)
