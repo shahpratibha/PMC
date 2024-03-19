@@ -525,12 +525,11 @@
 								alert('project with this works_aa_approval_id is not found');
 								return;
 							}
-
+						
 							let department = depData.find((dep) => dep.department_id == project.project.d_id);
 							let zone = zoneData.find((dep) => dep.zone_id == project.project.constituency_zone_id);
-							let ward = wardData.find((ward) => ward.zone_id == project.project.constituency_ward_id);
-
-							
+							let ward = wardData.find((ward) => ward.ward_id == project.project.constituency_ward_id);
+						
 
 							if (project) {
                               
@@ -538,6 +537,7 @@
 
 								let budgetCodes = project?.budget_data?.map(budget => budget.budget_code.trim()).join(', ');
 
+							
 								if(budgetCodes){
 									document.getElementById('budgetCodes').value = budgetCodes; 
 
@@ -604,9 +604,7 @@
 						.catch((error) => console.error('Error fetching project data:', error));
 				}
 
-				if (worksAaApprovalId) {
-					fetchAndFillFormData(worksAaApprovalId);
-				}
+				
 			});
 
 			function goToNextPage() {
@@ -650,7 +648,8 @@
 				formData.forEach((value, key) => {
 					formObject[key] = value;
 				});
-				console.log(formObject, 'formObject');
+
+			
 				// Use Axios to submit form data
 				axios
 					.post('Apis/Conceptual_Form.php', formObject)

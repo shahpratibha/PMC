@@ -806,7 +806,7 @@ map.on("draw:created", function (e) {
             "</td></tr>";
           popupContent +=
             "<tr><td>ID</td><td>" +
-            responseData.works_aa_approval_id +
+            responseData.works_approval_id +
             "</td></tr>";
           popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
           popupContent +=
@@ -827,7 +827,7 @@ map.on("draw:created", function (e) {
             "</td></tr>";
           popupContent +=
             "<tr><td>Date of competition work</td><td>" +
-            responseData.created_date +
+            responseData.created_at +
             "</td></tr>";
           popupContent +=
             "<tr><td>JE Name</td><td>" +
@@ -1034,8 +1034,10 @@ function Savedata(lastDrawnPolylineId) {
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
+
   var payload = JSON.stringify({
     geoJSON: bufferGeoJSONString,
+    selectCoordinatesData:selectCoordinatesData,
     roadLength: roadLenght,
     bufferWidth: bufferWidth,
     gis_id: lastInsertedId,
