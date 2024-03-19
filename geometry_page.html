@@ -72,6 +72,12 @@
       z-index: 9999;
       flex-direction: column;
     }
+
+    @media print {
+            @page {
+                size: tabloid;
+            }
+        }
   </style>
 </head>
 
@@ -96,7 +102,7 @@
             <i
               class="fa-solid fa-print text-primary"
               id="generatePdfBtn"
-              onclick="takeScreenshot()"
+              onclick="printPage()"
               style="font-size: 25px"
             ></i>
           </div>
@@ -331,8 +337,14 @@
       $( function() {
           $("#workTable").draggable();
         } );
-
-      
     </script>
+
+<script>
+  function printPage() {
+      // Trigger the browser's print dialog
+      window.print();
+     
+  }
+  </script>
   </body>
 </html>
