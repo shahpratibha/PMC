@@ -19,17 +19,6 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
 
-
-  <!-- jquery -->
-
-
-
-
-
-  <!-- <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
-    /> -->
   <!-- Include DataTables CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
@@ -470,7 +459,7 @@
 
         <table id="workTableDashboard" class="table table-bordered table-hover"
           style="margin-top: 30px; height:100px; width: 100px; overflow-y: scroll; ">
-          <thead>
+          <thead id="thead">
             <tr>
               <th>Zone</th>
               <th>Ward</th>
@@ -478,6 +467,11 @@
               <th>Work Type</th>
               <th>Tender Amount</th>
               <th>JE Name</th>
+              <th>Contractor Name</th>
+              <th>Project Office</th>
+              <th>Budget Code</th>
+              <th>Start Date</th>
+              <th>End Date</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -926,7 +920,7 @@
 
       IWMS_point.setParams({
         CQL_FILTER: cqlFilter,
-        styles: "point", // Assuming "pointhighlight" is a predefined style
+        // styles: "point", // Assuming "pointhighlight" is a predefined style
       });
 
       // console.log("addded")
@@ -934,7 +928,7 @@
 
       IWMS_line.setParams({
         CQL_FILTER: cqlFilter,
-        styles: "line",
+        // styles: "line",
       });
       // console.log("addded")
       IWMS_line.addTo(map).bringToFront();
@@ -1025,6 +1019,11 @@
             <td>${project.properties.work_type}</td>
             <td>${project.properties.tender_amo}</td>
             <td>${project.properties.je_name}</td>
+            <td>${project.properties.Agency}</td>
+            <td>${project.properties.Project_Office}</td> 
+            <td>${project.properties.Budget_Code}</td>
+            <td>${project.properties.created_at}</td>
+            <td>${project.properties.Work_Completion_Date}</td>
           </tr>`;
           $("#workTableDashboard tbody").append(proData);
 
@@ -1111,8 +1110,7 @@
               width: "30px",
               height: "25px",
               border: "2px solid #bbb",
-              overflowX: "scroll",
-              overflowY: "scroll",
+              overflow: "hidden",
               // display:"none",
             });
           } else {
@@ -1126,7 +1124,7 @@
               // top:"20%",
               left: "60%",
               overflowY: "scroll",
-              overflowX: "hidden",
+              overflowX: "scroll",
             });
           }
           isClosed = !isClosed; // Toggle the state
@@ -2071,7 +2069,7 @@
     $("#searchInputDashboard").change(function () {
       var selectedValue1 = $(this).val();
       var searchtypefield = $("#search_type").val();
-      let cqlFilter = `${searchtypefield} = '${selectedValue1}'`;
+      let cqlFilter = `${searchtypefield} ILIKE '%${selectedValue1}%'`;
       console.log(cqlFilter)
 
       fitbou(cqlFilter)
