@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  
+
 
 <head>
   <meta charset="UTF-8" />
@@ -136,7 +136,7 @@
   <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
   <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
 
- 
+
 
   <style>
     .leaflet-control-layers-toggle {
@@ -278,6 +278,7 @@
         font-size: 18px;
       }
     }
+
     #thead {
       position: sticky;
       top: 0;
@@ -391,7 +392,7 @@
     </div>
     <div class="d-flex justify-content-between ms-auto" role="search">
       <div class="input-group">
-       
+
 
         <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
           style="width: 90px; border-radius: 10px">
@@ -970,9 +971,10 @@
 
 
       // ********************added new modification 11-03-2023*******************************************
-
+ 
       $.getJSON(geoServerURL, function (data) {
         filteredData = data;
+        console.log(filteredData, "filteredData")
         var workTypeCounts = {};
         var stageCounts = {};
 
@@ -982,42 +984,34 @@
         // //////////////////////addded 11-03-2023////////////////////////////////////////////////
 
         // pegination
-        $(document).ready(function () {
-          $('#workTableDashboard').DataTable();
-        });
+        // $(document).ready(function () {
+        //   $('#workTableDashboard').DataTable();
+        // });
         // 
+        var startTime = performance.now();
+        console.log(startTime, "extracted urlgeojson")
 
         $("#workTableDashboard tbody").html("");
-        filteredData.features.forEach(function (project) {
-
-          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
-
-          var tenderAmount = parseFloat(project.properties.tender_amo);
-
-          // console.log("tenderAmount:", tenderAmount); // Debugging output
-                  if (!isNaN(tenderAmount)) {
-            totalTenderAmount += tenderAmount;
-        } else {
-            console.log("Invalid tender amount:", project.properties.tender_amo);
-        }
 
 
-          // totalTenderAmount += tenderAmount;
-          var totalcountofselectedrecords = filteredData.totalFeatures;
+///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
+var totalcountofselectedrecords = filteredData.totalFeatures
+var startTime = performance.now();
+      console.log(startTime, "starting")
+        var totalTenderAmount = filteredData.features.reduce(function(total, project) {
+    var tenderAmount = parseFloat(project.properties.tender_amo);
+    return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
+}, 0);
 
-          var totalTenderAmountInLakh = totalTenderAmount / 100000; // Convert to lakh
-
-          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
-
-
-          var proData = `<tr data-coordinates='${JSON.stringify(
-            project.geometry
-          )}'>
+var tableRows = filteredData.features.map(function(project) {
+    var tenderAmount = parseFloat(project.properties.tender_amo);
+    tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
+    return `<tr data-coordinates='${JSON.stringify(project.geometry)}'>
             <td>${project.properties.zone}</td>
             <td>${project.properties.ward}</td>
             <td>${project.properties.departme_1}</td>
             <td>${project.properties.work_type}</td>
-            <td>${project.properties.tender_amo}</td>
+            <td>${tenderAmount}</td>
             <td>${project.properties.je_name}</td>
             <td>${project.properties.Agency}</td>
             <td>${project.properties.Project_Office}</td> 
@@ -1025,45 +1019,82 @@
             <td>${project.properties.created_at}</td>
             <td>${project.properties.Work_Completion_Date}</td>
           </tr>`;
-          $("#workTableDashboard tbody").append(proData);
+});
 
-          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
-          // console.log(totalTenderAmount.toFixed(2))
-          console.log(totalTenderAmount, totalcountofselectedrecords, 'helooooooooooooo');
+$("#workTableDashboard tbody").append(tableRows.join(''));
 
-          // $("#tablestats").html(`Total Project Tender Amount: ${totalTenderAmount.toFixed(2)} ,
-          //     Total Projects: ${totalcountofselectedrecords}`);
 
-          
-          $("#tablestats").html(`Total Project Tender Amount (in lakh): ${totalTenderAmountInLakh.toFixed(2)} ,
+$("#tablestats").html(`Total Project Tender Amount (in lakh): ${totalTenderAmount.toFixed(2)} ,
               Total Projects: ${totalcountofselectedrecords}`);
 
-          // console.log(totalTenderAmount, totalcountofselectedrecords,'helooooooooooooo');
+// console.log("Total Tender Amount:", totalTenderAmount);
 
-          // //////////////////////addded 11-03-2023////////////////////////////////////////////////
+var endTime = performance.now();
+      console.log(startTime, "ending")
+      var timeTaken = endTime - startTime;
 
-          // Update workTypeCounts object
-          var workType = project.properties.work_type;
-          if (workType) {
-            workTypeCounts[workType] = (workTypeCounts[workType] || 0) + 1;
-          }
+console.log("Time taken: " + timeTaken + " milliseconds");
 
-          var stage = project.properties.stage;
-          var date = new Date(project.properties.created_at);
-          var monthYear = date.toLocaleString("default", {
-            month: "long",
-            year: "numeric",
-          });
+///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
+// new added for speed  19-03-2024
 
-          if (!stageCounts[stage]) {
-            stageCounts[stage] = {};
-          }
-          if (!stageCounts[stage][monthYear]) {
-            stageCounts[stage][monthYear] = 0;
-          }
-          stageCounts[stage][monthYear]++;
-        });
 
+
+// var startTime = performance.now();
+//       console.log(startTime, "starting")
+
+//         filteredData.features.forEach(function (project) {
+//           var tenderAmount = parseFloat(project.properties.tender_amo);
+
+//           if (!isNaN(tenderAmount)) {
+//             tenderAmount /= 100000
+//             totalTenderAmount += tenderAmount;
+//           } else {
+//             tenderAmount = 0.0;
+//             // console.log("Invalid tender amount:", project.properties.tender_amo);
+//           }
+//           var totalcountofselectedrecords = filteredData.totalFeatures;
+
+//           var proData = `<tr data-coordinates='${JSON.stringify(
+//             project.geometry
+//           )}'>
+//             <td>${project.properties.zone}</td>
+//             <td>${project.properties.ward}</td>
+//             <td>${project.properties.departme_1}</td>
+//             <td>${project.properties.work_type}</td>
+//             <td>${tenderAmount}</td>
+//             <td>${project.properties.je_name}</td>
+//             <td>${project.properties.Agency}</td>
+//             <td>${project.properties.Project_Office}</td> 
+//             <td>${project.properties.Budget_Code}</td>
+//             <td>${project.properties.created_at}</td>
+//             <td>${project.properties.Work_Completion_Date}</td>
+//           </tr>`;
+//           $("#workTableDashboard tbody").append(proData);
+
+
+//           // var startTime = performance.now();
+//           // console.log(startTime, "extracted tabledata")
+
+//           $("#tablestats").html(`Total Project Tender Amount (in lakh): ${totalTenderAmount.toFixed(2)} ,
+//               Total Projects: ${totalcountofselectedrecords}`);
+
+//         });
+
+
+
+
+//         var endTime = performance.now();
+//       console.log(startTime, "ending")
+//       var timeTaken = endTime - startTime;
+
+// console.log("Time taken: " + timeTaken + " milliseconds");
+
+
+
+
+
+        console.log(startTime, "loaded all data")
         $("#workTableDashboard tbody").on("click", "tr", function () {
           var coordinatesStr = $(this).data("coordinates");
           var coordinatesObj = coordinatesStr;
@@ -1130,117 +1161,12 @@
           isClosed = !isClosed; // Toggle the state
         });
 
-        if (myPieChart) {
-          myPieChart.destroy();
-        }
 
-        // Assuming workTypeCounts contains counts of unique work types
-        var workTypes = Object.keys(workTypeCounts);
-        var workTypeCountsData = Object.values(workTypeCounts);
 
-        var ctx = document.getElementById("myPieChart").getContext("2d");
 
-        // Create the pie chart
-        myPieChart = new Chart(ctx, {
-          type: "pie",
-          data: {
-            labels: workTypes, // Use workTypes as labels
-            datasets: [
-              {
-                data: workTypeCountsData, // Use workTypeCountsData as data
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.5)",
-                  "rgba(54, 162, 235, 0.5)",
-                  "rgba(255, 206, 86, 0.5)",
-                  "rgba(75, 192, 192, 0.5)",
-                  "rgba(153, 102, 255, 0.5)",
-                ],
-                borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                ],
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: false,
-            plugins: {
-              legend: {
-                display: true,
-                // position: "bottom", // Position legend at the bottom of the graph
-              },
-              datalabels: {
-                formatter: (value, ctx) => {
-                  let sum = 0;
-                  let dataArr = ctx.chart.data.datasets[0].data;
-                  dataArr.forEach((data) => {
-                    sum += data;
-                  });
-                  let percentage = ((value / sum) * 100).toFixed(2) + "%";
-                  return percentage;
-                },
-                color: "#fff",
-              },
-            },
-          },
-        });
 
-        // Create/update the line chart for stages
-        if (myLineChart) {
-          myLineChart.destroy();
-        }
 
-        var ctxLine = document.getElementById("myLineChart").getContext("2d");
 
-        var lastSixMonths = getLastSixMonthsFromData(filteredData.features);
-
-        var datasets = [];
-
-        Object.keys(stageCounts).forEach(function (stage) {
-          var data = lastSixMonths.map(function (monthYear) {
-            return stageCounts[stage][monthYear] || 0;
-          });
-
-          datasets.push({
-            label: stage,
-            data: data,
-            borderColor: getRandomColor(),
-            fill: false,
-          });
-        });
-
-        myLineChart = new Chart(ctxLine, {
-          type: "line",
-          data: {
-            labels: lastSixMonths,
-            datasets: datasets,
-          },
-          options: {
-            responsive: false,
-            plugins: {
-              legend: {
-                position: "bottom",
-              },
-            },
-            scales: {
-              x: {
-                ticks: {
-                  display: true,
-                  position: "below",
-                },
-              },
-              y: {
-                ticks: {
-                  display: true,
-                },
-              },
-            },
-          },
-        });
       });
 
       function getRandomColor() {
@@ -2054,13 +1980,13 @@
         // console.log(data)
         $("#searchInputDashboard").autocomplete({
 
-          source: function(request, response) {
-                        // const marathiText = /^[\u0900-\u097F\s]*$/;
-                        var array = [request.term];
-                        console.log(array)
-                        response(data)
+          source: function (request, response) {
+            // const marathiText = /^[\u0900-\u097F\s]*$/;
+            var array = [request.term];
+            console.log(array)
+            response(data)
           }
-        
+
         });
 
       });
@@ -2085,55 +2011,55 @@
     })
 
 
-  
+
     ////////////////////////15-03-2024////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  //  (function () {
-  //     $("#searchInputDashboard").autocomplete({
-  //       // minLength: 3,
-  //       source: function (request, response) {
-  //         let searchTerm = request.term;
-  //         let searchType = $("#search_type").val();
-  //         console.log(searchTerm,searchType)
-  //         if (searchTerm.length >= 3 && searchType) {
-  //           let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
+    //  (function () {
+    //     $("#searchInputDashboard").autocomplete({
+    //       // minLength: 3,
+    //       source: function (request, response) {
+    //         let searchTerm = request.term;
+    //         let searchType = $("#search_type").val();
+    //         console.log(searchTerm,searchType)
+    //         if (searchTerm.length >= 3 && searchType) {
+    //           let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-  //           let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
-  //             cqlFilter
-  //           )}`;
+    //           let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+    //             cqlFilter
+    //           )}`;
 
-  //           $.getJSON(geoServerURL, function (data) {
-  //             let suggestions = data.features.map(
-  //               (feature) => feature.properties[searchType]
-  //             );
+    //           $.getJSON(geoServerURL, function (data) {
+    //             let suggestions = data.features.map(
+    //               (feature) => feature.properties[searchType]
+    //             );
 
-  //             suggestions = suggestions.filter(
-  //               (value, index, self) => self.indexOf(value) === index
-  //             );
+    //             suggestions = suggestions.filter(
+    //               (value, index, self) => self.indexOf(value) === index
+    //             );
 
-  //             suggestions = suggestions.slice(0, 10);
-  //             response(suggestions);
-  //           });
-  //         } else {
-  //           response([]);
-  //         }
-  //       },
-  //       select: function (event, ui) {
-  //         $("#searchInputDashboard").val(ui.item.label);
+    //             suggestions = suggestions.slice(0, 10);
+    //             response(suggestions);
+    //           });
+    //         } else {
+    //           response([]);
+    //         }
+    //       },
+    //       select: function (event, ui) {
+    //         $("#searchInputDashboard").val(ui.item.label);
 
-  //         let searchType = $("#search_type").val();
-  //         let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
-  //         fitbou(cqlFilterSelected);
-  //         wms_layer15.setParams({
-  //           CQL_FILTER: cqlFilterSelected,
-  //           styles: "pointhighlight",
-  //         });
+    //         let searchType = $("#search_type").val();
+    //         let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
+    //         fitbou(cqlFilterSelected);
+    //         wms_layer15.setParams({
+    //           CQL_FILTER: cqlFilterSelected,
+    //           styles: "pointhighlight",
+    //         });
 
-  //         return false;
-  //       },
-  //     });
-  //   });
+    //         return false;
+    //       },
+    //     });
+    //   });
 
     function drawGeometries(selectedData) {
       // Implement logic to draw the selected geometries on the map
@@ -2196,48 +2122,49 @@
     //   link.click();
     // }
 
-          function printData() {
-          const table = $('#workTableDashboard').DataTable();
-          const totalRecords = table.page.info().recordsTotal;
-          const pages = Math.ceil(totalRecords / table.page.info().length);
+    function printData() {
+      const table = $('#workTableDashboard').DataTable();
+      const totalRecords = table.page.info().recordsTotal;
+      const pages = Math.ceil(totalRecords / table.page.info().length);
 
-          let csvContent = "data:text/csv;charset=utf-8,";
-          let headers = [];
+      let csvContent = "data:text/csv;charset=utf-8,";
+      let headers = [];
 
-          // Get table headers
-          table.columns().every(function () {
-              headers.push($(this.header()).text());
+      // Get table headers
+      table.columns().every(function () {
+        headers.push($(this.header()).text());
+      });
+      csvContent += headers.join(",") + "\n";
+
+      // Iterate through each page
+      for (let i = 0; i < pages; i++) {
+        table.page(i).draw(false); // Move to page i
+
+        // Get data from the current page
+        table.rows().every(function () {
+          const rowData = [];
+          $(this.node()).find('td').each(function () {
+            rowData.push($(this).text().trim());
           });
-          csvContent += headers.join(",") + "\n";
-
-          // Iterate through each page
-          for (let i = 0; i < pages; i++) {
-              table.page(i).draw(false); // Move to page i
-
-              // Get data from the current page
-              table.rows().every(function () {
-                  const rowData = [];
-                  $(this.node()).find('td').each(function () {
-                      rowData.push($(this).text().trim());
-                  });
-                  csvContent += rowData.join(",") + "\n";
-              });
-          }
-
-          // Restore to the first page
-          table.page(0).draw(false);
-
-          // Create a link to download the CSV file
-          const link = document.createElement("a");
-          link.setAttribute("href", encodeURI(csvContent));
-          link.setAttribute("download", "data.csv");
-          document.body.appendChild(link);
-
-          // Trigger click event to start download
-          link.click();
+          csvContent += rowData.join(",") + "\n";
+        });
       }
+
+      // Restore to the first page
+      table.page(0).draw(false);
+
+      // Create a link to download the CSV file
+      const link = document.createElement("a");
+      link.setAttribute("href", encodeURI(csvContent));
+      link.setAttribute("download", "data.csv");
+      document.body.appendChild(link);
+
+      // Trigger click event to start download
+      link.click();
+    }
 
   </script>
 
 </body>
+
 </html>
