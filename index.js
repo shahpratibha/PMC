@@ -143,7 +143,7 @@ var wms_layer4 = L.tileLayer.wms(
 );
  
 var IWMS_point = L.tileLayer
-.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -155,7 +155,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
