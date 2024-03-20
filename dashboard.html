@@ -451,7 +451,7 @@
           <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width: 10px; position: fixed;"></i>
         </button>
 
-        <p id="tablestats" class="custom-stats" style="position: fixed; color: sienna; font-size: 12px;font-weight: bold; padding-bottom: 10px; z-index: 9999; margin-top: 3px; margin-left:-150px;" > <!-- Changed position to fixed -->
+        <p id="tablestats" class="custom-stats" style="position: fixed; color: sienna; font-size: 12px;font-weight: bold; padding-bottom: 10px; z-index: 9999; margin-top: 2px; margin-left:-150px;" > <!-- Changed position to fixed -->
           <!-- Dynamic content goes here -->
         </p>
 
@@ -460,7 +460,7 @@
         </button> -->
 
         <table id="workTableDashboard" class="table table-bordered table-hover"
-          style="margin-top: 30px; height:100px; width: 100px; overflow-y: scroll; ">
+          style="margin-top: 30px; height:100px; width: 100px; overflow: scroll; ">
           <thead id="thead">
             <tr>
               <th>Zone</th>
@@ -1006,7 +1006,7 @@
 
           
           $("#tablestats").html(` 
-                <p class="custom-stats" style="position: fixed; top: 59%; right: 20%; z-index: 999; padding: 0px; font-weight: bold; color: sienna; font-size: 12px;"></p>
+                <p class="custom-stats" style="position: fixed; top: 59%; right: 20%; z-index: 999; padding-bottom: 10px; font-weight: bold; color: sienna; background-color:white; font-size: 12px;"></p>
           
           Total Project Tender Amount (in lakh): ${totalTenderAmountInLakh.toFixed(2)} ,
               Total Projects: ${totalcountofselectedrecords}
@@ -1066,6 +1066,8 @@
         });
 
         // -----------------------
+        var printButton = $("#printButton")
+        var tablestats= $("#tablestats")
         var tableContainer = $("#table-container-dashboard");
         var isClosed = false;
         tableContainer.slideDown();
@@ -1089,6 +1091,12 @@
               overflow: "hidden",
               // display:"none",
             });
+            tablestats.css({
+              display:"none",
+            });
+            printButton.css({
+              display:"none",
+            });
           } else {
             // Change icon to times
             $(this).html(' <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width:10px; position:fixed "></i>');
@@ -1101,6 +1109,14 @@
               left: "60%",
               overflowY: "scroll",
               overflowX: "scroll",
+            });
+
+            tablestats.css({
+              display:"block",
+            });
+            printButton.css({
+              display:"block",
+              
             });
           }
           isClosed = !isClosed; // Toggle the state
