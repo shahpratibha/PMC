@@ -50,7 +50,7 @@ $stmt->bindParam(':width', $bufferWidth, PDO::PARAM_STR);
 try {
     $stmt->execute();
     $lastInsertId = $pdo->lastInsertId();
-    echo json_encode(["message" => "Data successfully saved to the database", "lastInsertId" => $lastInsertId]);
+  //  echo json_encode(["message" => "Data successfully saved to the database", "lastInsertId" => $lastInsertId]);
 } catch (PDOException $e) {
     echo json_encode(["error" => $e->getMessage()]);
      exit;
