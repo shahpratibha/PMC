@@ -291,6 +291,10 @@
   </style>
 </head>
 
+
+
+
+
 <body class="overflow-hidden" id="body-pd" class="" style="background-color: #f3f3f3">
   <div class="sidebar" id="mySidenav" type="button">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
@@ -311,6 +315,17 @@
       </select>
     </div>
 
+    <!--/////////////////////////////////////// for project office filter /////////////////////////////-->
+
+    <div class="form-group mt-2">
+      <label>Project Office</label>
+      <select id="office_name" style="width: 180px" class="form-control select2" multiple="multiple"
+        onchange="loadOfficeNameAndFilter();">
+        <option value=""></option>
+      </select>
+    </div>
+
+    <!--////////////////////////////////////// for project office filter ////////////////////////////////-->
     <div class="form-group mt-2">
       <label for="admin_ward_name">Ward Name</label>
       <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width: 180px"
@@ -593,10 +608,11 @@
   <!-- to geojson -->
   <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script>
 
-<!-- for sorting the table -->
+  <!-- for sorting the table -->
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 
   <!-- leaflet-ajax -->
@@ -754,6 +770,7 @@
 
     function loadInitialData() {
       loadAdminWardName();
+      loadOfficeName()
       loadZones();
       loadVillages();
       loadDepartments();
@@ -766,6 +783,8 @@
       var selectedDepartments = $("#departments").val();
       var selectedWorkTypes = $("#work_type").val();
       var selectedZones = $("#zones").val();
+      var selectedOffice = $("#office_name").val();
+      console.log(selectedOffice, "selectedOffice")
       var selectedWards = $("#admin_ward_name").val();
       var selectedVillages = $("#villages").val();
       var selectedProjectFi = $("#project_fi").val();
@@ -778,6 +797,7 @@
       if (
         !$.isEmptyObject(selectedDepartments) ||
         !$.isEmptyObject(selectedWorkTypes) ||
+        !$.isEmptyObject(selectedOffice) ||
         !$.isEmptyObject(selectedZones) ||
         !$.isEmptyObject(selectedWards) ||
         !$.isEmptyObject(selectedVillages) ||
@@ -790,6 +810,7 @@
         var filteredData = filterData(
           selectedDepartments,
           selectedWorkTypes,
+          selectedOffice,
           selectedZones,
           selectedWards,
           selectedVillages,
@@ -810,6 +831,7 @@
       selectedDepartments,
       selectedWorkTypes,
       selectedZones,
+      selectedOffice,
       selectedWards,
       selectedVillages,
       selectedProjectFi,
@@ -825,6 +847,7 @@
       var filter_for_ward = {};
       var filter_for_zone = {};
 
+
       // added 11-03-2024
       // Filter data based on selected filters
       var filteredData = [];
@@ -838,6 +861,16 @@
       if (selectedZones.length > 0) {
         filter.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
       }
+
+      /////////////////////////////////////////   // adddede
+      if (selectedOffice.length > 0) {
+        filter.Project_Office = selectedOffice.map((Project_Office) => `'${Project_Office}'`).join(",");
+        console.log(filter.Project_Office, "prohect offcie fil")
+      }
+
+
+
+
       if (selectedWards.length > 0) {
         filter.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
       }
@@ -878,7 +911,7 @@
         .map(([key, value]) => `${key} IN (${value})`)
         .join(" AND ");
 
-
+      console.log(cqlFilter, "cqlFiltereeeeeeeeeeeeeeeee")
       // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
       var cqlFilter_ward = Object.entries(filter_for_ward)
         .map(([key, value]) => `${key} IN (${value})`)
@@ -915,17 +948,6 @@
       } else if (selectedDateRange) {
         cqlFilter = `created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
       }
-
-      // fitbou(cqlFilter);
-
-      // wms_layer15.setParams({
-      //   CQL_FILTER: cqlFilter,
-      //   styles: "pointhighlight",
-      // });
-
-      // ********************added new modification 11-03-2023*******************************************
-
-      // console.log(cqlFilter,"cqlFilterfilter",cqlFilter_ward,cqlFilter_zone)
 
       fitbou(cqlFilter);
 
@@ -991,11 +1013,6 @@
 
         // //////////////////////addded 11-03-2023////////////////////////////////////////////////
         var totalTenderAmount = 0;
-
-
-
-
-
         $("#workTableDashboard tbody").html("");
 
 
@@ -1010,7 +1027,7 @@
 
 
         var currentPage = 1;
-        var itemsPerPage = 100; // Number of items to display per page
+        var itemsPerPage = 10; // Number of items to display per page
 
         function renderTablePage(pageNumber) {
           var startIndex = (pageNumber - 1) * itemsPerPage;
@@ -1039,11 +1056,15 @@
         }
 
 
+        if ($.fn.DataTable.isDataTable('#workTableDashboard')) {
+    $('#workTableDashboard').DataTable().destroy();
+}
+
         $('#workTableDashboard').DataTable({
-        "paging": true, // Enable pagination
-        "ordering": true, // Enable sorting
-        "info": false // Disable the "Showing X of X entries" information
-    });
+          "paging": true, // Enable pagination
+          "ordering": true, // Enable sorting
+          "info": false // Disable the "Showing X of X entries" information
+        });
 
         // Initial render
         renderTablePage(currentPage);
@@ -1076,12 +1097,6 @@
         $("#tablestats").html(`Total Project Tender Amount (in lakh): ${totalTenderAmount.toFixed(2)} ,
               Total Projects: ${totalcountofselectedrecords}`);
 
-
-        var endTime = performance.now();
-        console.log(startTime, "ending")
-        var timeTaken = endTime - startTime;
-
-        console.log("Time taken: " + timeTaken + " milliseconds");
 
         // ////////////////////////////////////for pagination addd///////////////////////////////////////////////////
 
@@ -1181,67 +1196,10 @@
 
       });
 
-      function getRandomColor() {
-        var letters = "0123456789ABCDEF";
-        var color = "#";
-        for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      }
 
-      function getLastSixMonthsFromData(data) {
-        var lastSixMonths = [];
-        var today = new Date();
-        var sixMonthsAgo = new Date(
-          today.getFullYear(),
-          today.getMonth() - 6,
-          1
-        );
-        var months = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ];
 
-        data.forEach(function (project) {
-          var date = new Date(project.properties.created_at);
-          if (date >= sixMonthsAgo && date <= today) {
-            var monthYear =
-              months[date.getMonth()] + " " + date.getFullYear();
-            if (!lastSixMonths.includes(monthYear)) {
-              lastSixMonths.push(monthYear);
-            }
-          }
-        });
 
-        lastSixMonths.sort(function (a, b) {
-          var dateA = new Date(
-            a.split(" ")[1],
-            months.indexOf(a.split(" ")[0]),
-            1
-          );
-          var dateB = new Date(
-            b.split(" ")[1],
-            months.indexOf(b.split(" ")[0]),
-            1
-          );
-          return dateA - dateB;
-        });
 
-        return lastSixMonths;
-      }
-
-      return filteredData;
     }
 
     function loadProjectFi() {
@@ -1387,6 +1345,113 @@
         // });
       });
     }
+
+
+    // /////////////////////////for loading the office manes/////////////////////////////////////////////////////
+
+    function loadOfficeName() {
+      var select = $("#office_name");
+      select.empty();
+
+      var project_fi = $("#project_fi").val();
+      var zones = $("#zones").val();
+      var wards = $("#admin_ward_name").val();
+      var villages = $("#villages").val();
+      let cqlFilter = "";
+
+      if (project_fi.length > 0) {
+        project_fi = project_fi
+          .map((projectFi) => `'${projectFi}'`)
+          .join(",");
+        cqlFilter = `project_fi IN (${project_fi})`;
+      }
+
+      if (zones.length > 0) {
+        zones = zones.map((zone) => `'${zone}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
+      }
+      if (wards.length > 0) {
+        wards = wards.map((ward) => `'${ward}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
+      }
+      if (villages.length > 0) {
+        villages = villages.map((village) => `'${village}'`).join(",");
+        cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
+      }
+
+
+      console.log(cqlFilter, "cqlFilter1233")
+      var geoServerURL =
+        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
+
+      $.getJSON(geoServerURL, function (data) {
+        var officeSet = new Set();
+
+
+        $.each(data.features, function (index, feature) {
+          var office = feature.properties.Project_Office;
+          officeSet.add(office);
+        });
+
+        var uniqueOffice = Array.from(officeSet);
+        console.log(uniqueOffice, "uniqueOffice")
+        $.each(uniqueOffice, function (index, office) {
+          select.append(
+            $("<option>", {
+              value: office,
+              text: office,
+            })
+          );
+        });
+
+        if (select.hasClass("select2-hidden-accessible")) {
+          select.select2("destroy");
+        }
+
+        select.select2({
+          templateResult: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            var $option = $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+              option.text +
+              "</span>"
+            );
+            return $option;
+          },
+          templateSelection: function (option) {
+            if (!option.id) {
+              return option.text;
+            }
+
+            return $(
+              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+              option.text +
+              "</span>"
+            );
+          },
+          closeOnSelect: false,
+          dropdownParent: select.parent(),
+          multiple: true,
+        });
+
+        // select.on("change", function () {
+        //   loadStage();
+        //   filterDataAndDrawMap();
+        // });
+      });
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
     function loadAdminWardName() {
       var select = $("#admin_ward_name");
@@ -2083,6 +2148,15 @@
       loadAdminWardName();
       filterDataAndDrawMap();
     }
+
+    ////////////////////////////////////////////added/////////////////////////////////////////////////
+
+    function loadOfficeNameAndFilter() {
+      loadOfficeName()
+      filterDataAndDrawMap();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function loadVillagesAndFilter() {
       loadVillages();
