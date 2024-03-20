@@ -452,7 +452,9 @@
           <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width: 10px; position: fixed;"></i>
         </button>
 
-        <p id="tablestats" class="custom-stats" style="position: fixed; color: sienna; font-size: 12px;font-weight: bold; padding-bottom: 10px; z-index: 9999; margin-top: 2px; margin-left:-150px;" > <!-- Changed position to fixed -->
+        <p id="tablestats" class="custom-stats"
+          style="position: fixed; color: sienna; font-size: 12px;font-weight: bold; padding-bottom: 10px; z-index: 9999; margin-top: 2px; margin-left:-150px;">
+          <!-- Changed position to fixed -->
           <!-- Dynamic content goes here -->
         </p>
 
@@ -482,7 +484,8 @@
 
         <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
 
-        <div id="paginationControls"  style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex;">
+        <div id="paginationControls"
+          style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex;">
           <button class="pagibtn" id="previousPageButton"><i class="fa-solid fa-backward"></i></button>
           <span>Page <span id="currentPage"></span></span>
           <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
@@ -1113,7 +1116,7 @@
           }).addTo(map); // Add the bounds layer to the map
 
           var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
-          map.fitBounds(bounds).setZoom(16); // Fit map to the bounds and set zoom level
+          map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
 
           // Optionally, you can remove the bounds layer after a certain duration
           setTimeout(function () {
@@ -1127,7 +1130,7 @@
 
         // -----------------------
         var printButton = $("#printButton")
-        var tablestats= $("#tablestats")
+        var tablestats = $("#tablestats")
         var tableContainer = $("#table-container-dashboard");
         var isClosed = false;
         tableContainer.slideDown();
@@ -1152,10 +1155,10 @@
               // display:"none",
             });
             tablestats.css({
-              display:"none",
+              display: "none",
             });
             printButton.css({
-              display:"none",
+              display: "none",
             });
           } else {
             // Change icon to times
@@ -1172,11 +1175,11 @@
             });
 
             tablestats.css({
-              display:"block",
+              display: "block",
             });
             printButton.css({
-              display:"block",
-              
+              display: "block",
+
             });
           }
           isClosed = !isClosed; // Toggle the state
@@ -1997,6 +2000,8 @@
 
 
 
+ /////////////////   // search butoon implemented   //////////////////////////////////////////////
+
     $(document).ready(function () {
       var columns = [
         "works_aa_a",
@@ -2015,93 +2020,74 @@
     });
 
 
-
     $("#search_type").change(function () {
       var selectedValue = $(this).val();
-      fetchDataFromIWMSPoint(selectedValue, function (data) {
-        // console.log(data)
-        $("#searchInputDashboard").autocomplete({
+      console.log(selectedValue, "selectedValue");
 
-          source: function (request, response) {
-            // const marathiText = /^[\u0900-\u097F\s]*$/;
-            var array = [request.term];
-            console.log(array)
-            response(data)
-          }
+      function getvalues(callback) {
+        var geoServerURL =
+          "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=" + selectedValue + "&outputFormat=application/json";
 
+        $.getJSON(geoServerURL, function (data) {
+          var workTypeSet = new Set();
+
+          // Populate the Set with work types
+          $.each(data.features, function (index, feature) {
+            var workType = feature.properties[selectedValue];
+            workTypeSet.add(workType);
+          });
+
+          // Convert the Set to an array
+          var uniqueWorkTypes = Array.from(workTypeSet);
+          console.log(uniqueWorkTypes, "uniqueWorkTypes");
+
+          // Call the callback function with the uniqueWorkTypes array
+          callback(uniqueWorkTypes);
         });
+      }
 
+      getvalues(function (data) {
+        $("#searchInputDashboard").autocomplete({
+          source: data,
+          select: function (event, ui) {
+            // Zoom to the selected feature
+            var selectedValue1 = ui.item.value;
+            console.log(selectedValue1, "selectedValue1")
+            var searchtypefield = $("#search_type").val();
+            let cqlFilter = `${searchtypefield} = '${selectedValue1}'`;
+
+            IWMS_point.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "point", // Assuming "pointhighlight" is a predefined style
+            });
+
+            IWMS_line.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "line", // Assuming "linehighlight" is a predefined style
+            });
+
+            console.log("addded");
+            IWMS_point.addTo(map).bringToFront();
+            IWMS_line.addTo(map).bringToFront();
+            fitbou(cqlFilter);
+
+            // Combine bounds of both IWMS_point and IWMS_line
+            // var combinedBounds = IWMS_point.getBounds().extend(IWMS_line.getBounds());
+
+            // Zoom to the combined bounds with maxZoom
+            // map.fitBounds(combinedBounds, {
+            //   maxZoom: maxZoomLevel
+            // });
+          }
+        });
       });
     });
 
-    $("#searchInputDashboard").change(function () {
-      var selectedValue1 = $(this).val();
-      var searchtypefield = $("#search_type").val();
-      let cqlFilter = `${searchtypefield} ILIKE '%${selectedValue1}%'`;
-      console.log(cqlFilter)
-
-      fitbou(cqlFilter)
-      IWMS_point.setParams({
-        CQL_FILTER: cqlFilter,
-        // styles: "point", // Assuming "pointhighlight" is a predefined style
-      });
-
-      console.log("addded")
-      IWMS_point.addTo(map).bringToFront();
-      fitbou(cqlFilter)
-
-    })
 
 
-
-    ////////////////////////15-03-2024////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    //  (function () {
-    //     $("#searchInputDashboard").autocomplete({
-    //       // minLength: 3,
-    //       source: function (request, response) {
-    //         let searchTerm = request.term;
-    //         let searchType = $("#search_type").val();
-    //         console.log(searchTerm,searchType)
-    //         if (searchTerm.length >= 3 && searchType) {
-    //           let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
-
-    //           let geoServerURL = `https://portal.geopulsea.com//geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
-    //             cqlFilter
-    //           )}`;
-
-    //           $.getJSON(geoServerURL, function (data) {
-    //             let suggestions = data.features.map(
-    //               (feature) => feature.properties[searchType]
-    //             );
-
-    //             suggestions = suggestions.filter(
-    //               (value, index, self) => self.indexOf(value) === index
-    //             );
-
-    //             suggestions = suggestions.slice(0, 10);
-    //             response(suggestions);
-    //           });
-    //         } else {
-    //           response([]);
-    //         }
-    //       },
-    //       select: function (event, ui) {
-    //         $("#searchInputDashboard").val(ui.item.label);
-
-    //         let searchType = $("#search_type").val();
-    //         let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
-    //         fitbou(cqlFilterSelected);
-    //         wms_layer15.setParams({
-    //           CQL_FILTER: cqlFilterSelected,
-    //           styles: "pointhighlight",
-    //         });
-
-    //         return false;
-    //       },
-    //     });
-    //   });
+    /////////////////   // search butoon implemented   //////////////////////////////////////////////
 
     //    
     function drawGeometries(selectedData) {
