@@ -471,9 +471,7 @@
           <!-- Dynamic content goes here -->
         </p>
 
-        <!-- <button id="printButton" onclick="printData()" style="position: fixed; top: 59%;  right: 5%; z-index: 999; color: green; font-size: 12px; background-color: transparent; height: 29px; width: 35px;"> 
-          <i class="fa-solid fa-file-export" style="float: left; top: 0px; left: 400px;"></i>
-        </button> -->
+        
 
         <table id="workTableDashboard" class="table table-bordered table-hover"
           style="margin-top: 30px; height:100px; width: 100px; overflow: scroll; ">
@@ -497,35 +495,12 @@
 
         <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
 
-        <div id="paginationControls">
+        <div id="paginationControls" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex;">
           <button class="pagibtn" id="previousPageButton"><i class="fa-solid fa-backward"></i></button>
           <span>Page <span id="currentPage"></span></span>
           <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
         </div>
 
-        <style>
-          #paginationControls {
-            text-align: right;
-            margin-top: 10px;
-            /* Adjust this value as needed */
-          }
-
-          #paginationControls button {
-            margin-left: 5px;
-            /* Adjust this value to add space between buttons */
-          }
-
-          #workTableDashboard {
-            position: relative;
-          }
-
-          #paginationControls {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            margin: 10px;
-          }
-        </style>
 
         <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
 
@@ -752,7 +727,7 @@
       layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
       layers.forEach(function (layerName) {
         var urlm =
-          "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+          "https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
           layerName +
           "&CQL_FILTER=" +
           filter +
@@ -986,7 +961,7 @@
       // ////////////////////////////added 11-03-2024
 
       // var geoServerURL =
-      //   "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
+      //   "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
       //   encodeURIComponent(cqlFilter);
 
 
@@ -996,7 +971,7 @@
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
@@ -1057,7 +1032,7 @@
 
 
         if ($.fn.DataTable.isDataTable('#workTableDashboard')) {
-    $('#workTableDashboard').DataTable().destroy();
+        $('#workTableDashboard').DataTable().destroy();
 }
 
         $('#workTableDashboard').DataTable({
@@ -1207,7 +1182,7 @@
       select.empty();
 
       $.getJSON(
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -1275,7 +1250,7 @@
       var project_fi = $("#project_fi").val();
 
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
       if (project_fi.length > 0) {
         project_fi = project_fi
           .map((projectFi) => `'${projectFi}'`)
@@ -1283,7 +1258,7 @@
 
         let cqlFilter = `project_fi  IN (${project_fi})`;
         geoServerURL =
-          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
       }
 
@@ -1382,7 +1357,7 @@
 
       console.log(cqlFilter, "cqlFilter1233")
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json&CQL_FILTER=" +
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
       $.getJSON(geoServerURL, function (data) {
@@ -1473,7 +1448,7 @@
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
       $.getJSON(geoServerURL, function (data) {
@@ -1561,7 +1536,7 @@
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
       $.getJSON(geoServerURL, function (data) {
@@ -1655,7 +1630,7 @@
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
       $.getJSON(geoServerURL, function (data) {
@@ -1756,7 +1731,7 @@
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
       $.getJSON(geoServerURL, function (data) {
@@ -1862,7 +1837,7 @@
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
+        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
       $.getJSON(geoServerURL, function (data) {
@@ -2102,7 +2077,7 @@
     //         if (searchTerm.length >= 3 && searchType) {
     //           let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-    //           let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+    //           let geoServerURL = `https://portal.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
     //             cqlFilter
     //           )}`;
 
