@@ -291,10 +291,6 @@
   </style>
 </head>
 
-
-
-
-
 <body class="overflow-hidden" id="body-pd" class="" style="background-color: #f3f3f3">
   <div class="sidebar" id="mySidenav" type="button">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
@@ -315,17 +311,6 @@
       </select>
     </div>
 
-    <!--/////////////////////////////////////// for project office filter /////////////////////////////-->
-
-    <div class="form-group mt-2">
-      <label>Project Office</label>
-      <select id="office_name" style="width: 180px" class="form-control select2" multiple="multiple"
-        onchange="loadOfficeNameAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <!--////////////////////////////////////// for project office filter ////////////////////////////////-->
     <div class="form-group mt-2">
       <label for="admin_ward_name">Ward Name</label>
       <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width: 180px"
@@ -467,7 +452,9 @@
           <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width: 10px; position: fixed;"></i>
         </button>
 
-        <p id="tablestats" class="custom-stats" style="position: fixed; color: sienna; font-size: 12px;font-weight: bold; padding-bottom: 10px; z-index: 9999; margin-top: 2px; margin-left:-150px;" > <!-- Changed position to fixed -->
+        <p id="tablestats" class="custom-stats"
+          style="position: fixed; color: sienna; font-size: 12px;font-weight: bold; padding-bottom: 10px; z-index: 9999; margin-top: 2px; margin-left:-150px;">
+          <!-- Changed position to fixed -->
           <!-- Dynamic content goes here -->
         </p>
 
@@ -500,6 +487,51 @@
           <span>Page <span id="currentPage"></span></span>
           <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
         </div>
+
+        <style>
+          #pagination-container {
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            width: 570px;
+            bottom: 310px;
+            left: 60%;
+            top: 20%;
+            z-index: 99999;
+          }
+
+          #pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 0;
+          }
+
+          #pagination button {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-right: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #495057;
+            cursor: pointer;
+          }
+
+          #pagination button.active {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+          }
+        </style>
+
+        <!-- 
+        <div id="paginationControls"
+          style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex;">
+          <button class="pagibtn" id="previousPageButton"><i class="fa-solid fa-backward"></i></button>
+          <span>Page <span id="currentPage"></span></span>
+          <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
+        </div> -->
+
+
 
 
         <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
@@ -583,11 +615,6 @@
   <!-- to geojson -->
   <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script>
 
-  <!-- for sorting the table -->
-
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-  <script type="text/javascript" charset="utf8"
-    src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 
   <!-- leaflet-ajax -->
@@ -721,18 +748,19 @@
 
 
 
-
     // -------------------added 11-2-24------------------------
     function fitbou(filter) {
       layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
       layers.forEach(function (layerName) {
         var urlm =
-          "https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+          "https://portal.geopulsea.com//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
           layerName +
           "&CQL_FILTER=" +
           filter +
           "&outputFormat=application/json";
 
+
+        console.log(urlm, "fittobound url")
         $.getJSON(urlm, function (data) {
           console.log(data)
           geojson = L.geoJson(data, {});
@@ -745,7 +773,6 @@
 
     function loadInitialData() {
       loadAdminWardName();
-      loadOfficeName()
       loadZones();
       loadVillages();
       loadDepartments();
@@ -758,8 +785,6 @@
       var selectedDepartments = $("#departments").val();
       var selectedWorkTypes = $("#work_type").val();
       var selectedZones = $("#zones").val();
-      var selectedOffice = $("#office_name").val();
-      console.log(selectedOffice, "selectedOffice")
       var selectedWards = $("#admin_ward_name").val();
       var selectedVillages = $("#villages").val();
       var selectedProjectFi = $("#project_fi").val();
@@ -772,7 +797,6 @@
       if (
         !$.isEmptyObject(selectedDepartments) ||
         !$.isEmptyObject(selectedWorkTypes) ||
-        !$.isEmptyObject(selectedOffice) ||
         !$.isEmptyObject(selectedZones) ||
         !$.isEmptyObject(selectedWards) ||
         !$.isEmptyObject(selectedVillages) ||
@@ -785,7 +809,6 @@
         var filteredData = filterData(
           selectedDepartments,
           selectedWorkTypes,
-          selectedOffice,
           selectedZones,
           selectedWards,
           selectedVillages,
@@ -806,7 +829,6 @@
       selectedDepartments,
       selectedWorkTypes,
       selectedZones,
-      selectedOffice,
       selectedWards,
       selectedVillages,
       selectedProjectFi,
@@ -822,7 +844,6 @@
       var filter_for_ward = {};
       var filter_for_zone = {};
 
-
       // added 11-03-2024
       // Filter data based on selected filters
       var filteredData = [];
@@ -836,16 +857,6 @@
       if (selectedZones.length > 0) {
         filter.zone = selectedZones.map((zone) => `'${zone}'`).join(",");
       }
-
-      /////////////////////////////////////////   // adddede
-      if (selectedOffice.length > 0) {
-        filter.Project_Office = selectedOffice.map((Project_Office) => `'${Project_Office}'`).join(",");
-        console.log(filter.Project_Office, "prohect offcie fil")
-      }
-
-
-
-
       if (selectedWards.length > 0) {
         filter.ward = selectedWards.map((ward) => `'${ward}'`).join(",");
       }
@@ -886,7 +897,7 @@
         .map(([key, value]) => `${key} IN (${value})`)
         .join(" AND ");
 
-      console.log(cqlFilter, "cqlFiltereeeeeeeeeeeeeeeee")
+
       // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
       var cqlFilter_ward = Object.entries(filter_for_ward)
         .map(([key, value]) => `${key} IN (${value})`)
@@ -923,6 +934,17 @@
       } else if (selectedDateRange) {
         cqlFilter = `created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
       }
+
+      // fitbou(cqlFilter);
+
+      // wms_layer15.setParams({
+      //   CQL_FILTER: cqlFilter,
+      //   styles: "pointhighlight",
+      // });
+
+      // ********************added new modification 11-03-2023*******************************************
+
+      console.log(cqlFilter, "layerfilter", cqlFilter_ward, "wardhighlightfilter", cqlFilter_zone, "zonehighlightfilter")
 
       fitbou(cqlFilter);
 
@@ -961,7 +983,7 @@
       // ////////////////////////////added 11-03-2024
 
       // var geoServerURL =
-      //   "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
+      //   "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
       //   encodeURIComponent(cqlFilter);
 
 
@@ -971,7 +993,7 @@
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
@@ -982,100 +1004,97 @@
 
       $.getJSON(geoServerURL, function (data) {
         filteredData = data;
-        console.log(filteredData, "filteredData")
-        var workTypeCounts = {};
-        var stageCounts = {};
 
-        // //////////////////////addded 11-03-2023////////////////////////////////////////////////
-        var totalTenderAmount = 0;
-        $("#workTableDashboard tbody").html("");
-
-
-        ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
-        var totalcountofselectedrecords = filteredData.totalFeatures
-        var startTime = performance.now();
-        console.log(startTime, "starting")
+        var totalcountofselectedrecords = filteredData.totalFeatures;
         var totalTenderAmount = filteredData.features.reduce(function (total, project) {
           var tenderAmount = parseFloat(project.properties.tender_amo);
           return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
         }, 0);
 
 
-        var currentPage = 1;
-        var itemsPerPage = 10; // Number of items to display per page
 
-        function renderTablePage(pageNumber) {
-          var startIndex = (pageNumber - 1) * itemsPerPage;
-          var endIndex = pageNumber * itemsPerPage;
-          var tableRows = filteredData.features.slice(startIndex, endIndex).map(function (project) {
-            // Your existing code for creating table rows
+        // const itemsPerPage = 5; // Number of items to show per page
+        // let currentPage = 1;
 
+
+        var project = data.features;
+        const pageSize = 100; // Number of items per page
+        let currentPage = 1; // Current page number
+
+        function updateTable(project, page) {
+          const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
+          tableBody.innerHTML = '';
+
+          const startIndex = (page - 1) * pageSize;
+          const endIndex = startIndex + pageSize;
+          const currentPageData = project.slice(startIndex, endIndex);
+
+          currentPageData.forEach(project => {
             var tenderAmount = parseFloat(project.properties.tender_amo);
             tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
-            return `<tr data-coordinates='${JSON.stringify(project.geometry)}'>
-            <td>${project.properties.zone}</td>
-            <td>${project.properties.ward}</td>
-            <td>${project.properties.departme_1}</td>
-            <td>${project.properties.work_type}</td>
-            <td>${tenderAmount}</td>
-            <td>${project.properties.je_name}</td>
-            <td>${project.properties.Agency}</td>
-            <td>${project.properties.Project_Office}</td> 
-            <td>${project.properties.Budget_Code}</td>
-            <td>${project.properties.created_at}</td>
-            <td>${project.properties.Work_Completion_Date}</td>
-          </tr>`;
+
+            const row = `
+            <tr data-coordinates='${JSON.stringify(project.geometry)}'>
+                <td>${project.properties.zone}</td>
+                <td>${project.properties.ward}</td>
+                <td>${project.properties.departme_1}</td>
+                <td>${project.properties.work_type}</td>
+                <td>${tenderAmount}</td>
+                <td>${project.properties.je_name}</td>
+                <td>${project.properties.Agency}</td>
+                <td>${project.properties.Project_Office}</td> 
+                <td>${project.properties.Budget_Code}</td>
+                <td>${project.properties.created_at}</td>
+                <td>${project.properties.Work_Completion_Date}</td>
+            </tr>`;
+
+            tableBody.insertAdjacentHTML('beforeend', row);
           });
 
-          $("#workTableDashboard tbody").empty().append(tableRows.join(''));
+          updatePaginationButtons(project.length);
+          const currentPageElement = document.getElementById('currentPage');
+          if (currentPageElement) {
+            currentPageElement.textContent = currentPage;
+          }
         }
 
+        function updatePaginationButtons(totalItems) {
+          const totalPages = Math.ceil(totalItems / pageSize);
+          const pagination = document.getElementById('paginationControls');
+          pagination.innerHTML = '';
 
-        if ($.fn.DataTable.isDataTable('#workTableDashboard')) {
-        $('#workTableDashboard').DataTable().destroy();
-}
+          const previousButton = document.createElement('button');
+          previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
+          previousButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage--;
+              updateTable(project, currentPage);
+            }
+          });
+          pagination.appendChild(previousButton);
 
-        $('#workTableDashboard').DataTable({
-          "paging": true, // Enable pagination
-          "ordering": true, // Enable sorting
-          "info": false // Disable the "Showing X of X entries" information
-        });
+          const pageInfo = document.createElement('span');
+          pageInfo.textContent = `Page ${currentPage}`;
+          pagination.appendChild(pageInfo);
 
-        // Initial render
-        renderTablePage(currentPage);
-
-        // / Define nextPage function with an ID
-        $("#nextPageButton").click(function () {
-          if (currentPage < Math.ceil(filteredData.features.length / itemsPerPage)) {
-            currentPage++;
-            renderTablePage(currentPage);
-            updatePaginationControls();
-          }
-        });
-
-        // Define previousPage function with an ID
-        $("#previousPageButton").click(function () {
-          if (currentPage > 1) {
-            currentPage--;
-            renderTablePage(currentPage);
-            updatePaginationControls();
-          }
-        });
-
-        // Define updatePaginationControls function in the global scope
-        function updatePaginationControls() {
-          $("#currentPage").text(currentPage);
+          const nextButton = document.createElement('button');
+          nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
+          nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+              currentPage++;
+              updateTable(project, currentPage);
+            }
+          });
+          pagination.appendChild(nextButton);
         }
 
-
+        // Assuming you have an initial call to updateTable with the initial page
+        updateTable(project, currentPage);
 
         $("#tablestats").html(`Total Project Tender Amount (in lakh): ${totalTenderAmount.toFixed(2)} ,
-              Total Projects: ${totalcountofselectedrecords}`);
+        Total Projects: ${totalcountofselectedrecords}`);
 
 
-        // ////////////////////////////////////for pagination addd///////////////////////////////////////////////////
-
-        // ////////////////////////////////////for pagination addd///////////////////////////////////////////////////
 
         ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
 
@@ -1094,7 +1113,7 @@
           }).addTo(map); // Add the bounds layer to the map
 
           var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
-          map.fitBounds(bounds).setZoom(16); // Fit map to the bounds and set zoom level
+          map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
 
           // Optionally, you can remove the bounds layer after a certain duration
           setTimeout(function () {
@@ -1108,7 +1127,7 @@
 
         // -----------------------
         var printButton = $("#printButton")
-        var tablestats= $("#tablestats")
+        var tablestats = $("#tablestats")
         var tableContainer = $("#table-container-dashboard");
         var isClosed = false;
         tableContainer.slideDown();
@@ -1133,10 +1152,10 @@
               // display:"none",
             });
             tablestats.css({
-              display:"none",
+              display: "none",
             });
             printButton.css({
-              display:"none",
+              display: "none",
             });
           } else {
             // Change icon to times
@@ -1153,11 +1172,11 @@
             });
 
             tablestats.css({
-              display:"block",
+              display: "block",
             });
             printButton.css({
-              display:"block",
-              
+              display: "block",
+
             });
           }
           isClosed = !isClosed; // Toggle the state
@@ -1171,10 +1190,67 @@
 
       });
 
+      function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
 
+      function getLastSixMonthsFromData(data) {
+        var lastSixMonths = [];
+        var today = new Date();
+        var sixMonthsAgo = new Date(
+          today.getFullYear(),
+          today.getMonth() - 6,
+          1
+        );
+        var months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
 
+        data.forEach(function (project) {
+          var date = new Date(project.properties.created_at);
+          if (date >= sixMonthsAgo && date <= today) {
+            var monthYear =
+              months[date.getMonth()] + " " + date.getFullYear();
+            if (!lastSixMonths.includes(monthYear)) {
+              lastSixMonths.push(monthYear);
+            }
+          }
+        });
 
+        lastSixMonths.sort(function (a, b) {
+          var dateA = new Date(
+            a.split(" ")[1],
+            months.indexOf(a.split(" ")[0]),
+            1
+          );
+          var dateB = new Date(
+            b.split(" ")[1],
+            months.indexOf(b.split(" ")[0]),
+            1
+          );
+          return dateA - dateB;
+        });
 
+        return lastSixMonths;
+      }
+
+      return filteredData;
     }
 
     function loadProjectFi() {
@@ -1182,7 +1258,7 @@
       select.empty();
 
       $.getJSON(
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -1250,7 +1326,7 @@
       var project_fi = $("#project_fi").val();
 
       var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
       if (project_fi.length > 0) {
         project_fi = project_fi
           .map((projectFi) => `'${projectFi}'`)
@@ -1258,7 +1334,7 @@
 
         let cqlFilter = `project_fi  IN (${project_fi})`;
         geoServerURL =
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+          "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
       }
 
@@ -1321,113 +1397,6 @@
       });
     }
 
-
-    // /////////////////////////for loading the office manes/////////////////////////////////////////////////////
-
-    function loadOfficeName() {
-      var select = $("#office_name");
-      select.empty();
-
-      var project_fi = $("#project_fi").val();
-      var zones = $("#zones").val();
-      var wards = $("#admin_ward_name").val();
-      var villages = $("#villages").val();
-      let cqlFilter = "";
-
-      if (project_fi.length > 0) {
-        project_fi = project_fi
-          .map((projectFi) => `'${projectFi}'`)
-          .join(",");
-        cqlFilter = `project_fi IN (${project_fi})`;
-      }
-
-      if (zones.length > 0) {
-        zones = zones.map((zone) => `'${zone}'`).join(",");
-        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-      }
-      if (wards.length > 0) {
-        wards = wards.map((ward) => `'${ward}'`).join(",");
-        cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
-      }
-      if (villages.length > 0) {
-        villages = villages.map((village) => `'${village}'`).join(",");
-        cqlFilter += (cqlFilter ? " AND " : "") + `village IN (${villages})`;
-      }
-
-
-      console.log(cqlFilter, "cqlFilter1233")
-      var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json&CQL_FILTER=" +
-        encodeURIComponent(cqlFilter);
-
-      $.getJSON(geoServerURL, function (data) {
-        var officeSet = new Set();
-
-
-        $.each(data.features, function (index, feature) {
-          var office = feature.properties.Project_Office;
-          officeSet.add(office);
-        });
-
-        var uniqueOffice = Array.from(officeSet);
-        console.log(uniqueOffice, "uniqueOffice")
-        $.each(uniqueOffice, function (index, office) {
-          select.append(
-            $("<option>", {
-              value: office,
-              text: office,
-            })
-          );
-        });
-
-        if (select.hasClass("select2-hidden-accessible")) {
-          select.select2("destroy");
-        }
-
-        select.select2({
-          templateResult: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            var $option = $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-              option.text +
-              "</span>"
-            );
-            return $option;
-          },
-          templateSelection: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            return $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-              option.text +
-              "</span>"
-            );
-          },
-          closeOnSelect: false,
-          dropdownParent: select.parent(),
-          multiple: true,
-        });
-
-        // select.on("change", function () {
-        //   loadStage();
-        //   filterDataAndDrawMap();
-        // });
-      });
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
     function loadAdminWardName() {
       var select = $("#admin_ward_name");
       select.empty();
@@ -1448,8 +1417,13 @@
       }
 
       var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
-        encodeURIComponent(cqlFilter);
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
+
+
+
+      if (cqlFilter) {
+        geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
+      }
 
       $.getJSON(geoServerURL, function (data) {
         var wardSet = new Set();
@@ -1536,8 +1510,13 @@
       }
 
       var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
-        encodeURIComponent(cqlFilter);
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
+
+
+
+      if (cqlFilter) {
+        geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
+      }
 
       $.getJSON(geoServerURL, function (data) {
         var villageSet = new Set();
@@ -1630,12 +1609,16 @@
       }
 
       var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
-        encodeURIComponent(cqlFilter);
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json";
+
+      if (cqlFilter) {
+        geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
+      }
+
 
       $.getJSON(geoServerURL, function (data) {
         var departmentSet = new Set();
-
+        console.log(data, "data")
         $.each(data.features, function (index, feature) {
           var department = feature.properties.departme_1;
           departmentSet.add(department);
@@ -1731,8 +1714,12 @@
       }
 
       var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
-        encodeURIComponent(cqlFilter);
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json";
+
+
+      if (cqlFilter) {
+        geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
+      }
 
       $.getJSON(geoServerURL, function (data) {
         var stageSet = new Set();
@@ -1837,8 +1824,11 @@
       }
 
       var geoServerURL =
-        "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
-        encodeURIComponent(cqlFilter);
+        "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json";
+
+      if (cqlFilter) {
+        geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
+      }
 
       $.getJSON(geoServerURL, function (data) {
         var workTypeSet = new Set();
@@ -2007,6 +1997,8 @@
 
 
 
+    /////////////////   // search butoon implemented   //////////////////////////////////////////////
+
     $(document).ready(function () {
       var columns = [
         "works_aa_a",
@@ -2025,93 +2017,74 @@
     });
 
 
-
     $("#search_type").change(function () {
       var selectedValue = $(this).val();
-      fetchDataFromIWMSPoint(selectedValue, function (data) {
-        // console.log(data)
-        $("#searchInputDashboard").autocomplete({
+      console.log(selectedValue, "selectedValue");
 
-          source: function (request, response) {
-            // const marathiText = /^[\u0900-\u097F\s]*$/;
-            var array = [request.term];
-            console.log(array)
-            response(data)
-          }
+      function getvalues(callback) {
+        var geoServerURL =
+          "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=" + selectedValue + "&outputFormat=application/json";
 
+        $.getJSON(geoServerURL, function (data) {
+          var workTypeSet = new Set();
+
+          // Populate the Set with work types
+          $.each(data.features, function (index, feature) {
+            var workType = feature.properties[selectedValue];
+            workTypeSet.add(workType);
+          });
+
+          // Convert the Set to an array
+          var uniqueWorkTypes = Array.from(workTypeSet);
+          console.log(uniqueWorkTypes, "uniqueWorkTypes");
+
+          // Call the callback function with the uniqueWorkTypes array
+          callback(uniqueWorkTypes);
         });
+      }
 
+      getvalues(function (data) {
+        $("#searchInputDashboard").autocomplete({
+          source: data,
+          select: function (event, ui) {
+            // Zoom to the selected feature
+            var selectedValue1 = ui.item.value;
+            console.log(selectedValue1, "selectedValue1")
+            var searchtypefield = $("#search_type").val();
+            let cqlFilter = `${searchtypefield} = '${selectedValue1}'`;
+
+            IWMS_point.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "point", // Assuming "pointhighlight" is a predefined style
+            });
+
+            IWMS_line.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "line", // Assuming "linehighlight" is a predefined style
+            });
+
+            console.log("addded");
+            IWMS_point.addTo(map).bringToFront();
+            IWMS_line.addTo(map).bringToFront();
+            fitbou(cqlFilter);
+
+            // Combine bounds of both IWMS_point and IWMS_line
+            // var combinedBounds = IWMS_point.getBounds().extend(IWMS_line.getBounds());
+
+            // Zoom to the combined bounds with maxZoom
+            // map.fitBounds(combinedBounds, {
+            //   maxZoom: maxZoomLevel
+            // });
+          }
+        });
       });
     });
 
-    $("#searchInputDashboard").change(function () {
-      var selectedValue1 = $(this).val();
-      var searchtypefield = $("#search_type").val();
-      let cqlFilter = `${searchtypefield} ILIKE '%${selectedValue1}%'`;
-      console.log(cqlFilter)
-
-      fitbou(cqlFilter)
-      IWMS_point.setParams({
-        CQL_FILTER: cqlFilter,
-        // styles: "point", // Assuming "pointhighlight" is a predefined style
-      });
-
-      console.log("addded")
-      IWMS_point.addTo(map).bringToFront();
-      fitbou(cqlFilter)
-
-    })
 
 
-
-    ////////////////////////15-03-2024////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    //  (function () {
-    //     $("#searchInputDashboard").autocomplete({
-    //       // minLength: 3,
-    //       source: function (request, response) {
-    //         let searchTerm = request.term;
-    //         let searchType = $("#search_type").val();
-    //         console.log(searchTerm,searchType)
-    //         if (searchTerm.length >= 3 && searchType) {
-    //           let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
-
-    //           let geoServerURL = `https://portal.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
-    //             cqlFilter
-    //           )}`;
-
-    //           $.getJSON(geoServerURL, function (data) {
-    //             let suggestions = data.features.map(
-    //               (feature) => feature.properties[searchType]
-    //             );
-
-    //             suggestions = suggestions.filter(
-    //               (value, index, self) => self.indexOf(value) === index
-    //             );
-
-    //             suggestions = suggestions.slice(0, 10);
-    //             response(suggestions);
-    //           });
-    //         } else {
-    //           response([]);
-    //         }
-    //       },
-    //       select: function (event, ui) {
-    //         $("#searchInputDashboard").val(ui.item.label);
-
-    //         let searchType = $("#search_type").val();
-    //         let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
-    //         fitbou(cqlFilterSelected);
-    //         wms_layer15.setParams({
-    //           CQL_FILTER: cqlFilterSelected,
-    //           styles: "pointhighlight",
-    //         });
-
-    //         return false;
-    //       },
-    //     });
-    //   });
+    /////////////////   // search butoon implemented   //////////////////////////////////////////////
 
     //    
     function drawGeometries(selectedData) {
@@ -2123,15 +2096,6 @@
       loadAdminWardName();
       filterDataAndDrawMap();
     }
-
-    ////////////////////////////////////////////added/////////////////////////////////////////////////
-
-    function loadOfficeNameAndFilter() {
-      loadOfficeName()
-      filterDataAndDrawMap();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function loadVillagesAndFilter() {
       loadVillages();

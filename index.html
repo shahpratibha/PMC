@@ -1,48 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PMC</title>
-  <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
+  <link rel="icon" href="png/pmcjpeg.jpg" type="image/x-icon">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="C_form.css" />
   <style>
     #map {
-      top: 0px;
+      top: 65px;
       left: 0px;
-      height: 99vh;
+      height: 93vh;
       width: 100%;
-      z-index: 1;
-    }
-
-    .leaflet-container .leaflet-control-attribution {
-    background: #fff;
-    background: rgba(255, 255, 255, 0.8);
-    margin: 29px;
-    top: 151px;
-}
-/* Search icon */
-
-.leaflet-touch .geocoder-control-input {
-    height: 30px;
-    line-height: 30px;
-    background-size: 30px;
-    position: relative;
-    top: -5px;
-}
-    
-    /* .leaflet-control-zoom-in{
-      position: relative;
-      left: 50px;
-      border: 1px solid;
-    } */
-
-    .leaflet-control-zoom{
-      position: absolute;
-      left: 1450px;
-      top: 600px;
-      border: 1px solid;
     }
   </style>
   <!-- bootstrap -->
@@ -69,7 +40,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- to geojson -->
-  <!-- <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script> -->
+  <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script>
 
   <!-- leaflet-ajax -->
   <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
@@ -162,9 +133,9 @@
 
 <body>
   <div class="container-fluid">
-    <header class="header justify-content-between bg-transparent" id="header">
+    <header class="header justify-content-between " id="header">
       <div>
-        <h5 class="text-dark fw-bold">Geo<span class="text-dark">Pulse</span></h5>
+        <h5>GeoPulse</h5>
       </div>
       <div class="d-flex justify-content-between ms-auto" role="search">
 
@@ -340,18 +311,18 @@
     measureControl.addTo(map);
 
 
-    // // Create a custom control
-    // var drawControls = L.control({ position: 'topleft' });
+    // Create a custom control
+    var drawControls = L.control({ position: 'topleft' });
 
-    // // Define the HTML content for the control
-    // drawControls.onAdd = function (map) {
-    //   var div = L.DomUtil.create('div', 'draw-control');
-    //   div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:10px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></a>';
-    //   return div;
-    // };
+    // Define the HTML content for the control
+    drawControls.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'draw-control');
+      div.innerHTML = '<a class="draw_feature" href="index.html" style="border:2px solid #bbb;  margin-top:25px; border-radius:5px; background-color:white; padding:10px 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></a>';
+      return div;
+    };
 
-    // // Add the control to the map
-    // drawControls.addTo(map);
+    // Add the control to the map
+    drawControls.addTo(map);
     // Create a custom control
     var editControl = L.control({ position: 'topleft' });
 
@@ -381,8 +352,6 @@
       // Perform your task here
       console.log('Task performed');
 
-    
-
       var editableLayers = new L.FeatureGroup().addTo(map);
 
       map.on("click", function (e) {
@@ -410,8 +379,57 @@
           !featureData.features ||
           featureData.features.length === 0
         )
-          
-        
+          //  {
+          //   Swal.fire({
+          //     position: "center",
+          //     icon: "error",
+          //     title: "Oops...",
+          //     text: "No feature available. Click on a feature to edit.",
+          //     showConfirmButton: false,
+          //     showCloseButton: true,
+          // customClass: {
+          //   popup: "custom-modal-class",
+          //   icon: "custom-icon-class",
+          //   title: "custom-title-class",
+          //   content: "custom-text-class",
+          //   closeButton: "custom-close-button-class",
+          // },
+          // showClass: {
+          //   popup: "swal2-show",
+          //   backdrop: "swal2-backdrop-show",
+          //   icon: "swal2-icon-show",
+          // },
+          // hideClass: {
+          //   popup: "swal2-hide",
+          //   backdrop: "swal2-backdrop-hide",
+          //   icon: "swal2-icon-hide",
+          // },
+          // didOpen: () => {
+          //   // Apply custom styles directly to the modal elements
+          //   document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+          //   document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+          //   document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+          //   document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+          //   document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+          //   document.querySelector(".custom-title-class").style.fontSize =
+          //     "1.5em"; // Set your desired title size
+          //   document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+          //   document.querySelector(
+          //     ".custom-close-button-class"
+          //   ).style.backgroundColor = "#f44336"; // Red background color
+          //   document.querySelector(".custom-close-button-class").style.color =
+          //     "white"; // White text color
+          //   document.querySelector(
+          //     ".custom-close-button-class"
+          //   ).style.borderRadius = "0"; // Rounded corners
+          //   document.querySelector(".custom-close-button-class").style.padding =
+          //     "5px"; // Padding around the close button
+          //   document.querySelector(".custom-close-button-class").style.fontSize =
+          //     "20px"; // Font size of the close button
+          // },
+          //   });
+          //   return;
+          // }
 
           // Clear existing editable layers
           editableLayers.clearLayers();
@@ -459,8 +477,13 @@
             }
           }
 
-        
-          
+          // Check if the selected feature contains the right-clicked point
+          // if (selectedFeature && selectedFeature.getLatLng && selectedFeature.getLatLng().equals(latlng)) {
+          // Create a popup with the selected feature's properties
+
+          // for (var property in selectedFeature.feature.properties) {
+          //   popupContent += '<strong>' + property + ':</strong> ' + selectedFeature.feature.properties[property] + '<br>';
+          // }
 
           // Add buttons for saving data and editing feature
           popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
@@ -612,12 +635,6 @@
       // Change the button's onclick function to stop the task
       button.onclick = function () {
         button.innerHTML = 'Perform Task';
-      var drawFeatureButton = document.querySelector('.draw_feature');
-            if (drawFeatureButton) {
-              drawFeatureButton.removeAttribute('disabled');
-            }
-           
-
         // Remove the click event listener from the map
         map.off("click");
         // Reset any ongoing operation here
@@ -629,42 +646,12 @@
       var button = L.DomUtil.create('button', 'custom-button');
       button.innerHTML = 'Perform Task';
       button.onclick = function () {
-      var drawFeatureButton = document.querySelector('.draw_feature');
         if (button.innerHTML === 'Perform Task') {
           button.innerHTML = 'Stop Task';
           performTask();
-
-         
-      // Remove the draw control if it's currently added
-          if (isDrawControlAdded) {
-            map.removeControl(drawControl);
-            isDrawControlAdded = false;
-          }
-
-            if (drawFeatureButton) {
-              drawFeatureButton.setAttribute('disabled', true);
-            }
-            else{
-              drawFeatureButton.setAttribute('disabled', false);
-            }
-
         } else {
-          
-          if (drawFeatureButton) {
-              drawFeatureButton.setAttribute('disabled', false);
-            }
-
-              // button.innerHTML = 'Perform Task';
-          // Add the draw control back if it's not currently added
-              if (!isDrawControlAdded) {
-              map.addControl(drawControl);
-              isDrawControlAdded = true;
-            }
-
-            // Show the custom draw controls button
-            if (drawFeatureButton) {
-              drawFeatureButton.setAttribute('disabled', false);
-            }
+          button.innerHTML = 'Perform Task';
+          // Stop task or reset any ongoing operation here
         }
       };
       return button;
