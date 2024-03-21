@@ -461,7 +461,7 @@
         
         <div style="position: absolute; top: 30px;  height:220px; width: 100%; overflow: scroll; scrollbar-width: thin;">
         <table id="workTableDashboard" class="table table-bordered table-hover"
-          style="margin-top: 30px; left: 0px; height:100px; width: 100px; overflow: scroll; ">
+          style=" left: 0px; height:100px; width: 100px; overflow: scroll; ">
           <thead id="thead">
             <tr>
               <th>Zone</th>
@@ -1135,6 +1135,7 @@
 
             $(this).html('<i class="fa-regular fa-window-maximize" style="font-weight: bold; margin-top: -20%; margin-left:-15px; width:35px; background-color:transparent; "></i>');
             tableContainer.css({
+              transition:"0s",
               paddingTop: "10px",
               bottom: "140px",
               left: "97%",
@@ -1156,6 +1157,7 @@
             $(this).html(' <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width:10px; position:fixed "></i>');
             tableContainer.css({
               // display:"block",
+              transition:"0s",
               bottom: "310px",
               width: "570px",
               height: "500px",
