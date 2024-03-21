@@ -30,8 +30,9 @@ try {
     $zone = $formDataArray['zone'];
     $ward = $formDataArray['ward'];
     $budgetCode = $formDataArray['budgetCodes'];
-    $Width = $formDataArray['Width'];
-    $Length = $formDataArray['Length'];
+    $Width = (isset($formDataArray['Width']) && $formDataArray['Width'] !== '') ? (int)$formDataArray['Width'] : null;
+    $Length = (isset($formDataArray['Length']) && $formDataArray['Length'] !== '') ? (int)$formDataArray['Length'] : null;
+
     $works_aa_approval_id = $formDataArray['Id'] ;
     $createdAt = date('Y-m-d H:i:s');
 

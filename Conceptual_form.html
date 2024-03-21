@@ -172,10 +172,14 @@
 					<label for="ward">Budget Code:</label>
 					<input type="text" id="budgetCodes" name="budgetCodes" placeholder="budget code" required  />
 
-					<label for="Width">Width</label>
-					<input type="text" id="Width" name="Width" placeholder="Width in m" required />
-					<label for="Length">Length</label>
-					<input type="text" id="Length" name="Length" placeholder="Width in km" required />
+					<div class="road-container">
+						<label for="Width">Width</label>
+						<input type="text" id="Width" name="Width" placeholder="Width in m"  />
+					</div>
+					<div class="road-container">
+						<label for="Length">Length</label>
+						<input type="text" id="Length" name="Length" placeholder="Width in km"  />
+					</div>
 					<a class="submitbtn">
 						<button type="button" onclick="submitForm()">Next</button>
 					</a>
@@ -489,7 +493,8 @@
 					ward_no: '13',
 				},
 			];
-
+            const roadContainers = document.querySelectorAll('.road-container'); 
+			console.log(roadContainers);
 			document.addEventListener('DOMContentLoaded', function () {
 				const fetchDataButton = document.getElementById('fetchDataButton');
 
@@ -580,6 +585,18 @@
 
 								if (department) {
 									document.getElementById('department').value = department.department_name;
+									if(department.department_name  == 'Road' ){
+										roadContainers.forEach(container => {
+                                            container.style.display ='' ; // Adjust display based on boolean value
+                                        });
+                                       
+									}
+									else{
+										roadContainers.forEach(container => {
+                                            container.style.display ='none'; // Adjust display based on boolean value
+                                        });
+                                      
+									}
 								}
 
 								if (zone) {
