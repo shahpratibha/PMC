@@ -48,7 +48,9 @@ try {
             'id' => $lastInsertId,
             'width' => $Width,
             'lenght' => $Length,
-            'wardname' => $ward
+            'wardname' => $ward,
+            'department' => $department,
+
         ]
     ]);
     
