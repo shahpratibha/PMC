@@ -137,6 +137,9 @@
   <script src="libs/polyline-measure/line-measure.js"></script>
   <link rel="stylesheet" href="libs/leaflet-measure-master/leaflet-measure.css" />
   <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+  
+  <script src="libs/Leaflet.Snap/leaflet.snap.js"></script>
+  <script src="libs/Leaflet.GeometryUtil/src/leaflet.geometryutil.js"></script>
 
   <!-- <script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.js"></script>
  
@@ -407,64 +410,12 @@
           !featureData.features ||
           featureData.features.length === 0
         )
-          //  {
-          //   Swal.fire({
-          //     position: "center",
-          //     icon: "error",
-          //     title: "Oops...",
-          //     text: "No feature available. Click on a feature to edit.",
-          //     showConfirmButton: false,
-          //     showCloseButton: true,
-          // customClass: {
-          //   popup: "custom-modal-class",
-          //   icon: "custom-icon-class",
-          //   title: "custom-title-class",
-          //   content: "custom-text-class",
-          //   closeButton: "custom-close-button-class",
-          // },
-          // showClass: {
-          //   popup: "swal2-show",
-          //   backdrop: "swal2-backdrop-show",
-          //   icon: "swal2-icon-show",
-          // },
-          // hideClass: {
-          //   popup: "swal2-hide",
-          //   backdrop: "swal2-backdrop-hide",
-          //   icon: "swal2-icon-hide",
-          // },
-          // didOpen: () => {
-          //   // Apply custom styles directly to the modal elements
-          //   document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-          //   document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          //   document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
-          //   document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-          //   document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
-          //   document.querySelector(".custom-title-class").style.fontSize =
-          //     "1.5em"; // Set your desired title size
-          //   document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-          //   document.querySelector(
-          //     ".custom-close-button-class"
-          //   ).style.backgroundColor = "#f44336"; // Red background color
-          //   document.querySelector(".custom-close-button-class").style.color =
-          //     "white"; // White text color
-          //   document.querySelector(
-          //     ".custom-close-button-class"
-          //   ).style.borderRadius = "0"; // Rounded corners
-          //   document.querySelector(".custom-close-button-class").style.padding =
-          //     "5px"; // Padding around the close button
-          //   document.querySelector(".custom-close-button-class").style.fontSize =
-          //     "20px"; // Font size of the close button
-          // },
-          //   });
-          //   return;
-          // }
-
-          // Clear existing editable layers
+         
           editableLayers.clearLayers();
 
         // Get the first feature from the featureData
         var feature = featureData.features[0];
-
+        console.log(feature, "feature")
         var geojsonLayer = L.geoJSON(feature, {
           style: {
             color: "red",
@@ -472,9 +423,22 @@
             opacity: 1,
             fillOpacity: 0.5,
           },
+           onEachFeature: function(feature, layer) {
+      // Initialize snapping for this layer if not already initialized
+      if (!layer.snapediting) {
+        layer.snapediting = new L.Handler.PolylineSnap(map, layer);
+        // Assuming 'guideLayers' is an array of guide layers
+        guideLayers.forEach(function(guideLayer) {
+          layer.snapediting.addGuideLayer(guideLayer); // Correct method name here
+        });
+        layer.snapediting.enable();
+      }
+    }
         });
         console.log(geojsonLayer, "geojsonLayer")
         editableLayers.addLayer(geojsonLayer);
+
+        
 
         if (editableLayers.getLayers().length > 0) {
           console.log(editableLayers.getLayers().length, "editableLayers.getLayers().length")

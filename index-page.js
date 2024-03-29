@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
+const API_URL = "http://localhost/pmc/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -283,7 +283,37 @@ searchControl.on("results", function (data) {
 
 const department = localStorage.getItem("department") ;
 
-console.log(department);
+
+var guides = L.polyline([
+  [
+    
+    18.53172,
+    73.91848,
+],
+[ 18.52811,73.91859,]
+], {
+  weight: 5,
+  color: 'red',
+  opacity: 1.0
+}).addTo(map);
+
+
+
+
+
+
+// var road = L.polyline([
+//   [
+//     18.53172 ,73.91848
+ 
+// ],
+// [ 18.52811,73.91859]
+// ], {
+//   color: 'green',
+//   opacity: 1.0
+// }).addTo(map);
+
+
 
 var drawControlRoad = new L.Control.Draw({
   draw: {
@@ -307,6 +337,46 @@ var drawControlRoad = new L.Control.Draw({
     remove: false,
   },
 });
+
+// var guides = L.geoJson(someGeojsonData).addTo(map);
+// var road = L.geoJson(someOtherGeojsonData).addTo(map);
+// var guideLayers = [guides, road];
+
+// map.drawControlRoad.setDrawingOptions({
+//     polyline: { guideLayers: guideLayers },
+//     polygon: { guideLayers: guideLayers, snapDistance: 5 },
+// });
+
+
+
+// road.snapediting = new L.Handler.PolylineSnap(map, road);
+//         road.snapediting.addGuideLayer(guides);
+//         road.snapediting.enable();
+
+       
+//         for (var m in road.snapediting._verticesHandlers[0]._markerGroup._layers) {
+//             road.snapediting._verticesHandlers[0]._markerGroup._layers[m].fire('move');
+//         }
+
+var guideLayers = [guides];
+
+// map.drawControlRoad.setDrawingOptions({
+//   polyline: {
+//       guideLayers: guideLayers
+//   },
+//   polygon: {
+//       guideLayers: guideLayers,
+//       snapDistance: 5
+//   },
+//   marker: {
+//       guideLayers: guideLayers,
+//       snapVertices: false
+//   },
+//   rectangle: false,
+//   circle: false
+// });
+
+
 
 
 var drawControlBuilding = new L.Control.Draw({
@@ -365,6 +435,10 @@ var customDrawControls = L.control({ position: 'topleft' });
 var isDrawControlAdded = false;
 
 
+
+
+
+
 // toggleDrawControl();
 
 function toggleDrawControl() {
@@ -382,6 +456,22 @@ function toggleDrawControl() {
       map.addControl(drawControlBuilding);
     }else{
       map.addControl(drawControlRoad);
+
+      drawControlRoad.setDrawingOptions({
+  polyline: {
+      guideLayers: guideLayers
+  },
+  polygon: {
+      guideLayers: guideLayers,
+      snapDistance: 100
+  },
+  marker: {
+      guideLayers: guideLayers,
+      snapVertices: false
+  },
+  rectangle: false,
+  circle: false
+});
     }
    
     isDrawControlAdded = true;
@@ -603,6 +693,15 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
 // var layer;
 map.on("draw:created", function (e) {
+
+
+//
+
+var layer = e.layer;
+map.addLayer(layer);
+guideLayers.push(layer);
+
+//
   const works_aa_approval_id = "856";
   var newFeature = e.layer.toGeoJSON();
 
