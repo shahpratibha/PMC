@@ -3,132 +3,134 @@ const API_URL = "http://localhost/PMC_Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
-var map = L.map("map", {}).setView([18.52, 73.895], 11, L.CRS.EPSG4326);
-
+var map = L.map("map", {
+  center:[18.52, 73.89],
+  zoom: 11,
+  minZoom:10,
+  maxZoom:19,
+  zoomSnap:0.5,
+  zoomDelta:0.5,
+});
+ 
 var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
   {
-    maxZoom: 20,
+    maxZoom: 21,
     subdomains: ["mt0", "mt1", "mt2", "mt3"],
   }
 );
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
- 
+  maxZoom:19,
 }).addTo(map);
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
-   
-    }
+    maxZoom:19.9,
+  }
 );
-// <!-- -----------------layer displayed------------------------ -->
 var baseLayers = {};
  
 var wms_layer1 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Roads",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "Exist_Road",
+    maxZoom: 21,
     opacity: 1,
   }
-);
+).addTo(map);
  
 var wms_layer12 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "DP_Roads",
+    maxZoom: 21,
     opacity: 1,
-    maxZoom: 25,
   }).addTo(map);
  
 var wms_layer11 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "Reservations",
+    maxZoom: 21,
+
     opacity: 1,
   });
  
 var wms_layer13 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Drainage_data",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "Drainage_data",
+    maxZoom: 21,
     opacity: 1,
   }
 );
  
 var wms_layer14 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "Data",
+    maxZoom: 21,
     opacity: 1,
   });
  
 var wms_layer15 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "Revenue",
+    maxZoom: 21,
     opacity: 1,
   });
  
 var wms_layer17 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "Village_Boundary",
     opacity: 1,
-    maxZoom: 25,
+    maxZoom: 21,
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "PMC_Layers",
+    maxZoom: 21,
     opacity: 1,
   }
 );
  
-// console.log(localStorage," ")
-var wardname = localStorage.getItem("wardname");
-console.log(wardname, "wardname");
- 
+
 var wms_layer4 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "geodata",
     format: "image/png",
@@ -137,12 +139,12 @@ var wms_layer4 = L.tileLayer.wms(
     version: "1.1.0",
     // attribution: "geodata",
     opacity: 1,
-    maxZoom: 25,
+    maxZoom: 21,
   }
 );
  
 var IWMS_point = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -150,23 +152,40 @@ var IWMS_point = L.tileLayer
   version: "1.1.0",
   // attribution: "DP_Roads",
   opacity: 1,
-  maxZoom: 25,
+  maxZoom: 21,
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
   tiled: true,
   version: "1.1.0",
-  // attribution: "Reservations",
+  maxZoom: 21,
   opacity: 1,
 });
+
+var wms_layer16 = L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "OSM_Road",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  }
+);
+// console.log(localStorage," ")
+var wardname = localStorage.getItem("wardname");
+console.log(wardname, "wardname");
+ 
  ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
  
 var ward_boundary= L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -175,12 +194,12 @@ var ward_boundary= L.tileLayer.wms(
     version: "1.1.0",
     // attribution: "geodata",
     opacity: 1,
-    maxZoom: 25,
+    maxZoom: 21,
   }
 );
  
 var Zone_layer= L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -189,30 +208,12 @@ var Zone_layer= L.tileLayer.wms(
     version: "1.1.0",
     // attribution: "geodata",
     opacity: 1,
-    maxZoom: 25,
+    maxZoom: 21,
   }
 );
  
  
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
-
-
-
-// var ward_names = L.tileLayer.wms(
-//   "https://portal.geopulsea.com/geoserver/pmc/wms",
-//   {
-//     layers: "PMC_Admin_Ward",
-//     format: "image/png",
-//     transparent: true,
-//     tiled: true,
-//     version: "1.1.0",
-//     // attribution: "Village_Boundary",
-//     opacity: 1,
-   
-//   }
-// );
-
-
 
 
 
@@ -232,7 +233,9 @@ var WMSlayers = {
   Village: wms_layer17,
   PMC: wms_layer3,
   geodata: wms_layer4,
+  OSMRoad : wms_layer16,
 };
+ 
  
 function refreshWMSLayer() {
   // Remove the layer from the map
@@ -253,7 +256,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-    "https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -519,7 +522,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://portal.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://pmc.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1376,7 +1379,7 @@ map.on("contextmenu", (e) => {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
