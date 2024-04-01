@@ -253,11 +253,13 @@
         if (localStorage.getItem("selectCoordinatesData") !== null) {
           let coordinatesData = localStorage.getItem("selectCoordinatesData");
           coordinatesData = JSON.parse(coordinatesData);
+          console.log(coordinatesData);
           let polyline;
 
           coordinatesData.forEach(function (feature) {
-            if (feature.geometry.type === "Polygon") {
-              let coordinates = feature.geometry.coordinates[0].map((coord) => [
+            if (feature.geometry.type === "Polygon" ) {
+              console.log("alo")
+              let coordinates = feature.geometry.coordinates[0][0].map((coord) => [
                 coord[1],
                 coord[0],
               ]);
@@ -270,7 +272,24 @@
               polygon.on("click", function (e) {
                 e.target.openPopup();
               });
-            } else if (
+            } 
+            else  if ( feature.geometry.type === "MultiPolygon") {
+              console.log("alo")
+              let coordinates = feature.geometry.coordinates[0][0].map((coord) => [
+                coord[1],
+                coord[0],
+              ]);
+              let polygon = L.polygon(coordinates).addTo(map);
+
+              // Bind popup to the polygon
+              polygon.bindPopup(getPopupContent(feature));
+
+              // Listen for click event on polygon to open popup
+              polygon.on("click", function (e) {
+                e.target.openPopup();
+              });
+            }
+            else if (
               feature.geometry.type === "LineString" ||
               feature.geometry.type === "MultiLineString"
             ) {
