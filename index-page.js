@@ -3,7 +3,7 @@ const API_URL = "http://localhost/PMC_Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
-var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
+var map = L.map("map", {}).setView([18.52, 73.895], 11, L.CRS.EPSG4326);
 
 var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
@@ -332,8 +332,6 @@ var drawControlBuilding = new L.Control.Draw({
     remove: false,
   },
 });
-
-
 
 
 // map.addControl(drawControl);

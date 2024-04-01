@@ -32,6 +32,7 @@
     background-size: 30px;
     position: relative;
     top: -5px;
+
 }
 
 .leaflet-container .leaflet-control-attribution {
@@ -51,8 +52,8 @@
  
     .leaflet-control-zoom{
       position: absolute;
-      left: 1450px;
-      top: 88vh;
+      left: 1480px;
+      top: 80vh;
       border: 1px solid;
     }
   </style>
@@ -147,21 +148,11 @@
 </head>
 
 <body>
-  <div class="container-fluid">
-    <!-- <header class="header justify-content-between bg-transparent" id="header">
-      <div>
-        <img src="png/pmcjpeg.png" alt="" class="logopng"style="margin-left: -30%;">
-      </div>
-      <div class="d-flex justify-content-between ms-auto" role="search">
-
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div class="header_img me-5">
-          <img src="user.png" alt />
-        </div>
-      </div>
-    </header> -->
+ 
 
     <div id="map"></div>
+    <p class="geopulseaname">Deployed By GeoPulse Analytics Pvt. Ltd.</p>
+
     <div>
       <img src="png/pmcjpeg.png" alt="" class="logopng1"style="">
     </div>
@@ -195,11 +186,12 @@
         <tbody></tbody>
       </table>
     </div>
-  </div>
  
   <script src="index-page.js"></script>
   
   <script>
+
+    
     $(document).ready(function () {
       var wardname = localStorage.getItem("wardname");
       if (wardname) {
