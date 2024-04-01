@@ -4,8 +4,36 @@
   box-sizing: border-box;
 }
 
+.logopng1{
+  height: 50px;
+  width:50px;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px;
+ position: absolute;
+ z-index: 9999;
+ top: 2%;
+ left: 1%;
+}
 
-/* Table fixed*/
+.logopng{
+  height: 50px;
+  width:50px;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px;
+ position: absolute;
+ z-index: 9999;
+ top: 45%;
+ left: -2%;
+}
+
+
+
+/* 
+ fixed*/
 
 #thead{
   position: sticky;
@@ -58,9 +86,6 @@ td {
 
 } */
 
-/* .leaflet-draw-toolbar{
-  display: none;
-}  */
 .leaflet-popup-content-wrapper {
   max-height: 300px;
   /* Set the maximum height for the table */
@@ -208,11 +233,7 @@ main {
   left: 60%;
   top:20%;
   max-height: 300px; 
-  /* overflow-y: scroll;
-  overflow-x: scroll;
-  scrollbar-width: thin; */
   background-color: #fff;
-  /* background-color: rgba(255, 255, 255, 0.8); */
   padding-top: 10px;
   border-top: 1px solid #ccc;
   border-radius: 5px;
@@ -305,6 +326,8 @@ main {
 }
 .leaflet-touch .geocoder-control {
   z-index: 9999999;
+  position: relative;
+  /* top: 0px; */
 }
 .leaflet-control-scale-line {
   font-size:20px; /* Adjust the font size as needed */
@@ -451,6 +474,13 @@ background-color: #d32f2f; /* Darker red background color on hover */
 
 /* icon update  */
 
+/* .leaflet-control-zoom{
+  position: relative;
+  right: 0;
+  top: 100%;
+  border: 1px solid;
+} */
+
 .leaflet-touch .geocoder-control-input {
   height: 30px;
   line-height: 30px;
@@ -472,18 +502,10 @@ background-color: #d32f2f; /* Darker red background color on hover */
 .leaflet-right .leaflet-control {
   position: relative;
   margin-right: 10px;
-  top: 50px;
+  top:0px;
 }
 
 
-/* #paginationControls {
-  text-align: right;
-  margin-top: 10px;
-} */
-/* 
-#paginationControls button {
-  margin-left: 5px;
-} */
 
 #workTableDashboard {
   position: relative;
@@ -494,23 +516,13 @@ background-color: #d32f2f; /* Darker red background color on hover */
 }   */ 
 
 
-/* #paginationControls {
-  text-align: right;
-  margin-top: 10px;
-} */
-/*
-#paginationControls button {
-  margin-left: 5px;
-} */
+
  
 #workTableDashboard {
   position: relative;
 }
  
- 
-.pagibtn{
-  margin: 0 5px;
-}
+
 
 
 .pagibtn{
@@ -522,4 +534,9 @@ background-color: #d32f2f; /* Darker red background color on hover */
   
   background-color: transparent;
   color: #007bff;
+}
+
+.tablebtn{
+  width: 20px;
+  height: 20px;
 }

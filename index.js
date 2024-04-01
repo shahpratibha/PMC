@@ -3,7 +3,7 @@ const API_URL = "http://localhost/PMC_Final/";
 // const API_URL = "http://localhost/PMC-Project/";
 
 //Add Basemap
-var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
+var map = L.map("map", {}).setView([18.52, 73.895], 11, L.CRS.EPSG4326);
 
 var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
@@ -1053,22 +1053,22 @@ function Savedata(lastDrawnPolylineId) {
 }
 
 //**************************************************line mesure*************************************************************
-L.control
-  .polylineMeasure({
-    position: "topright",
-    unit: "kilometres",
-    showBearings: true,
-    clearMeasurementsOnStop: false,
-    showClearControl: true,
-    showUnitControl: true,
-  })
-  .addTo(map);
+// L.control
+//   .polylineMeasure({
+//     position: "topright",
+//     unit: "kilometres",
+//     showBearings: true,
+//     clearMeasurementsOnStop: false,
+//     showClearControl: true,
+//     showUnitControl: true,
+//   })
+//   .addTo(map);
 
 //**********************************************************area measure**********************************************************************
-var measureControl = new L.Control.Measure({
-  position: "topright",
-});
-measureControl.addTo(map);
+// var measureControl = new L.Control.Measure({
+//   position: "topright",
+// });
+// measureControl.addTo(map);
 
 function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
@@ -1769,8 +1769,8 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.display ="block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="44%";
-      legendDiv.style.right ="10px";
+      legendDiv.style.top ="22%";
+      legendDiv.style.right ="3%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white"; 
       legendDiv.style.borderRadius= "20px"; 
