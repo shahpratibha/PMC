@@ -224,7 +224,7 @@ drawControl.addTo(map);
             if (searchTerm.length >= 3 && searchType) {
               let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-              let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+              let geoServerURL = `https://portal.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
                 cqlFilter
               )}`;
 
@@ -269,7 +269,7 @@ drawControl.addTo(map);
         let bbox = map.getBounds().toBBoxString();
         let layer = "pmc:Exist_Road";
 
-        var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+        var url = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
           size.x

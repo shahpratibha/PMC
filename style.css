@@ -203,13 +203,14 @@ main {
   display: none;
   position: relative;
   width: 570px;
+  height: 500px;
   bottom: 310px;
   left: 60%;
   top:20%;
   max-height: 300px; 
-  overflow-y: scroll;
+  /* overflow-y: scroll;
   overflow-x: scroll;
-  scrollbar-width: thin;
+  scrollbar-width: thin; */
   background-color: #fff;
   /* background-color: rgba(255, 255, 255, 0.8); */
   padding-top: 10px;
@@ -265,6 +266,8 @@ main {
 }
 .ui-widget.ui-widget-content {
   border: 1px solid #c5c5c5;
+
+
   z-index: 99999;
 }
 
@@ -473,11 +476,10 @@ background-color: #d32f2f; /* Darker red background color on hover */
 }
 
 
-#paginationControls {
+/* #paginationControls {
   text-align: right;
   margin-top: 10px;
-  /* Adjust this value as needed */
-}
+} */
 /* 
 #paginationControls button {
   margin-left: 5px;
@@ -488,7 +490,7 @@ background-color: #d32f2f; /* Darker red background color on hover */
   z-index: 800;
   pointer-events: visiblePainted;
   pointer-events: auto;
-  top: -4px;
+  /* top: -4px; */
 }   */ 
 
 
@@ -510,14 +512,9 @@ background-color: #d32f2f; /* Darker red background color on hover */
   margin: 0 5px;
 }
 
-#paginationControls {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 10px;
-}
+
 .pagibtn{
-  
+  margin: 0 5px;
   background-color: transparent;
   color: #007bff;
 }

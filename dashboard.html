@@ -458,12 +458,10 @@
           <!-- Dynamic content goes here -->
         </p>
 
-        <!-- <button id="printButton" onclick="printData()" style="position: fixed; top: 59%;  right: 5%; z-index: 999; color: green; font-size: 12px; background-color: transparent; height: 29px; width: 35px;"> 
-          <i class="fa-solid fa-file-export" style="float: left; top: 0px; left: 400px;"></i>
-        </button> -->
-
+        
+        <div style="position: absolute; top: 30px;  height:220px; width: 100%; overflow: scroll; scrollbar-width: thin;">
         <table id="workTableDashboard" class="table table-bordered table-hover"
-          style="margin-top: 30px; height:100px; width: 100px; overflow: scroll; ">
+          style=" left: 0px; height:100px; width: 100px; overflow: scroll; ">
           <thead id="thead">
             <tr>
               <th>Zone</th>
@@ -481,13 +479,12 @@
           </thead>
           <tbody></tbody>
         </table>
-
+      </div>
         <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
 
-        <div id="paginationControls"
-          style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex;">
-          <button class="pagibtn" id="previousPageButton"><i class="fa-solid fa-backward"></i></button>
-          <span>Page <span id="currentPage"></span></span>
+        <div id="paginationControls" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; font-size: 12px;">
+          <button class="pagibtn" style="background-color: transparent; color: #333;" id="previousPageButton"><i class="fa-solid fa-backward " ></i></button>
+          <span style="font-size: 8px;">Page <span id="currentPage"></span></span>
           <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
         </div>
 
@@ -513,27 +510,20 @@
             display: inline-block;
             padding: 5px 10px;
             margin-right: 5px;
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
+            background-color:transparent;
+            border: 1px solid transparent;
             color: #495057;
             cursor: pointer;
           }
 
           #pagination button.active {
-            background-color: #007bff;
+            background-color: transparent;
             color: #fff;
-            border-color: #007bff;
+            /* border-color: #333; */
           }
         </style>
 
-        <!-- 
-        <div id="paginationControls"
-          style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex;">
-          <button class="pagibtn" id="previousPageButton"><i class="fa-solid fa-backward"></i></button>
-          <span>Page <span id="currentPage"></span></span>
-          <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
-        </div> -->
-
+      
 
 
 
@@ -1145,6 +1135,7 @@
 
             $(this).html('<i class="fa-regular fa-window-maximize" style="font-weight: bold; margin-top: -20%; margin-left:-15px; width:35px; background-color:transparent; "></i>');
             tableContainer.css({
+              transition:"0s",
               paddingTop: "10px",
               bottom: "140px",
               left: "97%",
@@ -1156,6 +1147,7 @@
             });
             tablestats.css({
               display: "none",
+              fontSize: "12px",
             });
             printButton.css({
               display: "none",
@@ -1165,6 +1157,7 @@
             $(this).html(' <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; width:10px; position:fixed "></i>');
             tableContainer.css({
               // display:"block",
+              transition:"0s",
               bottom: "310px",
               width: "570px",
               height: "500px",

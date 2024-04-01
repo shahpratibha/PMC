@@ -515,6 +515,9 @@ a {
       padding: 5px; 
       font-size: 20px;
     }
+    .road-container{
+        width: 100%;
+    }
     
     .custom-close-button-class:hover {
       /* Add your custom hover styles for the close button here */
