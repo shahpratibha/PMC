@@ -2127,86 +2127,48 @@
 
 
     function printData() {
-      const table = $('#workTableDashboard').DataTable();
-      const totalRecords = table.page.info().recordsTotal;
-      const pages = Math.ceil(totalRecords / table.page.info().length);
+  const table = $('#workTableDashboard').DataTable();
+  const totalRecords = table.page.info().recordsTotal;
+  const pages = Math.ceil(totalRecords / table.page.info().length);
 
-      let csvContent = "data:text/csv;charset=utf-8,";
-      let headers = [];
+  let csvContent = "data:text/csv;charset=utf-8,";
+  let headers = [];
 
-      // Get table headers
-      table.columns().every(function () {
-        headers.push($(this.header()).text());
+  // Get table headers
+  table.columns().every(function () {
+    headers.push($(this.header()).text());
+  });
+  csvContent += headers.join(",") + "\n";
+
+  // Iterate through each page
+  for (let i = 0; i < pages; i++) {
+    table.page(i).draw(false); // Move to page i
+
+    // Get data from the current page
+    table.rows().every(function () {
+      const rowData = [];
+      $(this.node()).find('td').each(function () {
+        rowData.push($(this).text().trim());
       });
-      csvContent += headers.join(",") + "\n";
+      csvContent += rowData.join(",") + "\n";
+    });
+  }
 
-      // Iterate through each page
-      for (let i = 0; i < pages; i++) {
-        table.page(i).draw(false); // Move to page i
+  // Restore to the first page
+  table.page(0).draw(false);
 
-        // Get data from the current page
-        table.rows().every(function () {
-          const rowData = [];
-          $(this.node()).find('td').each(function () {
-            rowData.push($(this).text().trim());
-          });
-          csvContent += rowData.join(",") + "\n";
-        });
-        csvContent += headers.join(",") + "\n";
+  // Create a link to download the CSV file
+  const link = document.createElement("a");
+  link.setAttribute("href", encodeURI(csvContent));
+  link.setAttribute("download", "data.csv");
+  document.body.appendChild(link);
 
-        // Iterate through each page
-        for (let i = 0; i < pages; i++) {
-          table.page(i).draw(false); // Move to page i
+  // Trigger click event to start download
+  link.click();
 
-          // Get data from the current page
-          table.rows().every(function () {
-            const rowData = [];
-            $(this.node()).find('td').each(function () {
-              rowData.push($(this).text().trim());
-            });
-            csvContent += rowData.join(",") + "\n";
-          });
-        }
-
-        // Restore to the first page
-        table.page(0).draw(false);
-
-        // Create a link to download the CSV file
-        const link = document.createElement("a");
-        link.setAttribute("href", encodeURI(csvContent));
-        link.setAttribute("download", "data.csv");
-
-
-        // // Apply fixed position to the button
-        //       link.style.position = "fixed";
-        //       link.style.top = "10px"; // Adjust as needed
-        //       link.style.right = "10px"; // Adjust as needed
-        //       document.body.appendChild(link); 
-        //       // Trigger click event to start download
-        //       link.click();
-
-        // Append the link to the table-container-dashboard
-        document.getElementById("table-container-dashboard").appendChild(link);
-
-        // Trigger click event to start download
-        link.click();
-        // Remove the link after the download starts
-        document.getElementById("table-container-dashboard").removeChild(link);
-      }
-
-      // Restore to the first page
-      table.page(0).draw(false);
-
-      // Create a link to download the CSV file
-      const link = document.createElement("a");
-      link.setAttribute("href", encodeURI(csvContent));
-      link.setAttribute("download", "data.csv");
-      document.body.appendChild(link);
-
-      // Trigger click event to start download
-      link.click();
-    }
-
+  // Remove the link after the download starts
+  document.body.removeChild(link);
+}
   </script>
 
 </body>
