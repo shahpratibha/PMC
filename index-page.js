@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC_Final/";
+const API_URL = "http://localhost/pmc_test/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -27,7 +27,7 @@ var Esri_WorldImagery = L.tileLayer(
 var baseLayers = {};
  
 var wms_layer1 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Roads",
     format: "image/png",
@@ -521,7 +521,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://portal.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://pmc.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -601,9 +601,78 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
   return overlapPercentage <= 10;
 }
 
-// var layer;
+
+var lastClosestMarker = null;
+function getNearestBoundary(features, clickedPoint) {
+    // Remove the last closest point marker if it exists
+    if (lastClosestMarker) {
+        map.removeLayer(lastClosestMarker);
+    }
+    features.forEach(function (feature) {
+        var boundary = feature.geometry.coordinates[0];
+        var closestToBoundary = L.GeometryUtil.closest(map, boundary, [clickedPoint.lng, clickedPoint.lat]);
+        var closestPoint = L.latLng(closestToBoundary.lng, closestToBoundary.lat);// Swap lng and lat
+        lastClosestMarker = closestPoint            
+    });
+    return lastClosestMarker
+}
+
+var pointMarker;
+
+map.on('mousemove', function (e) {
+  var url = 'https://pmc.geopulsea.com/geoserver/ows?service=WMS&version=1.1.1&request=GetFeatureInfo&transparent=true&format=image/png&info_format=application/json&srs=EPSG:4326&bbox=' + map.getBounds().toBBoxString() + '&width=' + map.getSize().x + '&height=' + map.getSize().y + '&layers=pmc:Exist_Road&query_layers=pmc:Exist_Road&feature_count=10&x=' + Math.round(e.containerPoint.x) + '&y=' + Math.round(e.containerPoint.y);
+
+  if (url) {
+      // console.log(url)
+      fetch(url)
+          .then(response => response.json())
+          .then(data => {
+              if (data.features && data.features.length > 0) {
+                  // console.log(data.features,"data.features")
+                  var clickedPoint = e.latlng;
+                  if (pointMarker) {
+                      map.removeLayer(pointMarker);
+                  }
+                  var nearestBoundary = getNearestBoundary(data.features, clickedPoint);
+                  // pointMarker = nearestBoundary ;
+                  pointMarker = L.circleMarker(nearestBoundary, { radius: 2.5, color: 'blue' }).addTo(map).bindPopup('Closest point on boundary');
+                 
+              }
+          });
+  }
+});
+
+
+
+
+
+let nearestPointsStorage = [];
+let snappingDistance = 50 ;
+
+map.on('draw:drawvertex', function(e) {
+  //var nearestPointCoords = [pointMarker?.lng, pointMarker?.lat];
+  var nearestPointCoords = [pointMarker?.getLatLng().lng, pointMarker?.getLatLng().lat];
+  console.log(nearestPointCoords);
+    nearestPointsStorage.push(nearestPointCoords);
+});
+
+
+function adjustLatLng(latlng, index) {
+  var originalPoint = turf.point([latlng.lng, latlng.lat]);
+  var nearestPointCoords = nearestPointsStorage[index];
+  if (nearestPointCoords && nearestPointCoords[0] !== undefined && nearestPointCoords[1] !== undefined) {
+      var nearestPoint = turf.point(nearestPointCoords);
+      var distance = turf.distance(originalPoint, nearestPoint, { units: 'meters' });
+      if (distance <= snappingDistance) {
+          return L.latLng(nearestPointCoords[1], nearestPointCoords[0]); // Convert to LatLng
+      }
+  }
+  return latlng; // Return original latlng if no adjustment needed or if nearestPointCoords is undefined
+}
+
+
 map.on("draw:created", function (e) {
-  const works_aa_approval_id = "856";
+
   var newFeature = e.layer.toGeoJSON();
 
   getGeodataFeatures().then(function (geodataFeatures) {
@@ -611,7 +680,7 @@ map.on("draw:created", function (e) {
 
     if (isAllowed) {
       // Add the feature to the map if overlap is 10% or less
-      drawnItems.addLayer(e.layer);
+      // drawnItems.addLayer(e.layer);
     } else {
       Swal.fire({
         position: "center",
@@ -661,110 +730,10 @@ map.on("draw:created", function (e) {
             "20px"; // Font size of the close button
         },
       });
-
-
-
-      
-      // Do not add the new feature to the map
     }
   });
 
-  // // Function to update roadLength in localStorage and redraw the line
-  // function updateRoadLength(newRoadLength) {
-  //   localStorage.setItem("roadLenght", newRoadLength);
-  //   redrawLine();
-  // }
-
-  // function redrawLine() {
-  //   var drawnPolyline = e.layer.toGeoJSON();
-  //   var roadLength = parseFloat(localStorage.getItem("roadLenght"));
-
-  //   var startPoint = drawnPolyline.geometry.coordinates[0];
-  //   var endPoint =
-  //     drawnPolyline.geometry.coordinates[
-  //       drawnPolyline.geometry.coordinates.length - 1
-  //     ];
-
-  //   startPoint = [startPoint[1], startPoint[0]];
-  //   endPoint = [endPoint[1], endPoint[0]];
-
-  //   var trimmedCoordinates = [];
-  //   var alongPoint = turf.along(drawnPolyline, roadLength, {
-  //     units: "kilometers",
-  //   });
-  //   var trimmedPoint = alongPoint.geometry.coordinates;
-  //   trimmedPoint = [trimmedPoint[1], trimmedPoint[0]];
-  //   trimmedCoordinates.push(startPoint, trimmedPoint);
-
-  //   drawnItems.removeLayer(e.layer);
-
-  //   e.layer.setLatLngs(trimmedCoordinates);
-
-  //   var layer = e.layer;
-  //   drawnItems.addLayer(layer);
-
-  //   if (e.layerType === "polyline") {
-  //     var bufferWidth = localStorage.getItem("bufferWidth");
-
-  //     createBufferAndDashedLine(layer, roadLenght, bufferWidth);
-  //   }
-  // }
-
-  // if (e.layerType === "polyline") {
-  //   var drawnPolyline = e.layer.toGeoJSON();
-  //   var roadLenght = localStorage.getItem("roadLenght");
-  //   var roadLength = localStorage.getItem("roadLenght");
-
-  //   var startPoint = drawnPolyline.geometry.coordinates[0];
-  //   var endPoint =
-  //     drawnPolyline.geometry.coordinates[
-  //       drawnPolyline.geometry.coordinates.length - 1
-  //     ];
-
-  //   startPoint = [startPoint[1], startPoint[0]];
-  //   endPoint = [endPoint[1], endPoint[0]];
-
-  //   var trimmedCoordinates = [];
-
-  //   var distance = turf.distance(startPoint, endPoint, { units: "kilometers" });
-
-  //   if (distance > roadLenght) {
-  //     // Swal.fire({
-  //     //   position: "center",
-  //     //   icon: "error",
-  //     //   title: "Oops...",
-  //     //   text: "The line has been trimmed to 1 kilometer.",
-  //     //   showConfirmButton: false,
-  //     //   timer: 2100,
-  //     // });
-  //     $("#roadLengthModal").modal("show");
-  //     document.getElementById("newRoadLengthInput").value = roadLength;
-
-  //     $("#roadLengthForm").submit(function (e) {
-  //       e.preventDefault();
-  //       var newRoadLength = parseFloat(
-  //         document.getElementById("newRoadLengthInput").value
-  //       );
-  //       updateRoadLength(newRoadLength); // Update roadLength and redraw the line
-  //     });
-
-  //     // Event listener for modal hidden event
-  //     $("#roadLengthModal").on("hidden.bs.modal", function () {
-  //       redrawLine(); // Redraw the line when the modal is closed
-  //     });
-
-  //     var alongPoint = turf.along(drawnPolyline, roadLenght, {
-  //       units: "kilometers",
-  //     });
-  //     var trimmedPoint = alongPoint.geometry.coordinates;
-  //     trimmedPoint = [trimmedPoint[1], trimmedPoint[0]];
-  //     trimmedCoordinates.push(startPoint, trimmedPoint);
-  //   } else {
-  //     trimmedCoordinates.push(startPoint, endPoint);
-  //   }
-
-  //   e.layer.setLatLngs(trimmedCoordinates);
-  // }
+ 
   if (e.layerType === "polyline") {
     var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
     var roadLenght = localStorage.getItem("roadLenght");
@@ -808,100 +777,125 @@ map.on("draw:created", function (e) {
         }
       });
       
-    
-
       return; // Stop further processing
     }
   }
   var layer = e.layer;
-  drawnItems.addLayer(layer);
-
   if (e.layerType === "polyline") {
+    let originalLatLngs = e.layer.getLatLngs();
+    if (nearestPointsStorage.length === originalLatLngs.length) {
+        let adjustedLatLngs = originalLatLngs.map((latlng, index) => {
+            return adjustLatLng(latlng, index); // Using a function to adjust LatLng
+        });
+        layer.setLatLngs(adjustedLatLngs);  
+    } else {
+        console.error('Mismatch in stored points and vertices for polyline.');
+    }
+}else if (e.layerType === "polygon") {
+    let originalLatLngs = e.layer.getLatLngs()[0]; // Assuming adjustment for the first ring
+    if (nearestPointsStorage.length === originalLatLngs.length) {
+        let adjustedLatLngs = originalLatLngs.map((latlng, index) => {
+            return adjustLatLng(latlng, index); // Reusing the same adjustment function
+        });
+        layer.setLatLngs([adjustedLatLngs]); // Wrap in an array for polygon structure
+    } else {
+        console.error('Mismatch in stored points and vertices for polygon.');
+    }
+}
+
+drawnItems.addLayer(layer); 
+if (e.layerType === "polyline") {
     var bufferWidth = localStorage.getItem("bufferWidth");
-
     createBufferAndDashedLine(layer, roadLenght, bufferWidth);
-  }
+    }
+nearestPointsStorage = []; // Reset the storage for the next drawing
 
-  var geoJSON = layer.toGeoJSON();
-  var popupContent = UpdateArea(geoJSON);
-  var lastInsertedId = localStorage.getItem("lastInsertedId");
-  var lastDrawnPolylineId = layer._leaflet_id;
-  $.ajax({
-    // url: API_URL + "/process.php", // Path to the PHP script
-    url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
-    type: "GET",
-    data: { id: lastInsertedId },
-    dataType: "json",
-    success: function (response) {
-      // if (response.success) {
-      if (response.data != undefined) {
-        const responseData = response.data;
+var geoJSON = layer.toGeoJSON();
+var popupContent = UpdateArea(geoJSON);
+var lastInsertedId = localStorage.getItem("lastInsertedId");
+var lastDrawnPolylineId = layer._leaflet_id;
+console.log(geoJSON,lastInsertedId,lastDrawnPolylineId)
+$.ajax({
+  // url: API_URL + "/process.php", // Path to the PHP script
+  url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
+  type: "GET",
+  data: { id: lastInsertedId },
+  dataType: "json",
+  success: function (response) {
+    // if (response.success) {
+    if (response.data != undefined) {
+      const responseData = response.data;
 
-        if (responseData != undefined) {
-          popupContent +=
-            "<tr><td>Name of work</td><td>" +
-            responseData.work_name +
-            "</td></tr>";
-          popupContent +=
-            "<tr><td>Department</td><td>" +
-            responseData.department +
-            "</td></tr>";
-          popupContent +=
-            "<tr><td>ID</td><td>" +
-            responseData.works_aa_approval_id +
-            "</td></tr>";
-          popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
-          popupContent +=
-            "<tr><td>Scope of work</td><td>" +
-            responseData.scope_of_work +
-            "</td></tr>";
-          popupContent +=
-            "<tr><td>Work-type</td><td>" +
-            responseData.work_type +
-            "</td></tr>";
-          popupContent +=
-            "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
-          popupContent +=
-            "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
-          popupContent +=
-            "<tr><td>Prabhag no.</td><td>" +
-            responseData.project_no +
-            "</td></tr>";
-          popupContent +=
-            "<tr><td>Date of competition work</td><td>" +
-            responseData.created_date +
-            "</td></tr>";
-          popupContent +=
-            "<tr><td>JE Name</td><td>" +
-            responseData.junior_engineer_name +
-            "</td></tr>";
-          popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
-        }
-
-        // Close the table tag
-        popupContent += "</table>";
-
-        // Add buttons for adding and deleting rows
-        popupContent += `
-        <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-    `;
+      if (responseData != undefined) {
         popupContent +=
-          '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
-
-        // Bind the table popup to the layer
-        layer.bindPopup(popupContent).openPopup();
-      } else {
-        console.error("Error fetching CSV data:", response.error);
+          "<tr><td>Name of work</td><td>" +
+          responseData.work_name +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Department</td><td>" +
+          responseData.department +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>ID</td><td>" +
+          responseData.works_aa_approval_id +
+          "</td></tr>";
+        popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
+        popupContent +=
+          "<tr><td>Scope of work</td><td>" +
+          responseData.scope_of_work +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Work-type</td><td>" +
+          responseData.work_type +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
+        popupContent +=
+          "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
+        popupContent +=
+          "<tr><td>Prabhag no.</td><td>" +
+          responseData.project_no +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Date of competition work</td><td>" +
+          responseData.created_date +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>JE Name</td><td>" +
+          responseData.junior_engineer_name +
+          "</td></tr>";
+        popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
       }
-    },
-    error: function (error) {
-      console.error("AJAX request failed:", error);
-    },
-  });
+
+      // Close the table tag
+      popupContent += "</table>";
+
+      // Add buttons for adding and deleting rows
+      popupContent += `
+      <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+  `;
+      popupContent +=
+        '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
+
+      // Bind the table popup to the layer
+      layer.bindPopup(popupContent).openPopup();
+   
+    } else {
+      console.error("Error fetching CSV data:", response.error);
+    }
+  },
+  error: function (error) {
+    console.error("AJAX request failed:", error);
+  },
+});
+
 
   // Bind the table popup to the layer
-  // layer.bindPopup(popupContent).openPopup();
+ 
 });
+
+
+
 map.on("draw:edited", function (e) {
   e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
@@ -1475,7 +1469,7 @@ map.on("contextmenu", (e) => {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
