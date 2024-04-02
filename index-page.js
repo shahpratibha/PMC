@@ -34,6 +34,7 @@ var wms_layer1 = L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
+    maxZoom:21,
     // attribution: "Exist_Road",
     opacity: 1,
   }
