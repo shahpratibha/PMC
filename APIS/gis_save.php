@@ -94,6 +94,7 @@ if ($department == "Road") {
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width
     )");
+    //test commit 
     
         $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
     // $stmtIWMS->bindParam(':department', $configData['department'], PDO::PARAM_STR);

@@ -377,9 +377,10 @@
 
 
     function performTask() {
-      // Perform your task here
-      console.log('Task performed');
-
+   
+      //selecting department for handling diffrent department types
+      var department = localStorage.getItem("department");
+    
       var editableLayers = new L.FeatureGroup().addTo(map);
 
       map.on("click", function (e) {
@@ -387,6 +388,15 @@
         let bbox = map.getBounds().toBBoxString();
         let layer = "pmc:Exist_Road";
 
+        if(department=='Road'){
+           layer = "pmc:Exist_Road";
+
+        }
+        else if(department == 'Building'){
+           layer = "pmc:Reservations";
+
+        }
+        
         var url = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
@@ -395,7 +405,7 @@
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+
             highlightFeature(data);
           });
       });
@@ -407,58 +417,7 @@
           !featureData.features ||
           featureData.features.length === 0
         )
-          //  {
-          //   Swal.fire({
-          //     position: "center",
-          //     icon: "error",
-          //     title: "Oops...",
-          //     text: "No feature available. Click on a feature to edit.",
-          //     showConfirmButton: false,
-          //     showCloseButton: true,
-          // customClass: {
-          //   popup: "custom-modal-class",
-          //   icon: "custom-icon-class",
-          //   title: "custom-title-class",
-          //   content: "custom-text-class",
-          //   closeButton: "custom-close-button-class",
-          // },
-          // showClass: {
-          //   popup: "swal2-show",
-          //   backdrop: "swal2-backdrop-show",
-          //   icon: "swal2-icon-show",
-          // },
-          // hideClass: {
-          //   popup: "swal2-hide",
-          //   backdrop: "swal2-backdrop-hide",
-          //   icon: "swal2-icon-hide",
-          // },
-          // didOpen: () => {
-          //   // Apply custom styles directly to the modal elements
-          //   document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-          //   document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          //   document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
-          //   document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-          //   document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
-          //   document.querySelector(".custom-title-class").style.fontSize =
-          //     "1.5em"; // Set your desired title size
-          //   document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-          //   document.querySelector(
-          //     ".custom-close-button-class"
-          //   ).style.backgroundColor = "#f44336"; // Red background color
-          //   document.querySelector(".custom-close-button-class").style.color =
-          //     "white"; // White text color
-          //   document.querySelector(
-          //     ".custom-close-button-class"
-          //   ).style.borderRadius = "0"; // Rounded corners
-          //   document.querySelector(".custom-close-button-class").style.padding =
-          //     "5px"; // Padding around the close button
-          //   document.querySelector(".custom-close-button-class").style.fontSize =
-          //     "20px"; // Font size of the close button
-          // },
-          //   });
-          //   return;
-          // }
-
+          
           // Clear existing editable layers
           editableLayers.clearLayers();
 
@@ -473,11 +432,11 @@
             fillOpacity: 0.5,
           },
         });
-        console.log(geojsonLayer, "geojsonLayer")
+
         editableLayers.addLayer(geojsonLayer);
 
         if (editableLayers.getLayers().length > 0) {
-          console.log(editableLayers.getLayers().length, "editableLayers.getLayers().length")
+         
           map.fitBounds(editableLayers.getBounds());
         }
       }
@@ -486,14 +445,14 @@
         // Check if there is a selected feature
         if (editableLayers.getLayers().length > 0) {
           var selectedFeature = editableLayers.getLayers()[1];
-          console.log(selectedFeature, "selectedFeature", editableLayers.getLayers()[0],)
-
+     
           // Get the coordinates of the right-clicked point
           var latlng = e.latlng;
           var popupContent = "<h5>Selected Feature</h5>";
-          if (localStorage.getItem("conceptual_form_data")) {
+      
+          if (localStorage.getItem("conceptual_form_data_temp")) {
             const formDataFromStorage = JSON.parse(
-              localStorage.getItem("conceptual_form_data")
+              localStorage.getItem("conceptual_form_data_temp")
             );
             for (const property in formDataFromStorage) {
               popupContent +=
@@ -514,10 +473,20 @@
           // }
 
           // Add buttons for saving data and editing feature
-          popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
+
+          if(department == 'Road'){
+            popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
           popupContent +=
             '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
 
+            }
+         else if(department == 'Building'){
+          popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
+      
+        }
+
+          
+       
           var popup = L.popup()
             .setLatLng(latlng)
             .setContent(popupContent)
@@ -529,7 +498,7 @@
             .getElementById("saveDataButton")
             .addEventListener("click", function () {
               var featureData = selectedFeature.toGeoJSON();
-              console.log(selectedFeature, featureData, "featureData")
+   
               var featureId = featureData.features[0].id;
               let formDataFromStorage;
               let formDataTemp = localStorage.getItem(
@@ -552,18 +521,25 @@
                   ? formDataFromStorage.Width
                   : 20;
 
-              var payload = JSON.stringify({
-                geoJSON: featureData,
-                roadLength: roadLength,
-                bufferWidth: bufferWidth,
-                gis_id: featureId,
-              });
+           
 
               let selectCoordinatesData = featureData.features;
               localStorage.setItem(
                 "selectCoordinatesData",
                 JSON.stringify(selectCoordinatesData)
               );
+
+              var lastInsertedId = localStorage.getItem("lastInsertedId");
+
+
+              var payload = JSON.stringify({
+                geoJSON: featureData,
+                roadLength: roadLength,
+                bufferWidth: bufferWidth,
+                gis_id: lastInsertedId,
+                department: department,
+                selectCoordinatesData:selectCoordinatesData,
+              });
 
               $.ajax({
                 type: "POST",
