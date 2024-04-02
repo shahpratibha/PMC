@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PMC_Form</title>
+    <link rel="stylesheet" href="C_form.css" />
+    <link rel="stylesheet" href="demo.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+    />
+
+    <!-- ============================ -->
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- fontawsome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+      integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- leaflet_css -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin
+    />
+
+    <!-- leaflet_js -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin
+    ></script>
+
+    <!-- to geojson -->
+    <script src="https://unpkg.com/togeojson@1.1.0/togeojson.js"></script>
+
+    <!-- leaflet-ajax -->
+    <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
+
+    <!-- fontawsome -->
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!-- Leflet for adding draw tool start-->
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Leaflet.draw CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"
+    />
+
+    <!-- Leaflet.draw JavaScript -->
+    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+    <!-- Esri Leaflet JavaScript -->
+    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+
+    <!-- Esri Leaflet Geocoder JavaScript -->
+    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+
+    <!-- Esri Leaflet Geocoder CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css"
+    />
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha384-EK+9FhLeLjMtoIkg6wI3GvY5zPzzuBNYYGk60s7Y7trby5Cr5SoV0U8rssez6J8S" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha384-3hxxuF2FJ23oEeqWrYkzOWZC9qYcu32/7v1+K9tZtG5DXtNwkkr8Wt5IbSLz1Odg" crossorigin="anonymous"></script>
+    <!-- Leflet for adding draw tool END -->
+
+    <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- html2pdfcdn -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+  
+
+    <!-- MousePosition -->
+    <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+    <link
+      rel="stylesheet"
+      href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css"
+    />
+
+    <!-- line-measure -->
+    <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
+    <script src="libs/polyline-measure/line-measure.js"></script>
+    <link
+      rel="stylesheet"
+      href="libs/leaflet-measure-master/leaflet-measure.css"
+    />
+    <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+    <script src="libs/feat.js"></script>
+
+      <!-- legend -->
+ 
+
+ <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
+ <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
+
+
+     <style>
+     
+    #map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh; 
+    width: 100vw; 
+    z-index: 0;
+    }
+    .leaflet-top, .leaflet-bottom {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    top: 67px;
+}
+      
+      .multi-checkboxes_wrap:before {
+        font-family: fontAwesome;
+        color: #999;
+        content: "\f096";
+        /* width: 25px;
+        height: 25px;
+        padding-right: 10px; */
+      }
+      .multi-checkboxes_wrap[aria-selected="true"]:before {
+        content: "\f14a";
+      }
+
+      .form-control {
+        height: 30px;
+        padding: auto;
+      }
+      .accordion-button {
+        height: 30px;
+        font-size: 12px;
+      }
+      .form-select {
+        justify-content: center;
+        margin-left: -35px;
+        /* width: 50px; */
+      }
+      .accordion-body .form-control {
+        margin-left: -35px;
+      }
+      .accordion-button:hover {
+        background-color: #bbb;
+      }
+      .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;  
+        left: 80px;
+        background-color: #f3f3f3;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 10px;
+        overflow-y: scroll;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7); /* Add shadow */
+      }
+
+      .sidebar a {
+        text-decoration: none;
+        padding: 0px 8px 8px 38px;
+      }
+     
+      .sidebar .form-group {
+        padding: 0px 8px 8px 38px;
+        font-size: 13px;
+        color: black;
+        display: block;
+        transition: 0.3s;
+      }
+
+      
+
+      .sidebar .closebtn {
+        position: absolute;
+        color: red;
+        top: 0px;
+        right: -3px;
+        /* font-size: 30px; */
+        font-weight: bold;
+        margin-left: 50px;
+      }
+
+      #content {
+        transition: margin-left 0.5s;
+        /* padding: 16px; */
+      }
+
+      @media screen and (max-height: 450px) {
+        .sidebar {
+          padding-top: 15px;
+        }
+        .sidebar a {
+          font-size: 18px;
+        }
+      }
+    </style> 
+    </head>
+  
+      <header class="header justify-content-between bg-transparent" id="header">
+        <!-- <div><h5>AUTODCR_GIS</h5></div> -->
+           <!-- dropdown --> 
+         <div>
+         
+            <select id="zones" class="block w-48 px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none hover:border-gray-500 focus:outline-none focus:border-gray-500">
+              <optgroup label="Area">
+                <!-- No initial option selected -->
+              </optgroup>
+            </select>
+          </div> 
+         <!-- dropdown -->
+         <div>
+      
+          <select id="admin_ward_name" class="block w-56 px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none hover:border-gray-500 focus:outline-none focus:border-gray-500">
+              <optgroup label="Survey no">
+                <!-- No initial option selected -->
+              </optgroup>
+            </select>
+          </div> 
+     </div>
+          </div>
+        </header>
+    
+    </div>
+    <div id="map"></div>
+    
+    <!-- <script src="index.js"></script> -->
+    <!-- <script src="select2.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
+      integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+
+var map, geojson;
+const API_URL = "http://localhost/PMC_Final/";
+// const API_URL = "http://localhost/PMC-Project/";
+
+//Add Basemap
+var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
+
+var googleSat = L.tileLayer(
+  "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+  {
+    maxZoom: 20,
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }
+);
+
+var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  // attribution:
+  //   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+
+var Esri_WorldImagery = L.tileLayer(
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  {
+    // attribution:
+    //   "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+  }
+);
+var baseLayers = {};
+
+
+
+var Revenue  = L.tileLayer
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Revenue",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Revenue",
+    opacity: 1,
+  });
+
+
+var WMSlayers = {
+  "OSM": osm,
+  "Esri": Esri_WorldImagery,
+  "Google Satellite": googleSat,
+  Revenue:  Revenue ,
+ 
+};
+ 
+
+var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
+control.setPosition('topright');
+
+
+
+var drawControl = new L.Control.Draw({
+  draw: {
+    polyline: {
+      shapeOptions: {
+        color: "red", // set the color for the polygon border
+      },
+      icon: new L.DivIcon({
+        iconSize: new L.Point(6, 6), // set the size of the icon
+        className: "leaflet-div-icon", // specify the icon class
+      }),
+    },
+    polygon: false,
+ 
+    circle: false,
+    marker: false,
+    rectangle: false,
+  },
+ 
+});
+map.addControl(drawControl);
+
+    // <script>
+      $(document).ready(function () {
+        // loadAllData();
+        loadInitialData();
+      });
+
+      
+      // function fitbou(filter) {
+      //   var layer = "portal:Revenue";
+      //   var urlm =
+      //     "https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName" +
+      //     layer +
+      //     "&CQL_FILTER=" +
+      //     filter +
+      //     "&outputFormat=application/json";
+
+      //     console.log(urlm,"urlm")
+      //   $.getJSON(urlm, function (data) {
+      //     geojson = L.geoJson(data, {});
+      //     map.fitBounds(geojson.getBounds());
+      //   });
+      // }
+
+      function loadInitialData() {
+        loadAreaName();
+        loadSurvey();
+      }
+
+      function filterDataAndDrawMap() {
+       
+        var selectedarea = $("#zones").val();
+        var selectedsurvey = $("#admin_ward_name").val();
+       
+
+        // Check if any filter values are not empty
+        if (
+          
+          !$.isEmptyObject(selectedarea) ||
+          !$.isEmptyObject(selectedsurvey) 
+       
+        ) {
+          // Filter data based on selected filters
+          var filteredData = filterData(
+          
+            selectedarea,
+            selectedsurvey,
+           
+          );
+        } else {
+          console.log("No filters selected. Map will not be drawn.");
+        }
+      }
+  
+
+      function filterData(
+     
+        selectedarea,
+        selectedsurvey,
+     
+      ) {
+        // Create a filter object to store the CQL filter conditions
+        var filter = {};
+
+        // Filter data based on selected filters
+        var filteredData = [];
+
+        if (selectedarea.length > 0) {
+          filter.Village_Name = selectedarea.map((zone) => `'${zone}'`).join(",");
+          console.log(filter,"filterss")
+        }
+        if (selectedsurvey.length > 0) {
+          filter.Gut_No = selectedsurvey.map((ward) => `'${ward}'`).join(",");
+        }
+
+
+
+        // Create the CQL filter string from the filter object
+        var cqlFilter = Object.entries(filter)
+          .map(([key, value]) => `${key} IN (${value})`)
+          .join(" AND ");
+
+  
+
+        fitbou(cqlFilter);
+        console.log("heheheeehehs")
+        Revenue.setParams({
+          CQL_FILTER: cqlFilter,
+          styles: "polygon",
+        });
+
+     
+      }
+
+
+      function loadAreaName() {
+    var select = $("#zones");
+    select.empty();
+      // Add a default option to prompt users to make a selection
+      select.append(
+        $("<option>", {
+            value: "",
+            text: "Select Area"
+        })
+    );
+
+    var geoServerURL = "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=Revenue&propertyName=Village_Name&outputFormat=application/json";
+
+    $.getJSON(geoServerURL, function (data) {
+        var zoneSet = new Set();
+        $.each(data.features, function (index, feature) {
+            var zone = feature.properties.Village_Name;
+            zoneSet.add(zone);
+        });
+
+        var uniqueZoneSet = Array.from(zoneSet);
+        // Populate the dropdown with unique zone names
+        uniqueZoneSet.forEach(function (zone) {
+            select.append(
+                $("<option>", {
+                    value: zone,
+                    text: zone,
+                })
+            );
+        });
+
+        // Ensure no option is selected by default
+        select.val('');
+
+        // Add event handler for dropdown change
+        select.change(function () {
+            var selectedZone = $(this).val();
+            if (selectedZone) {
+                // Call fitbou() with the selected zone as filter
+                fitbou("Village_Name='" + selectedZone + "'");
+            }
+        });
+    });
+}
+function fitbou(filter) {
+    var layer = "pmc:Revenue";
+    var urlm =
+        "https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+        layer +
+        "&CQL_FILTER=" +
+        filter +
+        "&outputFormat=application/json";
+
+    console.log(urlm, "urlm")
+    $.getJSON(urlm, function (data) {
+        if (data.features.length > 0) {
+            // Clear existing layers on the map
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.GeoJSON) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            // Add new layer for selected area
+            geojson = L.geoJson(data, {});
+            geojson.addTo(map);
+
+            // Fit map bounds to the new layer
+            map.fitBounds(geojson.getBounds());
+        } else {
+            console.log("No features found for the selected area.");
+        }
+    });
+}
+
+
+// Call loadAreaName() to populate the dropdown when the page loads
+$(document).ready(function () {
+    loadAreaName();
+});
+
+
+
+
+// gut ...............................................................
+
+function  loadSurvey() {
+    var select = $("#admin_ward_name");
+    select.empty();
+   
+    // Add a default option to prompt users to make a selection
+    select.append(
+        $("<option>", {
+            value: "",
+            text: "Select Gut Number"
+        })
+    );
+ 
+    var geoServerURL = "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=Revenue&propertyName=Gut_No&outputFormat=application/json";
+ 
+    $.getJSON(geoServerURL, function (data) {
+        var gutNoSet = new Set();
+        $.each(data.features, function (index, feature) {
+            var gutNo = feature.properties.Gut_No;
+            gutNoSet.add(gutNo);
+        });
+ 
+        var uniqueGutNos = Array.from(gutNoSet);
+        $.each(uniqueGutNos, function (index, gutNo) {
+            select.append(
+                $("<option>", {
+                    value: gutNo,
+                    text: gutNo,
+                })
+            );
+        });
+ 
+        // Ensure no option is selected by default
+        select.val('');
+ 
+        // Add event handler for dropdown change
+        select.change(function () {
+            var selectedGutNo = $(this).val();
+            if (selectedGutNo) {
+                // Call function to highlight selected area on the map
+                fitbouGutNo("Gut_No='" + selectedGutNo + "'");
+            }
+        });
+    });
+}
+ 
+// Function to fetch and display "Gut Number" data
+function fitbouGutNo(filter) {
+    var layer = "pmc:Revenue";
+    var urlm =
+        "https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+        layer +
+        "&CQL_FILTER=" +
+        filter +
+        "&outputFormat=application/json";
+ 
+    console.log(urlm, "urlm")
+    $.getJSON(urlm, function (data) {
+        if (data.features.length > 0) {
+            // Clear existing layers on the map
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.GeoJSON) {
+                    map.removeLayer(layer);
+                }
+            });
+ 
+            // Add new layer for selected area
+            var geojson = L.geoJson(data, {});
+            geojson.addTo(map);
+ 
+            // Fit map bounds to the new layer
+            map.fitBounds(geojson.getBounds());
+        } else {
+            console.log("No features found for the selected Gut Number.");
+        }
+    });
+}
+ 
+
+
+// Call  loadSurvey() to populate the dropdown when the page loads
+$(document).ready(function () {
+     loadSurvey();
+});
+ 
+// Function to fetch admin ward names based on the selected zone
+function loadAdminWardNames(selectedZone) {
+    var select = $("#admin_ward_name");
+    select.empty();
+
+    // Add a default option to prompt users to make a selection
+    select.append(
+        $("<option>", {
+            value: "",
+            text: "Select Gut Number"
+        })
+    );
+
+    // Construct the URL for fetching admin ward names based on the selected zone
+    var geoServerURL = "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=Revenue&propertyName=Gut_No&outputFormat=application/json&CQL_FILTER=Village_Name='" + selectedZone + "'";
+
+    // Make an AJAX request to fetch the admin ward names
+    $.getJSON(geoServerURL, function (data) {
+        var gutNoSet = new Set();
+        $.each(data.features, function (index, feature) {
+            var gutNo = feature.properties.Gut_No;
+            gutNoSet.add(gutNo);
+        });
+
+        var uniqueGutNos = Array.from(gutNoSet);
+        $.each(uniqueGutNos, function (index, gutNo) {
+            select.append(
+                $("<option>", {
+                    value: gutNo,
+                    text: gutNo,
+                })
+            );
+        });
+    });
+}
+
+
+// Event handler for when a zone is selected
+$("#zones").change(function () {
+    var selectedZone = $(this).val();
+    if (selectedZone) {
+        // Call the function to fetch and populate admin ward names
+        loadAdminWardNames(selectedZone);
+    }
+});
+
+
+    </script>
+  </body>
+</html>
+

@@ -975,10 +975,6 @@
 
       // ////////////////////////////added 11-03-2024
 
-      // var geoServerURL =
-      //   "https://portal.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=" +
-      //   encodeURIComponent(cqlFilter);
-
 
       // ********************added new modification 11-03-2023*******************************************
 
@@ -1386,10 +1382,7 @@
           multiple: true,
         });
 
-        // select.on("change", function () {
-        //   loadAdminWardName();
-        //   filterDataAndDrawMap();
-        // });
+       
       });
     }
 
@@ -1473,10 +1466,7 @@
           multiple: true,
         });
 
-        // select.on("change", function () {
-        //   loadVillages();
-        //   filterDataAndDrawMap();
-        // });
+       
       });
     }
 
@@ -1567,10 +1557,7 @@
           multiple: true,
         });
 
-        // select.on("change", function () {
-        //   loadDepartments();
-        //   filterDataAndDrawMap();
-        // });
+        
       });
     }
 
@@ -1664,10 +1651,7 @@
           multiple: true,
         });
 
-        // select.on("change", function () {
-        //   loadStage();
-        //   filterDataAndDrawMap();
-        // });
+       
       });
     }
 
@@ -1769,10 +1753,7 @@
           multiple: true,
         });
 
-        // select.on("change", function () {
-        //   loadWorkTypes();
-        //   filterDataAndDrawMap();
-        // });
+       
       });
     }
 
@@ -1885,15 +1866,7 @@
 
         // Event listener for change event
         select.on("change", function () {
-          // var selectedWorkTypes = $(this).val();
-          // const workTypesFilter = selectedWorkTypes
-          //   .map((workType) => `'${workType}'`)
-          //   .join(",");
-
-          // // Assuming wms_layer12 is the correct layer to set parameters
-          // wms_layer15.setParams({
-          //   CQL_FILTER: `work_type IN (${workTypesFilter})`,
-          // });
+       
           filterDataAndDrawMap();
         });
       });
@@ -1963,11 +1936,7 @@
       });
     }
 
-    // function getSelectedZones(selectedZones) {
-    //   // Convert the array to a Set to remove duplicates
-    //   const uniqueZones = [...new Set(selectedZones)];
-    //   loadAdminWardName(selectedZones);
-    // }
+  
 
     ////////////////////////15-03-2024////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2066,13 +2035,7 @@
             IWMS_line.addTo(map).bringToFront();
             fitbou(cqlFilter);
 
-            // Combine bounds of both IWMS_point and IWMS_line
-            // var combinedBounds = IWMS_point.getBounds().extend(IWMS_line.getBounds());
-
-            // Zoom to the combined bounds with maxZoom
-            // map.fitBounds(combinedBounds, {
-            //   maxZoom: maxZoomLevel
-            // });
+           
           }
         });
       });
@@ -2084,8 +2047,7 @@
 
     //    
     function drawGeometries(selectedData) {
-      // Implement logic to draw the selected geometries on the map
-      // You can access the geometries from selectedData.features
+     
     }
 
     function loadAdminWardNameAndFilter() {
@@ -2115,90 +2077,6 @@
 
 
   <script>
-
-    // //working on csv form
-
-
-    // function printData() {
-    //   const table = $('#workTableDashboard').DataTable();
-    //   const totalRecords = table.page.info().recordsTotal;
-    //   const pages = Math.ceil(totalRecords / table.page.info().length);
-
-    //   let csvContent = "data:text/csv;charset=utf-8,";
-    //   let headers = [];
-
-    //   // Get table headers
-    //   table.columns().every(function () {
-    //     headers.push($(this.header()).text());
-    //   });
-    //   csvContent += headers.join(",") + "\n";
-
-    //   // Iterate through each page
-    //   for (let i = 0; i < pages; i++) {
-    //     table.page(i).draw(false); // Move to page i
-
-    //     // Get data from the current page
-    //     table.rows().every(function () {
-    //       const rowData = [];
-    //       $(this.node()).find('td').each(function () {
-    //         rowData.push($(this).text().trim());
-    //       });
-    //       csvContent += rowData.join(",") + "\n";
-    //     });
-    //     // csvContent += headers.join(",") + "\n";
-
-    //     // // Iterate through each page
-    //     // for (let i = 0; i < pages; i++) {
-    //     //   table.page(i).draw(false); // Move to page i
-
-    //     //   // Get data from the current page
-    //     //   table.rows().every(function () {
-    //     //     const rowData = [];
-    //     //     $(this.node()).find('td').each(function () {
-    //     //       rowData.push($(this).text().trim());
-    //     //     });
-    //     //     csvContent += rowData.join(",") + "\n";
-    //     //   });
-    //     // }
-
-    //     // Restore to the first page
-    //     table.page(0).draw(false);
-
-    //     // Create a link to download the CSV file
-    //     const link = document.createElement("a");
-    //     link.setAttribute("href", encodeURI(csvContent));
-    //     link.setAttribute("download", "data.csv");
-
-
-    //     // // Apply fixed position to the button
-    //     //       link.style.position = "fixed";
-    //     //       link.style.top = "10px"; // Adjust as needed
-    //     //       link.style.right = "10px"; // Adjust as needed
-    //     //       document.body.appendChild(link); 
-    //     //       // Trigger click event to start download
-    //     //       link.click();
-
-    //     // Append the link to the table-container-dashboard
-    //     document.getElementById("table-container-dashboard").appendChild(link);
-
-    //     // Trigger click event to start download
-    //     link.click();
-    //     // Remove the link after the download starts
-    //     document.getElementById("table-container-dashboard").removeChild(link);
-    //   }
-
-    //   // Restore to the first page
-    //   table.page(0).draw(false);
-
-    //   // Create a link to download the CSV file
-    //   const link = document.createElement("a");
-    //   link.setAttribute("href", encodeURI(csvContent));
-    //   link.setAttribute("download", "data.csv");
-    //   document.body.appendChild(link);
-
-    //   // Trigger click event to start download
-    //   link.click();
-    // }
     function printData() {
   const table = $('#workTableDashboard').DataTable();
   const totalRecords = table.page.info().recordsTotal;
@@ -2213,28 +2091,19 @@
   });
   csvContent += headers.join(",") + "\n";
 
-  // Set to store unique rows
-  const uniqueRows = new Set();
-
   // Iterate through each page
   for (let i = 0; i < pages; i++) {
     table.page(i).draw(false); // Move to page i
 
     // Get data from the current page
-    const pageRows = table.rows().data().toArray();
-    pageRows.forEach(rowData => {
-      const rowValues = rowData.map(value => value.trim());
-      uniqueRows.add(rowValues.join(","));
+    table.rows().every(function () {
+      const rowData = [];
+      $(this.node()).find('td').each(function () {
+        rowData.push($(this).text().trim());
+      });
+      csvContent += rowData.join(",") + "\n";
     });
   }
-
-  // Convert Set back to an array
-  const uniqueRowsArray = Array.from(uniqueRows);
-
-  // Append unique rows to the CSV content
-  uniqueRowsArray.forEach(row => {
-    csvContent += row + "\n";
-  });
 
   // Restore to the first page
   table.page(0).draw(false);
@@ -2251,8 +2120,6 @@
   // Remove the link after the download starts
   document.body.removeChild(link);
 }
-
-
   </script>
 
 </body>

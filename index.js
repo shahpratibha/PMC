@@ -26,7 +26,7 @@ var Esri_WorldImagery = L.tileLayer(
   }
 );
 var baseLayers = {};
- 
+
 var wms_layer1 = L.tileLayer.wms(
   "https://portal.geopulsea.com/geoserver/pmc/wms",
   {
@@ -39,7 +39,7 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }
 ).addTo(map);
- 
+
 var wms_layer12 = L.tileLayer
   .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "PMC_Boundary",
@@ -51,7 +51,7 @@ var wms_layer12 = L.tileLayer
     opacity: 1,
     maxZoom: 25,
   }).addTo(map);
- 
+
 var wms_layer11 = L.tileLayer
   .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "Reservations",
@@ -62,7 +62,7 @@ var wms_layer11 = L.tileLayer
     // attribution: "Reservations",
     opacity: 1,
   });
- 
+
 var wms_layer13 = L.tileLayer.wms(
   "https://portal.geopulsea.com/geoserver/pmc/wms",
   {
@@ -75,7 +75,7 @@ var wms_layer13 = L.tileLayer.wms(
     opacity: 1,
   }
 );
- 
+
 var wms_layer14 = L.tileLayer
   .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "Data",
@@ -86,7 +86,7 @@ var wms_layer14 = L.tileLayer
     // attribution: "Data",
     opacity: 1,
   });
- 
+
 var wms_layer15 = L.tileLayer
   .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "Revenue",
@@ -97,7 +97,7 @@ var wms_layer15 = L.tileLayer
     // attribution: "Revenue",
     opacity: 1,
   });
- 
+
 var wms_layer17 = L.tileLayer.wms(
   "https://portal.geopulsea.com/geoserver/pmc/wms",
   {
@@ -123,11 +123,11 @@ var wms_layer3 = L.tileLayer.wms(
     opacity: 1,
   }
 );
- 
+
 // console.log(localStorage," ")
 var wardname = localStorage.getItem("wardname");
 console.log(wardname, "wardname");
- 
+
 var wms_layer4 = L.tileLayer.wms(
   "https://portal.geopulsea.com/geoserver/pmc/wms",
   {
@@ -141,29 +141,29 @@ var wms_layer4 = L.tileLayer.wms(
     maxZoom: 25,
   }
 );
- 
+
 var IWMS_point = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
-  layers: "IWMS_point",
-  format: "image/png",
-  transparent: true,
-  tiled: true,
-  version: "1.1.0",
-  // attribution: "DP_Roads",
-  opacity: 1,
-  maxZoom: 25,
-});
- 
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+    layers: "IWMS_point",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "DP_Roads",
+    opacity: 1,
+    maxZoom: 25,
+  });
+
 var IWMS_line = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
-  layers: "IWMS_line",
-  format: "image/png",
-  transparent: true,
-  tiled: true,
-  version: "1.1.0",
-  // attribution: "Reservations",
-  opacity: 1,
-});
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+    layers: "IWMS_line",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    // attribution: "Reservations",
+    opacity: 1,
+  });
 
 var wms_layer16 = L.tileLayer.wms(
   "https://portal.geopulsea.com/geoserver/pmc/wms",
@@ -177,9 +177,9 @@ var wms_layer16 = L.tileLayer.wms(
     opacity: 1,
   }
 );
- ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
- 
-var ward_boundary= L.tileLayer.wms(
+///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
+
+var ward_boundary = L.tileLayer.wms(
   "https://portal.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
@@ -192,8 +192,8 @@ var ward_boundary= L.tileLayer.wms(
     maxZoom: 25,
   }
 );
- 
-var Zone_layer= L.tileLayer.wms(
+
+var Zone_layer = L.tileLayer.wms(
   "https://portal.geopulsea.com/geoserver/pmc/wms",
   {
     layers: "Zone_layer",
@@ -206,8 +206,8 @@ var Zone_layer= L.tileLayer.wms(
     maxZoom: 25,
   }
 );
- 
- 
+
+
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
 
@@ -221,12 +221,12 @@ var Zone_layer= L.tileLayer.wms(
 //     version: "1.1.0",
 //     // attribution: "Village_Boundary",
 //     opacity: 1,
-   
+
 //   }
 // );
 
 
- 
+
 var WMSlayers = {
   "OSM": osm,
   "Esri": Esri_WorldImagery,
@@ -240,16 +240,16 @@ var WMSlayers = {
   Village: wms_layer17,
   PMC: wms_layer3,
   geodata: wms_layer4,
-  OSMRoad : wms_layer16,
+  OSMRoad: wms_layer16,
 };
- 
+
 function refreshWMSLayer() {
   // Remove the layer from the map
   map.removeLayer(wms_layer4);
   // Add the layer again
   wms_layer4.addTo(map);
 }
- 
+
 refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
@@ -629,8 +629,8 @@ map.on("draw:created", function (e) {
           // Apply custom styles directly to the modal elements
           document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
           document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          document.querySelector(".custom-modal-class").style.transition ="all 1.2s ease";
-          document.querySelector(".custom-icon-class").style.transition ="all 1.2s ease";
+          document.querySelector(".custom-modal-class").style.transition = "all 1.2s ease";
+          document.querySelector(".custom-icon-class").style.transition = "all 1.2s ease";
           document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
           document.querySelector(".custom-title-class").style.fontSize =
             "1.5em"; // Set your desired title size
@@ -686,8 +686,8 @@ map.on("draw:created", function (e) {
           // Apply custom styles directly to the modal elements
           document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
           document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
-          document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+          document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
+          document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
           document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
           document.querySelector(".custom-title-class").style.fontSize =
             "1.5em"; // Set your desired title size
@@ -1230,8 +1230,8 @@ $(document).ready(function () {
       var title = $("#workTable thead th").eq($(this).index()).text();
       $(this).html(
         '<input type="text" class="form-control" placeholder="Search ' +
-          title +
-          '" />'
+        title +
+        '" />'
       );
     });
 
@@ -1422,41 +1422,43 @@ function getWardNameById(wardId, wardData) {
   }
 }
 
+
+var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
 map.on("contextmenu", (e) => {
-  let size = map.getSize();
   let bbox = map.getBounds().toBBoxString();
-  let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-    e.containerPoint.x
-  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-    size.x
-  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+  let size = map.getSize();
+  for (let i = 0; i < layers.length; i++) {
+    let layer = layers[i];
+    let urrr = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+      e.containerPoint.x
+    )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
+      }&HEIGHT=${size.y}&BBOX=${bbox}`;
+    if (urrr) {
+      fetch(urrr)
+        .then((response) => response.json())
+        .then((html) => {
+          var htmldata = html.features[0].properties;
+          let keys = Object.keys(htmldata);
+          let values = Object.values(htmldata);
+          let txtk1 = "";
+          var xx = 0;
+          for (let gb in keys) {
+            txtk1 +=
+              "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
+            xx += 1;
+          }
 
-  if (urrr) {
-    fetch(urrr)
-      .then((response) => response.json())
-      .then((html) => {
-        var htmldata = html.features[0].properties;
-        let keys = Object.keys(htmldata);
-        let values = Object.values(htmldata);
-        let txtk1 = "";
-        var xx = 0;
-        for (let gb in keys) {
-          txtk1 +=
-            "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
-          xx += 1;
-        }
+          let detaildata1 =
+            "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" +
+            txtk1 +
+            "</td></tr><tr><td>Co-Ordinates</td><td>" +
+            e.latlng +
+            "</td></tr></table></div>";
 
-        let detaildata1 =
-          "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" +
-          txtk1 +
-          "</td></tr><tr><td>Co-Ordinates</td><td>" +
-          e.latlng +
-          "</td></tr></table></div>";
-
-        L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      });
+          L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+        });
+    }
   }
 });
 
@@ -1471,9 +1473,8 @@ map.on("dblclick", function (e) {
   let style = "pmc:Data";
   let urrr = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
-  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-    size.x
-  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
+    }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
   // you can use this url for further processing such as fetching data from server or showing it on the map
 
@@ -1712,10 +1713,10 @@ legendControl.onAdd = function (map) {
   div.style.height = "40vh";
   div.style.width = "300px";
   div.style.overflowY = "auto";
-  div.style.scrollbarWidth ="thin";
+  div.style.scrollbarWidth = "thin";
   div.style.backgroundColor = "white";
   div.style.border = "1px solid #ccc";
-  div.style.borderRadius ="10px";
+  div.style.borderRadius = "10px";
   div.style.padding = "10px";
   div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
 
@@ -1764,16 +1765,16 @@ collapseButton.onAdd = function (map) {
     var legendDiv = document.querySelector(".info.legend");
     if (
       legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
-     
 
-      legendDiv.style.display ="block";
+
+      legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="44%";
-      legendDiv.style.right ="10px";
+      legendDiv.style.top = "44%";
+      legendDiv.style.right = "10px";
       legendDiv.style.scrollbarWidth = "thin";
-      legendDiv.style.scrollbarColor =  "#163140 white"; 
-      legendDiv.style.borderRadius= "20px"; 
+      legendDiv.style.scrollbarColor = "#163140 white";
+      legendDiv.style.borderRadius = "20px";
       legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
       button.innerHTML = "<i class='fa-solid fa-bars'></i>";
 
@@ -1792,7 +1793,7 @@ collapseButton.onAdd = function (map) {
 
 collapseButton.addTo(map);
 
-  
+
 
 // Create a legend control
 var legend = L.control({ position: "bottomright" });
@@ -1855,10 +1856,10 @@ legend.onAdd = function (map) {
       div.style.height = "60vh";
       div.style.width = "300px";
       div.style.overflowY = "auto";
-      div.style.scrollbarWidth ="thin";
+      div.style.scrollbarWidth = "thin";
       div.style.backgroundColor = "white";
       div.style.border = "1px solid #ccc";
-      div.style.borderRadius ="10px";
+      div.style.borderRadius = "10px";
       div.style.padding = "10px";
     })
     .catch((error) => {
@@ -1883,7 +1884,7 @@ var northArrowControl = L.Control.extend({
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
       '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px;">';
-      return container;
+    return container;
   },
 });
 
@@ -1897,9 +1898,8 @@ map.on("contextmenu", (e) => {
   let style = "pmc:Data";
   let urrr = `https://portal.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
-  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-    size.x
-  }&HEIGHT=${size.y}&BBOX=${bbox}`;
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
+    }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
   if (urrr) {
     fetch(urrr)
