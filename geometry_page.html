@@ -257,9 +257,10 @@
           let polyline;
 
           coordinatesData.forEach(function (feature) {
+            console.log(feature.geometry.type);
             if (feature.geometry.type === "Polygon" ) {
               console.log("alo")
-              let coordinates = feature.geometry.coordinates[0][0].map((coord) => [
+              let coordinates = feature.geometry.coordinates[0].map((coord) => [
                 coord[1],
                 coord[0],
               ]);
