@@ -592,7 +592,10 @@
     };
 
     // Add the control to the map
-    editControl.addTo(map);
+  
+    if(conceptualFormDataConfig.workType != "New"){
+      editControl.addTo(map);
+    }
 
 
 

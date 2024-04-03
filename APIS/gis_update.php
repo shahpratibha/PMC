@@ -55,11 +55,11 @@ if ($department == "Road") {
         echo json_encode(["error" => $e->getMessage()]);
         exit;
     }
-
+    
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
-    geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width
+    geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width , departme_1,\"Budget_Code\",works_aa_a
 ) VALUES (
-    ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width
+    ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width ,:departme_1,:Budget_Code,:works_aa_a
 )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -74,6 +74,10 @@ if ($department == "Road") {
     $stmtIWMS->bindParam(':contact_no', $configData['contact_no'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':length', $configData['length'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':width', $configData['width'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+    
 
     try {
         $stmtIWMS->execute();

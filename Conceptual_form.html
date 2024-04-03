@@ -585,15 +585,15 @@
 
 								if (department) {
 									document.getElementById('department').value = department.department_name;
-									if(department.department_name  == 'Road' ){
+									if(department.department_name  == 'Road' && project.project.work_type == "New" ){
 										roadContainers.forEach(container => {
-                                            container.style.display ='' ; // Adjust display based on boolean value
+                                            container.style.display ='' ; 
                                         });
                                        
 									}
 									else{
 										roadContainers.forEach(container => {
-                                            container.style.display ='none'; // Adjust display based on boolean value
+                                            container.style.display ='none'; 
                                         });
                                       
 									}

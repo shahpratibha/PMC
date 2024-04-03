@@ -285,8 +285,8 @@ searchControl.on("results", function (data) {
 
 
 const department = localStorage.getItem("department") ;
+let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
 
-console.log(department);
 
 var drawControlRoad = new L.Control.Draw({
   draw: {
@@ -338,9 +338,8 @@ var drawControlBuilding = new L.Control.Draw({
 
 
 // map.addControl(drawControl);
-
-
-var customDrawControls = L.control({ position: 'topleft' });
+if(conceptualFormDataConfig.workType == "New"){
+  var customDrawControls = L.control({ position: 'topleft' });
 
   // Define the HTML content for the control
   customDrawControls.onAdd = function (map) {
@@ -352,6 +351,10 @@ var customDrawControls = L.control({ position: 'topleft' });
 
   // Add the control to the map
   customDrawControls.addTo(map);
+}
+
+
+
 
 // toggleDrawControl();
 // console.log(map.getZoom(), "map.getZoom()");
@@ -380,9 +383,29 @@ function toggleDrawControl() {
     isDrawControlAdded = false;
   } else {
     if(department == "Building"){
-      map.addControl(drawControlBuilding);
+      //map.addControl(drawControlBuilding);
+      new L.Draw.Polygon(map, {
+        shapeOptions: {
+          color: "red", // Set the color for the polygon border
+        },
+        icon: new L.DivIcon({
+          iconSize: new L.Point(6, 6), // Set the size of the icon
+          className: "leaflet-div-icon", // Specify the icon class
+        }),
+        // Include other options as necessary
+      }).enable();
     }else{
-      map.addControl(drawControlRoad);
+      //map.addControl(drawControlRoad);
+      new L.Draw.Polyline(map, {
+        shapeOptions: {
+          color: "red", // Set the color for the polygon border
+        },
+        icon: new L.DivIcon({
+          iconSize: new L.Point(6, 6), // Set the size of the icon
+          className: "leaflet-div-icon", // Specify the icon class
+        }),
+        // Include other options as necessary
+      }).enable();
     }
    
     isDrawControlAdded = true;
@@ -393,67 +416,72 @@ function toggleDrawControl() {
 // Event listener for map zoomend event
 //map.on("zoomend", toggleDrawControl);
 
-document.querySelector('.draw_feature').addEventListener('click', function(event) {
-  event.preventDefault();
-  // Toggle draw control when the "Draw Feature" button is clicked
- 
-  console.log("click on button ")
 
-  if (map.getZoom() > 15) {
-    toggleDrawControl();
 
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Oops...",
-          text: "Zoom In to 200 m zoom range",
-          showConfirmButton: false,
-          showCloseButton: true,
-          customClass: {
-            popup: "custom-modal-class",
-            icon: "custom-icon-class",
-            title: "custom-title-class",
-            content: "custom-text-class",
-            closeButton: "custom-close-button-class",
-          },
-          showClass: {
-            popup: "swal2-show",
-            backdrop: "swal2-backdrop-show",
-            icon: "swal2-icon-show",
-          },
-          hideClass: {
-            popup: "swal2-hide",
-            backdrop: "swal2-backdrop-hide",
-            icon: "swal2-icon-hide",
-          },
-          didOpen: () => {
-            // Apply custom styles directly to the modal elements
-            document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-            document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-            document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
-            document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-            document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
-            document.querySelector(".custom-title-class").style.fontSize =
-              "1.5em"; // Set your desired title size
-            document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-            document.querySelector(
-              ".custom-close-button-class"
-            ).style.backgroundColor = "#f44336"; // Red background color
-            document.querySelector(".custom-close-button-class").style.color =
-              "white"; // White text color
-            document.querySelector(
-              ".custom-close-button-class"
-            ).style.borderRadius = "0"; // Rounded corners
-            document.querySelector(".custom-close-button-class").style.padding =
-              "5px"; // Padding around the close button
-            document.querySelector(".custom-close-button-class").style.fontSize =
-              "20px"; // Font size of the close button
-          },
-        });
+if(conceptualFormDataConfig.workType == "New"){
+  document.querySelector('.draw_feature').addEventListener('click', function(event) {
+    event.preventDefault();
+    // Toggle draw control when the "Draw Feature" button is clicked
   
-      }
-});
+    if (map.getZoom() > 15) {
+      toggleDrawControl();
+  
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Oops...",
+            text: "Zoom In to 200 m zoom range",
+            showConfirmButton: false,
+            showCloseButton: true,
+            customClass: {
+              popup: "custom-modal-class",
+              icon: "custom-icon-class",
+              title: "custom-title-class",
+              content: "custom-text-class",
+              closeButton: "custom-close-button-class",
+            },
+            showClass: {
+              popup: "swal2-show",
+              backdrop: "swal2-backdrop-show",
+              icon: "swal2-icon-show",
+            },
+            hideClass: {
+              popup: "swal2-hide",
+              backdrop: "swal2-backdrop-hide",
+              icon: "swal2-icon-hide",
+            },
+            didOpen: () => {
+              // Apply custom styles directly to the modal elements
+              document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+              document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+              document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+              document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+              document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+              document.querySelector(".custom-title-class").style.fontSize =
+                "1.5em"; // Set your desired title size
+              document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+              document.querySelector(
+                ".custom-close-button-class"
+              ).style.backgroundColor = "#f44336"; // Red background color
+              document.querySelector(".custom-close-button-class").style.color =
+                "white"; // White text color
+              document.querySelector(
+                ".custom-close-button-class"
+              ).style.borderRadius = "0"; // Rounded corners
+              document.querySelector(".custom-close-button-class").style.padding =
+                "5px"; // Padding around the close button
+              document.querySelector(".custom-close-button-class").style.fontSize =
+                "20px"; // Font size of the close button
+            },
+          });
+    
+        }
+  });
+}
+
+
+
 
 
 // function for added buffer
@@ -635,8 +663,8 @@ map.on('mousemove', function (e) {
                       map.removeLayer(pointMarker);
                   }
                   var nearestBoundary = getNearestBoundary(data.features, clickedPoint);
-                  // pointMarker = nearestBoundary ;
-                  pointMarker = L.circleMarker(nearestBoundary, { radius: 2.5, color: 'blue' }).addTo(map).bindPopup('Closest point on boundary');
+                   pointMarker = nearestBoundary ;
+                  //pointMarker = L.circleMarker(nearestBoundary, { radius: 2.5, color: 'blue' }).addTo(map).bindPopup('Closest point on boundary');
                  
               }
           });
@@ -651,9 +679,9 @@ let nearestPointsStorage = [];
 let snappingDistance = 50 ;
 
 map.on('draw:drawvertex', function(e) {
-  //var nearestPointCoords = [pointMarker?.lng, pointMarker?.lat];
-  var nearestPointCoords = [pointMarker?.getLatLng().lng, pointMarker?.getLatLng().lat];
-  console.log(nearestPointCoords);
+
+  var nearestPointCoords = [pointMarker?.lng, pointMarker?.lat];
+  //var nearestPointCoords = [pointMarker?.getLatLng().lng, pointMarker?.getLatLng().lat];
     nearestPointsStorage.push(nearestPointCoords);
 });
 
