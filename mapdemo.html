@@ -244,7 +244,7 @@ function loadProjectFi() {
         select.empty();
 
         $.getJSON(
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
           function (data) {
             var projectFiSet = new Set();
 
@@ -312,7 +312,7 @@ function loadProjectFi() {
         var project_fi = $("#project_fi").val();
 
         var geoServerURL =
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
         if (project_fi.length > 0) {
           project_fi = project_fi
             .map((projectFi) => `'${projectFi}'`)
@@ -320,7 +320,7 @@ function loadProjectFi() {
 
           let cqlFilter = `project_fi  IN (${project_fi})`;
           geoServerURL =
-            "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+            "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
             encodeURIComponent(cqlFilter);
         }
 
@@ -403,7 +403,7 @@ function loadProjectFi() {
         }
 
         var geoServerURL =
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -491,7 +491,7 @@ function loadProjectFi() {
         }
 
         var geoServerURL =
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -585,7 +585,7 @@ function loadProjectFi() {
         }
 
         var geoServerURL =
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -686,7 +686,7 @@ function loadProjectFi() {
         }
 
         var geoServerURL =
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
@@ -792,7 +792,7 @@ function loadProjectFi() {
         }
 
         var geoServerURL =
-          "https://portal.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
+          "https://pmc.geopulsea.com/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
 
         $.getJSON(geoServerURL, function (data) {
