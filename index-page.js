@@ -304,6 +304,7 @@ var drawControlRoad = new L.Control.Draw({
     circle: false,
     marker: false,
     rectangle: false,
+    circlemarker:false
   },
   edit: {
     featureGroup: drawnItems,
