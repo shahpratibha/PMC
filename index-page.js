@@ -690,18 +690,17 @@ function getClosestRoadPoint(latlng) {
       fetch(url)
           .then(response => response.json())
           .then(data => {
-              var lastPointMarker;
+              var closestPoint = null;
+              var distance = Infinity;
               if (data.features && data.features.length > 0) {
                   var geometry = data.features[0].geometry;
                   var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
                   var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
-                  var closestPoint = L.GeometryUtil.closest(map, line,clickedPoint);
+                  closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
                   
-                  lastPointMarker = L.circleMarker(closestPoint, { radius: 2.5, color: 'blue' });
-                  lastPointMarker.distance = turf.distance(turf.point([lastPointMarker.getLatLng().lng, lastPointMarker.getLatLng().lat]), turf.point([clickedPoint.lng, clickedPoint.lat]), {units: 'meters'});
-                  lastPointMarker.addTo(map);
+                  distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), {units: 'meters'});
               }
-              resolve({ marker: lastPointMarker, distance: lastPointMarker ? lastPointMarker.distance : Infinity });
+              resolve({ marker: closestPoint, distance: distance });
           })
           .catch(error => {
               console.error('Error:', error);
@@ -712,40 +711,109 @@ function getClosestRoadPoint(latlng) {
 
 
 
+var lastPointMarker = null; 
+
+function getClosestRoadPointLast(latlng) {
+  var buffer = 10; // Buffer distance in meters, adjust as necessary
+  var clickedPoint = latlng;
+  var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
+  var bbox = turf.bbox(bufferedPoint);
+  var url = 'https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=pmc:Exist_Road&outputFormat=application/json&bbox=' + bbox.join(',') + ',EPSG:4326';
+
+  return new Promise((resolve, reject) => {
+      fetch(url)
+          .then(response => response.json())
+          .then(data => {
+              if (lastPointMarker) {
+                  map.removeLayer(lastPointMarker);
+                  lastPointMarker = null; 
+              }
+
+              if (data.features && data.features.length > 0) {
+                  var geometry = data.features[0].geometry;
+                  var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
+                  var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
+                  var closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+                  
+            
+                  var distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), {units: 'meters'});
+                  
+                  if (distance <= 20) { 
+                    var rectangleIcon = L.divIcon({
+                      className: 'custom-rectangle-icon',
+                      html: '<div style="width: 7px; height: 7px; background-color: white; border: 1px solid black;"></div>',
+                      iconSize: [7, 7]
+                    });
+                    
+                   
+                    lastPointMarker = L.marker(closestPoint, { icon: rectangleIcon }).addTo(map);
+                      lastPointMarker.distance = distance;
+                  }
+              }
+
+              resolve({ marker: lastPointMarker, distance: lastPointMarker ? lastPointMarker.distance : Infinity });
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              reject(error);
+          });
+  });
+}
+
+
 map.on("draw:drawvertex", function (e) {
   for (const key in e.layers._layers) {
       if (e.layers._layers.hasOwnProperty(key)) {
           const layer = e.layers._layers[key];
           const originalLatlng = layer._latlng;
           getClosestRoadPoint(originalLatlng).then(result => {
-              if (result.marker && result.distance <= 20.0000) {
-                  layer._latlng.lat = result.marker.getLatLng().lat;
-                  layer._latlng.lng = result.marker.getLatLng().lng;
+              if (result && result.distance <= 20.0000) {
+                  layer._latlng.lat = result.marker.lat;
+                  layer._latlng.lng = result.marker.lng;
+                  layer.setLatLng(result.marker);
               }
           });
       }
   }
 });
 
-map.on("draw:drawstart", function (e) {
-  console.log(e);
+
+
+
+
+let lastDrawnPoint = null;
+let drawTimeout = null;
+let currentDrawLayer;
+
+
+
+map.on('draw:drawstart', function(e) {
+  currentDrawLayer = e.layer;
+   map.on('mousemove', handleMouseMove);
 });
 
+map.on('draw:drawstop', function() {
+  if (drawTimeout) clearTimeout(drawTimeout);
+  map.off('mousemove', handleMouseMove);
+});
+
+function handleMouseMove(event) {
+  if (drawTimeout) clearTimeout(drawTimeout);
+  lastDrawnPoint = event.latlng;
+  drawTimeout = setTimeout(() => {
+      snapToRoad(lastDrawnPoint);
+  }, 100); 
+}
+
+function snapToRoad(point) {
+  getClosestRoadPointLast(point).then(result => {
+  }).catch(error => console.error("Error snapping to road:", error));
+}
 
 
 
-// function adjustLatLng(latlng, index) {
-//   var originalPoint = turf.point([latlng.lng, latlng.lat]);
-//   var nearestPointCoords = nearestPointsStorage[index];
-//   if (nearestPointCoords && nearestPointCoords[0] !== undefined && nearestPointCoords[1] !== undefined) {
-//       var nearestPoint = turf.point(nearestPointCoords);
-//       var distance = turf.distance(originalPoint, nearestPoint, { units: 'meters' });
-//       if (distance <= snappingDistance) {
-//           return L.latLng(nearestPointCoords[1], nearestPointCoords[0]); // Convert to LatLng
-//       }
-//   }
-//   return latlng; // Return original latlng if no adjustment needed or if nearestPointCoords is undefined
-// }
+
+
 
 
 map.on("draw:created", function (e) {
