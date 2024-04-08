@@ -1,370 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PMC</title>
-  <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>PMC</title>
+		<link rel="icon" href="png/pmcjpeg.png" type="image/x-icon" />
 
-  <!-- External CSS -->
-  <link rel="stylesheet" href="C_form.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css">
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+		<!-- External CSS -->
+		<link rel="stylesheet" href="C_form.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+		<link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 
-  <!-- External JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+		<!-- External JavaScript -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+		<script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+		<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-  <!-- Leaflet Draw -->
-  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+		<!-- Leaflet Draw -->
+		<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-  <!-- Custom Styles -->
-  <style>
-    #map {
-      height: 80vh;
-      width: 100%;
-      z-index: 0;
-    }
-    form {
-      max-width: 100%;
-      margin: auto;
-      padding: 20px;
-      background-color: transparent;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-wrap: wrap;
-    }
-    #workTable tr th {
-      white-space: nowrap;
-    }
-    #workTable {
-      flex-grow: 1;
-      overflow-y: auto;
-    }
-    #table-container {
-      background-color: white;
-      position: absolute;
-      width: 40%;
-      top: 0;
-      right: 0;
-      overflow-y: scroll;
-      scrollbar-width: thin;
-      margin: 0 auto;
-      overflow-x: scroll;
-      z-index: 9999;
-      flex-direction: column;
-    }
+		<!-- Custom Styles -->
+		<style>
+			#map {
+				height: 80vh;
+				width: 100%;
+				z-index: 0;
+			}
+			form {
+				max-width: 100%;
+				margin: auto;
+				padding: 20px;
+				background-color: transparent;
+				border-radius: 10px;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+				display: flex;
+				flex-wrap: wrap;
+			}
+			#workTable tr th {
+				white-space: nowrap;
+			}
+			#workTable {
+				flex-grow: 1;
+				overflow-y: auto;
+			}
+			#table-container {
+				background-color: white;
+				position: absolute;
+				width: 40%;
+				top: 0;
+				right: 0;
+				overflow-y: scroll;
+				scrollbar-width: thin;
+				margin: 0 auto;
+				overflow-x: scroll;
+				z-index: 9999;
+				flex-direction: column;
+			}
 
-    @media print {
-            @page {
-                size: tabloid;
-            }
-        }
-  </style>
-</head>
+			@media print {
+				@page {
+					size: tabloid;
+				}
+			}
+		</style>
+	</head>
 
-  <body id="body-pd" class="bg-light">
-    <header class="header" id="header">
-      <div><h5>GeoPulse</h5></div>
-      <div class="header_img">  <img src="user.png"  alt /> </div>
-    </header>
-    
-    <div id="content" style="width: 100%" class="container">
-     
-      <div id="button-container" class="mt-4"></div>
+	<body id="body-pd" class="bg-light">
+		<header class="header" id="header">
+			<div><h5>GeoPulse</h5></div>
+			<div class="header_img"><img src="user.png" alt /></div>
+		</header>
 
-      <section id="map-section" class="mt-5">
-        <!-- <h2>MARK AREA</h2> -->
+		<div id="content" style="width: 100%" class="container">
+			<div id="button-container" class="mt-4"></div>
 
-        <form class="mt-5" style="overflow: hidden">
-          <div style="margin: 0; float: left">
-            <h5 class="text-secondary">Preview Map</h5>
-          </div>
-          <div style="float: right; margin-top: -40px; margin-left: 95%">
-            <i
-              class="fa-solid fa-print text-primary"
-              id="generatePdfBtn"
-              onclick="printPage()"
-              style="font-size: 25px"
-            ></i>
-          </div>
+			<section id="map-section" class="mt-5">
+				<!-- <h2>MARK AREA</h2> -->
 
-          <div id="map">
+				<form class="mt-5" style="overflow: hidden">
+					<div style="margin: 0; float: left">
+						<h5 class="text-secondary">Preview Map</h5>
+					</div>
+					<div style="float: right; margin-top: -40px; margin-left: 95%">
+						<i
+							class="fa-solid fa-print text-primary"
+							id="generatePdfBtn"
+							onclick="printPage()"
+							style="font-size: 25px"
+						></i>
+					</div>
 
-          <div id="table-container">
-            <table
-              id="workTable"
-              class="table table-bordered table-hover"
-              style="width: 100% !important; font-size: 10px;"
-            >
-              <thead>
-                <tr>
-                  <th>Project No</th>
-                  <th>Name of AA work</th>
-                  <th>Work Type</th>
-                  <th>Scope of Work</th>
-                  <th>Project Financial Year</th>
-                  <th>Department</th>
-                  <th>Project Type</th>
-                  <th>Project Office</th>
-                  <th>Junior Engineer Name</th>
-                  <th>Contact No</th>
-                  <th>Date-In</th>
-                  <th>Zone</th>
-                  <th>Ward</th>
-                  <th>Prabhag Name</th>
-                  <th>Width</th>
-                  <th>Length</th>
-                </tr>
-              </thead>
-              <tbody id="workTableData"></tbody>
-            </table>
-          </div>
-        </div>
-        </form>
-      </section>
-    </div>
+					<div id="map">
+						<div id="table-container">
+							<table
+								id="workTable"
+								class="table table-bordered table-hover"
+								style="width: 100% !important; font-size: 10px"
+							>
+								<thead>
+									<tr>
+										<th>Project No</th>
+										<th>Name of AA work</th>
+										<th>Work Type</th>
+										<th>Scope of Work</th>
+										<th>Project Financial Year</th>
+										<th>Department</th>
+										<th>Project Type</th>
+										<th>Project Office</th>
+										<th>Junior Engineer Name</th>
+										<th>Contact No</th>
+										<th>Date-In</th>
+										<th>Zone</th>
+										<th>Ward</th>
+										<th>Prabhag Name</th>
+										<th>Width</th>
+										<th>Length</th>
+									</tr>
+								</thead>
+								<tbody id="workTableData"></tbody>
+							</table>
+						</div>
+					</div>
+				</form>
+			</section>
+		</div>
 
-    
+		<script>
+			var map = L.map('map', {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
 
-    <script>
+			var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+				maxZoom: 20,
+				subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+			}).addTo(map);
 
-      
+			function showCoordinatesOnMap(coordinates) {
+				for (var i = 0; i < coordinates.length; i++) {
+					var marker = L.polyline(coordinates[i]).addTo(map);
+					map.fitBounds(marker.getBounds());
+				}
+			}
 
-      var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
+			// =================================================
+			function takeScreenshot() {
+				html2canvas(document.getElementById('map'), {
+					useCORS: false,
+				}).then(function (canvas) {
+					var imgData = canvas.toDataURL('image/png');
 
-      var googleSat = L.tileLayer(
-  "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-  {
-    maxZoom: 20,
-    subdomains: ["mt0", "mt1", "mt2", "mt3"],
-  }
-).addTo(map);
+					var pdf = new jsPDF();
+					pdf.addImage(imgData, 'PNG', 15, 25, 180, 135);
 
-      function showCoordinatesOnMap(coordinates) {
-        for (var i = 0; i < coordinates.length; i++) {
-          var marker = L.polyline(coordinates[i]).addTo(map);
-          map.fitBounds(marker.getBounds());
-        }
-      }
+					var imgHeight = canvas.height;
 
-      // =================================================
- function takeScreenshot() {
-      html2canvas(document.getElementById("map"), {
-        useCORS: false,
-      }).then(function (canvas) {
-        var imgData = canvas.toDataURL("image/png");
+					var img = new Image();
+					img.onload = function () {
+						pdf.addImage(img, 'PNG', 15, 170, 180, 80);
+						pdf.save('map.pdf'); // Save PDF
+					};
+				});
+			}
 
-        var pdf = new jsPDF();
-        pdf.addImage(imgData, "PNG", 15, 25, 180, 135);
+			// ================================================
 
-        var imgHeight = canvas.height;
+			function loadFile() {
+				var input = document.getElementById('fileInput');
+				var file = input.files[0];
 
-        var img = new Image();
-        img.onload = function () {
-          pdf.addImage(img, "PNG", 15, 170, 180, 80);
-          pdf.save("map.pdf"); // Save PDF
-        };
-      });
-    }
+				if (file) {
+					var reader = new FileReader();
 
-      // ================================================
+					reader.onload = function (e) {
+						try {
+							var parser = new DOMParser();
+							var kmlDoc = parser.parseFromString(e.target.result, 'application/xml');
 
-      
-      function loadFile() {
-        var input = document.getElementById("fileInput");
-        var file = input.files[0];
+							var coordinates = extractCoordinates(kmlDoc);
 
-        if (file) {
-          var reader = new FileReader();
+							showCoordinatesOnMap(coordinates);
+						} catch (error) {
+							alert('Invalid KML/KMZ file!');
+						}
+					};
 
-          reader.onload = function (e) {
-            try {
-              var parser = new DOMParser();
-              var kmlDoc = parser.parseFromString(
-                e.target.result,
-                "application/xml"
-              );
-              console.log(kmlDoc);
-              var coordinates = extractCoordinates(kmlDoc);
-              console.log(coordinates, "coordinatesextracted");
-              showCoordinatesOnMap(coordinates);
-            } catch (error) {
-              alert("Invalid KML/KMZ file!");
-            }
-          };
+					reader.readAsText(file);
+				}
+			}
 
-          reader.readAsText(file);
-        }
-      }
+			function extractCoordinates(kmlDoc) {
+				var coordinates = [];
 
-      function extractCoordinates(kmlDoc) {
-        var coordinates = [];
+				var placemarks = kmlDoc.querySelectorAll('Placemark');
 
-        var placemarks = kmlDoc.querySelectorAll("Placemark");
-        console.log(placemarks, "placemarks");
-        placemarks.forEach(function (placemark) {
-          var coordinatesNode = placemark.querySelector("coordinates");
-          console.log(coordinatesNode);
-          if (coordinatesNode) {
-            var coordsArray = coordinatesNode.textContent.trim().split(" ");
-            var coords = coordsArray.map((coordString) => {
-              var [lon, lat] = coordString.split(",");
-              return [parseFloat(lat), parseFloat(lon)];
-            });
-            coordinates.push(coords);
-          }
-        });
+				placemarks.forEach(function (placemark) {
+					var coordinatesNode = placemark.querySelector('coordinates');
 
-        return coordinates;
-      }
-         
-      $(document).ready(function () {
-        if (localStorage.getItem("conceptual_form_data")) {
-          $("#table-container").show();
-          const formDataFromStorage = JSON.parse(
-            localStorage.getItem("conceptual_form_data")
-          );
-          contentData = `<tr>`;
-          for (const property in formDataFromStorage) {
-            contentData += `<td>${formDataFromStorage[property]}</td>`;
-          }
-          contentData += `</tr>`;
-          $("#workTableData").html(contentData);
-        }
-        if (localStorage.getItem("selectCoordinatesData") !== null) {
-          let coordinatesData = localStorage.getItem("selectCoordinatesData");
-          coordinatesData = JSON.parse(coordinatesData);
-          console.log(coordinatesData);
-          let polyline;
+					if (coordinatesNode) {
+						var coordsArray = coordinatesNode.textContent.trim().split(' ');
+						var coords = coordsArray.map((coordString) => {
+							var [lon, lat] = coordString.split(',');
+							return [parseFloat(lat), parseFloat(lon)];
+						});
+						coordinates.push(coords);
+					}
+				});
 
-          coordinatesData.forEach(function (feature) {
-            console.log(feature.geometry.type);
-            if (feature.geometry.type === "Polygon" ) {
-              console.log("alo")
-              let coordinates = feature.geometry.coordinates[0].map((coord) => [
-                coord[1],
-                coord[0],
-              ]);
-              let polygon = L.polygon(coordinates).addTo(map);
+				return coordinates;
+			}
 
-              // Bind popup to the polygon
-              polygon.bindPopup(getPopupContent(feature));
+			$(document).ready(function () {
+				if (localStorage.getItem('conceptual_form_data')) {
+					$('#table-container').show();
+					const formDataFromStorage = JSON.parse(localStorage.getItem('conceptual_form_data'));
+					contentData = `<tr>`;
+					for (const property in formDataFromStorage) {
+						contentData += `<td>${formDataFromStorage[property]}</td>`;
+					}
+					contentData += `</tr>`;
+					$('#workTableData').html(contentData);
+				}
+				if (localStorage.getItem('selectCoordinatesData') !== null) {
+					let coordinatesData = localStorage.getItem('selectCoordinatesData');
+					coordinatesData = JSON.parse(coordinatesData);
 
-              // Listen for click event on polygon to open popup
-              polygon.on("click", function (e) {
-                e.target.openPopup();
-              });
-            } 
-            else  if ( feature.geometry.type === "MultiPolygon") {
-              console.log("alo")
-              let coordinates = feature.geometry.coordinates[0][0].map((coord) => [
-                coord[1],
-                coord[0],
-              ]);
-              let polygon = L.polygon(coordinates).addTo(map);
+					let polyline;
 
-              // Bind popup to the polygon
-              polygon.bindPopup(getPopupContent(feature));
+					coordinatesData.forEach(function (feature) {
+						if (feature.geometry.type === 'Polygon') {
+							let coordinates = feature.geometry.coordinates[0].map((coord) => [coord[1], coord[0]]);
+							let polygon = L.polygon(coordinates).addTo(map);
 
-              // Listen for click event on polygon to open popup
-              polygon.on("click", function (e) {
-                e.target.openPopup();
-              });
-            }
-            else if (
-              feature.geometry.type === "LineString" ||
-              feature.geometry.type === "MultiLineString"
-            ) {
-              console.log(feature.geometry.coordinates);
-              let coordinates = feature.geometry.coordinates.map(
-                (innerArray) => {
-                  if (Array.isArray(innerArray[0])) {
-                    return innerArray.map((coord) => [coord[1], coord[0]]);
-                  } else {
-                    return [innerArray[1], innerArray[0]];
-                  }
-                }
-              );
+							// Bind popup to the polygon
+							polygon.bindPopup(getPopupContent(feature));
 
-              let highlightedAreaLayer = L.polyline(coordinates, {
-                color: "red",
-                fillColor: "red",
-                fillOpacity: 0.5,
-              }).addTo(map);
+							// Listen for click event on polygon to open popup
+							polygon.on('click', function (e) {
+								e.target.openPopup();
+							});
+						} else if (feature.geometry.type === 'MultiPolygon') {
+							let coordinates = feature.geometry.coordinates[0][0].map((coord) => [coord[1], coord[0]]);
+							let polygon = L.polygon(coordinates).addTo(map);
 
-              // Fit the map view to the bounds of the highlighted area
-              map.fitBounds(highlightedAreaLayer.getBounds());
+							// Bind popup to the polygon
+							polygon.bindPopup(getPopupContent(feature));
 
-              // Assuming `polyline` was intended to be `highlightedAreaLayer` based on the context
-              highlightedAreaLayer.bindPopup(getPopupContent(feature));
+							// Listen for click event on polygon to open popup
+							polygon.on('click', function (e) {
+								e.target.openPopup();
+							});
+						} else if (
+							feature.geometry.type === 'LineString' ||
+							feature.geometry.type === 'MultiLineString'
+						) {
+							let coordinates = feature.geometry.coordinates.map((innerArray) => {
+								if (Array.isArray(innerArray[0])) {
+									return innerArray.map((coord) => [coord[1], coord[0]]);
+								} else {
+									return [innerArray[1], innerArray[0]];
+								}
+							});
 
-              // Listen for click event on highlightedAreaLayer to open popup
-              highlightedAreaLayer.on("click", function (e) {
-                e.target.openPopup();
-              });
-            }
-          });
+							let highlightedAreaLayer = L.polyline(coordinates, {
+								color: 'red',
+								fillColor: 'red',
+								fillOpacity: 0.5,
+							}).addTo(map);
 
-          // Fit map bounds
-          let bounds = L.latLngBounds(
-            coordinatesData.map((feature) => {
-              return L.geoJSON(feature).getBounds();
-            })
-          );
-          map.fitBounds(bounds);
-        }
-      });
+							// Fit the map view to the bounds of the highlighted area
+							map.fitBounds(highlightedAreaLayer.getBounds());
 
-      function getPopupContent(feature) {
-        // Create and return the HTML content for the popup based on the feature data
-        let content = "<div class='popup-table-container'><table>";
-        if (localStorage.getItem("conceptual_form_data")) {
-          const formDataFromStorage = JSON.parse(
-            localStorage.getItem("conceptual_form_data")
-          );
-          for (const property in formDataFromStorage) {
-            content += `<tr><td>${property}</td><td>${formDataFromStorage[property]}</td></tr>`;
-          }
-        } else {
-          for (const [key, value] of Object.entries(feature.properties)) {
-            content += `<tr><td>${key}</td><td>${value}</td></tr>`;
-          }
-        }
+							// Assuming `polyline` was intended to be `highlightedAreaLayer` based on the context
+							highlightedAreaLayer.bindPopup(getPopupContent(feature));
 
-        content += "</table></div>";
-        return content;
-      }
+							// Listen for click event on highlightedAreaLayer to open popup
+							highlightedAreaLayer.on('click', function (e) {
+								e.target.openPopup();
+							});
+						}
+					});
 
-      $( function() {
-          $("#workTable").draggable();
-        } );
-    </script>
+					// Fit map bounds
+					let bounds = L.latLngBounds(
+						coordinatesData.map((feature) => {
+							return L.geoJSON(feature).getBounds();
+						})
+					);
+					map.fitBounds(bounds);
+				}
+			});
 
-<script>
-  function printPage() {
-      // Trigger the browser's print dialog
-      window.print();
-     
-  }
-  </script>
-  </body>
+			function getPopupContent(feature) {
+				// Create and return the HTML content for the popup based on the feature data
+				let content = "<div class='popup-table-container'><table>";
+				if (localStorage.getItem('conceptual_form_data')) {
+					const formDataFromStorage = JSON.parse(localStorage.getItem('conceptual_form_data'));
+					for (const property in formDataFromStorage) {
+						content += `<tr><td>${property}</td><td>${formDataFromStorage[property]}</td></tr>`;
+					}
+				} else {
+					for (const [key, value] of Object.entries(feature.properties)) {
+						content += `<tr><td>${key}</td><td>${value}</td></tr>`;
+					}
+				}
+
+				content += '</table></div>';
+				return content;
+			}
+
+			$(function () {
+				$('#workTable').draggable();
+			});
+		</script>
+
+		<script>
+			function printPage() {
+				// Trigger the browser's print dialog
+				window.print();
+			}
+		</script>
+	</body>
 </html>
