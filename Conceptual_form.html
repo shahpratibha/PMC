@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PMC</title>
-    <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
-    <link rel="stylesheet" href="C_form.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>PMC</title>
+		<link rel="icon" href="png/pmcjpeg.png" type="image/x-icon" />
+		<link rel="stylesheet" href="C_form.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
 
 		<!-- ============================ -->
 		<!-- bootstrap -->
@@ -78,12 +78,12 @@
 					</div>
 
 					<label for="projectNo">Project No:</label>
-					<input type="text" id="projectNo" name="projectNo" required  />
+					<input type="text" id="projectNo" name="projectNo" required />
 					<label for="aaWork">Name of AA work:</label>
-					<textarea type="text" id="aaWork" name="aaWork" rows="4" required ></textarea>
+					<textarea type="text" id="aaWork" name="aaWork" rows="4" required></textarea>
 
 					<label for="workType">Work Type:</label>
-					<select id="workType" name="workType" required >
+					<select id="workType" name="workType" required>
 						<option value="Select Work Type">Select Work Type</option>
 						<option value="Emergency And Special Work">Emergency And Special Work</option>
 						<option value="Maintenance Work">Maintenance Work</option>
@@ -93,10 +93,10 @@
 					</select>
 
 					<label for="scopeOfWork">Scope of Work:</label>
-					<input id="scopeOfWork" name="scopeOfWork" rows="4" required  />
+					<input id="scopeOfWork" name="scopeOfWork" rows="4" required />
 
 					<label for="projectFinancialYear">Project Financial Year:</label>
-					<select input id="projectFinancialYear" name="projectFinancialYear" required >
+					<select input id="projectFinancialYear" name="projectFinancialYear" required>
 						<option value="Select projectFinancialYear">Select Project Financial Year</option>
 						<option value="2022-2023">2022-2023</option>
 						<option value="2023-2024">2023-2024</option>
@@ -104,7 +104,7 @@
 					</select>
 
 					<label for="department">Department:</label>
-					<select id="department" name="department" required >
+					<select id="department" name="department" required>
 						<option value="">Select Department</option>
 						<option value="Road">Road</option>
 						<option value="Building">Building</option>
@@ -126,19 +126,19 @@
 					</select>
 
 					<label for="projectOffice">Project Office:</label>
-					<input type="text" id="projectOffice" name="projectOffice" required  />
+					<input type="text" id="projectOffice" name="projectOffice" required />
 
 					<label for="juniorName">Junior Engineer Name:</label>
-					<input type="text" id="juniorName" name="juniorName" required  />
+					<input type="text" id="juniorName" name="juniorName" required />
 
 					<label for="contactNo">Contact No:</label>
-					<input type="tel" id="contactNo" name="contactNo" required  />
+					<input type="tel" id="contactNo" name="contactNo" required />
 
 					<label for="dateIn">Date-In:</label>
-					<input type="date" id="dateIn" name="dateIn" required  />
+					<input type="date" id="dateIn" name="dateIn" required />
 
 					<label for="zone">Zone:</label>
-					<select id="zone" name="zone" required >
+					<select id="zone" name="zone" required>
 						<option value=" ">Select Zone</option>
 						<option value="D.M.C. Zone 1">D.M.C. Zone 1</option>
 						<option value="D.M.C. Zone 2">D.M.C. Zone 2</option>
@@ -150,7 +150,7 @@
 					<!-- <label for="ward">Ward:</label> -->
 					<!-- // thi line is added\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 					<label for="ward">Ward:</label>
-					<select id="ward" name="ward" required >
+					<select id="ward" name="ward" required>
 						<option value="Select Ward">Select Ward</option>
 						<option value="Yeravada Kalas Dhanori">Yeravada Kalas Dhanori</option>
 						<option value="Dhole Patil Ward">Dhole Patil Ward</option>
@@ -170,15 +170,15 @@
 					</select>
 
 					<label for="ward">Budget Code:</label>
-					<input type="text" id="budgetCodes" name="budgetCodes" placeholder="budget code" required  />
+					<input type="text" id="budgetCodes" name="budgetCodes" placeholder="budget code" required />
 
 					<div class="road-container">
 						<label for="Width">Width</label>
-						<input type="text" id="Width" name="Width" placeholder="Width in m"  />
+						<input type="text" id="Width" name="Width" placeholder="Width in m" required />
 					</div>
 					<div class="road-container">
 						<label for="Length">Length</label>
-						<input type="text" id="Length" name="Length" placeholder="Width in km"  />
+						<input type="text" id="Length" name="Length" placeholder="Width in km" required />
 					</div>
 					<a class="submitbtn">
 						<button type="button" onclick="submitForm()">Next</button>
@@ -493,8 +493,7 @@
 					ward_no: '13',
 				},
 			];
-            const roadContainers = document.querySelectorAll('.road-container'); 
-			console.log(roadContainers);
+			const roadContainers = document.querySelectorAll('.road-container');
 			document.addEventListener('DOMContentLoaded', function () {
 				const fetchDataButton = document.getElementById('fetchDataButton');
 
@@ -519,36 +518,28 @@
 					fetch('api-responses/all-project-data.json')
 						.then((response) => response.json())
 						.then((data) => {
-							
 							const project = data.data.projectData.find(
 								(project) => project.project.works_aa_approval_id === id
 							);
-
-
 
 							if (!project) {
 								alert('project with this works_aa_approval_id is not found');
 								return;
 							}
-						
+
 							let department = depData.find((dep) => dep.department_id == project.project.d_id);
 							let zone = zoneData.find((dep) => dep.zone_id == project.project.constituency_zone_id);
 							let ward = wardData.find((ward) => ward.ward_id == project.project.constituency_ward_id);
-						
 
 							if (project) {
-                              
-							
+								let budgetCodes = project?.budget_data
+									?.map((budget) => budget.budget_code.trim())
+									.join(', ');
 
-								let budgetCodes = project?.budget_data?.map(budget => budget.budget_code.trim()).join(', ');
-
-							
-								if(budgetCodes){
-									document.getElementById('budgetCodes').value = budgetCodes; 
-
+								if (budgetCodes) {
+									document.getElementById('budgetCodes').value = budgetCodes;
 								}
 
-								
 								document.getElementById('projectNo').value = project.project.sys_proj_id || '';
 								document.getElementById('aaWork').value = project.project.name_of_work || '';
 								document.getElementById('scopeOfWork').value = project.project.scope_of_work || '';
@@ -562,7 +553,6 @@
 								if (project.project.project_from) {
 									let projectOfficeValue = '';
 
-									
 									switch (project.project.project_from) {
 										case '1':
 											projectOfficeValue = 'Main Office';
@@ -574,28 +564,22 @@
 											projectOfficeValue = 'Ward Office';
 											break;
 										default:
-											projectOfficeValue = 'Unknown'; 
+											projectOfficeValue = 'Unknown';
 									}
 
-									
 									document.getElementById('projectOffice').value = projectOfficeValue;
 								}
 
-
-
 								if (department) {
 									document.getElementById('department').value = department.department_name;
-									if(department.department_name  == 'Road' && project.project.work_type == "New" ){
-										roadContainers.forEach(container => {
-                                            container.style.display ='' ; 
-                                        });
-                                       
-									}
-									else{
-										roadContainers.forEach(container => {
-                                            container.style.display ='none'; 
-                                        });
-                                      
+									if (department.department_name == 'Road' && project.project.work_type == 'New') {
+										roadContainers.forEach((container) => {
+											container.style.display = '';
+										});
+									} else {
+										roadContainers.forEach((container) => {
+											container.style.display = 'none';
+										});
 									}
 								}
 
@@ -620,8 +604,6 @@
 						})
 						.catch((error) => console.error('Error fetching project data:', error));
 				}
-
-				
 			});
 
 			function goToNextPage() {
@@ -657,6 +639,29 @@
 			function submitForm() {
 				// Prevent the form from submitting the traditional way
 				event.preventDefault();
+
+				// Check if department is 'Road' and work type is 'New'
+				const department = document.getElementById('department').value;
+				const workType = document.getElementById('workType').value;
+
+				// Reference to length and width inputs
+				const lengthInput = document.getElementById('Length');
+				const widthInput = document.getElementById('Width');
+
+				// Reset potentially set 'required' attributes from previous submissions
+				lengthInput.removeAttribute('required');
+				widthInput.removeAttribute('required');
+
+				// Check conditions and make fields mandatory as necessary
+				if (department === 'Road' && workType === 'New') {
+					lengthInput.setAttribute('required', '');
+					widthInput.setAttribute('required', '');
+
+						if (!lengthInput.value || !widthInput.value) {
+						alert('Length and Width fields are required for New Road projects.');
+						return; // Stop the form submission
+					}
+				}
 				// Gather form data
 				const formData = new FormData(document.getElementById('projectForm'));
 
@@ -666,7 +671,6 @@
 					formObject[key] = value;
 				});
 
-			
 				// Use Axios to submit form data
 				axios
 					.post('Apis/Conceptual_Form.php', formObject)

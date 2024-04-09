@@ -20,9 +20,128 @@ var googleSat = L.tileLayer(
   }
 );
 
+
+const department = localStorage.getItem("department") ;
+let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
+
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:19,
 }).addTo(map);
+
+
+if(department == "Building"){
+  var wms_layer1 = L.tileLayer.wms(
+    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    {
+      layers: "Roads",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  );
+  var wms_layer13 = L.tileLayer.wms(
+    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    {
+      layers: "Drainage_data",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  )
+  var wms_layer11 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Reservations",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  }).addTo(map);
+}
+else if(department == "Road"){
+  var wms_layer1 = L.tileLayer.wms(
+    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    {
+      layers: "Roads",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  ).addTo(map);
+  var wms_layer13 = L.tileLayer.wms(
+    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    {
+      layers: "Drainage_data",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  );
+  var wms_layer11 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Reservations",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+}else if(department == "Drainage"){
+  var wms_layer1 = L.tileLayer.wms(
+    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    {
+      layers: "Roads",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  );
+  var wms_layer11 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Reservations",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+  var wms_layer13 = L.tileLayer.wms(
+    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    {
+      layers: "Drainage_data",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  ).addTo(map);
+}
+
+
+
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -32,18 +151,7 @@ var Esri_WorldImagery = L.tileLayer(
 );
 var baseLayers = {};
  
-var wms_layer1 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "Roads",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-    opacity: 1,
-  }
-).addTo(map);
+
  
 var wms_layer12 = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -56,30 +164,9 @@ var wms_layer12 = L.tileLayer
     opacity: 1,
   }).addTo(map);
  
-var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Reservations",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
 
-    opacity: 1,
-  });
  
-var wms_layer13 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "Drainage_data",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-    opacity: 1,
-  }
-);
+
  
 var wms_layer14 = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -180,8 +267,7 @@ var wms_layer16 = L.tileLayer.wms(
 );
 // console.log(localStorage," ")
 var wardname = localStorage.getItem("wardname");
-console.log(wardname, "wardname");
- 
+
  ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
  
 var ward_boundary= L.tileLayer.wms(
@@ -261,7 +347,6 @@ function fitbou(filter) {
     "&CQL_FILTER=" +
     filter +
     "&outputFormat=application/json";
-console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
     map.fitBounds(geojson.getBounds());
@@ -283,9 +368,6 @@ searchControl.on("results", function (data) {
 
 //******** draw controls */
 
-
-const department = localStorage.getItem("department") ;
-let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
 
 
 var drawControlRoad = new L.Control.Draw({
@@ -337,8 +419,48 @@ var drawControlBuilding = new L.Control.Draw({
 });
 
 
+var drawControlDrainage = new L.Control.Draw({
+  draw: {
+    polyline: {
+      shapeOptions: {
+        color: "red", // set the color for the polygon border
+      },
+      icon: new L.DivIcon({
+        iconSize: new L.Point(6, 6), // set the size of the icon
+        className: "leaflet-div-icon", // specify the icon class
+      }),
+    },
+    polygon: false,
+
+    circle: false,
+    marker: false,
+    rectangle: false,
+    point:true,
+  },
+  edit: {
+    featureGroup: drawnItems,
+    remove: false,
+  },
+});
+
+
+
 // map.addControl(drawControl);
 if(conceptualFormDataConfig.workType == "New"){
+  var customDrawControls = L.control({ position: 'topleft' });
+
+  // Define the HTML content for the control
+  customDrawControls.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'draw-control');
+    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:40%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
+    customDrawControlsContainer = div;
+    return div;
+  };
+
+  // Add the control to the map
+  customDrawControls.addTo(map);
+}
+else if (department == "Building"){
   var customDrawControls = L.control({ position: 'topleft' });
 
   // Define the HTML content for the control
@@ -376,7 +498,9 @@ function toggleDrawControl() {
     if(department == "Building"){
       map.removeControl(drawControlBuilding);
     }
-    else{
+    else if(department == "Road"){
+      map.removeControl(drawControlRoad);
+    }else if(department == "Drainage"){
       map.removeControl(drawControlRoad);
     }
  
@@ -684,7 +808,19 @@ function getClosestRoadPoint(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  var url = 'https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=pmc:Exist_Road&outputFormat=application/json&bbox=' + bbox.join(',') + ',EPSG:4326';
+  if(department=='Road'){
+    layer = "pmc:Exist_Road";
+
+ }
+ else if(department == 'Building'){
+    layer = "pmc:Reservations";
+
+ }
+ else if(department == 'Drainage'){
+  layer = "pmc:storm_water";
+
+}
+  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -718,7 +854,21 @@ function getClosestRoadPointLast(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  var url = 'https://portal.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=pmc:Exist_Road&outputFormat=application/json&bbox=' + bbox.join(',') + ',EPSG:4326';
+  let layer = "pmc:Exist_Road";
+
+  if(department=='Road'){
+    layer = "pmc:Exist_Road";
+
+ }
+ else if(department == 'Building'){
+    layer = "pmc:Reservations";
+
+ }
+ else if(department == 'Drainage'){
+  layer = "pmc:storm_water";
+
+}
+  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -809,11 +959,6 @@ function snapToRoad(point) {
   getClosestRoadPointLast(point).then(result => {
   }).catch(error => console.error("Error snapping to road:", error));
 }
-
-
-
-
-
 
 
 map.on("draw:created", function (e) {
@@ -947,17 +1092,16 @@ map.on("draw:created", function (e) {
 // }
 
 drawnItems.addLayer(layer); 
-if (e.layerType === "polyline") {
+if (e.layerType === "polyline" && department === "Road") {
     var bufferWidth = localStorage.getItem("bufferWidth");
     createBufferAndDashedLine(layer, roadLenght, bufferWidth);
-    }
+   }
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
 var geoJSON = layer.toGeoJSON();
 var popupContent = UpdateArea(geoJSON);
 var lastInsertedId = localStorage.getItem("lastInsertedId");
 var lastDrawnPolylineId = layer._leaflet_id;
-console.log(geoJSON,lastInsertedId,lastDrawnPolylineId)
 $.ajax({
   // url: API_URL + "/process.php", // Path to the PHP script
   url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
@@ -1185,7 +1329,6 @@ function deleteRow() {
 
 function Savedata(lastDrawnPolylineId) {
   var geoJSONString = toGISformat();
-  console.log(geoJSONString);
   var geoJSONStringJson = JSON.parse(geoJSONString);
   let selectCoordinatesData = geoJSONStringJson.features;
   localStorage.setItem(
@@ -1213,14 +1356,15 @@ function Savedata(lastDrawnPolylineId) {
   }
 
   var payload = 
-  {
+  JSON.stringify( {
     geoJSON: bufferGeoJSONString,
     roadLength: roadLenght,
     bufferWidth: bufferWidth,
     gis_id: lastInsertedId,
     department: department,
     selectCoordinatesData:selectCoordinatesData,
-  };
+  });
+
 
   $.ajax({
     type: "POST",
