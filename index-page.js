@@ -508,29 +508,29 @@ function toggleDrawControl() {
     isDrawControlAdded = false;
   } else {
     if(department == "Building"){
-      //map.addControl(drawControlBuilding);
-      new L.Draw.Polygon(map, {
-        shapeOptions: {
-          color: "red", // Set the color for the polygon border
-        },
-        icon: new L.DivIcon({
-          iconSize: new L.Point(6, 6), // Set the size of the icon
-          className: "leaflet-div-icon", // Specify the icon class
-        }),
-        // Include other options as necessary
-      }).enable();
+      map.addControl(drawControlBuilding);
+      // new L.Draw.Polygon(map, {
+      //   shapeOptions: {
+      //     color: "red", // Set the color for the polygon border
+      //   },
+      //   icon: new L.DivIcon({
+      //     iconSize: new L.Point(6, 6), // Set the size of the icon
+      //     className: "leaflet-div-icon", // Specify the icon class
+      //   }),
+      //   // Include other options as necessary
+      // }).enable();
     }else{
-      //map.addControl(drawControlRoad);
-      new L.Draw.Polyline(map, {
-        shapeOptions: {
-          color: "red", // Set the color for the polygon border
-        },
-        icon: new L.DivIcon({
-          iconSize: new L.Point(6, 6), // Set the size of the icon
-          className: "leaflet-div-icon", // Specify the icon class
-        }),
-        // Include other options as necessary
-      }).enable();
+      map.addControl(drawControlRoad);
+      // new L.Draw.Polyline(map, {
+      //   shapeOptions: {
+      //     color: "red", // Set the color for the polygon border
+      //   },
+      //   icon: new L.DivIcon({
+      //     iconSize: new L.Point(6, 6), // Set the size of the icon
+      //     className: "leaflet-div-icon", // Specify the icon class
+      //   }),
+      //   // Include other options as necessary
+      // }).enable();
     }
    
     isDrawControlAdded = true;
