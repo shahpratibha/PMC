@@ -216,19 +216,18 @@ var wms_layer3 = L.tileLayer.wms(
 );
  
 
-var wms_layer4 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "geodata",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "geodata",
-    opacity: 1,
-    maxZoom: 21,
-  }
-);
+// var wms_layer4 = L.tileLayer.wms(
+//   "https://pmc.geopulsea.com/geoserver/pmc/wms",
+//   {
+//     layers: "geodata",
+//     format: "image/png",
+//     transparent: true,
+//     tiled: true,
+//     version: "1.1.0",
+//     opacity: 1,
+//     maxZoom: 21,
+//   }
+// );
  
 var IWMS_point = L.tileLayer
 .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -237,7 +236,6 @@ var IWMS_point = L.tileLayer
   transparent: true,
   tiled: true,
   version: "1.1.0",
-  // attribution: "DP_Roads",
   opacity: 1,
   maxZoom: 21,
 });
@@ -278,7 +276,6 @@ var ward_boundary= L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "geodata",
     opacity: 1,
     maxZoom: 21,
   }
@@ -292,7 +289,6 @@ var Zone_layer= L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "geodata",
     opacity: 1,
     maxZoom: 21,
   }
@@ -318,19 +314,19 @@ var WMSlayers = {
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
-  geodata: wms_layer4,
+  // geodata: wms_layer4,
   OSMRoad : wms_layer16,
 };
  
  
-function refreshWMSLayer() {
-  // Remove the layer from the map
-  map.removeLayer(wms_layer4);
-  // Add the layer again
-  wms_layer4.addTo(map);
-}
+// function refreshWMSLayer() {
+//   // Remove the layer from the map
+//   // map.removeLayer(wms_layer4);
+//   // Add the layer again
+//   // wms_layer4.addTo(map);
+// }
  
-refreshWMSLayer();
+// refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 

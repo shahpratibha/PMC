@@ -32,7 +32,8 @@
     line-height: 30px;
     background-size: 30px;
     position: relative;
-    top: 15px;
+    top: 75px;
+    left: 0px;
 }
 
  
@@ -59,13 +60,12 @@
     }
 
     #map {
-      top: 0px;
-      left: 55px;
-      height: 100vh;
-      width: 97%;
-      z-index: 0;
-
-    }
+    top: 0px;
+    left: -12px;
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+}
 
     .multi-checkboxes_wrap:before {
       font-family: fontAwesome;
@@ -109,7 +109,7 @@
       width: 0;
       position: fixed;
       z-index: 1;
-      left: 80px;
+      left: 70px;
       background-color: #f3f3f3;
       overflow-x: hidden;
       transition: 0s;
@@ -405,29 +405,33 @@ button, input, optgroup, select, textarea {
         <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
 
       </div>
+
+     
       
       </div>
-      <div class="l-navbar" id="nav-bar">
-    <nav class="nav">
-      <div>
-        <a href="#" class="nav_logo"> </a>
 
-        <div class="nav_list">
-          <div class="nav_link active">
-            <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
-          </div>
+      <div class="filter">
+        <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
+      </div>
+      <!-- <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+          <div>
+            <a href="#" class="nav_logo"> </a>
 
-          <div class="closebtn" onclick="closeNav()">&times;
-
+            <div class="nav_list">
             
 
-          </div>
-        </div>
-        <a href="#" class="nav_link">
-          <i class="bx bx-log-out nav_icon"></i>
-        </a>
-    </nav>
-  </div>
+              <div class="closebtn" onclick="closeNav()">&times;
+
+                
+
+              </div>
+            </div>
+            <a href="#" class="nav_link">
+              <i class="bx bx-log-out nav_icon"></i>
+            </a>
+        </nav>
+      </div> -->
 
   <div id="content">
     <div id="map"></div>
@@ -524,9 +528,9 @@ button, input, optgroup, select, textarea {
   <script>
     function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("mySidenav").style.height = "410px";
+      document.getElementById("mySidenav").style.height = "610px";
       document.getElementById("mySidenav").style.zIndex = "99999";
-      document.getElementById("mySidenav").style.top = "70px";
+      document.getElementById("mySidenav").style.top = "0px";
       document.getElementById("mySidenav").style.scrollbarWidth = "thin";
 
       document.getElementById("content").style.marginLeft = "0";

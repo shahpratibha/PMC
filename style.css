@@ -16,14 +16,14 @@
   z-index: 1;
 }
 
-#map {
+/* #map {
   top: 0px;
   left: 55px;
   height: 100vh;
   width: 97%;
   z-index: 0;
 
-}
+} */
 a {
   text-decoration: none;
   color: white;
