@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
+const API_URL = "http://localhost/PMC_Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
