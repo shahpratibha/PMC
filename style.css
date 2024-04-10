@@ -4,31 +4,6 @@
   box-sizing: border-box;
 }
 
-.logopng1{
-  height: 50px;
-  width:50px;
-  border: 2px solid #bbb;
-  border-radius: 10px;
-  background-color: white;
-  padding: 5px;
- position: absolute;
- z-index: 9999;
- top: 2%;
- left: 1%;
-}
-
-.logopng{
-  height: 50px;
-  width:50px;
-  border: 2px solid #bbb;
-  border-radius: 10px;
-  background-color: white;
-  padding: 5px;
- position: absolute;
- z-index: 9999;
- top: 45%;
- left: -2%;
-}
 
 
 
@@ -268,7 +243,7 @@ main {
 }
 
 .close-button:hover{
-  /* color: white; */
+
 
   background-color: transparent;
   border-radius: 5px;
@@ -362,7 +337,6 @@ font-size: 20px;
 }
 
 .custom-close-button-class:hover {
-/* Add your custom hover styles for the close button here */
 background-color: #d32f2f; /* Darker red background color on hover */
 }
     .swal2-show {
@@ -408,7 +382,6 @@ background-color: #d32f2f; /* Darker red background color on hover */
   width: 100%;
 }
 
-/* side bar */
 
 /* popup */
 .custom-modal-class {
@@ -471,16 +444,6 @@ background-color: #d32f2f; /* Darker red background color on hover */
   }
 
 
-
-/* icon update  */
-
-/* .leaflet-control-zoom{
-  position: relative;
-  right: 0;
-  top: 100%;
-  border: 1px solid;
-} */
-
 .leaflet-touch .geocoder-control-input {
   height: 30px;
   line-height: 30px;
@@ -542,13 +505,3 @@ background-color: #d32f2f; /* Darker red background color on hover */
 }
 
 
-.geopulseaname{
-  color: darkblue;
-  position: absolute;
-  z-index: 99999;
-  bottom: 1%;
-  right: 5px;
-  font-weight: bold;
-  /* background-color: rgba(173, 216, 230, 0.5); */
-  font-size: 10px;
-}

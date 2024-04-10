@@ -157,11 +157,11 @@ a{
 }
 
 /* geometry */
-
+/* 
 #map{
     height: 350px;
     width: 100%;
-}
+} */
 
 .popup-container {
     max-height: 200px; /* Set maximum height */
@@ -559,3 +559,88 @@ a {
             width: 200px;
             margin-top: -10px;
         }
+
+        .logopng1{
+            height: 50px;
+            width:50px;
+            border: 2px solid #bbb;
+            border-radius: 10px;
+            background-color: white;
+            padding: 5px;
+           position: absolute;
+           z-index: 9999;
+           top: 2%;
+           left: 1%;
+          }
+          
+          .logopng{
+            height: 50px;
+            width:50px;
+            border: 2px solid #bbb;
+            border-radius: 10px;
+            background-color: white;
+            padding: 5px;
+           position: absolute;
+           z-index: 9999;
+           top: 45%;
+           left: -2%;
+          }
+          .leaflet-container .leaflet-control-attribution {
+    
+            display: none;
+        }
+
+        .geopulseaname{
+            color: darkblue;
+            position: absolute;
+            z-index: 99999;
+            bottom: 1%;
+            right: 5px;
+            font-weight: bold;
+            /* background-color: rgba(173, 216, 230, 0.5); */
+            font-size: 10px;
+          }
+
+          #map {
+				height: 80vh;
+				width: 100%;
+				z-index: 0;
+			}
+			form {
+				max-width: 100%;
+				margin: auto;
+				padding: 20px;
+				background-color: transparent;
+				border-radius: 10px;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+				display: flex;
+				flex-wrap: wrap;
+			}
+			#workTable tr th {
+				white-space: nowrap;
+			}
+			#workTable {
+				flex-grow: 1;
+				overflow-y: auto;
+			}
+			#table-container {
+				background-color: white;
+				position: absolute;
+				width: 24%;
+                height: 30%;
+				top: 0;
+				right: 0;
+				overflow: scroll;
+				scrollbar-width: thin;
+				/* margin: 0 auto; */
+				z-index: 9999;
+                transition: 0s;
+				/* flex-direction: column; */
+
+			}
+
+			@media print {
+				@page {
+					size: tabloid;
+				}
+			}
