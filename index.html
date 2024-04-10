@@ -298,11 +298,19 @@
            layer = "pmc:Reservations";
 
         }
+        else if(department == 'Drainage'){
+              layer = "pmc:storm_water";
+
+            }
         
         var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
           }&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+
+
+          
 
         fetch(url)
           .then((response) => response.json())
@@ -380,6 +388,12 @@
           popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
       
         }
+       else if(department == 'Drainage'){
+            popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
+          popupContent +=
+            '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
+
+            }
 
           
        
@@ -404,7 +418,7 @@
                 localStorage.setItem("conceptual_form_data", formDataTemp);
                 formDataFromStorage = JSON.parse(formDataTemp);
               }
-
+          
               var roadLength =
                 formDataFromStorage &&
                   formDataFromStorage.hasOwnProperty("Length")
