@@ -520,6 +520,12 @@ a {
             margin-top: -10px;
         }
 
+        .tablebtn{
+            width: 20px;
+            height: 20px;
+          }
+          
+
         .logopng1{
             height: 50px;
             width:50px;
@@ -530,7 +536,7 @@ a {
            position: absolute;
            z-index: 9999;
            top: 2%;
-           left: 1%;
+           left: 0.5%;
           }
           
           .logopng{
@@ -554,7 +560,7 @@ a {
             color: darkblue;
             position: absolute;
             z-index: 99999;
-            bottom: 1%;
+            bottom: -5.5px;
             right: 5px;
             font-weight: bold;
             /* background-color: rgba(173, 216, 230, 0.5); */
@@ -604,3 +610,175 @@ a {
 					size: tabloid;
 				}
 			}
+
+
+            
+#table-container-dashboard {
+    display: none;
+    position: relative;
+    width: 570px;
+    height: 500px;
+    bottom: 310px;
+    left: 60%;
+    top:20%;
+    max-height: 300px; 
+    background-color: #fff;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 99999;
+    box-shadow:10px 10px 20px rgba(0, 0, 0, 0.7); /* Add shadow */
+    transition: 0s;
+  }
+  #table-container-dashboard thead th {
+    white-space: nowrap;
+    font-size: 12px;
+  }
+  #table-container-dashboard tbody tr {
+    cursor: pointer;
+    font-size: 8px;
+  }
+  .close-button {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    top: 0px;
+    right: 0px;
+    padding:0 10px 20px 5px;
+    z-index: 999;
+    cursor: pointer;
+    background-color: transparent;
+    color: red;
+    font-weight: bold;
+    border: none;
+    /* border-radius: 50%; */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    z-index: 999999;
+  }
+  
+  .close-button:hover{
+  
+  
+    background-color: transparent;
+    border-radius: 5px;
+  }
+  
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #ced4da;
+    border-top: none;
+    width: 300px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+  .ui-widget.ui-widget-content {
+    border: 1px solid #c5c5c5;
+  
+  
+    z-index: 99999;
+  }
+  
+  .ui-menu-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .ui-menu-item:hover {
+    background-color: #f8f9fa;
+    color: #000;
+  }
+  
+  .ui-state-active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .ui-state-focus {
+    outline: none;
+  }
+  
+  .ui-autocomplete::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .ui-autocomplete::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  .ui-autocomplete::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+
+  
+.leaflet-popup-content-wrapper {
+    max-height: 300px;
+    /* Set the maximum height for the table */
+    overflow-y: auto;
+    /* Add a vertical scrollbar when the content overflows */
+    width: 100%;
+  }
+  
+  #popup-table {
+    max-width: 200px;
+    max-height: 300px;
+    /* Set the maximum height for the table */
+    /* overflow: auto; */
+    /* Add a vertical scrollbar when the content overflows */
+    width: auto;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  #popup-table tr {
+    border-bottom: 2px solid black;
+    /* Add a border between rows for better visibility */
+  }
+  
+  .popup-button {
+    width: 130px;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+    /* Add some space between the buttons and the table */
+    padding: 10px 25px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .popup-button:hover {
+    background-color: #45a049;
+  }
+  
+  .leaflet-container a.leaflet-popup-close-button {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    width: 24px;
+    height: 24px;
+    font: 16px/24px Tahoma, Verdana, sans-serif;
+    color: red;
+    text-decoration: none;
+    background: transparent;
+  }
+  
+  .leaflet-div-icon {
+    margin-left: -10px;
+    margin-top: -10px;
+    width: 5px;
+    height: 5px;
+    transform: translate3d(573px, 79px, 0px);
+    z-index: 4079;
+    background-color: red;
+  }
+  
