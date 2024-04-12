@@ -6,7 +6,7 @@
   <title>PMC</title>
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="C_form.css" />
+  <!-- <link rel="stylesheet" href="C_form.css" /> -->
 
   
   <style>
@@ -158,7 +158,7 @@
     <div>
       <img src="png/pmcjpeg.png" alt="" class="logopng1"style="">
     </div>
-    <div id="table-container">
+    <!-- <div id="table-container">
       <button id="closeTableBtn" class="close-button">
         <i class="fas fa-times"></i>
       </button>
@@ -187,7 +187,7 @@
         </tfoot>
         <tbody></tbody>
       </table>
-    </div>
+    </div> -->
  
   <script src="index-page.js"></script>
   
@@ -542,13 +542,13 @@
 
 
 
-      // Change the button text to "Stop Task"
+      // Change the button text to "Finish"
       var button = document.querySelector('.custom-button');
-      button.innerHTML = 'Stop Task';
+      button.innerHTML = 'Finish';
 
       // Change the button's onclick function to stop the task
       button.onclick = function () {
-        button.innerHTML = 'Perform Task';
+        button.innerHTML = 'Select Feature';
         // Remove the click event listener from the map
         var drawFeatureButton = document.querySelector('.draw_feature');
             if (drawFeatureButton) {
@@ -563,11 +563,11 @@
 
     editControl.onAdd = function (map) {
       var button = L.DomUtil.create('button', 'custom-button');
-      button.innerHTML = 'Perform Task';
+      button.innerHTML = 'Select Feature';
       button.onclick = function () {
         var drawFeatureButton = document.querySelector('.draw_feature');
-        if (button.innerHTML === 'Perform Task') {
-          button.innerHTML = 'Stop Task';
+        if (button.innerHTML === 'Select Feature') {
+          button.innerHTML = 'Finish';
           performTask();
                 
       // Remove the draw control if it's currently added
@@ -583,13 +583,13 @@
               drawFeatureButton.setAttribute('disabled', false);
             }
         } else {
-          button.innerHTML = 'Perform Task';
-          // Stop task or reset any ongoing operation here
+          button.innerHTML = 'Select Feature';
+          // Finish or reset any ongoing operation here
           if (drawFeatureButton) {
               drawFeatureButton.setAttribute('disabled', false);
             }
 
-              // button.innerHTML = 'Perform Task';
+              // button.innerHTML = 'Select Feature';
           // Add the draw control back if it's not currently added
               if (!isDrawControlAdded) {
               map.addControl(drawControl);

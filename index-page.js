@@ -216,18 +216,6 @@ var wms_layer3 = L.tileLayer.wms(
 );
  
 
-// var wms_layer4 = L.tileLayer.wms(
-//   "https://pmc.geopulsea.com/geoserver/pmc/wms",
-//   {
-//     layers: "geodata",
-//     format: "image/png",
-//     transparent: true,
-//     tiled: true,
-//     version: "1.1.0",
-//     opacity: 1,
-//     maxZoom: 21,
-//   }
-// );
  
 var IWMS_point = L.tileLayer
 .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -319,12 +307,7 @@ var WMSlayers = {
 };
  
  
-// function refreshWMSLayer() {
-//   // Remove the layer from the map
-//   // map.removeLayer(wms_layer4);
-//   // Add the layer again
-//   // wms_layer4.addTo(map);
-// }
+
  
 // refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
@@ -473,17 +456,6 @@ else if (department == "Building"){
 }
 
 
-
-
-// toggleDrawControl();
-// console.log(map.getZoom(), "map.getZoom()");
-// function toggleDrawControl() {
-//   if (map.getZoom() > 15) {
-//     map.addControl(drawControl);
-//   } else {
-//     map.removeControl(drawControl);
-//   }
-// }
 
 var isDrawControlAdded = false;
 
@@ -751,55 +723,6 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
   return overlapPercentage <= 10;
 }
 
-
-// var lastClosestMarker = null;
-// function getNearestBoundary(features, clickedPoint) {
-//     // Remove the last closest point marker if it exists
-//     if (lastClosestMarker) {
-//         map.removeLayer(lastClosestMarker);
-//     }
-//     features.forEach(function (feature) {
-//         var boundary = feature.geometry.coordinates[0];
-//         var closestToBoundary = L.GeometryUtil.closest(map, boundary, [clickedPoint.lng, clickedPoint.lat]);
-//         var closestPoint = L.latLng(closestToBoundary.lng, closestToBoundary.lat);// Swap lng and lat
-//         lastClosestMarker = closestPoint            
-//     });
-//     return lastClosestMarker
-// }
-
-//var pointMarker;
-
-// map.on('mousemove', function (e) {
-//   var url = 'https://pmc.geopulsea.com/geoserver/ows?service=WMS&version=1.1.1&request=GetFeatureInfo&transparent=true&format=image/png&info_format=application/json&srs=EPSG:4326&bbox=' + map.getBounds().toBBoxString() + '&width=' + map.getSize().x + '&height=' + map.getSize().y + '&layers=pmc:Exist_Road&query_layers=pmc:Exist_Road&feature_count=10&x=' + Math.round(e.containerPoint.x) + '&y=' + Math.round(e.containerPoint.y);
-
-//   if (url) {
-//       // console.log(url)
-//       fetch(url)
-//           .then(response => response.json())
-//           .then(data => {
-//               if (data.features && data.features.length > 0) {
-//                   // console.log(data.features,"data.features")
-//                   var clickedPoint = e.latlng;
-//                   if (pointMarker) {
-//                       map.removeLayer(pointMarker);
-//                   }
-//                   var nearestBoundary = getNearestBoundary(data.features, clickedPoint);
-//                    pointMarker = nearestBoundary ;
-//                   pointMarker = L.circleMarker(nearestBoundary, { radius: 2.5, color: 'blue' }).addTo(map).bindPopup('Closest point on boundary');
-                 
-//               }
-//           });
-//   }
-// });
-
-
-
-
-
-// let nearestPointsStorage = [];
-// let snappingDistance = 50 ;
-
-
 function getClosestRoadPoint(latlng) {
   var buffer = 10; // Buffer distance in meters
   var clickedPoint = latlng;
@@ -1066,27 +989,7 @@ map.on("draw:created", function (e) {
     }
   }
   var layer = e.layer;
-//   if (e.layerType === "polyline") {
-//     let originalLatLngs = e.layer.getLatLngs();
-//     if (nearestPointsStorage.length === originalLatLngs.length) {
-//         let adjustedLatLngs = originalLatLngs.map((latlng, index) => {
-//             return adjustLatLng(latlng, index); // Using a function to adjust LatLng
-//         });
-//         layer.setLatLngs(adjustedLatLngs);  
-//     } else {
-//         console.error('Mismatch in stored points and vertices for polyline.');
-//     }
-// }else if (e.layerType === "polygon") {
-//     let originalLatLngs = e.layer.getLatLngs()[0]; // Assuming adjustment for the first ring
-//     if (nearestPointsStorage.length === originalLatLngs.length) {
-//         let adjustedLatLngs = originalLatLngs.map((latlng, index) => {
-//             return adjustLatLng(latlng, index); // Reusing the same adjustment function
-//         });
-//         layer.setLatLngs([adjustedLatLngs]); // Wrap in an array for polygon structure
-//     } else {
-//         console.error('Mismatch in stored points and vertices for polygon.');
-//     }
-// }
+
 
 drawnItems.addLayer(layer); 
 if (e.layerType === "polyline" && department === "Road") {

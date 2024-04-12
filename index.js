@@ -1,18 +1,25 @@
 var map, geojson;
 const API_URL = "http://localhost/PMC_Final/";
-// const API_URL = "http://localhost/PMC-Project/";
 
-//Add Basemap
-// var map = L.map("map", {}).setView([18.52, 73.895], 11, L.CRS.EPSG4326);
-//Add Basemap
+
 var map = L.map("map", {
   center:[18.52, 73.89],
-  zoom: 11,
-  minZoom:10,
-  maxZoom:19,
-  zoomSnap:0.5,
-  zoomDelta:0.5,
+  zoom: 11.66,
+  minZoom: 10,
+  maxZoom: 19,
+  preferCanvas:true,
+  boxZoom: true,
+  trackResize: true,
+  wheelPxPerZoomLevel: 40,
+  zoomAnimation: true,
+  zoomSnap: 0.2, // Example of smooth zooming option
+  zoomDelta: 0.3, // Example of smooth zooming option
+  fadeAnimation: true,
+  zoomAnimationThreshold: 10,
+  bounceAtZoomLimits: true,
+  inertia: true      
 });
+
 
 var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",

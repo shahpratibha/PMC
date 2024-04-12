@@ -501,3 +501,49 @@ background-color: #d32f2f; /* Darker red background color on hover */
 
 
 
+.logopng1{
+  height: 50px;
+  width:50px;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px;
+ position: absolute;
+ z-index: 9999;
+ top: 2%;
+ left: 0.5%;
+}
+.geopulseaname{
+  color: darkblue;
+  position: absolute;
+  z-index: 99999;
+  bottom: -5.5px;
+  right: 5px;
+  font-weight: bold;
+  /* background-color: rgba(173, 216, 230, 0.5); */
+  font-size: 10px;
+}
+
+
+.custom-button {
+  width: 100%;
+  padding: 10px 5px;
+  background-color: #fff;
+  color: black;
+  font-weight: bold;
+  border: 2px solid #bbb;
+  border-radius: 5px !important;
+  cursor: pointer;
+  position: absolute;
+  top: -105px;
+  left: 80px;
+  
+  transition: background-color 0.1s;
+}
+
+.custom-button:hover {
+  background-color: #bbb;
+}
+
+
+
