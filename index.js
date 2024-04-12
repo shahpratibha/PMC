@@ -131,19 +131,18 @@ var wms_layer3 = L.tileLayer.wms(
 );
 
 
-var wms_layer4 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "geodata",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    // attribution: "geodata",
-    opacity: 1,
-    maxZoom: 21,
-  }
-);
+// var wms_layer4 = L.tileLayer.wms(
+//   "https://pmc.geopulsea.com/geoserver/pmc/wms",
+//   {
+//     layers: "geodata",
+//     format: "image/png",
+//     transparent: true,
+//     tiled: true,
+//     version: "1.1.0",
+//     opacity: 1,
+//     maxZoom: 21,
+//   }
+// );
 
 var IWMS_point = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -194,7 +193,6 @@ var ward_boundary= L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "geodata",
     opacity: 1,
     maxZoom: 21,
   }
@@ -208,7 +206,6 @@ var Zone_layer= L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-    // attribution: "geodata",
     opacity: 1,
     maxZoom: 21,
   }
@@ -234,18 +231,18 @@ var WMSlayers = {
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
-  geodata: wms_layer4,
+  // geodata: wms_layer4,
   OSMRoad: wms_layer16,
 };
 
-function refreshWMSLayer() {
-  // Remove the layer from the map
-  map.removeLayer(wms_layer4);
-  // Add the layer again
-  wms_layer4.addTo(map);
-}
+// function refreshWMSLayer() {
+//   // Remove the layer from the map
+//   map.removeLayer(wms_layer4);
+//   // Add the layer again
+//   wms_layer4.addTo(map);
+// }
 
-refreshWMSLayer();
+// refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
@@ -1539,13 +1536,19 @@ map.on("dblclick", function (e) {
   }
 });
 
+// legend start
 
+
+
+// Now continue with your remaining JavaScript code...
 // GeoServer URL
 var geoserverUrl = "https://pmc.geopulsea.com/geoserver";
 
+var workspace = "pmc1";
+
 // Variable to keep track of legend visibility
 var legendVisible = true;
-
+var processedLayers = [];
 // Add the WMS Legend control to the map
 var legendControl = L.control({ position: "topright" });
 
@@ -1567,22 +1570,28 @@ legendControl.onAdd = function (map) {
 
         // Extract layer names and legend URLs for layers in the 'pmc' workspace
         var layers = xml.querySelectorAll('Layer[queryable="1"]');
-        layers.forEach(function (layer) {
+        
+
+        layers.forEach((layer) => {
           var layerName = layer.querySelector("Name").textContent;
-          if (layerName.startsWith("pmc:")) {
+          var layerWorkspace = layerName.split(":")[0]; // Extract workspace from layer name
+          if (layerWorkspace === workspace && !processedLayers.includes(layerName)) {
             var legendUrl =
               geoserverUrl +
               "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
               layerName;
+            var layerParts = layerName.split(":"); // Split layer name by ":"
+            var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
             div.innerHTML +=
               "<p><strong>" +
-              layerName +
+              layerDisplayName + // Use layerDisplayName instead of layerName
               "</strong></p>" +
               '<img src="' +
               legendUrl +
               '" alt="' +
-              layerName +
+              layerDisplayName + // Use layerDisplayName instead of layerName
               ' legend"><br>';
+            processedLayers.push(layerName); // Add processed layer to the list
           }
         });
       })
@@ -1624,8 +1633,7 @@ legendControl.onAdd = function (map) {
 
   return div;
 };
-
-
+// -----------------------------------------------------
 // Add collapsible button
 var collapseButton = L.control({ position: "topright" });
 
@@ -1658,8 +1666,8 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="10%";
-      legendDiv.style.right ="3%";
+      legendDiv.style.top ="12%";
+      legendDiv.style.right ="2%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
       legendDiv.style.borderRadius= "20px";
@@ -1680,8 +1688,6 @@ collapseButton.onAdd = function (map) {
 };
 
 collapseButton.addTo(map);
-
-
 
 // Create a legend control
 var legend = L.control({ position: "bottomright" });
@@ -1720,19 +1726,21 @@ legend.onAdd = function (map) {
       var layers = xml.querySelectorAll('Layer[queryable="1"]');
       layers.forEach(function (layer) {
         var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("pmc:")) {
+        if (layerName.startsWith("pmc1:")) {
           var legendUrl =
             this.geoserverUrl +
             "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
             layerName;
+          var layerParts = layerName.split(":"); // Split layer name by ":"
+          var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
           div.innerHTML +=
             "<p><strong>" +
-            layerName +
+            layerDisplayName +
             "</strong></p>" +
             '<img src="' +
             legendUrl +
             '" alt="' +
-            layerName +
+            layerDisplayName +
             ' legend"><br>';
         }
       });
@@ -1758,6 +1766,7 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
+
 
 // for legend////////////////////////////////////////////////////////////////////
 
