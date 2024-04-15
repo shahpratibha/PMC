@@ -477,6 +477,48 @@ else if (department == "Building"){
 }
 
 
+var customToolSelector = L.control({ position: 'topleft' });
+
+// Initialize the mapMode variable
+let mapMode = 'tracing';
+
+customToolSelector.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
+    div.style.padding = '5px';
+    div.style.backgroundColor = 'white';
+
+    var input = document.createElement('input');
+    input.type = 'checkbox';
+    input.className = 'form-check-input';
+    input.id = 'flexSwitchCheckDefault';
+    input.style.margin = '0';
+
+    // Set the checkbox state based on the current mapMode
+    input.checked = (mapMode === 'snapping');
+
+    var label = document.createElement('label');
+    label.className = 'form-check-label';
+    label.setAttribute('for', 'flexSwitchCheckDefault');
+    label.textContent = 'Enable Snapping';
+
+    // Add event listener to toggle mapMode
+    input.addEventListener('change', function() {
+        if (this.checked) {
+            mapMode = 'snapping';
+        } else {
+            mapMode = 'tracing';
+        }
+        console.log("Current Map Mode:", mapMode); // Optional: for debugging
+    });
+
+    div.appendChild(input);
+    div.appendChild(label);
+
+    return div;
+};
+
+customToolSelector.addTo(map);
+
 
 
 // toggleDrawControl();
@@ -756,54 +798,6 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 }
 
 
-// var lastClosestMarker = null;
-// function getNearestBoundary(features, clickedPoint) {
-//     // Remove the last closest point marker if it exists
-//     if (lastClosestMarker) {
-//         map.removeLayer(lastClosestMarker);
-//     }
-//     features.forEach(function (feature) {
-//         var boundary = feature.geometry.coordinates[0];
-//         var closestToBoundary = L.GeometryUtil.closest(map, boundary, [clickedPoint.lng, clickedPoint.lat]);
-//         var closestPoint = L.latLng(closestToBoundary.lng, closestToBoundary.lat);// Swap lng and lat
-//         lastClosestMarker = closestPoint            
-//     });
-//     return lastClosestMarker
-// }
-
-//var pointMarker;
-
-// map.on('mousemove', function (e) {
-//   var url = 'https://pmc.geopulsea.com/geoserver/ows?service=WMS&version=1.1.1&request=GetFeatureInfo&transparent=true&format=image/png&info_format=application/json&srs=EPSG:4326&bbox=' + map.getBounds().toBBoxString() + '&width=' + map.getSize().x + '&height=' + map.getSize().y + '&layers=pmc:Exist_Road&query_layers=pmc:Exist_Road&feature_count=10&x=' + Math.round(e.containerPoint.x) + '&y=' + Math.round(e.containerPoint.y);
-
-//   if (url) {
-//       // console.log(url)
-//       fetch(url)
-//           .then(response => response.json())
-//           .then(data => {
-//               if (data.features && data.features.length > 0) {
-//                   // console.log(data.features,"data.features")
-//                   var clickedPoint = e.latlng;
-//                   if (pointMarker) {
-//                       map.removeLayer(pointMarker);
-//                   }
-//                   var nearestBoundary = getNearestBoundary(data.features, clickedPoint);
-//                    pointMarker = nearestBoundary ;
-//                   pointMarker = L.circleMarker(nearestBoundary, { radius: 2.5, color: 'blue' }).addTo(map).bindPopup('Closest point on boundary');
-                 
-//               }
-//           });
-//   }
-// });
-
-
-
-
-
-// let nearestPointsStorage = [];
-// let snappingDistance = 50 ;
-
-
 function getClosestRoadPoint(latlng) {
   var buffer = 10; // Buffer distance in meters
   var clickedPoint = latlng;
@@ -912,7 +906,23 @@ function getClosestRoadPointLast(latlng) {
 }
 
 
+
+
+
+
+
+let lastDrawnPoint = null;
+let drawTimeout = null;
+let currentDrawLayer;
+let vertexClickCount = 0 ;
+
+
+let traceLayer = L.layerGroup().addTo(map);
+let currentPolyline;
+
+
 map.on("draw:drawvertex", function (e) {
+  vertexClickCount ++ ;
   for (const key in e.layers._layers) {
       if (e.layers._layers.hasOwnProperty(key)) {
           const layer = e.layers._layers[key];
@@ -929,41 +939,87 @@ map.on("draw:drawvertex", function (e) {
 });
 
 
+  map.on("draw:editvertex", function (e) {
+    for (const key in e.layers._layers) {
+        if (e.layers._layers.hasOwnProperty(key)) {
+            const layer = e.layers._layers[key];
+            const originalLatlng = layer._latlng;
+            getClosestRoadPoint(originalLatlng).then(result => {
+                if (result && result.distance <= 20.0000) {
+                  console.log(layer);
+                    layer._latlng.lat = result.marker.lat;
+                    layer._latlng.lng = result.marker.lng;
+                    layer.setLatLng(result.marker);
+                }
+            });
+        }
+    }
+  });
 
 
-
-let lastDrawnPoint = null;
-let drawTimeout = null;
-let currentDrawLayer;
 
 
 
 map.on('draw:drawstart', function(e) {
+  vertexClickCount = 0 ; 
+  currentDrawLayer = e.layer;
+   map.on('mousemove', handleMouseMove);
+
+   currentPolyline = L.polyline([], { color: 'red' }).addTo(traceLayer);
+});
+
+map.on('draw:drawstop', function() {
+  vertexClickCount = 0 ; 
+  if (drawTimeout) clearTimeout(drawTimeout);
+  map.off('mousemove', handleMouseMove);
+});
+
+
+map.on('draw:editstart', function(e) {
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
 });
 
-map.on('draw:drawstop', function() {
+map.on('draw:editstop', function() {
   if (drawTimeout) clearTimeout(drawTimeout);
   map.off('mousemove', handleMouseMove);
 });
+
+
 
 function handleMouseMove(event) {
   if (drawTimeout) clearTimeout(drawTimeout);
   lastDrawnPoint = event.latlng;
   drawTimeout = setTimeout(() => {
-      snapToRoad(lastDrawnPoint);
+    getClosestRoadPointLast(lastDrawnPoint);
   }, 100); 
+
+  if(mapMode == 'tracing' && vertexClickCount > 0){
+    if (!currentPolyline) return;
+    let newPoint = event.latlng;
+    getClosestRoadPoint(newPoint).then(result => {
+        if (result.distance <= 20) {  // If close enough, snap to the road
+            currentPolyline.addLatLng(result.marker);
+        } else {
+           // currentPolyline.addLatLng(newPoint);
+        }
+        currentPolyline.redraw();
+    });
+  }
+ 
 }
 
+
 function snapToRoad(point) {
-  getClosestRoadPointLast(point).then(result => {
+  traceExactRoad(point).then(result => {
   }).catch(error => console.error("Error snapping to road:", error));
 }
 
 
+
 map.on("draw:created", function (e) {
 
+ if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();
 
   getGeodataFeatures().then(function (geodataFeatures) {
@@ -1176,13 +1232,100 @@ $.ajax({
     console.error("AJAX request failed:", error);
   },
 });
+}
+else if (mapMode == 'tracing'){
+let layer = currentPolyline ;
+var bufferWidth = localStorage.getItem("bufferWidth");
+createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+nearestPointsStorage = []; // Reset the storage for the next drawing
+
+var geoJSON = layer.toGeoJSON();
+var popupContent = UpdateArea(geoJSON);
+var lastInsertedId = localStorage.getItem("lastInsertedId");
+var lastDrawnPolylineId = layer._leaflet_id;
+
+$.ajax({
+  // url: API_URL + "/process.php", // Path to the PHP script
+  url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
+  type: "GET",
+  data: { id: lastInsertedId },
+  dataType: "json",
+  success: function (response) {
+    // if (response.success) {
+    if (response.data != undefined) {
+      const responseData = response.data;
+
+      if (responseData != undefined) {
+        popupContent +=
+          "<tr><td>Name of work</td><td>" +
+          responseData.work_name +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Department</td><td>" +
+          responseData.department +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>ID</td><td>" +
+          responseData.works_aa_approval_id +
+          "</td></tr>";
+        popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
+        popupContent +=
+          "<tr><td>Scope of work</td><td>" +
+          responseData.scope_of_work +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Work-type</td><td>" +
+          responseData.work_type +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
+        popupContent +=
+          "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
+        popupContent +=
+          "<tr><td>Prabhag no.</td><td>" +
+          responseData.project_no +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>Date of competition work</td><td>" +
+          responseData.created_date +
+          "</td></tr>";
+        popupContent +=
+          "<tr><td>JE Name</td><td>" +
+          responseData.junior_engineer_name +
+          "</td></tr>";
+        popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
+      }
+
+      // Close the table tag
+      popupContent += "</table>";
+
+      // Add buttons for adding and deleting rows
+      popupContent += `
+      <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+  `;
+      popupContent +=
+        '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
+
+      // Bind the table popup to the layer
+      layer.bindPopup(popupContent).openPopup();
+   
+    } else {
+      console.error("Error fetching CSV data:", response.error);
+    }
+  },
+  error: function (error) {
+    console.error("AJAX request failed:", error);
+  },
+});
+}
 
 });
 
 
 
 map.on("draw:edited", function (e) {
-  e.layers.eachLayer(function (layer) {
+   e.layers.eachLayer(function (layer) {
+    console.log(e)
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
     var roadLenght = localStorage.getItem("roadLenght");
@@ -1329,7 +1472,18 @@ function deleteRow() {
 }
 
 function Savedata(lastDrawnPolylineId) {
-  var geoJSONString = toGISformat();
+
+  var geoJSONString;
+
+  if(mapMode == 'tracing'){
+   
+    geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
+  }else{
+     geoJSONString = toGISformat();
+  }
+
+  console.log(geoJSONString);
+
   var geoJSONStringJson = JSON.parse(geoJSONString);
   let selectCoordinatesData = geoJSONStringJson.features;
   localStorage.setItem(
