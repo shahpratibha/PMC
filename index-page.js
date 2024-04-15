@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC_Final/";
+const API_URL = "http://localhost/pmc_test/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -496,7 +496,11 @@ customToolSelector.onAdd = function (map) {
     return div;
 };
 
-customToolSelector.addTo(map);
+if (department == "Road"){
+  customToolSelector.addTo(map);
+
+}
+
 
 
 var isDrawControlAdded = false;
@@ -978,11 +982,6 @@ function handleMouseMove(event) {
 }
 
 
-function snapToRoad(point) {
-  traceExactRoad(point).then(result => {
-  }).catch(error => console.error("Error snapping to road:", error));
-}
-
 
 
 map.on("draw:created", function (e) {
@@ -1045,6 +1044,7 @@ map.on("draw:created", function (e) {
             "20px"; // Font size of the close button
         },
       });
+      return ;
     }
   });
   if (e.layerType === "polyline") {
