@@ -918,7 +918,6 @@ map.on("draw:drawvertex", function (e) {
             const originalLatlng = layer._latlng;
             getClosestRoadPoint(originalLatlng).then(result => {
                 if (result && result.distance <= 20.0000) {
-                  console.log(layer);
                     layer._latlng.lat = result.marker.lat;
                     layer._latlng.lng = result.marker.lng;
                     layer.setLatLng(result.marker);
@@ -926,7 +925,10 @@ map.on("draw:drawvertex", function (e) {
             });
         }
     }
+    
   });
+
+
 
 
 
@@ -1273,7 +1275,6 @@ $.ajax({
 
 map.on("draw:edited", function (e) {
    e.layers.eachLayer(function (layer) {
-    console.log(e)
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
     var roadLenght = localStorage.getItem("roadLenght");
@@ -1435,8 +1436,6 @@ function Savedata(lastDrawnPolylineId) {
   geoJSONStringJson = JSON.parse(geoJSONString);
   selectCoordinatesData = geoJSONStringJson.features;
   }
-
-  console.log(geoJSONString);
 
   localStorage.setItem(
     "selectCoordinatesData",
