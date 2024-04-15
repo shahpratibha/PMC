@@ -470,7 +470,7 @@ customToolSelector.onAdd = function (map) {
     input.type = 'checkbox';
     input.className = 'form-check-input';
     input.id = 'flexSwitchCheckDefault';
-    input.style.margin = '0';
+    input.style.marginRight = '5px';
 
     // Set the checkbox state based on the current mapMode
     input.checked = (mapMode === 'tracing');
