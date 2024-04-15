@@ -459,7 +459,7 @@ else if (department == "Building"){
 var customToolSelector = L.control({ position: 'topleft' });
 
 // Initialize the mapMode variable
-let mapMode = 'tracing';
+let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
@@ -473,19 +473,19 @@ customToolSelector.onAdd = function (map) {
     input.style.margin = '0';
 
     // Set the checkbox state based on the current mapMode
-    input.checked = (mapMode === 'snapping');
+    input.checked = (mapMode === 'tracing');
 
     var label = document.createElement('label');
     label.className = 'form-check-label';
     label.setAttribute('for', 'flexSwitchCheckDefault');
-    label.textContent = 'Enable Snapping';
+    label.textContent = 'Enable Tracing';
 
     // Add event listener to toggle mapMode
     input.addEventListener('change', function() {
         if (this.checked) {
-            mapMode = 'snapping';
-        } else {
             mapMode = 'tracing';
+        } else {
+            mapMode = 'snapping';
         }
         console.log("Current Map Mode:", mapMode); // Optional: for debugging
     });
@@ -1422,18 +1422,22 @@ function deleteRow() {
 function Savedata(lastDrawnPolylineId) {
 
   var geoJSONString;
+  let selectCoordinatesData ;
+  var geoJSONStringJson
 
   if(mapMode == 'tracing'){
    
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
+    geoJSONStringJson = JSON.parse(geoJSONString);
+    selectCoordinatesData = [geoJSONStringJson];
   }else{
-     geoJSONString = toGISformat();
+  geoJSONString = toGISformat();
+  geoJSONStringJson = JSON.parse(geoJSONString);
+  selectCoordinatesData = geoJSONStringJson.features;
   }
 
   console.log(geoJSONString);
 
-  var geoJSONStringJson = JSON.parse(geoJSONString);
-  let selectCoordinatesData = geoJSONStringJson.features;
   localStorage.setItem(
     "selectCoordinatesData",
     JSON.stringify(selectCoordinatesData)
@@ -1476,7 +1480,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-      window.location.href = "geometry_page.html";
+    window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
