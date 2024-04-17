@@ -962,11 +962,6 @@ map.on('draw:editstop', function() {
 
 
 function handleMouseMove(event) {
-  if (drawTimeout) clearTimeout(drawTimeout);
-  lastDrawnPoint = event.latlng;
-  drawTimeout = setTimeout(() => {
-    getClosestRoadPointLast(lastDrawnPoint);
-  }, 100); 
 
   if(mapMode == 'tracing' && vertexClickCount > 0){
     if (!currentPolyline) return;
@@ -979,6 +974,14 @@ function handleMouseMove(event) {
         }
         currentPolyline.redraw();
     });
+  }
+  else if (mapMode == 'snapping' ){
+    if (drawTimeout) clearTimeout(drawTimeout);
+    lastDrawnPoint = event.latlng;
+    drawTimeout = setTimeout(() => {
+      getClosestRoadPointLast(lastDrawnPoint);
+    }, 100); 
+  
   }
  
 }
@@ -1286,7 +1289,7 @@ map.on("draw:edited", function (e) {
     if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
       createBufferAndDashedLine(layer, roadLenght, bufferWidth);
     }
-
+    var lastDrawnPolylineId = layer._leaflet_id;
     $.ajax({
       url: API_URL + "process.php", // Path to the PHP script
       type: "GET",
@@ -1351,7 +1354,9 @@ map.on("draw:edited", function (e) {
 
           // Add buttons for adding and deleting rows
           popupContent +=
-            '<button class="popup-button" onclick="Savedata()">Save</button>';
+          `
+          <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+      `;
           popupContent +=
             '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
