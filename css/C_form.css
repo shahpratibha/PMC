@@ -14,10 +14,21 @@ form {
     display: flex;
     flex-wrap: wrap;
 }
+#content{
+  /* overflow: auto; */
+  margin-left:10%;
+}
+#form-section{
+overflow-y: auto;
+width: 80%;
+margin-left:30%;
+}
 #form-section input,
 #form-section select,
 #form-section textarea {
-    margin-bottom: 10px; /* Adjust the margin-bottom as needed */
+  width: 50%;
+    margin-bottom: 10px;
+    /* margin-left: 10px; */
 }
 h2 {
     width: 100%;
@@ -299,12 +310,12 @@ a {
     height: 100vh
 }
 
-.height-100 #map{
+/* .height-100 #map{
     left:-33px;
     top: 8%;
     height: 92%;
     width: 103%;
-}
+} */
 
 @media screen and (min-width: 768px) {
     body {
@@ -502,6 +513,7 @@ a {
         #fetchDataButton{
             width: 200px;
             margin-top: -10px;
+            /* margin-right: -30; */
         }
 
         .tablebtn{

@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC_Final/";
+const API_URL = "http://localhost/PMC/PMC_Final/";
 
 
 var map = L.map("map", {
