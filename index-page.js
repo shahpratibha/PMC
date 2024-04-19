@@ -24,6 +24,337 @@ var googleSat = L.tileLayer(
 const department = localStorage.getItem("department") ;
 let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
 
+let depData = [
+  {
+    department_id: '1',
+    department_name: 'Road',
+    department_marathi_name: 'पथ',
+    department_code: '21',
+  },
+  {
+    department_id: '2',
+    department_name: 'Building',
+    department_marathi_name: 'भवन',
+    department_code: '78',
+  },
+  {
+    department_id: '3',
+    department_name: 'Project Work',
+    department_marathi_name: 'प्रकल्प',
+    department_code: '',
+  },
+  {
+    department_id: '4',
+    department_name: 'Water Supply',
+    department_marathi_name: 'पाणीपुरवठा',
+    department_code: '',
+  },
+  {
+    department_id: '5',
+    department_name: 'Drainage',
+    department_marathi_name: 'मलनिःसारण देखभाल व दुरुस्ती',
+    department_code: '',
+  },
+  {
+    department_id: '6',
+    department_name: 'Electrical',
+    department_marathi_name: 'विद्युत',
+    department_code: '',
+  },
+  {
+    department_id: '7',
+    department_name: 'Solid waste Management',
+    department_marathi_name: 'घनकचरा',
+    department_code: '',
+  },
+  {
+    department_id: '8',
+    department_name: 'PMAY',
+    department_marathi_name: 'प्रधानमंत्री आवास योजना',
+    department_code: '',
+  },
+  {
+    department_id: '9',
+    department_name: 'Garden',
+    department_marathi_name: 'उद्यान ',
+    department_code: '',
+  },
+  {
+    department_id: '14',
+    department_name: 'Education Department (Primary)',
+    department_marathi_name: 'शिक्षण विभाग (प्राथमिक)',
+    department_code: 'EDU',
+  },
+  {
+    department_id: '11',
+    department_name: 'Slum',
+    department_marathi_name: 'झोनिपु',
+    department_code: '',
+  },
+  {
+    department_id: '12',
+    department_name: 'Encroachment ',
+    department_marathi_name: 'अतिक्रमण',
+    department_code: '',
+  },
+  {
+    department_id: '13',
+    department_name: 'Garden Horticulture',
+    department_marathi_name: 'उद्यान',
+    department_code: 'GRHOR',
+  },
+  {
+    department_id: '10',
+    department_name: 'Market',
+    department_marathi_name: 'मंडई',
+    department_code: '',
+  },
+  {
+    department_id: '16',
+    department_name: 'Sport',
+    department_marathi_name: 'क्रीडा',
+    department_code: '',
+  },
+  {
+    department_id: '17',
+    department_name: 'City Engineer Office',
+    department_marathi_name: 'शहर अभियंता कार्यालय',
+    department_code: 'CTEO',
+  },
+  {
+    department_id: '18',
+    department_name: 'Environment',
+    department_marathi_name: 'पर्यावरण',
+    department_code: 'EVMT',
+  },
+];
+
+let zoneData = [
+  {
+    zone_id: '1',
+    zone_name: 'D.M.C. Zone 1',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.१ ',
+  },
+  {
+    zone_id: '2',
+    zone_name: 'D.M.C. Zone 2',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.२',
+  },
+  {
+    zone_id: '3',
+    zone_name: 'D.M.C. Zone 3',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.३',
+  },
+  {
+    zone_id: '4',
+    zone_name: 'D.M.C. Zone 4',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.४ ',
+  },
+  {
+    zone_id: '5',
+    zone_name: 'D.M.C. Zone 5',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.५',
+  },
+];
+
+let wardData = [
+  {
+    ward_id: '1',
+    ward_name: 'Yeravada Kalas Dhanori',
+    ward_marathi_name: 'येरवडा कळस धानोरी',
+    zone_id: '1',
+    ward_no: '2',
+  },
+  {
+    ward_id: '2',
+    ward_name: 'Dhole Patil  Ward',
+    ward_marathi_name: 'ढोले पाटील',
+    zone_id: '1',
+    ward_no: '3',
+  },
+  {
+    ward_id: '3',
+    ward_name: 'Nagar Road - Vadgaonsheri ',
+    ward_marathi_name: 'नगररोड - वडगावशेरी',
+    zone_id: '1',
+    ward_no: '1',
+  },
+  {
+    ward_id: '4',
+    ward_name: 'Shivajinagar - Ghole Road',
+    ward_marathi_name: 'शिवाजीनगर - घोलेरोड',
+    zone_id: '2',
+    ward_no: '5',
+  },
+  {
+    ward_id: '5',
+    ward_name: 'Aundh - Baner',
+    ward_marathi_name: 'औंध - बाणेर',
+    zone_id: '2',
+    ward_no: '4',
+  },
+  {
+    ward_id: '6',
+    ward_name: 'Kothrud - Bawdhan',
+    ward_marathi_name: 'कोथरूड - बावधन',
+    zone_id: '2',
+    ward_no: '6',
+  },
+  {
+    ward_id: '7',
+    ward_name: 'Warje - Karvenagar',
+    ward_marathi_name: 'वारजे - कर्वेनगर',
+    zone_id: '3',
+    ward_no: '9',
+  },
+  {
+    ward_id: '9',
+    ward_name: 'Dhankawadi - Sahakar Nagar ',
+    ward_marathi_name: 'धनकवडी - सहकारनगर',
+    zone_id: '3',
+    ward_no: '7',
+  },
+  {
+    ward_id: '8',
+    ward_name: 'Sinhgad Road Ward',
+    ward_marathi_name: 'सिंहगड रोड',
+    zone_id: '3',
+    ward_no: '8',
+  },
+  {
+    ward_id: '10',
+    ward_name: 'Wanawadi - Ramtekadi',
+    ward_marathi_name: 'वानवडी - रामटेकडी',
+    zone_id: '4',
+    ward_no: '11',
+  },
+  {
+    ward_id: '11',
+    ward_name: 'Hadapsar - Mundhwa',
+    ward_marathi_name: 'हडपसर - मुंढवा',
+    zone_id: '4',
+    ward_no: '10',
+  },
+  {
+    ward_id: '12',
+    ward_name: 'Kondhwa - Yewalewadi',
+    ward_marathi_name: 'कोंढवा - येवलेवाडी',
+    zone_id: '4',
+    ward_no: '12',
+  },
+  {
+    ward_id: '13',
+    ward_name: 'Bhavani Peth',
+    ward_marathi_name: 'भवानी पेठ ',
+    zone_id: '5',
+    ward_no: '14',
+  },
+  {
+    ward_id: '14',
+    ward_name: 'Bibwewadi',
+    ward_marathi_name: 'बिबवेवाडी ',
+    zone_id: '5',
+    ward_no: '15',
+  },
+  {
+    ward_id: '15',
+    ward_name: 'Kasaba VishramBagwada',
+    ward_marathi_name: 'कसबा विश्रामबागवाडा',
+    zone_id: '5',
+    ward_no: '13',
+  },
+];
+
+
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+
+const worksAaApprovalId = getQueryParam('proj_id');
+const lenght = getQueryParam('lenght');
+const width = getQueryParam('width');
+if(worksAaApprovalId != null){
+  fetchAndPostData(worksAaApprovalId)
+}
+
+function fetchAndPostData(id) {
+	fetch('http://pmciwms.in/api/project-gis-data?proj_id='+id)
+		.then((response) => response.json())
+		.then((data) => {
+			const project = data.data;
+
+			console.log(project);
+
+			if (!project) {
+				alert('project with this works_aa_approval_id is not found');
+				return;
+			}
+
+			let department = depData.find((dep) => dep.department_id == project.d_id);
+			let zone = zoneData.find((dep) => dep.zone_id == project.constituency_zone_id);
+			let ward = wardData.find((ward) => ward.ward_id == project.constituency_ward_id);
+
+			if (project) {
+				let budgetCodes = data?.budget_data?.map((budget) => budget.budget_code.trim()).join(', ');
+          const payload = {
+            projectNo: project.sys_proj_id || '',
+            aaWork: project.name_of_work || '',
+            scopeOfWork: project.scope_of_work || '',
+            workType: project.work_type || '',
+            projectFinancialYear: project.project_financial_year || '',
+            department: department ? department.department_name : '',
+            juniorName: project.je_name || '',
+            contactNo: project.contact || '',
+            dateIn: project.con_appr_date || '',
+            projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : project.project_from === '3' ? 'Ward Office' : 'Unknown') : '',
+            ward: ward ? ward.ward_name : '',
+            zone: zone ? zone.zone_name : '',
+            budgetCodes: budgetCodes || '',
+            Id:project.works_aa_approval_id,
+            lenght,
+            width
+        };
+
+
+        $.ajax({
+          type: "POST",
+          url: "Apis/Conceptual_Form.php",
+          data: JSON.stringify(payload),
+          contentType: "application/json",
+          success: function (response) {
+            localStorage.setItem('lastInsertedId', response.data.id);
+						localStorage.setItem('bufferWidth', response.data.width);
+						localStorage.setItem('roadLenght', response.data.lenght);
+						localStorage.setItem('wardname', response.data.wardname);
+						localStorage.setItem('department', response.data.department);
+						localStorage.setItem('conceptual_form_data_temp', JSON.stringify(payload));
+						localStorage.removeItem('conceptual_form_data');
+						localStorage.removeItem('selectCoordinatesData');
+          },
+          error: function (xhr, status, error) {
+            console.error("Save failed:", error);
+          },
+        });
+
+			} else {
+				console.error('Project not found');
+			}
+
+
+
+		})
+
+
+    
+		.catch((error) => console.error('Error fetching project data:', error));
+}
+
+
+
+
+
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:19,
 }).addTo(map);
