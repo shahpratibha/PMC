@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion with Select2</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .accordion-header {
+            background-color: #f1f1f1;
+            color: #333;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .dropdown-list {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .searchable {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="accordion">
+        <div class="accordion-item">
+            <div class="accordion-header">Section 1</div>
+            <div class="dropdown-list">
+                <select class="searchable" multiple="multiple">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                    <option value="option4">Option 4</option>
+                </select>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header">Section 2</div>
+            <div class="dropdown-list">
+                <select class="searchable" multiple="multiple">
+                    <option value="optionA">Option A</option>
+                    <option value="optionB">Option B</option>
+                    <option value="optionC">Option C</option>
+                    <option value="optionD">Option D</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.accordion-header').click(function () {
+                $(this).next('.dropdown-list').slideToggle();
+            });
+
+            $('.searchable').select2({
+                placeholder: 'Select an option',
+                width: '100%',
+                closeOnSelect: false,
+                allowClear: true,
+                dropdownCssClass: "bigdrop",
+                // This is for the checkboxes
+                templateResult: function (data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+
+                    var $result = $("<span></span>");
+
+                    $result.text(data.text);
+                    $result.addClass('select2-results__option');
+
+                    return $result;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

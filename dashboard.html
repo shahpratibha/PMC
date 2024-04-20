@@ -291,6 +291,13 @@ button, input, optgroup, select, textarea {
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
         style="width: 15px; "></i></a>
 
+        <div class="form-group ">
+          <label>Select Office</label>
+          <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_off">
+            <option value=""></option>
+          </select>
+        </div>
+
     <div class="form-group ">
       <label>Select Year</label>
       <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_fi">
@@ -629,6 +636,43 @@ button, input, optgroup, select, textarea {
       // loadAllData();
       loadInitialData();
     });
+
+
+
+
+    
+var layers = ["pmc:Data"]
+    map.on("contextmenu", async (e) => {
+    let bbox = map.getBounds().toBBoxString();
+    let size = map.getSize();
+
+    for (let i = 0; i < layers.length; i++) {
+        let layer = layers[i];
+        let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+        try {
+            let response = await fetch(urrr);
+            let html = await response.json();
+
+            var htmldata = html.features[0].properties;
+            let selectedKeys = ["works_aa_a", ]; // Define the keys you want to include
+            let txtk1 = "";
+            for (let key of selectedKeys) {
+                if (htmldata.hasOwnProperty(key)) {
+                    let value = htmldata[key];
+                    txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+                }
+            }
+
+            let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
+
+            L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+});
+
 
 
 
