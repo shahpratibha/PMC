@@ -20,9 +20,18 @@ var googleSat = L.tileLayer(
   }
 );
 
-
-const department = localStorage.getItem("department") ;
-let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
+var ward_boundary= L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "ward_boundary1",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    opacity: 1,
+    maxZoom: 21,
+  }
+);
 
 let depData = [
   {
@@ -272,86 +281,102 @@ function getQueryParam(param) {
 }
 
 
-const worksAaApprovalId = getQueryParam('proj_id');
-const lenght = getQueryParam('lenght');
+const lenght = getQueryParam('lenght'); // Corrected typo: lenght to length
 const width = getQueryParam('width');
-if(worksAaApprovalId != null){
-  fetchAndPostData(worksAaApprovalId)
-}
 
-function fetchAndPostData(id) {
-	fetch('http://pmciwms.in/api/project-gis-data?proj_id='+id)
-		.then((response) => response.json())
-		.then((data) => {
-			const project = data.data;
-
-			console.log(project);
-
-			if (!project) {
-				alert('project with this works_aa_approval_id is not found');
-				return;
-			}
-
-			let department = depData.find((dep) => dep.department_id == project.d_id);
-			let zone = zoneData.find((dep) => dep.zone_id == project.constituency_zone_id);
-			let ward = wardData.find((ward) => ward.ward_id == project.constituency_ward_id);
-
-			if (project) {
-				let budgetCodes = data?.budget_data?.map((budget) => budget.budget_code.trim()).join(', ');
-          const payload = {
-            projectNo: project.sys_proj_id || '',
-            aaWork: project.name_of_work || '',
-            scopeOfWork: project.scope_of_work || '',
-            workType: project.work_type || '',
-            projectFinancialYear: project.project_financial_year || '',
-            department: department ? department.department_name : '',
-            juniorName: project.je_name || '',
-            contactNo: project.contact || '',
-            dateIn: project.con_appr_date || '',
-            projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : project.project_from === '3' ? 'Ward Office' : 'Unknown') : '',
-            ward: ward ? ward.ward_name : '',
-            zone: zone ? zone.zone_name : '',
-            budgetCodes: budgetCodes || '',
-            Id:project.works_aa_approval_id,
-            lenght,
-            width
-        };
+var wardname = null;
 
 
-        $.ajax({
+
+async function fetchAndPostData(id) {
+  try {
+      const response = await fetch(`http://pmciwms.in/api/project-gis-data?proj_id=${id}`);
+      const data = await response.json();
+      const project = data.data;
+
+      if (!project) {
+          alert('Project with this works_aa_approval_id is not found');
+          return;
+      }
+
+      const department = depData.find(dep => dep.department_id == project.d_id);
+      const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
+      const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
+      wardname = ward ? ward.ward_name : wardname;
+     console.log(wardname);
+
+
+
+  var cql_filterm = `Ward_Name='${wardname}'`;
+   fitbou(cql_filterm);
+   ward_boundary.setParams({
+    cql_filter: cql_filterm,
+       styles: "highlight",
+   });
+   ward_boundary.addTo(map).bringToFront();
+
+      let budgetCodes = data?.budget_data?.map(budget => budget.budget_code.trim()).join(', ');
+      const payload = {
+          projectNo: project.sys_proj_id || '',
+          aaWork: project.name_of_work || '',
+          scopeOfWork: project.scope_of_work || '',
+          workType: project.work_type || '',
+          projectFinancialYear: project.project_financial_year || '',
+          department: department ? department.department_name : '',
+          juniorName: project.je_name || '',
+          contactNo: project.contact || '',
+          dateIn: project.con_appr_date || '',
+          projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : 'Ward Office') : 'Unknown',
+          ward: ward ? ward.ward_name : '',
+          zone: zone ? zone.zone_name : '',
+          budgetCodes: budgetCodes || '',
+          Id: project.works_aa_approval_id,
+          Length:lenght,
+          Width:width
+      };
+
+      // Post the data using jQuery's AJAX
+      $.ajax({
           type: "POST",
           url: "Apis/Conceptual_Form.php",
           data: JSON.stringify(payload),
           contentType: "application/json",
           success: function (response) {
-            localStorage.setItem('lastInsertedId', response.data.id);
-						localStorage.setItem('bufferWidth', response.data.width);
-						localStorage.setItem('roadLenght', response.data.lenght);
-						localStorage.setItem('wardname', response.data.wardname);
-						localStorage.setItem('department', response.data.department);
-						localStorage.setItem('conceptual_form_data_temp', JSON.stringify(payload));
-						localStorage.removeItem('conceptual_form_data');
-						localStorage.removeItem('selectCoordinatesData');
+              localStorage.setItem('lastInsertedId', response.data.id);
+              localStorage.setItem('bufferWidth', response.data.width);
+              localStorage.setItem('roadLenght', response.data.lenght); // Corrected typo: lenght to length
+              localStorage.setItem('wardname', response.data.wardname);
+              localStorage.setItem('department', response.data.department);
+              localStorage.setItem('conceptual_form_data_temp', JSON.stringify(payload));
+              localStorage.removeItem('conceptual_form_data');
+              localStorage.removeItem('selectCoordinatesData');
           },
           error: function (xhr, status, error) {
-            console.error("Save failed:", error);
-          },
-        });
+              console.error("Save failed:", error);
+          }
+      });
 
-			} else {
-				console.error('Project not found');
-			}
-
-
-
-		})
-
-
-    
-		.catch((error) => console.error('Error fetching project data:', error));
+  } catch (error) {
+      console.error('Error fetching project data:', error);
+  }
 }
 
 
+async function loadData() {
+  const worksAaApprovalId = getQueryParam('proj_id');
+ 
+  if (worksAaApprovalId != null) {
+      await fetchAndPostData(worksAaApprovalId);
+  }
+}
+
+loadData();
+
+
+console.log(wardname)
+
+const department = localStorage.getItem("department") ;
+let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
 
 
 
@@ -472,7 +497,7 @@ else if(department == "Road"){
 }
 
 
-
+console.log(wardname)
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -582,23 +607,8 @@ var wms_layer16 = L.tileLayer.wms(
     opacity: 1,
   }
 );
-// console.log(localStorage," ")
-var wardname = localStorage.getItem("wardname");
 
- ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
- 
-var ward_boundary= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "ward_boundary1",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    opacity: 1,
-    maxZoom: 21,
-  }
-);
+
  
 var Zone_layer= L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
@@ -662,6 +672,7 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
 
 
 // Add a search bar
@@ -757,7 +768,7 @@ var drawControlDrainage = new L.Control.Draw({
 
 
 // map.addControl(drawControl);
-if(conceptualFormDataConfig.workType == "New"){
+if(department == "Road"){
   var customDrawControls = L.control({ position: 'topleft' });
 
   // Define the HTML content for the control
@@ -887,69 +898,65 @@ function toggleDrawControl() {
 //map.on("zoomend", toggleDrawControl);
 
 
+document.querySelector('.draw_feature').addEventListener('click', function(event) {
+  event.preventDefault();
+  // Toggle draw control when the "Draw Feature" button is clicked
 
-if(conceptualFormDataConfig.workType == "New"){
-  document.querySelector('.draw_feature').addEventListener('click', function(event) {
-    event.preventDefault();
-    // Toggle draw control when the "Draw Feature" button is clicked
-  
-    if (map.getZoom() > 15) {
-      toggleDrawControl();
-  
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Oops...",
-            text: "Zoom In to 200 m zoom range",
-            showConfirmButton: false,
-            showCloseButton: true,
-            customClass: {
-              popup: "custom-modal-class",
-              icon: "custom-icon-class",
-              title: "custom-title-class",
-              content: "custom-text-class",
-              closeButton: "custom-close-button-class",
-            },
-            showClass: {
-              popup: "swal2-show",
-              backdrop: "swal2-backdrop-show",
-              icon: "swal2-icon-show",
-            },
-            hideClass: {
-              popup: "swal2-hide",
-              backdrop: "swal2-backdrop-hide",
-              icon: "swal2-icon-hide",
-            },
-            didOpen: () => {
-              // Apply custom styles directly to the modal elements
-              document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-              document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-              document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
-              document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-              document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
-              document.querySelector(".custom-title-class").style.fontSize =
-                "1.5em"; // Set your desired title size
-              document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-              document.querySelector(
-                ".custom-close-button-class"
-              ).style.backgroundColor = "#f44336"; // Red background color
-              document.querySelector(".custom-close-button-class").style.color =
-                "white"; // White text color
-              document.querySelector(
-                ".custom-close-button-class"
-              ).style.borderRadius = "0"; // Rounded corners
-              document.querySelector(".custom-close-button-class").style.padding =
-                "5px"; // Padding around the close button
-              document.querySelector(".custom-close-button-class").style.fontSize =
-                "20px"; // Font size of the close button
-            },
-          });
-    
-        }
-  });
-}
+  if (map.getZoom() > 15) {
+    toggleDrawControl();
 
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Oops...",
+          text: "Zoom In to 200 m zoom range",
+          showConfirmButton: false,
+          showCloseButton: true,
+          customClass: {
+            popup: "custom-modal-class",
+            icon: "custom-icon-class",
+            title: "custom-title-class",
+            content: "custom-text-class",
+            closeButton: "custom-close-button-class",
+          },
+          showClass: {
+            popup: "swal2-show",
+            backdrop: "swal2-backdrop-show",
+            icon: "swal2-icon-show",
+          },
+          hideClass: {
+            popup: "swal2-hide",
+            backdrop: "swal2-backdrop-hide",
+            icon: "swal2-icon-hide",
+          },
+          didOpen: () => {
+            // Apply custom styles directly to the modal elements
+            document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+            document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+            document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+            document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-title-class").style.fontSize =
+              "1.5em"; // Set your desired title size
+            document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.backgroundColor = "#f44336"; // Red background color
+            document.querySelector(".custom-close-button-class").style.color =
+              "white"; // White text color
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.borderRadius = "0"; // Rounded corners
+            document.querySelector(".custom-close-button-class").style.padding =
+              "5px"; // Padding around the close button
+            document.querySelector(".custom-close-button-class").style.fontSize =
+              "20px"; // Font size of the close button
+          },
+        });
+  
+      }
+});
 
 
 
@@ -1294,16 +1301,23 @@ map.on('draw:editstop', function() {
 
 function handleMouseMove(event) {
 
-  if(mapMode == 'tracing' && vertexClickCount > 0){
+  if (mapMode === 'tracing' && vertexClickCount > 0) {
     if (!currentPolyline) return;
     let newPoint = event.latlng;
     getClosestRoadPoint(newPoint).then(result => {
-        if (result.distance <= 20) {  // If close enough, snap to the road
+      if (result.distance <= 20) {  
+        if(vertexClickCount == 1){
+          currentPolyline.addLatLng(result.marker);
+          vertexClickCount++;
+        }else{
+          const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
+          if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
             currentPolyline.addLatLng(result.marker);
-        } else {
-           // currentPolyline.addLatLng(newPoint);
+            currentPolyline.redraw();
+          }
         }
-        currentPolyline.redraw();
+      
+      }
     });
   }
   else if (mapMode == 'snapping' ){
@@ -1786,6 +1800,7 @@ function Savedata(lastDrawnPolylineId) {
   var bufferWidth = localStorage.getItem("bufferWidth");
   var lastInsertedId = localStorage.getItem("lastInsertedId");
   var department = localStorage.getItem("department");
+
 
   var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
   var bufferGeoJSONString = "{}";
