@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PMC</title>
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
-  <link rel="stylesheet" href="css/style.css" />
-  <!-- <link rel="stylesheet" href="css/C_form.css" /> -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- <link rel="stylesheet" href="C_form.css" /> -->
 
   
   <style>
@@ -153,13 +153,43 @@
  
 
     <div id="map"></div>
-    <p class="geopulseaname"><a href="https://geopulsea.com/" class="text-decoration-none">@GeoPulse Analytics</a></p>
+    <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
 
     <div>
       <img src="png/pmcjpeg.png" alt="" class="logopng1"style="">
     </div>
-    
-  <script src="js/index-page.js"></script>
+    <!-- <div id="table-container">
+      <button id="closeTableBtn" class="close-button">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <table id="workTable" class="table table-bordered table-hover" style="width: 70% !important">
+        <thead>
+          <tr>
+            <th>Name of Work</th>
+            <th>Work Type</th>
+            <th>Work Completion Date</th>
+            <th>Zone</th>
+            <th>Ward</th>
+            <th>Prabhag</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+
+            <th>Name of Work</th>
+            <th>Work Type</th>
+            <th>Work Completion Date</th>
+            <th>Zone</th>
+            <th>Ward</th>
+            <th>Prabhag</th>
+          </tr>
+        </tfoot>
+        <tbody></tbody>
+      </table>
+    </div> -->
+ 
+  <script src="index-page.js"></script>
   
   <script>
 
@@ -530,7 +560,6 @@
       };
     }
 
-
     editControl.onAdd = function (map) {
       var button = L.DomUtil.create('button', 'custom-button');
       button.innerHTML = 'Select Feature';
@@ -574,6 +603,31 @@
       };
       return button;
     };
+
+
+    // code for image on perform button
+
+
+//     editControl.onAdd = function (map) {
+//   var button = L.DomUtil.create('button', 'custom-button');
+//   var img = document.createElement('img');
+//   img.src = './png/003-selection.png'; 
+//   img.style.width = '25px'; // Example width
+//   img.style.height = '25px'; // Example height
+//   button.appendChild(img);
+//   button.innerHTML += ' Perform Task'; 
+//   button.onclick = function () {
+//     if (button.innerHTML.includes('Perform Task')) {
+//       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
+//       performTask();
+//     } else {
+//       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
+//     }
+//   };
+//   return button;
+// };
+
+
 
     // Add the control to the map
   

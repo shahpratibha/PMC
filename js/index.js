@@ -1341,12 +1341,7 @@ map.on("contextmenu", (e) => {
             xx += 1;
           }
 
-          let detaildata1 =
-            "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" +
-            txtk1 +
-            "</td></tr><tr><td>Co-Ordinates</td><td>" +
-            e.latlng +
-            "</td></tr></table></div>";
+          let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:110%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
 
           L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
         });
