@@ -1013,6 +1013,7 @@ button, input, optgroup, select, textarea {
         font-size: 1.08333em;
         min-height: 1px;
         width: 230px;
+        scrollbar-width:thin ;
       }
 
 
