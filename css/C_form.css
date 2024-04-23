@@ -1001,7 +1001,7 @@ button, input, optgroup, select, textarea {
     
       }
       .popup-table td {
-        border-right: 1px solid; /* Border line at the right of each table cell */
+        border-right: 1px solid; 
         padding: 7px;
         vertical-align: middle;
       }
