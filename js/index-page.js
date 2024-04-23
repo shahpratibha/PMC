@@ -1,22 +1,22 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/PMC_Final/";
+// const API_URL = "http://localhost/PMC/PMC_Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 
-// const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-// const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
+const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
+const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
 
-// // Use the public URL
-// fetch(publicAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
+// Use the public URL
+fetch(publicAPI_URL)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
 
-// // Use the private URL
-// fetch(privateAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
+// Use the private URL
+fetch(privateAPI_URL)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
 
 //Add Basemap
 var map = L.map("map", {
