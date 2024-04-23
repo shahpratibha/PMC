@@ -705,13 +705,13 @@ a {
   .leaflet-container a.leaflet-popup-close-button {
     position: absolute;
     top: 0;
-    right: 0px;
+    right: 14px;
     border: none;
     text-align: center;
     font-weight: bold;
     width: 24px;
     height: 24px;
-    font: 16px/24px Tahoma, Verdana, sans-serif;
+    font: 24px/24px Tahoma, Verdana, sans-serif;
     color: red;
     text-decoration: none;
     background: transparent;
@@ -997,7 +997,13 @@ button, input, optgroup, select, textarea {
     }
     .popup-table tr,td{
       border-bottom: 1px solid;
-      
+      /* padding: 5px; */
+    
+      }
+      .popup-table td {
+        border-right: 1px solid; /* Border line at the right of each table cell */
+        padding: 7px;
+        vertical-align: middle;
       }
 
       .leaflet-popup-content {
@@ -1013,3 +1019,5 @@ button, input, optgroup, select, textarea {
       button{
         border: none;
       }
+
+     
