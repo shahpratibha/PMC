@@ -70,13 +70,13 @@
 			<section id="form-section" class="ms-5">
 				<!-- <h2>Create Work</h2> -->
 				<form id="projectForm" method="post">
-					<div class="mb-3 d-flex align-items-center fetchDataButtonContainer">
+					<!-- <div class="mb-3 d-flex align-items-center fetchDataButtonContainer">
 						<label for="Id" class="form-label me-2">Id:</label>
 						<div class="flex-grow-1 ">
 							<input type="text" class="form-control" id="Id" name="Id" required />
 						</div>
-						<button id="fetchDataButton" type="button" class="btn btn-outline-primary btn-sm">Fetch Data</button>
-					</div>
+						<button id="fetchDataButton" type="button" class="btn btn-primary btn-sm">Fetch Data</button>
+					</div> -->
 
 					<label for="projectNo">Project No:</label>
 					<input type="text" id="projectNo" name="projectNo" required />
@@ -502,19 +502,27 @@
 			];
 			const roadContainers = document.querySelectorAll('.road-container');
 			document.addEventListener('DOMContentLoaded', function () {
-				const fetchDataButton = document.getElementById('fetchDataButton');
+				// const fetchDataButton = document.getElementById('fetchDataButton');
 
-				// Event listener for the Fetch Data button
-				fetchDataButton.addEventListener('click', function () {
-					const worksAaApprovalId = document.getElementById('Id').value;
-					if (worksAaApprovalId) {
-						fetchAndFillFormData(worksAaApprovalId);
-					} else {
-						alert('No ID provided .');
-					}
-				});
+				// // Event listener for the Fetch Data button
+				// fetchDataButton.addEventListener('click', function () {
+				// 	const worksAaApprovalId = document.getElementById('Id').value;
+				// 	if (worksAaApprovalId) {
+				// 		fetchAndFillFormData(worksAaApprovalId);
+				// 	} else {
+				// 		alert('No ID provided .');
+				// 	}
+				// });
 
-				
+				function getQueryParam(param) {
+					const urlParams = new URLSearchParams(window.location.search);
+					return urlParams.get(param);
+				}
+
+				const worksAaApprovalId = getQueryParam('proj_id');
+				if(worksAaApprovalId != null){
+					fetchAndFillFormData(worksAaApprovalId)
+				}
 
 				function fetchAndFillFormData(id) {
 					fetch('api-responses/all-project-data.json')

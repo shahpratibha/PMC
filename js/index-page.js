@@ -1,6 +1,7 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/PMC_Final/";
+// const API_URL = "http://localhost/PMC/PMC_Final/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
+const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
 
 // const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
@@ -36,9 +37,365 @@ var googleSat = L.tileLayer(
   }
 );
 
+var ward_boundary= L.tileLayer.wms(
+  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  {
+    layers: "ward_boundary1",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    opacity: 1,
+    maxZoom: 21,
+  }
+);
+
+let depData = [
+  {
+    department_id: '1',
+    department_name: 'Road',
+    department_marathi_name: 'पथ',
+    department_code: '21',
+  },
+  {
+    department_id: '2',
+    department_name: 'Building',
+    department_marathi_name: 'भवन',
+    department_code: '78',
+  },
+  {
+    department_id: '3',
+    department_name: 'Project Work',
+    department_marathi_name: 'प्रकल्प',
+    department_code: '',
+  },
+  {
+    department_id: '4',
+    department_name: 'Water Supply',
+    department_marathi_name: 'पाणीपुरवठा',
+    department_code: '',
+  },
+  {
+    department_id: '5',
+    department_name: 'Drainage',
+    department_marathi_name: 'मलनिःसारण देखभाल व दुरुस्ती',
+    department_code: '',
+  },
+  {
+    department_id: '6',
+    department_name: 'Electrical',
+    department_marathi_name: 'विद्युत',
+    department_code: '',
+  },
+  {
+    department_id: '7',
+    department_name: 'Solid waste Management',
+    department_marathi_name: 'घनकचरा',
+    department_code: '',
+  },
+  {
+    department_id: '8',
+    department_name: 'PMAY',
+    department_marathi_name: 'प्रधानमंत्री आवास योजना',
+    department_code: '',
+  },
+  {
+    department_id: '9',
+    department_name: 'Garden',
+    department_marathi_name: 'उद्यान ',
+    department_code: '',
+  },
+  {
+    department_id: '14',
+    department_name: 'Education Department (Primary)',
+    department_marathi_name: 'शिक्षण विभाग (प्राथमिक)',
+    department_code: 'EDU',
+  },
+  {
+    department_id: '11',
+    department_name: 'Slum',
+    department_marathi_name: 'झोनिपु',
+    department_code: '',
+  },
+  {
+    department_id: '12',
+    department_name: 'Encroachment ',
+    department_marathi_name: 'अतिक्रमण',
+    department_code: '',
+  },
+  {
+    department_id: '13',
+    department_name: 'Garden Horticulture',
+    department_marathi_name: 'उद्यान',
+    department_code: 'GRHOR',
+  },
+  {
+    department_id: '10',
+    department_name: 'Market',
+    department_marathi_name: 'मंडई',
+    department_code: '',
+  },
+  {
+    department_id: '16',
+    department_name: 'Sport',
+    department_marathi_name: 'क्रीडा',
+    department_code: '',
+  },
+  {
+    department_id: '17',
+    department_name: 'City Engineer Office',
+    department_marathi_name: 'शहर अभियंता कार्यालय',
+    department_code: 'CTEO',
+  },
+  {
+    department_id: '18',
+    department_name: 'Environment',
+    department_marathi_name: 'पर्यावरण',
+    department_code: 'EVMT',
+  },
+];
+
+let zoneData = [
+  {
+    zone_id: '1',
+    zone_name: 'D.M.C. Zone 1',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.१ ',
+  },
+  {
+    zone_id: '2',
+    zone_name: 'D.M.C. Zone 2',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.२',
+  },
+  {
+    zone_id: '3',
+    zone_name: 'D.M.C. Zone 3',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.३',
+  },
+  {
+    zone_id: '4',
+    zone_name: 'D.M.C. Zone 4',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.४ ',
+  },
+  {
+    zone_id: '5',
+    zone_name: 'D.M.C. Zone 5',
+    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.५',
+  },
+];
+
+let wardData = [
+  {
+    ward_id: '1',
+    ward_name: 'Yeravada Kalas Dhanori',
+    ward_marathi_name: 'येरवडा कळस धानोरी',
+    zone_id: '1',
+    ward_no: '2',
+  },
+  {
+    ward_id: '2',
+    ward_name: 'Dhole Patil  Ward',
+    ward_marathi_name: 'ढोले पाटील',
+    zone_id: '1',
+    ward_no: '3',
+  },
+  {
+    ward_id: '3',
+    ward_name: 'Nagar Road - Vadgaonsheri ',
+    ward_marathi_name: 'नगररोड - वडगावशेरी',
+    zone_id: '1',
+    ward_no: '1',
+  },
+  {
+    ward_id: '4',
+    ward_name: 'Shivajinagar - Ghole Road',
+    ward_marathi_name: 'शिवाजीनगर - घोलेरोड',
+    zone_id: '2',
+    ward_no: '5',
+  },
+  {
+    ward_id: '5',
+    ward_name: 'Aundh - Baner',
+    ward_marathi_name: 'औंध - बाणेर',
+    zone_id: '2',
+    ward_no: '4',
+  },
+  {
+    ward_id: '6',
+    ward_name: 'Kothrud - Bawdhan',
+    ward_marathi_name: 'कोथरूड - बावधन',
+    zone_id: '2',
+    ward_no: '6',
+  },
+  {
+    ward_id: '7',
+    ward_name: 'Warje - Karvenagar',
+    ward_marathi_name: 'वारजे - कर्वेनगर',
+    zone_id: '3',
+    ward_no: '9',
+  },
+  {
+    ward_id: '9',
+    ward_name: 'Dhankawadi - Sahakar Nagar ',
+    ward_marathi_name: 'धनकवडी - सहकारनगर',
+    zone_id: '3',
+    ward_no: '7',
+  },
+  {
+    ward_id: '8',
+    ward_name: 'Sinhgad Road Ward',
+    ward_marathi_name: 'सिंहगड रोड',
+    zone_id: '3',
+    ward_no: '8',
+  },
+  {
+    ward_id: '10',
+    ward_name: 'Wanawadi - Ramtekadi',
+    ward_marathi_name: 'वानवडी - रामटेकडी',
+    zone_id: '4',
+    ward_no: '11',
+  },
+  {
+    ward_id: '11',
+    ward_name: 'Hadapsar - Mundhwa',
+    ward_marathi_name: 'हडपसर - मुंढवा',
+    zone_id: '4',
+    ward_no: '10',
+  },
+  {
+    ward_id: '12',
+    ward_name: 'Kondhwa - Yewalewadi',
+    ward_marathi_name: 'कोंढवा - येवलेवाडी',
+    zone_id: '4',
+    ward_no: '12',
+  },
+  {
+    ward_id: '13',
+    ward_name: 'Bhavani Peth',
+    ward_marathi_name: 'भवानी पेठ ',
+    zone_id: '5',
+    ward_no: '14',
+  },
+  {
+    ward_id: '14',
+    ward_name: 'Bibwewadi',
+    ward_marathi_name: 'बिबवेवाडी ',
+    zone_id: '5',
+    ward_no: '15',
+  },
+  {
+    ward_id: '15',
+    ward_name: 'Kasaba VishramBagwada',
+    ward_marathi_name: 'कसबा विश्रामबागवाडा',
+    zone_id: '5',
+    ward_no: '13',
+  },
+];
+
+
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+
+const lenght = getQueryParam('lenght'); // Corrected typo: lenght to length
+const width = getQueryParam('width');
+
+var wardname = null;
+
+
+
+async function fetchAndPostData(id) {
+  try {
+      const response = await fetch(`http://pmciwms.in/api/project-gis-data?proj_id=${id}`);
+      const data = await response.json();
+      const project = data.data;
+
+      if (!project) {
+          alert('Project with this works_aa_approval_id is not found');
+          return;
+      }
+
+      const department = depData.find(dep => dep.department_id == project.d_id);
+      const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
+      const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
+      wardname = ward ? ward.ward_name : wardname;
+     console.log(wardname);
+
+
+
+  var cql_filterm = `Ward_Name='${wardname}'`;
+   fitbou(cql_filterm);
+   ward_boundary.setParams({
+    cql_filter: cql_filterm,
+       styles: "highlight",
+   });
+   ward_boundary.addTo(map).bringToFront();
+
+      let budgetCodes = data?.budget_data?.map(budget => budget.budget_code.trim()).join(', ');
+      const payload = {
+          projectNo: project.sys_proj_id || '',
+          aaWork: project.name_of_work || '',
+          scopeOfWork: project.scope_of_work || '',
+          workType: project.work_type || '',
+          projectFinancialYear: project.project_financial_year || '',
+          department: department ? department.department_name : '',
+          juniorName: project.je_name || '',
+          contactNo: project.contact || '',
+          dateIn: project.con_appr_date || '',
+          projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : 'Ward Office') : 'Unknown',
+          ward: ward ? ward.ward_name : '',
+          zone: zone ? zone.zone_name : '',
+          budgetCodes: budgetCodes || '',
+          Id: project.works_aa_approval_id,
+          Length:lenght,
+          Width:width
+      };
+
+      // Post the data using jQuery's AJAX
+      $.ajax({
+          type: "POST",
+          url: "Apis/Conceptual_Form.php",
+          data: JSON.stringify(payload),
+          contentType: "application/json",
+          success: function (response) {
+              localStorage.setItem('lastInsertedId', response.data.id);
+              localStorage.setItem('bufferWidth', response.data.width);
+              localStorage.setItem('roadLenght', response.data.lenght); // Corrected typo: lenght to length
+              localStorage.setItem('wardname', response.data.wardname);
+              localStorage.setItem('department', response.data.department);
+              localStorage.setItem('conceptual_form_data_temp', JSON.stringify(payload));
+              localStorage.removeItem('conceptual_form_data');
+              localStorage.removeItem('selectCoordinatesData');
+          },
+          error: function (xhr, status, error) {
+              console.error("Save failed:", error);
+          }
+      });
+
+  } catch (error) {
+      console.error('Error fetching project data:', error);
+  }
+}
+
+
+async function loadData() {
+  const worksAaApprovalId = getQueryParam('proj_id');
+ 
+  if (worksAaApprovalId != null) {
+      await fetchAndPostData(worksAaApprovalId);
+  }
+}
+
+loadData();
+
+
+console.log(wardname)
 
 const department = localStorage.getItem("department") ;
 let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
+
+
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:19,
@@ -157,7 +514,7 @@ else if(department == "Road"){
 }
 
 
-
+console.log(wardname)
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -267,23 +624,8 @@ var wms_layer16 = L.tileLayer.wms(
     opacity: 1,
   }
 );
-// console.log(localStorage," ")
-var wardname = localStorage.getItem("wardname");
 
- ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
- 
-var ward_boundary= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
-  {
-    layers: "ward_boundary1",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    opacity: 1,
-    maxZoom: 21,
-  }
-);
+
  
 var Zone_layer= L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
@@ -347,6 +689,7 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
 
 
 // Add a search bar
@@ -442,7 +785,7 @@ var drawControlDrainage = new L.Control.Draw({
 
 
 // map.addControl(drawControl);
-if(conceptualFormDataConfig.workType == "New"){
+if(department == "Road"){
   var customDrawControls = L.control({ position: 'topleft' });
 
   // Define the HTML content for the control
@@ -572,69 +915,65 @@ function toggleDrawControl() {
 //map.on("zoomend", toggleDrawControl);
 
 
+document.querySelector('.draw_feature').addEventListener('click', function(event) {
+  event.preventDefault();
+  // Toggle draw control when the "Draw Feature" button is clicked
 
-if(conceptualFormDataConfig.workType == "New"){
-  document.querySelector('.draw_feature').addEventListener('click', function(event) {
-    event.preventDefault();
-    // Toggle draw control when the "Draw Feature" button is clicked
-  
-    if (map.getZoom() > 15) {
-      toggleDrawControl();
-  
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Oops...",
-            text: "Zoom In to 200 m zoom range",
-            showConfirmButton: false,
-            showCloseButton: true,
-            customClass: {
-              popup: "custom-modal-class",
-              icon: "custom-icon-class",
-              title: "custom-title-class",
-              content: "custom-text-class",
-              closeButton: "custom-close-button-class",
-            },
-            showClass: {
-              popup: "swal2-show",
-              backdrop: "swal2-backdrop-show",
-              icon: "swal2-icon-show",
-            },
-            hideClass: {
-              popup: "swal2-hide",
-              backdrop: "swal2-backdrop-hide",
-              icon: "swal2-icon-hide",
-            },
-            didOpen: () => {
-              // Apply custom styles directly to the modal elements
-              document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-              document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-              document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
-              document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-              document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
-              document.querySelector(".custom-title-class").style.fontSize =
-                "1.5em"; // Set your desired title size
-              document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-              document.querySelector(
-                ".custom-close-button-class"
-              ).style.backgroundColor = "#f44336"; // Red background color
-              document.querySelector(".custom-close-button-class").style.color =
-                "white"; // White text color
-              document.querySelector(
-                ".custom-close-button-class"
-              ).style.borderRadius = "0"; // Rounded corners
-              document.querySelector(".custom-close-button-class").style.padding =
-                "5px"; // Padding around the close button
-              document.querySelector(".custom-close-button-class").style.fontSize =
-                "20px"; // Font size of the close button
-            },
-          });
-    
-        }
-  });
-}
+  if (map.getZoom() > 15) {
+    toggleDrawControl();
 
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Oops...",
+          text: "Zoom In to 200 m zoom range",
+          showConfirmButton: false,
+          showCloseButton: true,
+          customClass: {
+            popup: "custom-modal-class",
+            icon: "custom-icon-class",
+            title: "custom-title-class",
+            content: "custom-text-class",
+            closeButton: "custom-close-button-class",
+          },
+          showClass: {
+            popup: "swal2-show",
+            backdrop: "swal2-backdrop-show",
+            icon: "swal2-icon-show",
+          },
+          hideClass: {
+            popup: "swal2-hide",
+            backdrop: "swal2-backdrop-hide",
+            icon: "swal2-icon-hide",
+          },
+          didOpen: () => {
+            // Apply custom styles directly to the modal elements
+            document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+            document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+            document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+            document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-title-class").style.fontSize =
+              "1.5em"; // Set your desired title size
+            document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.backgroundColor = "#f44336"; // Red background color
+            document.querySelector(".custom-close-button-class").style.color =
+              "white"; // White text color
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.borderRadius = "0"; // Rounded corners
+            document.querySelector(".custom-close-button-class").style.padding =
+              "5px"; // Padding around the close button
+            document.querySelector(".custom-close-button-class").style.fontSize =
+              "20px"; // Font size of the close button
+          },
+        });
+  
+      }
+});
 
 
 
@@ -978,23 +1317,33 @@ map.on('draw:editstop', function() {
 
 
 function handleMouseMove(event) {
-  if (drawTimeout) clearTimeout(drawTimeout);
-  lastDrawnPoint = event.latlng;
-  drawTimeout = setTimeout(() => {
-    getClosestRoadPointLast(lastDrawnPoint);
-  }, 100); 
 
-  if(mapMode == 'tracing' && vertexClickCount > 0){
+  if (mapMode === 'tracing' && vertexClickCount > 0) {
     if (!currentPolyline) return;
     let newPoint = event.latlng;
     getClosestRoadPoint(newPoint).then(result => {
-        if (result.distance <= 20) {  // If close enough, snap to the road
+      if (result.distance <= 20) {  
+        if(vertexClickCount == 1){
+          currentPolyline.addLatLng(result.marker);
+          vertexClickCount++;
+        }else{
+          const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
+          if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
             currentPolyline.addLatLng(result.marker);
-        } else {
-           // currentPolyline.addLatLng(newPoint);
+            currentPolyline.redraw();
+          }
         }
-        currentPolyline.redraw();
+      
+      }
     });
+  }
+  else if (mapMode == 'snapping' ){
+    if (drawTimeout) clearTimeout(drawTimeout);
+    lastDrawnPoint = event.latlng;
+    drawTimeout = setTimeout(() => {
+      getClosestRoadPointLast(lastDrawnPoint);
+    }, 100); 
+  
   }
  
 }
@@ -1302,7 +1651,7 @@ map.on("draw:edited", function (e) {
     if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
       createBufferAndDashedLine(layer, roadLenght, bufferWidth);
     }
-
+    var lastDrawnPolylineId = layer._leaflet_id;
     $.ajax({
       url: API_URL + "process.php", // Path to the PHP script
       type: "GET",
@@ -1367,7 +1716,9 @@ map.on("draw:edited", function (e) {
 
           // Add buttons for adding and deleting rows
           popupContent +=
-            '<button class="popup-button" onclick="Savedata()">Save</button>';
+          `
+          <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+      `;
           popupContent +=
             '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
@@ -1466,6 +1817,7 @@ function Savedata(lastDrawnPolylineId) {
   var bufferWidth = localStorage.getItem("bufferWidth");
   var lastInsertedId = localStorage.getItem("lastInsertedId");
   var department = localStorage.getItem("department");
+
 
   var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
   var bufferGeoJSONString = "{}";

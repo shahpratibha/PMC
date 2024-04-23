@@ -35,6 +35,13 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
         style="width: 15px; "></i></a>
 
+        <div class="form-group ">
+          <label>Select Office</label>
+          <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_Off">
+            <option value=""></option>
+          </select>
+        </div>
+
     <div class="form-group ">
       <label>Select Year</label>
       <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_fi">
@@ -371,6 +378,50 @@
 
 
 
+
+//    //Pop-Up show
+// const layerDetails2 = {
+//   "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
+//   "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
+//   "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
+//   "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+//   "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+//   "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
+//   "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
+// };
+
+// map.on("contextmenu", async (e) => {
+//   let bbox = map.getBounds().toBBoxString();
+//   let size = map.getSize();
+
+//   for (let layer in layerDetails2) {
+//       let selectedKeys = layerDetails2[layer];
+//       let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+//       try {
+//           let response = await fetch(urrr);
+//           let html = await response.json();
+
+//           var htmldata = html.features[0].properties;
+//           let txtk1 = "";
+//           for (let key of selectedKeys) {
+//               if (htmldata.hasOwnProperty(key)) {
+//                   let value = htmldata[key];
+//                   txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+//               }
+//           }
+
+//           let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
+
+//           L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+//       } catch (error) {
+//           console.error("Error fetching data:", error);
+//       }
+//   }
+// });
+
+
+
     // -------------------added 11-2-24------------------------
     function fitbou(filter) {
       layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
@@ -381,9 +432,7 @@
           "&CQL_FILTER=" +
           filter +
           "&outputFormat=application/json";
-
-
-        console.log(urlm, "fittobound url")
+        // console.log(urlm, "fittobound url")
         $.getJSON(urlm, function (data) {
           console.log(data)
           geojson = L.geoJson(data, {});
@@ -401,6 +450,7 @@
       loadDepartments();
       loadWorkTypes();
       loadProjectFi();
+      loadProjectOff()
       loadStage();
     }
 
@@ -411,6 +461,7 @@
       var selectedWards = $("#admin_ward_name").val();
       var selectedVillages = $("#villages").val();
       var selectedProjectFi = $("#project_fi").val();
+      var selectedProjectOff = $("#project_Off").val();
       var selectedStage = $("#stage").val();
       var selectedDateRange = $("#date_range").val();
       var selectedAmountComparison = $("#amount_comparison").val();
@@ -426,7 +477,8 @@
         !$.isEmptyObject(selectedStage) ||
         !$.isEmptyObject(selectedDateRange) ||
         !$.isEmptyObject(selectedAmountValue) ||
-        !$.isEmptyObject(selectedProjectFi)
+        !$.isEmptyObject(selectedProjectFi)||
+        !$.isEmptyObject(selectedProjectOff)
       ) {
         // Filter data based on selected filters
         var filteredData = filterData(
@@ -436,6 +488,7 @@
           selectedWards,
           selectedVillages,
           selectedProjectFi,
+          selectedProjectOff,
           selectedStage,
           selectedDateRange,
           selectedAmountValue,
@@ -455,6 +508,7 @@
       selectedWards,
       selectedVillages,
       selectedProjectFi,
+      selectedProjectOff,
       selectedStage,
       selectedDateRange,
       selectedAmountValue,
@@ -470,11 +524,17 @@
       // added 11-03-2024
       // Filter data based on selected filters
       var filteredData = [];
-
+      
       if (selectedProjectFi.length > 0) {
         filter.project_fi = selectedProjectFi
           .map((projectFi) => `'${projectFi}'`)
           .join(",");
+      }
+      if (selectedProjectOff.length > 0) {
+        filter.Project_Office = selectedProjectOff
+          .map((Project_Office) => `'${Project_Office}'`)
+          .join(",");
+          // console.log(filter.Project_Office ,"filter.Project_Office ")
       }
 
       if (selectedZones.length > 0) {
@@ -521,7 +581,7 @@
         .join(" AND ");
 
 
-      // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
+
       var cqlFilter_ward = Object.entries(filter_for_ward)
         .map(([key, value]) => `${key} IN (${value})`)
         .join(" AND ");
@@ -530,9 +590,7 @@
         .map(([key, value]) => `${key} IN (${value})`)
         .join(" AND ");
 
-      // ///////////////////////new addeded 11-03-2023///////////////////////////////////////
 
-      // Apply the amount filter if selectedAmountValue is not null
       if (selectedAmountValue && selectedAmountValue.trim() !== "") {
         var amountCondition = `tender_amo ${selectedAmountComparison === "greater_than" ? ">" : "<"
           } ${parseFloat(selectedAmountValue)}`;
@@ -566,6 +624,7 @@
       fitbou(cqlFilter);
 
 
+
       IWMS_point.setParams({
         CQL_FILTER: cqlFilter,
         // styles: "point", // Assuming "pointhighlight" is a predefined style
@@ -597,10 +656,7 @@
         }).addTo(map).bringToFront();
       }
 
-      // ////////////////////////////added 11-03-2024
-
-
-      // ********************added new modification 11-03-2023*******************************************
+  
 
       var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
       var typeName = layers.join(',');
@@ -612,17 +668,13 @@
         encodeURIComponent(cqlFilter);
 
 
-
-      // ********************added new modification 11-03-2023*******************************************
-
-
-
-      var openTable = $(document).ready(function () {
-        // Function to toggle table visibility
-        $("#openTableBtn").click(function () {
-          var tableContainer = $("#table-container-dashboard");
-          var isOpen = tableContainer.css("display") !== "none";
-          if (isOpen) {
+    
+    var openTable = $(document).ready(function() {
+    // Function to toggle table visibility
+    $("#openTableBtn").click(function () {
+        var tableContainer = $("#table-container-dashboard");
+        var isOpen = tableContainer.css("display") !== "none";
+        if (isOpen) {
             tableContainer.hide(); // Hide the table if it's already open
           } else {
             tableContainer.show(); // Show the table if it's closed
@@ -840,6 +892,77 @@
 
       return filteredData;
     }
+
+     // newly added 20/04/2022
+
+    function loadProjectOff() {
+      var select = $("#project_Off");
+      select.empty();
+
+      $.getJSON(
+        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
+        function (data) {
+          var projectFiSet = new Set();
+
+          $.each(data.features, function (index, feature) {
+            var project_fi = feature.properties.Project_Office;
+            projectFiSet.add(project_fi);
+          });
+
+          var uniqueProjectFiSet = Array.from(projectFiSet);
+
+          $.each(uniqueProjectFiSet, function (index, project_fi) {
+            select.append(
+              $("<option>", {
+                value: project_fi,
+                text: project_fi,
+              })
+            );
+          });
+
+          if (select.hasClass("select2-hidden-accessible")) {
+            select.select2("destroy");
+          }
+
+          select.select2({
+            templateResult: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              var $option = $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
+                option.text +
+                "</span>"
+              );
+              return $option;
+            },
+            templateSelection: function (option) {
+              if (!option.id) {
+                return option.text;
+              }
+
+              return $(
+                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
+                option.text +
+                "</span>"
+              );
+            },
+            closeOnSelect: false,
+            dropdownParent: select.parent(),
+            multiple: true,
+          });
+
+          select.on("change", function () {
+            loadZones();
+            filterDataAndDrawMap();
+          });
+        }
+      );
+    }
+
+
+    // newly added 20/04/2022
 
     function loadProjectFi() {
       var select = $("#project_fi");
@@ -1196,7 +1319,7 @@
 
       $.getJSON(geoServerURL, function (data) {
         var departmentSet = new Set();
-        console.log(data, "data")
+        // console.log(data, "data")
         $.each(data.features, function (index, feature) {
           var department = feature.properties.departme_1;
           departmentSet.add(department);
@@ -1578,7 +1701,7 @@
 
     $("#search_type").change(function () {
       var selectedValue = $(this).val();
-      console.log(selectedValue, "selectedValue");
+      // console.log(selectedValue, "selectedValue");
 
       function getvalues(callback) {
         var geoServerURL =
@@ -1595,7 +1718,7 @@
 
           // Convert the Set to an array
           var uniqueWorkTypes = Array.from(workTypeSet);
-          console.log(uniqueWorkTypes, "uniqueWorkTypes");
+          // console.log(uniqueWorkTypes, "uniqueWorkTypes");
 
           // Call the callback function with the uniqueWorkTypes array
           callback(uniqueWorkTypes);
@@ -1624,7 +1747,7 @@
               styles: "line", // Assuming "linehighlight" is a predefined style
             });
 
-            console.log("addded");
+            // console.log("addded");
             IWMS_point.addTo(map).bringToFront();
             IWMS_line.addTo(map).bringToFront();
             fitbou(cqlFilter);
