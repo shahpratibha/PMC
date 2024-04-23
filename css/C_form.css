@@ -1006,5 +1006,10 @@ button, input, optgroup, select, textarea {
         font-size: 13px;
         font-size: 1.08333em;
         min-height: 1px;
-        width: 230px;
+        width: 230px;
+      }
+
+
+      button{
+        border: none;
       }
