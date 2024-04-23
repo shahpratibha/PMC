@@ -1465,7 +1465,7 @@ $.effects = {
 	each = jQuery.each;
 
 // Determine rgba support immediately
-supportElem.style.cssText = "background-color:rgba(1,1,1,.5)";
+supportElem.css/style.cssText = "background-color:rgba(1,1,1,.5)";
 support.rgba = supportElem.style.backgroundColor.indexOf( "rgba" ) > -1;
 
 // Define cache name and alpha properties
@@ -2413,11 +2413,11 @@ $.extend( $.effects, {
 	},
 
 	saveStyle: function( element ) {
-		element.data( dataSpaceStyle, element[ 0 ].style.cssText );
+		element.data( dataSpaceStyle, element[ 0 ].css/style.cssText );
 	},
 
 	restoreStyle: function( element ) {
-		element[ 0 ].style.cssText = element.data( dataSpaceStyle ) || "";
+		element[ 0 ].css/style.cssText = element.data( dataSpaceStyle ) || "";
 		element.removeData( dataSpaceStyle );
 	},
 

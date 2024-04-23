@@ -57,7 +57,7 @@ td {
   max-width: 300px;
   max-height: 300px;
   /* Set the maximum height for the table */
-  overflow: auto;
+  /* overflow: auto; */
   /* Add a vertical scrollbar when the content overflows */
   width: auto;
   border-collapse: collapse;

@@ -153,7 +153,7 @@
  
 
     <div id="map"></div>
-    <p class="geopulseaname"><a href="https://geopulsea.com/" class="text-decoration-none">@GeoPulse Analytics</a></p>
+    <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
 
     <div>
       <img src="png/pmcjpeg.png" alt="" class="logopng1"style="">
@@ -560,7 +560,6 @@
       };
     }
 
-
     editControl.onAdd = function (map) {
       var button = L.DomUtil.create('button', 'custom-button');
       button.innerHTML = 'Select Feature';
@@ -604,6 +603,31 @@
       };
       return button;
     };
+
+
+    // code for image on perform button
+
+
+//     editControl.onAdd = function (map) {
+//   var button = L.DomUtil.create('button', 'custom-button');
+//   var img = document.createElement('img');
+//   img.src = './png/003-selection.png'; 
+//   img.style.width = '25px'; // Example width
+//   img.style.height = '25px'; // Example height
+//   button.appendChild(img);
+//   button.innerHTML += ' Perform Task'; 
+//   button.onclick = function () {
+//     if (button.innerHTML.includes('Perform Task')) {
+//       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
+//       performTask();
+//     } else {
+//       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
+//     }
+//   };
+//   return button;
+// };
+
+
 
     // Add the control to the map
   
