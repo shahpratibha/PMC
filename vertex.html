@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet Draw Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"
+    />
+    <style>
+      #map {
+        height: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+    <script>
+        var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 30,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var Village_Boundary = L.tileLayer.wms("https://portal.geopulsea.com/geoserver/AutoDCR/wms", {
+            layers: "Village_Boundary",
+            format: "image/png",
+            transparent: true,
+            tiled: true,
+            version: "1.1.0",
+            opacity: 1,
+            maxZoom: 30,
+        }).addTo(map);
+
+        var Exist_road = L.tileLayer.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+            layers: "Exist_Road",
+            format: "image/png",
+            transparent: true,
+            tiled: true,
+            version: "1.1.0",
+            opacity: 1,
+            maxZoom: 30,
+        }).addTo(map);
+
+        // pmc:Exist_Road
+        var drawnItems = L.featureGroup().addTo(map);
+
+        var drawControl = new L.Control.Draw({
+            draw: {
+                polyline: true,
+                polygon: true,
+                marker: true,
+                circle: false,
+                rectangle: false,
+
+            },
+            edit: {
+                featureGroup: drawnItems,
+
+            }
+        });
+        map.addControl(drawControl);
+
+      //   map.on("draw:drawvertex", function (e) {
+      //     console.log(e.layers._layers,"e.layers._layers old")
+      //     const layersArray = Object.values(e.layers._layers);
+
+      //     layersArray.forEach((layer) => {
+      //       const originalLatlng = layer._latlng;
+      //       const newLatlng = L.latLng(
+      //         originalLatlng.lat + 0.000009,
+      //         originalLatlng.lng + 0.000009
+      //       );
+      //       layer._latlng = newLatlng;
+
+      //       console.log("Original latlng:", originalLatlng);
+      //       console.log("New latlng:", newLatlng);
+      //     });
+      //     console.log(e.layers._layers,"e.layers._layers new")
+
+      //     //     // var vertex = e.vertex;
+
+      //     //     // const itemIds = e.layers.map(item => item._layers);
+      //     //     console.log( e.latlng," e.latlng;")
+      //     //     console.log(e,'New vertex added:',e.latlng,e.layers._layers,e.layers._layers);
+      //     //     const layersArray = Object.values(e.layers._layers);
+      //     //     console.log('layersArray',layersArray);
+      //     //     layersArray.forEach(layer => {
+      //     //     // Get the current latlng
+      //     //     const latlng = layer._latlng;
+
+      //     //     // Calculate the new latlng with 1 meter added
+      //     //     const newLatlng = L.latLng(latlng.lat + 0.000009, latlng.lng + 0.000009);
+
+      //     //     // Replace the original latlng with the new latlng
+      //     //     layer._latlng = newLatlng;
+
+      //     //     // You can add your custom code here to handle the new vertex
+      //     //     console.log('Original latlng:', latlng);
+      //     //     console.log('New latlng:', newLatlng);
+      //     // });
+      //   });
+
+      map.on("draw:drawvertex", function (e) {
+        // Get the layers object
+        console.log(e.layers._layers,"e.layers._layers old")
+        const layersObject = e.layers._layers;
+
+        // Loop through each layer object
+        for (const key in e.layers._layers) {
+          console.log(key,"key")
+          if (e.layers._layers.hasOwnProperty(key)) {
+            const layer = e.layers._layers[key];
+            const layerlastindex = e.layers._layers[key];
+            // const layerlastindex1 =  Object.keys(e.layers._layer).pop();
+            console.log(layerlastindex,"layerlastindex")
+
+            // Get the original latlng
+            const originalLatlng = layer._latlng.lat;
+            console.log(originalLatlng,"originalLatlng")
+            const latt = 18.574208028532667
+            layer._latlng.lat  += 0.0009
+            layer._latlng.lng  += 0.0009
+          }
+        }
+        console.log(e.layers._layers,"e.layers._layers new")
+      });
+
+      map.on("draw:created", function (e) {
+        var layer = e.layer;
+        drawnItems.addLayer(layer);
+      });
+
+        
+
+
+var pointMarker;
+
+map.on('mousemove', function (e) {
+    var url = 'https://portal.geopulsea.com/geoserver/ows?service=WMS&version=1.1.1&request=GetFeatureInfo&transparent=true&format=image/png&info_format=application/json&srs=EPSG:4326&bbox=' + map.getBounds().toBBoxString() + '&width=' + map.getSize().x + '&height=' + map.getSize().y + '&layers=pmc:Exist_Road&query_layers=pmc:Exist_Road&feature_count=10&x=' + Math.round(e.containerPoint.x) + '&y=' + Math.round(e.containerPoint.y);
+
+    if (url) {
+        // console.log(url)
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.features && data.features.length > 0) {
+                    // console.log(data.features,"data.features")
+                    var clickedPoint = e.latlng;
+                    if (pointMarker) {
+                        map.removeLayer(pointMarker);
+                    }
+                    var nearestBoundary = getNearestBoundary(data.features, clickedPoint);
+                    pointMarker = L.circleMarker(nearestBoundary, { radius: 2.5, color: 'blue' }).addTo(map).bindPopup('Closest point on boundary');
+                }
+            });
+    }
+});
+
+var lastClosestMarker = null;
+function getNearestBoundary(features, clickedPoint) {
+    // Remove the last closest point marker if it exists
+    if (lastClosestMarker) {
+        map.removeLayer(lastClosestMarker);
+    }
+    features.forEach(function (feature) {
+        var boundary = feature.geometry.coordinates[0];
+        var closestToBoundary = L.GeometryUtil.closest(map, boundary, [clickedPoint.lng, clickedPoint.lat]);
+        var closestPoint = L.latLng(closestToBoundary.lng, closestToBoundary.lat);// Swap lng and lat
+        lastClosestMarker = closestPoint            
+    });
+    return lastClosestMarker
+}
+
+
+
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>
