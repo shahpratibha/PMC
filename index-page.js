@@ -285,6 +285,7 @@ const lenght = getQueryParam('lenght'); // Corrected typo: lenght to length
 const width = getQueryParam('width');
 
 var wardname = null;
+var lastDrawnPolylineIdSave = null ;
 
 
 
@@ -711,7 +712,7 @@ var drawControlRoad = new L.Control.Draw({
   },
   edit: {
     featureGroup: drawnItems,
-    remove: false,
+    remove: true,
   },
 });
 
@@ -736,7 +737,7 @@ var drawControlBuilding = new L.Control.Draw({
   },
   edit: {
     featureGroup: drawnItems,
-    remove: false,
+    remove: true,
   },
 });
 
@@ -761,7 +762,7 @@ var drawControlDrainage = new L.Control.Draw({
   },
   edit: {
     featureGroup: drawnItems,
-    remove: false,
+    remove: true,
   },
 });
 
@@ -843,6 +844,17 @@ if (department == "Road"){
 
 }
 
+var customSaveButton = L.control({ position: 'topleft' });
+
+customSaveButton.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'save-button');
+  div.innerHTML = '<button id="save-button" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;" title="Draw New Feature"> Save</button>';
+  customDrawControlsContainer = div;
+  return div;
+};
+
+
+customSaveButton.addTo(map);
 
 
 var isDrawControlAdded = false;
@@ -957,6 +969,12 @@ document.querySelector('.draw_feature').addEventListener('click', function(event
   
       }
 });
+
+
+document.querySelector('#save-button').addEventListener('click', function(event) {
+ Savedata(lastDrawnPolylineIdSave);
+});
+
 
 
 
@@ -1297,6 +1315,17 @@ map.on('draw:editstop', function() {
   map.off('mousemove', handleMouseMove);
 });
 
+map.on('draw:deleted', function(e) {
+
+  e.layers.eachLayer(function (layer) {
+   
+    removeAssociatedLayers(layer._leaflet_id);
+
+    
+  });
+
+});
+
 
 
 function handleMouseMove(event) {
@@ -1457,6 +1486,7 @@ var geoJSON = layer.toGeoJSON();
 var popupContent = UpdateArea(geoJSON);
 var lastInsertedId = localStorage.getItem("lastInsertedId");
 var lastDrawnPolylineId = layer._leaflet_id;
+lastDrawnPolylineIdSave = layer._leaflet_id;
 $.ajax({
   // url: API_URL + "/process.php", // Path to the PHP script
   url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
