@@ -848,13 +848,20 @@ var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;" title="Draw New Feature"> Save</button>';
+  div.innerHTML = '<button id="save-button" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" title="Draw New Feature"> Save</button>';
   customDrawControlsContainer = div;
   return div;
 };
 
 
 customSaveButton.addTo(map);
+
+function toggleSaveButton(show) {
+  var saveBtn = document.getElementById('save-button');
+  if (saveBtn) {
+      saveBtn.style.display = show ? 'block' : 'none';
+  }
+}
 
 
 var isDrawControlAdded = false;
@@ -1291,6 +1298,7 @@ map.on("draw:drawvertex", function (e) {
 
 
 map.on('draw:drawstart', function(e) {
+  toggleSaveButton(false);
   vertexClickCount = 0 ; 
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
@@ -1306,6 +1314,7 @@ map.on('draw:drawstop', function() {
 
 
 map.on('draw:editstart', function(e) {
+  toggleSaveButton(false);
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
 });
@@ -1364,6 +1373,9 @@ function handleMouseMove(event) {
 
 
 map.on("draw:created", function (e) {
+
+
+  toggleSaveButton(true);
 
  if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();
@@ -1652,6 +1664,7 @@ $.ajax({
 
 
 map.on("draw:edited", function (e) {
+  toggleSaveButton(true);
    e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
