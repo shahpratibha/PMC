@@ -1016,6 +1016,7 @@ button, input, optgroup, select, textarea {
         min-height: 1px;
         width: 240px;
        scrollbar-width: thin;
+       resize: both;
       }
 
 

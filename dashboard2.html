@@ -6,481 +6,326 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PMC</title>
-  <link rel="stylesheet" href="C_form.css" />
-  <link rel="stylesheet" href="style.css" />
+
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
-  
+
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latestst/css/boxicons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
   <link rel="stylesheet" href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css">
-  <!-- <link rel="stylesheet" href="libs/polyline-measure/line-measure.css"> -->
-  <!-- <link rel="stylesheet" href="libs/leaflet-measure-master/leaflet-measure.css"> -->
-  <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
-  
 
+  <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
+
+  <link rel="stylesheet" href="css/C_form.css" />
 
   <style>
-.leaflet-touch .geocoder-control-input {
-    height: 30px;
-    line-height: 30px;
-    background-size: 30px;
-    position: relative;
-    top: 15px;
-}
-
- 
-    .leaflet-draw-toolbar {
-      display: none;
-    }
-
-    .leaflet-control-layers-toggle {
-      top: 0;
-    }
-
-    .leaflet-control-layers-list {
-      width: 200px;
-      height: 200px;
-      overflow-y: scroll;
-      scrollbar-width: thin;
-      font-size: 9px;
-      padding: 0px;
-
-    }
-
-    .leaflet-control-layers-overlays {
-      width: 100%;
-    }
-
-    #map {
-      top: 0px;
-      left: 55px;
-      height: 100vh;
-      width: 97%;
-      z-index: 0;
-
-    }
-
-    .multi-checkboxes_wrap:before {
-      font-family: fontAwesome;
-      color: #999;
-      content: "\f096";
-      /* width: 25px;
-        height: 25px;
-        padding-right: 10px; */
-    }
-
-    .multi-checkboxes_wrap[aria-selected="true"]:before {
-      content: "\f14a";
-    }
-
-    .form-control {
-      height: 30px;
-      padding: auto;
-    }
-
-    .accordion-button {
-      height: 30px;
-      font-size: 12px;
-    }
-
-    .form-select {
-      justify-content: center;
-      margin-left: -35px;
-      /* width: 50px; */
-    }
-
-    .accordion-body .form-control {
-      margin-left: -35px;
-    }
-
-    .accordion-button:hover {
-      background-color: #bbb;
-    }
-
-    .sidebar {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      z-index: 1;
-      left: 80px;
-      background-color: #f3f3f3;
-      overflow-x: hidden;
-      transition: 0s;
-      padding-top: 10px;
-      overflow-y: scroll;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-      /* Add shadow */
-    }
-
-    .sidebar a {
-      text-decoration: none;
-      padding: 0px 8px 8px 38px;
-    }
-
-    .sidebar .form-group {
-      padding: 0px 8px 8px 38px;
-      font-size: 13px;
-      color: black;
-      display: block;
-      transition: 0.3s;
-    }
-
-
-
-    .sidebar .closebtn {
-      position: absolute;
-      color: red;
-      top: 0px;
-      right: -3px;
-      /* font-size: 30px; */
-      font-weight: bold;
-      margin-left: 50px;
-    }
-
-    #content {
-      transition: margin-left 0.5s;
-      /* padding: 16px; */
-    }
-
-    .dataTables_wrapper .dataTables_filter {
-      display: none;
-    }
-
-    .dataTables_length {
-      display: none;
-    }
-
-    .dataTables_wrapper .dataTables_length,
-    .dataTables_wrapper .dataTables_filter,
-    .dataTables_wrapper .dataTables_info,
-    .dataTables_wrapper .dataTables_processing,
-    .dataTables_wrapper .dataTables_paginate {
-      color: #333;
-      font-size: 10px;
-      position: absolute;
-      left: 30px;
-      right: 30px;
-    }
-
-    @media screen and (max-height: 450px) {
-      .sidebar {
-        padding-top: 15px;
-      }
-
-      .sidebar a {
-        font-size: 18px;
-      }
-    }
-
-    #thead {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    
-#paginationControls button {
-  background-color: transparent;
-  color: darkblue;
-  font-size: 15px;
-  height: 25px;
-}
-
-#paginationControls  p{
-  font-size: 10px;
-  margin-top: 11px;
-  /* bottom: 0; */
-}
-
-#openTableBtn{
-  position: fixed;
-  z-index: 9999;
-  top: 70%;
-  width: auto;
-  /* height: 5.5%; */
-  right: 0.8%;
-  background-color: white;
-  border-radius: 10px;
-  border: 2px solid #bbb;
-
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: transparent;
-    border: none;
-    border-radius: 4px;
-    box-sizing: border-box;
-    display: inline-block;
-    margin-left:-18px;
-    margin-top: 5px;
-    padding: 0;
-    padding-left: 20px;
-    position: relative;
-    max-width: 100%;
-    overflow: hidden;
-    /* text-overflow: ellipsis; */
-    vertical-align: bottom;
-    white-space: nowrap;
-    width: 100%;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
-    background-color: transparent;
-  
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    background-color: transparent;
-    border: none;
-    border-right: 1px solid #aaa;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    color:black;
-    cursor: pointer;
-    max-width:  100%;
-    font-size: 2em;
-    /* font-weight: bold; */
-    padding: 0 4px;
-    position: absolute;
-    left: 90%;
-    top: -12px;
-    z-index: 99999;
-}
-
-button, input, optgroup, select, textarea {
-    margin: 0;
-    font-family: inherit;
-    /* font-size: inherit; */
-    /* line-height: inherit; */
-    width: 10px;
-}
-
-.leaflet-container .leaflet-control-attribution {
-    
-    display: none;
-}
-.input-group {
-    position: relative;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    width: 100%;
-    left: 300%;
-    top: 10px;
-}
-
-.leaflet-control-zoom{
-      position: relative;
-      right: 10%;
-      bottom: 0%;
-      border: 1px solid;
-    }
   </style>
 </head>
 
-<body class="overflow-hidden" id="body-pd" class="" style="background-color: #f3f3f3">
+<body class="overflow-hidden" class="" style="background-color: #f3f3f3">
   <div class="sidebar" id="mySidenav" type="button">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
         style="width: 15px; "></i></a>
+        <div class="accordion" id="formAccordion">
 
-        <div class="form-group ">
-          <label>Select Office</label>
-          <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_Off">
-            <option value=""></option>
-          </select>
-        </div>
-
-    <div class="form-group ">
-      <label>Select Year</label>
-      <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_fi">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label>Zone Name</label>
-      <select id="zones" style="width: 180px" class="form-control select2" multiple="multiple"
-        onchange="loadAdminWardNameAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label for="admin_ward_name">Ward Name</label>
-      <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width: 180px"
-        onchange="loadVillagesAndFilter()">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label>Village Name</label>
-      <select class="form-control select2" multiple="multiple" id="villages" style="width: 180px"
-        onchange="loadDepartmentsAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label for="admin_ward_name">Departments</label>
-      <select class="form-control select2" id="departments" style="width: 180px" multiple="multiple"
-        onchange="loadStagesAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-    <div class="form-group mt-2">
-      <label>Project Status</label>
-      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="stage"
-        onchange="loadWorkTypesAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-    <div class="form-group mt-2">
-      <label>Work Type</label>
-      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="work_type">
-        <option value=""></option>
-      </select>
-    </div>
-
-
-
-    <div class="form-group mt-3">
-      <div class="accordion" id="projectCostAccordion">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="projectCostHeading">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#projectCostCollapse" aria-expanded="false" aria-controls="projectCostCollapse">
-              Project Cost
-            </button>
-          </h2>
-          <div id="projectCostCollapse" class="accordion-collapse collapse" aria-labelledby="projectCostHeading"
-            data-bs-parent="#projectCostAccordion">
-            <div class="accordion-body">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-12">
-                    <select class="form-select" id="amount_comparison">
-                      <option value="greater_than">Greater Than</option>
-                      <option value="less_than">Less Than</option>
+            <!-- Office Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOffice">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseOffice" aria-expanded="false" aria-controls="collapseOffice">
+                  Select Office
+                </button>
+              </h2>
+              <div id="collapseOffice" class="accordion-collapse collapse" aria-labelledby="headingOffice" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label>Select Office</label> -->
+                    <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off">
+                      <option value=""></option>
                     </select>
                   </div>
+                 
                 </div>
-                <div class="row">
-                  <div class="col-md-12 mt-3">
-                    <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
+              </div>
+            </div>
+
+              <!-- Year Section -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOfficeYear">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOfficeYear" aria-expanded="false" aria-controls="collapseOfficeYear">
+                     Select Year
+                  </button>
+                </h2>
+                <div id="collapseOfficeYear" class="accordion-collapse collapse" aria-labelledby="headingOfficeYear" data-bs-parent="#formAccordion">
+                  <div class="accordion-body">
+                  
+                    <div class="form-group">
+                      <!-- <label>Select Year</label> -->
+                      <select style="width: 100%;" class="select2 form-control" multiple="multiple" id="project_fi">
+                        <option value=""></option>
+                      </select>
+                    </div>
                   </div>
+                </div>
+              </div>
+          
+            <!-- Zone  -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingZone">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseZone" aria-expanded="false" aria-controls="collapseZone">
+                  Zone Selection
+                </button>
+              </h2>
+              <div id="collapseZone" class="accordion-collapse collapse" aria-labelledby="headingZone" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label>Zone Name</label> -->
+                    <select id="zones" style="width: 100%" class="form-control select2" multiple="multiple" onchange="loadAdminWardNameAndFilter();">
+                      <option value=""></option>
+                    </select>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          <!-- Ward Section -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingWard">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseWard" aria-expanded="false" aria-controls="collapseWard">
+                Ward Selection
+              </button>
+            </h2>
+            <div id="collapseWard" class="accordion-collapse collapse" aria-labelledby="headingWard" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+               
+                <div class="form-group">
+                  <!-- <label for="admin_ward_name">Ward Name</label> -->
+                  <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%" onchange="loadVillagesAndFilter();">
+                    <option value=""></option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- village Section -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingVillage">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseVillage" aria-expanded="false" aria-controls="collapseVillage">
+                 Village Selection
+              </button>
+            </h2>
+            <div id="collapseVillage" class="accordion-collapse collapse" aria-labelledby="headingVillage" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+                <div class="form-group">
+                  <!-- <label>Village Name</label> -->
+                  <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%" onchange="loadDepartmentsAndFilter();">
+                    <option value=""></option>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group mt-2">
-      <label for="date_range">Date Range</label>
-      <input type="text" name="" class="form-control" id="date_range" />
-    </div>
-
+            <!-- Department Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingDepartment">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseDepartment" aria-expanded="false" aria-controls="collapseDepartment">
+                 Select Department
+                </button>
+              </h2>
+              <div id="collapseDepartment" class="accordion-collapse collapse" aria-labelledby="headingDepartment" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label for="admin_ward_name">Departments</label> -->
+                    <select class="form-control select2" id="departments" style="width:100%" multiple="multiple" onchange="loadStagesAndFilter();">
+                      <option value=""></option>
+                    </select>
+                  </div>
+              
+                </div>
+              </div>
+            </div>
+          <!-- Project Status -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingProjectStatus">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseProjectStatus" aria-expanded="false" aria-controls="collapseProjectStatus">
+                Select Project Status
+              </button>
+            </h2>
+            <div id="collapseProjectStatus" class="accordion-collapse collapse" aria-labelledby="headingProjectStatus" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+                <div class="form-group">
+                  <!-- <label>Project Status</label> -->
+                  <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage" onchange="loadWorkTypesAndFilter();">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Work Type -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingWorkType">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseWorkType" aria-expanded="false" aria-controls="collapseWorkType">
+               Select Work Type
+              </button>
+            </h2>
+            <div id="collapseWorkType" class="accordion-collapse collapse" aria-labelledby="headingWorkType" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+                
+                <div class="form-group">
+                  <label>Work Type</label>
+                  <select class="select2 form-control" multiple="multiple" style="width:100%" id="work_type">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+            <!-- Project Cost Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingProjectCost">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseProjectCost" aria-expanded="false" aria-controls="collapseProjectCost">
+                  Project Cost
+                </button>
+              </h2>
+              <div id="collapseProjectCost" class="accordion-collapse collapse" aria-labelledby="headingProjectCost" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select class="form-select" id="amount_comparison">
+                          <option value="greater_than">Greater Than</option>
+                          <option value="less_than">Less Than</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <!-- Date Range Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingDateRange">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseDateRange" aria-expanded="false" aria-controls="collapseDateRange">
+                  Date Range Selection
+                </button>
+              </h2>
+              <div id="collapseDateRange" class="accordion-collapse collapse" aria-labelledby="headingDateRange" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label for="date_range">Date Range</label> -->
+                    <input type="text" name="" class="form-control" id="date_range" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+          
 
   </div>
-  
-  <div class="d-flex justify-content-between ms-auto bg-transparent" role="search" style="position: absolute; z-index: 9999;">
-    <img src="png/pmcjpeg.png" alt="" class="logopng" >
+
+  <div class="d-flex justify-content-between ms-auto bg-transparent" role="search"
+    style="position: absolute; z-index: 9999;">
+    <img src="png/pmcjpeg.png" alt="" class="logopng">
     <!-- <h5 class="text-dark fw-bold">Geo<span class="text-dark">Pulse</span></h5> -->
-    <h5  class="tablestats"
-    style="position: fixed; color: darkblue; background-color: rgba(173, 216, 230, 0.5);font-weight:  bold; top: 2%; right: 45%;padding: 5px; border-radius:10px ; z-index: 9999; text-shadow: black;">
+    <h5 class="tablestats"
+      style="position: fixed; color: darkblue; background-color: rgba(173, 216, 230, 0.5);font-weight:  bold; top: 2%; right: 45%;padding: 5px; border-radius:10px ; z-index: 9999; text-shadow: black;">
     </h5>
     <div class="input-group ">
 
 
-        <select class="form-select ms-auto"  aria-label="Select search category" id="search_type"
-          style="width: 90px; border-radius: 10px">
-          <option value="">Select Type</option>
-        </select>
+      <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
+        style="width: 90px; border-radius: 10px">
+        <option value="">Select Type</option>
+      </select>
 
-        <input class="form-control ms-2" type="search" placeholder="Search" aria-label="Search"
-          id="searchInputDashboard" style="height: 40px; width: 200px; border-radius: 10px" />
-        <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
+      <input class="form-control ms-2" type="search" placeholder="Search" aria-label="Search" id="searchInputDashboard"
+        style="height: 40px; width: 200px; border-radius: 10px" />
+      <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
 
-      </div>
-      
-      </div>
-      <div class="l-navbar" id="nav-bar">
-    <nav class="nav">
-      <div>
-        <a href="#" class="nav_logo"> </a>
+    </div>
 
-        <div class="nav_list">
-          <div class="nav_link active">
-            <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
-          </div>
 
-          <div class="closebtn" onclick="closeNav()">&times;
 
-            
+  </div>
 
-          </div>
-        </div>
-        <a href="#" class="nav_link">
-          <i class="bx bx-log-out nav_icon"></i>
-        </a>
-    </nav>
+  <div class="filter">
+    <i class="fas fa-filter nav_icon" onclick="openNav()"></i>
   </div>
 
   <div id="content">
     <div id="map"></div>
-<p class="geopulseaname">Devloped By GeoPulse Analytics Pvt. Ltd.</p>
-<!-- add button for open table -->
+    <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
+    <!-- add button for open table -->
 
-<button id="openTableBtn"><img src="png/dtabasetable.png" alt="" class="tablebtn"></button>
-<!-- button open end code -->
+    <button id="openTableBtn"><img src="png/dtabasetable.png" alt="" class="tablebtn"></button>
+    <!-- button open end code -->
     <div class="row tabchart">
       <div id="table-container-dashboard" style="position: relative; transition: 0s;">
 
         <button id="closeTableBtnDashboard" class="close-button">
-          <i class="fa-solid fa-minus" style="font-weight: bold; margin-top: 3px; margin-right: 5px; width: 10px; position: fixed;"></i>
+          <i class="fa-solid fa-minus"
+            style="font-weight: bold; margin-top: 3px; margin-right: 5px; width: 10px; position: fixed;"></i>
         </button>
 
         <p id="tablestats" class="tablestats"
           style="position: fixed; color: darkblue; font-size: 12px;font-weight: bold; padding-bottom: 10px; z-index: 9999; margin-top: 2px; margin-left:0px;">
-          
+
         </p>
 
-        
+
         <div style="position: absolute; top: 30px;  height:240px; width: 97%; overflow: scroll; scrollbar-width: thin;">
-        <table id="workTableDashboard" class="table table-bordered table-hover"
-          style=" left: 0px; height:100px; width: 100px; overflow: scroll; ">
-          <thead id="thead">
-            <tr>
-              <th>Zone</th>
-              <th>Ward</th>
-              <th>Department</th>
-              <th>Work Type</th>
-              <th>Tender Amount</th>
-              <th>JE Name</th>
-              <th>Contractor Name</th>
-              <th>Project Office</th>
-              <th>Budget Code</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+          <table id="workTableDashboard" class="table table-bordered table-hover"
+            style=" left: 0px; height:100px; width: 100px; overflow: scroll; ">
+            <thead id="thead">
+              <tr>
+                <th>Zone</th>
+                <th>Ward</th>
+                <th>Department</th>
+                <th>Work Type</th>
+                <th>Tender Amount</th>
+                <th>JE Name</th>
+                <th>Contractor Name</th>
+                <th>Project Office</th>
+                <th>Budget Code</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
         <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
 
-        <div id="paginationControls" style="position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); display: flex; font-size: 12px; gap: 10px;">
-          <button class="pagibtn" style="background-color: transparent; color: #333;"  id="previousPageButton"><i class="fa-solid fa-backward " ></i></button>
+        <div id="paginationControls"
+          style="position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); display: flex; font-size: 12px; gap: 10px;">
+          <button class="pagibtn" style="background-color: transparent; color: #333;" id="previousPageButton"><i
+              class="fa-solid fa-backward "></i></button>
           <p id="currentPage"></p>
           <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
         </div>
@@ -500,30 +345,32 @@ button, input, optgroup, select, textarea {
   </div>
 
 
-<!-- Scripts -->
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
-<script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script
+    src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
-<script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
-<!-- <script src="libs/polyline-measure/line-measure.js"></script> -->
-<!-- <script src="libs/leaflet-measure-master/leaflet-measure.js"></script> -->
+  <!-- <script src="libs/polyline-measure/line-measure.js"></script> -->
+  <!-- <script src="libs/leaflet-measure-master/leaflet-measure.js"></script> -->
 
-    <script src="libs/feat.js"></script>
-<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-  <script src="index.js"></script>
-  <script src="select2.js"></script>
+  <script src="libs/feat.js"></script>
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/select2.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -531,19 +378,23 @@ button, input, optgroup, select, textarea {
   <script>
     function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("mySidenav").style.height = "410px";
+      document.getElementById("mySidenav").style.height = "610px";
       document.getElementById("mySidenav").style.zIndex = "99999";
-      document.getElementById("mySidenav").style.top = "70px";
+      document.getElementById("mySidenav").style.top = "0px";
       document.getElementById("mySidenav").style.scrollbarWidth = "thin";
 
-      document.getElementById("content").style.marginLeft = "0";
+      document.getElementById("content").style.marginLeft = "9.5%";
+      // document.getElementById("content").style.margintop = "-109px";
+
       document.getElementById("content").style.zIndex = "0";
 
     }
 
     function closeNav() {
       document.getElementById("mySidenav").style.width = "0";
-      document.getElementById("content").style.marginLeft = "0";
+      // document.getElementById("content").style.margintop = "-19px";
+
+      document.getElementById("content").style.marginLeft = "9.5%";
     }
 
 
@@ -640,46 +491,46 @@ button, input, optgroup, select, textarea {
 
 
 
-   //Pop-Up show
-const layerDetails = {
-  "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
-  "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
-  "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
-  "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
-  "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
-  "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
-  "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
-};
+//    //Pop-Up show
+// const layerDetails2 = {
+//   "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
+//   "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
+//   "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
+//   "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+//   "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+//   "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
+//   "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
+// };
 
-map.on("contextmenu", async (e) => {
-  let bbox = map.getBounds().toBBoxString();
-  let size = map.getSize();
+// map.on("contextmenu", async (e) => {
+//   let bbox = map.getBounds().toBBoxString();
+//   let size = map.getSize();
 
-  for (let layer in layerDetails) {
-      let selectedKeys = layerDetails[layer];
-      let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+//   for (let layer in layerDetails2) {
+//       let selectedKeys = layerDetails2[layer];
+//       let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-      try {
-          let response = await fetch(urrr);
-          let html = await response.json();
+//       try {
+//           let response = await fetch(urrr);
+//           let html = await response.json();
 
-          var htmldata = html.features[0].properties;
-          let txtk1 = "";
-          for (let key of selectedKeys) {
-              if (htmldata.hasOwnProperty(key)) {
-                  let value = htmldata[key];
-                  txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
-              }
-          }
+//           var htmldata = html.features[0].properties;
+//           let txtk1 = "";
+//           for (let key of selectedKeys) {
+//               if (htmldata.hasOwnProperty(key)) {
+//                   let value = htmldata[key];
+//                   txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+//               }
+//           }
 
-          let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
+//           let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
 
-          L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      } catch (error) {
-          console.error("Error fetching data:", error);
-      }
-  }
-});
+//           L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+//       } catch (error) {
+//           console.error("Error fetching data:", error);
+//       }
+//   }
+// });
 
 
 
@@ -877,7 +728,7 @@ map.on("contextmenu", async (e) => {
         cqlFilter = `created_at BETWEEN '${startDate.toISOString()}' AND '${endDate.toISOString()}'`;
       }
 
-      
+
       // ********************added new modification 11-03-2023*******************************************
 
       console.log(cqlFilter, "layerfilter", cqlFilter_ward, "wardhighlightfilter", cqlFilter_zone, "zonehighlightfilter")
@@ -937,39 +788,42 @@ map.on("contextmenu", async (e) => {
         var isOpen = tableContainer.css("display") !== "none";
         if (isOpen) {
             tableContainer.hide(); // Hide the table if it's already open
-        } else {
+          } else {
             tableContainer.show(); // Show the table if it's closed
-        }
-    });
-
-      $.getJSON(geoServerURL, function (data) {
-        filteredData = data;
-
-        var totalcountofselectedrecords = filteredData.totalFeatures;
-        var totalTenderAmount = filteredData.features.reduce(function (total, project) {
-          var tenderAmount = parseFloat(project.properties.tender_amo);
-          return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
-        }, 0);
+          }
+        });
 
 
 
-        var project = data.features;
-        const pageSize = 100; // Number of items per page
-        let currentPage = 1; // Current page number
 
-        function updateTable(project, page) {
-          const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
-          tableBody.innerHTML = '';
+        $.getJSON(geoServerURL, function (data) {
+          filteredData = data;
 
-          const startIndex = (page - 1) * pageSize;
-          const endIndex = startIndex + pageSize;
-          const currentPageData = project.slice(startIndex, endIndex);
-
-          currentPageData.forEach(project => {
+          var totalcountofselectedrecords = filteredData.totalFeatures;
+          var totalTenderAmount = filteredData.features.reduce(function (total, project) {
             var tenderAmount = parseFloat(project.properties.tender_amo);
-            tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
+            return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
+          }, 0);
 
-            const row = `
+
+
+          var project = data.features;
+          const pageSize = 100; // Number of items per page
+          let currentPage = 1; // Current page number
+
+          function updateTable(project, page) {
+            const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+
+            const startIndex = (page - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const currentPageData = project.slice(startIndex, endIndex);
+
+            currentPageData.forEach(project => {
+              var tenderAmount = parseFloat(project.properties.tender_amo);
+              tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
+
+              const row = `
             <tr data-coordinates='${JSON.stringify(project.geometry)}'>
                 <td>${project.properties.zone}</td>
                 <td>${project.properties.ward}</td>
@@ -984,105 +838,110 @@ map.on("contextmenu", async (e) => {
                 <td>${project.properties.Work_Completion_Date}</td>
             </tr>`;
 
-            tableBody.insertAdjacentHTML('beforeend', row);
-          });
+              tableBody.insertAdjacentHTML('beforeend', row);
+            });
 
-          updatePaginationButtons(project.length);
-          const currentPageElement = document.getElementById('currentPage');
-          if (currentPageElement) {
-            currentPageElement.textContent = currentPage;
+            updatePaginationButtons(project.length);
+            const currentPageElement = document.getElementById('currentPage');
+            if (currentPageElement) {
+              currentPageElement.textContent = currentPage;
+            }
           }
-        }
 
-        function updatePaginationButtons(totalItems) {
-          const totalPages = Math.ceil(totalItems / pageSize);
-          const pagination = document.getElementById('paginationControls');
-          pagination.innerHTML = '';
+          function updatePaginationButtons(totalItems) {
+            const totalPages = Math.ceil(totalItems / pageSize);
+            const pagination = document.getElementById('paginationControls');
+            pagination.innerHTML = '';
 
-          const previousButton = document.createElement('button');
-          previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
-          previousButton.addEventListener('click', () => {
-            if (currentPage > 1) {
-              currentPage--;
-              updateTable(project, currentPage);
-            }
-          });
-          pagination.appendChild(previousButton);
+            const previousButton = document.createElement('button');
+            previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
+            previousButton.addEventListener('click', () => {
+              if (currentPage > 1) {
+                currentPage--;
+                updateTable(project, currentPage);
+              }
+            });
+            pagination.appendChild(previousButton);
 
-          const pageInfo = document.createElement('P');
-          pageInfo.textContent = `Page${currentPage}`;
-          pagination.appendChild(pageInfo);
+            const pageInfo = document.createElement('P');
+            pageInfo.textContent = `Page${currentPage}`;
+            pagination.appendChild(pageInfo);
 
-          const nextButton = document.createElement('button');
-          nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
-          nextButton.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-              currentPage++;
-              updateTable(project, currentPage);
-            }
-          });
-          pagination.appendChild(nextButton);
-        }
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
+            nextButton.addEventListener('click', () => {
+              if (currentPage < totalPages) {
+                currentPage++;
+                updateTable(project, currentPage);
+              }
+            });
+            pagination.appendChild(nextButton);
+          }
 
-        // Assuming you have an initial call to updateTable with the initial page
-        updateTable(project, currentPage);
+          // Assuming you have an initial call to updateTable with the initial page
+          updateTable(project, currentPage);
 
-        $(".tablestats").html(`Total Amount - ${totalTenderAmount.toFixed(2)} L ,
+          $(".tablestats").html(`Total Amount - ${totalTenderAmount.toFixed(2)} L ,
         Total Projects - ${totalcountofselectedrecords}`);
 
 
 
-        ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
+          ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
 
 
 
-        $("#workTableDashboard tbody").on("click", "tr", function () {
-          var coordinatesStr = $(this).data("coordinates");
-          var coordinatesObj = coordinatesStr;
-          var boundsLayer = L.geoJSON(coordinatesObj, {
-            style: {
-              fillColor: "blue", // Fill color
-              fillOpacity: 0.3, // Fill opacity
-              color: "blue", // Border color
-              weight: 2, // Border weight
-            },
-          }).addTo(map); // Add the bounds layer to the map
+          $("#workTableDashboard tbody").on("click", "tr", function () {
+            var coordinatesStr = $(this).data("coordinates");
+            var coordinatesObj = coordinatesStr;
+            var boundsLayer = L.geoJSON(coordinatesObj, {
+              style: {
+                fillColor: "blue", // Fill color
+                fillOpacity: 0.3, // Fill opacity
+                color: "blue", // Border color
+                weight: 2, // Border weight
+              },
+            }).addTo(map); // Add the bounds layer to the map
 
-          var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
-          map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
+            var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
+            map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
 
-          // Optionally, you can remove the bounds layer after a certain duration
-          setTimeout(function () {
-            map.removeLayer(boundsLayer);
-          }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
+            // Optionally, you can remove the bounds layer after a certain duration
+            setTimeout(function () {
+              map.removeLayer(boundsLayer);
+            }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
+          });
+          // drag and drop
+          $(function () {
+            $("#table-container-dashboard").draggable();
+          });
+
+
+
+          // -----------------------
+          var printButton = $("#printButton")
+          var tablestats = $("#tablestats")
+          var isClosed = false;
+          // tableContainer.slideDown();
+          // tableContainer.css({
+          //   display: "flex",
+          //   flexDirection: "row",
+          //   justifyContent: "center",
+          // });
+
+          $("#closeTableBtnDashboard").click(function () {
+
+            var tableContainer = $("#table-container-dashboard");
+            tableContainer.hide();
+
+          });
+
+
         });
-        // drag and drop
-        $(function () {
-          $("#table-container-dashboard").draggable();
-        });
-
-
-
-        // -----------------------
-        var printButton = $("#printButton")
-        var tablestats = $("#tablestats")
-                var isClosed = false;
-   
-
-        $("#closeTableBtnDashboard").click(function () {
-          
-          var tableContainer = $("#table-container-dashboard");
-                tableContainer.hide();
-         
-        });
-
 
       });
 
-    });
 
-
-    // ====================================
+      // ====================================
       function getRandomColor() {
         var letters = "0123456789ABCDEF";
         var color = "#";
@@ -1354,7 +1213,7 @@ map.on("contextmenu", async (e) => {
           multiple: true,
         });
 
-       
+
       });
     }
 
@@ -1437,7 +1296,7 @@ map.on("contextmenu", async (e) => {
           dropdownParent: select.parent(),
           multiple: true,
         });
-       
+
       });
     }
 
@@ -1528,7 +1387,7 @@ map.on("contextmenu", async (e) => {
           multiple: true,
         });
 
-        
+
       });
     }
 
@@ -1622,7 +1481,7 @@ map.on("contextmenu", async (e) => {
           multiple: true,
         });
 
-       
+
       });
     }
 
@@ -1724,7 +1583,7 @@ map.on("contextmenu", async (e) => {
           multiple: true,
         });
 
-       
+
       });
     }
 
@@ -1837,7 +1696,7 @@ map.on("contextmenu", async (e) => {
 
         // Event listener for change event
         select.on("change", function () {
-       
+
           filterDataAndDrawMap();
         });
       });
@@ -1907,7 +1766,7 @@ map.on("contextmenu", async (e) => {
       });
     }
 
-  
+
 
     ////////////////////////15-03-2024////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1922,7 +1781,7 @@ map.on("contextmenu", async (e) => {
         success: function (response) {
           if (response.data !== undefined) {
             const responseData = response.data;
-            
+
             callback(responseData);
           }
         },
@@ -2005,7 +1864,7 @@ map.on("contextmenu", async (e) => {
             IWMS_line.addTo(map).bringToFront();
             fitbou(cqlFilter);
 
-           
+
           }
         });
       });
@@ -2017,7 +1876,7 @@ map.on("contextmenu", async (e) => {
 
     //    
     function drawGeometries(selectedData) {
-     
+
     }
 
     function loadAdminWardNameAndFilter() {
@@ -2048,48 +1907,48 @@ map.on("contextmenu", async (e) => {
 
   <script>
     function printData() {
-  const table = $('#workTableDashboard').DataTable();
-  const totalRecords = table.page.info().recordsTotal;
-  const pages = Math.ceil(totalRecords / table.page.info().length);
+      const table = $('#workTableDashboard').DataTable();
+      const totalRecords = table.page.info().recordsTotal;
+      const pages = Math.ceil(totalRecords / table.page.info().length);
 
-  let csvContent = "data:text/csv;charset=utf-8,";
-  let headers = [];
+      let csvContent = "data:text/csv;charset=utf-8,";
+      let headers = [];
 
-  // Get table headers
-  table.columns().every(function () {
-    headers.push($(this.header()).text());
-  });
-  csvContent += headers.join(",") + "\n";
-
-  // Iterate through each page
-  for (let i = 0; i < pages; i++) {
-    table.page(i).draw(false); // Move to page i
-
-    // Get data from the current page
-    table.rows().every(function () {
-      const rowData = [];
-      $(this.node()).find('td').each(function () {
-        rowData.push($(this).text().trim());
+      // Get table headers
+      table.columns().every(function () {
+        headers.push($(this.header()).text());
       });
-      csvContent += rowData.join(",") + "\n";
-    });
-  }
+      csvContent += headers.join(",") + "\n";
 
-  // Restore to the first page
-  table.page(0).draw(false);
+      // Iterate through each page
+      for (let i = 0; i < pages; i++) {
+        table.page(i).draw(false); // Move to page i
 
-  // Create a link to download the CSV file
-  const link = document.createElement("a");
-  link.setAttribute("href", encodeURI(csvContent));
-  link.setAttribute("download", "data.csv");
-  document.body.appendChild(link);
+        // Get data from the current page
+        table.rows().every(function () {
+          const rowData = [];
+          $(this.node()).find('td').each(function () {
+            rowData.push($(this).text().trim());
+          });
+          csvContent += rowData.join(",") + "\n";
+        });
+      }
 
-  // Trigger click event to start download
-  link.click();
+      // Restore to the first page
+      table.page(0).draw(false);
 
-  // Remove the link after the download starts
-  document.body.removeChild(link);
-}
+      // Create a link to download the CSV file
+      const link = document.createElement("a");
+      link.setAttribute("href", encodeURI(csvContent));
+      link.setAttribute("download", "data.csv");
+      document.body.appendChild(link);
+
+      // Trigger click event to start download
+      link.click();
+
+      // Remove the link after the download starts
+      document.body.removeChild(link);
+    }
   </script>
 
 </body>
