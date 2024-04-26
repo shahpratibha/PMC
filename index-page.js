@@ -1333,6 +1333,14 @@ map.on('draw:deleted', function(e) {
     
   });
 
+  traceLayer.clearLayers();
+
+  // Reset the currentPolyline variable to null to ensure it doesn't retain any old reference
+  if (currentPolyline) {
+    currentPolyline.remove(); // Removes the polyline from the map
+    currentPolyline = null;   // Dereferences the polyline object
+  }
+
 });
 
 
@@ -1594,6 +1602,7 @@ var geoJSON = layer.toGeoJSON();
 var popupContent = UpdateArea(geoJSON);
 var lastInsertedId = localStorage.getItem("lastInsertedId");
 var lastDrawnPolylineId = layer._leaflet_id;
+lastDrawnPolylineIdSave = layer._leaflet_id;
 
 $.ajax({
   // url: API_URL + "/process.php", // Path to the PHP script
@@ -1925,17 +1934,17 @@ function toGISformat() {
   var data = {};
 
   // Loop through the rows
-  for (var i = 0; i < table.rows.length; i++) {
-    var row = table.rows[i];
+  for (var i = 0; i < table?.rows.length; i++) {
+    var row = table?.rows[i];
 
     // Get property name from the first column
-    var propertyName = row.cells[0].textContent.trim();
+    var propertyName = row?.cells[0]?.textContent.trim();
 
     // Get value from the second column
-    var inputElement = row.cells[1].querySelector("input");
+    var inputElement = row?.cells[1]?.querySelector("input");
     var propertyValue = inputElement
       ? inputElement.value
-      : row.cells[1].textContent.trim();
+      : row?.cells[1]?.textContent.trim();
 
     // Assign the property only if it has a valid name
     if (propertyName) {
