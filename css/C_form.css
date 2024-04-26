@@ -14,7 +14,7 @@ form {
     display: flex;
     flex-wrap: wrap;
 }
-#content{
+#content{   
   margin-left:9.5%;
 }
 #form-section{
@@ -25,9 +25,10 @@ margin-left:30%;
 #form-section input,
 #form-section select,
 #form-section textarea {
+
   width: 50%;
-    margin-bottom: 10px;
-    /* margin-left: 10px; */
+  margin-bottom: 10px;
+  /* margin-left: 10px; */
 }
 h2 {
     width: 100%;
@@ -704,13 +705,13 @@ a {
   .leaflet-container a.leaflet-popup-close-button {
     position: absolute;
     top: 0;
-    right: 14px;
+    right: 0px;
     border: none;
     text-align: center;
     font-weight: bold;
     width: 24px;
     height: 24px;
-    font: 24px/24px Tahoma, Verdana, sans-serif;
+    font: 20px/24px Tahoma, Verdana, sans-serif;
     color: red;
     text-decoration: none;
     background: transparent;
@@ -996,14 +997,17 @@ button, input, optgroup, select, textarea {
     }
     .popup-table tr,td{
       border-bottom: 1px solid;
-      /* padding: 5px; */
     
       }
-      .popup-table td {
-        border-right: 1px solid; 
+
+      .popup-table tr td {
         padding: 7px;
-        vertical-align: middle;
-      }
+    }
+    
+    .popup-table tr td:not(:last-child) {
+        border-right: 1px solid ; 
+    }
+    
 
       .leaflet-popup-content {
         margin: 13px 24px 13px 20px;

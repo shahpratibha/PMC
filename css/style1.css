@@ -86,8 +86,7 @@ td {
 .popup-button:hover {
   background-color: #45a049;
 }
-
-.leaflet-container a.leaflet-popup-close-button {
+/* .leaflet-container a.leaflet-popup-close-button {
   position: absolute;
   top: 0;
   right: 0px;
@@ -96,11 +95,11 @@ td {
   font-weight: bold;
   width: 24px;
   height: 24px;
-  font: 16px/24px Tahoma, Verdana, sans-serif;
+  font: 20px / 24px Tahoma, Verdana, sans-serif;
   color: red;
   text-decoration: none;
   background: transparent;
-}
+} */
 
 .leaflet-div-icon {
   margin-left: -10px;
