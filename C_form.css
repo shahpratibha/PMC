@@ -589,6 +589,8 @@ a {
 
 			}
 
+      
+
 			@media print {
 				@page {
 					size: tabloid;

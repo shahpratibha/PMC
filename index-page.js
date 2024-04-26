@@ -1507,66 +1507,77 @@ $.ajax({
   dataType: "json",
   success: function (response) {
     // if (response.success) {
-    if (response.data != undefined) {
-      const responseData = response.data;
+  //   if (response.data != undefined) {
+  //     const responseData = response.data;
 
-      if (responseData != undefined) {
-        popupContent +=
-          "<tr><td>Name of work</td><td>" +
-          responseData.work_name +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Department</td><td>" +
-          responseData.department +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>ID</td><td>" +
-          responseData.works_aa_approval_id +
-          "</td></tr>";
-        popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
-        popupContent +=
-          "<tr><td>Scope of work</td><td>" +
-          responseData.scope_of_work +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Work-type</td><td>" +
-          responseData.work_type +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
-        popupContent +=
-          "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
-        popupContent +=
-          "<tr><td>Prabhag no.</td><td>" +
-          responseData.project_no +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Date of competition work</td><td>" +
-          responseData.created_date +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>JE Name</td><td>" +
-          responseData.junior_engineer_name +
-          "</td></tr>";
-        popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
-      }
+  //     if (responseData != undefined) {
+  //       popupContent +=
+  //         "<tr><td>Name of work</td><td>" +
+  //         responseData.work_name +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Department</td><td>" +
+  //         responseData.department +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>ID</td><td>" +
+  //         responseData.works_aa_approval_id +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Scope of work</td><td>" +
+  //         responseData.scope_of_work +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Work-type</td><td>" +
+  //         responseData.work_type +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Prabhag no.</td><td>" +
+  //         responseData.project_no +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Date of competition work</td><td>" +
+  //         responseData.created_date +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>JE Name</td><td>" +
+  //         responseData.junior_engineer_name +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
+  //     }
 
-      // Close the table tag
-      popupContent += "</table>";
+  //     // Close the table tag
+  //     popupContent += "</table>";
 
-      // Add buttons for adding and deleting rows
-      popupContent += `
-      <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-  `;
-      popupContent +=
-        '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
+  //     // Add buttons for adding and deleting rows
+  //     popupContent += `
+  //     <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+  // `;
+  //     popupContent +=
+  //       '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
-      // Bind the table popup to the layer
-      layer.bindPopup(popupContent).openPopup();
+  //     // Bind the table popup to the layer
+  //     layer.bindPopup(popupContent).openPopup();
    
-    } else {
-      console.error("Error fetching CSV data:", response.error);
-    }
+  //   } else {
+  //     console.error("Error fetching CSV data:", response.error);
+  //   }
+
+     $('#table-container').show();
+      const formDataFromStorage = response.data;
+      console.log(formDataFromStorage);
+      let contentData = '<tr>';
+      for (const property in formDataFromStorage) {
+        contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      }
+      contentData += '</tr>';
+      $('#workTableData').html(contentData);
+
   },
   error: function (error) {
     console.error("AJAX request failed:", error);
@@ -1592,66 +1603,75 @@ $.ajax({
   dataType: "json",
   success: function (response) {
     // if (response.success) {
-    if (response.data != undefined) {
-      const responseData = response.data;
+  //   if (response.data != undefined) {
+  //     const responseData = response.data;
 
-      if (responseData != undefined) {
-        popupContent +=
-          "<tr><td>Name of work</td><td>" +
-          responseData.work_name +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Department</td><td>" +
-          responseData.department +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>ID</td><td>" +
-          responseData.works_aa_approval_id +
-          "</td></tr>";
-        popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
-        popupContent +=
-          "<tr><td>Scope of work</td><td>" +
-          responseData.scope_of_work +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Work-type</td><td>" +
-          responseData.work_type +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
-        popupContent +=
-          "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
-        popupContent +=
-          "<tr><td>Prabhag no.</td><td>" +
-          responseData.project_no +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Date of competition work</td><td>" +
-          responseData.created_date +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>JE Name</td><td>" +
-          responseData.junior_engineer_name +
-          "</td></tr>";
-        popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
-      }
+  //     if (responseData != undefined) {
+  //       popupContent +=
+  //         "<tr><td>Name of work</td><td>" +
+  //         responseData.work_name +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Department</td><td>" +
+  //         responseData.department +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>ID</td><td>" +
+  //         responseData.works_aa_approval_id +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Scope of work</td><td>" +
+  //         responseData.scope_of_work +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Work-type</td><td>" +
+  //         responseData.work_type +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Prabhag no.</td><td>" +
+  //         responseData.project_no +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Date of competition work</td><td>" +
+  //         responseData.created_date +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>JE Name</td><td>" +
+  //         responseData.junior_engineer_name +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
+  //     }
 
-      // Close the table tag
-      popupContent += "</table>";
+  //     // Close the table tag
+  //     popupContent += "</table>";
 
-      // Add buttons for adding and deleting rows
-      popupContent += `
-      <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-  `;
-      popupContent +=
-        '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
+  //     // Add buttons for adding and deleting rows
+  //     popupContent += `
+  //     <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+  // `;
+  //     popupContent +=
+  //       '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
-      // Bind the table popup to the layer
-      layer.bindPopup(popupContent).openPopup();
+  //     // Bind the table popup to the layer
+  //     layer.bindPopup(popupContent).openPopup();
    
-    } else {
-      console.error("Error fetching CSV data:", response.error);
+  //   } else {
+  //     console.error("Error fetching CSV data:", response.error);
+  //   }
+    $('#table-container').show();
+    const formDataFromStorage = response.data;
+    console.log(formDataFromStorage);
+    let contentData = '<tr>';
+    for (const property in formDataFromStorage) {
+      contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
     }
+    contentData += '</tr>';
+    $('#workTableData').html(contentData);
   },
   error: function (error) {
     console.error("AJAX request failed:", error);
