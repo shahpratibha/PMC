@@ -1,7 +1,7 @@
 var map, geojson;
-// const API_URL = "http://localhost/PMC/PMC_Final/";
+const API_URL = "http://localhost/PMC/IWMS/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
-const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
+// const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
 
 // const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
