@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
+const API_URL = "http://localhost/PMC4/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -1132,6 +1132,69 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
   return overlapPercentage <= 10;
 }
 
+// tracing tool
+
+
+
+
+// for vertex mapping
+
+
+// Example line coordinates
+// var lineCoordinates = [
+//   [51.505, -0.09],
+//   [51.51, -0.1],
+//   [51.515, -0.09]
+// ];
+
+// // Example point
+// var point = L.latLng(51.513, -0.095);
+
+// Function to calculate distance between two points
+function closestVertex(point,lineCoordinates){
+  console.log(lineCoordinates)
+  
+  // Initialize variables to store the closest vertex and its distance
+  var closestVertex = null;
+  var closestDistance = Infinity;
+  
+  // Iterate over line vertices
+  lineCoordinates.forEach(function(coord) {
+    // console.log(coord,"coord")
+    var vertex = L.latLng(coord.lat, coord.lng);
+    // console.log(vertex,"vertex,",point,"point")
+    var dist = distance(vertex, point);
+    if (dist < closestDistance) {
+        closestVertex = vertex;
+        closestDistance = dist;
+    }
+  });
+  
+  var result = {
+    lat: closestVertex.lat,
+    lng: closestVertex.lng,
+    distance: closestDistance
+};
+
+  console.log("Closest vertex:", closestVertex);
+  console.log("Distance:", closestDistance);
+ 
+  return result
+  
+  }
+  
+  
+  function distance(latlng1, latlng2) {
+    var latlng1Rad = L.latLng(latlng1.lat, latlng1.lng).toBounds(10).getCenter();
+    var latlng2Rad = L.latLng(latlng2.lat, latlng2.lng).toBounds(10).getCenter();
+    return latlng1Rad.distanceTo(latlng2Rad);
+  }
+  
+  
+  // for vertex mapping
+  
+  
+  
 
 function getClosestRoadPoint(latlng) {
   var buffer = 10; // Buffer distance in meters
@@ -1157,16 +1220,20 @@ function getClosestRoadPoint(latlng) {
           .then(response => response.json())
           .then(data => {
               var closestPoint = null;
+              var closestPointv = null;
               var distance = Infinity;
               if (data.features && data.features.length > 0) {
                   var geometry = data.features[0].geometry;
                   var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
                   var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
                   closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+                  closestPointv = closestVertex(clickedPoint,line)
+                  // (lat,lng,distance)
+                  console.log(closestPoint,"closestPoint",closestPointv,"closestPointv")
                   
-                  distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), {units: 'meters'});
+                  distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), {units: 'meters'});
               }
-              resolve({ marker: closestPoint, distance: distance });
+              resolve({ marker: closestPointv, distance: distance });
           })
           .catch(error => {
               console.error('Error:', error);
@@ -1175,7 +1242,7 @@ function getClosestRoadPoint(latlng) {
   });
 }
 
-
+// for snapping tool
 
 var lastPointMarker = null; 
 
@@ -1215,6 +1282,7 @@ function getClosestRoadPointLast(latlng) {
                   var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
                   var closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
                   
+                  
             
                   var distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), {units: 'meters'});
                   
@@ -1239,7 +1307,6 @@ function getClosestRoadPointLast(latlng) {
           });
   });
 }
-
 
 
 
