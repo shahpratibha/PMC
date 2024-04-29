@@ -308,6 +308,8 @@
 
 
 
+
+
     function performTask() {
    
       //selecting department for handling diffrent department types
@@ -394,43 +396,60 @@
             const formDataFromStorage = JSON.parse(
               localStorage.getItem("conceptual_form_data_temp")
             );
-            for (const property in formDataFromStorage) {
-              popupContent +=
-                "<strong>" +
-                property +
-                ":                          </strong> " +
-                formDataFromStorage[property] +
-                "<br>";
-            }
+
+
+
+            $('#table-container').show();
+    console.log(formDataFromStorage);
+    let contentData = '<tr>';
+    for (const property in formDataFromStorage) {
+      contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+    }
+    contentData += '</tr>';
+    $('#workTableData').html(contentData);
+
+
+
+            // for (const property in formDataFromStorage) {
+            //   popupContent +=
+            //     "<strong>" +
+            //     property +
+            //     ":                          </strong> " +
+            //     formDataFromStorage[property] +
+            //     "<br>";
+            // }
           }
 
         
 
           // Add buttons for saving data and editing feature
 
-          if(department == 'Road'){
-            popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-          popupContent +=
-            '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
+      //     if(department == 'Road'){
+      //       popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
+      //     popupContent +=
+      //       '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
 
-            }
-         else if(department == 'Building'){
-          popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
+      //       }
+      //    else if(department == 'Building'){
+      //     popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
       
-        }
-       else if(department == 'Drainage'){
-            popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-          popupContent +=
-            '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
+      //   }
+      //  else if(department == 'Drainage'){
+      //       popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
+      //     popupContent +=
+      //       '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
 
-            }
+      //       }
+
+
+   
 
           
        
-          var popup = L.popup()
-            .setLatLng(latlng)
-            .setContent(popupContent)
-            .openOn(map);
+          // var popup = L.popup()
+          //   .setLatLng(latlng)
+          //   .setContent(popupContent)
+          //   .openOn(map);
 
           // Add click event listener for save data button
           // Add click event listener for save data button
@@ -547,10 +566,28 @@
             });
 
           // Add click event listener for edit feature button
-          document
-            .getElementById("editFeatureButton")
-            .addEventListener("click", function () {
-              selectedFeature.eachLayer(function (layer) {
+          // document
+          //   .getElementById("editFeatureButton")
+          //   .addEventListener("click", function () {
+          //     alert('Edit button clicked!');
+          //     selectedFeature.eachLayer(function (layer) {
+          //       if (layer.editing) {
+          //         layer.editing.enable();
+          //       } else {
+          //         layer.on("click", function () {
+          //           if (this.editing) {
+          //             this.editing.enable();
+          //           }
+          //         });
+          //       }
+          //     });
+          //   });
+
+          $(document).on('click', '#editFeatureButton', function() {
+  // Handle the click event for the edit button
+  alert('Edit feature button clicked!');
+
+  selectedFeature.eachLayer(function (layer) {
                 if (layer.editing) {
                   layer.editing.enable();
                 } else {
@@ -561,12 +598,14 @@
                   });
                 }
               });
-            });
+});
+
+
         }
       });
 
 
-
+  
 
 
 

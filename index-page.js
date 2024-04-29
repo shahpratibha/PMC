@@ -856,6 +856,35 @@ customSaveButton.onAdd = function (map) {
 
 customSaveButton.addTo(map);
 
+
+
+// var customSaveEditButton = L.control({ position: 'topleft' });
+// customSaveEditButton.onAdd = function (map) {
+// var div = L.DomUtil.create('div', 'saveDataButton');
+// div.innerHTML = '<button id="saveDataButton" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;" title="Draw New Feature"> Save Data</button>';
+// customDrawControlsContainer = div;
+// return div;
+// };
+
+
+// customSaveEditButton.addTo(map);
+
+
+
+// var customEditLayerButton = L.control({ position: 'topleft' });
+
+// customEditLayerButton.onAdd = function (map) {
+// var div = L.DomUtil.create('div', 'editFeatureButton');
+// div.innerHTML = '<button id="editFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;" title="Draw New Feature"> Edit Feature</button>';
+// customDrawControlsContainer = div;
+// return div;
+// };
+
+
+// customEditLayerButton.addTo(map);
+
+
+
 function toggleSaveButton(show) {
   var saveBtn = document.getElementById('save-button');
   if (saveBtn) {
@@ -1162,7 +1191,10 @@ function getClosestRoadPoint(latlng) {
                   var geometry = data.features[0].geometry;
                   var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
                   var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
+                  closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
                   closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+                  console.log("colest",closestPointL);
+                  console.log(closestPoint,"snap");
                   
                   distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), {units: 'meters'});
               }
@@ -1175,6 +1207,22 @@ function getClosestRoadPoint(latlng) {
   });
 }
 
+
+// L.GeometryUtil.closestVertexIndex = function (map, latlng, layer) {
+//   var latlngs = layer.getLatLngs(); // Get the array of LatLngs for the layer
+//   var minDistance = Infinity;
+//   var closestVertexIndex = -1;
+
+//   latlngs.forEach(function (latlng, index) {
+//       var distance = map.distance(latlng, latlng);
+//       if (distance < minDistance) {
+//           minDistance = distance;
+//           closestVertexIndex = index;
+//       }
+//   });
+
+//   return closestVertexIndex;
+// };
 
 
 var lastPointMarker = null; 
@@ -1303,7 +1351,7 @@ map.on('draw:drawstart', function(e) {
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
 
-   currentPolyline = L.polyline([], { color: 'red' }).addTo(traceLayer);
+   currentPolyline = L.polyline([], { color: 'red' }).addTo(drawnItems);
 });
 
 map.on('draw:drawstop', function() {
@@ -1346,37 +1394,40 @@ map.on('draw:deleted', function(e) {
 
 
 function handleMouseMove(event) {
+  if (throttle) return;
+
+  throttle = true;
+  setTimeout(() => {
+    throttle = false;
+  }, 300); // Adjust the 100 ms here to change the throttling rate
 
   if (mapMode === 'tracing' && vertexClickCount > 0) {
     if (!currentPolyline) return;
     let newPoint = event.latlng;
     getClosestRoadPoint(newPoint).then(result => {
       if (result.distance <= 20) {  
-        if(vertexClickCount == 1){
+        if (vertexClickCount === 1) {
           currentPolyline.addLatLng(result.marker);
           vertexClickCount++;
-        }else{
+        } else {
           const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
           if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
             currentPolyline.addLatLng(result.marker);
             currentPolyline.redraw();
           }
         }
-      
       }
     });
-  }
-  else if (mapMode == 'snapping' ){
+  } else if (mapMode === 'snapping') {
     if (drawTimeout) clearTimeout(drawTimeout);
     lastDrawnPoint = event.latlng;
     drawTimeout = setTimeout(() => {
       getClosestRoadPointLast(lastDrawnPoint);
-    }, 100); 
-  
+    }, 100); // Adjust the delay as needed
   }
- 
 }
 
+let throttle = false; // Throttling flag to control event frequency
 
 
 
