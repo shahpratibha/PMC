@@ -365,12 +365,14 @@
               localStorage.getItem("conceptual_form_data_temp")
             );
             for (const property in formDataFromStorage) {
+              // popupContent +=
+              //   "<strong> <hr> " +
+              //   property +
+              //   "                         </strong> " +
+              //   formDataFromStorage[property] +
+              //   "<br>";
               popupContent +=
-                "<strong>" +
-                property +
-                ":                          </strong> " +
-                formDataFromStorage[property] +
-                "<br>";
+              "<table> <th>" + property + "</th><td>" +formDataFromStorage[property] +"</td></table>"
             }
           }
 

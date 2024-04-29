@@ -671,9 +671,7 @@ a {
   #popup-table {
     max-width: 200px;
     max-height: 300px;
-    /* Set the maximum height for the table */
-    /* overflow: auto; */
-    /* Add a vertical scrollbar when the content overflows */
+    
     width: auto;
     border-collapse: collapse;
     margin-top: 10px;

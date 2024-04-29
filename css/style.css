@@ -53,21 +53,17 @@ td {
     border: none;
 
 } */
-
+/* 
 .leaflet-popup-content-wrapper {
   max-height: 300px;
-  /* Set the maximum height for the table */
   overflow-y: auto;
-  /* Add a vertical scrollbar when the content overflows */
   width: 100%;
 }
 
 #popup-table {
   max-width: 200px;
   max-height: 300px;
-  /* Set the maximum height for the table */
-  /* overflow: auto; */
-  /* Add a vertical scrollbar when the content overflows */
+ 
   width: auto;
   border-collapse: collapse;
   margin-top: 10px;
@@ -75,7 +71,6 @@ td {
 
 #popup-table tr {
   border-bottom: 2px solid black;
-  /* Add a border between rows for better visibility */
 }
 
 .popup-button {
@@ -83,7 +78,6 @@ td {
   margin-top: 10px;
   margin-left: 10px;
   font-weight: bold;
-  /* Add some space between the buttons and the table */
   padding: 10px 25px;
   background-color: #4caf50;
   color: white;
@@ -109,7 +103,7 @@ td {
   color: red;
   text-decoration: none;
   background: transparent;
-}
+} */
 
 .leaflet-div-icon {
   margin-left: -10px;
@@ -540,3 +534,42 @@ background-color: #d32f2f; /* Darker red background color on hover */
 
 
 
+/* popup */
+ 
+tbody, td, tfoot, th, thead, tr {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  font-size: 10px;
+}
+.leaflet-popup-content tr,td{
+  border-bottom: 1px solid;
+  padding: 5px;
+
+  }
+  .leaflet-popup-content td {
+    border-right: 1px solid; 
+    padding: 7px;
+    vertical-align: middle;
+  } 
+
+  .leaflet-popup-content {
+    margin: 13px 24px 13px 20px;
+    line-height: 1.3;
+    font-size: 10px;
+    font-size: 1.08333em;
+    min-height: 1px;
+    width: 240px;
+    height: 200px;
+    overflow: scroll;
+   scrollbar-width: thin;
+   /* resize: both; */
+  }
+
+  .leaflet-popup-content strong{
+
+    padding: 10px;
+
+  }
+
+ 
