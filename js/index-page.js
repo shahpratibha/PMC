@@ -313,7 +313,7 @@ async function fetchAndPostData(id) {
       const project = data.data;
 
       if (!project) {
-          alert('Project with this works_aa_approval_id is not found');
+          alert('Project with this project_id is not found');
           return;
       }
 
