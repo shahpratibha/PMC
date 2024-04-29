@@ -223,6 +223,20 @@
   
   <script>
 
+
+function toggleSelectLayerButton(show) {
+  var saveBtn = document.getElementById('editFeatureButton');
+  var editBtn = document.getElementById('saveDataButton');
+  var deleteBtn = document.getElementById('deleteFeatureButton');
+  if (saveBtn  && editBtn ) {
+      saveBtn.style.display = show ? 'block' : 'none';
+      editBtn.style.display = show ? 'block' : 'none';
+      deleteBtn.style.display = show ? 'block' : 'none';
+  }
+}
+
+
+
     
     $(document).ready(function () {
       var wardname = localStorage.getItem("wardname");
@@ -307,16 +321,17 @@
 
 
 
+   // var department = localStorage.getItem("department");
+    
+    var editableLayers = new L.FeatureGroup().addTo(map);
+    var selectedFeature = null ;
 
 
 
     function performTask() {
    
       //selecting department for handling diffrent department types
-      var department = localStorage.getItem("department");
-    
-      var editableLayers = new L.FeatureGroup().addTo(map);
-
+   
       map.on("click", function (e) {
         let size = map.getSize();
         let bbox = map.getBounds().toBBoxString();
@@ -354,39 +369,43 @@
 
       function highlightFeature(featureData) {
         // Check if any features are present in the featureData
-        if (
-          !featureData ||
-          !featureData.features ||
-          featureData.features.length === 0
-        )
-          
-          // Clear existing editable layers
-          editableLayers.clearLayers();
+            if (
+              !featureData ||
+              !featureData.features ||
+              featureData.features.length === 0
+            )
+              
+              // Clear existing editable layers
+              editableLayers.clearLayers();
 
-        // Get the first feature from the featureData
-        var feature = featureData.features[0];
+            // Get the first feature from the featureData
+            var feature = featureData.features[0];
 
-        var geojsonLayer = L.geoJSON(feature, {
-          style: {
-            color: "red",
-            weight: 3,
-            opacity: 1,
-            fillOpacity: 0.5,
-          },
-        });
+            var geojsonLayer = L.geoJSON(feature, {
+              style: {
+                color: "red",
+                weight: 3,
+                opacity: 1,
+                fillOpacity: 0.5,
+              },
+            });
 
-        editableLayers.addLayer(geojsonLayer);
+            editableLayers.addLayer(geojsonLayer);
 
-        if (editableLayers.getLayers().length > 0) {
-         
-          map.fitBounds(editableLayers.getBounds());
-        }
+            if (editableLayers.getLayers().length > 0) {
+            
+              map.fitBounds(editableLayers.getBounds());
+            }
       }
 
       editableLayers.on("contextmenu", function (e) {
         // Check if there is a selected feature
+
+        toggleSelectLayerButton(true);
+
+
         if (editableLayers.getLayers().length > 0) {
-          var selectedFeature = editableLayers.getLayers()[1];
+          selectedFeature = editableLayers.getLayers()[1];
      
           // Get the coordinates of the right-clicked point
           var latlng = e.latlng;
@@ -566,39 +585,35 @@
             });
 
           // Add click event listener for edit feature button
-          // document
-          //   .getElementById("editFeatureButton")
-          //   .addEventListener("click", function () {
-          //     alert('Edit button clicked!');
-          //     selectedFeature.eachLayer(function (layer) {
-          //       if (layer.editing) {
-          //         layer.editing.enable();
-          //       } else {
-          //         layer.on("click", function () {
-          //           if (this.editing) {
-          //             this.editing.enable();
-          //           }
-          //         });
-          //       }
-          //     });
-          //   });
+        
 
-          $(document).on('click', '#editFeatureButton', function() {
-  // Handle the click event for the edit button
-  alert('Edit feature button clicked!');
+          // Ensure this code is executed after the map and layers are fully loaded
+// document.getElementById('editFeatureButton').addEventListener('click', function() {
+//   // Assuming `editableLayers` contains the layers added to the map
+//   selectedFeature.eachLayer(function(layer) {
+//     if (layer.editing) {
+//       layer.editing.enable();
+//     }
+//   });
+// });
 
-  selectedFeature.eachLayer(function (layer) {
-                if (layer.editing) {
-                  layer.editing.enable();
-                } else {
-                  layer.on("click", function () {
-                    if (this.editing) {
-                      this.editing.enable();
-                    }
-                  });
-                }
-              });
-});
+
+//           $(document).on('click', '#editFeatureButton', function() {
+//   // Handle the click event for the edit button
+//   alert('Edit feature button clicked!');
+
+//   selectedFeature.eachLayer(function (layer) {
+//                 if (layer.editing) {
+//                   layer.editing.enable();
+//                 } else {
+//                   layer.on("click", function () {
+//                     if (this.editing) {
+//                       this.editing.enable();
+//                     }
+//                   });
+//                 }
+//               });
+// });
 
 
         }
@@ -607,8 +622,7 @@
 
   
 
-
-
+    
 
 
       // Change the button text to "Finish"
@@ -625,9 +639,43 @@
             }
            
         map.off("click");
+        toggleSelectLayerButton(false);
         // Reset any ongoing operation here
       };
     }
+
+
+    document
+            .getElementById("editFeatureButton")
+            .addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              selectedFeature.eachLayer(function (layer) {
+                if (layer.editing) {
+                  layer.editing.enable();
+                } else {
+                  layer.on("click", function () {
+                    if (this.editing) {
+                      this.editing.enable();
+                    }
+                  });
+                }
+              });
+            });
+
+
+ document.getElementById('deleteFeatureButton').addEventListener('click', function() {
+    if (!selectedFeature) {
+        alert('No feature selected!');
+        return;
+    }
+
+    editableLayers.removeLayer(selectedFeature);
+    selectedFeature = null;  
+
+});
+
+
 
 
     editControl.onAdd = function (map) {

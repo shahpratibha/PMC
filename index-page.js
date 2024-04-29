@@ -858,30 +858,46 @@ customSaveButton.addTo(map);
 
 
 
-// var customSaveEditButton = L.control({ position: 'topleft' });
-// customSaveEditButton.onAdd = function (map) {
-// var div = L.DomUtil.create('div', 'saveDataButton');
-// div.innerHTML = '<button id="saveDataButton" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;" title="Draw New Feature"> Save Data</button>';
-// customDrawControlsContainer = div;
-// return div;
-// };
+var customSaveEditButton = L.control({ position: 'topleft' });
+customSaveEditButton.onAdd = function (map) {
+var div = L.DomUtil.create('div', 'saveDataButton');
+div.innerHTML = '<button id="saveDataButton" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Save Data</button>';
+customDrawControlsContainer = div;
+return div;
+};
 
 
-// customSaveEditButton.addTo(map);
+customSaveEditButton.addTo(map);
 
 
 
-// var customEditLayerButton = L.control({ position: 'topleft' });
+var customEditLayerButton = L.control({ position: 'topleft' });
 
-// customEditLayerButton.onAdd = function (map) {
-// var div = L.DomUtil.create('div', 'editFeatureButton');
-// div.innerHTML = '<button id="editFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;" title="Draw New Feature"> Edit Feature</button>';
-// customDrawControlsContainer = div;
-// return div;
-// };
+customEditLayerButton.onAdd = function (map) {
+var div = L.DomUtil.create('div', 'editFeatureButton');
+div.innerHTML = '<button id="editFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Edit Feature</button>';
+customDrawControlsContainer = div;
+return div;
+};
 
 
-// customEditLayerButton.addTo(map);
+customEditLayerButton.addTo(map);
+
+
+
+var customDeleteLayerButton = L.control({ position: 'topleft' });
+
+customDeleteLayerButton.onAdd = function (map) {
+var div = L.DomUtil.create('div', 'deleteFeatureButton');
+div.innerHTML = '<button id="deleteFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:red; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Delete Feature</button>';
+customDrawControlsContainer = div;
+return div;
+};
+
+
+customDeleteLayerButton.addTo(map);
+
+
 
 
 
