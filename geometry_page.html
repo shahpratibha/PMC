@@ -201,7 +201,7 @@
 				if (localStorage.getItem('selectCoordinatesData') !== null) {
 					let coordinatesData = localStorage.getItem('selectCoordinatesData');
 					coordinatesData = JSON.parse(coordinatesData);
-
+                   console.log(coordinatesData);
 					let polyline;
 
 					coordinatesData.forEach(function (feature) {
