@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
+const API_URL = "http://localhost/pmc_test/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 
 //Add Basemap
@@ -281,11 +281,38 @@ function getQueryParam(param) {
 }
 
 
-const lenght = getQueryParam('lenght'); // Corrected typo: lenght to length
-const width = getQueryParam('width');
+const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
+const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 
 var wardname = null;
 var lastDrawnPolylineIdSave = null ;
+
+
+function initializeLocalStorage() {
+  if (localStorage.getItem('lastInsertedId') === null) {
+      localStorage.setItem('lastInsertedId', 'defaultId'); 
+  }
+  if (localStorage.getItem('bufferWidth') === null) {
+      localStorage.setItem('bufferWidth', width); 
+  }
+  if (localStorage.getItem('roadLenght') === null) {
+      localStorage.setItem('roadLenght', lenght); 
+  }
+  if (localStorage.getItem('wardname') === null) {
+      localStorage.setItem('wardname', ''); 
+  }
+  if (localStorage.getItem('department') === null) {
+      localStorage.setItem('department', 'Road'); 
+  }
+}
+
+
+initializeLocalStorage();
+
+
+function updateLocalStorage(key, value) {
+  localStorage.setItem(key, value);
+}
 
 
 
@@ -343,12 +370,25 @@ async function fetchAndPostData(id) {
           data: JSON.stringify(payload),
           contentType: "application/json",
           success: function (response) {
-              localStorage.setItem('lastInsertedId', response.data.id);
-              localStorage.setItem('bufferWidth', response.data.width);
-              localStorage.setItem('roadLenght', response.data.lenght); // Corrected typo: lenght to length
-              localStorage.setItem('wardname', response.data.wardname);
-              localStorage.setItem('department', response.data.department);
-              localStorage.setItem('conceptual_form_data_temp', JSON.stringify(payload));
+              // localStorage.setItem('lastInsertedId', response.data.id);
+              // localStorage.setItem('bufferWidth', response.data.width);
+              // localStorage.setItem('roadLenght', response.data.lenght); // Corrected typo: lenght to length
+              // localStorage.setItem('wardname', response.data.wardname);
+              // localStorage.setItem('department', response.data.department);
+              // localStorage.setItem('conceptual_form_data_temp', JSON.stringify(payload));
+
+
+
+              
+              updateLocalStorage('lastInsertedId',response.data.id);
+              updateLocalStorage('bufferWidth',response.data.width);
+              updateLocalStorage('roadLenght',  response.data.lenght);
+              updateLocalStorage('wardname', response.data.wardname);
+              updateLocalStorage('department', response.data.department);
+              updateLocalStorage('conceptual_form_data_temp', JSON.stringify(payload));
+
+
+
               localStorage.removeItem('conceptual_form_data');
               localStorage.removeItem('selectCoordinatesData');
           },
