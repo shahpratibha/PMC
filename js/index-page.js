@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/IWMS/";
+const API_URL = "http://localhost/PMC/IWMS/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
@@ -880,6 +880,21 @@ function toggleSaveButton(show) {
   }
 }
 
+
+// Button Click Event to Show SweetAlert Success Popup
+document.getElementById("save-button").addEventListener("click", function () {
+  
+  Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: 'Your feature has been saved successfully!',
+    customClass: {
+      popup: 'my-custom-popup', // Custom class for the popup
+      title: 'my-custom-title', // Custom class for the title
+      content: 'my-custom-text' // Custom class for the text
+    }
+  });
+});
 
 var isDrawControlAdded = false;
 

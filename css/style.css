@@ -591,3 +591,39 @@ padding: 5px;
     /* padding: 5px; */
   
     }
+
+
+    /* save popup */
+
+    .my-custom-popup {
+      width: 10%; /* Adjust width */
+      min-height: 100px; /* Adjust minimum height */
+    }
+    
+    /* Custom class for the popup title */
+    .my-custom-title {
+      font-size: 14px; /* Adjust font size for the title */
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    /* Custom class for the popup text/content */
+    .my-custom-text {
+      font-size: 12px; /* Adjust font size for the text */
+      text-align: center;
+    }
+    .swal2-popup {
+      display: none;
+      position: relative;
+      box-sizing: border-box;
+      flex-direction: column;
+      justify-content: center;
+      /* width: 24em; */
+      /* max-width: 30%; */
+      /* padding: 1.25em; */
+      border: none;
+      border-radius: 5px;
+      background: #fff;
+      font-family: inherit;
+      font-size: 10px;
+  }
