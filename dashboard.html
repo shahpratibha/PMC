@@ -34,106 +34,218 @@
   <div class="sidebar" id="mySidenav" type="button">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
         style="width: 15px; "></i></a>
+        <div class="accordion" id="formAccordion">
 
-        <div class="form-group ">
-          <label>Select Office</label>
-          <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_Off">
-            <option value=""></option>
-          </select>
-        </div>
-
-    <div class="form-group ">
-      <label>Select Year</label>
-      <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_fi">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label>Zone Name</label>
-      <select id="zones" style="width: 180px" class="form-control select2" multiple="multiple"
-        onchange="loadAdminWardNameAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label for="admin_ward_name">Ward Name</label>
-      <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width: 180px"
-        onchange="loadVillagesAndFilter()">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label>Village Name</label>
-      <select class="form-control select2" multiple="multiple" id="villages" style="width: 180px"
-        onchange="loadDepartmentsAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-
-    <div class="form-group mt-2">
-      <label for="admin_ward_name">Departments</label>
-      <select class="form-control select2" id="departments" style="width: 180px" multiple="multiple"
-        onchange="loadStagesAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-    <div class="form-group mt-2">
-      <label>Project Status</label>
-      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="stage"
-        onchange="loadWorkTypesAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-    <div class="form-group mt-2">
-      <label>Work Type</label>
-      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="work_type">
-        <option value=""></option>
-      </select>
-    </div>
-
-
-
-    <div class="form-group mt-3">
-      <div class="accordion" id="projectCostAccordion">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="projectCostHeading">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#projectCostCollapse" aria-expanded="false" aria-controls="projectCostCollapse">
-              Project Cost
-            </button>
-          </h2>
-          <div id="projectCostCollapse" class="accordion-collapse collapse" aria-labelledby="projectCostHeading"
-            data-bs-parent="#projectCostAccordion">
-            <div class="accordion-body">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-12">
-                    <select class="form-select" id="amount_comparison">
-                      <option value="greater_than">Greater Than</option>
-                      <option value="less_than">Less Than</option>
+            <!-- Office Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOffice">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseOffice" aria-expanded="false" aria-controls="collapseOffice">
+                  Select Office
+                </button>
+              </h2>
+              <div id="collapseOffice" class="accordion-collapse collapse" aria-labelledby="headingOffice" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label>Select Office</label> -->
+                    <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off">
+                      <option value=""></option>
                     </select>
                   </div>
+                 
                 </div>
-                <div class="row">
-                  <div class="col-md-12 mt-3">
-                    <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
+              </div>
+            </div>
+
+              <!-- Year Section -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOfficeYear">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOfficeYear" aria-expanded="false" aria-controls="collapseOfficeYear">
+                     Select Year
+                  </button>
+                </h2>
+                <div id="collapseOfficeYear" class="accordion-collapse collapse" aria-labelledby="headingOfficeYear" data-bs-parent="#formAccordion">
+                  <div class="accordion-body">
+                  
+                    <div class="form-group">
+                      <!-- <label>Select Year</label> -->
+                      <select style="width: 100%;" class="select2 form-control" multiple="multiple" id="project_fi">
+                        <option value=""></option>
+                      </select>
+                    </div>
                   </div>
+                </div>
+              </div>
+          
+            <!-- Zone  -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingZone">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseZone" aria-expanded="false" aria-controls="collapseZone">
+                  Zone Selection
+                </button>
+              </h2>
+              <div id="collapseZone" class="accordion-collapse collapse" aria-labelledby="headingZone" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label>Zone Name</label> -->
+                    <select id="zones" style="width: 100%" class="form-control select2" multiple="multiple" onchange="loadAdminWardNameAndFilter();">
+                      <option value=""></option>
+                    </select>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          <!-- Ward Section -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingWard">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseWard" aria-expanded="false" aria-controls="collapseWard">
+                Ward Selection
+              </button>
+            </h2>
+            <div id="collapseWard" class="accordion-collapse collapse" aria-labelledby="headingWard" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+               
+                <div class="form-group">
+                  <!-- <label for="admin_ward_name">Ward Name</label> -->
+                  <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%" onchange="loadVillagesAndFilter();">
+                    <option value=""></option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- village Section -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingVillage">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseVillage" aria-expanded="false" aria-controls="collapseVillage">
+                 Village Selection
+              </button>
+            </h2>
+            <div id="collapseVillage" class="accordion-collapse collapse" aria-labelledby="headingVillage" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+                <div class="form-group">
+                  <!-- <label>Village Name</label> -->
+                  <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%" onchange="loadDepartmentsAndFilter();">
+                    <option value=""></option>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group mt-2">
-      <label for="date_range">Date Range</label>
-      <input type="text" name="" class="form-control" id="date_range" />
-    </div>
-
+            <!-- Department Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingDepartment">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseDepartment" aria-expanded="false" aria-controls="collapseDepartment">
+                 Select Department
+                </button>
+              </h2>
+              <div id="collapseDepartment" class="accordion-collapse collapse" aria-labelledby="headingDepartment" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label for="admin_ward_name">Departments</label> -->
+                    <select class="form-control select2" id="departments" style="width:100%" multiple="multiple" onchange="loadStagesAndFilter();">
+                      <option value=""></option>
+                    </select>
+                  </div>
+              
+                </div>
+              </div>
+            </div>
+          <!-- Project Status -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingProjectStatus">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseProjectStatus" aria-expanded="false" aria-controls="collapseProjectStatus">
+                Select Project Status
+              </button>
+            </h2>
+            <div id="collapseProjectStatus" class="accordion-collapse collapse" aria-labelledby="headingProjectStatus" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+                <div class="form-group">
+                  <!-- <label>Project Status</label> -->
+                  <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage" onchange="loadWorkTypesAndFilter();">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Work Type -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingWorkType">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseWorkType" aria-expanded="false" aria-controls="collapseWorkType">
+               Select Work Type
+              </button>
+            </h2>
+            <div id="collapseWorkType" class="accordion-collapse collapse" aria-labelledby="headingWorkType" data-bs-parent="#formAccordion">
+              <div class="accordion-body">
+                
+                <div class="form-group">
+                  <label>Work Type</label>
+                  <select class="select2 form-control" multiple="multiple" style="width:100%" id="work_type">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+            <!-- Project Cost Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingProjectCost">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseProjectCost" aria-expanded="false" aria-controls="collapseProjectCost">
+                  Project Cost
+                </button>
+              </h2>
+              <div id="collapseProjectCost" class="accordion-collapse collapse" aria-labelledby="headingProjectCost" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select class="form-select" id="amount_comparison">
+                          <option value="greater_than">Greater Than</option>
+                          <option value="less_than">Less Than</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <!-- Date Range Section -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingDateRange">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseDateRange" aria-expanded="false" aria-controls="collapseDateRange">
+                  Date Range Selection
+                </button>
+              </h2>
+              <div id="collapseDateRange" class="accordion-collapse collapse" aria-labelledby="headingDateRange" data-bs-parent="#formAccordion">
+                <div class="accordion-body">
+                  <div class="form-group">
+                    <!-- <label for="date_range">Date Range</label> -->
+                    <input type="text" name="" class="form-control" id="date_range" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+          
 
   </div>
 
@@ -266,7 +378,7 @@
   <script>
     function openNav() {
       document.getElementById("mySidenav").style.width = "200px";
-      document.getElementById("mySidenav").style.height = "610px";
+      document.getElementById("mySidenav").style.height = "360px";
       document.getElementById("mySidenav").style.zIndex = "99999";
       document.getElementById("mySidenav").style.top = "0px";
       document.getElementById("mySidenav").style.scrollbarWidth = "thin";
@@ -1684,8 +1796,7 @@
     $(document).ready(function () {
       var columns = [
         "works_aa_a",
-        "name_of_wo", "scope_of_w", "je_name", "contact_no", "tender_amo", "gis_id", "ward", "stage", "no_of_road", "length",
-        "width", "measure_in", "Label"
+        "name_of_wo", "scope_of_w", "je_name", "contact_no","length"
       ];
 
       var select = document.getElementById("search_type");
