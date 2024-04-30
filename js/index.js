@@ -1,9 +1,5 @@
 var map, geojson;
-<<<<<<< HEAD
 const API_URL = "http://localhost/PMC/IWMS/";
-=======
-const API_URL = "http://localhost/PMC4/";
->>>>>>> d8c0598327772bc9920469c95daf9ca992b63369
 
 // const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 // const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
