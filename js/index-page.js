@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/IWMS/";
+const API_URL = "http://localhost/PMC/IWMS/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
@@ -313,7 +313,7 @@ async function fetchAndPostData(id) {
       const project = data.data;
 
       if (!project) {
-          alert('Project with this works_aa_approval_id is not found');
+          alert('Project with this project_id is not found');
           return;
       }
 
@@ -873,6 +873,51 @@ customSaveButton.onAdd = function (map) {
 
 customSaveButton.addTo(map);
 
+
+
+var customSaveEditButton = L.control({ position: 'topleft' });
+customSaveEditButton.onAdd = function (map) {
+var div = L.DomUtil.create('div', 'saveDataButton');
+div.innerHTML = '<button id="saveDataButton" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Save Data</button>';
+customDrawControlsContainer = div;
+return div;
+};
+
+
+customSaveEditButton.addTo(map);
+
+
+
+var customEditLayerButton = L.control({ position: 'topleft' });
+
+customEditLayerButton.onAdd = function (map) {
+var div = L.DomUtil.create('div', 'editFeatureButton');
+div.innerHTML = '<button id="editFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Edit Feature</button>';
+customDrawControlsContainer = div;
+return div;
+};
+
+
+customEditLayerButton.addTo(map);
+
+
+
+var customDeleteLayerButton = L.control({ position: 'topleft' });
+
+customDeleteLayerButton.onAdd = function (map) {
+var div = L.DomUtil.create('div', 'deleteFeatureButton');
+div.innerHTML = '<button id="deleteFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:red; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Delete Feature</button>';
+customDrawControlsContainer = div;
+return div;
+};
+
+
+customDeleteLayerButton.addTo(map);
+
+
+
+
+
 function toggleSaveButton(show) {
   var saveBtn = document.getElementById('save-button');
   if (saveBtn) {
@@ -880,6 +925,21 @@ function toggleSaveButton(show) {
   }
 }
 
+
+// Button Click Event to Show SweetAlert Success Popup
+document.getElementById("save-button").addEventListener("click", function () {
+  
+  Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: 'Your feature has been saved successfully!',
+    customClass: {
+      popup: 'my-custom-popup', // Custom class for the popup
+      title: 'my-custom-title', // Custom class for the title
+      content: 'my-custom-text' // Custom class for the text
+    }
+  });
+});
 
 var isDrawControlAdded = false;
 
@@ -1149,6 +1209,69 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
   return overlapPercentage <= 10;
 }
 
+// tracing tool
+
+
+
+
+// for vertex mapping
+
+
+// Example line coordinates
+// var lineCoordinates = [
+//   [51.505, -0.09],
+//   [51.51, -0.1],
+//   [51.515, -0.09]
+// ];
+
+// // Example point
+// var point = L.latLng(51.513, -0.095);
+
+// Function to calculate distance between two points
+function closestVertex(point,lineCoordinates){
+  console.log(lineCoordinates)
+  
+  // Initialize variables to store the closest vertex and its distance
+  var closestVertex = null;
+  var closestDistance = Infinity;
+  
+  // Iterate over line vertices
+  lineCoordinates.forEach(function(coord) {
+    // console.log(coord,"coord")
+    var vertex = L.latLng(coord.lat, coord.lng);
+    // console.log(vertex,"vertex,",point,"point")
+    var dist = distance(vertex, point);
+    if (dist < closestDistance) {
+        closestVertex = vertex;
+        closestDistance = dist;
+    }
+  });
+  
+  var result = {
+    lat: closestVertex.lat,
+    lng: closestVertex.lng,
+    distance: closestDistance
+};
+
+  console.log("Closest vertex:", closestVertex);
+  console.log("Distance:", closestDistance);
+ 
+  return result
+  
+  }
+  
+  
+  function distance(latlng1, latlng2) {
+    var latlng1Rad = L.latLng(latlng1.lat, latlng1.lng).toBounds(10).getCenter();
+    var latlng2Rad = L.latLng(latlng2.lat, latlng2.lng).toBounds(10).getCenter();
+    return latlng1Rad.distanceTo(latlng2Rad);
+  }
+  
+  
+  // for vertex mapping
+  
+  
+  
 
 function getClosestRoadPoint(latlng) {
   var buffer = 10; // Buffer distance in meters
@@ -1174,16 +1297,21 @@ function getClosestRoadPoint(latlng) {
           .then(response => response.json())
           .then(data => {
               var closestPoint = null;
+              var closestPointv = null;
               var distance = Infinity;
               if (data.features && data.features.length > 0) {
                   var geometry = data.features[0].geometry;
                   var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
                   var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
+                  // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
                   closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+                  closestPointv = closestVertex(clickedPoint,line)
+                  // (lat,lng,distance)
+                  console.log(closestPoint,"closestPoint",closestPointv,"closestPointv")
                   
-                  distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), {units: 'meters'});
+                  distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), {units: 'meters'});
               }
-              resolve({ marker: closestPoint, distance: distance });
+              resolve({ marker: closestPointv, distance: distance });
           })
           .catch(error => {
               console.error('Error:', error);
@@ -1192,7 +1320,7 @@ function getClosestRoadPoint(latlng) {
   });
 }
 
-
+// for snapping tool
 
 var lastPointMarker = null; 
 
@@ -1232,6 +1360,7 @@ function getClosestRoadPointLast(latlng) {
                   var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
                   var closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
                   
+                  
             
                   var distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), {units: 'meters'});
                   
@@ -1256,7 +1385,6 @@ function getClosestRoadPointLast(latlng) {
           });
   });
 }
-
 
 
 
@@ -1320,7 +1448,7 @@ map.on('draw:drawstart', function(e) {
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
 
-   currentPolyline = L.polyline([], { color: 'red' }).addTo(traceLayer);
+   currentPolyline = L.polyline([], { color: 'red' }).addTo(drawnItems);
 });
 
 map.on('draw:drawstop', function() {
@@ -1363,37 +1491,40 @@ map.on('draw:deleted', function(e) {
 
 
 function handleMouseMove(event) {
+  if (throttle) return;
+
+  throttle = true;
+  setTimeout(() => {
+    throttle = false;
+  }, 300); // Adjust the 100 ms here to change the throttling rate
 
   if (mapMode === 'tracing' && vertexClickCount > 0) {
     if (!currentPolyline) return;
     let newPoint = event.latlng;
     getClosestRoadPoint(newPoint).then(result => {
       if (result.distance <= 20) {  
-        if(vertexClickCount == 1){
+        if (vertexClickCount === 1) {
           currentPolyline.addLatLng(result.marker);
           vertexClickCount++;
-        }else{
+        } else {
           const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
           if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
             currentPolyline.addLatLng(result.marker);
             currentPolyline.redraw();
           }
         }
-      
       }
     });
-  }
-  else if (mapMode == 'snapping' ){
+  } else if (mapMode === 'snapping') {
     if (drawTimeout) clearTimeout(drawTimeout);
     lastDrawnPoint = event.latlng;
     drawTimeout = setTimeout(() => {
       getClosestRoadPointLast(lastDrawnPoint);
-    }, 100); 
-  
+    }, 100); // Adjust the delay as needed
   }
- 
 }
 
+let throttle = false; // Throttling flag to control event frequency
 
 
 

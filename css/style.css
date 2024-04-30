@@ -53,21 +53,17 @@ td {
     border: none;
 
 } */
-
+/* 
 .leaflet-popup-content-wrapper {
   max-height: 300px;
-  /* Set the maximum height for the table */
   overflow-y: auto;
-  /* Add a vertical scrollbar when the content overflows */
   width: 100%;
 }
 
 #popup-table {
   max-width: 200px;
   max-height: 300px;
-  /* Set the maximum height for the table */
-  /* overflow: auto; */
-  /* Add a vertical scrollbar when the content overflows */
+ 
   width: auto;
   border-collapse: collapse;
   margin-top: 10px;
@@ -75,7 +71,6 @@ td {
 
 #popup-table tr {
   border-bottom: 2px solid black;
-  /* Add a border between rows for better visibility */
 }
 
 .popup-button {
@@ -83,7 +78,6 @@ td {
   margin-top: 10px;
   margin-left: 10px;
   font-weight: bold;
-  /* Add some space between the buttons and the table */
   padding: 10px 25px;
   background-color: #4caf50;
   color: white;
@@ -109,7 +103,7 @@ td {
   color: red;
   text-decoration: none;
   background: transparent;
-}
+} */
 
 .leaflet-div-icon {
   margin-left: -10px;
@@ -198,7 +192,7 @@ main {
   position: absolute;
   width: 30%;
   height:40%;
-  top: 15%;
+  top: 55%;
   right: 1%;
   overflow: scroll;
   scrollbar-width: thin;
@@ -323,21 +317,21 @@ main {
 /* side bar */
 
 /* popup */
-.custom-modal-class {
+/* .custom-modal-class {
   width: 300px; 
   height: 200px;
   font-size:20px ; 
 }
 .custom-icon-class {
-  font-size: 10px; /* Set your desired icon size */
+  font-size: 10px;
 }
 
 .custom-title-class {
-  font-size: 1.5em; /* Set your desired title size */
+  font-size: 1.5em; 
 }
 
 .custom-text-class {
-  font-size: 1em; /* Set your desired text size */
+  font-size: 1em; 
 }
 .custom-close-button-class {
 background-color: #f44336; 
@@ -349,8 +343,8 @@ font-size: 20px;
 }
 
 .custom-close-button-class:hover {
-background-color: #d32f2f; /* Darker red background color on hover */
-}
+background-color: #d32f2f; 
+} */
     .swal2-show {
     animation: swal2-show 0.3s ease; /* Set the transition with ease */
   }
@@ -381,7 +375,7 @@ background-color: #d32f2f; /* Darker red background color on hover */
     }
   }
 
-  /* layer style */
+ 
 .leaflet-control-layers-list{
   width: 200px;
   height: 200px;
@@ -394,23 +388,23 @@ background-color: #d32f2f; /* Darker red background color on hover */
   width: 100%;
 }
 
-
 /* popup */
-.custom-modal-class {
+
+/* .custom-modal-class {
   width: 300px; 
   height: 200px;
   font-size:20px ; 
 }
 .custom-icon-class {
-  font-size: 10px; /* Set your desired icon size */
+  font-size: 10px;
 }
 
 .custom-title-class {
-  font-size: 1.5em; /* Set your desired title size */
+  font-size: 1.5em; 
 }
 
 .custom-text-class {
-  font-size: 1em; /* Set your desired text size */
+  font-size: 1em; 
 }
 .custom-close-button-class {
 background-color: #f44336; 
@@ -419,7 +413,7 @@ color: white;
 border-radius: 0; 
 padding: 5px; 
 font-size: 20px;
-}
+} */
 
 .custom-close-button-class:hover {
 /* Add your custom hover styles for the close button here */
@@ -547,7 +541,7 @@ background-color: #d32f2f; /* Darker red background color on hover */
   border-radius: 5px !important;
   cursor: pointer;
   position: absolute;
-  top: -210px;
+  top: -200px;
   left: 80px;
   
   transition: background-color 0.1s;
@@ -556,6 +550,75 @@ background-color: #d32f2f; /* Darker red background color on hover */
 .custom-button:hover {
   background-color: #bbb;
 }
+/* popup */
 
 
+  /* .popup-table td {
+    border-right: 1px solid; 
+    padding: 7px;
+    vertical-align: middle;
+  } */
 
+  .leaflet-popup-content {
+    margin: 13px 24px 13px 20px;
+    line-height: 1.3;
+    font-size: 10px;
+    font-size: 1.08333em;
+    min-height: 1px;
+    width: 240px;
+    height: 200px;
+    overflow: scroll;
+    scrollbar-width: thin;
+  }
+
+
+  /* .leaflet-popup-content strong{
+padding: 5px;
+  } */
+  tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    font-size: 10px;
+  }
+  .popup-table tr,td{
+    border-bottom: 1px solid;
+    /* padding: 5px; */
+  
+    }
+
+
+    /* save popup */
+
+    .my-custom-popup {
+      width: 10%; /* Adjust width */
+      min-height: 100px; /* Adjust minimum height */
+    }
+    
+    /* Custom class for the popup title */
+    .my-custom-title {
+      font-size: 14px; /* Adjust font size for the title */
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    /* Custom class for the popup text/content */
+    .my-custom-text {
+      font-size: 12px; /* Adjust font size for the text */
+      text-align: center;
+    }
+    .swal2-popup {
+      display: none;
+      position: relative;
+      box-sizing: border-box;
+      flex-direction: column;
+      justify-content: center;
+      /* width: 24em; */
+      /* max-width: 30%; */
+      /* padding: 1.25em; */
+      border: none;
+      border-radius: 5px;
+      background: #fff;
+      font-family: inherit;
+      font-size: 10px;
+  }
