@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <!-- <link rel="stylesheet" href="C_form.css" /> -->
 
-  
+
   <style>
     #map {
       top: 0px;
@@ -24,24 +25,25 @@
     margin: 29px;
     top: 151px;
 } */
-/* Search icon */
+    /* Search icon */
 
-.leaflet-touch .geocoder-control-input {
-    height: 30px;
-    line-height: 30px;
-    background-size: 30px;
-    position: relative;
-    top: -5px;
+    .leaflet-touch .geocoder-control-input {
+      height: 30px;
+      line-height: 30px;
+      background-size: 30px;
+      position: relative;
+      top: -5px;
 
-}
+    }
 
-.leaflet-container .leaflet-control-attribution {
-    
-    display: none;
-}
-/* Search icon */
+    .leaflet-container .leaflet-control-attribution {
 
-/* .leaflet-touch .geocoder-control-input {
+      display: none;
+    }
+
+    /* Search icon */
+
+    /* .leaflet-touch .geocoder-control-input {
     height: 30px;
     line-height: 30px;
     background-size: 30px;
@@ -49,8 +51,8 @@
     top: 0;
 }
      */
- 
-    .leaflet-control-zoom{
+
+    .leaflet-control-zoom {
       position: absolute;
       left: 1480px;
       top: 80vh;
@@ -92,26 +94,26 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
- <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
 
- <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
- <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+  <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 
- <script
+  <script
     src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
 
- <link rel="stylesheet" type="text/css"
+  <link rel="stylesheet" type="text/css"
     href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
 
- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
 
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
     integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -132,10 +134,10 @@
   <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.3/src/leaflet.geometryutil.min.js"></script>
 
 
- 
+
   <script src="libs/feat.js"></script>
 
-  
+
 
   <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
   <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
@@ -150,50 +152,31 @@
 </head>
 
 <body>
- 
 
-    <div id="map"></div>
-    <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
 
-    <div>
-      <img src="png/pmcjpeg.png" alt="" class="logopng1"style="">
-    </div>
-    <!-- <div id="table-container">
-      <button id="closeTableBtn" class="close-button">
-        <i class="fas fa-times"></i>
-      </button>
+  <div id="map"></div>
+  <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
 
-      <table id="workTable" class="table table-bordered table-hover" style="width: 70% !important">
-        <thead>
-          <tr>
-            <th>Name of Work</th>
-            <th>Work Type</th>
-            <th>Work Completion Date</th>
-            <th>Zone</th>
-            <th>Ward</th>
-            <th>Prabhag</th>
-          </tr>
-        </thead>
-        <tfoot>
-          <tr>
+  <div>
+    <img src="png/pmcjpeg.png" alt="" class="logopng1" style="">
+  </div>
 
-            <th>Name of Work</th>
-            <th>Work Type</th>
-            <th>Work Completion Date</th>
-            <th>Zone</th>
-            <th>Ward</th>
-            <th>Prabhag</th>
-          </tr>
-        </tfoot>
-        <tbody></tbody>
-      </table>
-    </div> -->
- 
+
+  <div id="table-container">
+    <table id="workTable" class="table table-bordered table-hover" style="width: 100% !important; font-size: 10px;">
+
+      <thead>
+      </thead>
+
+      <tbody id="workTableData"></tbody>
+    </table>
+  </div>
+
   <script src="js/index-page.js"></script>
-  
+
   <script>
 
-    
+
     $(document).ready(function () {
       var wardname = localStorage.getItem("wardname");
       if (wardname) {
@@ -252,24 +235,6 @@
 
 
 
-    // //**************************************************line mesure*************************************************************
-    // L.control
-    //   .polylineMeasure({
-    //     position: "topright",
-    //     unit: "kilometres",
-    //     showBearings: true,
-    //     clearMeasurementsOnStop: false,
-    //     showClearControl: true,
-    //     showUnitControl: true,
-    //   })
-    //   .addTo(map);
-
-    // //**********************************************************area measure**********************************************************************
-    // var measureControl = new L.Control.Measure({
-    //   position: "topright",
-    // });
-    // measureControl.addTo(map);
-
 
     // Create a custom control
     var editControl = L.control({ position: 'topleft' });
@@ -279,10 +244,10 @@
 
 
     function performTask() {
-   
+
       //selecting department for handling diffrent department types
       var department = localStorage.getItem("department");
-    
+
       var editableLayers = new L.FeatureGroup().addTo(map);
 
       map.on("click", function (e) {
@@ -290,19 +255,19 @@
         let bbox = map.getBounds().toBBoxString();
         let layer = "pmc:Exist_Road";
 
-        if(department=='Road'){
-           layer = "pmc:Exist_Road";
+        if (department == 'Road') {
+          layer = "pmc:Exist_Road";
 
         }
-        else if(department == 'Building'){
-           layer = "pmc:Reservations";
+        else if (department == 'Building') {
+          layer = "pmc:Reservations";
 
         }
-        else if(department == 'Drainage'){
-              layer = "pmc:storm_water";
+        else if (department == 'Drainage') {
+          layer = "pmc:storm_water";
 
-            }
-        
+        }
+
         var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
@@ -310,7 +275,7 @@
 
 
 
-          
+
 
         fetch(url)
           .then((response) => response.json())
@@ -327,7 +292,7 @@
           !featureData.features ||
           featureData.features.length === 0
         )
-          
+
           // Clear existing editable layers
           editableLayers.clearLayers();
 
@@ -346,59 +311,84 @@
         editableLayers.addLayer(geojsonLayer);
 
         if (editableLayers.getLayers().length > 0) {
-         
+
           map.fitBounds(editableLayers.getBounds());
         }
       }
 
+      // editableLayers.on("contextmenu", function (e) {
+      //   // Check if there is a selected feature
+      //   if (editableLayers.getLayers().length > 0) {
+      //     var selectedFeature = editableLayers.getLayers()[1];
+
+      //     // Get the coordinates of the right-clicked point
+      //     var latlng = e.latlng;
+      //     var popupContent = "<h5>Selected Feature</h5>";
+
+      //     if (localStorage.getItem("conceptual_form_data_temp")) {
+      //       const formDataFromStorage = JSON.parse(
+      //         localStorage.getItem("conceptual_form_data_temp")
+      //       );
+      //       for (const property in formDataFromStorage) {
+      //         popupContent +=
+      //           "<strong>" +
+      //           property +
+      //           ":&nbsp;</strong></strong> " +
+      //           formDataFromStorage[property] +
+      //           "<br>";
+
       editableLayers.on("contextmenu", function (e) {
-        // Check if there is a selected feature
-        if (editableLayers.getLayers().length > 0) {
-          var selectedFeature = editableLayers.getLayers()[1];
-     
-          // Get the coordinates of the right-clicked point
-          var latlng = e.latlng;
-          var popupContent = "<h5>Selected Feature</h5>";
-      
-          if (localStorage.getItem("conceptual_form_data_temp")) {
-            const formDataFromStorage = JSON.parse(
-              localStorage.getItem("conceptual_form_data_temp")
-            );
-            for (const property in formDataFromStorage) {
-              // popupContent +=
-              //   "<strong> <hr> " +
-              //   property +
-              //   "                         </strong> " +
-              //   formDataFromStorage[property] +
-              //   "<br>";
-              popupContent +=
-              "<table> <th>" + property + "</th><td>" +formDataFromStorage[property] +"</td></table>"
-            }
+  // Check if there is a selected feature
+  if (editableLayers.getLayers().length > 0) {
+    var selectedFeature = editableLayers.getLayers()[1];
+
+    // Get the coordinates of the right-clicked point
+    var latlng = e.latlng;
+    var popupContent = "<h5>Selected Feature</h5>";
+
+    if (localStorage.getItem("conceptual_form_data_temp")) {
+      const formDataFromStorage = JSON.parse(
+        localStorage.getItem("conceptual_form_data_temp")
+      );
+
+      popupContent += "<table border='1'>"; // Start of the table
+      for (const property in formDataFromStorage) {
+        popupContent += "<tr>"; // Start of a row
+        popupContent += "<td>" + property + "</td>"; // Key (table data)
+        popupContent += "<td>" + formDataFromStorage[property] + "</td>"; // Value (table data)
+        popupContent += "</tr>"; // End of a row
+      }
+      popupContent += "</table>"; // End of the table
+//     }
+//   }
+// });
+
+            // }
           }
 
-        
+
 
           // Add buttons for saving data and editing feature
 
-          if(department == 'Road'){
+          if (department == 'Road') {
             popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-          popupContent +=
-            '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
+            popupContent +=
+              '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
 
-            }
-         else if(department == 'Building'){
-          popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-      
-        }
-       else if(department == 'Drainage'){
+          }
+          else if (department == 'Building') {
             popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-          popupContent +=
-            '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
 
-            }
+          }
+          else if (department == 'Drainage') {
+            popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
+            popupContent +=
+              '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
 
-          
-       
+          }
+
+
+
           var popup = L.popup()
             .setLatLng(latlng)
             .setContent(popupContent)
@@ -410,7 +400,7 @@
             .getElementById("saveDataButton")
             .addEventListener("click", function () {
               var featureData = selectedFeature.toGeoJSON();
-   
+
               var featureId = featureData.features[0].id;
               let formDataFromStorage;
               let formDataTemp = localStorage.getItem(
@@ -420,7 +410,7 @@
                 localStorage.setItem("conceptual_form_data", formDataTemp);
                 formDataFromStorage = JSON.parse(formDataTemp);
               }
-          
+
               var roadLength =
                 formDataFromStorage &&
                   formDataFromStorage.hasOwnProperty("Length")
@@ -433,7 +423,7 @@
                   ? formDataFromStorage.Width
                   : 20;
 
-           
+
 
               let selectCoordinatesData = featureData.features;
               localStorage.setItem(
@@ -450,7 +440,7 @@
                 bufferWidth: bufferWidth,
                 gis_id: lastInsertedId,
                 department: department,
-                selectCoordinatesData:selectCoordinatesData,
+                selectCoordinatesData: selectCoordinatesData,
               });
 
               $.ajax({
@@ -553,10 +543,10 @@
         button.innerHTML = 'Select Feature';
         // Remove the click event listener from the map
         var drawFeatureButton = document.querySelector('.draw_feature');
-            if (drawFeatureButton) {
-              drawFeatureButton.removeAttribute('disabled');
-            }
-           
+        if (drawFeatureButton) {
+          drawFeatureButton.removeAttribute('disabled');
+        }
+
         map.off("click");
         // Reset any ongoing operation here
       };
@@ -570,37 +560,37 @@
         if (button.innerHTML === 'Select Feature') {
           button.innerHTML = 'Finish';
           performTask();
-                
-      // Remove the draw control if it's currently added
-      if (isDrawControlAdded) {
+
+          // Remove the draw control if it's currently added
+          if (isDrawControlAdded) {
             map.removeControl(drawControl);
             isDrawControlAdded = false;
           }
 
-            if (drawFeatureButton) {
-              drawFeatureButton.setAttribute('disabled', true);
-            }
-            else{
-              drawFeatureButton.setAttribute('disabled', false);
-            }
+          if (drawFeatureButton) {
+            drawFeatureButton.setAttribute('disabled', true);
+          }
+          else {
+            drawFeatureButton.setAttribute('disabled', false);
+          }
         } else {
           button.innerHTML = 'Select Feature';
           // Finish or reset any ongoing operation here
           if (drawFeatureButton) {
-              drawFeatureButton.setAttribute('disabled', false);
-            }
+            drawFeatureButton.setAttribute('disabled', false);
+          }
 
-              // button.innerHTML = 'Select Feature';
+          // button.innerHTML = 'Select Feature';
           // Add the draw control back if it's not currently added
-              if (!isDrawControlAdded) {
-              map.addControl(drawControl);
-              isDrawControlAdded = true;
-            }
+          if (!isDrawControlAdded) {
+            map.addControl(drawControl);
+            isDrawControlAdded = true;
+          }
 
-            // Show the custom draw controls button
-            if (drawFeatureButton) {
-              drawFeatureButton.setAttribute('disabled', false);
-            }
+          // Show the custom draw controls button
+          if (drawFeatureButton) {
+            drawFeatureButton.setAttribute('disabled', false);
+          }
         }
       };
       return button;
@@ -610,29 +600,29 @@
     // code for image on perform button
 
 
-//     editControl.onAdd = function (map) {
-//   var button = L.DomUtil.create('button', 'custom-button');
-//   var img = document.createElement('img');
-//   img.src = './png/003-selection.png'; 
-//   img.style.width = '25px'; // Example width
-//   img.style.height = '25px'; // Example height
-//   button.appendChild(img);
-//   button.innerHTML += ' Perform Task'; 
-//   button.onclick = function () {
-//     if (button.innerHTML.includes('Perform Task')) {
-//       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
-//       performTask();
-//     } else {
-//       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
-//     }
-//   };
-//   return button;
-// };
+    //     editControl.onAdd = function (map) {
+    //   var button = L.DomUtil.create('button', 'custom-button');
+    //   var img = document.createElement('img');
+    //   img.src = './png/003-selection.png'; 
+    //   img.style.width = '25px'; // Example width
+    //   img.style.height = '25px'; // Example height
+    //   button.appendChild(img);
+    //   button.innerHTML += ' Perform Task'; 
+    //   button.onclick = function () {
+    //     if (button.innerHTML.includes('Perform Task')) {
+    //       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
+    //       performTask();
+    //     } else {
+    //       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
+    //     }
+    //   };
+    //   return button;
+    // };
 
 
 
     // Add the control to the map
-  
+
     editControl.addTo(map);
 
 

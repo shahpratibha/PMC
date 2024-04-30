@@ -550,6 +550,8 @@ a {
 
 			}
 
+      
+
 			@media print {
 				@page {
 					size: tabloid;
@@ -703,13 +705,13 @@ a {
   .leaflet-container a.leaflet-popup-close-button {
     position: absolute;
     top: 0;
-    right: 14px;
+    right: 0px;
     border: none;
     text-align: center;
     font-weight: bold;
     width: 24px;
     height: 24px;
-    font: 24px/24px Tahoma, Verdana, sans-serif;
+    font: 16px/24px Tahoma, Verdana, sans-serif;
     color: red;
     text-decoration: none;
     background: transparent;
@@ -831,14 +833,16 @@ a {
       display: block;
       transition: 0.3s;
     }
-
+   .form-group{
+     margin-bottom: 0;
+   }
 
 
     .sidebar .closebtn {
       position: absolute;
       color: red;
-      top: 0px;
-      right: -3px;
+      top: -5px;
+      right: -4px;
       /* font-size: 30px; */
       font-weight: bold;
       margin-left: 50px;
@@ -950,7 +954,7 @@ a {
     /* font-weight: bold; */
     padding: 0 4px;
     position: absolute;
-    left: 90%;
+    left: 87%;
     top: -12px;
     z-index: 99999;
 }
@@ -998,11 +1002,11 @@ button, input, optgroup, select, textarea {
       /* padding: 5px; */
     
       }
-      .popup-table td {
+      /* .popup-table td {
         border-right: 1px solid; 
         padding: 7px;
         vertical-align: middle;
-      }
+      } */
 
       .leaflet-popup-content {
         margin: 13px 24px 13px 20px;
@@ -1019,5 +1023,25 @@ button, input, optgroup, select, textarea {
       button{
         border: none;
       }
+      .select2-container--default .select2-selection--multiple {
+        background-color: white;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: text;
+        padding-bottom: 5px;
+        padding-right: 5px;
+        position: relative;
+        margin-left: -33px;
+    }
+    .select2-container--open .select2-dropdown {
+      left: -32px;
+  }
+  .accordion-header {
+    margin-bottom: 0;
+    margin-top: 2px;
+}
+.popup-table tr td:not(:last-child) {
+  border-right: 1px solid ; 
+  padding: 7px;
 
-     
+}

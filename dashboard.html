@@ -34,104 +34,231 @@
   <div class="sidebar" id="mySidenav" type="button">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
         style="width: 15px; "></i></a>
+    <div class="accordion" id="formAccordion">
 
-        <div class="form-group ">
-          <label>Select Office</label>
-          <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_Off">
-            <option value=""></option>
-          </select>
+      <!-- Office Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOffice">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseOffice" aria-expanded="false" aria-controls="collapseOffice">
+            Select Office
+          </button>
+        </h2>
+        <div id="collapseOffice" class="accordion-collapse collapse" aria-labelledby="headingOffice"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="form-group">
+              <!-- <label>Select Office</label> -->
+              <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off">
+                <option value=""></option>
+              </select>
+            </div>
+
+          </div>
         </div>
+      </div>
 
-    <div class="form-group ">
-      <label>Select Year</label>
-      <select style="width: 180px" class="select2 form-control" multiple="multiple" id="project_fi">
-        <option value=""></option>
-      </select>
-    </div>
+      <!-- Year Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOfficeYear">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseOfficeYear" aria-expanded="false" aria-controls="collapseOfficeYear">
+            Select Year
+          </button>
+        </h2>
+        <div id="collapseOfficeYear" class="accordion-collapse collapse" aria-labelledby="headingOfficeYear"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
 
-    <div class="form-group mt-2">
-      <label>Zone Name</label>
-      <select id="zones" style="width: 180px" class="form-control select2" multiple="multiple"
-        onchange="loadAdminWardNameAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
+            <div class="form-group">
+              <!-- <label>Select Year</label> -->
+              <select style="width: 100%;" class="select2 form-control" multiple="multiple" id="project_fi">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="form-group mt-2">
-      <label for="admin_ward_name">Ward Name</label>
-      <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width: 180px"
-        onchange="loadVillagesAndFilter()">
-        <option value=""></option>
-      </select>
-    </div>
+      <!-- Zone  -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingZone">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseZone" aria-expanded="false" aria-controls="collapseZone">
+            Zone Selection
+          </button>
+        </h2>
+        <div id="collapseZone" class="accordion-collapse collapse" aria-labelledby="headingZone"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="form-group">
+              <!-- <label>Zone Name</label> -->
+              <select id="zones" style="width: 100%" class="form-control select2" multiple="multiple"
+                onchange="loadAdminWardNameAndFilter();">
+                <option value=""></option>
+              </select>
+            </div>
 
-    <div class="form-group mt-2">
-      <label>Village Name</label>
-      <select class="form-control select2" multiple="multiple" id="villages" style="width: 180px"
-        onchange="loadDepartmentsAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
+          </div>
+        </div>
+      </div>
+      <!-- Ward Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingWard">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseWard" aria-expanded="false" aria-controls="collapseWard">
+            Ward Selection
+          </button>
+        </h2>
+        <div id="collapseWard" class="accordion-collapse collapse" aria-labelledby="headingWard"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
 
-    <div class="form-group mt-2">
-      <label for="admin_ward_name">Departments</label>
-      <select class="form-control select2" id="departments" style="width: 180px" multiple="multiple"
-        onchange="loadStagesAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-    <div class="form-group mt-2">
-      <label>Project Status</label>
-      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="stage"
-        onchange="loadWorkTypesAndFilter();">
-        <option value=""></option>
-      </select>
-    </div>
-    <div class="form-group mt-2">
-      <label>Work Type</label>
-      <select class="select2 form-control" multiple="multiple" style="width: 180px" id="work_type">
-        <option value=""></option>
-      </select>
-    </div>
+            <div class="form-group">
+              <!-- <label for="admin_ward_name">Ward Name</label> -->
+              <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%"
+                onchange="loadVillagesAndFilter();">
+                <option value=""></option>
+              </select>
+            </div>
 
+          </div>
+        </div>
+      </div>
+      <!-- village Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingVillage">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseVillage" aria-expanded="false" aria-controls="collapseVillage">
+            Village Selection
+          </button>
+        </h2>
+        <div id="collapseVillage" class="accordion-collapse collapse" aria-labelledby="headingVillage"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="form-group">
+              <!-- <label>Village Name</label> -->
+              <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%"
+                onchange="loadDepartmentsAndFilter();">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Department Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingDepartment">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseDepartment" aria-expanded="false" aria-controls="collapseDepartment">
+            Select Department
+          </button>
+        </h2>
+        <div id="collapseDepartment" class="accordion-collapse collapse" aria-labelledby="headingDepartment"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="form-group">
+              <!-- <label for="admin_ward_name">Departments</label> -->
+              <select class="form-control select2" id="departments" style="width:100%" multiple="multiple"
+                onchange="loadStagesAndFilter();">
+                <option value=""></option>
+              </select>
+            </div>
 
+          </div>
+        </div>
+      </div>
+      <!-- Project Status -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingProjectStatus">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseProjectStatus" aria-expanded="false" aria-controls="collapseProjectStatus">
+            Select Project Status
+          </button>
+        </h2>
+        <div id="collapseProjectStatus" class="accordion-collapse collapse" aria-labelledby="headingProjectStatus"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="form-group">
+              <!-- <label>Project Status</label> -->
+              <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage"
+                onchange="loadWorkTypesAndFilter();">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Work Type -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingWorkType">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseWorkType" aria-expanded="false" aria-controls="collapseWorkType">
+            Select Work Type
+          </button>
+        </h2>
+        <div id="collapseWorkType" class="accordion-collapse collapse" aria-labelledby="headingWorkType"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
 
-    <div class="form-group mt-3">
-      <div class="accordion" id="projectCostAccordion">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="projectCostHeading">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#projectCostCollapse" aria-expanded="false" aria-controls="projectCostCollapse">
-              Project Cost
-            </button>
-          </h2>
-          <div id="projectCostCollapse" class="accordion-collapse collapse" aria-labelledby="projectCostHeading"
-            data-bs-parent="#projectCostAccordion">
-            <div class="accordion-body">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-12">
-                    <select class="form-select" id="amount_comparison">
-                      <option value="greater_than">Greater Than</option>
-                      <option value="less_than">Less Than</option>
-                    </select>
-                  </div>
+            <div class="form-group">
+              <label>Work Type</label>
+              <select class="select2 form-control" multiple="multiple" style="width:100%" id="work_type">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Project Cost Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingProjectCost">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseProjectCost" aria-expanded="false" aria-controls="collapseProjectCost">
+            Project Cost
+          </button>
+        </h2>
+        <div id="collapseProjectCost" class="accordion-collapse collapse" aria-labelledby="headingProjectCost"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <select class="form-select" id="amount_comparison">
+                    <option value="greater_than">Greater Than</option>
+                    <option value="less_than">Less Than</option>
+                  </select>
                 </div>
-                <div class="row">
-                  <div class="col-md-12 mt-3">
-                    <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
-                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="form-group mt-2">
-      <label for="date_range">Date Range</label>
-      <input type="text" name="" class="form-control" id="date_range" />
+      <!-- Date Range Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingDateRange">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseDateRange" aria-expanded="false" aria-controls="collapseDateRange">
+            Date Range Selection
+          </button>
+        </h2>
+        <div id="collapseDateRange" class="accordion-collapse collapse" aria-labelledby="headingDateRange"
+          data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="form-group">
+              <!-- <label for="date_range">Date Range</label> -->
+              <input type="text" name="" class="form-control" id="date_range" />
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
 
@@ -142,13 +269,27 @@
     <img src="png/pmcjpeg.png" alt="" class="logopng">
     <!-- <h5 class="text-dark fw-bold">Geo<span class="text-dark">Pulse</span></h5> -->
     <h5 class="tablestats"
-      style="position: fixed; color: darkblue; background-color: rgba(173, 216, 230, 0.5);font-weight:  bold; top: 2%; right: 45%;padding: 5px; border-radius:10px ; z-index: 9999; text-shadow: black;">
+      style="    border: 2px solid blue;
+      position: fixed;
+      color: #04c;
+      font-size: 100%;
+      /* background-color: rgba(173, 216, 230, 0.5); */
+      background-color: #c8d7ab70;
+      font-weight: bold;
+      top: 2%;
+      right: 45%;
+      padding: 3px;
+      border-radius: 5px 5px;
+      z-index: 9999;
+      text-shadow: black;
+      text-transform: uppercase;
+  ">
     </h5>
     <div class="input-group ">
 
 
       <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
-        style="width: 90px; border-radius: 10px">
+        style="width: 90px; border-radius: 10px;">
         <option value="">Select Type</option>
       </select>
 
@@ -265,8 +406,8 @@
 
   <script>
     function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("mySidenav").style.height = "610px";
+      document.getElementById("mySidenav").style.width = "200px";
+      document.getElementById("mySidenav").style.height = "360px";
       document.getElementById("mySidenav").style.zIndex = "99999";
       document.getElementById("mySidenav").style.top = "0px";
       document.getElementById("mySidenav").style.scrollbarWidth = "thin";
@@ -379,46 +520,46 @@
 
 
 
-//    //Pop-Up show
-// const layerDetails2 = {
-//   "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
-//   "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
-//   "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
-//   "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
-//   "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
-//   "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
-//   "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
-// };
+    //    //Pop-Up show
+    // const layerDetails2 = {
+    //   "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
+    //   "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
+    //   "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
+    //   "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+    //   "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+    //   "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
+    //   "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
+    // };
 
-// map.on("contextmenu", async (e) => {
-//   let bbox = map.getBounds().toBBoxString();
-//   let size = map.getSize();
+    // map.on("contextmenu", async (e) => {
+    //   let bbox = map.getBounds().toBBoxString();
+    //   let size = map.getSize();
 
-//   for (let layer in layerDetails2) {
-//       let selectedKeys = layerDetails2[layer];
-//       let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+    //   for (let layer in layerDetails2) {
+    //       let selectedKeys = layerDetails2[layer];
+    //       let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-//       try {
-//           let response = await fetch(urrr);
-//           let html = await response.json();
+    //       try {
+    //           let response = await fetch(urrr);
+    //           let html = await response.json();
 
-//           var htmldata = html.features[0].properties;
-//           let txtk1 = "";
-//           for (let key of selectedKeys) {
-//               if (htmldata.hasOwnProperty(key)) {
-//                   let value = htmldata[key];
-//                   txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
-//               }
-//           }
+    //           var htmldata = html.features[0].properties;
+    //           let txtk1 = "";
+    //           for (let key of selectedKeys) {
+    //               if (htmldata.hasOwnProperty(key)) {
+    //                   let value = htmldata[key];
+    //                   txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+    //               }
+    //           }
 
-//           let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
+    //           let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
 
-//           L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-//       } catch (error) {
-//           console.error("Error fetching data:", error);
-//       }
-//   }
-// });
+    //           L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+    //       } catch (error) {
+    //           console.error("Error fetching data:", error);
+    //       }
+    //   }
+    // });
 
 
 
@@ -477,7 +618,7 @@
         !$.isEmptyObject(selectedStage) ||
         !$.isEmptyObject(selectedDateRange) ||
         !$.isEmptyObject(selectedAmountValue) ||
-        !$.isEmptyObject(selectedProjectFi)||
+        !$.isEmptyObject(selectedProjectFi) ||
         !$.isEmptyObject(selectedProjectOff)
       ) {
         // Filter data based on selected filters
@@ -524,7 +665,7 @@
       // added 11-03-2024
       // Filter data based on selected filters
       var filteredData = [];
-      
+
       if (selectedProjectFi.length > 0) {
         filter.project_fi = selectedProjectFi
           .map((projectFi) => `'${projectFi}'`)
@@ -534,7 +675,7 @@
         filter.Project_Office = selectedProjectOff
           .map((Project_Office) => `'${Project_Office}'`)
           .join(",");
-          // console.log(filter.Project_Office ,"filter.Project_Office ")
+        // console.log(filter.Project_Office ,"filter.Project_Office ")
       }
 
       if (selectedZones.length > 0) {
@@ -656,7 +797,6 @@
         }).addTo(map).bringToFront();
       }
 
-  
 
       var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
       var typeName = layers.join(',');
@@ -667,166 +807,180 @@
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
-
-    
-    var openTable = $(document).ready(function() {
-    // Function to toggle table visibility
-    $("#openTableBtn").click(function () {
-        var tableContainer = $("#table-container-dashboard");
-        var isOpen = tableContainer.css("display") !== "none";
-        if (isOpen) {
-            tableContainer.hide(); // Hide the table if it's already open
-          } else {
-            tableContainer.show(); // Show the table if it's closed
-          }
-        });
+        tableData(typeName, geoServerURL,cqlFilter)
 
 
 
 
-        $.getJSON(geoServerURL, function (data) {
-          filteredData = data;
+      // var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      // var typeName = layers.join(',');
 
-          var totalcountofselectedrecords = filteredData.totalFeatures;
-          var totalTenderAmount = filteredData.features.reduce(function (total, project) {
-            var tenderAmount = parseFloat(project.properties.tender_amo);
-            return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
-          }, 0);
-
-
-
-          var project = data.features;
-          const pageSize = 100; // Number of items per page
-          let currentPage = 1; // Current page number
-
-          function updateTable(project, page) {
-            const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
-            tableBody.innerHTML = '';
-
-            const startIndex = (page - 1) * pageSize;
-            const endIndex = startIndex + pageSize;
-            const currentPageData = project.slice(startIndex, endIndex);
-
-            currentPageData.forEach(project => {
-              var tenderAmount = parseFloat(project.properties.tender_amo);
-              tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
-
-              const row = `
-            <tr data-coordinates='${JSON.stringify(project.geometry)}'>
-                <td>${project.properties.zone}</td>
-                <td>${project.properties.ward}</td>
-                <td>${project.properties.departme_1}</td>
-                <td>${project.properties.work_type}</td>
-                <td>${tenderAmount}</td>
-                <td>${project.properties.je_name}</td>
-                <td>${project.properties.Agency}</td>
-                <td>${project.properties.Project_Office}</td> 
-                <td>${project.properties.Budget_Code}</td>
-                <td>${project.properties.created_at}</td>
-                <td>${project.properties.Work_Completion_Date}</td>
-            </tr>`;
-
-              tableBody.insertAdjacentHTML('beforeend', row);
-            });
-
-            updatePaginationButtons(project.length);
-            const currentPageElement = document.getElementById('currentPage');
-            if (currentPageElement) {
-              currentPageElement.textContent = currentPage;
-            }
-          }
-
-          function updatePaginationButtons(totalItems) {
-            const totalPages = Math.ceil(totalItems / pageSize);
-            const pagination = document.getElementById('paginationControls');
-            pagination.innerHTML = '';
-
-            const previousButton = document.createElement('button');
-            previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
-            previousButton.addEventListener('click', () => {
-              if (currentPage > 1) {
-                currentPage--;
-                updateTable(project, currentPage);
-              }
-            });
-            pagination.appendChild(previousButton);
-
-            const pageInfo = document.createElement('P');
-            pageInfo.textContent = `Page${currentPage}`;
-            pagination.appendChild(pageInfo);
-
-            const nextButton = document.createElement('button');
-            nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
-            nextButton.addEventListener('click', () => {
-              if (currentPage < totalPages) {
-                currentPage++;
-                updateTable(project, currentPage);
-              }
-            });
-            pagination.appendChild(nextButton);
-          }
-
-          // Assuming you have an initial call to updateTable with the initial page
-          updateTable(project, currentPage);
-
-          $(".tablestats").html(`Total Amount - ${totalTenderAmount.toFixed(2)} L ,
-        Total Projects - ${totalcountofselectedrecords}`);
+      // var geoServerURL =
+      //   "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+      //   typeName +
+      //   "&outputFormat=application/json&CQL_FILTER=" +
+      //   encodeURIComponent(cqlFilter);
 
 
 
-          ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
+      // var openTable = $(document).ready(function () {
+      //   // Function to toggle table visibility
+      //   $("#openTableBtn").click(function () {
+      //     var tableContainer = $("#table-container-dashboard");
+      //     var isOpen = tableContainer.css("display") !== "none";
+      //     if (isOpen) {
+      //       tableContainer.hide(); // Hide the table if it's already open
+      //     } else {
+      //       tableContainer.show(); // Show the table if it's closed
+      //     }
+      //   });
 
 
 
-          $("#workTableDashboard tbody").on("click", "tr", function () {
-            var coordinatesStr = $(this).data("coordinates");
-            var coordinatesObj = coordinatesStr;
-            var boundsLayer = L.geoJSON(coordinatesObj, {
-              style: {
-                fillColor: "blue", // Fill color
-                fillOpacity: 0.3, // Fill opacity
-                color: "blue", // Border color
-                weight: 2, // Border weight
-              },
-            }).addTo(map); // Add the bounds layer to the map
 
-            var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
-            map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
+      //   $.getJSON(geoServerURL, function (data) {
+      //     filteredData = data;
 
-            // Optionally, you can remove the bounds layer after a certain duration
-            setTimeout(function () {
-              map.removeLayer(boundsLayer);
-            }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
-          });
-          // drag and drop
-          $(function () {
-            $("#table-container-dashboard").draggable();
-          });
+      //     var totalcountofselectedrecords = filteredData.totalFeatures;
+      //     var totalTenderAmount = filteredData.features.reduce(function (total, project) {
+      //       var tenderAmount = parseFloat(project.properties.tender_amo);
+      //       return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
+      //     }, 0);
 
 
 
-          // -----------------------
-          var printButton = $("#printButton")
-          var tablestats = $("#tablestats")
-          var isClosed = false;
-          // tableContainer.slideDown();
-          // tableContainer.css({
-          //   display: "flex",
-          //   flexDirection: "row",
-          //   justifyContent: "center",
-          // });
+      //     var project = data.features;
+      //     const pageSize = 100; // Number of items per page
+      //     let currentPage = 1; // Current page number
 
-          $("#closeTableBtnDashboard").click(function () {
+      //     function updateTable(project, page) {
+      //       const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
+      //       tableBody.innerHTML = '';
 
-            var tableContainer = $("#table-container-dashboard");
-            tableContainer.hide();
+      //       const startIndex = (page - 1) * pageSize;
+      //       const endIndex = startIndex + pageSize;
+      //       const currentPageData = project.slice(startIndex, endIndex);
 
-          });
+      //       currentPageData.forEach(project => {
+      //         var tenderAmount = parseFloat(project.properties.tender_amo);
+      //         tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
+
+      //         const row = `
+      //       <tr data-coordinates='${JSON.stringify(project.geometry)}'>
+      //           <td>${project.properties.zone}</td>
+      //           <td>${project.properties.ward}</td>
+      //           <td>${project.properties.departme_1}</td>
+      //           <td>${project.properties.work_type}</td>
+      //           <td>${tenderAmount}</td>
+      //           <td>${project.properties.je_name}</td>
+      //           <td>${project.properties.Agency}</td>
+      //           <td>${project.properties.Project_Office}</td> 
+      //           <td>${project.properties.Budget_Code}</td>
+      //           <td>${project.properties.created_at}</td>
+      //           <td>${project.properties.Work_Completion_Date}</td>
+      //       </tr>`;
+
+      //         tableBody.insertAdjacentHTML('beforeend', row);
+      //       });
+
+      //       updatePaginationButtons(project.length);
+      //       const currentPageElement = document.getElementById('currentPage');
+      //       if (currentPageElement) {
+      //         currentPageElement.textContent = currentPage;
+      //       }
+      //     }
+
+      //     function updatePaginationButtons(totalItems) {
+      //       const totalPages = Math.ceil(totalItems / pageSize);
+      //       const pagination = document.getElementById('paginationControls');
+      //       pagination.innerHTML = '';
+
+      //       const previousButton = document.createElement('button');
+      //       previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
+      //       previousButton.addEventListener('click', () => {
+      //         if (currentPage > 1) {
+      //           currentPage--;
+      //           updateTable(project, currentPage);
+      //         }
+      //       });
+      //       pagination.appendChild(previousButton);
+
+      //       const pageInfo = document.createElement('P');
+      //       pageInfo.textContent = `Page${currentPage}`;
+      //       pagination.appendChild(pageInfo);
+
+      //       const nextButton = document.createElement('button');
+      //       nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
+      //       nextButton.addEventListener('click', () => {
+      //         if (currentPage < totalPages) {
+      //           currentPage++;
+      //           updateTable(project, currentPage);
+      //         }
+      //       });
+      //       pagination.appendChild(nextButton);
+      //     }
+
+      //     // Assuming you have an initial call to updateTable with the initial page
+      //     updateTable(project, currentPage);
+
+      //     $(".tablestats").html(`Total Amount - ${totalTenderAmount.toFixed(2)} L ,
+      //   Total Projects - ${totalcountofselectedrecords}`);
 
 
-        });
 
-      });
+      //     ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
+
+
+
+      //     $("#workTableDashboard tbody").on("click", "tr", function () {
+      //       var coordinatesStr = $(this).data("coordinates");
+      //       var coordinatesObj = coordinatesStr;
+      //       var boundsLayer = L.geoJSON(coordinatesObj, {
+      //         style: {
+      //           fillColor: "blue", // Fill color
+      //           fillOpacity: 0.3, // Fill opacity
+      //           color: "blue", // Border color
+      //           weight: 2, // Border weight
+      //         },
+      //       }).addTo(map); // Add the bounds layer to the map
+
+      //       var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
+      //       map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
+
+      //       // Optionally, you can remove the bounds layer after a certain duration
+      //       setTimeout(function () {
+      //         map.removeLayer(boundsLayer);
+      //       }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
+      //     });
+      //     // drag and drop
+      //     $(function () {
+      //       $("#table-container-dashboard").draggable();
+      //     });
+
+
+
+      //     // -----------------------
+      //     var printButton = $("#printButton")
+      //     var tablestats = $("#tablestats")
+      //     var isClosed = false;
+      //     // tableContainer.slideDown();
+      //     // tableContainer.css({
+      //     //   display: "flex",
+      //     //   flexDirection: "row",
+      //     //   justifyContent: "center",
+      //     // });
+
+      //     $("#closeTableBtnDashboard").click(function () {
+
+      //       var tableContainer = $("#table-container-dashboard");
+      //       tableContainer.hide();
+
+      //     });
+
+
+      //   });
+
+      // });
 
 
       // ====================================
@@ -893,7 +1047,7 @@
       return filteredData;
     }
 
-     // newly added 20/04/2022
+    // newly added 20/04/2022
 
     function loadProjectOff() {
       var select = $("#project_Off");
@@ -1681,84 +1835,123 @@
 
     /////////////////   // search butoon implemented   //////////////////////////////////////////////
 
+
     $(document).ready(function () {
       var columns = [
         "works_aa_a",
-        "name_of_wo", "scope_of_w", "je_name", "contact_no", "tender_amo", "gis_id", "ward", "stage", "no_of_road", "length",
-        "width", "measure_in", "Label"
+        "name_of_wo",
+        "scope_of_w",
+        "je_name",
+        "length"
       ];
 
       var select = document.getElementById("search_type");
 
+      // Populate dropdown with column names
       for (var i = 0; i < columns.length; i++) {
         var option = document.createElement("option");
         option.text = columns[i];
         option.value = columns[i];
         select.appendChild(option);
       }
-    });
+
+      // Event listener for dropdown change
+      $("#search_type").change(function () {
+        var selectedValue = $(this).val();
+
+// console.log("select dropdown", select);
+// console.log("dependent dropdown", selectedValue);
 
 
-    $("#search_type").change(function () {
-      var selectedValue = $(this).val();
-      // console.log(selectedValue, "selectedValue");
 
-      function getvalues(callback) {
-        var geoServerURL =
-          "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=" + selectedValue + "&outputFormat=application/json";
 
-        $.getJSON(geoServerURL, function (data) {
-          var workTypeSet = new Set();
 
-          // Populate the Set with work types
-          $.each(data.features, function (index, feature) {
-            var workType = feature.properties[selectedValue];
-            workTypeSet.add(workType);
+
+        function getValues(callback) {
+          var geoServerURL =
+            "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=" + selectedValue + "&outputFormat=application/json";
+
+          $.getJSON(geoServerURL, function (data) {
+            var workTypeSet = new Set();
+
+            // Populate the Set with work types
+            $.each(data.features, function (index, feature) {
+              var workType = feature.properties[selectedValue];
+
+              // Convert number (double) values to strings
+              if (typeof workType === 'number') {
+                workType = workType.toString();
+              }
+
+              workTypeSet.add(workType);
+            });
+
+            // Convert the Set to an array
+            var uniqueWorkTypes = Array.from(workTypeSet);
+
+            // Call the callback function with the uniqueWorkTypes array
+            callback(uniqueWorkTypes);
           });
+        }
 
-          // Convert the Set to an array
-          var uniqueWorkTypes = Array.from(workTypeSet);
-          // console.log(uniqueWorkTypes, "uniqueWorkTypes");
+        // Call getValues function and initialize autocomplete
+        getValues(function (data) {
+          $("#searchInputDashboard").autocomplete({
+            source: data,
+            select: function (event, ui) {
+              var selectedValue1 = ui.item.value;
+              var searchtypefield = $("#search_type").val();
+              let cqlFilter;
 
-          // Call the callback function with the uniqueWorkTypes array
-          callback(uniqueWorkTypes);
-        });
-      }
-
-      getvalues(function (data) {
-        $("#searchInputDashboard").autocomplete({
-          source: data,
-          select: function (event, ui) {
-            // Zoom to the selected feature
-            var selectedValue1 = ui.item.value;
-            console.log(selectedValue1, "selectedValue1")
-            var searchtypefield = $("#search_type").val();
-            let cqlFilter = `${searchtypefield} = '${selectedValue1}'`;
-
-            IWMS_point.setParams({
-              CQL_FILTER: cqlFilter,
-              maxZoom: 19.5,
-              styles: "point", // Assuming "pointhighlight" is a predefined style
-            });
-
-            IWMS_line.setParams({
-              CQL_FILTER: cqlFilter,
-              maxZoom: 19.5,
-              styles: "line", // Assuming "linehighlight" is a predefined style
-            });
-
-            // console.log("addded");
-            IWMS_point.addTo(map).bringToFront();
-            IWMS_line.addTo(map).bringToFront();
-            fitbou(cqlFilter);
+              // Handle number (double) values in filter condition
+              if (!isNaN(selectedValue1)) {
+                // Use as is for number values in CQL_FILTER
+                cqlFilter = `${searchtypefield} = ${selectedValue1}`;
+              } else {
+                // Enclose string values in quotes for CQL_FILTER
+                cqlFilter = `${searchtypefield} = '${selectedValue1}'`;
+              }
 
 
-          }
+
+
+              
+         var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      var typeName = layers.join(',');
+
+      var geoServerURL =
+        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        typeName +
+        "&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
+
+tableData(typeName, geoServerURL,cqlFilter)
+
+console.log("hrrrrrrrrrrrrrrrrrr")
+
+              // Apply filter to IWMS_point and IWMS_line layers
+              IWMS_point.setParams({
+                CQL_FILTER: cqlFilter,
+                maxZoom: 19.5,
+                styles: "IWMS_Points"
+              });
+
+              IWMS_line.setParams({
+                CQL_FILTER: cqlFilter,
+                maxZoom: 19.5,
+                styles: "line"
+              });
+
+              // Add layers to map and perform other actions
+              console.log("Adding IWMS_point and IWMS_line layers with filter:", cqlFilter);
+              IWMS_point.addTo(map).bringToFront();
+              IWMS_line.addTo(map).bringToFront();
+              fitbou(cqlFilter);
+            }
+          });
         });
       });
     });
-
-
 
     /////////////////   // search butoon implemented   //////////////////////////////////////////////
 
@@ -1837,6 +2030,157 @@
       // Remove the link after the download starts
       document.body.removeChild(link);
     }
+
+
+
+function tableData(typeName, geoServerURL,cqlFilter){
+
+      var openTable = $(document).ready(function () {
+        // Function to toggle table visibility
+        $("#openTableBtn").click(function () {
+          var tableContainer = $("#table-container-dashboard");
+          var isOpen = tableContainer.css("display") !== "none";
+          if (isOpen) {
+            tableContainer.hide(); // Hide the table if it's already open
+          } else {
+            tableContainer.show(); // Show the table if it's closed
+          }
+        });
+
+
+        $.getJSON(geoServerURL, function (data) {
+          filteredData = data;
+
+          var totalcountofselectedrecords = filteredData.totalFeatures;
+          var totalTenderAmount = filteredData.features.reduce(function (total, project) {
+            var tenderAmount = parseFloat(project.properties.tender_amo);
+            return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
+          }, 0);
+
+
+
+          var project = data.features;
+          const pageSize = 100; // Number of items per page
+          let currentPage = 1; // Current page number
+
+          function updateTable(project, page) {
+            const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+
+            const startIndex = (page - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const currentPageData = project.slice(startIndex, endIndex);
+
+            currentPageData.forEach(project => {
+              var tenderAmount = parseFloat(project.properties.tender_amo);
+              tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
+
+              const row = `
+            <tr data-coordinates='${JSON.stringify(project.geometry)}'>
+                <td>${project.properties.zone}</td>
+                <td>${project.properties.ward}</td>
+                <td>${project.properties.departme_1}</td>
+                <td>${project.properties.work_type}</td>
+                <td>${tenderAmount}</td>
+                <td>${project.properties.je_name}</td>
+                <td>${project.properties.Agency}</td>
+                <td>${project.properties.Project_Office}</td> 
+                <td>${project.properties.Budget_Code}</td>
+                <td>${project.properties.created_at}</td>
+                <td>${project.properties.Work_Completion_Date}</td>
+            </tr>`;
+
+              tableBody.insertAdjacentHTML('beforeend', row);
+            });
+
+            updatePaginationButtons(project.length);
+            const currentPageElement = document.getElementById('currentPage');
+            if (currentPageElement) {
+              currentPageElement.textContent = currentPage;
+            }
+          }
+
+          function updatePaginationButtons(totalItems) {
+            const totalPages = Math.ceil(totalItems / pageSize);
+            const pagination = document.getElementById('paginationControls');
+            pagination.innerHTML = '';
+
+            const previousButton = document.createElement('button');
+            previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
+            previousButton.addEventListener('click', () => {
+              if (currentPage > 1) {
+                currentPage--;
+                updateTable(project, currentPage);
+              }
+            });
+            pagination.appendChild(previousButton);
+
+            const pageInfo = document.createElement('P');
+            pageInfo.textContent = `Page${currentPage}`;
+            pagination.appendChild(pageInfo);
+
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
+            nextButton.addEventListener('click', () => {
+              if (currentPage < totalPages) {
+                currentPage++;
+                updateTable(project, currentPage);
+              }
+            });
+            pagination.appendChild(nextButton);
+          }
+
+          // Assuming you have an initial call to updateTable with the initial page
+          updateTable(project, currentPage);
+
+          $(".tablestats").html(`Total Amount: ${totalTenderAmount.toFixed(2)}L ,
+        Total Projects: ${totalcountofselectedrecords}`);
+
+          $("#workTableDashboard tbody").on("click", "tr", function () {
+            var coordinatesStr = $(this).data("coordinates");
+            var coordinatesObj = coordinatesStr;
+            var boundsLayer = L.geoJSON(coordinatesObj, {
+              style: {
+                fillColor: "blue", // Fill color
+                fillOpacity: 0.3, // Fill opacity
+                color: "blue", // Border color
+                weight: 2, // Border weight
+              },
+            }).addTo(map); // Add the bounds layer to the map
+
+            var bounds = boundsLayer.getBounds(); 
+            map.fitBounds(bounds).setZoom(17.5); 
+            setTimeout(function () {
+              map.removeLayer(boundsLayer);
+            }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
+          });
+          // drag and drop
+          $(function () {
+            $("#table-container-dashboard").draggable();
+          });
+
+
+
+          // -----------------------
+          var printButton = $("#printButton")
+          var tablestats = $("#tablestats")
+          var isClosed = false;
+        
+
+          $("#closeTableBtnDashboard").click(function () {
+
+            var tableContainer = $("#table-container-dashboard");
+            tableContainer.hide();
+
+          });
+
+
+        });
+
+      });
+
+    }
+
   </script>
 
 </body>

@@ -302,6 +302,7 @@ const lenght = getQueryParam('lenght'); // Corrected typo: lenght to length
 const width = getQueryParam('width');
 
 var wardname = null;
+var lastDrawnPolylineIdSave = null ;
 
 
 
@@ -312,7 +313,7 @@ async function fetchAndPostData(id) {
       const project = data.data;
 
       if (!project) {
-          alert('Project with this works_aa_approval_id is not found');
+          alert('Project with this project_id is not found');
           return;
       }
 
@@ -728,7 +729,7 @@ var drawControlRoad = new L.Control.Draw({
   },
   edit: {
     featureGroup: drawnItems,
-    remove: false,
+    remove: true,
   },
 });
 
@@ -753,7 +754,7 @@ var drawControlBuilding = new L.Control.Draw({
   },
   edit: {
     featureGroup: drawnItems,
-    remove: false,
+    remove: true,
   },
 });
 
@@ -778,7 +779,7 @@ var drawControlDrainage = new L.Control.Draw({
   },
   edit: {
     featureGroup: drawnItems,
-    remove: false,
+    remove: true,
   },
 });
 
@@ -860,7 +861,40 @@ if (department == "Road"){
 
 }
 
+var customSaveButton = L.control({ position: 'topleft' });
 
+customSaveButton.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'save-button');
+  div.innerHTML = '<button id="save-button" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" title="Draw New Feature"> Save</button>';
+  customDrawControlsContainer = div;
+  return div;
+};
+
+
+customSaveButton.addTo(map);
+
+function toggleSaveButton(show) {
+  var saveBtn = document.getElementById('save-button');
+  if (saveBtn) {
+      saveBtn.style.display = show ? 'block' : 'none';
+  }
+}
+
+
+// Button Click Event to Show SweetAlert Success Popup
+document.getElementById("save-button").addEventListener("click", function () {
+  
+  Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: 'Your feature has been saved successfully!',
+    customClass: {
+      popup: 'my-custom-popup', // Custom class for the popup
+      title: 'my-custom-title', // Custom class for the title
+      content: 'my-custom-text' // Custom class for the text
+    }
+  });
+});
 
 var isDrawControlAdded = false;
 
@@ -974,6 +1008,12 @@ document.querySelector('.draw_feature').addEventListener('click', function(event
   
       }
 });
+
+
+document.querySelector('#save-button').addEventListener('click', function(event) {
+ Savedata(lastDrawnPolylineIdSave);
+});
+
 
 
 
@@ -1290,6 +1330,7 @@ map.on("draw:drawvertex", function (e) {
 
 
 map.on('draw:drawstart', function(e) {
+  toggleSaveButton(false);
   vertexClickCount = 0 ; 
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
@@ -1305,6 +1346,7 @@ map.on('draw:drawstop', function() {
 
 
 map.on('draw:editstart', function(e) {
+  toggleSaveButton(false);
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
 });
@@ -1312,6 +1354,25 @@ map.on('draw:editstart', function(e) {
 map.on('draw:editstop', function() {
   if (drawTimeout) clearTimeout(drawTimeout);
   map.off('mousemove', handleMouseMove);
+});
+
+map.on('draw:deleted', function(e) {
+
+  e.layers.eachLayer(function (layer) {
+   
+    removeAssociatedLayers(layer._leaflet_id);
+
+    
+  });
+
+  traceLayer.clearLayers();
+
+  // Reset the currentPolyline variable to null to ensure it doesn't retain any old reference
+  if (currentPolyline) {
+    currentPolyline.remove(); // Removes the polyline from the map
+    currentPolyline = null;   // Dereferences the polyline object
+  }
+
 });
 
 
@@ -1352,6 +1413,9 @@ function handleMouseMove(event) {
 
 
 map.on("draw:created", function (e) {
+
+
+  toggleSaveButton(true);
 
  if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();
@@ -1474,6 +1538,7 @@ var geoJSON = layer.toGeoJSON();
 var popupContent = UpdateArea(geoJSON);
 var lastInsertedId = localStorage.getItem("lastInsertedId");
 var lastDrawnPolylineId = layer._leaflet_id;
+lastDrawnPolylineIdSave = layer._leaflet_id;
 $.ajax({
   // url: API_URL + "/process.php", // Path to the PHP script
   url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
@@ -1482,66 +1547,77 @@ $.ajax({
   dataType: "json",
   success: function (response) {
     // if (response.success) {
-    if (response.data != undefined) {
-      const responseData = response.data;
+  //   if (response.data != undefined) {
+  //     const responseData = response.data;
 
-      if (responseData != undefined) {
-        popupContent +=
-          "<tr><td>Name of work</td><td>" +
-          responseData.work_name +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Department</td><td>" +
-          responseData.department +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>ID</td><td>" +
-          responseData.works_aa_approval_id +
-          "</td></tr>";
-        popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
-        popupContent +=
-          "<tr><td>Scope of work</td><td>" +
-          responseData.scope_of_work +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Work-type</td><td>" +
-          responseData.work_type +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
-        popupContent +=
-          "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
-        popupContent +=
-          "<tr><td>Prabhag no.</td><td>" +
-          responseData.project_no +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Date of competition work</td><td>" +
-          responseData.created_date +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>JE Name</td><td>" +
-          responseData.junior_engineer_name +
-          "</td></tr>";
-        popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
-      }
+  //     if (responseData != undefined) {
+  //       popupContent +=
+  //         "<tr><td>Name of work</td><td>" +
+  //         responseData.work_name +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Department</td><td>" +
+  //         responseData.department +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>ID</td><td>" +
+  //         responseData.works_aa_approval_id +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Scope of work</td><td>" +
+  //         responseData.scope_of_work +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Work-type</td><td>" +
+  //         responseData.work_type +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Prabhag no.</td><td>" +
+  //         responseData.project_no +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Date of competition work</td><td>" +
+  //         responseData.created_date +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>JE Name</td><td>" +
+  //         responseData.junior_engineer_name +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
+  //     }
 
-      // Close the table tag
-      popupContent += "</table>";
+  //     // Close the table tag
+  //     popupContent += "</table>";
 
-      // Add buttons for adding and deleting rows
-      popupContent += `
-      <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-  `;
-      popupContent +=
-        '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
+  //     // Add buttons for adding and deleting rows
+  //     popupContent += `
+  //     <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+  // `;
+  //     popupContent +=
+  //       '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
-      // Bind the table popup to the layer
-      layer.bindPopup(popupContent).openPopup();
+  //     // Bind the table popup to the layer
+  //     layer.bindPopup(popupContent).openPopup();
    
-    } else {
-      console.error("Error fetching CSV data:", response.error);
-    }
+  //   } else {
+  //     console.error("Error fetching CSV data:", response.error);
+  //   }
+
+     $('#table-container').show();
+      const formDataFromStorage = response.data;
+      console.log(formDataFromStorage);
+      let contentData = '<tr>';
+      for (const property in formDataFromStorage) {
+        contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      }
+      contentData += '</tr>';
+      $('#workTableData').html(contentData);
+
   },
   error: function (error) {
     console.error("AJAX request failed:", error);
@@ -1558,6 +1634,7 @@ var geoJSON = layer.toGeoJSON();
 var popupContent = UpdateArea(geoJSON);
 var lastInsertedId = localStorage.getItem("lastInsertedId");
 var lastDrawnPolylineId = layer._leaflet_id;
+lastDrawnPolylineIdSave = layer._leaflet_id;
 
 $.ajax({
   // url: API_URL + "/process.php", // Path to the PHP script
@@ -1567,66 +1644,75 @@ $.ajax({
   dataType: "json",
   success: function (response) {
     // if (response.success) {
-    if (response.data != undefined) {
-      const responseData = response.data;
+  //   if (response.data != undefined) {
+  //     const responseData = response.data;
 
-      if (responseData != undefined) {
-        popupContent +=
-          "<tr><td>Name of work</td><td>" +
-          responseData.work_name +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Department</td><td>" +
-          responseData.department +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>ID</td><td>" +
-          responseData.works_aa_approval_id +
-          "</td></tr>";
-        popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
-        popupContent +=
-          "<tr><td>Scope of work</td><td>" +
-          responseData.scope_of_work +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Work-type</td><td>" +
-          responseData.work_type +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
-        popupContent +=
-          "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
-        popupContent +=
-          "<tr><td>Prabhag no.</td><td>" +
-          responseData.project_no +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>Date of competition work</td><td>" +
-          responseData.created_date +
-          "</td></tr>";
-        popupContent +=
-          "<tr><td>JE Name</td><td>" +
-          responseData.junior_engineer_name +
-          "</td></tr>";
-        popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
-      }
+  //     if (responseData != undefined) {
+  //       popupContent +=
+  //         "<tr><td>Name of work</td><td>" +
+  //         responseData.work_name +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Department</td><td>" +
+  //         responseData.department +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>ID</td><td>" +
+  //         responseData.works_aa_approval_id +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Scope of work</td><td>" +
+  //         responseData.scope_of_work +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Work-type</td><td>" +
+  //         responseData.work_type +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Prabhag no.</td><td>" +
+  //         responseData.project_no +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>Date of competition work</td><td>" +
+  //         responseData.created_date +
+  //         "</td></tr>";
+  //       popupContent +=
+  //         "<tr><td>JE Name</td><td>" +
+  //         responseData.junior_engineer_name +
+  //         "</td></tr>";
+  //       popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
+  //     }
 
-      // Close the table tag
-      popupContent += "</table>";
+  //     // Close the table tag
+  //     popupContent += "</table>";
 
-      // Add buttons for adding and deleting rows
-      popupContent += `
-      <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-  `;
-      popupContent +=
-        '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
+  //     // Add buttons for adding and deleting rows
+  //     popupContent += `
+  //     <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
+  // `;
+  //     popupContent +=
+  //       '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
 
-      // Bind the table popup to the layer
-      layer.bindPopup(popupContent).openPopup();
+  //     // Bind the table popup to the layer
+  //     layer.bindPopup(popupContent).openPopup();
    
-    } else {
-      console.error("Error fetching CSV data:", response.error);
+  //   } else {
+  //     console.error("Error fetching CSV data:", response.error);
+  //   }
+    $('#table-container').show();
+    const formDataFromStorage = response.data;
+    console.log(formDataFromStorage);
+    let contentData = '<tr>';
+    for (const property in formDataFromStorage) {
+      contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
     }
+    contentData += '</tr>';
+    $('#workTableData').html(contentData);
   },
   error: function (error) {
     console.error("AJAX request failed:", error);
@@ -1639,6 +1725,7 @@ $.ajax({
 
 
 map.on("draw:edited", function (e) {
+  toggleSaveButton(true);
    e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
@@ -1879,17 +1966,17 @@ function toGISformat() {
   var data = {};
 
   // Loop through the rows
-  for (var i = 0; i < table.rows.length; i++) {
-    var row = table.rows[i];
+  for (var i = 0; i < table?.rows.length; i++) {
+    var row = table?.rows[i];
 
     // Get property name from the first column
-    var propertyName = row.cells[0].textContent.trim();
+    var propertyName = row?.cells[0]?.textContent.trim();
 
     // Get value from the second column
-    var inputElement = row.cells[1].querySelector("input");
+    var inputElement = row?.cells[1]?.querySelector("input");
     var propertyValue = inputElement
       ? inputElement.value
-      : row.cells[1].textContent.trim();
+      : row?.cells[1]?.textContent.trim();
 
     // Assign the property only if it has a valid name
     if (propertyName) {
