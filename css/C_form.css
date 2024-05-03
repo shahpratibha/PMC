@@ -38,7 +38,7 @@ h2 {
 }
 
 label {
-    width: calc(50% - 12px);
+    /* width: calc(50% - 12px); */
     margin-bottom: 12px;
     font-weight: bold;
     color: #333;
@@ -214,6 +214,8 @@ a {
 .input-group .form-control,
 .input-group .btn {
     margin-right: 5px;
+    width: 200px;
+    /* height: 40px; */
 }
 
 .input-group #searchInputDashboard {
@@ -733,8 +735,8 @@ a {
     line-height: 30px;
     background-size: 30px;
     position: relative;
-    top: 75px;
-    left: 0px;
+    top: 70px;
+    left: -3px;
 }
 
  
@@ -781,10 +783,7 @@ a {
       content: "\f14a";
     }
 
-    .form-control {
-      height: 30px;
-      padding: auto;
-    }
+    
 
     .accordion-button {
       height: 30px;
@@ -987,8 +986,9 @@ button, input, optgroup, select, textarea {
     flex-wrap: nowrap;
     align-items: stretch;
     width: 100%;
-    left: 300%;
+    left: 50%;
     top: 10px;
+    height: 40px;
 }
 
 .leaflet-control-zoom{
@@ -1073,11 +1073,11 @@ button, input, optgroup, select, textarea {
   --bs-accordion-btn-color: var(--bs-body-color);
   --bs-accordion-btn-bg: var(--bs-accordion-bg);
   --bs-accordion-btn-icon: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
-  --bs-accordion-btn-icon-width: 1rem;
+  --bs-accordion-btn-icon-width: 0.75rem;
   --bs-accordion-btn-icon-transform: rotate(-180deg);
   --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
   --bs-accordion-btn-active-icon: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23052c65'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
-  --bs-accordion-btn-focus-border-color:#00008b;
+  --bs-accordion-btn-focus-border-color: #00008b;
   --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
   --bs-accordion-body-padding-x: 1.25rem;
   --bs-accordion-body-padding-y: 1rem;
@@ -1093,3 +1093,198 @@ button, input, optgroup, select, textarea {
   color: grey;
   font-weight:bold;
 }
+/*mobile view */
+@media screen and (max-width: 767px) {
+  .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    /* width: 100px; */
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+}
+  .tablestats {
+    border: 2px solid darkblue;
+    position: fixed;
+    color: #04c;
+    font-size: 53%;
+    /* background-color: rgba(173, 216, 230, 0.5); */
+    background-color: #c8d7ab70;
+    font-weight: bold;
+    top: 12%;
+    right: 15%;
+    padding: 3px;
+    border-radius: 5px 5px;
+    z-index: 9999;
+    text-shadow: black;
+    text-transform: uppercase;
+}
+#map {
+    top: 0px;
+    left: -16%;
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+}
+.input-group .form-select, .input-group .form-control, .input-group .btn {
+  margin-right: 5px;
+  width: 110px;
+  height: 33px;
+}
+.input-group #searchInputDashboard {
+  height: 30px;
+  border-radius: 10px;
+  width: 120px;
+}
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 90%;
+  left: 35px;
+  top: 10px;
+  height: 40px;
+}
+}
+.logopng {
+  height: 40px;
+  width: 40px;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px;
+  position: absolute;
+  z-index: 9999;
+  top: 30%;
+  left: -4%;
+}
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  position: relative;
+  top: 45px;
+  left: -3px;
+}
+.filter {
+  position: absolute;
+  z-index: 9999;
+  color: var(--first-color-dark);
+  background-color: white;
+  padding: 3px 4px;
+  top: 16%;
+  left: 8px;
+  border: 2px solid #bbb;
+  border-radius: 5px;
+}
+#openTableBtn {
+  position: fixed;
+  z-index: 9999;
+  top: 76%;
+  width: auto;
+  padding: 5px;
+  /* height: 5.5%; */
+  right: 0.8%;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid #bbb;
+}
+.form-select {
+  --bs-form-select-bg-img: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e);
+  display: block;
+  width: 100%;
+  padding: .375rem 2.25rem .375rem .75rem;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-image: var(--bs-form-select-bg-img), var(--bs-form-select-bg-icon, none);
+  background-repeat: no-repeat;
+  background-position: right .75rem center;
+  background-size: 16px 12px;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.form-control{
+  height: 3px;
+  width: 100px;
+ border-radius: 10px;
+ border: 2px solid darkblue;
+}
+.leaflet-touch .leaflet-control-layers-toggle {
+  width: 35px;
+  height: 35px;
+}
+
+/* Desktop Media Query */
+@media screen and (min-width: 1024px) {
+  .filter {
+    position: absolute;
+    z-index: 9999;
+    color: var(--first-color-dark);
+    background-color: white;
+    padding: 3px 4px;
+    top: 15%;
+    left: 4px;
+    border: 2px solid #bbb;
+    border-radius: 5px;
+  }
+  .logopng {
+    height: 45px;
+    width: 45px;
+    border: 2px solid #bbb;
+    border-radius: 10px;
+    background-color: white;
+    padding: 5px;
+    position: absolute;
+    z-index: 9999;
+    top: 30%;
+    left: -4%;
+}
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  position: relative;
+  top: 55px;
+  left: -3px;
+}
+.leaflet-touch .leaflet-control-layers-toggle {
+  width: 44px;
+  height: 44px;
+}
+.input-group .form-select, .input-group .form-control, .input-group .btn {
+  margin-right: 5px;
+  width: 150px;
+  /* height: 40px; */
+  font-size: 15px;
+}
+.input-group #searchInputDashboard {
+  height: 40px;
+  border-radius: 10px;
+  width: 270px;
+}
+.tablestats{
+  border: 2px solid darkblue;
+  position: fixed;
+  color: #04c;
+  font-size: 100%;
+  /* background-color: rgba(173, 216, 230, 0.5); */
+  background-color: #c8d7ab70;
+  font-weight: bold;
+  top: 2%;
+  right:15%;
+  padding: 3px;
+  border-radius: 5px 5px;
+  z-index: 9999;
+  text-shadow: black;
+  text-transform: uppercase;
+
+}
+}
+
+  
+

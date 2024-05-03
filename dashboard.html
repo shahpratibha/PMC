@@ -269,32 +269,19 @@
     <img src="png/pmcjpeg.png" alt="" class="logopng">
     <!-- <h5 class="text-dark fw-bold">Geo<span class="text-dark">Pulse</span></h5> -->
     <h5 class="tablestats"
-      style="    border: 2px solid darkblue;
-      position: fixed;
-      color: #04c;
-      font-size: 100%;
-      /* background-color: rgba(173, 216, 230, 0.5); */
-      background-color: #c8d7ab70;
-      font-weight: bold;
-      top: 2%;
-      right: 45%;
-      padding: 3px;
-      border-radius: 5px 5px;
-      z-index: 9999;
-      text-shadow: black;
-      text-transform: uppercase;
+      style="  
   ">
     </h5>
     <div class="input-group ">
 
 
       <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
-        style="width: 90px; border-radius: 10px;border: 2px solid darkblue;" >
+        style="border-radius: 10px;border: 2px solid darkblue;" >
         <option value="">Select Type</option>
       </select>
 
-      <input class="form-control ms-2" type="search" placeholder="Search" aria-label="Search" id="searchInputDashboard"
-        style="height: 40px; width: 200px; border-radius: 10px; border: 2px solid darkblue;" />
+      <input class="form-contro ms-2" type="search" placeholder="Search" aria-label="Search" id="searchInputDashboard"
+        style=" border-radius: 10px; border: 2px solid darkblue;" />
       <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
 
     </div>
@@ -1079,6 +1066,7 @@
           }
 
           select.select2({
+            placeholder: 'search', 
             templateResult: function (option) {
               if (!option.id) {
                 return option.text;
@@ -1146,12 +1134,19 @@
           if (select.hasClass("select2-hidden-accessible")) {
             select.select2("destroy");
           }
-
           select.select2({
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
+    placeholder: 'search', 
+    templateResult: function (option) {
+        if (!option.id) {
+            return option.text;
+        }
+
+
+          // select.select2({
+          //   templateResult: function (option) {
+          //     if (!option.id) {
+          //       return option.text;
+          //     }
 
               var $option = $(
                 '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
@@ -1159,7 +1154,8 @@
                 "</span>"
               );
               return $option;
-            },
+            }, 
+            //  placeholder: 'search', 
             templateSelection: function (option) {
               if (!option.id) {
                 return option.text;
@@ -1227,6 +1223,7 @@
         }
 
         select.select2({
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1311,6 +1308,7 @@
         }
 
         select.select2({
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1401,6 +1399,7 @@
 
         // Initialize Select2 with the updated options
         select.select2({
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1495,6 +1494,7 @@
         }
 
         select.select2({
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1597,6 +1597,7 @@
         }
 
         select.select2({
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1708,6 +1709,7 @@
 
         // Initialize Select2 with the updated options
         select.select2({
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
