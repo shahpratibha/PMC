@@ -3,30 +3,7 @@ body {
     background-color: transparent;
 }
 
-/* form {
-    max-width: 1325px;
-    margin: auto;
-    padding: 20px;
-    background-color: transparent;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-wrap: wrap;
-} */
-/* #content{
-  margin-left:9.5%;
-} */
-/* #form-section{
-overflow-y: auto;
-width: 80%;
-margin-left:30%;
-}
-#form-section input,
-#form-section select,
-#form-section textarea {
-  width: 50%;
-    margin-bottom: 10px;
-} */
+
 h2 {
     width: 100%;
     text-align: center;
@@ -35,12 +12,6 @@ h2 {
     color: #007bff;
 }
 
-/* label {
-    width: calc(50% - 12px);
-    margin-bottom: 12px;
-    font-weight: bold;
-    color: #333;
-} */
 
 input,
 select {
@@ -53,96 +24,11 @@ select {
     box-sizing: border-box;
 }
 
-/* textarea {
-    width: 50%;
-    resize: vertical;
-    height: 100px;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-} */
-/* .submitbtn{
-    width: 10%;
-    margin:20px auto;
-    border-radius: 10px;
-} */
- 
 
-
-
-
- /* Additional styling for the buttons */
- /* #button-container {
-    display: flex;
-    margin-left: 43px;
-    
-} */
-/* .toggle-button {
-    width: 10%;
-    font-size: 12px;
-    margin: 5% 0  0 0%;
-    padding: 10px 5px;
-    border: none;
-    background-color: white;
-    color: gray;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.toggle-button:hover {
-    background-color: #bbb;
-}
-.toggle-button.selected {
-    color: black; 
-    background-color: #bbb; 
-} */
-/* mark area 
-*/
-
-/* .markbtn{
-    width: 100%;
-    border-radius: 10px;
-    color:gray ;
-}  */
-/* .form-paragraph {
-    display: block;
-} */
-/* .toggle-btn {
-    width: 10%;
-    font-size: 12px;
-    margin: 2% 0  0 0%;
-    padding: 10px 5px;
-    border: none;
-    background-color: #bbb;
-    color: black;
-    cursor: pointer;
-    transition: background-color 0.3s;
-} */
-
-/* .toggle-btn:hover {
-    color: white;
-}
-.toggle-btn.selected {
-    color: black; 
-    background-color: #bbb;
-} */
 a{
     text-decoration: none;
 }
 
-/* .toggle-btn1 {
-    width: 23%;
-    height: 40px;
-    font-size: 10px;
-    padding: 5px;
-    border: none;
-    background-color: #bbb;
-    color: black;
-    cursor: pointer;
-    transition: background-color 0.3s;
-} */
 
 
 .popup-container {
@@ -220,100 +106,13 @@ a{
     border-radius:5px ;
 }
 
-/* .nav_link:hover {
-    color: var(--white-color)
-} */
+
 
 .nav_icon {
     font-size: 1.25rem
 }
 
-/* .show {
-    left: 0
-} */
 
-/* 
-.active {
-    color: var(--white-color)
-}
-
-.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 2px;
-    height: 32px;
-    background-color: var(--white-color)
-}
-
-.height-100 {
-    height: 100vh
-} */
-
-
-/* @media screen and (min-width: 768px) { */
-    /* body {
-        margin: calc(var(--header-height) + 1rem) 0 0 0;
-    } */
-/* 
-    .header {
-        height: calc(var(--header-height) + 1rem);
-        padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
-    }
-
-    .header_img {
-        width: 40px;
-        height: 40px
-    }
-
-    .header_img img {
-        width: 45px
-    }
-
-    .l-navbar {
-        left: 0;
-        padding: 1rem 1rem 0 0
-    }
-
-    
-.show {
-    left: 0
-
-    }
-
-    
-} */
-
-/* subdropdown css */
-/* .dropdown-menu {
-    position: relative;
-} */
-
-/* .sub-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 120px; 
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000; 
-} */
-
-/* .dropdown-menu li:hover .sub-dropdown-menu {
-    display: block;
-}
-
-.sub-dropdown-menu li {
-    display: block;
-    padding: 8px 12px;
-    color: #333;
-    text-decoration: none;
-}
-
-.sub-dropdown-menu li:hover {
-    background-color: #f0f0f0;
-} */
 
 /* popup */
 .custom-modal-class {
