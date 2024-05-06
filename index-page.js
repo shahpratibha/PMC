@@ -938,6 +938,100 @@ return div;
 customDeleteLayerButton.addTo(map);
 
 
+function enableEditing(layer) {
+  console.log(layer);
+  drawnItems.eachLayer(function (otherLayer) {
+    if (otherLayer !== layer && otherLayer.editing && otherLayer.editing.enabled()) {
+        otherLayer.editing.disable();
+    }
+});
+  var edit = new L.EditToolbar.Edit(map, {
+      featureGroup: L.featureGroup([layer]), // Create a new feature group containing only the selected layer
+      remove: true
+  });
+  edit.enable();
+}
+
+
+
+// Currently selected layer for editing
+// Custom button for toggling edit mode
+var editControl = L.control({position: 'topleft'});
+editControl.onAdd = function (map) {
+    var controlDiv = L.DomUtil.create('div', 'leaflet-control-edit leaflet-bar leaflet-control');
+
+    var controlUI = L.DomUtil.create('a', 'leaflet-control-edit-interior', controlDiv);
+    controlUI.title = 'Edit features';
+    controlUI.href = '#';
+    controlUI.textContent = 'Edit';
+
+    L.DomEvent.addListener(controlUI, 'click', function (e) {
+        L.DomEvent.preventDefault(e);
+
+        // Disable all layers' editing mode first
+        drawnItems.eachLayer(function (layer) {
+            if (layer.editing && layer.editing.enabled()) {
+                layer.editing.disable();
+            }
+        });
+
+        // Enable editing mode on click if not enabled
+        if (!map.editEnabled) {
+            map.editEnabled = true;
+            controlUI.textContent = 'Save';
+            // Allow user to click on a feature to select and edit
+            drawnItems.eachLayer(function (layer) {
+                layer.on('click', function () {
+                  console.log("hello")
+                    enableEditing(layer); // Enable editing on the clicked layer
+                });
+            });
+        } else {
+            map.editEnabled = false;
+            controlUI.textContent = 'Edit';
+            // Remove click handlers to disable selection
+            drawnItems.eachLayer(function (layer) {
+                layer.off('click');
+            });
+        }
+    });
+
+    return controlDiv;
+};
+
+editControl.addTo(map);
+
+var selectedPolylineId = null;
+
+
+var deleteControl = L.control({ position: 'topleft' });
+
+deleteControl.onAdd = function(map) {
+    var container = L.DomUtil.create('div', 'leaflet-bar');
+    var button = L.DomUtil.create('button', 'delete-button', container);
+    button.innerHTML = 'Delete';
+    button.title = "Delete Selected Feature";
+
+    button.onclick = function() {
+        if (selectedPolylineId) {
+            handleDeletePolyline(selectedPolylineId);
+            selectedPolylineId = null;  // Reset selected polyline ID after deletion
+        } else {
+            alert("Please select a feature to delete.");
+        }
+    };
+
+    return container;
+};
+
+deleteControl.addTo(map);
+
+
+function handleDeletePolyline(polylineId) {
+  removeAssociatedLayers(polylineId);
+}
+
+
 
 
 
@@ -1075,10 +1169,10 @@ document.querySelector('#save-button').addEventListener('click', function(event)
 
 var associatedLayersRegistry = {};
 
-function createBufferAndDashedLine(polylineLayer, roadLenght, bufferWidth) {
+function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
   var geoJSON = polylineLayer.toGeoJSON();
   var halfBufferWidth = bufferWidth / 2;
-  var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: "meters" }); // Adjust buffer size as needed
+  var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: "meters" });
 
   var bufferLayer = L.geoJSON(buffered, {
     style: {
@@ -1087,6 +1181,7 @@ function createBufferAndDashedLine(polylineLayer, roadLenght, bufferWidth) {
       opacity: 0.5,
       lineJoin: "round",
     },
+    interactive: false
   }).addTo(map);
 
   var dashedLineLayer = L.geoJSON(geoJSON, {
@@ -1097,17 +1192,44 @@ function createBufferAndDashedLine(polylineLayer, roadLenght, bufferWidth) {
       dashArray: "10, 10",
       lineJoin: "round",
     },
+    interactive: false
   }).addTo(map);
 
   // Store references to the associated layers
   associatedLayersRegistry[polylineLayer._leaflet_id] = {
     bufferLayer: bufferLayer,
     dashedLineLayer: dashedLineLayer,
+    polylineLayer: polylineLayer
   };
+
+  // Attach an event listener to update these layers when the polyline is edited
+  polylineLayer.on('edit', function() {
+    updateAssociatedLayers(polylineLayer._leaflet_id,bufferWidth);
+  });
+}
+
+function updateAssociatedLayers(polylineId, bufferWidth) {
+  var layers = associatedLayersRegistry[polylineId];
+  if (layers) {
+    var updatedGeoJSON = layers.polylineLayer.toGeoJSON();
+    var halfBufferWidth = bufferWidth / 2;
+
+    // Recreate the buffer based on new polyline geometry
+    var newBuffered = turf.buffer(updatedGeoJSON, halfBufferWidth, { units: 'meters' });
+    layers.bufferLayer.clearLayers(); // Remove the old buffer
+    layers.bufferLayer.addData(newBuffered); // Add the new buffer
+
+    // Update the dashed line to match the new polyline geometry
+    layers.dashedLineLayer.clearLayers();
+    layers.dashedLineLayer.addData(updatedGeoJSON);
+  }
 }
 
 function removeAssociatedLayers(layerId) {
   var associatedLayers = associatedLayersRegistry[layerId];
+  if (layerId) {
+    drawnItems.removeLayer(layerId);
+}
   if (associatedLayers) {
     if (associatedLayers.bufferLayer)
       map.removeLayer(associatedLayers.bufferLayer);
@@ -1652,6 +1774,16 @@ map.on("draw:created", function (e) {
 
 
 drawnItems.addLayer(layer); 
+
+// layer.on('click', function () {
+//   enableEditing(layer);
+// });
+
+layer.on('click', function() {
+  selectedPolylineId = layer._leaflet_id;
+});
+
+
 if (e.layerType === "polyline" && department === "Road") {
     var bufferWidth = localStorage.getItem("bufferWidth");
     createBufferAndDashedLine(layer, roadLenght, bufferWidth);
