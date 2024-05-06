@@ -19,45 +19,28 @@
       z-index: 1;
     }
 
-    /* .leaflet-container .leaflet-control-attribution {
-    background: #fff;
-    background: rgba(255, 255, 255, 0.8);
-    margin: 29px;
-    top: 151px;
-} */
-    /* Search icon */
-
-    .leaflet-touch .geocoder-control-input {
-      height: 30px;
-      line-height: 30px;
-      background-size: 30px;
-      position: relative;
-      top: -5px;
-
-    }
+   
 
     .leaflet-container .leaflet-control-attribution {
 
       display: none;
     }
 
-    /* Search icon */
 
-    /* .leaflet-touch .geocoder-control-input {
-    height: 30px;
-    line-height: 30px;
-    background-size: 30px;
-    position: relative;
-    top: 0;
-}
-     */
 
     .leaflet-control-zoom {
       position: absolute;
-      left: 1480px;
-      top: 80vh;
-      border: 1px solid;
+      left: 96vw;
+      top: 85vh;
+      border: 2px solid darkblue;
     }
+
+    .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+ 
+    background-clip: padding-box;
+    border: 2px solid darkblue;
+    
+}
   </style>
   <!-- bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -142,12 +125,7 @@
   <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
   <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0px;
-    }
-  </style>
+
 
 </head>
 
@@ -158,7 +136,7 @@
   <p href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</p>
 
   <div>
-    <img src="png/pmcjpeg.png" alt="" class="logopng1" style="">
+    <img src="png/pmcjpeg.png" alt="" class="logopng1" >
   </div>
 
 
@@ -265,11 +243,7 @@ function toggleSelectLayerButton(show) {
 
     function performTask() {
 
-      //selecting department for handling diffrent department types
-      // var department = localStorage.getItem("department");
-
-      // var editableLayers = new L.FeatureGroup().addTo(map);
-
+    
    
       map.on("click", function (e) {
         let size = map.getSize();
@@ -337,27 +311,6 @@ function toggleSelectLayerButton(show) {
             }
       }
 
-      // editableLayers.on("contextmenu", function (e) {
-      //   // Check if there is a selected feature
-      //   if (editableLayers.getLayers().length > 0) {
-      //     var selectedFeature = editableLayers.getLayers()[1];
-
-      //     // Get the coordinates of the right-clicked point
-      //     var latlng = e.latlng;
-      //     var popupContent = "<h5>Selected Feature</h5>";
-
-      //     if (localStorage.getItem("conceptual_form_data_temp")) {
-      //       const formDataFromStorage = JSON.parse(
-      //         localStorage.getItem("conceptual_form_data_temp")
-      //       );
-      //       for (const property in formDataFromStorage) {
-      //         popupContent +=
-      //           "<strong>" +
-      //           property +
-      //           ":&nbsp;</strong></strong> " +
-      //           formDataFromStorage[property] +
-      //           "<br>";
-
       editableLayers.on("contextmenu", function (e) {
         // Check if there is a selected feature
 
@@ -388,50 +341,7 @@ function toggleSelectLayerButton(show) {
     $('#workTableData').html(contentData);
 
 
-
-            // for (const property in formDataFromStorage) {
-            //   popupContent +=
-            //     "<strong>" +
-            //     property +
-            //     ":                          </strong> " +
-            //     formDataFromStorage[property] +
-            //     "<br>";
-            // }
           }
-
-
-
-          // Add buttons for saving data and editing feature
-
-      //     if(department == 'Road'){
-      //       popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-      //     popupContent +=
-      //       '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
-
-      //       }
-      //    else if(department == 'Building'){
-      //     popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-      
-      //   }
-      //  else if(department == 'Drainage'){
-      //       popupContent += '<br><button id="saveDataButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Save Data</button>';
-      //     popupContent +=
-      //       '<button id="editFeatureButton" style="background-color:green; border:none; margin:5px; color:white; padding:10px;">Edit Feature</button>';
-
-      //       }
-
-
-   
-
-          
-       
-          // var popup = L.popup()
-          //   .setLatLng(latlng)
-          //   .setContent(popupContent)
-          //   .openOn(map);
-
-          // Add click event listener for save data button
-          // Add click event listener for save data button
           document
             .getElementById("saveDataButton")
             .addEventListener("click", function () {
@@ -544,38 +454,7 @@ function toggleSelectLayerButton(show) {
               });
             });
 
-          // Add click event listener for edit feature button
-        
-
-          // Ensure this code is executed after the map and layers are fully loaded
-// document.getElementById('editFeatureButton').addEventListener('click', function() {
-//   // Assuming `editableLayers` contains the layers added to the map
-//   selectedFeature.eachLayer(function(layer) {
-//     if (layer.editing) {
-//       layer.editing.enable();
-//     }
-//   });
-// });
-
-
-//           $(document).on('click', '#editFeatureButton', function() {
-//   // Handle the click event for the edit button
-//   alert('Edit feature button clicked!');
-
-//   selectedFeature.eachLayer(function (layer) {
-//                 if (layer.editing) {
-//                   layer.editing.enable();
-//                 } else {
-//                   layer.on("click", function () {
-//                     if (this.editing) {
-//                       this.editing.enable();
-//                     }
-//                   });
-//                 }
-//               });
-// });
-
-
+          
         }
       });
 
@@ -591,7 +470,7 @@ function toggleSelectLayerButton(show) {
 
       // Change the button's onclick function to stop the task
       button.onclick = function () {
-        button.innerHTML = 'Select Feature';
+        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
         // Remove the click event listener from the map
         var drawFeatureButton = document.querySelector('.draw_feature');
         if (drawFeatureButton) {
@@ -640,10 +519,10 @@ function toggleSelectLayerButton(show) {
 
     editControl.onAdd = function (map) {
       var button = L.DomUtil.create('button', 'custom-button');
-      button.innerHTML = 'Select Feature';
+      button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
       button.onclick = function () {
         var drawFeatureButton = document.querySelector('.draw_feature');
-        if (button.innerHTML === 'Select Feature') {
+        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">') {
           button.innerHTML = 'Finish';
           performTask();
 
@@ -660,7 +539,7 @@ function toggleSelectLayerButton(show) {
             drawFeatureButton.setAttribute('disabled', false);
           }
         } else {
-          button.innerHTML = 'Select Feature';
+          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; position: fixed;" title="SELECT FEATURE">';
           // Finish or reset any ongoing operation here
           if (drawFeatureButton) {
             drawFeatureButton.setAttribute('disabled', false);

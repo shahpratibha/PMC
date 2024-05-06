@@ -832,7 +832,7 @@ if(department == "Road"){
   // Define the HTML content for the control
   customDrawControls.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:40%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
+    div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:60%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
     customDrawControlsContainer = div;
     return div;
   };
@@ -865,7 +865,8 @@ customToolSelector.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
     div.style.padding = '5px';
     div.style.backgroundColor = 'white';
-
+    div.style.border='2px solid darkblue';
+    div.style.top="50px";
     var input = document.createElement('input');
     input.type = 'checkbox';
     input.className = 'form-check-input';
@@ -876,10 +877,20 @@ customToolSelector.onAdd = function (map) {
     input.checked = (mapMode === 'tracing');
 
     var label = document.createElement('label');
-    label.className = 'form-check-label';
-    label.setAttribute('for', 'flexSwitchCheckDefault');
-    label.textContent = 'Enable Tracing';
+    // Create a new image element
+    var img = document.createElement('img');
 
+// Set the src attribute of the image element to the path of the image
+    img.src = 'png/Trace_tool.png';
+    img.style.height='20px';
+    img.style.width='20px';
+
+    label.className = 'form-check-label';
+    label.title='ENABLE TRACING';
+    
+    label.setAttribute('for', 'flexSwitchCheckDefault');
+    label.textContent = '';
+    label.appendChild(img);
     // Add event listener to toggle mapMode
     input.addEventListener('change', function() {
         if (this.checked) {
@@ -918,7 +929,7 @@ customSaveButton.addTo(map);
 var customSaveEditButton = L.control({ position: 'topleft' });
 customSaveEditButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'saveDataButton');
-div.innerHTML = '<button id="saveDataButton" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Save Data</button>';
+div.innerHTML = '<button id="saveDataButton" type="button"  style="border:2px solid green;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Save Data</button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -932,7 +943,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<button id="editFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Edit Feature</button>';
+div.innerHTML = '<button id="editFeatureButton"  style="border:2px solid green;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Edit Feature</button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -946,7 +957,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'deleteFeatureButton');
-div.innerHTML = '<button id="deleteFeatureButton"  style="border:2px solid #bbb;  border-radius:5px; background-color:red; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Delete Feature</button>';
+div.innerHTML = '<button id="deleteFeatureButton"  style="border:2px solid red;  border-radius:5px; background-color:red; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Delete Feature</button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -2460,7 +2471,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px;">';
+      '<img  src="png/002-cardinal-point.png" alt="" style="width: 30px;  height:50px; border:2px solid darkblue; background:white; border-radius:5px;">';
 
     return container;
   },
@@ -2583,7 +2594,7 @@ legendControl.onAdd = function (map) {
   div.style.overflowY = "auto";
   div.style.scrollbarWidth = "thin";
   div.style.backgroundColor = "white";
-  div.style.border = "1px solid #ccc";
+  div.style.border = "2px solid darkblue";
   div.style.borderRadius = "10px";
   div.style.padding = "10px";
   div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
@@ -2610,11 +2621,11 @@ var collapseButton = L.control({ position: "topright" });
 
 collapseButton.onAdd = function (map) {
   var button = L.DomUtil.create("button", "collapse-button");
-  button.innerHTML = "<i class='fa-solid fa-bars'></i>"; // Initial text
+  button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>"; // Initial text
 
   // Apply styling
   button.style.backgroundColor = "white";
-  button.style.border = "2px solid #bbb";
+  button.style.border = "2px solid darkblue";
   button.style.width = "35px";
   button.style.height = "35px";
   button.style.borderRadius = "5px";
@@ -2643,13 +2654,13 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.scrollbarColor =  "#163140 white";
       legendDiv.style.borderRadius= "20px";
       legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
-      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
+      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
 
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = true;
     } else {
       legendDiv.style.display = "none";
-      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
+      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = false;
     }
@@ -2725,7 +2736,7 @@ legend.onAdd = function (map) {
       div.style.overflowY = "auto";
       div.style.scrollbarWidth = "thin";
       div.style.backgroundColor = "white";
-      div.style.border = "1px solid #ccc";
+      div.style.border = "2px solid darkblue";
       div.style.borderRadius = "10px";
       div.style.padding = "10px";
     })

@@ -4,106 +4,11 @@
   box-sizing: border-box;
 }
 
-
-
-
-/* 
- fixed*/
-
-#thead{
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-
 a {
   text-decoration: none;
   color: white;
 }
-/* styles.css */
 
-/* #popup-table {
-   
-} */
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td {
-  border: 2px solid black;
-  padding: 8px;
-  text-align: left;
-}
-
-#popup-table td {
-  padding: 15px;
-  border: 2px solid black;
-}
-
-/* 
-.popup-button {
-    margin: 5px;
-    padding:10px 15px;
-    background-color: green;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 5px ;
-    border: none;
-
-} */
-/* 
-.leaflet-popup-content-wrapper {
-  max-height: 300px;
-  overflow-y: auto;
-  width: 100%;
-}
-
-#popup-table {
-  max-width: 200px;
-  max-height: 300px;
- 
-  width: auto;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-#popup-table tr {
-  border-bottom: 2px solid black;
-}
-
-.popup-button {
-  width: 130px;
-  margin-top: 10px;
-  margin-left: 10px;
-  font-weight: bold;
-  padding: 10px 25px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.popup-button:hover {
-  background-color: #45a049;
-}
-
-.leaflet-container a.leaflet-popup-close-button {
-  position: absolute;
-  top: 0;
-  right: 0px;
-  border: none;
-  text-align: center;
-  font-weight: bold;
-  width: 24px;
-  height: 24px;
-  font: 16px/24px Tahoma, Verdana, sans-serif;
-  color: red;
-  text-decoration: none;
-  background: transparent;
-} */
 
 .leaflet-div-icon {
   margin-left: -10px;
@@ -113,78 +18,19 @@ td {
   transform: translate3d(573px, 79px, 0px);
   z-index: 4079;
   background-color: red;
+ 
 }
 
 .leaflet-draw-edit-marker .leaflet-marker-icon {
-  width: 2px; /* Adjust the width as needed */
-  height: 2px; /* Adjust the height as needed */
+  width: 2px; 
+  height: 2px; 
   background-color: red;
 }
 
-/* <div class="leaflet-marker-icon leaflet-div-icon leaflet-editing-icon leaflet-touch-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -10px; margin-top: -10px; width: 20px; height: 20px; transform: translate3d(420px, 225px, 0px); z-index: 4225;"></div> */
-/* Custom CSS for DataTable header */
-#workTable thead th {
-  background-color: black;
-  color: white;
-}
-
-  #workTableDashboard {
-    max-width: 70%;
-    position: relative;
-    left: 25%;
-
-}
-#workTableDashboard thead th {
-  /* background-color: #163140; */
- 
-  color: black;
-  font-weight: bold;
-  
-}
-.chart{
-
-  top: 50%;
-  z-index: 99999;
-
-
-}
-.chartdeshboard {
-  
-  z-index: 99999; 
-
-
-}
 
 .leaflet-control-scale-line {
   font-size:15px; /* Adjust the font size as needed */
 }
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  flex: 1;
-}
-
-
-/* #table-container {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 30%;
-  max-height: 400px; 
-  overflow-x: scroll;
-  overflow-y: scroll;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding-left: 20px;
-  border-top: 1px solid #ccc;
-  z-index: 99999;
-} */
-
 
 #table-container {
   background-color: white;
@@ -200,36 +46,7 @@ main {
  transition: 0s;
 }
 
-
-#table-container tbody tr {
-  cursor: pointer;
-}
-
-#table-container-dashboard {
-  display: none;
-  position: relative;
-  width: 570px;
-  height: 500px;
-  bottom: 310px;
-  left: 60%;
-  top:20%;
-  max-height: 300px; 
-  background-color: #fff;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  border-radius: 5px;
-  z-index: 99999;
-  box-shadow:10px 10px 20px rgba(0, 0, 0, 0.7); /* Add shadow */
-  transition: 0s;
-}
-#table-container-dashboard thead th {
-  white-space: nowrap;
-  font-size: 12px;
-}
-#table-container-dashboard tbody tr {
-  cursor: pointer;
-  font-size: 8px;
-}
+/* 
 .close-button {
   position: absolute;
   height: 20px;
@@ -243,7 +60,7 @@ main {
   color: red;
   font-weight: bold;
   border: none;
-  /* border-radius: 50%; */
+
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   z-index: 999999;
 }
@@ -253,7 +70,7 @@ main {
 
   background-color: transparent;
   border-radius: 5px;
-}
+} */
 
 .ui-autocomplete {
   max-height: 200px;
@@ -305,46 +122,13 @@ main {
   background-color: #888;
   border-radius: 4px;
 }
-.leaflet-touch .geocoder-control {
-  z-index: 9999999;
-  position: relative;
-  /* top: 0px; */
-}
+
 .leaflet-control-scale-line {
-  font-size:20px; /* Adjust the font size as needed */
+  font-size:10px; /* Adjust the font size as needed */
 }
 
-/* side bar */
 
-/* popup */
-/* .custom-modal-class {
-  width: 300px; 
-  height: 200px;
-  font-size:20px ; 
-}
-.custom-icon-class {
-  font-size: 10px;
-}
 
-.custom-title-class {
-  font-size: 1.5em; 
-}
-
-.custom-text-class {
-  font-size: 1em; 
-}
-.custom-close-button-class {
-background-color: #f44336; 
-border: 2px solid #f44336;
-color: white; 
-border-radius: 0; 
-padding: 5px; 
-font-size: 20px;
-}
-
-.custom-close-button-class:hover {
-background-color: #d32f2f; 
-} */
     .swal2-show {
     animation: swal2-show 0.3s ease; /* Set the transition with ease */
   }
@@ -374,46 +158,27 @@ background-color: #d32f2f;
       transform: scale(0.8);
     }
   }
-
- 
+  .leaflet-touch .leaflet-control-layers-toggle {
+    width: 44px;
+    height: 44px;
+    border: 2px solid darkblue;
+    border-radius: 5px;
+}
 .leaflet-control-layers-list{
-  width: 200px;
+  width: 150px;
   height: 200px;
   overflow-y: scroll;
   scrollbar-width: thin;
   font-size: 9px;
   padding: 0px;
+  color: darkblue;
+  
 }
 .leaflet-control-layers-overlays{
   width: 100%;
+
 }
 
-/* popup */
-
-/* .custom-modal-class {
-  width: 300px; 
-  height: 200px;
-  font-size:20px ; 
-}
-.custom-icon-class {
-  font-size: 10px;
-}
-
-.custom-title-class {
-  font-size: 1.5em; 
-}
-
-.custom-text-class {
-  font-size: 1em; 
-}
-.custom-close-button-class {
-background-color: #f44336; 
-border: 2px solid #f44336;
-color: white; 
-border-radius: 0; 
-padding: 5px; 
-font-size: 20px;
-} */
 
 .custom-close-button-class:hover {
 /* Add your custom hover styles for the close button here */
@@ -448,30 +213,50 @@ background-color: #d32f2f; /* Darker red background color on hover */
       transform: scale(0.8);
     }
   }
+  .leaflet-touch .geocoder-control {
+    z-index: 9999999;
+    position: absolute;
+    top: 60px;
+    left:5px;
+    padding: 10px;
+   
+  
+  }
+  .leaflet-touch .geocoder-control-input {
+    height: 35px;
+    width: 35px;
+    line-height: 30px;
+    background-size: 30px;
+    left: -5px;
+    border: 2px solid darkblue;
+}
 
-
+/* 
 .leaflet-touch .geocoder-control-input {
-  height: 30px;
-  line-height: 30px;
-  background-size: 30px;
-  position: relative;
-  top: 66px;
+border: 2px solid darkblue;
+} */
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: 2px solid darkblue;
+  background-clip: padding-box;
 }
 
-.leaflet-touch .geocoder-control-suggestions {
+/* .leaflet-touch .geocoder-control-suggestions {
   top: 100px
-}
+} */
 
 
 .leaflet-right {
   right: 0;
   position: relative;
   top: 550px;
+  /* border: 2px solid darkblue; */
 }
 .leaflet-right .leaflet-control {
   position: relative;
   margin-right: 10px;
   top:0px;
+  border: 2px solid darkblue;
 }
 
 
@@ -510,9 +295,9 @@ background-color: #d32f2f; /* Darker red background color on hover */
 .logopng1{
   height: 50px;
   width:50px;
-  border: 2px solid #bbb;
+  /* border: 2px solid darkblue; */
   border-radius: 10px;
-  background-color: white;
+  /* background-color: white; */
   padding: 5px;
  position: absolute;
  z-index: 9999;
@@ -521,6 +306,7 @@ background-color: #d32f2f; /* Darker red background color on hover */
 }
 .geopulseaname{
   color: darkblue;
+  /* border:2px solid darkblue; */
   position: absolute;
   z-index: 99999;
   bottom: -5.5px;
@@ -532,17 +318,17 @@ background-color: #d32f2f; /* Darker red background color on hover */
 
 
 .custom-button {
-  width: 100%;
-  padding: 10px 5px;
+  width: auto;
+  padding: 5px 5px;
   background-color: #fff;
-  color: black;
+  color: darkblue;
   font-weight: bold;
-  border: 2px solid #bbb;
+  border: 2px solid darkblue;
   border-radius: 5px !important;
   cursor: pointer;
   position: absolute;
-  top: -200px;
-  left: 80px;
+  top: -80px;
+  left: 0px;
   
   transition: background-color 0.1s;
 }
@@ -622,3 +408,52 @@ padding: 5px;
       font-family: inherit;
       font-size: 10px;
   }
+
+
+  /* Default styles for geocoder control */
+  /*
+.leaflet-touch .geocoder-control {
+  z-index: 9999999;
+  position: absolute;
+  
+  left:-10px;
+ 
+
+}
+
+
+.leaflet-touch .geocoder-control-input {
+  height: 35px;
+  line-height: 35px;
+  background-size: 35px;
+
+  
+}
+
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: 2px solid #383899;
+  background-clip: padding-box;
+}
+
+@media only screen and (max-width: 767px) {
+
+  .leaflet-touch .geocoder-control {
+    left: 100px; 
+    border: 2px solid darkblue;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .leaflet-touch .geocoder-control {
+   left: 5%; 
+   border: 2px solid darkblue;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .leaflet-touch .geocoder-control {
+    left: 100px;
+    border: 2px solid darkblue;
+  }
+} */
