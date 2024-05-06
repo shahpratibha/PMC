@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/IWMS/";
+const API_URL = "http://localhost/pmc_test/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
@@ -2205,8 +2205,11 @@ function Savedata(lastDrawnPolylineId) {
   }else{
   geoJSONString = toGISformat();
   geoJSONStringJson = JSON.parse(geoJSONString);
+  console.log("geoJSONString",geoJSONString);
   selectCoordinatesData = geoJSONStringJson.features;
   }
+
+  console.log("test 123",selectCoordinatesData);
 
   localStorage.setItem(
     "selectCoordinatesData",

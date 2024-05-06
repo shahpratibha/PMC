@@ -212,10 +212,10 @@
 							feature.geometry.type === 'LineString' ||
 							feature.geometry.type === 'MultiLineString'
 						) {
-							
+							console.log(feature);
 							let coordinates = feature?.geometry?.coordinates?.map((innerArray) => {
 								console.log(innerArray);
-								if (Array.isArray(innerArray[0])) {
+								if (Array.isArray(innerArray[1])) {
 									return innerArray.map((coord) => [coord[1], coord[0]]);
 								} else {
 									return [innerArray[1], innerArray[0]];
