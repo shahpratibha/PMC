@@ -212,13 +212,17 @@
 							feature.geometry.type === 'LineString' ||
 							feature.geometry.type === 'MultiLineString'
 						) {
-							let coordinates = feature.geometry.coordinates.map((innerArray) => {
-								if (Array.isArray(innerArray[0])) {
+							console.log(feature);
+							let coordinates = feature?.geometry?.coordinates?.map((innerArray) => {
+								console.log(innerArray);
+								if (Array.isArray(innerArray[1])) {
 									return innerArray.map((coord) => [coord[1], coord[0]]);
 								} else {
 									return [innerArray[1], innerArray[0]];
 								}
 							});
+
+							console.log(coordinates);
 
 							let highlightedAreaLayer = L.polyline(coordinates, {
 								color: 'red',

@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/IWMS/";
+const API_URL = "http://localhost/pmc_test/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
@@ -333,6 +333,7 @@ async function fetchAndPostData(id) {
       const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
       const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
       wardname = ward ? ward.ward_name : wardname;
+      updateLocalStorage('department',department.department_name);
      console.log(wardname);
 
 
@@ -378,7 +379,7 @@ async function fetchAndPostData(id) {
               updateLocalStorage('bufferWidth',response.data.width);
               updateLocalStorage('roadLenght',  response.data.lenght);
               updateLocalStorage('wardname', response.data.wardname);
-              updateLocalStorage('department', response.data.department);
+            
               updateLocalStorage('conceptual_form_data_temp', JSON.stringify(payload));
 
 
@@ -988,12 +989,12 @@ var editControl = L.control({position: 'topleft'});
 
         // Enable editing mode on click if not enabled
         if (!map.editEnabled) {
+          alert("Please select a feature to edit.");
             map.editEnabled = true;
             controlUI.innerHTML = '<i class="fa-regular fa-floppy-disk"></i>';
             // Allow user to click on a feature to select and edit
             drawnItems.eachLayer(function (layer) {
                 layer.on('click', function () {
-                  console.log("hello")
                     enableEditing(layer); // Enable editing on the clicked layer
                 });
             });
@@ -1027,22 +1028,37 @@ deleteControl.onAdd = function(map) {
     button.style.borderRadius='5px';
     button.title = "Delete Selected Feature";
 
-    button.onclick = function() {
-        if (selectedPolylineId) {
-            handleDeletePolyline(selectedPolylineId);
-            selectedPolylineId = null;  // Reset selected polyline ID after deletion
-        } else {
-            alert("Please select a feature to delete.");
-        }
-    };
+  // Style the button
+  button.style.backgroundColor = 'white';   
+  button.style.color = 'black';            
+  button.style.padding = '5px 10px';       
+  button.style.border = 'none';             
+  button.style.cursor = 'pointer';          
 
-    return container;
+  button.onclick = function() {
+      if (selectedPolylineId) {
+          handleDeletePolyline(selectedPolylineId._leaflet_id);
+          selectedPolylineId = null;  // Reset selected polyline ID after deletion
+      } else {
+        alert("Please select a feature to delete.");
+        drawnItems.eachLayer(function (layer) {
+          layer.on('click', function () { 
+            console.log("hello")
+            selectedPolylineId = layer ;
+          });
+      });
+      }
+  };
+
+  return container;
 };
+
 
 deleteControl.addTo(map);
 
 
 function handleDeletePolyline(polylineId) {
+  console.log(polylineId);
   removeAssociatedLayers(polylineId);
 }
 
@@ -1256,7 +1272,9 @@ function updateAssociatedLayers(polylineId, bufferWidth) {
 }
 
 function removeAssociatedLayers(layerId) {
+  console.log(layerId);
   var associatedLayers = associatedLayersRegistry[layerId];
+  console.log(associatedLayersRegistry);
   if (layerId) {
     drawnItems.removeLayer(layerId);
 }
@@ -1603,7 +1621,7 @@ map.on("draw:drawvertex", function (e) {
 
 
 map.on('draw:drawstart', function(e) {
-  toggleSaveButton(false);
+  // toggleSaveButton(false);
   vertexClickCount = 0 ; 
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
@@ -1619,7 +1637,7 @@ map.on('draw:drawstop', function() {
 
 
 map.on('draw:editstart', function(e) {
-  toggleSaveButton(false);
+  // toggleSaveButton(false);
   currentDrawLayer = e.layer;
    map.on('mousemove', handleMouseMove);
 });
@@ -1809,9 +1827,9 @@ drawnItems.addLayer(layer);
 //   enableEditing(layer);
 // });
 
-layer.on('click', function() {
-  selectedPolylineId = layer._leaflet_id;
-});
+// layer.on('click', function() {
+//   selectedPolylineId = layer._leaflet_id;
+// });
 
 
 if (e.layerType === "polyline" && department === "Road") {
@@ -2174,8 +2192,11 @@ function Savedata(lastDrawnPolylineId) {
   }else{
   geoJSONString = toGISformat();
   geoJSONStringJson = JSON.parse(geoJSONString);
+  console.log("geoJSONString",geoJSONString);
   selectCoordinatesData = geoJSONStringJson.features;
   }
+
+  console.log("test 123",selectCoordinatesData);
 
   localStorage.setItem(
     "selectCoordinatesData",
