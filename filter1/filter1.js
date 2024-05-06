@@ -156,6 +156,7 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("mySidenav").style.height = "410px";
     document.getElementById("mySidenav").style.zIndex = "99999";
+    document.getElementById("mySidenav").style.borderColor = "#383899";
     document.getElementById("mySidenav").style.top = "70px";
     document.getElementById("mySidenav").style.scrollbarWidth = "thin";
 

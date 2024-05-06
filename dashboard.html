@@ -25,10 +25,14 @@
   <link rel="stylesheet" href="css/C_form.css" />
 
   <style>
+    .select2-dropdown {
+      width: 156px;
+
+    }
   </style>
 </head>
 
-<body class="overflow-hidden" class="" style="background-color: #f3f3f3">
+<body class="overflow-hidden " class="" style="background-color: #f3f3f3">
   <div class="sidebar" id="mySidenav" type="button">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
         style="width: 15px; "></i></a>
@@ -44,11 +48,11 @@
         </h2>
         <div id="collapseOffice" class="accordion-collapse collapse" aria-labelledby="headingOffice"
           data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
+          <div class="accordion-body" >
+            <div class="form-group" >
               <!-- <label>Select Office</label> -->
               <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off">
-                <option value=""></option>
+                
               </select>
             </div>
 
@@ -238,6 +242,7 @@
         </div>
       </div>
 
+
       <!-- Date Range Section -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingDateRange">
@@ -266,7 +271,10 @@
     style="position: absolute; z-index: 9999;">
     <img src="png/pmcjpeg.png" alt="" class="logopng">
     <!-- <h5 class="text-dark fw-bold">Geo<span class="text-dark">Pulse</span></h5> -->
-    <h5 class="tablestats">    </h5>
+    <h5 class="tablestats"
+      style="  
+  ">
+    </h5>
     <div class="input-group ">
 
 
@@ -375,6 +383,9 @@
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+  <!-- <script src="libs/polyline-measure/line-measure.js"></script> -->
+  <!-- <script src="libs/leaflet-measure-master/leaflet-measure.js"></script> -->
+
   <script src="libs/feat.js"></script>
   <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
   <script src="js/index.js"></script>
@@ -388,10 +399,10 @@
       document.getElementById("mySidenav").style.width = "200px";
       document.getElementById("mySidenav").style.height = "360px";
       document.getElementById("mySidenav").style.zIndex = "99999";
-      document.getElementById("mySidenav").style.top = "23%";
+      document.getElementById("mySidenav").style.top = "0px";
       document.getElementById("mySidenav").style.scrollbarWidth = "thin";
 
-      document.getElementById("content").style.marginLeft = "0";
+      document.getElementById("content").style.marginLeft = "9.5%";
       // document.getElementById("content").style.margintop = "-109px";
 
       document.getElementById("content").style.zIndex = "0";
@@ -402,7 +413,7 @@
       document.getElementById("mySidenav").style.width = "0";
       // document.getElementById("content").style.margintop = "-19px";
 
-      document.getElementById("content").style.marginLeft = "0";
+      document.getElementById("content").style.marginLeft = "9.5%";
     }
 
 
@@ -495,6 +506,51 @@
       // loadAllData();
       loadInitialData();
     });
+
+
+
+
+
+    //    //Pop-Up show
+    // const layerDetails2 = {
+    //   "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
+    //   "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
+    //   "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
+    //   "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+    //   "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+    //   "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
+    //   "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
+    // };
+
+    // map.on("contextmenu", async (e) => {
+    //   let bbox = map.getBounds().toBBoxString();
+    //   let size = map.getSize();
+
+    //   for (let layer in layerDetails2) {
+    //       let selectedKeys = layerDetails2[layer];
+    //       let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+    //       try {
+    //           let response = await fetch(urrr);
+    //           let html = await response.json();
+
+    //           var htmldata = html.features[0].properties;
+    //           let txtk1 = "";
+    //           for (let key of selectedKeys) {
+    //               if (htmldata.hasOwnProperty(key)) {
+    //                   let value = htmldata[key];
+    //                   txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+    //               }
+    //           }
+
+    //           let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:70%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
+
+    //           L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+    //       } catch (error) {
+    //           console.error("Error fetching data:", error);
+    //       }
+    //   }
+    // });
 
 
 
@@ -736,10 +792,187 @@
       var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
       var typeName = layers.join(',');
 
-      var geoServerURL = "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
-        typeName + "&outputFormat=application/json&CQL_FILTER=" + encodeURIComponent(cqlFilter);
+      var geoServerURL =
+        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        typeName +
+        "&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
 
-      tableData(typeName, geoServerURL, cqlFilter)
+        tableData(typeName, geoServerURL,cqlFilter)
+
+
+
+
+      // var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      // var typeName = layers.join(',');
+
+      // var geoServerURL =
+      //   "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+      //   typeName +
+      //   "&outputFormat=application/json&CQL_FILTER=" +
+      //   encodeURIComponent(cqlFilter);
+
+
+
+      // var openTable = $(document).ready(function () {
+      //   // Function to toggle table visibility
+      //   $("#openTableBtn").click(function () {
+      //     var tableContainer = $("#table-container-dashboard");
+      //     var isOpen = tableContainer.css("display") !== "none";
+      //     if (isOpen) {
+      //       tableContainer.hide(); // Hide the table if it's already open
+      //     } else {
+      //       tableContainer.show(); // Show the table if it's closed
+      //     }
+      //   });
+
+
+
+
+      //   $.getJSON(geoServerURL, function (data) {
+      //     filteredData = data;
+
+      //     var totalcountofselectedrecords = filteredData.totalFeatures;
+      //     var totalTenderAmount = filteredData.features.reduce(function (total, project) {
+      //       var tenderAmount = parseFloat(project.properties.tender_amo);
+      //       return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
+      //     }, 0);
+
+
+
+      //     var project = data.features;
+      //     const pageSize = 100; // Number of items per page
+      //     let currentPage = 1; // Current page number
+
+      //     function updateTable(project, page) {
+      //       const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
+      //       tableBody.innerHTML = '';
+
+      //       const startIndex = (page - 1) * pageSize;
+      //       const endIndex = startIndex + pageSize;
+      //       const currentPageData = project.slice(startIndex, endIndex);
+
+      //       currentPageData.forEach(project => {
+      //         var tenderAmount = parseFloat(project.properties.tender_amo);
+      //         tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
+
+      //         const row = `
+      //       <tr data-coordinates='${JSON.stringify(project.geometry)}'>
+      //           <td>${project.properties.zone}</td>
+      //           <td>${project.properties.ward}</td>
+      //           <td>${project.properties.departme_1}</td>
+      //           <td>${project.properties.work_type}</td>
+      //           <td>${tenderAmount}</td>
+      //           <td>${project.properties.je_name}</td>
+      //           <td>${project.properties.Agency}</td>
+      //           <td>${project.properties.Project_Office}</td> 
+      //           <td>${project.properties.Budget_Code}</td>
+      //           <td>${project.properties.created_at}</td>
+      //           <td>${project.properties.Work_Completion_Date}</td>
+      //       </tr>`;
+
+      //         tableBody.insertAdjacentHTML('beforeend', row);
+      //       });
+
+      //       updatePaginationButtons(project.length);
+      //       const currentPageElement = document.getElementById('currentPage');
+      //       if (currentPageElement) {
+      //         currentPageElement.textContent = currentPage;
+      //       }
+      //     }
+
+      //     function updatePaginationButtons(totalItems) {
+      //       const totalPages = Math.ceil(totalItems / pageSize);
+      //       const pagination = document.getElementById('paginationControls');
+      //       pagination.innerHTML = '';
+
+      //       const previousButton = document.createElement('button');
+      //       previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
+      //       previousButton.addEventListener('click', () => {
+      //         if (currentPage > 1) {
+      //           currentPage--;
+      //           updateTable(project, currentPage);
+      //         }
+      //       });
+      //       pagination.appendChild(previousButton);
+
+      //       const pageInfo = document.createElement('P');
+      //       pageInfo.textContent = `Page${currentPage}`;
+      //       pagination.appendChild(pageInfo);
+
+      //       const nextButton = document.createElement('button');
+      //       nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
+      //       nextButton.addEventListener('click', () => {
+      //         if (currentPage < totalPages) {
+      //           currentPage++;
+      //           updateTable(project, currentPage);
+      //         }
+      //       });
+      //       pagination.appendChild(nextButton);
+      //     }
+
+      //     // Assuming you have an initial call to updateTable with the initial page
+      //     updateTable(project, currentPage);
+
+      //     $(".tablestats").html(`Total Amount - ${totalTenderAmount.toFixed(2)} L ,
+      //   Total Projects - ${totalcountofselectedrecords}`);
+
+
+
+      //     ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
+
+
+
+      //     $("#workTableDashboard tbody").on("click", "tr", function () {
+      //       var coordinatesStr = $(this).data("coordinates");
+      //       var coordinatesObj = coordinatesStr;
+      //       var boundsLayer = L.geoJSON(coordinatesObj, {
+      //         style: {
+      //           fillColor: "blue", // Fill color
+      //           fillOpacity: 0.3, // Fill opacity
+      //           color: "blue", // Border color
+      //           weight: 2, // Border weight
+      //         },
+      //       }).addTo(map); // Add the bounds layer to the map
+
+      //       var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
+      //       map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
+
+      //       // Optionally, you can remove the bounds layer after a certain duration
+      //       setTimeout(function () {
+      //         map.removeLayer(boundsLayer);
+      //       }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
+      //     });
+      //     // drag and drop
+      //     $(function () {
+      //       $("#table-container-dashboard").draggable();
+      //     });
+
+
+
+      //     // -----------------------
+      //     var printButton = $("#printButton")
+      //     var tablestats = $("#tablestats")
+      //     var isClosed = false;
+      //     // tableContainer.slideDown();
+      //     // tableContainer.css({
+      //     //   display: "flex",
+      //     //   flexDirection: "row",
+      //     //   justifyContent: "center",
+      //     // });
+
+      //     $("#closeTableBtnDashboard").click(function () {
+
+      //       var tableContainer = $("#table-container-dashboard");
+      //       tableContainer.hide();
+
+      //     });
+
+
+      //   });
+
+      // });
+
 
       // ====================================
       function getRandomColor() {
@@ -807,6 +1040,27 @@
 
     // newly added 20/04/2022
 
+
+//             // Trigger the opening of the Select2 dropdown when the select button is clicked
+//             var selectButton = $('#headingOffice button');
+//             selectButton.on('click', function() {
+//                 //select.select2('open');
+//                 // Find the search input within the Select2 dropdown
+// var searchInput = $('.select2-search__field');
+
+// // Handle the click event on the search input
+// searchInput.on('click', function(event) {
+//     // Trigger the opening of the Select2 dropdown
+//     select.select2('open');
+//     // Prevent the default behavior (e.g., focusing the search input) 
+//     // so that the dropdown remains open after clicking on the search input
+//     event.preventDefault();
+//     event.stopPropagation();
+// });
+
+
+
+
     function loadProjectOff() {
       var select = $("#project_Off");
       select.empty();
@@ -842,8 +1096,10 @@
               if (!option.id) {
                 return option.text;
               }
+              
 
               var $option = $(
+                
                 '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
                 option.text +
                 "</span>"
@@ -864,7 +1120,13 @@
             closeOnSelect: false,
             dropdownParent: select.parent(),
             multiple: true,
+            dropdownPosition: 'below' // Set the dropdown position below the select box
           });
+           // Trigger the opening of the Select2 dropdown when the select button is clicked
+           var selectButton = $('#headingOffice button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
 
           select.on("change", function () {
             loadZones();
@@ -926,7 +1188,7 @@
               );
               return $option;
             }, 
-            //  placeholder: 'search', 
+           
             templateSelection: function (option) {
               if (!option.id) {
                 return option.text;
@@ -938,10 +1200,15 @@
                 "</span>"
               );
             },
-            closeOnSelect: false,
+            closeOnSelect : false,
             dropdownParent: select.parent(),
             multiple: true,
           });
+            // Trigger the opening of the Select2 dropdown when the select button is clicked
+            var selectButton = $('#headingOfficeYear button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
 
           select.on("change", function () {
             loadZones();
@@ -1023,7 +1290,11 @@
           multiple: true,
         });
 
-
+// Trigger the opening of the Select2 dropdown when the select button is clicked
+var selectButton = $('#headingZone button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
       });
     }
 
@@ -1101,15 +1372,23 @@
               '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
               option.text +
               "</span>"
+              
             );
           },
           closeOnSelect: false,
           dropdownParent: select.parent(),
           multiple: true,
+          
         });
-
+        // Trigger the opening of the Select2 dropdown when the select button is clicked
+var selectButton = $('#headingWard button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
       });
     }
+
+    
 
     function loadVillages() {
       var select = $("#villages");
@@ -1632,8 +1911,8 @@
       $("#search_type").change(function () {
         var selectedValue = $(this).val();
 
-        // console.log("select dropdown", select);
-        // console.log("dependent dropdown", selectedValue);
+// console.log("select dropdown", select);
+// console.log("dependent dropdown", selectedValue);
 
 
 
@@ -1688,19 +1967,19 @@
 
 
 
+              
+         var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      var typeName = layers.join(',');
 
-              var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
-              var typeName = layers.join(',');
+      var geoServerURL =
+        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        typeName +
+        "&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
 
-              var geoServerURL =
-                "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
-                typeName +
-                "&outputFormat=application/json&CQL_FILTER=" +
-                encodeURIComponent(cqlFilter);
+tableData(typeName, geoServerURL,cqlFilter)
 
-              tableData(typeName, geoServerURL, cqlFilter)
-
-              console.log("hrrrrrrrrrrrrrrrrrr")
+console.log("hrrrrrrrrrrrrrrrrrr")
 
               // Apply filter to IWMS_point and IWMS_line layers
               IWMS_point.setParams({
@@ -1806,7 +2085,7 @@
 
 
 
-    function tableData(typeName, geoServerURL, cqlFilter) {
+function tableData(typeName, geoServerURL,cqlFilter){
 
       var openTable = $(document).ready(function () {
         // Function to toggle table visibility
@@ -1921,8 +2200,8 @@
               },
             }).addTo(map); // Add the bounds layer to the map
 
-            var bounds = boundsLayer.getBounds();
-            map.fitBounds(bounds).setZoom(17.5);
+            var bounds = boundsLayer.getBounds(); 
+            map.fitBounds(bounds).setZoom(17.5); 
             setTimeout(function () {
               map.removeLayer(boundsLayer);
             }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
@@ -1938,7 +2217,7 @@
           var printButton = $("#printButton")
           var tablestats = $("#tablestats")
           var isClosed = false;
-
+        
 
           $("#closeTableBtnDashboard").click(function () {
 
@@ -1953,8 +2232,12 @@
       });
 
     }
+    //close 
+    
+  
+</script>
 
-  </script>
+  
 
 </body>
 
