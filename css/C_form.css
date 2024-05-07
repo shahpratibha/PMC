@@ -742,7 +742,7 @@ a {
 
 
   .leaflet-touch .geocoder-control-input {
-    height: 30px;
+    height: 33px;
     line-height: 30px;
     background-size: 30px;
     position: relative;
@@ -1278,7 +1278,7 @@ button, input, optgroup, select, textarea {
     border: 2px solid #383899;
 }
 .leaflet-touch .geocoder-control-input {
-  height: 30px;
+  height: 33px;
   line-height: 30px;
   background-size: 30px;
   position: relative;
