@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
+const API_URL = "http://localhost/PMC/IWMS/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
@@ -320,6 +320,8 @@ function updateLocalStorage(key, value) {
 
 async function fetchAndPostData(id) {
   try {
+    // const response = await fetch(`https://pmciwms.in/api/project-gis-data?proj_id=${id}`);
+
       const response = await fetch(`http://pmciwms.in/api/project-gis-data?proj_id=${id}`);
       const data = await response.json();
       const project = data.data;
@@ -518,6 +520,8 @@ else if(department == "Road"){
 
     opacity: 1,
   });
+
+  
   var wms_layer13 = L.tileLayer.wms(
     "https://pmc.geopulsea.com/geoserver/pmc/wms",
     {
@@ -1469,7 +1473,7 @@ function getClosestRoadPoint(latlng) {
 
 }
   var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
-
+  console.log("burl", url);
   return new Promise((resolve, reject) => {
       fetch(url)
           .then(response => response.json())
