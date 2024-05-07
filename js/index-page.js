@@ -1,23 +1,8 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
+const API_URL = "http://localhost/PMC/IWMS/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
-
-// const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-// const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
-
-// // Use the public URL
-// fetch(publicAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
-
-// // Use the private URL
-// fetch(privateAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
 
 //Add Basemap
 var map = L.map("map", {
@@ -335,6 +320,8 @@ function updateLocalStorage(key, value) {
 
 async function fetchAndPostData(id) {
   try {
+    // const response = await fetch(`https://pmciwms.in/api/project-gis-data?proj_id=${id}`);
+
       const response = await fetch(`http://pmciwms.in/api/project-gis-data?proj_id=${id}`);
       const data = await response.json();
       const project = data.data;
@@ -388,16 +375,8 @@ async function fetchAndPostData(id) {
           data: JSON.stringify(payload),
           contentType: "application/json",
           success: function (response) {
-              // localStorage.setItem('lastInsertedId', response.data.id);
-              // localStorage.setItem('bufferWidth', response.data.width);
-              // localStorage.setItem('roadLenght', response.data.lenght); // Corrected typo: lenght to length
-              // localStorage.setItem('wardname', response.data.wardname);
-              // localStorage.setItem('department', response.data.department);
-              // localStorage.setItem('conceptual_form_data_temp', JSON.stringify(payload));
-
-
-
-              
+ 
+  
               updateLocalStorage('lastInsertedId',response.data.id);
               updateLocalStorage('bufferWidth',response.data.width);
               updateLocalStorage('roadLenght',  response.data.lenght);
@@ -541,6 +520,8 @@ else if(department == "Road"){
 
     opacity: 1,
   });
+
+  
   var wms_layer13 = L.tileLayer.wms(
     "https://pmc.geopulsea.com/geoserver/pmc/wms",
     {
@@ -917,7 +898,7 @@ var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ;" title="Draw New Feature"> Save</button>';
+  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -925,12 +906,12 @@ customSaveButton.onAdd = function (map) {
 
 customSaveButton.addTo(map);
 
-
+// save data button 
 
 var customSaveEditButton = L.control({ position: 'topleft' });
 customSaveEditButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'saveDataButton');
-div.innerHTML = '<button id="saveDataButton" type="button"  style="border:2px solid green;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Save Data</button>';
+div.innerHTML = '<button id="saveDataButton" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -944,7 +925,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<button id="editFeatureButton"  style="border:2px solid green;  border-radius:5px; background-color:green; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Edit Feature</button>';
+div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -958,7 +939,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'deleteFeatureButton');
-div.innerHTML = '<button id="deleteFeatureButton"  style="border:2px solid red;  border-radius:5px; background-color:red; color:white; padding: 5px ;display:none;" title="Draw New Feature"> Delete Feature</button>';
+div.innerHTML = '<button id="deleteFeatureButton"  title="Draw New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -986,13 +967,19 @@ function enableEditing(layer) {
 // Currently selected layer for editing
 // Custom button for toggling edit mode
 var editControl = L.control({position: 'topleft'});
-editControl.onAdd = function (map) {
+    editControl.onAdd = function (map) {
+      
     var controlDiv = L.DomUtil.create('div', 'leaflet-control-edit leaflet-bar leaflet-control');
 
     var controlUI = L.DomUtil.create('a', 'leaflet-control-edit-interior', controlDiv);
     controlUI.title = 'Edit features';
     controlUI.href = '#';
-    controlUI.textContent = 'Edit';
+    controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+    controlUI.style.fontSize='18px';
+    controlUI.style.position='absolute';
+    controlUI.style.top='60px';
+    controlUI.style.border='2px solid darkblue';
+    controlUI.style.borderRadius='5px'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
@@ -1008,7 +995,7 @@ editControl.onAdd = function (map) {
         if (!map.editEnabled) {
           alert("Please select a feature to edit.");
             map.editEnabled = true;
-            controlUI.textContent = 'Save Edit';
+            controlUI.innerHTML = '<i class="fa-regular fa-floppy-disk"></i>';
             // Allow user to click on a feature to select and edit
             drawnItems.eachLayer(function (layer) {
                 layer.on('click', function () {
@@ -1017,7 +1004,7 @@ editControl.onAdd = function (map) {
             });
         } else {
             map.editEnabled = false;
-            controlUI.textContent = 'Edit';
+            controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
             // Remove click handlers to disable selection
             drawnItems.eachLayer(function (layer) {
                 layer.off('click');
@@ -1036,10 +1023,14 @@ var selectedPolylineId = null;
 var deleteControl = L.control({ position: 'topleft' });
 
 deleteControl.onAdd = function(map) {
-  var container = L.DomUtil.create('div', 'leaflet-bar');
-  var button = L.DomUtil.create('button', 'delete-button', container);
-  button.innerHTML = 'Delete';
-  button.title = "Delete Selected Feature";
+    var container = L.DomUtil.create('div', 'leaflet-bar');
+    var button = L.DomUtil.create('button', 'delete-button', container);
+    button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    button.style.border='2px solid darkblue';
+    button.style.padding='5px';
+    button.style.fontSize='15px';
+    button.style.borderRadius='5px';
+    button.title = "Delete Selected Feature";
 
   // Style the button
   button.style.backgroundColor = 'white';   
@@ -1482,7 +1473,7 @@ function getClosestRoadPoint(latlng) {
 
 }
   var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
-
+  console.log("burl", url);
   return new Promise((resolve, reject) => {
       fetch(url)
           .then(response => response.json())

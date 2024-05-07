@@ -317,25 +317,7 @@ border: 2px solid darkblue;
 }
 
 
-.custom-button {
-  width: auto;
-  padding: 5px 5px;
-  background-color: #fff;
-  color: darkblue;
-  font-weight: bold;
-  border: 2px solid darkblue;
-  border-radius: 5px !important;
-  cursor: pointer;
-  position: absolute;
-  top: -160px;
-  left: 0px;
-  
-  transition: background-color 0.1s;
-}
 
-.custom-button:hover {
-  background-color: #bbb;
-}
 /* popup */
 
 
@@ -457,3 +439,94 @@ padding: 5px;
     border: 2px solid darkblue;
   }
 } */
+
+
+.custom-button {
+  width: auto;
+  padding: 5px 5px;
+  background-color: #fff;
+  color: darkblue;
+  font-weight: bold;
+  border: 2px solid darkblue;
+  border-radius: 5px !important;
+  cursor: pointer;
+  position: absolute;
+  top: -140px;
+  left: 0px;
+  
+  transition: background-color 0.1s;
+}
+
+.custom-button:hover {
+  background-color: #bbb;
+}
+#saveDataButton {
+  border: 2px solid darkblue;
+  border-radius: 5px;
+  background-color: white;
+  position: fixed;
+  color: black;
+  padding: 0px 5px;
+  display: none;
+  top: 23%;
+  font-size: 20px;
+  left: 5%;
+}
+
+#deleteFeatureButton{
+ 
+  border: 2px solid darkblue;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  padding: 3px 7px;
+  display: none;
+  position: fixed;
+  top: 28%;
+  font-size: 16px;
+  left: 5%;
+
+}
+
+#editFeatureButton{
+  border: 2px solid darkblue;
+  border-radius: 5px;
+  height: 30px;
+  width: 30px;
+  display: none;
+  position: fixed;
+  top: 18%;
+  left: 5%;
+  padding: 5px;
+  background: white;
+}
+
+
+.leaflet-draw-draw-polyline{
+  top: -245px;
+  position: absolute;
+  left: 56px;
+  border: 2px solid darkblue;
+  border-radius: 5px
+}
+
+
+.leaflet-draw-edit-edit.leaflet-disabled, .leaflet-draw-edit-remove.leaflet-disabled{
+  display: none;
+}
+
+#save-button{
+  /* border: 2px solid rgb(187, 187, 187); */
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  display: none;
+  position: absolute;
+  border: 2px solid darkblue;
+  top: -70px;
+  left: 57px;
+  font-size: 15px;
+}
+
+/* style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" */
