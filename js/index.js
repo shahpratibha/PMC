@@ -188,6 +188,116 @@ var IWMS_line = L.tileLayer
     opacity: 1,
   });
 
+
+  
+  var wms_layer21 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Chawl_Building",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+
+  var wms_layer22 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Commercial_Building",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  var wms_layer23 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Commercial_Land",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  var wms_layer24 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Creamation_Ground",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  var wms_layer25 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Culture_Center",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  var wms_layer26 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Education_school",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  var wms_layer27 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Fire_station",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  var wms_layer28 = L.tileLayer
+  .wms("https://piwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Garden",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  var wms_layer29 = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Health_Center",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
 var wms_layer16 = L.tileLayer.wms(
   "https://pmc.geopulsea.com/geoserver/pmc/wms",
   {
@@ -244,14 +354,23 @@ var WMSlayers = {
   "OSM": osm,
   "Esri": Esri_WorldImagery,
   "Satellite": googleSat,
-  Roads: wms_layer1,
   Boundary: wms_layer12,
-  Amenity: wms_layer11,
-  Drainage: wms_layer13,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
+  Amenity: wms_layer11,
+  Chawl_Building: wms_layer21,
+  Commercial_Building: wms_layer22,
+  Commercial_Land: wms_layer23,
+  Creamation_Ground: wms_layer24,
+  Culture_Center: wms_layer25,
+  Education_school: wms_layer26,
+  Fire_station: wms_layer27,
+  Garden: wms_layer28,
+  Health_Center: wms_layer29,
+  Drainage: wms_layer13,
+  Roads: wms_layer1,
   // geodata: wms_layer4,
   OSMRoad: wms_layer16,
 };

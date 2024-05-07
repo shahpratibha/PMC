@@ -1,35 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    /* margin: 50px; */
     background-color: transparent;
 }
 
-form {
-    max-width: 1325px;
-    margin: auto;
-    padding: 20px;
-    background-color: transparent;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-wrap: wrap;
-}
-#content{   
-  margin-left:9.5%;
-}
-#form-section{
-overflow-y: auto;
-width: 80%;
-margin-left:30%;
-}
-#form-section input,
-#form-section select,
-#form-section textarea {
-
-  width: 50%;
-  margin-bottom: 10px;
-  /* margin-left: 10px; */
-}
 h2 {
     width: 100%;
     text-align: center;
@@ -38,12 +11,6 @@ h2 {
     color: #007bff;
 }
 
-label {
-    width: calc(50% - 12px);
-    margin-bottom: 12px;
-    font-weight: bold;
-    color: #333;
-}
 
 input,
 select {
@@ -56,100 +23,11 @@ select {
     box-sizing: border-box;
 }
 
-textarea {
-    width: 50%;
-    resize: vertical;
-    height: 100px;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-.submitbtn{
-    width: 10%;
-    margin:20px auto;
-    border-radius: 10px;
-}
- 
 
-
-
-
- /* Additional styling for the buttons */
- #button-container {
-    display: flex;
-    margin-left: 43px;
-    
-}
-.toggle-button {
-    width: 10%;
-    font-size: 12px;
-    margin: 5% 0  0 0%;
-    padding: 10px 5px;
-    border: none;
-    background-color: white;
-    color: gray;
-    cursor: pointer;
-    /* border-radius: 5px; */
-    transition: background-color 0.3s;
-}
-
-.toggle-button:hover {
-    background-color: #bbb;
-}
-.toggle-button.selected {
-    color: black; /* Change text color for selected button */
-    background-color: #bbb; /* Change background color for selected button */
-}
-/* mark area 
-*/
-
-.markbtn{
-    width: 100%;
-    /* margin:20px auto; */
-    border-radius: 10px;
-    color:gray ;
-} 
-.form-paragraph {
-    display: block;
-}
-.toggle-btn {
-    width: 10%;
-    font-size: 12px;
-    margin: 2% 0  0 0%;
-    padding: 10px 5px;
-    border: none;
-    background-color: #bbb;
-    color: black;
-    cursor: pointer;
-    /* border-radius: 5px; */
-    transition: background-color 0.3s;
-}
-
-.toggle-btn:hover {
-    color: white;
-}
-.toggle-btn.selected {
-    color: black; /* Change text color for selected button */
-    background-color: #bbb; /* Change background color for selected button */
-}
 a{
     text-decoration: none;
 }
 
-.toggle-btn1 {
-    width: 23%;
-    height: 40px;
-    font-size: 10px;
-    padding: 5px;
-    border: none;
-    background-color: #bbb;
-    color: black;
-    cursor: pointer;
-    /* border-radius: 5px; */
-    transition: background-color 0.3s;
-}
 
 
 .popup-container {
@@ -193,18 +71,6 @@ a{
     box-sizing: border-box
 }
 
-body {
-    position: relative;
-    margin: var(--header-height) 0 0 0;
-    padding: 0 1rem;
-    font-family: var(--body-font);
-    font-size: var(--normal-font-size);
-    transition: .5s
-}
-
-a {
-    text-decoration: none
-}
 
 .input-group {
     display: flex;
@@ -239,101 +105,13 @@ a {
     border-radius:5px ;
 }
 
-.nav_link:hover {
-    color: var(--white-color)
-}
+
 
 .nav_icon {
     font-size: 1.25rem
 }
 
-.show {
-    left: 0
-}
 
-
-.active {
-    color: var(--white-color)
-}
-
-.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 2px;
-    height: 32px;
-    background-color: var(--white-color)
-}
-
-.height-100 {
-    height: 100vh
-}
-
-
-@media screen and (min-width: 768px) {
-    body {
-        margin: calc(var(--header-height) + 1rem) 0 0 0;
-        /* padding-left: calc(var(--nav-width) + 2rem) */
-    }
-
-    .header {
-        height: calc(var(--header-height) + 1rem);
-        padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
-    }
-
-    .header_img {
-        width: 40px;
-        height: 40px
-    }
-
-    .header_img img {
-        width: 45px
-    }
-
-    .l-navbar {
-        left: 0;
-        padding: 1rem 1rem 0 0
-    }
-
-    
-.show {
-    left: 0
-
-    }
-
-    
-}
-
-/* subdropdown css */
-.dropdown-menu {
-    position: relative;
-}
-
-.sub-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 120px; /* Adjust width as needed */
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure it's above other elements */
-}
-
-.dropdown-menu li:hover .sub-dropdown-menu {
-    display: block;
-}
-
-.sub-dropdown-menu li {
-    display: block;
-    padding: 8px 12px;
-    color: #333;
-    text-decoration: none;
-}
-
-.sub-dropdown-menu li:hover {
-    background-color: #f0f0f0;
-}
 
 /* popup */
 .custom-modal-class {
@@ -551,6 +329,8 @@ a {
 
 			}
 
+      
+
 			@media print {
 				@page {
 					size: tabloid;
@@ -671,9 +451,7 @@ a {
   #popup-table {
     max-width: 200px;
     max-height: 300px;
-    /* Set the maximum height for the table */
-    /* overflow: auto; */
-    /* Add a vertical scrollbar when the content overflows */
+    
     width: auto;
     border-collapse: collapse;
     margin-top: 10px;
@@ -711,7 +489,7 @@ a {
     font-weight: bold;
     width: 24px;
     height: 24px;
-    font: 20px/24px Tahoma, Verdana, sans-serif;
+    font: 16px/24px Tahoma, Verdana, sans-serif;
     color: red;
     text-decoration: none;
     background: transparent;
@@ -762,7 +540,7 @@ a {
 
     #map {
     top: 0px;
-    left: -12%;
+    left: 0;
     height: 100vh;
     width: 100vw;
     z-index: 0;
@@ -810,7 +588,7 @@ a {
       width: 0;
       position: fixed;
       z-index: 1;
-      left: 70px;
+      left: 20px;
       background-color: #f3f3f3;
       overflow-x: hidden;
       transition: 0s;
@@ -833,14 +611,16 @@ a {
       display: block;
       transition: 0.3s;
     }
-
+   .form-group{
+     margin-bottom: 0;
+   }
 
 
     .sidebar .closebtn {
       position: absolute;
       color: red;
-      top: 0px;
-      right: -3px;
+      top: -5px;
+      right: -4px;
       /* font-size: 30px; */
       font-weight: bold;
       margin-left: 50px;
@@ -870,7 +650,7 @@ a {
       left: 30px;
       right: 30px;
     }
-
+ 
     @media screen and (max-height: 450px) {
       .sidebar {
         padding-top: 15px;
@@ -885,7 +665,7 @@ a {
       position: sticky;
       top: 0;
       z-index: 1;
-    }
+    } 
 
     
 #paginationControls button {
@@ -952,7 +732,7 @@ a {
     /* font-weight: bold; */
     padding: 0 4px;
     position: absolute;
-    left: 90%;
+    left: 87%;
     top: -12px;
     z-index: 99999;
 }
@@ -999,14 +779,6 @@ button, input, optgroup, select, textarea {
       border-bottom: 1px solid;
     
       }
-
-      .popup-table tr td {
-        padding: 7px;
-    }
-    
-    .popup-table tr td:not(:last-child) {
-        border-right: 1px solid ; 
-    }
     
 
       .leaflet-popup-content {
@@ -1024,5 +796,62 @@ button, input, optgroup, select, textarea {
       button{
         border: none;
       }
+      .select2-container--default .select2-selection--multiple {
+        background-color: white;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: text;
+        padding-bottom: 5px;
+        padding-right: 5px;
+        position: relative;
+        margin-left: -33px;
+    }
+    .select2-container--open .select2-dropdown {
+      left: -32px;
+      }
+      .accordion-header {
+        margin-bottom: 0;
+        margin-top: 2px;
+    }
+    .popup-table tr td:not(:last-child) {
+      border-right: 1px solid ; 
+      padding: 7px;
 
-     
+    }
+
+
+
+/* accordation */
+
+.accordion {
+  
+  --bs-accordion-btn-icon: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
+  --bs-accordion-btn-icon-width: 1rem;
+ 
+}
+
+.accordion-button {
+  height: 30px;
+  font-size: 13px;
+  height: 30px;
+  font-size: 13px;
+  color: grey;
+  font-weight:bold;
+}
+/* header project counts */
+.tablestats{
+  border: 2px solid darkblue;
+  position: fixed;
+  color: #04c;
+  font-size: 100%;
+  /* background-color: rgba(173, 216, 230, 0.5); */
+  background-color: #c8d7abd4;
+  font-weight: bold;
+  top: 2%;
+  right: 45%;
+  padding: 3px;
+  border-radius: 5px 5px;
+  z-index: 9999;
+  text-shadow: black;
+  text-transform: uppercase;
+}
