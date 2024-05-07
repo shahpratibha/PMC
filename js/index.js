@@ -1783,11 +1783,11 @@ var collapseButton = L.control({ position: "topright" });
 
 collapseButton.onAdd = function (map) {
   var button = L.DomUtil.create("button", "collapse-button");
-  button.innerHTML = "<i class='fa-solid fa-bars'></i>"; // Initial text
+  button.innerHTML = "<i class='fa-solid fa-list'></i>"; // Initial text
 
   // Apply styling
   button.style.backgroundColor = "white";
-  button.style.border = "2px solid #bbb";
+  button.style.border = "2px solid #383899";
   button.style.width = "35px";
   button.style.height = "35px";
   button.style.borderRadius = "5px";
@@ -1816,13 +1816,13 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.scrollbarColor =  "#163140 white";
       legendDiv.style.borderRadius= "20px";
       legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
-      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
+      button.innerHTML = "<i class='fa-solid fa-list'></i>";
 
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = true;
     } else {
       legendDiv.style.display = "none";
-      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
+      button.innerHTML = "<i class='fa-solid fa-list'></i>";
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = false;
     }
@@ -1841,6 +1841,7 @@ legend.onAdd = function (map) {
 
   // Initially hide the legend content
   div.style.display = "none";
+  
 
   // Create a button to toggle the visibility of the legend content
   var toggleButton = L.DomUtil.create("button", "legend-toggle");
@@ -1898,7 +1899,7 @@ legend.onAdd = function (map) {
       div.style.overflowY = "auto";
       div.style.scrollbarWidth = "thin";
       div.style.backgroundColor = "white";
-      div.style.border = "1px solid #ccc";
+      div.style.border = "1px solid #383899";
       div.style.borderRadius = "10px";
       div.style.padding = "10px";
     })
@@ -1910,6 +1911,7 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
+
 
 
 // for legend////////////////////////////////////////////////////////////////////
@@ -1924,7 +1926,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px;">';
+      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px; ">';
     return container;
   },
 });
@@ -1972,3 +1974,28 @@ map.addControl(new northArrowControl());
 
 // Customize the zoom control position
 map.zoomControl.setPosition('bottomright');
+// close 
+function closeDropdown() {
+  var dropdownList = document.querySelector(".dropdown-list");
+  dropdownList.style.display = "none";
+}
+
+
+document.addEventListener("click", function(event) {
+  var dropdownContainer = document.querySelector(".dropdown-container");
+  var dropdownList = document.querySelector(".dropdown-list");
+
+
+  if (!dropdownContainer.contains(event.target) && event.target !== dropdownList) {
+      closeDropdown();
+  }
+});
+
+
+var villageName = getUrlParameter('village_name');
+
+
+if (villageName) {
+  performTaskBasedOnVillage(villageName);
+}
+
