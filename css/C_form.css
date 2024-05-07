@@ -40,12 +40,19 @@ h2 {
     margin-bottom: 30px;
     color: #007bff;
 }
+.leaflet-control-layers label {
+  display: block;
+  font-size: 13px;
+  font-size: 1.08333em;
+  color: darkblue;
+}
 
 label {
     /* width: calc(50% - 12px); */
     margin-bottom: 12px;
     font-weight: bold;
-    color: #333;
+    /* color: darkblue; */
+    /* color: #333; */
 }
 
 input,
@@ -760,7 +767,7 @@ a {
       scrollbar-width: thin;
       font-size: 9px;
       padding: 0px;
-      color: darkblue;
+      /* color: darkblue; */
       
     }
     /* .leaflet-control-layers-list {
