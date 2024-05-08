@@ -4,6 +4,7 @@ body {
     background-color: transparent;
 }
 
+
 .select2-container--open .select2-dropdown {
   left: -32px;
   /* margin-top: 33px; */
@@ -520,7 +521,7 @@ a {
 
         .geopulseaname{
             color: darkblue;
-            position: absolute;
+            position: fixed;
             z-index: 99999;
             bottom: 0px;
             right: 15px;
@@ -579,7 +580,7 @@ a {
     width: 570px;
     height: 500px;
     bottom: 310px;
-    left: 60%;
+    left: 49%;
     top:20%;
     max-height: 300px; 
     background-color: #fff;
@@ -913,18 +914,26 @@ a {
       top: 0;
       z-index: 1;
     }
-
+    #paginationControls button {
+      background-color: transparent;
+      color: darkblue;
+      font-size: 15px;
+      /* height: 25px; */
+      margin-top: -10px;
+      margin-right: 22px;
+  }
     
-#paginationControls button {
+/* #paginationControls button {
   background-color: transparent;
   color: darkblue;
   font-size: 15px;
   height: 25px;
-}
+  margin-right: 20px;
+} */
 
 #paginationControls  p{
   font-size: 10px;
-  margin-top: 11px;
+  /* margin-top: -15px; */
   /* bottom: 0; */
 }
 
@@ -1252,7 +1261,7 @@ button, input, optgroup, select, textarea {
 /* Desktop Media Query */
 @media screen and (min-width: 1024px) {
   .filter {
-    position: absolute;
+    position: fixed;
     z-index: 9999;
     color: var(--first-color-dark);
     background-color: white;
