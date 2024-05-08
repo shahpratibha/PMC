@@ -521,7 +521,7 @@ a {
 
         .geopulseaname{
             color: darkblue;
-            position: absolute;
+            position: fixed;
             z-index: 99999;
             bottom: 0px;
             right: 15px;
@@ -1261,7 +1261,7 @@ button, input, optgroup, select, textarea {
 /* Desktop Media Query */
 @media screen and (min-width: 1024px) {
   .filter {
-    position: absolute;
+    position: fixed;
     z-index: 9999;
     color: var(--first-color-dark);
     background-color: white;
