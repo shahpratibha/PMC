@@ -1065,12 +1065,12 @@ button, input, optgroup, select, textarea {
         padding-bottom: 5px;
         padding-right: 5px;
         position: relative;
-        margin-left: -32px;
-        margin-right: -7px;
+        margin-left: -53px;
+        margin-right: -17px;
     }
     .select2-container--open .select2-dropdown {
       left: -32px;
-      width: 140px !important;;
+      width: 190px !important;;
   }
   .accordion-header {
     margin-bottom: 0;
@@ -1129,6 +1129,33 @@ button, input, optgroup, select, textarea {
     font-size: 9px;
     padding: 0px;
 }
+#paginationControls{
+  position: absolute; 
+  bottom: -89px;
+   left: 50%; 
+   transform: translateX(-50%);
+    display: flex; 
+    font-size: 12px;
+     gap: 10px;
+}
+#table-container-dashboard {
+  display: none;
+  position: relative;
+  width: 570px;
+  height: 594px;
+  bottom: 310px;
+  left: -5%;
+  top: 20%;
+  max-height: 191px;
+  background-color: #fff;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 99999;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.7);
+  transition: 0s;
+}
+
   .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
     /* width: 100px; */
     border: 2px solid #383899;
@@ -1149,6 +1176,14 @@ button, input, optgroup, select, textarea {
     z-index: 9999;
     text-shadow: black;
     text-transform: uppercase;
+}
+#tablestats {
+  position: absolute;
+  top: 5px;
+  font-size: 8px;
+  border: none;
+  background: transparent;
+  margin-right: 33px;
 }
 #map {
     top: 0px;
@@ -1202,7 +1237,7 @@ button, input, optgroup, select, textarea {
   border: 2px solid #383899;
 }
 .filter {
-  position: absolute;
+  position: fixed;
   z-index: 9999;
   color: var(--first-color-dark);
   background-color: white;
@@ -1276,13 +1311,13 @@ button, input, optgroup, select, textarea {
     width: 45px;
     border: 2px solid #bbb;
     border-radius: 10px;
-    background-color: white;
+    /* background-color: white; */
     padding: 5px;
     position: absolute;
     z-index: 9999;
     top: 30%;
     left: -2%;
-    border: 2px solid #383899;
+    /* border: 2px solid #383899; */
 }
 .leaflet-touch .geocoder-control-input {
   height: 33px;
@@ -1331,12 +1366,32 @@ button, input, optgroup, select, textarea {
   margin-right: 10px;
   border: 2px solid #383899;
 }
-
+#tablestats{
+  position: absolute; 
+  border: none; color:
+   darkblue; font-size: 
+   10px;font-weight: bold;  
+   z-index: 9999; 
+   margin-top: -4px; 
+   margin-left:0px; 
+   background-color: transparent ;
+    margin-right: 190px;
+}
+#paginationControls{
+  position: absolute; 
+  bottom: -12px;
+   left: 50%; 
+   transform: translateX(-50%);
+    display: flex; 
+    font-size: 12px;
+     gap: 10px;
+}
 
 }
 
 ul.select2-results__options{
-  width: 138px;
+  width: 170px;
+  margin-left: -22px;
 }
 ul.select2-results__options li{
   border :1px solid grey;
