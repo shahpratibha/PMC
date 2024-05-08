@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
+const API_URL = "http://localhost/PMC/IWMS/";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
@@ -322,20 +322,14 @@ async function fetchAndPostData(id) {
   try {
     // const response = await fetch(`https://pmciwms.in/api/project-gis-data?proj_id=${id}`);
 
-      const response = await fetch('api-responses/all-project-data.json');
+      const response = await fetch(`http://pmciwms.in/api/project-gis-data?proj_id=${id}`);
       const data = await response.json();
-      let project = data.data.projectData.find(
-        (project) => project.project.works_aa_approval_id === id
-      );
-
-      project = project.project ;
+      const project = data.data;
 
       if (!project) {
           alert('Project with this project_id is not found');
           return;
       }
-
-      
 
       const department = depData.find(dep => dep.department_id == project.d_id);
       const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
@@ -382,9 +376,6 @@ async function fetchAndPostData(id) {
           contentType: "application/json",
           success: function (response) {
  
-            if(department.department_name === "Road"){
-               window.location.href = "road.html"
-            }
   
               updateLocalStorage('lastInsertedId',response.data.id);
               updateLocalStorage('bufferWidth',response.data.width);
@@ -546,6 +537,7 @@ else if(department == "Road"){
 }
 
 
+console.log(wardname)
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
