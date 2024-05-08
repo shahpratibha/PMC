@@ -212,15 +212,19 @@
 							feature.geometry.type === 'LineString' ||
 							feature.geometry.type === 'MultiLineString'
 						) {
-							let coordinates = feature.geometry.coordinates.map((innerArray) => {
-								if (Array.isArray(innerArray[0])) {
+							console.log(feature);
+							let coordinates = feature?.geometry?.coordinates?.map((innerArray) => {
+								console.log(innerArray);
+								if (Array.isArray(innerArray[1])) {
 									return innerArray.map((coord) => [coord[1], coord[0]]);
 								} else {
 									return [innerArray[1], innerArray[0]];
 								}
 							});
 
-							let highlightedAreaLayer = L.polyline(coordinates, {
+							
+							if(coordinates.length > 0 ){
+								let highlightedAreaLayer = L.polyline(coordinates, {
 								color: 'red',
 								fillColor: 'red',
 								fillOpacity: 0.5,
@@ -231,11 +235,15 @@
 
 							// Assuming `polyline` was intended to be `highlightedAreaLayer` based on the context
 							highlightedAreaLayer.bindPopup(getPopupContent(feature));
-
-							// Listen for click event on highlightedAreaLayer to open popup
 							highlightedAreaLayer.on('click', function (e) {
 								e.target.openPopup();
 							});
+
+							}
+
+						
+							// Listen for click event on highlightedAreaLayer to open popup
+							
 						}
 					});
 

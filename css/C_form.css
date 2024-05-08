@@ -676,13 +676,12 @@ a {
   }
 
   
-.leaflet-popup-content-wrapper {
+  .leaflet-popup-content-wrapper {
     max-height: 300px;
-    /* Set the maximum height for the table */
     overflow-y: auto;
-    /* Add a vertical scrollbar when the content overflows */
     width: 100%;
-  }
+    overflow-x: hidden;
+}
   
   #popup-table {
     max-width: 200px;
@@ -1035,7 +1034,6 @@ button, input, optgroup, select, textarea {
     }
     .popup-table tr,td{
       border-bottom: 1px solid;
-      /* padding: 5px; */
     
       }
       /* .popup-table td {
