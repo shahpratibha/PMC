@@ -35,246 +35,7 @@ var ward_boundary= L.tileLayer.wms(
   }
 );
 
-let depData = [
-  {
-    department_id: '1',
-    department_name: 'Road',
-    department_marathi_name: 'पथ',
-    department_code: '21',
-  },
-  {
-    department_id: '2',
-    department_name: 'Building',
-    department_marathi_name: 'भवन',
-    department_code: '78',
-  },
-  {
-    department_id: '3',
-    department_name: 'Project Work',
-    department_marathi_name: 'प्रकल्प',
-    department_code: '',
-  },
-  {
-    department_id: '4',
-    department_name: 'Water Supply',
-    department_marathi_name: 'पाणीपुरवठा',
-    department_code: '',
-  },
-  {
-    department_id: '5',
-    department_name: 'Drainage',
-    department_marathi_name: 'मलनिःसारण देखभाल व दुरुस्ती',
-    department_code: '',
-  },
-  {
-    department_id: '6',
-    department_name: 'Electrical',
-    department_marathi_name: 'विद्युत',
-    department_code: '',
-  },
-  {
-    department_id: '7',
-    department_name: 'Solid waste Management',
-    department_marathi_name: 'घनकचरा',
-    department_code: '',
-  },
-  {
-    department_id: '8',
-    department_name: 'PMAY',
-    department_marathi_name: 'प्रधानमंत्री आवास योजना',
-    department_code: '',
-  },
-  {
-    department_id: '9',
-    department_name: 'Garden',
-    department_marathi_name: 'उद्यान ',
-    department_code: '',
-  },
-  {
-    department_id: '14',
-    department_name: 'Education Department (Primary)',
-    department_marathi_name: 'शिक्षण विभाग (प्राथमिक)',
-    department_code: 'EDU',
-  },
-  {
-    department_id: '11',
-    department_name: 'Slum',
-    department_marathi_name: 'झोनिपु',
-    department_code: '',
-  },
-  {
-    department_id: '12',
-    department_name: 'Encroachment ',
-    department_marathi_name: 'अतिक्रमण',
-    department_code: '',
-  },
-  {
-    department_id: '13',
-    department_name: 'Garden Horticulture',
-    department_marathi_name: 'उद्यान',
-    department_code: 'GRHOR',
-  },
-  {
-    department_id: '10',
-    department_name: 'Market',
-    department_marathi_name: 'मंडई',
-    department_code: '',
-  },
-  {
-    department_id: '16',
-    department_name: 'Sport',
-    department_marathi_name: 'क्रीडा',
-    department_code: '',
-  },
-  {
-    department_id: '17',
-    department_name: 'City Engineer Office',
-    department_marathi_name: 'शहर अभियंता कार्यालय',
-    department_code: 'CTEO',
-  },
-  {
-    department_id: '18',
-    department_name: 'Environment',
-    department_marathi_name: 'पर्यावरण',
-    department_code: 'EVMT',
-  },
-];
 
-let zoneData = [
-  {
-    zone_id: '1',
-    zone_name: 'D.M.C. Zone 1',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.१ ',
-  },
-  {
-    zone_id: '2',
-    zone_name: 'D.M.C. Zone 2',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.२',
-  },
-  {
-    zone_id: '3',
-    zone_name: 'D.M.C. Zone 3',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.३',
-  },
-  {
-    zone_id: '4',
-    zone_name: 'D.M.C. Zone 4',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.४ ',
-  },
-  {
-    zone_id: '5',
-    zone_name: 'D.M.C. Zone 5',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.५',
-  },
-];
-
-let wardData = [
-  {
-    ward_id: '1',
-    ward_name: 'Yeravada Kalas Dhanori',
-    ward_marathi_name: 'येरवडा कळस धानोरी',
-    zone_id: '1',
-    ward_no: '2',
-  },
-  {
-    ward_id: '2',
-    ward_name: 'Dhole Patil  Ward',
-    ward_marathi_name: 'ढोले पाटील',
-    zone_id: '1',
-    ward_no: '3',
-  },
-  {
-    ward_id: '3',
-    ward_name: 'Nagar Road - Vadgaonsheri ',
-    ward_marathi_name: 'नगररोड - वडगावशेरी',
-    zone_id: '1',
-    ward_no: '1',
-  },
-  {
-    ward_id: '4',
-    ward_name: 'Shivajinagar - Ghole Road',
-    ward_marathi_name: 'शिवाजीनगर - घोलेरोड',
-    zone_id: '2',
-    ward_no: '5',
-  },
-  {
-    ward_id: '5',
-    ward_name: 'Aundh - Baner',
-    ward_marathi_name: 'औंध - बाणेर',
-    zone_id: '2',
-    ward_no: '4',
-  },
-  {
-    ward_id: '6',
-    ward_name: 'Kothrud - Bawdhan',
-    ward_marathi_name: 'कोथरूड - बावधन',
-    zone_id: '2',
-    ward_no: '6',
-  },
-  {
-    ward_id: '7',
-    ward_name: 'Warje - Karvenagar',
-    ward_marathi_name: 'वारजे - कर्वेनगर',
-    zone_id: '3',
-    ward_no: '9',
-  },
-  {
-    ward_id: '9',
-    ward_name: 'Dhankawadi - Sahakar Nagar ',
-    ward_marathi_name: 'धनकवडी - सहकारनगर',
-    zone_id: '3',
-    ward_no: '7',
-  },
-  {
-    ward_id: '8',
-    ward_name: 'Sinhgad Road Ward',
-    ward_marathi_name: 'सिंहगड रोड',
-    zone_id: '3',
-    ward_no: '8',
-  },
-  {
-    ward_id: '10',
-    ward_name: 'Wanawadi - Ramtekadi',
-    ward_marathi_name: 'वानवडी - रामटेकडी',
-    zone_id: '4',
-    ward_no: '11',
-  },
-  {
-    ward_id: '11',
-    ward_name: 'Hadapsar - Mundhwa',
-    ward_marathi_name: 'हडपसर - मुंढवा',
-    zone_id: '4',
-    ward_no: '10',
-  },
-  {
-    ward_id: '12',
-    ward_name: 'Kondhwa - Yewalewadi',
-    ward_marathi_name: 'कोंढवा - येवलेवाडी',
-    zone_id: '4',
-    ward_no: '12',
-  },
-  {
-    ward_id: '13',
-    ward_name: 'Bhavani Peth',
-    ward_marathi_name: 'भवानी पेठ ',
-    zone_id: '5',
-    ward_no: '14',
-  },
-  {
-    ward_id: '14',
-    ward_name: 'Bibwewadi',
-    ward_marathi_name: 'बिबवेवाडी ',
-    zone_id: '5',
-    ward_no: '15',
-  },
-  {
-    ward_id: '15',
-    ward_name: 'Kasaba VishramBagwada',
-    ward_marathi_name: 'कसबा विश्रामबागवाडा',
-    zone_id: '5',
-    ward_no: '13',
-  },
-];
 
 
 function getQueryParam(param) {
@@ -285,182 +46,25 @@ function getQueryParam(param) {
 
 const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
+const lastInsertedId = getQueryParam('lastInsertedId');
+const wardname = getQueryParam('wardname');
+const department = getQueryParam('department');
 
-var wardname = null;
+
 var lastDrawnPolylineIdSave = null ;
 
 
-function initializeLocalStorage() {
-  if (localStorage.getItem('lastInsertedId') === null) {
-      localStorage.setItem('lastInsertedId', 'defaultId'); 
-  }
-  if (localStorage.getItem('bufferWidth') === null) {
-      localStorage.setItem('bufferWidth', width); 
-  }
-  if (localStorage.getItem('roadLenght') === null) {
-      localStorage.setItem('roadLenght', lenght); 
-  }
-  if (localStorage.getItem('wardname') === null) {
-      localStorage.setItem('wardname', ''); 
-  }
-  if (localStorage.getItem('department') === null) {
-      localStorage.setItem('department', 'Road'); 
-  }
-}
 
-
-initializeLocalStorage();
-
-
-function updateLocalStorage(key, value) {
-  localStorage.setItem(key, value);
-}
+var cql_filterm = `Ward_Name='${wardname}'`;
+fitbou(cql_filterm);
+ward_boundary.setParams({
+ cql_filter: cql_filterm,
+    styles: "highlight",
+});
+ward_boundary.addTo(map).bringToFront();
 
 
 
-async function fetchAndPostData(id) {
-  try {
-     const response = await fetch(`http://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
-
-    //  const response = await fetch('api-responses/all-project-data.json');
-      const data = await response.json();
-      // let project = data.data.projectData.find(
-      //   (project) => project.project.works_aa_approval_id === id
-      // );
-
-      project = data.data ;
-
-      if (!project) {
-          alert('Project with this project_id is not found');
-          return;
-      }
-
-      
-
-      const department = depData.find(dep => dep.department_id == project.d_id);
-      const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
-      const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
-      wardname = ward ? ward.ward_name : wardname;
-      updateLocalStorage('department',department.department_name);
-     console.log(wardname);
-
-
-
-  var cql_filterm = `Ward_Name='${wardname}'`;
-   fitbou(cql_filterm);
-   ward_boundary.setParams({
-    cql_filter: cql_filterm,
-       styles: "highlight",
-   });
-   ward_boundary.addTo(map).bringToFront();
-
-      let budgetCodes = data?.budget_data?.map(budget => budget.budget_code.trim()).join(', ');
-      const payload = {
-          projectNo: project.sys_proj_id || '',
-          aaWork: project.name_of_work || '',
-          scopeOfWork: project.scope_of_work || '',
-          workType: project.work_type || '',
-          projectFinancialYear: project.project_financial_year || '',
-          department: department ? department.department_name : '',
-          juniorName: project.je_name || '',
-          contactNo: project.contact || '',
-          dateIn: project.con_appr_date || '',
-          projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : 'Ward Office') : 'Unknown',
-          ward: ward ? ward.ward_name : '',
-          zone: zone ? zone.zone_name : '',
-          budgetCodes: budgetCodes || '',
-          Id: project.works_aa_approval_id,
-          Length:lenght,
-          Width:width
-      };
-
-      // Post the data using jQuery's AJAX
-      $.ajax({
-          type: "POST",
-          url: "Apis/Conceptual_Form.php",
-          data: JSON.stringify(payload),
-          contentType: "application/json",
-          success: function (response) {
-
-            const lastInsertedId = response.data.id;
-            const bufferWidth = response.data.width;
-            const roadLength = response.data.lenght; 
-            const wardName = response.data.wardname;
-        
-     
-            if (department.department_name === "Road") {
-              
-            
-              const baseURL = "road.html";
-          
-              // Create the query string
-              const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}`;
-          
-              // Redirect to the new URL with query parameters
-              window.location.href = baseURL + queryString;
-          }
-          else if (department.department_name === "Building") {
-              
-            
-            const baseURL = "building.html";
-        
-            // Create the query string
-            const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}`;
-        
-            // Redirect to the new URL with query parameters
-            window.location.href = baseURL + queryString;
-        }
-        else if (department.department_name === "Drainage") {
-              
-            
-          const baseURL = "drainage.html";
-      
-          // Create the query string
-          const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}`;
-      
-          // Redirect to the new URL with query parameters
-          window.location.href = baseURL + queryString;
-      }
-          
-  
-              updateLocalStorage('lastInsertedId',response.data.id);
-              updateLocalStorage('bufferWidth',response.data.width);
-              updateLocalStorage('roadLenght',  response.data.lenght);
-              updateLocalStorage('wardname', response.data.wardname);
-            
-              updateLocalStorage('conceptual_form_data_temp', JSON.stringify(payload));
-
-
-
-              localStorage.removeItem('conceptual_form_data');
-              localStorage.removeItem('selectCoordinatesData');
-          },
-          error: function (xhr, status, error) {
-              console.error("Save failed:", error);
-          }
-      });
-
-  } catch (error) {
-      console.error('Error fetching project data:', error);
-  }
-}
-
-
-async function loadData() {
-  const worksAaApprovalId = getQueryParam('proj_id');
- 
-  if (worksAaApprovalId != null) {
-      await fetchAndPostData(worksAaApprovalId);
-  }
-}
-
-loadData();
-
-
-console.log(wardname)
-
-const department = localStorage.getItem("department") ;
-let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
 
 
 
@@ -469,81 +73,8 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 
-if(department == "Building"){
-  var wms_layer1 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
-    {
-      layers: "Roads",
-      format: "image/png",
-      transparent: true,
-      tiled: true,
-      version: "1.1.0",
-      maxZoom: 21,
-      opacity: 1,
-    }
-  );
-  var wms_layer13 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
-    {
-      layers: "Drainage_data",
-      format: "image/png",
-      transparent: true,
-      tiled: true,
-      version: "1.1.0",
-      maxZoom: 21,
-      opacity: 1,
-    }
-  )
-  var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Reservations",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
 
-    opacity: 1,
-  }).addTo(map);
-}
-else if(department == "Road"){
-  var wms_layer1 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
-    {
-      layers: "Roads",
-      format: "image/png",
-      transparent: true,
-      tiled: true,
-      version: "1.1.0",
-      maxZoom: 21,
-      opacity: 1,
-    }
-  ).addTo(map);
-  var wms_layer13 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
-    {
-      layers: "Drainage_data",
-      format: "image/png",
-      transparent: true,
-      tiled: true,
-      version: "1.1.0",
-      maxZoom: 21,
-      opacity: 1,
-    }
-  );
-  var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Reservations",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-}else if(department == "Drainage"){
-  var wms_layer1 = L.tileLayer.wms(
+var wms_layer1 = L.tileLayer.wms(
     "https://pmc.geopulsea.com/geoserver/pmc/wms",
     {
       layers: "Roads",
@@ -580,9 +111,6 @@ else if(department == "Road"){
       opacity: 1,
     }
   ).addTo(map);
-}
-
-
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -852,36 +380,18 @@ var drawControlDrainage = new L.Control.Draw({
 
 
 
-// map.addControl(drawControl);
-if(department == "Road"){
-  var customDrawControls = L.control({ position: 'topleft' });
+var customDrawControls = L.control({ position: 'topleft' });
 
-  // Define the HTML content for the control
-  customDrawControls.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
-    customDrawControlsContainer = div;
-    return div;
-  };
+// Define the HTML content for the control
+customDrawControls.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'draw-control');
+  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  customDrawControlsContainer = div;
+  return div;
+};
 
-  // Add the control to the map
-  customDrawControls.addTo(map);
-}
-else if (department == "Building"){
-  var customDrawControls = L.control({ position: 'topleft' });
-
-  // Define the HTML content for the control
-  customDrawControls.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:40%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
-    customDrawControlsContainer = div;
-    return div;
-  };
-
-  // Add the control to the map
-  customDrawControls.addTo(map);
-}
-
+// Add the control to the map
+customDrawControls.addTo(map);
 
 var customToolSelector = L.control({ position: 'topleft' });
 
@@ -934,11 +444,7 @@ customToolSelector.onAdd = function (map) {
     return div;
 };
 
-if (department == "Road"){
-  customToolSelector.addTo(map);
-
-}
-
+customToolSelector.addTo(map);
 var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
@@ -1145,43 +651,10 @@ var isDrawControlAdded = false;
 
 function toggleDrawControl() {
   if (isDrawControlAdded) {
-    if(department == "Building"){
-      map.removeControl(drawControlBuilding);
-    }
-    else if(department == "Road"){
-      map.removeControl(drawControlRoad);
-    }else if(department == "Drainage"){
-      map.removeControl(drawControlRoad);
-    }
- 
+    map.removeControl(drawControlRoad);
     isDrawControlAdded = false;
   } else {
-    if(department == "Building"){
-      map.addControl(drawControlBuilding);
-      // new L.Draw.Polygon(map, {
-      //   shapeOptions: {
-      //     color: "red", // Set the color for the polygon border
-      //   },
-      //   icon: new L.DivIcon({
-      //     iconSize: new L.Point(6, 6), // Set the size of the icon
-      //     className: "leaflet-div-icon", // Specify the icon class
-      //   }),
-      //   // Include other options as necessary
-      // }).enable();
-    }else{
-      map.addControl(drawControlRoad);
-      // new L.Draw.Polyline(map, {
-      //   shapeOptions: {
-      //     color: "red", // Set the color for the polygon border
-      //   },
-      //   icon: new L.DivIcon({
-      //     iconSize: new L.Point(6, 6), // Set the size of the icon
-      //     className: "leaflet-div-icon", // Specify the icon class
-      //   }),
-      //   // Include other options as necessary
-      // }).enable();
-    }
-   
+    map.addControl(drawControlRoad);
     isDrawControlAdded = true;
 
   }
@@ -1505,18 +978,8 @@ function getClosestRoadPoint(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  if(department=='Road'){
-    layer = "pmc:Exist_Road";
-
- }
- else if(department == 'Building'){
-    layer = "pmc:Reservations";
-
- }
- else if(department == 'Drainage'){
   layer = "pmc:storm_water";
 
-}
   var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
   console.log("burl", url);
   return new Promise((resolve, reject) => {
@@ -1556,20 +1019,7 @@ function getClosestRoadPointLast(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  let layer = "pmc:Exist_Road";
-
-  if(department=='Road'){
-    layer = "pmc:Exist_Road";
-
- }
- else if(department == 'Building'){
-    layer = "pmc:Reservations";
-
- }
- else if(department == 'Drainage'){
-  layer = "pmc:storm_water";
-
-}
+  let layer = "pmc:storm_water";
   var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
@@ -1823,7 +1273,7 @@ map.on("draw:created", function (e) {
   });
   if (e.layerType === "polyline") {
     var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
-    var roadLenght = localStorage.getItem("roadLenght");
+    var roadLenght = lenght;
     if (length > roadLenght) {
       Swal.fire({
         position: "center",
@@ -1881,15 +1331,15 @@ drawnItems.addLayer(layer);
 // });
 
 
-if (e.layerType === "polyline" && department === "Road") {
-    var bufferWidth = localStorage.getItem("bufferWidth");
+if (e.layerType === "polyline") {
+    var bufferWidth = width;
     createBufferAndDashedLine(layer, roadLenght, bufferWidth);
    }
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
 var geoJSON = layer.toGeoJSON();
 var popupContent = UpdateArea(geoJSON);
-var lastInsertedId = localStorage.getItem("lastInsertedId");
+
 var lastDrawnPolylineId = layer._leaflet_id;
 lastDrawnPolylineIdSave = layer._leaflet_id;
 $.ajax({
@@ -1899,68 +1349,6 @@ $.ajax({
   data: { id: lastInsertedId },
   dataType: "json",
   success: function (response) {
-    // if (response.success) {
-  //   if (response.data != undefined) {
-  //     const responseData = response.data;
-
-  //     if (responseData != undefined) {
-  //       popupContent +=
-  //         "<tr><td>Name of work</td><td>" +
-  //         responseData.work_name +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Department</td><td>" +
-  //         responseData.department +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>ID</td><td>" +
-  //         responseData.works_aa_approval_id +
-  //         "</td></tr>";
-  //       popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Scope of work</td><td>" +
-  //         responseData.scope_of_work +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Work-type</td><td>" +
-  //         responseData.work_type +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Prabhag no.</td><td>" +
-  //         responseData.project_no +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Date of competition work</td><td>" +
-  //         responseData.created_date +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>JE Name</td><td>" +
-  //         responseData.junior_engineer_name +
-  //         "</td></tr>";
-  //       popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
-  //     }
-
-  //     // Close the table tag
-  //     popupContent += "</table>";
-
-  //     // Add buttons for adding and deleting rows
-  //     popupContent += `
-  //     <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-  // `;
-  //     popupContent +=
-  //       '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
-
-  //     // Bind the table popup to the layer
-  //     layer.bindPopup(popupContent).openPopup();
-   
-  //   } else {
-  //     console.error("Error fetching CSV data:", response.error);
-  //   }
-
      $('#table-container').show();
       const formDataFromStorage = response.data;
       console.log(formDataFromStorage);
@@ -1979,13 +1367,12 @@ $.ajax({
 }
 else if (mapMode == 'tracing'){
 let layer = currentPolyline ;
-var bufferWidth = localStorage.getItem("bufferWidth");
+var bufferWidth = width;
 createBufferAndDashedLine(layer, roadLenght, bufferWidth);
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
 var geoJSON = layer.toGeoJSON();
 var popupContent = UpdateArea(geoJSON);
-var lastInsertedId = localStorage.getItem("lastInsertedId");
 var lastDrawnPolylineId = layer._leaflet_id;
 lastDrawnPolylineIdSave = layer._leaflet_id;
 
@@ -1996,67 +1383,6 @@ $.ajax({
   data: { id: lastInsertedId },
   dataType: "json",
   success: function (response) {
-    // if (response.success) {
-  //   if (response.data != undefined) {
-  //     const responseData = response.data;
-
-  //     if (responseData != undefined) {
-  //       popupContent +=
-  //         "<tr><td>Name of work</td><td>" +
-  //         responseData.work_name +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Department</td><td>" +
-  //         responseData.department +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>ID</td><td>" +
-  //         responseData.works_aa_approval_id +
-  //         "</td></tr>";
-  //       popupContent += "<tr><td>Lat-Long</td><td></td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Scope of work</td><td>" +
-  //         responseData.scope_of_work +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Work-type</td><td>" +
-  //         responseData.work_type +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Ward</td><td>" + responseData.ward + "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Prabhag no.</td><td>" +
-  //         responseData.project_no +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>Date of competition work</td><td>" +
-  //         responseData.created_date +
-  //         "</td></tr>";
-  //       popupContent +=
-  //         "<tr><td>JE Name</td><td>" +
-  //         responseData.junior_engineer_name +
-  //         "</td></tr>";
-  //       popupContent += "<tr><td>Village- name , Gut no,</td><td></td></tr>";
-  //     }
-
-  //     // Close the table tag
-  //     popupContent += "</table>";
-
-  //     // Add buttons for adding and deleting rows
-  //     popupContent += `
-  //     <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
-  // `;
-  //     popupContent +=
-  //       '<button class="popup-button" onclick="SavetoKML()">Save to KML</button>';
-
-  //     // Bind the table popup to the layer
-  //     layer.bindPopup(popupContent).openPopup();
-   
-  //   } else {
-  //     console.error("Error fetching CSV data:", response.error);
-  //   }
     $('#table-container').show();
     const formDataFromStorage = response.data;
     console.log(formDataFromStorage);
@@ -2082,8 +1408,8 @@ map.on("draw:edited", function (e) {
    e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
-    var roadLenght = localStorage.getItem("roadLenght");
-    var bufferWidth = localStorage.getItem("bufferWidth");
+    var roadLenght = lenght;
+    var bufferWidth = width;
 
     // Check for and remove existing associated layers
     removeAssociatedLayers(layer._leaflet_id);
@@ -2241,11 +1567,9 @@ function Savedata(lastDrawnPolylineId) {
   }else{
   geoJSONString = toGISformat();
   geoJSONStringJson = JSON.parse(geoJSONString);
-  console.log("geoJSONString",geoJSONString);
   selectCoordinatesData = geoJSONStringJson.features;
   }
 
-  console.log("test 123",selectCoordinatesData);
 
   localStorage.setItem(
     "selectCoordinatesData",
@@ -2256,10 +1580,8 @@ function Savedata(lastDrawnPolylineId) {
     localStorage.setItem("conceptual_form_data", formDataTemp);
   }
 
-  var roadLenght = localStorage.getItem("roadLenght");
-  var bufferWidth = localStorage.getItem("bufferWidth");
-  var lastInsertedId = localStorage.getItem("lastInsertedId");
-  var department = localStorage.getItem("department");
+  var roadLenght = lenght;
+  var bufferWidth = width;
 
 
   var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
