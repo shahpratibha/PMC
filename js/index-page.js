@@ -324,12 +324,13 @@ async function fetchAndPostData(id) {
 
     //  const response = await fetch('api-responses/all-project-data.json');
       const data = await response.json();
+
       // let project = data.data.projectData.find(
       //   (project) => project.project.works_aa_approval_id === id
       // );
 
-      project = data.data ;
-
+     let project = data.data ;
+     console.log(project);
       if (!project) {
           alert('Project with this project_id is not found');
           return;
@@ -342,8 +343,6 @@ async function fetchAndPostData(id) {
       const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
       wardname = ward ? ward.ward_name : wardname;
       updateLocalStorage('department',department.department_name);
-     console.log(wardname);
-
 
 
   var cql_filterm = `Ward_Name='${wardname}'`;
@@ -371,8 +370,24 @@ async function fetchAndPostData(id) {
           budgetCodes: budgetCodes || '',
           Id: project.works_aa_approval_id,
           Length:lenght,
-          Width:width
+          Width:width,
+          conceptual_no: project.conceptual_no ,
+          con_appr_date: project.con_appr_date ,
+          created_date : project.created_date ,
+          tender_amount : project.tender_amount ,
+          updated_date: project.updated_date,
+          gis_id: data.gis_data[0]?.gis_id,
+          no_of_road: project.no_of_road,
+          area: project.area,
+          measure_in: data.gis_data[0]?.measure_in,
+          project_from: project.project_from,
+          budget_year: data.budget_data[0]?.budget_year,
+          agency: project.agency,
+          work_completion_date: project.work_completion_date
+
       };
+
+      console.log(data.gis_data.gis_id);
 
       // Post the data using jQuery's AJAX
       $.ajax({
@@ -386,7 +401,7 @@ async function fetchAndPostData(id) {
             const bufferWidth = response.data.width;
             const roadLength = response.data.lenght; 
             const wardName = response.data.wardname;
-        
+            const workType = project.work_type;
      
             if (department.department_name === "Road") {
               
@@ -394,7 +409,7 @@ async function fetchAndPostData(id) {
               const baseURL = "road.html";
           
               // Create the query string
-              const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}`;
+              const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
           
               // Redirect to the new URL with query parameters
               window.location.href = baseURL + queryString;
@@ -405,7 +420,7 @@ async function fetchAndPostData(id) {
             const baseURL = "building.html";
         
             // Create the query string
-            const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}`;
+            const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
         
             // Redirect to the new URL with query parameters
             window.location.href = baseURL + queryString;
@@ -416,7 +431,7 @@ async function fetchAndPostData(id) {
           const baseURL = "drainage.html";
       
           // Create the query string
-          const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}`;
+          const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
       
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;

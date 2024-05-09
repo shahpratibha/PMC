@@ -49,6 +49,8 @@ const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('wid
 const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardname');
 const department = getQueryParam('department');
+const workType = getQueryParam('workType');
+
 
 
 var lastDrawnPolylineIdSave = null ;
@@ -379,6 +381,7 @@ var drawControlDrainage = new L.Control.Draw({
 });
 
 
+if(workType == "New"){
 
 var customDrawControls = L.control({ position: 'topleft' });
 
@@ -392,6 +395,7 @@ customDrawControls.onAdd = function (map) {
 
 // Add the control to the map
 customDrawControls.addTo(map);
+}
 
 var customToolSelector = L.control({ position: 'topleft' });
 
