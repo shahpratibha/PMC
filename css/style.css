@@ -4,6 +4,38 @@
   box-sizing: border-box;
 }
 
+
+#map {
+  top: 0px;
+  left: 0px;
+  height: 99vh;
+  width: 100%;
+  z-index: 1;
+}
+
+
+
+.leaflet-container .leaflet-control-attribution {
+
+  display: none;
+}
+
+
+
+.leaflet-control-zoom {
+  position: absolute;
+  left: 96vw;
+  top: 85vh;
+  border: 2px solid darkblue;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+
+background-clip: padding-box;
+border: 2px solid darkblue;
+
+}
+
 a {
   text-decoration: none;
   color: white;

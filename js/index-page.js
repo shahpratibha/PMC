@@ -322,7 +322,7 @@ async function fetchAndPostData(id) {
   try {
     // const response = await fetch(`https://pmciwms.in/api/project-gis-data?proj_id=${id}`);
 
-      const response = await fetch(`http://pmciwms.in/api/project-gis-data?proj_id=${id}`);
+      const response = await fetch(`http://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
       const data = await response.json();
       const project = data.data;
 
