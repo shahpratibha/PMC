@@ -1748,18 +1748,9 @@ legendControl.onAdd = function (map) {
   updateLegend();
 
   // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-  div.style.position = "fixed";
-  div.style.bottom = "0";
-  div.style.right = "0";
-  div.style.height = "40vh";
-  div.style.width = "300px";
-  div.style.overflowY = "auto";
-  div.style.scrollbarWidth = "thin";
-  div.style.backgroundColor = "white";
-  div.style.border = "1px solid #ccc";
-  div.style.borderRadius = "10px";
-  div.style.padding = "10px";
-  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
+  <div id="legend"></div>
+
+
 
   // Toggle legend visibility function
   function toggleLegend() {
