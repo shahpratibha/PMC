@@ -403,49 +403,42 @@ var customToolSelector = L.control({ position: 'topleft' });
 let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-    div.style.padding = '5px';
-    div.style.backgroundColor = 'white';
-    div.style.border='2px solid darkblue';
-    div.style.top="50px";
-    var input = document.createElement('input');
-    input.type = 'checkbox';
-    input.className = 'form-check-input';
-    input.id = 'flexSwitchCheckDefault';
-    input.style.marginRight = '5px';
+  var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
+  div.style.padding = '5px';
+  div.style.backgroundColor = 'white';
+  div.style.border = '2px solid darkblue';
+  div.style.top = "50px";
 
-    // Set the checkbox state based on the current mapMode
-    input.checked = (mapMode === 'tracing');
+  // Create a new button element
+  var button = document.createElement('button');
+  button.className = 'form-check-button';
+  button.id = 'traceToolButton';
+  button.style.marginRight = '5px';
+  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
-    var label = document.createElement('label');
-    // Create a new image element
-    var img = document.createElement('img');
+  // Create a new image element
+  var img = document.createElement('img');
+  img.src = 'png/Trace_tool.png';
+  img.style.height = '20px';
+  img.style.width = '20px';
 
-// Set the src attribute of the image element to the path of the image
-    img.src = 'png/Trace_tool.png';
-    img.style.height='20px';
-    img.style.width='20px';
+  button.appendChild(img);
 
-    label.className = 'form-check-label';
-    label.title='ENABLE TRACING';
-    
-    label.setAttribute('for', 'flexSwitchCheckDefault');
-    label.textContent = '';
-    label.appendChild(img);
-    // Add event listener to toggle mapMode
-    input.addEventListener('change', function() {
-        if (this.checked) {
-            mapMode = 'tracing';
-        } else {
-            mapMode = 'snapping';
-        }
-        console.log("Current Map Mode:", mapMode); // Optional: for debugging
-    });
+  // Add event listener to toggle mapMode and update button appearance
+  button.addEventListener('click', function() {
+      if (mapMode === 'snapping') {
+          mapMode = 'tracing';
+          button.style.backgroundColor = 'lightblue';
+      } else {
+          mapMode = 'snapping';
+          button.style.backgroundColor = 'white';
+      }
+      console.log("Current Map Mode:", mapMode); // Optional: for debugging
+  });
 
-    div.appendChild(input);
-    div.appendChild(label);
+  div.appendChild(button);
 
-    return div;
+  return div;
 };
 
 customToolSelector.addTo(map);
@@ -521,6 +514,7 @@ function enableEditing(layer) {
 
 // Currently selected layer for editing
 // Custom button for toggling edit mode
+if(workType == "New"){
 var editControl = L.control({position: 'topleft'});
     editControl.onAdd = function (map) {
       
@@ -614,6 +608,8 @@ deleteControl.onAdd = function(map) {
 
 
 deleteControl.addTo(map);
+
+}
 
 
 function handleDeletePolyline(polylineId) {
@@ -1335,10 +1331,7 @@ drawnItems.addLayer(layer);
 // });
 
 
-if (e.layerType === "polyline") {
-    var bufferWidth = width;
-    createBufferAndDashedLine(layer, roadLenght, bufferWidth);
-   }
+
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
 var geoJSON = layer.toGeoJSON();
@@ -1372,7 +1365,7 @@ $.ajax({
 else if (mapMode == 'tracing'){
 let layer = currentPolyline ;
 var bufferWidth = width;
-createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
 var geoJSON = layer.toGeoJSON();
@@ -1418,9 +1411,6 @@ map.on("draw:edited", function (e) {
     // Check for and remove existing associated layers
     removeAssociatedLayers(layer._leaflet_id);
 
-    if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
-      createBufferAndDashedLine(layer, roadLenght, bufferWidth);
-    }
     var lastDrawnPolylineId = layer._leaflet_id;
     $.ajax({
       url: API_URL + "process.php", // Path to the PHP script
@@ -1616,7 +1606,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = "geometry_page.html";
+   // window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);

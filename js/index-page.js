@@ -35,6 +35,9 @@ var ward_boundary= L.tileLayer.wms(
   }
 );
 
+///Note: ************** only this code is in use ///////// we can remove other code after other pages works properly
+
+
 let depData = [
   {
     department_id: '1',
@@ -376,12 +379,12 @@ async function fetchAndPostData(id) {
           created_date : project.created_date ,
           tender_amount : project.tender_amount ,
           updated_date: project.updated_date,
-          gis_id: data.gis_data[0]?.gis_id,
+          gis_id: data.gis_data[0]?.gis_id ? data.gis_data[0]?.gis_id : null ,
           no_of_road: project.no_of_road,
           area: project.area,
-          measure_in: data.gis_data[0]?.measure_in,
+          measure_in: data.gis_data[0]?.measure_in ? data.gis_data[0]?.measure_in : null,
           project_from: project.project_from,
-          budget_year: data.budget_data[0]?.budget_year,
+          budget_year: data.budget_data[0]?.budget_year ? data.budget_data[0]?.budget_year : null,
           agency: project.agency,
           work_completion_date: project.work_completion_date
 
@@ -402,7 +405,7 @@ async function fetchAndPostData(id) {
             const roadLength = response.data.lenght; 
             const wardName = response.data.wardname;
             const workType = project.work_type;
-     
+       
             if (department.department_name === "Road") {
               
             
@@ -470,6 +473,8 @@ async function loadData() {
 }
 
 loadData();
+
+///Note: ************** only this code is in use ///////// we can remove other code after other pages works properly
 
 
 console.log(wardname)
@@ -1109,6 +1114,7 @@ deleteControl.onAdd = function(map) {
           layer.on('click', function () { 
             console.log("hello")
             selectedPolylineId = layer ;
+          
           });
       });
       }

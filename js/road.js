@@ -555,6 +555,8 @@ var editControl = L.control({position: 'topleft'});
             // Allow user to click on a feature to select and edit
             drawnItems.eachLayer(function (layer) {
                 layer.on('click', function () {
+                  layer.setStyle({ color: 'green', weight: 7 });
+
                     enableEditing(layer); // Enable editing on the clicked layer
                 });
             });
@@ -563,6 +565,7 @@ var editControl = L.control({position: 'topleft'});
             controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
             // Remove click handlers to disable selection
             drawnItems.eachLayer(function (layer) {
+              layer.setStyle({ color: 'red', weight: 7 });
                 layer.off('click');
             });
         }
@@ -605,6 +608,8 @@ deleteControl.onAdd = function(map) {
           layer.on('click', function () { 
             console.log("hello")
             selectedPolylineId = layer ;
+            layer.setStyle({ color: 'green', weight: 7 });
+
           });
       });
       }
