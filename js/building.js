@@ -384,37 +384,23 @@ var drawControlDrainage = new L.Control.Draw({
 
 if(workType == "New"){
 
-var customDrawControls = L.control({ position: 'topleft' });
-
-  // Define the HTML content for the control
-  customDrawControls.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:40%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
-    customDrawControlsContainer = div;
-    return div;
-  };
-
-  // Add the control to the map
-  customDrawControls.addTo(map);
-}
-
-var customToolSelector = L.control({ position: 'topleft' });
+  var customToolSelector = L.control({ position: 'topleft' });
 
 // Initialize the mapMode variable
 let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
+  div.style.padding = '4px';
   div.style.backgroundColor = 'white';
   div.style.border = '2px solid darkblue';
-  div.style.top = "50px";
+  div.style.top = "28px";
 
   // Create a new button element
   var button = document.createElement('button');
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
-  button.style.marginRight = '5px';
+  // button.style.marginRight = '4px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
   // Create a new image element
@@ -444,6 +430,22 @@ customToolSelector.onAdd = function (map) {
 
 
 customToolSelector.addTo(map);
+
+var customDrawControls = L.control({ position: 'topleft' });
+
+  // Define the HTML content for the control
+  customDrawControls.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'draw-control');
+    div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:75%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 25px; padding:3px;"></button>';
+    customDrawControlsContainer = div;
+    return div;
+  };
+
+  // Add the control to the map
+  customDrawControls.addTo(map);
+}
+
+
 var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {

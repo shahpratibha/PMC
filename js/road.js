@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
+const API_URL = "http://localhost/PMC/IWMS";
 // const API_URL = "http://localhost/PMC-ANKIT/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 
@@ -406,16 +406,16 @@ let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
+  div.style.padding = '4px';
   div.style.backgroundColor = 'white';
   div.style.border = '2px solid darkblue';
-  div.style.top = "50px";
+  div.style.top = "0px";
 
   // Create a new button element
   var button = document.createElement('button');
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
-  button.style.marginRight = '5px';
+  // button.style.marginRight = '5px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
   // Create a new image element
@@ -531,11 +531,11 @@ var editControl = L.control({position: 'topleft'});
     controlUI.title = 'Edit features';
     controlUI.href = '#';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-    controlUI.style.fontSize='18px';
-    controlUI.style.position='absolute';
-    controlUI.style.top='60px';
-    controlUI.style.border='2px solid darkblue';
-    controlUI.style.borderRadius='5px'
+    // controlUI.style.fontSize='18px';
+    // controlUI.style.position='absolute';
+    // controlUI.style.top='60px';
+    // controlUI.style.border='2px solid darkblue';
+    // controlUI.style.borderRadius='5px'
     controlUI.style.display='none'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
@@ -586,19 +586,19 @@ deleteControl.onAdd = function(map) {
     var container = L.DomUtil.create('div', 'leaflet-bar');
     var button = L.DomUtil.create('button', 'delete-button', container);
     button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-    button.style.border='2px solid darkblue';
-    button.style.padding='5px';
-    button.style.fontSize='15px';
-    button.style.borderRadius='5px';
-   button.style.display='none';
+  //   button.style.border='2px solid darkblue';
+  //   button.style.padding='5px';
+  //   button.style.fontSize='15px';
+  //   button.style.borderRadius='5px';
+  //  button.style.display='none';
     button.title = "Delete Selected Feature";
 
   // Style the button
-  button.style.backgroundColor = 'white';   
-  button.style.color = 'black';            
-  button.style.padding = '5px 10px';       
-  button.style.border = 'none';             
-  button.style.cursor = 'pointer';          
+  // button.style.backgroundColor = 'white';   
+  // button.style.color = 'black';            
+  // button.style.padding = '5px 10px';       
+  // button.style.border = 'none';             
+  // button.style.cursor = 'pointer';          
 
   button.onclick = function() {
       if (selectedPolylineId) {

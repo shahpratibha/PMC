@@ -437,7 +437,7 @@ padding: 5px;
   cursor: pointer;
   position: absolute;
   /* top: -140px; */
-  top: 0px;
+  top:-10px;
   left: 0px;
   
   transition: background-color 0.1s;
@@ -501,18 +501,60 @@ padding: 5px;
   display: none;
 }
 
+
+
+/* style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" */
+
+
+/* trace */
+/* .leaflet-control .leaflet-bar{
+padding: 4px 0px 4px 4px;
+background-color: white;
+border: 2px solid darkblue;
+top: 0px;
+} */
+
+
 #save-button{
   /* border: 2px solid rgb(187, 187, 187); */
-  border-radius: 5px;
+  border-radius: 0;
   background-color: white;
   color: black;
-  padding: 6px;
+  padding: 7px;
   display: none;
   position: absolute;
   border: 2px solid darkblue;
+  border-top:none ;
+  border-bottom: none;
   top: -70px;
-  left: 57px;
+  left: 55.3px;
   font-size: 15px;
+  border-bottom: none;
+}
+.delete-button{
+  border: 2px solid darkblue;
+  padding:6px 7.3px;
+  font-size: 14px;
+  border-radius: 0px 0px 5px 5px;
+  display: block;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  left: 54px;
+  position: absolute;
+  top: -92px;
+  display: none;
+  border-top: none
+
 }
 
-/* style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" */
+.leaflet-control-edit-interior{
+  font-size: 15px;
+  position: absolute;
+  top: -138px;
+  border: 2px solid darkblue;
+  border-radius: 5px 5px 0 0;
+  display: none;
+  left: 54px;
+  border-bottom: none;
+}
