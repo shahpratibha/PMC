@@ -527,6 +527,8 @@ var editControl = L.control({position: 'topleft'});
     controlUI.style.fontSize='18px';
     controlUI.style.position='absolute';
     controlUI.style.top='60px';
+    controlUI.style.display='none';
+
     controlUI.style.border='2px solid darkblue';
     controlUI.style.borderRadius='5px'
 
@@ -578,6 +580,7 @@ deleteControl.onAdd = function(map) {
     button.style.border='2px solid darkblue';
     button.style.padding='5px';
     button.style.fontSize='15px';
+    button.style.display='none';
     button.style.borderRadius='5px';
     button.title = "Delete Selected Feature";
 
@@ -625,6 +628,16 @@ function toggleSaveButton(show) {
   var saveBtn = document.getElementById('save-button');
   if (saveBtn) {
       saveBtn.style.display = show ? 'block' : 'none';
+  }
+}
+
+
+function toggleEditDeleteButton(show) {
+  var saveBtns = document.getElementsByClassName('delete-button');
+  var editBtn = document.getElementsByClassName('leaflet-control-edit-interior');
+  for (let i = 0; i < saveBtns.length; i++) {
+      saveBtns[i].style.display = show ? 'block' : 'none';
+      editBtn[i].style.display = show ? 'block' : 'none';
   }
 }
 
@@ -1209,6 +1222,8 @@ map.on("draw:created", function (e) {
 
 
   toggleSaveButton(true);
+  toggleEditDeleteButton(true);
+
 
  if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();

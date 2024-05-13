@@ -536,6 +536,7 @@ var editControl = L.control({position: 'topleft'});
     controlUI.style.top='60px';
     controlUI.style.border='2px solid darkblue';
     controlUI.style.borderRadius='5px'
+    controlUI.style.display='none'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
@@ -589,6 +590,7 @@ deleteControl.onAdd = function(map) {
     button.style.padding='5px';
     button.style.fontSize='15px';
     button.style.borderRadius='5px';
+   button.style.display='none';
     button.title = "Delete Selected Feature";
 
   // Style the button
@@ -629,6 +631,15 @@ function handleDeletePolyline(polylineId) {
 
 
 
+function toggleEditDeleteButton(show) {
+  var saveBtns = document.getElementsByClassName('delete-button');
+  var editBtn = document.getElementsByClassName('leaflet-control-edit-interior');
+  for (let i = 0; i < saveBtns.length; i++) {
+      saveBtns[i].style.display = show ? 'block' : 'none';
+      editBtn[i].style.display = show ? 'block' : 'none';
+  }
+}
+
 
 
 function toggleSaveButton(show) {
@@ -637,6 +648,10 @@ function toggleSaveButton(show) {
       saveBtn.style.display = show ? 'block' : 'none';
   }
 }
+
+
+
+
 
 
 // Button Click Event to Show SweetAlert Success Popup
@@ -1220,6 +1235,8 @@ map.on("draw:created", function (e) {
 
   toggleSaveButton(true);
 
+  toggleEditDeleteButton(true);
+
  if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();
 
@@ -1622,7 +1639,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = "geometry_page.html";
+    //window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);

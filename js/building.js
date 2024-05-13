@@ -530,6 +530,7 @@ var editControl = L.control({position: 'topleft'});
     controlUI.style.top='60px';
     controlUI.style.border='2px solid darkblue';
     controlUI.style.borderRadius='5px'
+    controlUI.style.display='none';
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
@@ -587,6 +588,7 @@ deleteControl.onAdd = function(map) {
   button.style.color = 'black';            
   button.style.padding = '5px 10px';       
   button.style.border = 'none';             
+  button.style.display = 'none';             
   button.style.cursor = 'pointer';          
 
   button.onclick = function() {
@@ -627,6 +629,17 @@ function toggleSaveButton(show) {
       saveBtn.style.display = show ? 'block' : 'none';
   }
 }
+
+
+function toggleEditDeleteButton(show) {
+  var saveBtns = document.getElementsByClassName('delete-button');
+  var editBtn = document.getElementsByClassName('leaflet-control-edit-interior');
+  for (let i = 0; i < saveBtns.length; i++) {
+      saveBtns[i].style.display = show ? 'block' : 'none';
+      editBtn[i].style.display = show ? 'block' : 'none';
+  }
+}
+
 
 
 // Button Click Event to Show SweetAlert Success Popup
@@ -1207,7 +1220,7 @@ let throttle = false; // Throttling flag to control event frequency
 
 map.on("draw:created", function (e) {
 
-
+  toggleEditDeleteButton(true);
   toggleSaveButton(true);
 
  if(mapMode == 'snapping'){ 
@@ -1550,7 +1563,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = "geometry_page.html";
+    //window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
