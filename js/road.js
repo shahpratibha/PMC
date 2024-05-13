@@ -536,6 +536,7 @@ var editControl = L.control({position: 'topleft'});
     controlUI.style.top='60px';
     controlUI.style.border='2px solid darkblue';
     controlUI.style.borderRadius='5px'
+    controlUI.style.display='none'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
@@ -555,6 +556,8 @@ var editControl = L.control({position: 'topleft'});
             // Allow user to click on a feature to select and edit
             drawnItems.eachLayer(function (layer) {
                 layer.on('click', function () {
+                  layer.setStyle({ color: 'green', weight: 7 });
+
                     enableEditing(layer); // Enable editing on the clicked layer
                 });
             });
@@ -563,6 +566,7 @@ var editControl = L.control({position: 'topleft'});
             controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
             // Remove click handlers to disable selection
             drawnItems.eachLayer(function (layer) {
+              layer.setStyle({ color: 'red', weight: 7 });
                 layer.off('click');
             });
         }
@@ -586,6 +590,7 @@ deleteControl.onAdd = function(map) {
     button.style.padding='5px';
     button.style.fontSize='15px';
     button.style.borderRadius='5px';
+   button.style.display='none';
     button.title = "Delete Selected Feature";
 
   // Style the button
@@ -605,6 +610,8 @@ deleteControl.onAdd = function(map) {
           layer.on('click', function () { 
             console.log("hello")
             selectedPolylineId = layer ;
+            layer.setStyle({ color: 'green', weight: 7 });
+
           });
       });
       }
@@ -624,6 +631,15 @@ function handleDeletePolyline(polylineId) {
 
 
 
+function toggleEditDeleteButton(show) {
+  var saveBtns = document.getElementsByClassName('delete-button');
+  var editBtn = document.getElementsByClassName('leaflet-control-edit-interior');
+  for (let i = 0; i < saveBtns.length; i++) {
+      saveBtns[i].style.display = show ? 'block' : 'none';
+      editBtn[i].style.display = show ? 'block' : 'none';
+  }
+}
+
 
 
 function toggleSaveButton(show) {
@@ -632,6 +648,10 @@ function toggleSaveButton(show) {
       saveBtn.style.display = show ? 'block' : 'none';
   }
 }
+
+
+
+
 
 
 // Button Click Event to Show SweetAlert Success Popup
@@ -1215,6 +1235,8 @@ map.on("draw:created", function (e) {
 
   toggleSaveButton(true);
 
+  toggleEditDeleteButton(true);
+
  if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();
 
@@ -1617,7 +1639,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = "geometry_page.html";
+    //window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
