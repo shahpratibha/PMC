@@ -424,53 +424,6 @@ padding: 5px;
   }
 
 
-  /* Default styles for geocoder control */
-  /*
-.leaflet-touch .geocoder-control {
-  z-index: 9999999;
-  position: absolute;
-  
-  left:-10px;
- 
-
-}
-
-
-.leaflet-touch .geocoder-control-input {
-  height: 35px;
-  line-height: 35px;
-  background-size: 35px;
-
-  
-}
-
-
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-  border: 2px solid #383899;
-  background-clip: padding-box;
-}
-
-@media only screen and (max-width: 767px) {
-
-  .leaflet-touch .geocoder-control {
-    left: 100px; 
-    border: 2px solid darkblue;
-  }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
-  .leaflet-touch .geocoder-control {
-   left: 5%; 
-   border: 2px solid darkblue;
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .leaflet-touch .geocoder-control {
-    left: 100px;
-    border: 2px solid darkblue;
-  }
-} */
 
 
 .custom-button {
@@ -483,7 +436,8 @@ padding: 5px;
   border-radius: 5px !important;
   cursor: pointer;
   position: absolute;
-  top: -140px;
+  /* top: -140px; */
+  top: 0px;
   left: 0px;
   
   transition: background-color 0.1s;
