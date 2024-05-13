@@ -271,11 +271,6 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
 
-// =====================html
-
-
-// ==================html
-
 
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
