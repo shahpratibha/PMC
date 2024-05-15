@@ -1,8 +1,4 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
-// const API_URL = "http://localhost/PMC-ANKIT/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-
 
 //Add Basemap
 var map = L.map("map", {
@@ -439,6 +435,30 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
       }
+
+      else if (department.department_name === "Water Supply") {
+              
+            
+        const baseURL = "water-suppy.html";
+    
+        // Create the query string
+        const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+    
+        // Redirect to the new URL with query parameters
+        window.location.href = baseURL + queryString;
+    }
+
+    else if (department.department_name === "Electrical") {
+              
+            
+      const baseURL = "electric-work.html";
+  
+      // Create the query string
+      const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+  
+      // Redirect to the new URL with query parameters
+      window.location.href = baseURL + queryString;
+  }
           
   
               updateLocalStorage('lastInsertedId',response.data.id);
@@ -1760,6 +1780,9 @@ function handleMouseMove(event) {
             currentPolyline.addLatLng(result.marker);
             currentPolyline.redraw();
           }
+
+          currentPolyline.addLatLng(result.marker);
+          currentPolyline.redraw();
         }
       }
     });

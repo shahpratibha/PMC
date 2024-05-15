@@ -40,8 +40,8 @@ function getQueryParam(param) {
 }
 
 
-// const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
-// const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
+const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
+const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardname');
 const department = getQueryParam('department');
@@ -84,6 +84,19 @@ var wms_layer1 = L.tileLayer.wms(
       opacity: 1,
     }
   );
+  var wms_layer11 = L.tileLayer
+  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+    layers: "Reservations",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  });
+
+  
   var wms_layer13 = L.tileLayer.wms(
     "https://pmc.geopulsea.com/geoserver/pmc/wms",
     {
@@ -95,21 +108,7 @@ var wms_layer1 = L.tileLayer.wms(
       maxZoom: 21,
       opacity: 1,
     }
-  )
-  var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Reservations",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  }).addTo(map);
-
-
-
+  ).addTo(map);
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -303,7 +302,7 @@ searchControl.on("results", function (data) {
 
 
 
-var drawControlRoad = new L.Control.Draw({
+var drawControlWaterBodies = new L.Control.Draw({
   draw: {
     polyline: {
       shapeOptions: {
@@ -314,7 +313,7 @@ var drawControlRoad = new L.Control.Draw({
         className: "leaflet-div-icon", // specify the icon class
       }),
     },
-    polygon: false,
+    polygon: true,
 
     circle: false,
     marker: false,
@@ -328,29 +327,6 @@ var drawControlRoad = new L.Control.Draw({
 });
 
 
-var drawControlBuilding = new L.Control.Draw({
-  draw: {
-    polyline:false,
-    
-    polygon:  {
-        shapeOptions: {
-          color: "red", 
-        },
-        icon: new L.DivIcon({
-          iconSize: new L.Point(6, 6), 
-          className: "leaflet-div-icon", 
-        }),
-      },
-
-    circle: false,
-    marker: false,
-    rectangle: false,
-  },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
-});
 
 
 
@@ -358,16 +334,16 @@ if(workType == "New"){
 
 var customDrawControls = L.control({ position: 'topleft' });
 
-  // Define the HTML content for the control
-  customDrawControls.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:40%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
-    customDrawControlsContainer = div;
-    return div;
-  };
+// Define the HTML content for the control
+customDrawControls.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'draw-control');
+  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  customDrawControlsContainer = div;
+  return div;
+};
 
-  // Add the control to the map
-  customDrawControls.addTo(map);
+// Add the control to the map
+customDrawControls.addTo(map);
 }
 
 var customToolSelector = L.control({ position: 'topleft' });
@@ -413,7 +389,6 @@ customToolSelector.onAdd = function (map) {
 
   return div;
 };
-
 
 customToolSelector.addTo(map);
 var customSaveButton = L.control({ position: 'topleft' });
@@ -501,9 +476,10 @@ var editControl = L.control({position: 'topleft'});
     controlUI.style.fontSize='18px';
     controlUI.style.position='absolute';
     controlUI.style.top='60px';
+    controlUI.style.display='none';
+
     controlUI.style.border='2px solid darkblue';
     controlUI.style.borderRadius='5px'
-    controlUI.style.display='none';
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
@@ -553,6 +529,7 @@ deleteControl.onAdd = function(map) {
     button.style.border='2px solid darkblue';
     button.style.padding='5px';
     button.style.fontSize='15px';
+    button.style.display='none';
     button.style.borderRadius='5px';
     button.title = "Delete Selected Feature";
 
@@ -561,7 +538,6 @@ deleteControl.onAdd = function(map) {
   button.style.color = 'black';            
   button.style.padding = '5px 10px';       
   button.style.border = 'none';             
-  button.style.display = 'none';             
   button.style.cursor = 'pointer';          
 
   button.onclick = function() {
@@ -584,6 +560,7 @@ deleteControl.onAdd = function(map) {
 
 
 deleteControl.addTo(map);
+
 }
 
 
@@ -614,7 +591,6 @@ function toggleEditDeleteButton(show) {
 }
 
 
-
 // Button Click Event to Show SweetAlert Success Popup
 document.getElementById("save-button").addEventListener("click", function () {
   
@@ -637,10 +613,10 @@ var isDrawControlAdded = false;
 
 function toggleDrawControl() {
   if (isDrawControlAdded) {
-    map.removeControl(drawControlBuilding);
+    map.removeControl(drawControlWaterBodies);
     isDrawControlAdded = false;
   } else {
-    map.addControl(drawControlBuilding);
+    map.addControl(drawControlWaterBodies);
     isDrawControlAdded = true;
 
   }
@@ -964,7 +940,7 @@ function getClosestRoadPoint(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  layer = "pmc:Reservations";
+  layer = "pmc:storm_water";
 
   var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
   console.log("burl", url);
@@ -1005,7 +981,7 @@ function getClosestRoadPointLast(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  let layer = "pmc:Reservations";
+  let layer = "pmc:storm_water";
   var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
@@ -1193,8 +1169,10 @@ let throttle = false; // Throttling flag to control event frequency
 
 map.on("draw:created", function (e) {
 
-  toggleEditDeleteButton(true);
+
   toggleSaveButton(true);
+  toggleEditDeleteButton(true);
+
 
  if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();
@@ -1257,7 +1235,52 @@ map.on("draw:created", function (e) {
       return ;
     }
   });
- 
+  if (e.layerType === "polyline") {
+    var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
+    var roadLenght = lenght;
+    if (length > roadLenght) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
+        showConfirmButton: false,
+        showCloseButton: true,
+        customClass: {
+          popup: 'custom-modal-class',
+          icon: 'custom-icon-class',
+          title: 'custom-title-class',
+          content: 'custom-text-class',
+          closeButton: 'custom-close-button-class'
+        },
+        showClass: {
+          popup: 'swal2-show',
+          backdrop: 'swal2-backdrop-show',
+          icon: 'swal2-icon-show'
+        },
+        hideClass: {
+          popup: 'swal2-hide',
+          backdrop: 'swal2-backdrop-hide',
+          icon: 'swal2-icon-hide'
+        },
+        didOpen: () => {
+          // Apply custom styles directly to the modal elements
+          document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
+          document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
+          document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
+          document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
+          document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
+          document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
+          document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
+          document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
+          document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
+          document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
+        }
+      });
+      
+      return; // Stop further processing
+    }
+  }
   var layer = e.layer;
 
 
@@ -1305,6 +1328,8 @@ $.ajax({
 }
 else if (mapMode == 'tracing'){
 let layer = currentPolyline ;
+var bufferWidth = width;
+
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
 var geoJSON = layer.toGeoJSON();
@@ -1344,6 +1369,11 @@ map.on("draw:edited", function (e) {
    e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
+    var roadLenght = lenght;
+    var bufferWidth = width;
+
+    // Check for and remove existing associated layers
+    removeAssociatedLayers(layer._leaflet_id);
 
     var lastDrawnPolylineId = layer._leaflet_id;
     $.ajax({
@@ -1508,6 +1538,8 @@ function Savedata(lastDrawnPolylineId) {
     localStorage.setItem("conceptual_form_data", formDataTemp);
   }
 
+  var roadLenght = lenght;
+  var bufferWidth = width;
 
 
   var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
@@ -1523,6 +1555,8 @@ function Savedata(lastDrawnPolylineId) {
   var payload = 
   JSON.stringify( {
     geoJSON: bufferGeoJSONString,
+    roadLength: roadLenght,
+    bufferWidth: bufferWidth,
     gis_id: lastInsertedId,
     department: department,
     selectCoordinatesData:selectCoordinatesData,
@@ -1536,7 +1570,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    //window.location.href = "geometry_page.html";
+   // window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);

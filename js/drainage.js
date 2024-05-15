@@ -1,8 +1,4 @@
 var map, geojson;
-const API_URL = "http://localhost/pmc_test/";
-// const API_URL = "http://localhost/PMC-ANKIT/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-
 
 //Add Basemap
 var map = L.map("map", {
@@ -306,54 +302,6 @@ searchControl.on("results", function (data) {
 
 
 
-var drawControlRoad = new L.Control.Draw({
-  draw: {
-    polyline: {
-      shapeOptions: {
-        color: "red", // set the color for the polygon border
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6), // set the size of the icon
-        className: "leaflet-div-icon", // specify the icon class
-      }),
-    },
-    polygon: false,
-
-    circle: false,
-    marker: false,
-    rectangle: false,
-    circlemarker:false
-  },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
-});
-
-
-var drawControlBuilding = new L.Control.Draw({
-  draw: {
-    polyline:false,
-    
-    polygon:  {
-        shapeOptions: {
-          color: "red", 
-        },
-        icon: new L.DivIcon({
-          iconSize: new L.Point(6, 6), 
-          className: "leaflet-div-icon", 
-        }),
-      },
-
-    circle: false,
-    marker: false,
-    rectangle: false,
-  },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
-});
 
 
 var drawControlDrainage = new L.Control.Draw({
