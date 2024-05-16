@@ -1,8 +1,4 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/IWMS/";
-// const API_URL = "http://localhost/PMC-ANKIT/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-
 
 //Add Basemap
 var map = L.map("map", {
@@ -306,54 +302,6 @@ searchControl.on("results", function (data) {
 
 
 
-var drawControlRoad = new L.Control.Draw({
-  draw: {
-    polyline: {
-      shapeOptions: {
-        color: "red", // set the color for the polygon border
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6), // set the size of the icon
-        className: "leaflet-div-icon", // specify the icon class
-      }),
-    },
-    polygon: false,
-
-    circle: false,
-    marker: false,
-    rectangle: false,
-    circlemarker:false
-  },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
-});
-
-
-var drawControlBuilding = new L.Control.Draw({
-  draw: {
-    polyline:false,
-    
-    polygon:  {
-        shapeOptions: {
-          color: "red", 
-        },
-        icon: new L.DivIcon({
-          iconSize: new L.Point(6, 6), 
-          className: "leaflet-div-icon", 
-        }),
-      },
-
-    circle: false,
-    marker: false,
-    rectangle: false,
-  },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
-});
 
 
 var drawControlDrainage = new L.Control.Draw({
@@ -574,39 +522,43 @@ var selectedPolylineId = null;
 var deleteControl = L.control({ position: 'topleft' });
 
 deleteControl.onAdd = function(map) {
-    var container = L.DomUtil.create('div', 'leaflet-bar');
-    var button = L.DomUtil.create('button', 'delete-button', container);
-    button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-    button.style.border='2px solid darkblue';
-    button.style.padding='5px';
-    button.style.fontSize='15px';
-    button.style.display='none';
-    button.style.borderRadius='5px';
-    button.title = "Delete Selected Feature";
+  var container = L.DomUtil.create('div', 'leaflet-bar');
+  var button = L.DomUtil.create('button', 'delete-button', container);
+  button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+  button.style.border='2px solid darkblue';
+  button.style.padding='5px';
+  button.style.fontSize='15px';
+  button.style.borderRadius='5px';
+ button.style.display='none';
+  button.title = "Delete Selected Feature";
 
-  // Style the button
-  button.style.backgroundColor = 'white';   
-  button.style.color = 'black';            
-  button.style.padding = '5px 10px';       
-  button.style.border = 'none';             
-  button.style.cursor = 'pointer';          
+// Style the button
+button.style.backgroundColor = 'white';   
+button.style.color = 'black';            
+button.style.padding = '5px 10px';       
+button.style.border = 'none';             
+button.style.cursor = 'pointer';          
 
-  button.onclick = function() {
-      if (selectedPolylineId) {
-          handleDeletePolyline(selectedPolylineId._leaflet_id);
-          selectedPolylineId = null;  // Reset selected polyline ID after deletion
-      } else {
-        alert("Please select a feature to delete.");
-        drawnItems.eachLayer(function (layer) {
-          layer.on('click', function () { 
-            console.log("hello")
-            selectedPolylineId = layer ;
-          });
-      });
-      }
-  };
+button.onclick = function() {
+    if (selectedPolylineId) {
+        handleDeletePolyline(selectedPolylineId._leaflet_id);
+        selectedPolylineId = null;  // Reset selected polyline ID after deletion
+        button.style.backgroundColor = 'white';   
+    } else {
+      alert("Please select a feature to delete.");
+      button.style.backgroundColor = 'red';   
+      drawnItems.eachLayer(function (layer) {
+        layer.on('click', function () { 
+          console.log("hello")
+          selectedPolylineId = layer ;
+          layer.setStyle({ color: 'green', weight: 7 });
 
-  return container;
+        });
+    });
+    }
+};
+
+return container;
 };
 
 
@@ -1621,7 +1573,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-   // window.location.href = "geometry_page.html";
+    window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);

@@ -1,8 +1,4 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/IWMS";
-// const API_URL = "http://localhost/PMC-ANKIT/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-
 
 //Add Basemap
 var map = L.map("map", {
@@ -439,6 +435,30 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
       }
+
+      else if (department.department_name === "Water Supply") {
+              
+            
+        const baseURL = "water-suppy.html";
+    
+        // Create the query string
+        const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+    
+        // Redirect to the new URL with query parameters
+        window.location.href = baseURL + queryString;
+    }
+
+    else if (department.department_name === "Electrical") {
+              
+            
+      const baseURL = "electric-work.html";
+  
+      // Create the query string
+      const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+  
+      // Redirect to the new URL with query parameters
+      window.location.href = baseURL + queryString;
+  }
           
   
               updateLocalStorage('lastInsertedId',response.data.id);
@@ -1088,40 +1108,45 @@ var selectedPolylineId = null;
 var deleteControl = L.control({ position: 'topleft' });
 
 deleteControl.onAdd = function(map) {
-    var container = L.DomUtil.create('div', 'leaflet-bar');
-    var button = L.DomUtil.create('button', 'delete-button', container);
-    button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-    button.style.border='2px solid darkblue';
-    button.style.padding='5px';
-    button.style.fontSize='15px';
-    button.style.borderRadius='5px';
-    button.title = "Delete Selected Feature";
+  var container = L.DomUtil.create('div', 'leaflet-bar');
+  var button = L.DomUtil.create('button', 'delete-button', container);
+  button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+  button.style.border='2px solid darkblue';
+  button.style.padding='5px';
+  button.style.fontSize='15px';
+  button.style.borderRadius='5px';
+ button.style.display='none';
+  button.title = "Delete Selected Feature";
 
-  // Style the button
-  button.style.backgroundColor = 'white';   
-  button.style.color = 'black';            
-  button.style.padding = '5px 10px';       
-  button.style.border = 'none';             
-  button.style.cursor = 'pointer';          
+// Style the button
+button.style.backgroundColor = 'white';   
+button.style.color = 'black';            
+button.style.padding = '5px 10px';       
+button.style.border = 'none';             
+button.style.cursor = 'pointer';          
 
-  button.onclick = function() {
-      if (selectedPolylineId) {
-          handleDeletePolyline(selectedPolylineId._leaflet_id);
-          selectedPolylineId = null;  // Reset selected polyline ID after deletion
-      } else {
-        alert("Please select a feature to delete.");
-        drawnItems.eachLayer(function (layer) {
-          layer.on('click', function () { 
-            console.log("hello")
-            selectedPolylineId = layer ;
-          
-          });
-      });
-      }
-  };
+button.onclick = function() {
+    if (selectedPolylineId) {
+        handleDeletePolyline(selectedPolylineId._leaflet_id);
+        selectedPolylineId = null;  // Reset selected polyline ID after deletion
+        button.style.backgroundColor = 'white';   
+    } else {
+      alert("Please select a feature to delete.");
+      button.style.backgroundColor = 'red';   
+      drawnItems.eachLayer(function (layer) {
+        layer.on('click', function () { 
+          console.log("hello")
+          selectedPolylineId = layer ;
+          layer.setStyle({ color: 'green', weight: 7 });
 
-  return container;
+        });
+    });
+    }
 };
+
+return container;
+};
+
 
 
 deleteControl.addTo(map);
@@ -1760,6 +1785,9 @@ function handleMouseMove(event) {
             currentPolyline.addLatLng(result.marker);
             currentPolyline.redraw();
           }
+
+          currentPolyline.addLatLng(result.marker);
+          currentPolyline.redraw();
         }
       }
     });

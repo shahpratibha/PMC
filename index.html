@@ -160,17 +160,76 @@
 
     <script src="js/index-page.js"></script>
 
-    <script>
-      function toggleSelectLayerButton(show) {
-        var saveBtn = document.getElementById("editFeatureButton");
-        var editBtn = document.getElementById("saveDataButton");
-        var deleteBtn = document.getElementById("deleteFeatureButton");
-        if (saveBtn && editBtn) {
-          saveBtn.style.display = show ? "block" : "none";
-          editBtn.style.display = show ? "block" : "none";
-          deleteBtn.style.display = show ? "block" : "none";
-        }
-      }
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+
+  <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+  <link rel="stylesheet" href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css" />
+
+  <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
+  <script src="libs/polyline-measure/line-measure.js"></script>
+  <link rel="stylesheet" href="libs/leaflet-measure-master/leaflet-measure.css" />
+  <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.3/src/leaflet.geometryutil.min.js"></script>
+
+
+
+  <script src="libs/feat.js"></script>
+
+
+
+  <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
+  <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
+
+
+
+</head>
+
+<body>
+
+
+  <div id="map"></div>
+  <p href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</p>
+
+  <div>
+    <img src="png/pmcjpeg.png" alt="" class="logopng1" >
+  </div>
+
+
+  <div id="table-container">
+    <table id="workTable" class="table table-bordered table-hover" style="width: 100% !important; font-size: 10px;">
+
+      <thead>
+      </thead>
+
+      <tbody id="workTableData"></tbody>
+    </table>
+  </div>
+  <script src="js/config.js"></script>
+
+  <script src="js/index-page.js"></script>
+
+  <script>
+
+
+function toggleSelectLayerButton(show) {
+  var saveBtn = document.getElementById('editFeatureButton');
+  var editBtn = document.getElementById('saveDataButton');
+  var deleteBtn = document.getElementById('deleteFeatureButton');
+  if (saveBtn  && editBtn ) {
+      saveBtn.style.display = show ? 'block' : 'none';
+      editBtn.style.display = show ? 'block' : 'none';
+      deleteBtn.style.display = show ? 'block' : 'none';
+  }
+}
+
+
+
+    
+   
 
       $(document).ready(function () {
         var wardname = localStorage.getItem("wardname");
