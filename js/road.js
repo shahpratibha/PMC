@@ -991,7 +991,49 @@ function closestVertex(point,lineCoordinates){
   
   
   // for vertex mapping
+
+  let firstClickPoints = [];
   
+function getClosestRoadPointTrace(latlng) {
+  var buffer = 10; // Buffer distance in meters
+  var clickedPoint = latlng;
+  var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
+  var bbox = turf.bbox(bufferedPoint);
+  layer = "pmc:Exist_Road";
+
+  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  console.log("burl", url);
+  return new Promise((resolve, reject) => {
+      fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            firstClickPoints = data ;
+            console.log(data);
+          //  highlightFeature(data);
+              var closestPoint = null;
+              var closestPointv = null;
+              var distance = Infinity;
+              if (data.features && data.features.length > 0) {
+                  var geometry = data.features[0].geometry;
+                  var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
+                  var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
+                  // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
+                  closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+                  closestPointv = closestVertex(clickedPoint,line)
+                  // (lat,lng,distance)
+                  console.log(closestPoint,"closestPoint",closestPointv,"closestPointv")
+                  
+                  distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), {units: 'meters'});
+              }
+              resolve({ marker: closestPointv, distance: distance , data });
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              reject(error);
+          });
+  });
+}
+
   
   
 
@@ -1030,6 +1072,34 @@ function getClosestRoadPoint(latlng) {
               reject(error);
           });
   });
+}
+
+
+
+function highlightFeature(featureData) {
+  console.log(featureData);
+  // Check if any features are present in the featureData
+  if (!featureData || !featureData.features || featureData.features.length === 0)
+    // Clear existing editable layers
+    editableLayers.clearLayers();
+
+  // Get the first feature from the featureData
+  var feature = featureData.features[0];
+
+  var geojsonLayer = L.geoJSON(feature, {
+    style: {
+      color: 'red',
+      weight: 3,
+      opacity: 1,
+      fillOpacity: 0.5,
+    },
+  });
+
+  editableLayers.addLayer(geojsonLayer);
+
+  // if (editableLayers.getLayers().length > 0) {
+  //   map.fitBounds(editableLayers.getBounds());
+  // }
 }
 
 // for snapping tool
@@ -1200,17 +1270,20 @@ function handleMouseMove(event) {
   if (mapMode === 'tracing' && vertexClickCount > 0) {
     if (!currentPolyline) return;
     let newPoint = event.latlng;
-    getClosestRoadPoint(newPoint).then(result => {
-      if (result.distance <= 20) {  
+    getClosestRoadPointTrace(newPoint).then(result => {
+      if (result.distance <= 50) {  
         if (vertexClickCount === 1) {
           currentPolyline.addLatLng(result.marker);
           vertexClickCount++;
         } else {
           const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
-          if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
-            currentPolyline.addLatLng(result.marker);
-            currentPolyline.redraw();
-          }
+          console.log( turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }));
+          // if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
+          //   currentPolyline.addLatLng(result.marker);
+          //   currentPolyline.redraw();
+          // }
+          currentPolyline.addLatLng(result.marker);
+          currentPolyline.redraw();
         }
       }
     });
@@ -1636,7 +1709,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    //window.location.href = "geometry_page.html";
+    window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);

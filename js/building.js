@@ -96,9 +96,21 @@ var wms_layer1 = L.tileLayer.wms(
       opacity: 1,
     }
   )
-  var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
-    layers: "Reservations",
+  // var wms_layer11 = L.tileLayer
+  // .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  //   layers: "Reservations",
+  //   format: "image/png",
+  //   transparent: true,
+  //   tiled: true,
+  //   version: "1.1.0",
+  //   maxZoom: 21,
+
+  //   opacity: 1,
+  // }).addTo(map);
+
+  var wms_layer_bhavan = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Bhavan",
     format: "image/png",
     transparent: true,
     tiled: true,
@@ -107,7 +119,6 @@ var wms_layer1 = L.tileLayer.wms(
 
     opacity: 1,
   }).addTo(map);
-
 
 
 
@@ -249,7 +260,7 @@ var WMSlayers = {
   "Satellite": googleSat,
   Roads: wms_layer1,
   Boundary: wms_layer12,
-  Amenity: wms_layer11,
+  // Amenity: wms_layer11,
   Drainage: wms_layer13,
   Data: wms_layer14,
   Revenue: wms_layer15,
@@ -257,6 +268,7 @@ var WMSlayers = {
   PMC: wms_layer3,
   // geodata: wms_layer4,
   OSMRoad : wms_layer16,
+  Bhavan:wms_layer_bhavan
 };
  
  
