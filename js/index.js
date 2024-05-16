@@ -56,7 +56,7 @@ var Esri_WorldImagery = L.tileLayer(
 var baseLayers = {};
 
 var wms_layer1 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Roads",
     format: "image/png",
@@ -69,7 +69,7 @@ var wms_layer1 = L.tileLayer.wms(
 ).addTo(map);
 
 var wms_layer12 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -80,7 +80,7 @@ var wms_layer12 = L.tileLayer
       }).addTo(map);
 
 var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -92,7 +92,7 @@ var wms_layer11 = L.tileLayer
   });
 
 var wms_layer13 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Drainage_data",
     format: "image/png",
@@ -105,7 +105,7 @@ var wms_layer13 = L.tileLayer.wms(
 );
 
 var wms_layer14 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -116,7 +116,7 @@ var wms_layer14 = L.tileLayer
   });
 
 var wms_layer15 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -127,7 +127,7 @@ var wms_layer15 = L.tileLayer
   });
 
 var wms_layer17 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -139,7 +139,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -154,7 +154,7 @@ var wms_layer3 = L.tileLayer.wms(
 
 
 var IWMS_point = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -166,7 +166,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -287,7 +287,7 @@ var IWMS_line = L.tileLayer
     opacity: 1,
   });
 var wms_layer16 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -305,7 +305,7 @@ console.log(wardname, "wardname");
 ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
 
 var ward_boundary= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -318,7 +318,7 @@ var ward_boundary= L.tileLayer.wms(
 );
 
 var Zone_layer= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -1455,7 +1455,7 @@ map.on("contextmenu", async (e) => {
 
   for (let layer in layerDetails) {
       let selectedKeys = layerDetails[layer];
-      let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+      let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
       try {
           let response = await fetch(urrr);
@@ -1488,7 +1488,7 @@ map.on("dblclick", function (e) {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
     }&HEIGHT=${size.y}&BBOX=${bbox}`;
