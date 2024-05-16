@@ -1010,7 +1010,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/edit_tool.png">';
 customDrawControlsContainer = div;
 return div;
 };

@@ -64,7 +64,7 @@
         [
           "select2/utils",
           "select2/selection/multiple",
-          "select2/selection/placeholder",
+          "select2/selection/hgughvujh",
           "select2/selection/single",
           "select2/selection/eventRelay",
         ],

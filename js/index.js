@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/IWMS/";
+const API_URL = "http://localhost/PMC/iwms/";
 
 // const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 // const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
@@ -152,18 +152,6 @@ var wms_layer3 = L.tileLayer.wms(
 );
 
 
-// var wms_layer4 = L.tileLayer.wms(
-//   "https://pmc.geopulsea.com/geoserver/pmc/wms",
-//   {
-//     layers: "geodata",
-//     format: "image/png",
-//     transparent: true,
-//     tiled: true,
-//     version: "1.1.0",
-//     opacity: 1,
-//     maxZoom: 21,
-//   }
-// );
 
 var IWMS_point = L.tileLayer
   .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
@@ -1783,11 +1771,11 @@ var collapseButton = L.control({ position: "topright" });
 
 collapseButton.onAdd = function (map) {
   var button = L.DomUtil.create("button", "collapse-button");
-  button.innerHTML = "<i class='fa-solid fa-bars'></i>"; // Initial text
+  button.innerHTML = "<i class='fa-solid fa-list'></i>"; // Initial text
 
   // Apply styling
   button.style.backgroundColor = "white";
-  button.style.border = "2px solid #bbb";
+  button.style.border = "2px solid #383899";
   button.style.width = "35px";
   button.style.height = "35px";
   button.style.borderRadius = "5px";
@@ -1816,13 +1804,13 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.scrollbarColor =  "#163140 white";
       legendDiv.style.borderRadius= "20px";
       legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
-      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
+      button.innerHTML = "<i class='fa-solid fa-list'></i>";
 
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = true;
     } else {
       legendDiv.style.display = "none";
-      button.innerHTML = "<i class='fa-solid fa-bars'></i>";
+      button.innerHTML = "<i class='fa-solid fa-list'></i>";
       button.style.backgroundColor = "white"; // Change color to indicate action
       legendVisible = false;
     }
@@ -1841,6 +1829,7 @@ legend.onAdd = function (map) {
 
   // Initially hide the legend content
   div.style.display = "none";
+  
 
   // Create a button to toggle the visibility of the legend content
   var toggleButton = L.DomUtil.create("button", "legend-toggle");
@@ -1898,7 +1887,7 @@ legend.onAdd = function (map) {
       div.style.overflowY = "auto";
       div.style.scrollbarWidth = "thin";
       div.style.backgroundColor = "white";
-      div.style.border = "1px solid #ccc";
+      div.style.border = "1px solid #383899";
       div.style.borderRadius = "10px";
       div.style.padding = "10px";
     })
@@ -1910,6 +1899,7 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
+
 
 
 // for legend////////////////////////////////////////////////////////////////////
@@ -1924,7 +1914,7 @@ var northArrowControl = L.Control.extend({
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px;">';
+      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px; ">';
     return container;
   },
 });
@@ -1932,43 +1922,32 @@ var northArrowControl = L.Control.extend({
 // Add the custom north arrow control to the map
 map.addControl(new northArrowControl());
 
-// map.on("contextmenu", (e) => {
-//   let size = map.getSize();
-//   let bbox = map.getBounds().toBBoxString();
-//   let layer = "pmc:Data";
-//   let style = "pmc:Data";
-//   let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-//     e.containerPoint.x
-//   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
-//     }&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-//   if (urrr) {
-//     fetch(urrr)
-//       .then((response) => response.json())
-//       .then((html) => {
-//         var htmldata = html.features[0].properties;
-//         let keys = Object.keys(htmldata);
-//         let values = Object.values(htmldata);
-//         let txtk1 = "";
-//         var xx = 0;
-//         for (let gb in keys) {
-//           txtk1 +=
-//             "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
-//           xx += 1;
-//         }
-
-//         let detaildata1 =
-//           "<div style='max-height: 350px; max-width:200px;'><table  style='width:70%;' class='popup-table' >" +
-//           txtk1 +
-//           "</td></tr><tr><td>Co-Ordinates</td><td>" +
-//           e.latlng +
-//           "</td></tr></table></div>";
-
-//         L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-//       });
-//   }
-// });
 // zoom
 
 // Customize the zoom control position
 map.zoomControl.setPosition('bottomright');
+// close 
+function closeDropdown() {
+  var dropdownList = document.querySelector(".dropdown-list");
+  dropdownList.style.display = "none";
+}
+
+
+document.addEventListener("click", function(event) {
+  var dropdownContainer = document.querySelector(".dropdown-container");
+  var dropdownList = document.querySelector(".dropdown-list");
+
+
+  if (!dropdownContainer.contains(event.target) && event.target !== dropdownList) {
+      closeDropdown();
+  }
+});
+
+
+var villageName = getUrlParameter('village_name');
+
+
+if (villageName) {
+  performTaskBasedOnVillage(villageName);
+}
+

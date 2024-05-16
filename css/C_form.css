@@ -1,9 +1,39 @@
 body {
     font-family: Arial, sans-serif;
+    /* margin: 50px; */
     background-color: transparent;
 }
 
 
+.select2-container--open .select2-dropdown {
+  left: -32px;
+  /* margin-top: 33px; */
+}
+form {
+    max-width: 1325px;
+    margin: auto;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+}
+#content{
+  margin-left:9.5%;
+}
+#form-section{
+overflow-y: auto;
+width: 80%;
+margin-left:30%;
+}
+#form-section input,
+#form-section select,
+#form-section textarea {
+  width: 50%;
+    margin-bottom: 10px;
+    /* margin-left: 10px; */
+}
 h2 {
     width: 100%;
     text-align: center;
@@ -11,7 +41,20 @@ h2 {
     margin-bottom: 30px;
     color: #007bff;
 }
+.leaflet-control-layers label {
+  display: block;
+  font-size: 13px;
+  font-size: 1.08333em;
+  color: darkblue;
+}
 
+label {
+    /* width: calc(50% - 12px); */
+    margin-bottom: 12px;
+    font-weight: bold;
+    /* color: darkblue; */
+    /* color: #333; */
+}
 
 input,
 select {
@@ -24,11 +67,100 @@ select {
     box-sizing: border-box;
 }
 
+textarea {
+    width: 50%;
+    resize: vertical;
+    height: 100px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.submitbtn{
+    width: 10%;
+    margin:20px auto;
+    border-radius: 10px;
+}
+ 
 
+
+
+
+ /* Additional styling for the buttons */
+ #button-container {
+    display: flex;
+    margin-left: 43px;
+    
+}
+.toggle-button {
+    width: 10%;
+    font-size: 12px;
+    margin: 5% 0  0 0%;
+    padding: 10px 5px;
+    border: none;
+    background-color: white;
+    color: gray;
+    cursor: pointer;
+    /* border-radius: 5px; */
+    transition: background-color 0.3s;
+}
+
+.toggle-button:hover {
+    background-color: #bbb;
+}
+.toggle-button.selected {
+    color: black; /* Change text color for selected button */
+    background-color: #bbb; /* Change background color for selected button */
+}
+/* mark area 
+*/
+
+.markbtn{
+    width: 100%;
+    /* margin:20px auto; */
+    border-radius: 10px;
+    color:gray ;
+} 
+.form-paragraph {
+    display: block;
+}
+.toggle-btn {
+    width: 10%;
+    font-size: 12px;
+    margin: 2% 0  0 0%;
+    padding: 10px 5px;
+    border: none;
+    background-color: #bbb;
+    color: black;
+    cursor: pointer;
+    /* border-radius: 5px; */
+    transition: background-color 0.3s;
+}
+
+.toggle-btn:hover {
+    color: white;
+}
+.toggle-btn.selected {
+    color: black; /* Change text color for selected button */
+    background-color: #bbb; /* Change background color for selected button */
+}
 a{
     text-decoration: none;
 }
 
+.toggle-btn1 {
+    width: 23%;
+    height: 40px;
+    font-size: 10px;
+    padding: 5px;
+    border: none;
+    background-color: #bbb;
+    color: black;
+    cursor: pointer;
+    /* border-radius: 5px; */
+    transition: background-color 0.3s;
+}
 
 
 .popup-container {
@@ -72,6 +204,18 @@ a{
     box-sizing: border-box
 }
 
+body {
+    position: relative;
+    margin: var(--header-height) 0 0 0;
+    padding: 0 1rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s
+}
+
+a {
+    text-decoration: none
+}
 
 .input-group {
     display: flex;
@@ -82,6 +226,8 @@ a{
 .input-group .form-control,
 .input-group .btn {
     margin-right: 5px;
+    width: 200px;
+    /* height: 40px; */
 }
 
 .input-group #searchInputDashboard {
@@ -106,13 +252,101 @@ a{
     border-radius:5px ;
 }
 
-
+.nav_link:hover {
+    color: var(--white-color)
+}
 
 .nav_icon {
     font-size: 1.25rem
 }
 
+.show {
+    left: 0
+}
 
+
+.active {
+    color: var(--white-color)
+}
+
+.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 32px;
+    background-color: var(--white-color)
+}
+
+.height-100 {
+    height: 100vh
+}
+
+
+@media screen and (min-width: 768px) {
+    body {
+        margin: calc(var(--header-height) + 1rem) 0 0 0;
+        /* padding-left: calc(var(--nav-width) + 2rem) */
+    }
+
+    .header {
+        height: calc(var(--header-height) + 1rem);
+        padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
+    }
+
+    .header_img {
+        width: 40px;
+        height: 40px
+    }
+
+    .header_img img {
+        width: 45px
+    }
+
+    .l-navbar {
+        left: 0;
+        padding: 1rem 1rem 0 0
+    }
+
+    
+.show {
+    left: 0
+
+    }
+
+    
+}
+
+/* subdropdown css */
+/* .dropdown-menu {
+    position: ;
+} */
+
+.sub-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 120px; /* Adjust width as needed */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+.dropdown-menu li:hover .sub-dropdown-menu {
+    display: block;
+}
+
+.sub-dropdown-menu li {
+    display: block;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+}
+
+.sub-dropdown-menu li:hover {
+    background-color: #f0f0f0;
+}
 
 /* popup */
 .custom-modal-class {
@@ -287,7 +521,7 @@ a{
 
         .geopulseaname{
             color: darkblue;
-            position: absolute;
+            position: fixed;
             z-index: 99999;
             bottom: 0px;
             right: 15px;
@@ -346,7 +580,7 @@ a{
     width: 570px;
     height: 500px;
     bottom: 310px;
-    left: 60%;
+    left: 49%;
     top:20%;
     max-height: 300px; 
     background-color: #fff;
@@ -442,13 +676,12 @@ a{
   }
 
   
-.leaflet-popup-content-wrapper {
+  .leaflet-popup-content-wrapper {
     max-height: 300px;
-    /* Set the maximum height for the table */
     overflow-y: auto;
-    /* Add a vertical scrollbar when the content overflows */
     width: 100%;
-  }
+    overflow-x: hidden;
+}
   
   #popup-table {
     max-width: 200px;
@@ -509,12 +742,13 @@ a{
 
 
   .leaflet-touch .geocoder-control-input {
-    height: 30px;
+    height: 33px;
     line-height: 30px;
     background-size: 30px;
     position: relative;
-    top: 75px;
-    left: 0px;
+    top: 70px;
+    left: -3px;
+    border: 2px solid #383899;
 }
 
  
@@ -526,23 +760,27 @@ a{
       top: 0;
     }
 
-    .leaflet-control-layers-list {
-      width: 200px;
+    .leaflet-control-layers-list{
+      width: 150px;
       height: 200px;
       overflow-y: scroll;
       scrollbar-width: thin;
       font-size: 9px;
       padding: 0px;
-
+      /* color: darkblue; */
+      
     }
-
+    /* .leaflet-control-layers-list {
+      color: darkblue;
+  } */
+   
     .leaflet-control-layers-overlays {
       width: 100%;
     }
 
     #map {
     top: 0px;
-    left: 0;
+    left: -12%;
     height: 100vh;
     width: 100vw;
     z-index: 0;
@@ -561,15 +799,17 @@ a{
       content: "\f14a";
     }
 
-    .form-control {
-      height: 30px;
-      padding: auto;
-    }
+    
 
     .accordion-button {
       height: 30px;
-      font-size: 12px;
+      font-size: 13px;
+      height: 30px;
+      font-size: 13px;
+      color: darkblue;
+      font-weight: bold;
     }
+    
 
     .form-select {
       justify-content: center;
@@ -590,14 +830,17 @@ a{
       width: 0;
       position: fixed;
       z-index: 1;
-      left: 20px;
+      left: 70px;
       background-color: #f3f3f3;
       overflow-x: hidden;
       transition: 0s;
       padding-top: 10px;
       overflow-y: scroll;
       border-radius: 10px;
+      border-color: #383899;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      color: darkblue;
+      font-weight: bold;
       /* Add shadow */
     }
 
@@ -616,17 +859,20 @@ a{
    .form-group{
      margin-bottom: 0;
    }
+  
+  
+  .sidebar .closebtn {
+    position: absolute; 
+    color: red;
+    top: -8px;
+    right: -10px;
+    /* font-size: 30px; */
+    font-weight: bold;
+    margin-left: 50px;
+    z-index: 1;
+  }
+  
 
-
-    .sidebar .closebtn {
-      position: absolute;
-      color: red;
-      top: -5px;
-      right: -4px;
-      /* font-size: 30px; */
-      font-weight: bold;
-      margin-left: 50px;
-    }
 
     #content {
       transition: margin-left 0.5s;
@@ -652,7 +898,7 @@ a{
       left: 30px;
       right: 30px;
     }
- 
+
     @media screen and (max-height: 450px) {
       .sidebar {
         padding-top: 15px;
@@ -667,19 +913,27 @@ a{
       position: sticky;
       top: 0;
       z-index: 1;
-    } 
-
+    }
+    #paginationControls button {
+      background-color: transparent;
+      color: darkblue;
+      font-size: 15px;
+      /* height: 25px; */
+      margin-top: -10px;
+      margin-right: 22px;
+  }
     
-#paginationControls button {
+/* #paginationControls button {
   background-color: transparent;
   color: darkblue;
   font-size: 15px;
   height: 25px;
-}
+  margin-right: 20px;
+} */
 
 #paginationControls  p{
   font-size: 10px;
-  margin-top: 11px;
+  /* margin-top: -15px; */
   /* bottom: 0; */
 }
 
@@ -693,7 +947,7 @@ a{
   right: 0.8%;
   background-color: white;
   border-radius: 10px;
-  border: 2px solid #bbb;
+  border: 2px solid #383899;
 
 }
 
@@ -757,8 +1011,9 @@ button, input, optgroup, select, textarea {
     flex-wrap: nowrap;
     align-items: stretch;
     width: 100%;
-    left: 300%;
+    left: 50%;
     top: 10px;
+    height: 40px;
 }
 
 .leaflet-control-zoom{
@@ -779,10 +1034,13 @@ button, input, optgroup, select, textarea {
     }
     .popup-table tr,td{
       border-bottom: 1px solid;
-      /* padding: 5px; */
     
       }
-    
+      /* .popup-table td {
+        border-right: 1px solid; 
+        padding: 7px;
+        vertical-align: middle;
+      } */
 
       .leaflet-popup-content {
         margin: 13px 24px 13px 20px;
@@ -803,34 +1061,54 @@ button, input, optgroup, select, textarea {
         background-color: white;
         border: 1px solid #aaa;
         border-radius: 4px;
-        cursor: text;
+        /* cursor: text; */
         padding-bottom: 5px;
         padding-right: 5px;
         position: relative;
-        margin-left: -33px;
+        margin-left: -32px;
+        margin-right: -7px;
     }
     .select2-container--open .select2-dropdown {
       left: -32px;
-      }
-      .accordion-header {
-        margin-bottom: 0;
-        margin-top: 2px;
-    }
-    .popup-table tr td:not(:last-child) {
-      border-right: 1px solid ; 
-      padding: 7px;
+      width: 140px !important;;
+  }
+  .accordion-header {
+    margin-bottom: 0;
+    margin-top: 2px;
+}
+.popup-table tr td:not(:last-child) {
+  border-right: 1px solid ; 
+  padding: 7px;
 
-    }
+}
 
 
 
 /* accordation */
 
 .accordion {
-  
+  --bs-accordion-color: var(--bs-body-color);
+  --bs-accordion-bg: var(--bs-body-bg);
+  --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
+  --bs-accordion-border-color: var(--bs-border-color);
+  --bs-accordion-border-width: var(--bs-border-width);
+  --bs-accordion-border-radius: var(--bs-border-radius);
+  --bs-accordion-inner-border-radius: calc(var(--bs-border-radius) - (var(--bs-border-width)));
+  --bs-accordion-btn-padding-x: 1.25rem;
+  --bs-accordion-btn-padding-y: 1rem;
+  --bs-accordion-btn-color: var(--bs-body-color);
+  --bs-accordion-btn-bg: var(--bs-accordion-bg);
   --bs-accordion-btn-icon: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
-  --bs-accordion-btn-icon-width: 1rem;
- 
+  --bs-accordion-btn-icon-width: 0.75rem;
+  --bs-accordion-btn-icon-transform: rotate(-180deg);
+  --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
+  --bs-accordion-btn-active-icon: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23052c65'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
+  --bs-accordion-btn-focus-border-color: #00008b;
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  --bs-accordion-body-padding-x: 1.25rem;
+  --bs-accordion-body-padding-y: 1rem;
+  --bs-accordion-active-color: var(--bs-primary-text-emphasis);
+  --bs-accordion-active-bg: var(--bs-primary-bg-subtle);
 }
 
 .accordion-button {
@@ -841,20 +1119,228 @@ button, input, optgroup, select, textarea {
   color: grey;
   font-weight:bold;
 }
-/* header project counts */
+/*mobile view */
+@media screen and (max-width: 767px) {
+  .leaflet-control-layers-list {
+    width: 100px;
+    height: 200px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    font-size: 9px;
+    padding: 0px;
+}
+  .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    /* width: 100px; */
+    border: 2px solid #383899;
+    background-clip: padding-box;
+}
+  .tablestats {
+    border: 2px solid darkblue;
+    position: fixed;
+    color: #04c;
+    font-size: 53%;
+    /* background-color: rgba(173, 216, 230, 0.5); */
+    background-color: #c8d7ab70;
+    font-weight: bold;
+    top: 12%;
+    right: 15%;
+    padding: 3px;
+    border-radius: 5px 5px;
+    z-index: 9999;
+    text-shadow: black;
+    text-transform: uppercase;
+}
+#map {
+    top: 0px;
+    left: -16%;
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+}
+.input-group .form-select, .input-group .form-control, .input-group .btn {
+  margin-right: 5px;
+  width: 110px;
+  height: 33px;
+}
+.input-group #searchInputDashboard {
+  height: 30px;
+  border-radius: 10px;
+  width: 112px;
+}
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 90%;
+  left: 35px;
+  top: 10px;
+  height: 40px;
+}
+}
+.logopng {
+  height: 40px;
+  width: 40px;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px;
+  position: absolute;
+  z-index: 9999;
+  top: 30%;
+  right: 20%;
+  left: -4%;
+  border: 2px solid #383899;
+}
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  position: relative;
+  top: 45px;
+  left: -3px;
+  border: 2px solid #383899;
+}
+.filter {
+  position: absolute;
+  z-index: 9999;
+  color: var(--first-color-dark);
+  background-color: white;
+  padding: 3px 4px;
+  top: 16%;
+  left: 3%;
+  border: 2px solid #383899;
+  /* border: 2px solid #bbb; */
+  border-radius: 5px;
+}
+#openTableBtn {
+  position: fixed;
+  z-index: 9999;
+  top: 76%;
+  width: auto;
+  padding: 5px;
+  /* height: 5.5%; */
+  right: 0.8%;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid #383899;
+
+}
+.form-select {
+  --bs-form-select-bg-img: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e);
+  display: block;
+  width: 100%;
+  padding: .375rem 2.25rem .375rem .75rem;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-image: var(--bs-form-select-bg-img), var(--bs-form-select-bg-icon, none);
+  background-repeat: no-repeat;
+  background-position: right .75rem center;
+  background-size: 16px 12px;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.form-control{
+  /* height: 3px; */
+  width: 100px;
+ /* border-radius: 10px; */
+ /* border: 2px solid darkblue; */
+}
+.leaflet-touch .leaflet-control-layers-toggle {
+  width: 35px;
+  height: 35px;
+}
+
+/* Desktop Media Query */
+@media screen and (min-width: 1024px) {
+  .filter {
+    position: fixed;
+    z-index: 9999;
+    color: var(--first-color-dark);
+    background-color: white;
+    padding: 3px 4px;
+    top: 16%;
+    left: 8px;
+    border: 2px solid #383899;
+    border-radius: 5px;
+  }
+  .logopng {
+    height: 45px;
+    width: 45px;
+    border: 2px solid #bbb;
+    border-radius: 10px;
+    background-color: white;
+    padding: 5px;
+    position: absolute;
+    z-index: 9999;
+    top: 30%;
+    left: -2%;
+    border: 2px solid #383899;
+}
+.leaflet-touch .geocoder-control-input {
+  height: 33px;
+  line-height: 30px;
+  background-size: 30px;
+  position: relative;
+  top: 55px;
+  left: 1px;
+  border: 2px solid #383899;
+}
+.leaflet-touch .leaflet-control-layers-toggle {
+  width: 35px;
+  height: 35px;
+  /* border: 2px solid #383899;     */
+
+}
+.input-group .form-select, .input-group .form-control, .input-group .btn {
+  margin-right: 5px;
+  width: 150px;
+  /* height: 40px; */
+  font-size: 15px;
+}
+.input-group #searchInputDashboard {
+  height: 40px;
+  border-radius: 10px;
+  width: 270px;
+}
 .tablestats{
   border: 2px solid darkblue;
   position: fixed;
   color: #04c;
   font-size: 100%;
   /* background-color: rgba(173, 216, 230, 0.5); */
-  background-color: #c8d7abd4;
+  background-color: #c8d7ab70;
   font-weight: bold;
   top: 2%;
-  right: 45%;
+  right:18%;
   padding: 3px;
   border-radius: 5px 5px;
   z-index: 9999;
   text-shadow: black;
   text-transform: uppercase;
+
 }
+.leaflet-right .leaflet-control {
+  margin-right: 10px;
+  border: 2px solid #383899;
+}
+
+
+}
+
+ul.select2-results__options{
+  width: 138px;
+}
+ul.select2-results__options li{
+  border :1px solid grey;
+}
+
+  
+
