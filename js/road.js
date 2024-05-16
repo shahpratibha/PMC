@@ -601,8 +601,10 @@ deleteControl.onAdd = function(map) {
       if (selectedPolylineId) {
           handleDeletePolyline(selectedPolylineId._leaflet_id);
           selectedPolylineId = null;  // Reset selected polyline ID after deletion
+          button.style.backgroundColor = 'white';   
       } else {
         alert("Please select a feature to delete.");
+        button.style.backgroundColor = 'red';   
         drawnItems.eachLayer(function (layer) {
           layer.on('click', function () { 
             console.log("hello")
