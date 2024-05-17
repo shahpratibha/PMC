@@ -1556,7 +1556,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = "geometry_page.html";
+      window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+'&department=Building'+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
