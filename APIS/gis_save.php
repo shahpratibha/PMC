@@ -33,7 +33,7 @@ if ($department == "Road") {
     $geometry = $geoJSONData['features'][0]['geometry'];
     $geometryJSON = json_encode($geometry);
 
-    $selectedGeometry = $selectCoordinatesData[0]['geometry'];
+    $selectedGeometry = $selectCoordinatesData[1]['geometry'];
     $selectedGeometryJson = json_encode($selectedGeometry);
 
     if (is_null($geoJSONData)) {
@@ -118,8 +118,11 @@ if ($department == "Road") {
     }
 
 } else if ($department == "Building") {
+    $selectCoordinatesData = $data['selectCoordinatesData'];
+    $selectedGeometry = $selectCoordinatesData[1]['geometry'];
+    $selectedGeometryJson = json_encode($selectedGeometry);
 
-    $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_polygon\" (
+    $stmtIWMS = $pdo->prepare("INSERT INTO \"Polygon_data\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
         conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
         \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
@@ -182,6 +185,7 @@ if ($department == "Road") {
         echo json_encode(["error" => $e->getMessage()]);
         exit;
     }
+    
 } else if ($department == "Drainage") {
 
    

@@ -319,7 +319,7 @@ function updateLocalStorage(key, value) {
 
 async function fetchAndPostData(id) {
   try {
-     const response = await fetch(`http://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
+     const response = await fetch(`https://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
 
     //  const response = await fetch('api-responses/all-project-data.json');
       const data = await response.json();
