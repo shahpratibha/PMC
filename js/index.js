@@ -105,7 +105,7 @@ var wms_layer13 = L.tileLayer.wms(
 );
 
 var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -154,7 +154,7 @@ var wms_layer3 = L.tileLayer.wms(
 
 
 var IWMS_point = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -166,7 +166,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -180,7 +180,7 @@ var IWMS_line = L.tileLayer
   
   var wms_layer21 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Chawl_Building",
+    layers: "Bhavan",
     format: "image/png",
     transparent: true,
     tiled: true,
@@ -190,102 +190,6 @@ var IWMS_line = L.tileLayer
     opacity: 1,
   });
 
-
-  var wms_layer22 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Commercial_Building",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-
-  var wms_layer23 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Commercial_Land",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-
-  var wms_layer24 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Creamation_Ground",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-
-  var wms_layer25 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Culture_Center",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-
-  var wms_layer26 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Education_school",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-
-  var wms_layer27 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Fire_station",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-
-  var wms_layer28 = L.tileLayer
-  .wms("https://piwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Garden",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
-
-  var wms_layer29 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Health_Center",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  });
 var wms_layer16 = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
@@ -348,15 +252,8 @@ var WMSlayers = {
   Village: wms_layer17,
   PMC: wms_layer3,
   Amenity: wms_layer11,
-  Chawl_Building: wms_layer21,
-  Commercial_Building: wms_layer22,
-  Commercial_Land: wms_layer23,
-  Creamation_Ground: wms_layer24,
-  Culture_Center: wms_layer25,
-  Education_school: wms_layer26,
-  Fire_station: wms_layer27,
-  Garden: wms_layer28,
-  Health_Center: wms_layer29,
+  Bhavan: wms_layer21,
+  
   Drainage: wms_layer13,
   Roads: wms_layer1,
   // geodata: wms_layer4,

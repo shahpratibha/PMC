@@ -319,7 +319,7 @@ function updateLocalStorage(key, value) {
 
 async function fetchAndPostData(id) {
   try {
-     const response = await fetch(`http://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
+     const response = await fetch(`https://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
 
     //  const response = await fetch('api-responses/all-project-data.json');
       const data = await response.json();
@@ -650,7 +650,7 @@ var wms_layer12 = L.tileLayer
 
  
 var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -699,7 +699,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -710,7 +710,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,

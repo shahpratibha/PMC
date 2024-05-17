@@ -84,29 +84,29 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }
 ).addTo(map);
-var wms_layer13 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
-  {
-    layers: "Drainage_data",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-    opacity: 1,
-  }
-);
-var wms_layer11 = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-  layers: "Reservations",
-  format: "image/png",
-  transparent: true,
-  tiled: true,
-  version: "1.1.0",
-  maxZoom: 21,
+// var wms_layer13 = L.tileLayer.wms(
+//   "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+//   {
+//     layers: "Drainage_data",
+//     format: "image/png",
+//     transparent: true,
+//     tiled: true,
+//     version: "1.1.0",
+//     maxZoom: 21,
+//     opacity: 1,
+//   }
+// );
+// var wms_layer11 = L.tileLayer
+// .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+//   layers: "Reservations",
+//   format: "image/png",
+//   transparent: true,
+//   tiled: true,
+//   version: "1.1.0",
+//   maxZoom: 21,
 
-  opacity: 1,
-});
+//   opacity: 1,
+// });
 
 
 
@@ -137,7 +137,7 @@ var wms_layer12 = L.tileLayer
 
  
 var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -186,7 +186,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -197,7 +197,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
@@ -249,8 +249,8 @@ var WMSlayers = {
   "Satellite": googleSat,
   Roads: wms_layer1,
   Boundary: wms_layer12,
-  Amenity: wms_layer11,
-  Drainage: wms_layer13,
+  // Amenity: wms_layer11,
+  // Drainage: wms_layer13,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,

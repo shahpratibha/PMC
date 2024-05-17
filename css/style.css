@@ -558,3 +558,28 @@ top: 0px;
   left: 54px;
   border-bottom: none;
 }
+
+
+
+/* polygon leaflet css */
+
+.leaflet-draw-draw-polygon{
+  
+    position: absolute;
+      top: -170px;
+      left: 53px;
+      border:2px solid darkblue;
+      
+  
+}
+
+
+.leaflet-draw-draw-circlemarker{
+  
+  position: absolute;
+    top: -140px;
+    left: 53px;
+    border:2px solid darkblue;
+
+}
+
