@@ -67,8 +67,8 @@
 							color: darkblue;
 							position: absolute;
 							z-index: 99999;
-							bottom: -1.5%;
-							right: 10%;
+							bottom: 0.5%;
+							right: 0;
 							font-weight: bold;
 							/* background-color: rgba(173, 216, 230, 0.5); */
 							font-size: 10px;
@@ -106,50 +106,7 @@
 				}
 			}
 
-			function loadFile() {
-				var input = document.getElementById('fileInput');
-				var file = input.files[0];
 
-				if (file) {
-					var reader = new FileReader();
-
-					reader.onload = function (e) {
-						try {
-							var parser = new DOMParser();
-							var kmlDoc = parser.parseFromString(e.target.result, 'application/xml');
-
-							var coordinates = extractCoordinates(kmlDoc);
-
-							showCoordinatesOnMap(coordinates);
-						} catch (error) {
-							alert('Invalid KML/KMZ file!');
-						}
-					};
-
-					reader.readAsText(file);
-				}
-			}
-
-			function extractCoordinates(kmlDoc) {
-				var coordinates = [];
-
-				var placemarks = kmlDoc.querySelectorAll('Placemark');
-
-				placemarks.forEach(function (placemark) {
-					var coordinatesNode = placemark.querySelector('coordinates');
-
-					if (coordinatesNode) {
-						var coordsArray = coordinatesNode.textContent.trim().split(' ');
-						var coords = coordsArray.map((coordString) => {
-							var [lon, lat] = coordString.split(',');
-							return [parseFloat(lat), parseFloat(lon)];
-						});
-						coordinates.push(coords);
-					}
-				});
-
-				return coordinates;
-			}
 
 			function getQueryParam(param) {
 				const urlParams = new URLSearchParams(window.location.search);
@@ -159,13 +116,13 @@
 			const lastInsertedId = parseInt(getQueryParam('id'));
 			const lastInsertedIdConceptual = parseInt(getQueryParam('lastInsertedId'));
 			let department = getQueryParam('department');
-			console.log(department);
+			console.log(department,lastInsertedId,lastInsertedIdConceptual);
 
 			$(document).ready(function () {
 				$.ajax({
 					url: 'APIS/get_geodata.php', // Path to the PHP script
 					type: 'GET',
-					data: { id: lastInsertedId , department:department },
+					data: { id: lastInsertedIdConceptual , department:department },
 					dataType: 'json',
 					success: function (response) {
 						const geometry = response.data;

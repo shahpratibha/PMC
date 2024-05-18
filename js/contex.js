@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/IWMS";
+
 
 // var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
 //Pop-Up show

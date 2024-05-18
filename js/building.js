@@ -148,7 +148,7 @@ var wms_layer12 = L.tileLayer
 
  
 var wms_layer14 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -197,7 +197,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -208,7 +208,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
@@ -216,6 +216,17 @@ var IWMS_line = L.tileLayer
   version: "1.1.0",
   maxZoom: 21,
   opacity: 1,
+});
+
+var IWMS_polygon = L.tileLayer
+.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  layers: "IWMS_polygon",
+  format: "image/png",
+  transparent: true,
+  tiled: true,
+  version: "1.1.0",
+  opacity: 1,
+  maxZoom: 21,
 });
 
 var wms_layer16 = L.tileLayer.wms(

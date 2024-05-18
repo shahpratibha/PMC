@@ -123,6 +123,8 @@ if ($department == "Road") {
     $selectedGeometryJson = json_encode($selectedGeometry);
 
     $stmtIWMS = $pdo->prepare("INSERT INTO \"Polygon_data\" (
+
+
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
         conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
         \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
