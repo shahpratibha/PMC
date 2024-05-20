@@ -515,20 +515,22 @@ top: 0px;
 } */
 
 
-#save-button{
+#save-button {
   /* border: 2px solid rgb(187, 187, 187); */
   border-radius: 0;
   background-color: white;
   color: black;
-  padding: 7px;
+  padding: 6px;
   display: none;
   position: absolute;
   border: 2px solid darkblue;
-  border-top:none ;
+  /* border-top: none; */
   border-bottom: none;
-  top: -70px;
-  left: 55.3px;
+  top: 47px;
+  left: 54px;
   font-size: 15px;
+  height: 29px;
+  width: 29px;
   border-bottom: none;
 }
 .delete-button{
@@ -570,16 +572,17 @@ top: 0px;
       left: 53px;
       border:2px solid darkblue;
       
-  
+}
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  width: 30px; 
+}
+
+.leaflet-touch .geocoder-control-input:focus {
+  width: 300px; 
 }
 
 
-.leaflet-draw-draw-circlemarker{
-  
-  position: absolute;
-    top: -140px;
-    left: 53px;
-    border:2px solid darkblue;
-
-}
 

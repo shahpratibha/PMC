@@ -296,10 +296,12 @@ var drawControlRoad = new L.Control.Draw({
     rectangle: false,
     circlemarker: false
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+//   edit: {
+//     featureGroup: drawnItems,
+//     remove: true,
+//   },
+// });
+edit: false
 });
 
 
