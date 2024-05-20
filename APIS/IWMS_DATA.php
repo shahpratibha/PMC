@@ -63,7 +63,7 @@ if (!empty($selected_stage)) {
     // Fetch data from IWMS_polygon table
     $stmt_polygon = $pdo->prepare("SELECT 
            id, ST_AsGeoJSON(geom)::json as geom, works_aa_a, name_of_wo, scope_of_w, work_type, conceptual, conc_appr_, created_at, je_name, contact_no, tender_amo, project_fi, update_dat, gis_id, zone_id, zone, ward_id, ward, department, departme_1, stage, no_of_road, length, width, area, measure_in, village
-        FROM public.\"IWMS_polygon\"
+        FROM public.\"Polygon_data\"
         $where_clause");
     $stmt_polygon->execute();
     $data_polygon = $stmt_polygon->fetchAll(PDO::FETCH_ASSOC);

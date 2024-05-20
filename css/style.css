@@ -4,6 +4,38 @@
   box-sizing: border-box;
 }
 
+
+#map {
+  top: 0px;
+  left: 0px;
+  height: 99vh;
+  width: 100%;
+  z-index: 1;
+}
+
+
+
+.leaflet-container .leaflet-control-attribution {
+
+  display: none;
+}
+
+
+
+.leaflet-control-zoom {
+  position: absolute;
+  left: 96vw;
+  top: 85vh;
+  border: 2px solid darkblue;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+
+background-clip: padding-box;
+border: 2px solid darkblue;
+
+}
+
 a {
   text-decoration: none;
   color: white;
@@ -392,53 +424,6 @@ padding: 5px;
   }
 
 
-  /* Default styles for geocoder control */
-  /*
-.leaflet-touch .geocoder-control {
-  z-index: 9999999;
-  position: absolute;
-  
-  left:-10px;
- 
-
-}
-
-
-.leaflet-touch .geocoder-control-input {
-  height: 35px;
-  line-height: 35px;
-  background-size: 35px;
-
-  
-}
-
-
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-  border: 2px solid #383899;
-  background-clip: padding-box;
-}
-
-@media only screen and (max-width: 767px) {
-
-  .leaflet-touch .geocoder-control {
-    left: 100px; 
-    border: 2px solid darkblue;
-  }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
-  .leaflet-touch .geocoder-control {
-   left: 5%; 
-   border: 2px solid darkblue;
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .leaflet-touch .geocoder-control {
-    left: 100px;
-    border: 2px solid darkblue;
-  }
-} */
 
 
 .custom-button {
@@ -451,7 +436,8 @@ padding: 5px;
   border-radius: 5px !important;
   cursor: pointer;
   position: absolute;
-  top: -140px;
+  /* top: -140px; */
+  top:-10px;
   left: 0px;
   
   transition: background-color 0.1s;
@@ -515,18 +501,85 @@ padding: 5px;
   display: none;
 }
 
+
+
+/* style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" */
+
+
+/* trace */
+/* .leaflet-control .leaflet-bar{
+padding: 4px 0px 4px 4px;
+background-color: white;
+border: 2px solid darkblue;
+top: 0px;
+} */
+
+
 #save-button{
   /* border: 2px solid rgb(187, 187, 187); */
-  border-radius: 5px;
+  border-radius: 0;
   background-color: white;
   color: black;
-  padding: 6px;
+  padding: 7px;
   display: none;
   position: absolute;
   border: 2px solid darkblue;
+  border-top:none ;
+  border-bottom: none;
   top: -70px;
-  left: 57px;
+  left: 55.3px;
   font-size: 15px;
+  border-bottom: none;
+}
+.delete-button{
+  border: 2px solid darkblue;
+  padding:6px 7.3px;
+  font-size: 14px;
+  border-radius: 0px 0px 5px 5px;
+  display: block;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  left: 54px;
+  position: absolute;
+  top: -92px;
+  display: none;
+  border-top: none
+
 }
 
-/* style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" */
+.leaflet-control-edit-interior{
+  font-size: 15px;
+  position: absolute;
+  top: -138px;
+  border: 2px solid darkblue;
+  border-radius: 5px 5px 0 0;
+  display: none;
+  left: 54px;
+  border-bottom: none;
+}
+
+
+
+/* polygon leaflet css */
+
+.leaflet-draw-draw-polygon{
+  
+    position: absolute;
+      top: -170px;
+      left: 53px;
+      border:2px solid darkblue;
+      
+  
+}
+
+
+.leaflet-draw-draw-circlemarker{
+  
+  position: absolute;
+    top: -140px;
+    left: 53px;
+    border:2px solid darkblue;
+
+}
+

@@ -92,7 +92,7 @@ if ($department == "Road") {
 
 } else if ($department == "Building") {
 
-    $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_polygon\" (
+    $stmtIWMS = $pdo->prepare("INSERT INTO \"Polygon_data\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width

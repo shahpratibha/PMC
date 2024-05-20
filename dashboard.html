@@ -21,7 +21,14 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
 
-  <link rel="stylesheet" href="css/C_form.css" />
+  <link rel="stylesheet" href="css/C_form.css"/>
+
+  <style>
+    .select2-dropdown {
+      width: 156px;
+
+    }
+  </style>
 </head>
 
 <body class="overflow-hidden " class="" style="background-color: #f3f3f3">
@@ -296,25 +303,22 @@
     <!-- button open end code -->
     <div class="row tabchart">
       <div id="table-container-dashboard" style="position: relative; transition: 0s;">
-        <p id="tablestats" class="tablestats"
-     >
-    
-            </p>
-     
-        
 
         <button id="closeTableBtnDashboard" class="close-button">
           <i class="fa-solid fa-minus"
             style="font-weight: bold; margin-top: 3px; margin-right: 5px; width: 10px; position: fixed;"></i>
         </button>
 
+        <p id="tablestats" class="tablestats"
+          style="position: fixed; color: darkblue; font-size: 12px;font-weight: bold;  z-index: 9999; margin-top: 45px; margin-left:0px;">
+
+        </p>
 
 
         <div style="position: absolute; top: 30px;  height:240px; width: 97%; overflow: scroll; scrollbar-width: thin;">
           <table id="workTableDashboard" class="table table-bordered table-hover"
             style=" left: 0px; height:100px; width: 100px; overflow: scroll; ">
             <thead id="thead">
-             
               <tr>
                 <th>Zone</th>
                 <th>Ward</th>
@@ -335,7 +339,7 @@
         <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
 
         <div id="paginationControls"
-          >
+          style="position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); display: flex; font-size: 12px; gap: 10px;">
           <button class="pagibtn" style="background-color: transparent; color: #333;" id="previousPageButton"><i
               class="fa-solid fa-backward "></i></button>
           <p id="currentPage"></p>
@@ -1088,8 +1092,7 @@
           }
 
           select.select2({
-            placeholder: 'search',
-            // width: '200%', 
+            placeholder: 'search', 
             templateResult: function (option) {
               if (!option.id) {
                 return option.text;

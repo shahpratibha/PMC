@@ -7,7 +7,9 @@
 		<link rel="icon" href="png/pmcjpeg.png" type="image/x-icon" />
 
 		<!-- External CSS -->
-		<link rel="stylesheet" href="css/C_form.css" />
+		<!-- <link rel="stylesheet" href="css/C_form.css" /> -->
+		<link rel="stylesheet" href="css/geom.css" />
+
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
@@ -34,13 +36,10 @@
 
 		<!-- Leaflet Draw -->
 		<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-		
-	
 	</head>
 
-	<body  class="bg-light">
-
-		<img src="png/pmcjpeg.png" alt="" class="logopng1" >
+	<body class="bg-light">
+		<img src="png/pmcjpeg.png" alt="" class="logopng1" />
 		<div id="content" style="width: 100%" class="container">
 			<div id="button-container" class=""></div>
 
@@ -62,27 +61,32 @@
 
 					<div id="map"></div>
 
-						<a class="geopulseaname" style=" 
+					<a
+						class="geopulseaname"
+						style="
 							color: darkblue;
 							position: absolute;
 							z-index: 99999;
-							bottom: -1.5%;
-							right: 10%;
+							bottom: 0.5%;
+							right: 0;
 							font-weight: bold;
 							/* background-color: rgba(173, 216, 230, 0.5); */
 							font-size: 10px;
-						  ">@GeoPulse Analytics</a>
+						"
+						>@GeoPulse Analytics</a
+					>
 
-						<div id="table-container">
-							<table id="workTable" class="table table-bordered table-hover" style="width: 100% !important; font-size: 10px;" >
-								
+					<div id="table-container">
+						<table
+							id="workTable"
+							class="table table-bordered table-hover"
+							style="width: 100% !important; font-size: 10px"
+						>
+							<thead></thead>
 
-								<thead>
-								</thead>
-								
-								<tbody id="workTableData"></tbody>
-							</table>
-						</div>
+							<tbody id="workTableData"></tbody>
+						</table>
+					</div>
 				</form>
 			</section>
 		</div>
@@ -102,89 +106,117 @@
 				}
 			}
 
-			// =================================================
-			// function takeScreenshot() {
-			// 	html2canvas(document.getElementById('map'), {
-			// 		useCORS: false,
-			// 	}).then(function (canvas) {
-			// 		var imgData = canvas.toDataURL('image/png');
 
-			// 		var pdf = new jsPDF();
-			// 		pdf.addImage(imgData, 'PNG', 15, 25, 180, 135);
 
-			// 		var imgHeight = canvas.height;
-
-			// 		var img = new Image();
-			// 		img.onload = function () {
-			// 			pdf.addImage(img, 'PNG', 15, 170, 180, 80);
-			// 			pdf.save('map.pdf'); // Save PDF
-			// 		};
-			// 	});
-			// }
-
-			// ================================================
-
-			function loadFile() {
-				var input = document.getElementById('fileInput');
-				var file = input.files[0];
-
-				if (file) {
-					var reader = new FileReader();
-
-					reader.onload = function (e) {
-						try {
-							var parser = new DOMParser();
-							var kmlDoc = parser.parseFromString(e.target.result, 'application/xml');
-
-							var coordinates = extractCoordinates(kmlDoc);
-
-							showCoordinatesOnMap(coordinates);
-						} catch (error) {
-							alert('Invalid KML/KMZ file!');
-						}
-					};
-
-					reader.readAsText(file);
-				}
+			function getQueryParam(param) {
+				const urlParams = new URLSearchParams(window.location.search);
+				return urlParams.get(param);
 			}
 
-			function extractCoordinates(kmlDoc) {
-				var coordinates = [];
+			const lastInsertedId = parseInt(getQueryParam('id'));
+			const lastInsertedIdConceptual = parseInt(getQueryParam('lastInsertedId'));
+			let department = getQueryParam('department');
+			console.log(department,lastInsertedId,lastInsertedIdConceptual);
 
-				var placemarks = kmlDoc.querySelectorAll('Placemark');
+			$(document).ready(function () {
+				$.ajax({
+					url: 'APIS/get_geodata.php', // Path to the PHP script
+					type: 'GET',
+					data: { id: lastInsertedIdConceptual , department:department },
+					dataType: 'json',
+					success: function (response) {
+						const geometry = response.data;
+						console.log(geometry);
+						let coordinatesData = [];
+						if (geometry.type == 'Polygon') {
+							// Handle single Polygon
+							console.log(geometry);
+							coordinatesData.push(
+								L.polygon(geometry.coordinates[0].map((coord) => [coord[1], coord[0]]))
+							);
+						} else if (geometry.type === 'MultiPolygon') {
+							// Handle MultiPolygon
+							geometry.coordinates.forEach((polygonCoords) => {
+								coordinatesData.push(L.polygon(polygonCoords[0].map((coord) => [coord[1], coord[0]])));
+							});
+						} else if (geometry.type === 'LineString') {
+							// Handle single LineString
+							let coordinates = geometry.coordinates.map((coord) => [coord[1], coord[0]]);
+							coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
+						} else if (geometry.type === 'MultiLineString') {
+							// Handle MultiLineString
+							geometry.coordinates.forEach((lineCoords) => {
+								let coordinates = lineCoords.map((coord) => [coord[1], coord[0]]);
+								coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
+							});
+						}
 
-				placemarks.forEach(function (placemark) {
-					var coordinatesNode = placemark.querySelector('coordinates');
+						console.log(coordinatesData);
 
-					if (coordinatesNode) {
-						var coordsArray = coordinatesNode.textContent.trim().split(' ');
-						var coords = coordsArray.map((coordString) => {
-							var [lon, lat] = coordString.split(',');
-							return [parseFloat(lat), parseFloat(lon)];
+						// Add polygons to the map and bind popups
+						coordinatesData.forEach((polygon) => {
+							polygon.addTo(map).bindPopup('Polygon or MultiPolygon');
+							polygon.on('click', function (e) {
+								e.target.openPopup();
+							});
 						});
-						coordinates.push(coords);
-					}
+
+						// Fit the map view to the bounds of the polygons
+						if (coordinatesData.length > 0) {
+							let bounds = coordinatesData.reduce((bounds, polygon) => {
+								return bounds.extend(polygon.getBounds());
+							}, L.latLngBounds());
+							map.fitBounds(bounds);
+						}
+					},
+					error: function (error) {
+						console.error('AJAX request failed:', error);
+					},
 				});
 
-				return coordinates;
-			}
-				$(document).ready(function () {
-					if (localStorage.getItem('conceptual_form_data')) {
-						$('#table-container').show();
-						const formDataFromStorage = JSON.parse(localStorage.getItem('conceptual_form_data'));
-						let contentData = '<tr>';
-						for (const property in formDataFromStorage) {
-							contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-						}
-						contentData += '</tr>';
-						$('#workTableData').html(contentData);
+
+
+				$.ajax({
+  // url: API_URL + "/process.php", // Path to the PHP script
+  url: "APIS/Get_Conceptual_Form.php", // Path to the PHP script
+  type: "GET",
+  data: { id: lastInsertedIdConceptual },
+  dataType: "json",
+  success: function (response) {
+	$('#table-container').show();
+					const formDataFromStorage = response.data;
+					console.log(formDataFromStorage);
+					let contentData = '<tr>';
+					for (const property in formDataFromStorage) {
+						contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
 					}
+					contentData += '</tr>';
+					$('#workTableData').html(contentData);
+
+  },
+  error: function (error) {
+    console.error("AJAX request failed:", error);
+  },
+});
+
+				if (localStorage.getItem('conceptual_form_data')) {
+					return;
+					$('#table-container').show();
+					const formDataFromStorage = JSON.parse(localStorage.getItem('conceptual_form_data'));
+					let contentData = '<tr>';
+					for (const property in formDataFromStorage) {
+						contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+					}
+					contentData += '</tr>';
+					$('#workTableData').html(contentData);
+				}
 				if (localStorage.getItem('selectCoordinatesData') !== null) {
 					let coordinatesData = localStorage.getItem('selectCoordinatesData');
 					coordinatesData = JSON.parse(coordinatesData);
-                   console.log(coordinatesData);
+					console.log(coordinatesData);
 					let polyline;
-
+					console.log(coordinatesData);
+					return;
 					coordinatesData.forEach(function (feature) {
 						if (feature.geometry.type === 'Polygon') {
 							let coordinates = feature.geometry.coordinates[0].map((coord) => [coord[1], coord[0]]);
@@ -222,28 +254,24 @@
 								}
 							});
 
-							
-							if(coordinates.length > 0 ){
+							if (coordinates.length > 0) {
 								let highlightedAreaLayer = L.polyline(coordinates, {
-								color: 'red',
-								fillColor: 'red',
-								fillOpacity: 0.5,
-							}).addTo(map);
+									color: 'red',
+									fillColor: 'red',
+									fillOpacity: 0.5,
+								}).addTo(map);
 
-							// Fit the map view to the bounds of the highlighted area
-							map.fitBounds(highlightedAreaLayer.getBounds());
+								// Fit the map view to the bounds of the highlighted area
+								map.fitBounds(highlightedAreaLayer.getBounds());
 
-							// Assuming `polyline` was intended to be `highlightedAreaLayer` based on the context
-							highlightedAreaLayer.bindPopup(getPopupContent(feature));
-							highlightedAreaLayer.on('click', function (e) {
-								e.target.openPopup();
-							});
-
+								// Assuming `polyline` was intended to be `highlightedAreaLayer` based on the context
+								highlightedAreaLayer.bindPopup(getPopupContent(feature));
+								highlightedAreaLayer.on('click', function (e) {
+									e.target.openPopup();
+								});
 							}
 
-						
 							// Listen for click event on highlightedAreaLayer to open popup
-							
 						}
 					});
 

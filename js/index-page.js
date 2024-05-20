@@ -1,8 +1,4 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/IWMS/";
-// const API_URL = "http://localhost/PMC-ANKIT/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-
 
 //Add Basemap
 var map = L.map("map", {
@@ -23,7 +19,7 @@ var googleSat = L.tileLayer(
 );
 
 var ward_boundary= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -34,6 +30,9 @@ var ward_boundary= L.tileLayer.wms(
     maxZoom: 21,
   }
 );
+
+///Note: ************** only this code is in use ///////// we can remove other code after other pages works properly
+
 
 let depData = [
   {
@@ -320,24 +319,29 @@ function updateLocalStorage(key, value) {
 
 async function fetchAndPostData(id) {
   try {
-    // const response = await fetch(`https://pmciwms.in/api/project-gis-data?proj_id=${id}`);
+     const response = await fetch(`https://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
 
-      const response = await fetch(`http://pmciwms.in/api/project-gis-data?proj_id=${id}`);
+    //  const response = await fetch('api-responses/all-project-data.json');
       const data = await response.json();
-      const project = data.data;
 
+      // let project = data.data.projectData.find(
+      //   (project) => project.project.works_aa_approval_id === id
+      // );
+
+     let project = data.data ;
+     console.log(project);
       if (!project) {
           alert('Project with this project_id is not found');
           return;
       }
+
+      
 
       const department = depData.find(dep => dep.department_id == project.d_id);
       const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
       const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
       wardname = ward ? ward.ward_name : wardname;
       updateLocalStorage('department',department.department_name);
-     console.log(wardname);
-
 
 
   var cql_filterm = `Ward_Name='${wardname}'`;
@@ -365,8 +369,24 @@ async function fetchAndPostData(id) {
           budgetCodes: budgetCodes || '',
           Id: project.works_aa_approval_id,
           Length:lenght,
-          Width:width
+          Width:width,
+          conceptual_no: project.conceptual_no ,
+          con_appr_date: project.con_appr_date ,
+          created_date : project.created_date ,
+          tender_amount : project.tender_amount ,
+          updated_date: project.updated_date,
+          gis_id: data.gis_data[0]?.gis_id ? data.gis_data[0]?.gis_id : null ,
+          no_of_road: project.no_of_road,
+          area: project.area,
+          measure_in: data.gis_data[0]?.measure_in ? data.gis_data[0]?.measure_in : null,
+          project_from: project.project_from,
+          budget_year: data.budget_data[0]?.budget_year ? data.budget_data[0]?.budget_year : null,
+          agency: project.agency,
+          work_completion_date: project.work_completion_date
+
       };
+
+      console.log(data.gis_data.gis_id);
 
       // Post the data using jQuery's AJAX
       $.ajax({
@@ -375,7 +395,71 @@ async function fetchAndPostData(id) {
           data: JSON.stringify(payload),
           contentType: "application/json",
           success: function (response) {
- 
+
+            const lastInsertedId = response.data.id;
+            const bufferWidth = response.data.width;
+            const roadLength = response.data.lenght; 
+            const wardName = response.data.wardname;
+            const workType = project.work_type;
+       
+            if (department.department_name === "Road") {
+              
+            
+              const baseURL = "road.html";
+          
+              // Create the query string
+              const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+          
+              // Redirect to the new URL with query parameters
+              window.location.href = baseURL + queryString;
+          }
+          else if (department.department_name === "Building") {
+              
+            
+            const baseURL = "building.html";
+        
+            // Create the query string
+            const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+        
+            // Redirect to the new URL with query parameters
+            window.location.href = baseURL + queryString;
+        }
+        else if (department.department_name === "Drainage") {
+              
+            
+          const baseURL = "drainage.html";
+      
+          // Create the query string
+          const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+      
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+      }
+
+      else if (department.department_name === "Water Supply") {
+              
+            
+        const baseURL = "water-suppy.html";
+    
+        // Create the query string
+        const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+    
+        // Redirect to the new URL with query parameters
+        window.location.href = baseURL + queryString;
+    }
+
+    else if (department.department_name === "Electrical") {
+              
+            
+      const baseURL = "electric-work.html";
+  
+      // Create the query string
+      const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+  
+      // Redirect to the new URL with query parameters
+      window.location.href = baseURL + queryString;
+  }
+          
   
               updateLocalStorage('lastInsertedId',response.data.id);
               updateLocalStorage('bufferWidth',response.data.width);
@@ -410,6 +494,8 @@ async function loadData() {
 
 loadData();
 
+///Note: ************** only this code is in use ///////// we can remove other code after other pages works properly
+
 
 console.log(wardname)
 
@@ -425,7 +511,7 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 if(department == "Building"){
   var wms_layer1 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
     {
       layers: "Roads",
       format: "image/png",
@@ -437,7 +523,7 @@ if(department == "Building"){
     }
   );
   var wms_layer13 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
     {
       layers: "Drainage_data",
       format: "image/png",
@@ -449,7 +535,7 @@ if(department == "Building"){
     }
   )
   var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -462,7 +548,7 @@ if(department == "Building"){
 }
 else if(department == "Road"){
   var wms_layer1 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
     {
       layers: "Roads",
       format: "image/png",
@@ -474,7 +560,7 @@ else if(department == "Road"){
     }
   ).addTo(map);
   var wms_layer13 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
     {
       layers: "Drainage_data",
       format: "image/png",
@@ -486,7 +572,7 @@ else if(department == "Road"){
     }
   );
   var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -498,7 +584,7 @@ else if(department == "Road"){
   });
 }else if(department == "Drainage"){
   var wms_layer1 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
     {
       layers: "Roads",
       format: "image/png",
@@ -510,7 +596,7 @@ else if(department == "Road"){
     }
   );
   var wms_layer11 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -523,7 +609,7 @@ else if(department == "Road"){
 
   
   var wms_layer13 = L.tileLayer.wms(
-    "https://pmc.geopulsea.com/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
     {
       layers: "Drainage_data",
       format: "image/png",
@@ -537,7 +623,6 @@ else if(department == "Road"){
 }
 
 
-console.log(wardname)
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -550,7 +635,7 @@ var baseLayers = {};
 
  
 var wms_layer12 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -565,7 +650,7 @@ var wms_layer12 = L.tileLayer
 
  
 var wms_layer14 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -576,7 +661,7 @@ var wms_layer14 = L.tileLayer
   });
  
 var wms_layer15 = L.tileLayer
-  .wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -587,7 +672,7 @@ var wms_layer15 = L.tileLayer
   });
  
 var wms_layer17 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -599,7 +684,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -614,7 +699,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -625,7 +710,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://pmc.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
@@ -636,7 +721,7 @@ var IWMS_line = L.tileLayer
 });
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -651,7 +736,7 @@ var wms_layer16 = L.tileLayer.wms(
 
  
 var Zone_layer= L.tileLayer.wms(
-  "https://pmc.geopulsea.com/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -925,7 +1010,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/edit_tool.png">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -1023,39 +1108,45 @@ var selectedPolylineId = null;
 var deleteControl = L.control({ position: 'topleft' });
 
 deleteControl.onAdd = function(map) {
-    var container = L.DomUtil.create('div', 'leaflet-bar');
-    var button = L.DomUtil.create('button', 'delete-button', container);
-    button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-    button.style.border='2px solid darkblue';
-    button.style.padding='5px';
-    button.style.fontSize='15px';
-    button.style.borderRadius='5px';
-    button.title = "Delete Selected Feature";
+  var container = L.DomUtil.create('div', 'leaflet-bar');
+  var button = L.DomUtil.create('button', 'delete-button', container);
+  button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+  button.style.border='2px solid darkblue';
+  button.style.padding='5px';
+  button.style.fontSize='15px';
+  button.style.borderRadius='5px';
+ button.style.display='none';
+  button.title = "Delete Selected Feature";
 
-  // Style the button
-  button.style.backgroundColor = 'white';   
-  button.style.color = 'black';            
-  button.style.padding = '5px 10px';       
-  button.style.border = 'none';             
-  button.style.cursor = 'pointer';          
+// Style the button
+button.style.backgroundColor = 'white';   
+button.style.color = 'black';            
+button.style.padding = '5px 10px';       
+button.style.border = 'none';             
+button.style.cursor = 'pointer';          
 
-  button.onclick = function() {
-      if (selectedPolylineId) {
-          handleDeletePolyline(selectedPolylineId._leaflet_id);
-          selectedPolylineId = null;  // Reset selected polyline ID after deletion
-      } else {
-        alert("Please select a feature to delete.");
-        drawnItems.eachLayer(function (layer) {
-          layer.on('click', function () { 
-            console.log("hello")
-            selectedPolylineId = layer ;
-          });
-      });
-      }
-  };
+button.onclick = function() {
+    if (selectedPolylineId) {
+        handleDeletePolyline(selectedPolylineId._leaflet_id);
+        selectedPolylineId = null;  // Reset selected polyline ID after deletion
+        button.style.backgroundColor = 'white';   
+    } else {
+      alert("Please select a feature to delete.");
+      button.style.backgroundColor = 'red';   
+      drawnItems.eachLayer(function (layer) {
+        layer.on('click', function () { 
+          console.log("hello")
+          selectedPolylineId = layer ;
+          layer.setStyle({ color: 'green', weight: 7 });
 
-  return container;
+        });
+    });
+    }
 };
+
+return container;
+};
+
 
 
 deleteControl.addTo(map);
@@ -1694,6 +1785,9 @@ function handleMouseMove(event) {
             currentPolyline.addLatLng(result.marker);
             currentPolyline.redraw();
           }
+
+          currentPolyline.addLatLng(result.marker);
+          currentPolyline.redraw();
         }
       }
     });
@@ -2626,7 +2720,7 @@ map.on("contextmenu", (e) => {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
@@ -2666,230 +2760,230 @@ map.on("contextmenu", (e) => {
 
 
 
-// Now continue with your remaining JavaScript code...
-// GeoServer URL
-var geoserverUrl = "https://pmc.geopulsea.com/geoserver";
+// // Now continue with your remaining JavaScript code...
+// // GeoServer URL
+// var geoserverUrl = "https://pmc.geopulsea.com/geoserver";
 
-var workspace = "pmc1";
+// var workspace = "pmc1";
 
-// Variable to keep track of legend visibility
-var legendVisible = true;
-var processedLayers = [];
-// Add the WMS Legend control to the map
-var legendControl = L.control({ position: "topright" });
+// // Variable to keep track of legend visibility
+// var legendVisible = true;
+// var processedLayers = [];
+// // Add the WMS Legend control to the map
+// var legendControl = L.control({ position: "topright" });
 
-legendControl.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
+// legendControl.onAdd = function (map) {
+//   var div = L.DomUtil.create("div", "info legend");
 
-  // Function to fetch and populate the legend
-  function updateLegend() {
-    // Clear the existing legend
-    div.innerHTML = '';
+//   // Function to fetch and populate the legend
+//   function updateLegend() {
+//     // Clear the existing legend
+//     div.innerHTML = '';
 
-    // Fetch capabilities to get all layers in the 'pmc' workspace
-    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
-      .then((response) => response.text())
-      .then((data) => {
-        // Parse capabilities XML response
-        var parser = new DOMParser();
-        var xml = parser.parseFromString(data, "text/xml");
+//     // Fetch capabilities to get all layers in the 'pmc' workspace
+//     fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
+//       .then((response) => response.text())
+//       .then((data) => {
+//         // Parse capabilities XML response
+//         var parser = new DOMParser();
+//         var xml = parser.parseFromString(data, "text/xml");
 
-        // Extract layer names and legend URLs for layers in the 'pmc' workspace
-        var layers = xml.querySelectorAll('Layer[queryable="1"]');
+//         // Extract layer names and legend URLs for layers in the 'pmc' workspace
+//         var layers = xml.querySelectorAll('Layer[queryable="1"]');
         
 
-        layers.forEach((layer) => {
-          var layerName = layer.querySelector("Name").textContent;
-          var layerWorkspace = layerName.split(":")[0]; // Extract workspace from layer name
-          if (layerWorkspace === workspace && !processedLayers.includes(layerName)) {
-            var legendUrl =
-              geoserverUrl +
-              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-              layerName;
-            var layerParts = layerName.split(":"); // Split layer name by ":"
-            var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
-            div.innerHTML +=
-              "<p><strong>" +
-              layerDisplayName + // Use layerDisplayName instead of layerName
-              "</strong></p>" +
-              '<img src="' +
-              legendUrl +
-              '" alt="' +
-              layerDisplayName + // Use layerDisplayName instead of layerName
-              ' legend"><br>';
-            processedLayers.push(layerName); // Add processed layer to the list
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching capabilities:", error);
-      });
-  }
+//         layers.forEach((layer) => {
+//           var layerName = layer.querySelector("Name").textContent;
+//           var layerWorkspace = layerName.split(":")[0]; // Extract workspace from layer name
+//           if (layerWorkspace === workspace && !processedLayers.includes(layerName)) {
+//             var legendUrl =
+//               geoserverUrl +
+//               "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+//               layerName;
+//             var layerParts = layerName.split(":"); // Split layer name by ":"
+//             var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
+//             div.innerHTML +=
+//               "<p><strong>" +
+//               layerDisplayName + // Use layerDisplayName instead of layerName
+//               "</strong></p>" +
+//               '<img src="' +
+//               legendUrl +
+//               '" alt="' +
+//               layerDisplayName + // Use layerDisplayName instead of layerName
+//               ' legend"><br>';
+//             processedLayers.push(layerName); // Add processed layer to the list
+//           }
+//         });
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching capabilities:", error);
+//       });
+//   }
 
-  // Initially update the legend
-  updateLegend();
+//   // Initially update the legend
+//   updateLegend();
 
-  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-  div.style.position = "fixed";
-  div.style.bottom = "0";
-  div.style.right = "0";
-  div.style.height = "40vh";
-  div.style.width = "300px";
-  div.style.overflowY = "auto";
-  div.style.scrollbarWidth = "thin";
-  div.style.backgroundColor = "white";
-  div.style.border = "2px solid darkblue";
-  div.style.borderRadius = "10px";
-  div.style.padding = "10px";
-  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
+//   // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+//   div.style.position = "fixed";
+//   div.style.bottom = "0";
+//   div.style.right = "0";
+//   div.style.height = "40vh";
+//   div.style.width = "300px";
+//   div.style.overflowY = "auto";
+//   div.style.scrollbarWidth = "thin";
+//   div.style.backgroundColor = "white";
+//   div.style.border = "2px solid darkblue";
+//   div.style.borderRadius = "10px";
+//   div.style.padding = "10px";
+//   div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
 
-  // Toggle legend visibility function
-  function toggleLegend() {
-    if (legendVisible) {
-      div.style.height = "0"; // Minimize the legend
-      legendVisible = false;
-    } else {
-      div.style.height = "40vh"; // Maximize the legend
-      legendVisible = true;
-    }
-  }
+//   // Toggle legend visibility function
+//   function toggleLegend() {
+//     if (legendVisible) {
+//       div.style.height = "0"; // Minimize the legend
+//       legendVisible = false;
+//     } else {
+//       div.style.height = "40vh"; // Maximize the legend
+//       legendVisible = true;
+//     }
+//   }
 
-  // Add event listener to the legend control
-  div.addEventListener('click', toggleLegend);
+//   // Add event listener to the legend control
+//   div.addEventListener('click', toggleLegend);
 
-  return div;
-};
-// -----------------------------------------------------
-// Add collapsible button
-var collapseButton = L.control({ position: "topright" });
+//   return div;
+// };
+// // -----------------------------------------------------
+// // Add collapsible button
+// var collapseButton = L.control({ position: "topright" });
 
-collapseButton.onAdd = function (map) {
-  var button = L.DomUtil.create("button", "collapse-button");
-  button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>"; // Initial text
+// collapseButton.onAdd = function (map) {
+//   var button = L.DomUtil.create("button", "collapse-button");
+//   button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>"; // Initial text
 
-  // Apply styling
-  button.style.backgroundColor = "white";
-  button.style.border = "2px solid darkblue";
-  button.style.width = "35px";
-  button.style.height = "35px";
-  button.style.borderRadius = "5px";
-  button.style.color = "black";
-  button.style.padding = "10px";
-  button.style.textAlign = "center";
-  button.style.textDecoration = "none";
-  button.style.display = "block";
-  button.style.margin = "10px";
-  button.style.cursor = "pointer";
-  button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
+//   // Apply styling
+//   button.style.backgroundColor = "white";
+//   button.style.border = "2px solid darkblue";
+//   button.style.width = "35px";
+//   button.style.height = "35px";
+//   button.style.borderRadius = "5px";
+//   button.style.color = "black";
+//   button.style.padding = "10px";
+//   button.style.textAlign = "center";
+//   button.style.textDecoration = "none";
+//   button.style.display = "block";
+//   button.style.margin = "10px";
+//   button.style.cursor = "pointer";
+//   button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
 
-  // Toggle legend visibility when the button is clicked
-  button.onclick = function () {
-    var legendDiv = document.querySelector(".info.legend");
-    if (
-      legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+//   // Toggle legend visibility when the button is clicked
+//   button.onclick = function () {
+//     var legendDiv = document.querySelector(".info.legend");
+//     if (
+//       legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
 
 
-      legendDiv.style.display = "block";
-      legendDiv.style.height = "40vh";
-      legendDiv.style.width = "200px";
-      legendDiv.style.top ="12%";
-      legendDiv.style.right ="2%";
-      legendDiv.style.scrollbarWidth = "thin";
-      legendDiv.style.scrollbarColor =  "#163140 white";
-      legendDiv.style.borderRadius= "20px";
-      legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
-      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+//       legendDiv.style.display = "block";
+//       legendDiv.style.height = "40vh";
+//       legendDiv.style.width = "200px";
+//       legendDiv.style.top ="12%";
+//       legendDiv.style.right ="2%";
+//       legendDiv.style.scrollbarWidth = "thin";
+//       legendDiv.style.scrollbarColor =  "#163140 white";
+//       legendDiv.style.borderRadius= "20px";
+//       legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
+//       button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
 
-      button.style.backgroundColor = "white"; // Change color to indicate action
-      legendVisible = true;
-    } else {
-      legendDiv.style.display = "none";
-      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-      button.style.backgroundColor = "white"; // Change color to indicate action
-      legendVisible = false;
-    }
-  };
+//       button.style.backgroundColor = "white"; // Change color to indicate action
+//       legendVisible = true;
+//     } else {
+//       legendDiv.style.display = "none";
+//       button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+//       button.style.backgroundColor = "white"; // Change color to indicate action
+//       legendVisible = false;
+//     }
+//   };
 
-  return button;
-};
+//   return button;
+// };
 
-collapseButton.addTo(map);
+// collapseButton.addTo(map);
 
-// Create a legend control
-var legend = L.control({ position: "bottomright" });
+// // Create a legend control
+// var legend = L.control({ position: "bottomright" });
 
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
+// legend.onAdd = function (map) {
+//   var div = L.DomUtil.create("div", "info legend");
 
-  // Initially hide the legend content
-  div.style.display = "none";
+//   // Initially hide the legend content
+//   div.style.display = "none";
 
-  // Create a button to toggle the visibility of the legend content
-  var toggleButton = L.DomUtil.create("button", "legend-toggle");
-  toggleButton.innerHTML = "";
-  toggleButton.style.backgroundColor = "transparent";
+//   // Create a button to toggle the visibility of the legend content
+//   var toggleButton = L.DomUtil.create("button", "legend-toggle");
+//   toggleButton.innerHTML = "";
+//   toggleButton.style.backgroundColor = "transparent";
 
-  toggleButton.onclick = function () {
-    if (div.style.display === "none") {
-      div.style.display = "block";
-    } else {
-      div.style.display = "none";
-    }
-  };
-  div.appendChild(toggleButton);
+//   toggleButton.onclick = function () {
+//     if (div.style.display === "none") {
+//       div.style.display = "block";
+//     } else {
+//       div.style.display = "none";
+//     }
+//   };
+//   div.appendChild(toggleButton);
 
-  // Fetch capabilities to get all layers in the 'pmc' workspace
-  fetch(
-    "https://pmc.geopulsea.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
-  )
-    .then((response) => response.text())
-    .then((data) => {
-      // Parse capabilities XML response
-      var parser = new DOMParser();
-      var xml = parser.parseFromString(data, "text/xml");
+//   // Fetch capabilities to get all layers in the 'pmc' workspace
+//   fetch(
+//     "https://pmc.geopulsea.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+//   )
+//     .then((response) => response.text())
+//     .then((data) => {
+//       // Parse capabilities XML response
+//       var parser = new DOMParser();
+//       var xml = parser.parseFromString(data, "text/xml");
 
-      // Extract layer names and legend URLs for layers in the 'pmc' workspace
-      var layers = xml.querySelectorAll('Layer[queryable="1"]');
-      layers.forEach(function (layer) {
-        var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("pmc1:")) {
-          var legendUrl =
-            this.geoserverUrl +
-            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-            layerName;
-          var layerParts = layerName.split(":"); // Split layer name by ":"
-          var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
-          div.innerHTML +=
-            "<p><strong>" +
-            layerDisplayName +
-            "</strong></p>" +
-            '<img src="' +
-            legendUrl +
-            '" alt="' +
-            layerDisplayName +
-            ' legend"><br>';
-        }
-      });
+//       // Extract layer names and legend URLs for layers in the 'pmc' workspace
+//       var layers = xml.querySelectorAll('Layer[queryable="1"]');
+//       layers.forEach(function (layer) {
+//         var layerName = layer.querySelector("Name").textContent;
+//         if (layerName.startsWith("pmc1:")) {
+//           var legendUrl =
+//             this.geoserverUrl +
+//             "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+//             layerName;
+//           var layerParts = layerName.split(":"); // Split layer name by ":"
+//           var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
+//           div.innerHTML +=
+//             "<p><strong>" +
+//             layerDisplayName +
+//             "</strong></p>" +
+//             '<img src="' +
+//             legendUrl +
+//             '" alt="' +
+//             layerDisplayName +
+//             ' legend"><br>';
+//         }
+//       });
 
-      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-      div.style.position = "fixed";
-      div.style.bottom = "0";
-      div.style.right = "0";
-      div.style.height = "60vh";
-      div.style.width = "300px";
-      div.style.overflowY = "auto";
-      div.style.scrollbarWidth = "thin";
-      div.style.backgroundColor = "white";
-      div.style.border = "2px solid darkblue";
-      div.style.borderRadius = "10px";
-      div.style.padding = "10px";
-    })
-    .catch((error) => {
-      console.error("Error fetching capabilities:", error);
-    });
+//       // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+//       div.style.position = "fixed";
+//       div.style.bottom = "0";
+//       div.style.right = "0";
+//       div.style.height = "60vh";
+//       div.style.width = "300px";
+//       div.style.overflowY = "auto";
+//       div.style.scrollbarWidth = "thin";
+//       div.style.backgroundColor = "white";
+//       div.style.border = "2px solid darkblue";
+//       div.style.borderRadius = "10px";
+//       div.style.padding = "10px";
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching capabilities:", error);
+//     });
 
-  return div;
-};
+//   return div;
+// };
 
-legend.addTo(map);
+// legend.addTo(map);
 
