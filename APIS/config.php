@@ -1,5 +1,4 @@
 <?php
-
 $host = 'iwmsgis.pmc.gov.in';
 $dbname = 'pmc';
 $username = 'postgres';

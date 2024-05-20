@@ -529,7 +529,7 @@
 
     //   for (let layer in layerDetails2) {
     //       let selectedKeys = layerDetails2[layer];
-    //       let urrr = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+    //       let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
     //       try {
     //           let response = await fetch(urrr);
@@ -560,7 +560,7 @@
       layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
       layers.forEach(function (layerName) {
         var urlm =
-          "https://pmc.geopulsea.com//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+          "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
           layerName +
           "&CQL_FILTER=" +
           filter +
@@ -794,7 +794,7 @@
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
@@ -808,7 +808,7 @@
       // var typeName = layers.join(',');
 
       // var geoServerURL =
-      //   "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+      //   "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
       //   typeName +
       //   "&outputFormat=application/json&CQL_FILTER=" +
       //   encodeURIComponent(cqlFilter);
@@ -1067,7 +1067,7 @@
       select.empty();
 
       $.getJSON(
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -1145,7 +1145,7 @@
       select.empty();
 
       $.getJSON(
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -1226,7 +1226,7 @@
       var project_fi = $("#project_fi").val();
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
       if (project_fi.length > 0) {
         project_fi = project_fi
           .map((projectFi) => `'${projectFi}'`)
@@ -1234,7 +1234,7 @@
 
         let cqlFilter = `project_fi  IN (${project_fi})`;
         geoServerURL =
-          "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+          "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
       }
 
@@ -1319,7 +1319,7 @@ var selectButton = $('#headingZone button');
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
 
 
 
@@ -1417,7 +1417,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
 
 
 
@@ -1514,7 +1514,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json";
 
       if (cqlFilter) {
         geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
@@ -1617,7 +1617,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json";
 
 
       if (cqlFilter) {
@@ -1725,7 +1725,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json";
 
       if (cqlFilter) {
         geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
@@ -1922,8 +1922,8 @@ var selectButton = $('#headingWard button');
 
         function getValues(callback) {
           var geoServerURL =
-            "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=" + selectedValue + "&outputFormat=application/json";
-
+            "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line&propertyName=" + selectedValue + "&outputFormat=application/json";
+console.log(geoServerURL,"geoServerURLsearch")
           $.getJSON(geoServerURL, function (data) {
             var workTypeSet = new Set();
 
@@ -1941,7 +1941,7 @@ var selectButton = $('#headingWard button');
 
             // Convert the Set to an array
             var uniqueWorkTypes = Array.from(workTypeSet);
-
+            console.log(uniqueWorkTypes,"uniqueWorkTypes")
             // Call the callback function with the uniqueWorkTypes array
             callback(uniqueWorkTypes);
           });
@@ -1953,7 +1953,9 @@ var selectButton = $('#headingWard button');
             source: data,
             select: function (event, ui) {
               var selectedValue1 = ui.item.value;
+              
               var searchtypefield = $("#search_type").val();
+              console.log(searchtypefield,"searchtypefield","selectedValue1",selectedValue1)
               let cqlFilter;
 
               // Handle number (double) values in filter condition
@@ -1973,7 +1975,7 @@ var selectButton = $('#headingWard button');
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);

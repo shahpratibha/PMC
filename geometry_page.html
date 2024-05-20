@@ -116,21 +116,19 @@
 			const lastInsertedId = parseInt(getQueryParam('id'));
 			const lastInsertedIdConceptual = parseInt(getQueryParam('lastInsertedId'));
 			let department = getQueryParam('department');
-			console.log(department,lastInsertedId,lastInsertedIdConceptual);
-
 			$(document).ready(function () {
 				$.ajax({
 					url: 'APIS/get_geodata.php', // Path to the PHP script
 					type: 'GET',
-					data: { id: lastInsertedIdConceptual , department:department },
+					data: { id: lastInsertedId , department:department },
 					dataType: 'json',
 					success: function (response) {
 						const geometry = response.data;
-						console.log(geometry);
+
 						let coordinatesData = [];
 						if (geometry.type == 'Polygon') {
 							// Handle single Polygon
-							console.log(geometry);
+
 							coordinatesData.push(
 								L.polygon(geometry.coordinates[0].map((coord) => [coord[1], coord[0]]))
 							);
@@ -151,8 +149,7 @@
 							});
 						}
 
-						console.log(coordinatesData);
-
+			
 						// Add polygons to the map and bind popups
 						coordinatesData.forEach((polygon) => {
 							polygon.addTo(map).bindPopup('Polygon or MultiPolygon');

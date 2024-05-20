@@ -128,45 +128,7 @@
 				});
 				ward_boundary.addTo(map).bringToFront();
 			}
-			// $('#searchInputDashboard').autocomplete({
-			// 	minLength: 3,
-			// 	source: function (request, response) {
-			// 		let searchTerm = request.term;
-			// 		let searchType = $('#search_type').val();
-
-			// 		if (searchTerm.length >= 3 && searchType) {
-			// 			let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
-
-			// 			let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
-			// 				cqlFilter
-			// 			)}`;
-
-			// 			$.getJSON(geoServerURL, function (data) {
-			// 				let suggestions = data.features.map((feature) => feature.properties[searchType]);
-
-			// 				suggestions = suggestions.filter((value, index, self) => self.indexOf(value) === index);
-
-			// 				suggestions = suggestions.slice(0, 10);
-			// 				response(suggestions);
-			// 			});
-			// 		} else {
-			// 			response([]);
-			// 		}
-			// 	},
-			// 	select: function (event, ui) {
-			// 		$('#searchInputDashboard').val(ui.item.label);
-
-			// 		let searchType = $('#search_type').val();
-			// 		let cqlFilterSelected = `${searchType} = '${ui.item.label}'`;
-			// 		fitbou(cqlFilterSelected);
-			// 		wms_layer15.setParams({
-			// 			CQL_FILTER: cqlFilterSelected,
-			// 			styles: 'pointhighlight',
-			// 		});
-
-			// 		return false;
-			// 	},
-			// });
+			
 		});
 
 		// Create a custom control
@@ -196,29 +158,35 @@
 			});
 
 			function highlightFeature(featureData) {
-				// Check if any features are present in the featureData
-				if (!featureData || !featureData.features || featureData.features.length === 0)
-					// Clear existing editable layers
-					editableLayers.clearLayers();
+        // Check if any features are present in the featureData
+            if (
+              !featureData ||
+              !featureData.features ||
+              featureData.features.length === 0
+            )
+              
+              // Clear existing editable layers
+              editableLayers.clearLayers();
 
-				// Get the first feature from the featureData
-				var feature = featureData.features[0];
+            // Get the first feature from the featureData
+            var feature = featureData.features[0];
 
-				var geojsonLayer = L.geoJSON(feature, {
-					style: {
-						color: 'red',
-						weight: 3,
-						opacity: 1,
-						fillOpacity: 0.5,
-					},
-				});
+            var geojsonLayer = L.geoJSON(feature, {
+              style: {
+                color: "red",
+                weight: 3,
+                opacity: 1,
+                fillOpacity: 0.5,
+              },
+            });
 
-				editableLayers.addLayer(geojsonLayer);
+            editableLayers.addLayer(geojsonLayer);
 
-				if (editableLayers.getLayers().length > 0) {
-					map.fitBounds(editableLayers.getBounds());
-				}
-			}
+            if (editableLayers.getLayers().length > 0) {
+            
+              map.fitBounds(editableLayers.getBounds());
+            }
+      }
 
 			editableLayers.on('contextmenu', function (e) {
 				// Check if there is a selected feature
@@ -333,7 +301,7 @@
 								});
 
 								setTimeout(() => {
-									window.location.href = 'geometry_page.html';
+									window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Building`+`&lastInsertedId=`+lastInsertedId;
 								}, 2100);
 							},
 							error: function (xhr, status, error) {
