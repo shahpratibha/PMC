@@ -349,16 +349,16 @@ let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
+  div.style.padding = '4px';
   div.style.backgroundColor = 'white';
   div.style.border = '2px solid darkblue';
-  div.style.top = "50px";
+  div.style.top = "20px";
 
   // Create a new button element
   var button = document.createElement('button');
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
-  button.style.marginRight = '5px';
+  // button.style.marginRight = '5px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
   // Create a new image element
@@ -391,7 +391,7 @@ var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
+  div.innerHTML = '<button id="save-button" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -404,7 +404,7 @@ customSaveButton.addTo(map);
 var customSaveEditButton = L.control({ position: 'topleft' });
 customSaveEditButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'saveDataButton');
-div.innerHTML = '<button id="saveDataButton" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
+div.innerHTML = '<button id="saveDataButton" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -522,19 +522,19 @@ deleteControl.onAdd = function(map) {
   var container = L.DomUtil.create('div', 'leaflet-bar');
   var button = L.DomUtil.create('button', 'delete-button', container);
   button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-  button.style.border='2px solid darkblue';
-  button.style.padding='5px';
-  button.style.fontSize='15px';
-  button.style.borderRadius='5px';
+  // button.style.border='2px solid darkblue';
+  // button.style.padding='5px';
+  // button.style.fontSize='15px';
+  // button.style.borderRadius='5px';
  button.style.display='none';
   button.title = "Delete Selected Feature";
 
 // Style the button
-button.style.backgroundColor = 'white';   
-button.style.color = 'black';            
-button.style.padding = '5px 10px';       
-button.style.border = 'none';             
-button.style.cursor = 'pointer';          
+// button.style.backgroundColor = 'white';   
+// button.style.color = 'black';            
+// button.style.padding = '5px 10px';       
+// button.style.border = 'none';             
+// button.style.cursor = 'pointer';          
 
 button.onclick = function() {
     if (selectedPolylineId) {
@@ -791,7 +791,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://pmc.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",

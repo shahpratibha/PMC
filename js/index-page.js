@@ -326,9 +326,7 @@ async function fetchAndPostData(id) {
     //  const response = await fetch('api-responses/all-project-data.json');
       const data = await response.json();
 
-      // let project = data.data.projectData.find(
-      //   (project) => project.project.works_aa_approval_id === id
-      // );
+     
 
      let project = data.data ;
      console.log(project);
