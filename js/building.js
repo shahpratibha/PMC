@@ -576,19 +576,19 @@ deleteControl.onAdd = function(map) {
   var container = L.DomUtil.create('div', 'leaflet-bar');
   var button = L.DomUtil.create('button', 'delete-button', container);
   button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-  button.style.border='2px solid darkblue';
-  button.style.padding='5px';
-  button.style.fontSize='15px';
-  button.style.borderRadius='5px';
+  // button.style.border='2px solid darkblue';
+  // button.style.padding='5px';
+  // button.style.fontSize='15px';
+  // button.style.borderRadius='5px';
  button.style.display='none';
   button.title = "Delete Selected Feature";
 
 // Style the button
-button.style.backgroundColor = 'white';   
-button.style.color = 'black';            
-button.style.padding = '5px 10px';       
-button.style.border = 'none';             
-button.style.cursor = 'pointer';          
+// button.style.backgroundColor = 'white';   
+// button.style.color = 'black';            
+// button.style.padding = '5px 10px';       
+// button.style.border = 'none';             
+// button.style.cursor = 'pointer';          
 
 button.onclick = function() {
     if (selectedPolylineId) {

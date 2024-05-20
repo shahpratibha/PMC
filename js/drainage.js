@@ -238,9 +238,6 @@ var Zone_layer= L.tileLayer.wms(
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
 
-
-
-
  
 var WMSlayers = {
   "OSM": osm,
