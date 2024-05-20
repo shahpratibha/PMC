@@ -33,7 +33,7 @@ if ($department == "Road") {
     $geometry = $geoJSONData['features'][0]['geometry'];
     $geometryJSON = json_encode($geometry);
 
-    $selectedGeometry = $selectCoordinatesData[1]['geometry'];
+    $selectedGeometry = isset($selectCoordinatesData[1]['geometry']) ? $selectCoordinatesData[1]['geometry'] : (isset($selectCoordinatesData[0]['geometry']) ? $selectCoordinatesData[0]['geometry'] : null);
     $selectedGeometryJson = json_encode($selectedGeometry);
 
     if (is_null($geoJSONData)) {
@@ -56,6 +56,7 @@ if ($department == "Road") {
         exit;
     }
 
+   
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
         conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
@@ -193,54 +194,59 @@ if ($department == "Road") {
     $roadLength = isset($data['roadLength']) && $data['roadLength'] !== "" ? $data['roadLength'] : null;
     $bufferWidth = isset($data['bufferWidth']) && $data['bufferWidth'] !== "" ? $data['bufferWidth'] : null;
 
-    
-    $selectedGeometry = $selectCoordinatesData[0]['geometry'];
+    $selectedGeometry = isset($selectCoordinatesData[1]['geometry']) ? $selectCoordinatesData[1]['geometry'] : (isset($selectCoordinatesData[0]['geometry']) ? $selectCoordinatesData[0]['geometry'] : null);
     $selectedGeometryJson = json_encode($selectedGeometry);
+   // print_r($configData);
 
+   // return ;
 
-    $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
-    geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width , departme_1,\"Budget_Code\",works_aa_a ,  conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\"
+   $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
+    geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
+    conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
+    \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
 ) VALUES (
     ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date  ,:departme_1,:Budget_Code,:works_aa_a
+    :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
+    :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
 )");
 
-    $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
+$stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
 // $stmtIWMS->bindParam(':department', $configData['department'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':je_name', $configData['junior_engineer_name'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':name_of_wo', $configData['work_name'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':project_fi', $configData['project_financial_year'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':scope_of_w', $configData['scope_of_work'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':ward', $configData['ward'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':work_type', $configData['work_type'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':zone', $configData['zone'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':contact_no', $configData['contact_no'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':length', $configData['length'], is_null($configData['length']) ? PDO::PARAM_NULL : PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':width', $configData['width'], is_null($configData['width']) ? PDO::PARAM_NULL : PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
-
-    $stmtIWMS->bindParam(':conceptual', $configData['conceptual_no'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':conc_appr_', $configData['con_appr_date'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':created_at', $configData['created_date'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':tender_amo', $configData['tender_amount'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':update_dat', $configData['updated_date'], PDO::PARAM_STR);
-
-
-    $stmtIWMS->bindParam(':gis_id', $configData['gis_id'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':no_of_road', $configData['no_of_road'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':area', $configData['area'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':measure_in', $configData['measure_in'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':Project_Office_Id', $configData['project_from'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':je_name', $configData['junior_engineer_name'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':name_of_wo', $configData['work_name'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':project_fi', $configData['project_financial_year'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':scope_of_w', $configData['scope_of_work'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':ward', $configData['ward'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':work_type', $configData['work_type'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':zone', $configData['zone'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':contact_no', $configData['contact_no'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':length', $configData['length'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':width', $configData['width'], PDO::PARAM_STR);
 
 
 
-    $stmtIWMS->bindParam(':Budget_Year', $configData['budget_year'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':Agency', $configData['agency'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':Work_Completion_Date', $configData['work_completion_date'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':conceptual', $configData['conceptual_no'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':conc_appr_', $configData['con_appr_date'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':created_at', $configData['created_date'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':tender_amo', $configData['tender_amount'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':update_dat', $configData['updated_date'], PDO::PARAM_STR);
+
+
+$stmtIWMS->bindParam(':gis_id', $configData['gis_id'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':no_of_road', $configData['no_of_road'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':area', $configData['area'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':measure_in', $configData['measure_in'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':Project_Office_Id', $configData['project_from'], PDO::PARAM_STR);
+
+
+
+$stmtIWMS->bindParam(':Budget_Year', $configData['budget_year'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':Agency', $configData['agency'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':Work_Completion_Date', $configData['work_completion_date'], PDO::PARAM_STR);
+
+$stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
 
 
     try {

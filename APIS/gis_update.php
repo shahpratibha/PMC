@@ -147,8 +147,6 @@ if ($department == "Road") {
     $stmtIWMS->bindParam(':length', $configData['length'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':width', $configData['width'], PDO::PARAM_STR);
 
-
-
     $stmtIWMS->bindParam(':conceptual', $configData['conceptual_no'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':conc_appr_', $configData['con_appr_date'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':created_at', $configData['created_date'], PDO::PARAM_STR);
@@ -168,6 +166,10 @@ if ($department == "Road") {
     $stmtIWMS->bindParam(':Agency', $configData['agency'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Work_Completion_Date', $configData['work_completion_date'], PDO::PARAM_STR);
 
+    $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+    
 
     try {
         $stmtIWMS->execute();

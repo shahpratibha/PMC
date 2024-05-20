@@ -1573,7 +1573,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-   //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Drainage`+`&lastInsertedId=`+lastInsertedId;
+    window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Drainage`+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
