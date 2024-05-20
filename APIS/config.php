@@ -1,15 +1,8 @@
 <?php
-// $host = 'database-1.c01x1jtcm1ms.ap-south-1.rds.amazonaws.com';
-// $dbname = 'postgres';
-// $username = 'postgres';
-// $password = 'anup12345';
-
-// Database connection:
-$Host- 'iwmsgis.pmc.gov.in';
-// $Port- '5432';
-$Dbname- 'pmc';
-$Username- 'postgres';
-$Password- 'pmc992101';
+$host = 'iwmsgis.pmc.gov.in';
+$dbname = 'pmc';
+$username = 'postgres';
+$password = 'pmc992101';
 
 try {
     // Establish a connection to the database

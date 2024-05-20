@@ -417,7 +417,7 @@ function toggleSelectLayerButton(show) {
                   });
 
                   setTimeout(() => {
-                    window.location.href = "geometry_page.html";
+                    window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
                   }, 2100);
                 },
                 error: function (xhr, status, error) {

@@ -11,7 +11,7 @@ try {
 
     if ($id) {
         // Fetch a specific record by ID
-        if($department == "Road"){
+        if($department == "Road" || $department == "Drainage" ){
             $sql = "SELECT ST_AsGeoJSON(geom) AS geom FROM \"IWMS_line\" WHERE fid = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$id]);
