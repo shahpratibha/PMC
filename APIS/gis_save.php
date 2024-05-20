@@ -247,9 +247,9 @@ if ($department == "Road") {
 
     try {
         $stmtIWMS->execute();
-        $lastInsertIdIWMS = $pdo->lastInsertId();
+        $lastInsertIdIWMSDrainage = $pdo->lastInsertId();
         // Respond with success message, including IDs from both insert operations
-        echo json_encode(["message" => "Data successfully saved  tables", $lastInsertIdIWMS]);
+        echo json_encode(["message" => "Data successfully saved  tables","lastInsertIdIWMS" => $lastInsertIdIWMSDrainage]);
     } catch (PDOException $e) {
         // If the insert into IWMS_polygon fails, consider how you want to handle the error.
         // This could include rolling back the insert into geodata, if appropriate.
