@@ -317,6 +317,30 @@ function updateLocalStorage(key, value) {
 
 
 
+
+function showModal(message) {
+  var modal = document.getElementById("myModal");
+  var loader = document.getElementById("loader");
+  var messageElem = document.getElementById("message");
+
+  loader.style.display = "none";
+  messageElem.textContent = message;
+  modal.style.display = "block";
+}
+
+function openModal() {
+  var modal = document.getElementById("myModal");
+
+  modal.style.display = "block";
+}
+
+// Function to close the modal
+function closeModal() {
+  var modal = document.getElementById("myModal");
+
+  modal.style.display = "none";
+}
+
 async function fetchAndPostData(id) {
   try {
      const response = await fetch(`http://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
@@ -335,7 +359,28 @@ async function fetchAndPostData(id) {
           return;
       }
 
+  
+      if (!project.work_type ) {
+        showModal(' Please fill in the information. Missing project work type ');
+        return;
+      }
+
+      if (!project.d_id) {
+        showModal(' Please fill in the information. Missing department ID.');
+        return;
+      }
       
+
+      if (!project.constituency_ward_id) {
+        showModal(' Please fill in the information. Missing Ward .');
+        return;
+      }
+      
+      
+      // Function to open the modal
+     
+      
+     // openModal();
 
       const department = depData.find(dep => dep.department_id == project.d_id);
       const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
@@ -411,7 +456,7 @@ async function fetchAndPostData(id) {
               const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
           
               // Redirect to the new URL with query parameters
-              window.location.href = baseURL + queryString;
+             window.location.href = baseURL + queryString;
           }
           else if (department.department_name === "Building") {
               
