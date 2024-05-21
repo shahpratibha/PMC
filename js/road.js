@@ -296,10 +296,11 @@ var drawControlRoad = new L.Control.Draw({
     rectangle: false,
     circlemarker: false
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  edit:false,
+  //  {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 
@@ -321,10 +322,11 @@ var drawControlBuilding = new L.Control.Draw({
     marker: false,
     rectangle: false,
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  edit: false,
+  //  {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 
@@ -346,10 +348,11 @@ var drawControlDrainage = new L.Control.Draw({
     rectangle: false,
     point: true,
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  edit:false,
+  //  {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 

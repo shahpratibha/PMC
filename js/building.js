@@ -345,10 +345,11 @@ var drawControlRoad = new L.Control.Draw({
     rectangle: false,
     circlemarker:false
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  edit: false,
+  // {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 
@@ -370,10 +371,11 @@ var drawControlBuilding = new L.Control.Draw({
     marker: false,
     rectangle: false,
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  edit:false,
+  //  {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 
@@ -483,11 +485,11 @@ var editControl = L.control({position: 'topleft'});
     controlUI.title = 'Edit features';
     controlUI.href = '#';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-    controlUI.style.fontSize='18px';
-    controlUI.style.position='absolute';
-    controlUI.style.top='60px';
-    controlUI.style.border='2px solid darkblue';
-    controlUI.style.borderRadius='5px'
+    // controlUI.style.fontSize='18px';
+    // controlUI.style.position='absolute';
+    // controlUI.style.top='60px';
+    // controlUI.style.border='2px solid darkblue';
+    // controlUI.style.borderRadius='5px'
     controlUI.style.display='none';
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {

@@ -423,9 +423,6 @@ padding: 5px;
       font-size: 10px;
   }
 
-
-
-
 .custom-button {
   width: auto;
   padding: 5px 5px;
@@ -448,57 +445,69 @@ padding: 5px;
 }
 #saveDataButton {
   border: 2px solid darkblue;
-  border-radius: 5px;
+  border-bottom: none;
+  border-top: none;
+  border-radius: 0px;
   background-color: white;
   position: fixed;
   color: black;
   padding: 0px 5px;
   display: none;
   top: 23%;
-  font-size: 20px;
+  font-size: 19px;
+  
   left: 5%;
 }
 
 #deleteFeatureButton{
  
+  
   border: 2px solid darkblue;
-  border-radius: 5px;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
   background-color: white;
   color: black;
   padding: 3px 7px;
   display: none;
   position: fixed;
-  top: 28%;
-  font-size: 16px;
+  top: 26.5%;
+  font-size: 15px;
   left: 5%;
 
 }
 
 #editFeatureButton{
   border: 2px solid darkblue;
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   height: 30px;
   width: 30px;
   display: none;
   position: fixed;
-  top: 18%;
+  top: 19%;
   left: 5%;
   padding: 5px;
   background: white;
+  border-bottom: none;
 }
 
 
 .leaflet-draw-draw-polyline{
-  top: -245px;
+  top: -276px;
   position: absolute;
   left: 56px;
   border: 2px solid darkblue;
-  border-radius: 5px
+  /* border-radius: 5px */
 }
 
-
-.leaflet-draw-edit-edit.leaflet-disabled, .leaflet-draw-edit-remove.leaflet-disabled{
-  display: none;
+/* circle */
+.leaflet-draw-draw-circlemarker {
+  position: absolute;
+  top: -247px;
+  left: 56px;
+  border-bottom: 2px solid darkblue;
+  border: 2px solid darkblue;
+  border-top: none;
+  width: 30px;
 }
 
 
@@ -526,7 +535,9 @@ top: 0px;
   border: 2px solid darkblue;
   border-top:none ;
   border-bottom: none;
-  top: -70px;
+  /* top: -70px; */
+  top: -36px;
+
   left: 55.3px;
   font-size: 15px;
   border-bottom: none;
@@ -542,7 +553,9 @@ top: 0px;
   cursor: pointer;
   left: 54px;
   position: absolute;
-  top: -92px;
+  /* top: -92px; */
+  top: -59px;
+
   display: none;
   border-top: none
 
@@ -551,7 +564,9 @@ top: 0px;
 .leaflet-control-edit-interior{
   font-size: 15px;
   position: absolute;
-  top: -138px;
+  /* top: -138px; */
+  top: -104px;
+
   border: 2px solid darkblue;
   border-radius: 5px 5px 0 0;
   display: none;
@@ -566,20 +581,22 @@ top: 0px;
 .leaflet-draw-draw-polygon{
   
     position: absolute;
-      top: -170px;
-      left: 53px;
+      /* top: -170px; */
+  top: -217px;
+
+      left: 56px;
       border:2px solid darkblue;
       
   
 }
 
 
-.leaflet-draw-draw-circlemarker{
+/* .leaflet-draw-draw-circlemarker{
   
   position: absolute;
     top: -140px;
     left: 53px;
     border:2px solid darkblue;
 
-}
+} */
 
