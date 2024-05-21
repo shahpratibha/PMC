@@ -897,12 +897,12 @@ if(department == "Road"){
   var customDrawControls = L.control({ position: 'topleft' });
 
   // Define the HTML content for the control
-  customDrawControls.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
-    customDrawControlsContainer = div;
-    return div;
-  };
+  // customDrawControls.onAdd = function (map) {
+  //   var div = L.DomUtil.create('div', 'draw-control');
+  //   div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  //   customDrawControlsContainer = div;
+  //   return div;
+  // };
 
   // Add the control to the map
   customDrawControls.addTo(map);
@@ -911,12 +911,12 @@ else if (department == "Building"){
   var customDrawControls = L.control({ position: 'topleft' });
 
   // Define the HTML content for the control
-  customDrawControls.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:40%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
-    customDrawControlsContainer = div;
-    return div;
-  };
+  // customDrawControls.onAdd = function (map) {
+  //   var div = L.DomUtil.create('div', 'draw-control');
+  //   div.innerHTML = '<button class="draw_feature"  style="border:2px solid #bbb;  margin-top:40%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 30px; padding:3px;"></button>';
+  //   customDrawControlsContainer = div;
+  //   return div;
+  // };
 
   // Add the control to the map
   customDrawControls.addTo(map);
@@ -1062,8 +1062,9 @@ var editControl = L.control({position: 'topleft'});
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
     controlUI.style.fontSize='18px';
     controlUI.style.position='absolute';
-    controlUI.style.top='60px';
-    controlUI.style.border='2px solid darkblue';
+    controlUI.style.top='37px';
+    controlUI.style.left='52px';
+    // controlUI.style.border='2px solid darkblue';
     controlUI.style.borderRadius='5px'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
@@ -1113,9 +1114,11 @@ deleteControl.onAdd = function(map) {
   button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
   button.style.border='2px solid darkblue';
   button.style.padding='5px';
-  button.style.fontSize='15px';
+  button.style.fontSize='13px';
   button.style.borderRadius='5px';
- button.style.display='none';
+  button.style.top='85px';
+  button.style.padding='5px';
+  button.style.left='52px';
   button.title = "Delete Selected Feature";
 
 // Style the button
