@@ -316,6 +316,29 @@ function updateLocalStorage(key, value) {
 }
 
 
+function showModal(message) {
+  var modal = document.getElementById("myModal");
+  var loader = document.getElementById("loader");
+  var messageElem = document.getElementById("message");
+
+  loader.style.display = "none";
+  messageElem.textContent = message;
+  modal.style.display = "block";
+}
+
+function openModal() {
+  var modal = document.getElementById("myModal");
+
+  modal.style.display = "block";
+}
+
+// Function to close the modal
+function closeModal() {
+  var modal = document.getElementById("myModal");
+
+  modal.style.display = "none";
+}
+
 
 
 async function fetchAndPostData(id) {
