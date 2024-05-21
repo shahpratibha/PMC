@@ -600,3 +600,13 @@ top: 0px;
 
 } */
 
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  width: 30px; 
+}
+
+.leaflet-touch .geocoder-control-input:focus {
+  width: 300px; 
+}
