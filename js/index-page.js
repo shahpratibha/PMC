@@ -184,7 +184,7 @@ let wardData = [
   },
   {
     ward_id: '3',
-    ward_name: 'Nagar Road - Vadgaonsheri ',
+    ward_name: 'Nagar Road - Vadgaonsheri',
     ward_marathi_name: 'नगररोड - वडगावशेरी',
     zone_id: '1',
     ward_no: '1',
@@ -219,7 +219,7 @@ let wardData = [
   },
   {
     ward_id: '9',
-    ward_name: 'Dhankawadi - Sahakar Nagar ',
+    ward_name: 'Dhankawadi - Sahakar Nagar',
     ward_marathi_name: 'धनकवडी - सहकारनगर',
     zone_id: '3',
     ward_no: '7',
