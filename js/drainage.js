@@ -1984,19 +1984,13 @@ map.on("contextmenu", (e) => {
       });
   }
 });
-
-
-
-
 // legend start
-
-
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
 var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 
-var workspace = "pmc1";
+var workspace = "Drainage";
 
 // Variable to keep track of legend visibility
 var legendVisible = true;
@@ -2065,7 +2059,7 @@ legendControl.onAdd = function (map) {
   div.style.scrollbarWidth = "thin";
   div.style.backgroundColor = "white";
   div.style.border = "2px solid darkblue";
-  div.style.borderRadius = "10px";
+  // div.style.borderRadius = "10px";
   div.style.padding = "10px";
   div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
 
@@ -2122,7 +2116,7 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.right ="2%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
-      legendDiv.style.borderRadius= "20px";
+      // legendDiv.style.borderRadius= "20px";
       legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
       button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
 
@@ -2178,7 +2172,7 @@ legend.onAdd = function (map) {
       var layers = xml.querySelectorAll('Layer[queryable="1"]');
       layers.forEach(function (layer) {
         var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("pmc1:")) {
+        if (layerName.startsWith("Drainage:")) {
           var legendUrl =
             this.geoserverUrl +
             "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
@@ -2207,7 +2201,7 @@ legend.onAdd = function (map) {
       div.style.scrollbarWidth = "thin";
       div.style.backgroundColor = "white";
       div.style.border = "2px solid darkblue";
-      div.style.borderRadius = "10px";
+      // div.style.borderRadius = "10px";
       div.style.padding = "10px";
     })
     .catch((error) => {
@@ -2218,4 +2212,3 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
-
