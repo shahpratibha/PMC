@@ -183,9 +183,9 @@
 
 		$(document).ready(function () {
 			var urlParams = new URLSearchParams(window.location.search);
-			var villageName = urlParams.get('works_aa_a');
-			filter = "works_aa_a = " + villageName;
-			// console.log(villageName, "work id", filter);
+			var villageName = urlParams.get('Work_ID');
+			filter = "Work_ID = " + villageName;
+			console.log(villageName, "work id", filter);
 			FitbouCustomiseRevenue(filter)
 
 			IWMS_line.setParams({
@@ -207,7 +207,7 @@
 
 			getdata(filter)
 
-			const layerDetails = ["works_aa_a", "name_of_wo", "departme_1", "work_type", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"];
+			const layerDetails = ["Work_ID", "Name_of_Work", "Department", "Work_Type", "Project_Office", "zone_id", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number"];
 			let all_data = '';
 
 			function getdata(filters) {
