@@ -665,7 +665,7 @@ map.on("draw:created", function (e) {
             "</td></tr>";
           popupContent +=
             "<tr><td>Work-type</td><td>" +
-            responseData.work_type +
+            responseData.Work_Type +
             "</td></tr>";
           popupContent +=
             "<tr><td>Zone</td><td>" + responseData.zone + "</td></tr>";
@@ -1156,7 +1156,7 @@ $(document).ready(function () {
           data: data.map(function (project) {
             return [
               project.project.name_of_work,
-              project.project.work_type,
+              project.project.Work_Type,
               project.project.created_date,
               getZoneNameById(
                 project.project.constituency_zone_id,
@@ -1336,7 +1336,7 @@ function getWardNameById(wardId, wardData) {
 // var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
 //Pop-Up show
 const layerDetails = {
-  "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
+  "pmc:Data": ["Work_ID", "Name_of_Work", "Department",  "Work_Type", "Project_Office", "Zone", "Ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "GIS_Created_At"],
   "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
   "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
   "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],

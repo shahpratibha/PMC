@@ -556,23 +556,61 @@
 
 
     // -------------------added 11-2-24------------------------
-    function fitbou(filter) {
-      layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
-      layers.forEach(function (layerName) {
-        var urlm =
-          "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-          layerName +
-          "&CQL_FILTER=" +
-          filter +
-          "&outputFormat=application/json";
-        // console.log(urlm, "fittobound url")
-        $.getJSON(urlm, function (data) {
-          console.log(data)
-          geojson = L.geoJson(data, {});
-          map.fitBounds(geojson.getBounds());
-        });
-      });
-    }
+    // function fitbou(filter) {
+    //   layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+    //   layers.forEach(function (layerName) {
+    //     var urlm =
+    //       "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    //       layerName +
+    //       "&CQL_FILTER=" +
+    //       filter +
+    //       "&outputFormat=application/json";
+    //     // console.log(urlm, "fittobound url")
+    //     $.getJSON(urlm, function (data) {
+    //       console.log(data)
+    //       geojson = L.geoJson(data, {});
+    //       map.fitBounds(geojson.getBounds());
+    //     });
+    //   });
+    // }
+
+    function fitbous(filter) {
+  var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+  var bounds = null;
+ 
+  var processLayer = function (layerName, callback) {
+    var urlm =
+      "https://pmc.geopulsea.com//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+      layerName +
+      "&CQL_FILTER=" +
+      filter +
+      "&outputFormat=application/json";
+   
+    $.getJSON(urlm, function (data) {
+      var geojson = L.geoJson(data);
+      var layerBounds = geojson.getBounds();
+      if (bounds) {
+        bounds.extend(layerBounds);
+      } else {
+        bounds = layerBounds;
+      }
+      callback();
+    });
+  };
+ 
+  var layersProcessed = 0;
+  layers.forEach(function (layerName) {
+    processLayer(layerName, function () {
+      layersProcessed++;
+      if (layersProcessed === layers.length) {
+        // Apply the combined bounds to the map after all layers are processed
+        if (bounds) {
+          map.fitBounds(bounds);
+        }
+      }
+    });
+  });
+}
     // -------------------added 11-2-24------------------------
 
 
@@ -725,7 +763,7 @@
 
 
       if (selectedAmountValue && selectedAmountValue.trim() !== "") {
-        var amountCondition = `tender_amo ${selectedAmountComparison === "greater_than" ? ">" : "<"
+        var amountCondition = `Tender_Amount ${selectedAmountComparison === "greater_than" ? ">" : "<"
           } ${parseFloat(selectedAmountValue)}`;
         // If other filters are applied, append "AND" to the amount condition
         if (cqlFilter !== "") {
@@ -1891,11 +1929,12 @@ var selectButton = $('#headingWard button');
 
     $(document).ready(function () {
       var columns = [
-        "works_aa_a",
-        "name_of_wo",
-        "scope_of_w",
-        "je_name",
-        "length"
+      "Work_ID",
+      "Name_of_Work",
+      "Scope_of_Work",
+      "Name_of_JE",
+      "length",
+
       ];
 
       var select = document.getElementById("search_type");
@@ -1922,7 +1961,7 @@ var selectButton = $('#headingWard button');
 
         function getValues(callback) {
           var geoServerURL =
-            "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line&propertyName=" + selectedValue + "&outputFormat=application/json";
+            "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=" + selectedValue + "&outputFormat=application/json";
 console.log(geoServerURL,"geoServerURLsearch")
           $.getJSON(geoServerURL, function (data) {
             var workTypeSet = new Set();
@@ -1988,7 +2027,7 @@ console.log("hrrrrrrrrrrrrrrrrrr")
               IWMS_point.setParams({
                 CQL_FILTER: cqlFilter,
                 maxZoom: 19.5,
-                styles: "IWMS_Points"
+                styles: "IWMS_Point"
               });
 
               IWMS_line.setParams({
@@ -2001,7 +2040,7 @@ console.log("hrrrrrrrrrrrrrrrrrr")
               console.log("Adding IWMS_point and IWMS_line layers with filter:", cqlFilter);
               IWMS_point.addTo(map).bringToFront();
               IWMS_line.addTo(map).bringToFront();
-              fitbou(cqlFilter);
+              fitbous(cqlFilter);
             }
           });
         });
@@ -2108,7 +2147,7 @@ function tableData(typeName, geoServerURL,cqlFilter){
 
           var totalcountofselectedrecords = filteredData.totalFeatures;
           var totalTenderAmount = filteredData.features.reduce(function (total, project) {
-            var tenderAmount = parseFloat(project.properties.tender_amo);
+            var tenderAmount = parseFloat(project.properties.Tender_Amount);
             return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
           }, 0);
 
@@ -2127,21 +2166,21 @@ function tableData(typeName, geoServerURL,cqlFilter){
             const currentPageData = project.slice(startIndex, endIndex);
 
             currentPageData.forEach(project => {
-              var tenderAmount = parseFloat(project.properties.tender_amo);
+              var tenderAmount = parseFloat(project.properties.Tender_Amount);
               tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
 
               const row = `
             <tr data-coordinates='${JSON.stringify(project.geometry)}'>
                 <td>${project.properties.zone}</td>
                 <td>${project.properties.ward}</td>
-                <td>${project.properties.departme_1}</td>
-                <td>${project.properties.work_type}</td>
+                <td>${project.properties.Department}</td>
+                <td>${project.properties.Work_Type}</td>
                 <td>${tenderAmount}</td>
-                <td>${project.properties.je_name}</td>
+                <td>${project.properties.Name_of_JE}</td>
                 <td>${project.properties.Agency}</td>
                 <td>${project.properties.Project_Office}</td> 
                 <td>${project.properties.Budget_Code}</td>
-                <td>${project.properties.created_at}</td>
+                <td>${project.properties.Created_At}</td>
                 <td>${project.properties.Work_Completion_Date}</td>
             </tr>`;
 
