@@ -1547,7 +1547,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    // window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+'&department=Building'+`&lastInsertedId=`+lastInsertedId;
+    window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+'&department=Building'+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
@@ -1555,7 +1555,12 @@ function Savedata(lastDrawnPolylineId) {
   });
 
 
-
+  const flipCoordinates = (data) => {
+    const flippedData = data.map(subArray => 
+      subArray.map(coordinates => coordinates.slice().reverse())
+    );
+    return flippedData.reverse();
+  };
 
   var formData = new FormData();
   formData.append('proj_id', '20698');
@@ -1563,7 +1568,7 @@ function Savedata(lastDrawnPolylineId) {
   formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0][1]);
   formData.append('polygon_area', area);
   formData.append('polygon_centroid', JSON.stringify(centroid.geometry.coordinates));
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates));
+  formData.append('geometry', JSON.stringify(flipCoordinates(selectCoordinatesData[1].geometry.coordinates.slice())));
   formData.append('road_no', '11');
   formData.append('user_id', '5');
 
