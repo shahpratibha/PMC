@@ -34,8 +34,7 @@ if ($department == "Road") {
     $bufferWidth = isset($data['bufferWidth']) ? $data['bufferWidth'] : null;
     $area =  isset($data['area']) ? $data['area'] : 0;
 
-    print_r($area);
-    echo $area ;
+   
 
     $geometry = $geoJSONData['features'][0]['geometry'];
     $geometryJSON = json_encode($geometry);

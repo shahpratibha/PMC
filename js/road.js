@@ -1733,13 +1733,15 @@ function Savedata(lastDrawnPolylineId) {
       },
   });
 
+  console.log(selectCoordinatesData[1].geometry.coordinates);
+
   var formData = new FormData();
   formData.append('proj_id', '20698');
   formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
   formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates));
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
   formData.append('road_no', '11');
   formData.append('user_id', '5');
   formData.append('length', area);

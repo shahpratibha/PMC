@@ -1580,7 +1580,7 @@ function Savedata(lastDrawnPolylineId) {
   formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates));
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
   formData.append('road_no', '11');
   formData.append('user_id', '5');
   formData.append('length', area);
@@ -1620,7 +1620,7 @@ function Savedata(lastDrawnPolylineId) {
     data: payload,
     contentType: "application/json",
     success: function (response) {
-      console.log(response);
+     
     window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Drainage`+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
