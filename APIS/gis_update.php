@@ -23,6 +23,10 @@ if (!$configData) {
     exit;
 }
 
+date_default_timezone_set('Asia/Kolkata');
+$currentDateTime = date('Y-m-d H:i:s');
+
+
 if ($department == "Road") {
 
     $geoJSONData = json_decode($data['geoJSON'], true);
@@ -107,6 +111,10 @@ if ($department == "Road") {
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET  \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+        $stmtUpdate->execute();
         // Respond with success message, including IDs from both insert operations
         echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
@@ -174,6 +182,10 @@ if ($department == "Road") {
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET  \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+        $stmtUpdate->execute();
         // Respond with success message, including IDs from both insert operations
         echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
@@ -253,6 +265,10 @@ if ($department == "Road") {
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMSDrainage = $pdo->lastInsertId();
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET  \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+        $stmtUpdate->execute();
         // Respond with success message, including IDs from both insert operations
         echo json_encode(["message" => "Data successfully saved  tables","lastInsertIdIWMS" => $lastInsertIdIWMSDrainage]);
     } catch (PDOException $e) {

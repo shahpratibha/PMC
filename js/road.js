@@ -44,6 +44,7 @@ const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardname');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
+var wardBoundary = null ;
 console.log(workType);
 
 var lastDrawnPolylineIdSave = null;
@@ -256,6 +257,7 @@ function fitbou(filter) {
     console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
+    wardBoundary = data;
     map.fitBounds(geojson.getBounds());
   });
 }
@@ -301,6 +303,11 @@ var drawControlRoad = new L.Control.Draw({
   //   featureGroup: drawnItems,
   //   remove: true,
   // },
+  drawcreate: function(e) {
+    var layer = e.layer; // Get the drawn layer
+
+    console.log(layer);
+  }
 });
 
 
@@ -1174,8 +1181,33 @@ map.on("draw:editvertex", function (e) {
 });
 
 
+function checkIfInsideWard(latlng) {
+  var point = turf.point([latlng.lng, latlng.lat]);
+  var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
+  return turf.booleanPointInPolygon(point, polygon);
+}
+var drawControlAdded = false;
 
-
+map.on('mousemove', function(e) {
+  var isInside = checkIfInsideWard(e.latlng);
+  
+ if (isInside) {
+        map.getContainer().style.cursor = 'crosshair';
+        // Add draw control if not already added
+        if (!drawControlAdded) {
+          map.addControl(drawControlRoad);
+          drawControlAdded = true;
+        }
+      } else {
+        map.getContainer().style.cursor = 'not-allowed';
+        // Remove draw control if currently added
+        if (drawControlAdded) {
+          map.removeControl(drawControlRoad);
+          drawControlAdded = false;
+        }
+      }
+    
+});
 
 
 
@@ -1268,6 +1300,7 @@ let throttle = false; // Throttling flag to control event frequency
 
 
 
+
 map.on("draw:created", function (e) {
 
 
@@ -1277,6 +1310,10 @@ map.on("draw:created", function (e) {
 
   if (mapMode == 'snapping') {
     var newFeature = e.layer.toGeoJSON();
+
+    //var isInsideWard = checkIfInsideWard(newFeature, ward_boundary);
+
+    //console.log(isInsideWard);
 
     getGeodataFeatures().then(function (geodataFeatures) {
       var isAllowed = checkOverlapWithGeodata(newFeature, geodataFeatures);
@@ -1619,71 +1656,124 @@ function deleteRow() {
 }
 
 function Savedata(lastDrawnPolylineId) {
-
   var geoJSONString;
   let selectCoordinatesData;
-  var geoJSONStringJson
+  var geoJSONStringJson;
+  var area = 0; // Initialize area variable
+  var centroid = 0 ;
 
   if (mapMode == 'tracing') {
+      geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
+      geoJSONStringJson = JSON.parse(geoJSONString);
+      selectCoordinatesData = [geoJSONStringJson];
 
-    geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
-    geoJSONStringJson = JSON.parse(geoJSONString);
-    selectCoordinatesData = [geoJSONStringJson];
+      if (currentPolyline) {
+          area = turf.area(geoJSONStringJson); 
+          console.log(area);
+      }
+     
   } else {
-    geoJSONString = toGISformat();
-    geoJSONStringJson = JSON.parse(geoJSONString);
-    selectCoordinatesData = geoJSONStringJson.features;
+      geoJSONString = toGISformat();
+      geoJSONStringJson = JSON.parse(geoJSONString);
+      selectCoordinatesData = geoJSONStringJson.features;
+
+    
+      if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
+        const geometry = geoJSONStringJson.features[1].geometry;
+        if (geometry.type === "Polygon") {
+            area = turf.area(geoJSONStringJson.features[1]);
+        } else if (geometry.type === "LineString") {
+            area = turf.length(geoJSONStringJson.features[1], { units: 'meters' }); 
+        }
+    }
+     
   }
 
+  console.log(area);
 
-  localStorage.setItem(
-    "selectCoordinatesData",
-    JSON.stringify(selectCoordinatesData)
-  );
+  localStorage.setItem("selectCoordinatesData", JSON.stringify(selectCoordinatesData));
   let formDataTemp = localStorage.getItem("conceptual_form_data_temp");
   if (formDataTemp) {
-    localStorage.setItem("conceptual_form_data", formDataTemp);
+      localStorage.setItem("conceptual_form_data", formDataTemp);
   }
 
   var roadLenght = lenght;
   var bufferWidth = width;
 
-
-  var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
+  var polylineLayerId = lastDrawnPolylineId; 
   var bufferGeoJSONString = "{}";
-  if (
-    associatedLayersRegistry[polylineLayerId] &&
-    associatedLayersRegistry[polylineLayerId].bufferLayer
-  ) {
-    var bufferLayer = associatedLayersRegistry[polylineLayerId].bufferLayer;
-    bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
+  if (associatedLayersRegistry[polylineLayerId] && associatedLayersRegistry[polylineLayerId].bufferLayer) {
+      var bufferLayer = associatedLayersRegistry[polylineLayerId].bufferLayer;
+      bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
-  var payload =
-    JSON.stringify({
+  var payload = JSON.stringify({
       geoJSON: bufferGeoJSONString,
       roadLength: roadLenght,
       bufferWidth: bufferWidth,
       gis_id: lastInsertedId,
       department: department,
       selectCoordinatesData: selectCoordinatesData,
-    });
+      area: area 
+  });
 
+ 
 
   $.ajax({
-    type: "POST",
-    url: "APIS/gis_save.php",
-    data: payload,
-    contentType: "application/json",
-    success: function (response) {
-      console.log(response);
-      window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + lastInsertedId;
-    },
-    error: function (xhr, status, error) {
-      console.error("Save failed:", error);
-    },
+      type: "POST",
+      url: "APIS/gis_save.php",
+      data: payload,
+      contentType: "application/json",
+      success: function (response) {
+          console.log(response);
+       //   window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + lastInsertedId;
+      },
+      error: function (xhr, status, error) {
+          console.error("Save failed:", error);
+      },
   });
+
+  var formData = new FormData();
+  formData.append('proj_id', '20698');
+  formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
+  formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
+  formData.append('polygon_area', 0);
+  formData.append('polygon_centroid', 0);
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates));
+  formData.append('road_no', '11');
+  formData.append('user_id', '5');
+  formData.append('length', area);
+  formData.append('width', width);
+  // If you have a base64 string for the image, you can add it as a Blob
+  // var base64Image = 'data:image/jpeg;base64,<base64string>';
+  // var byteString = atob(base64Image.split(',')[1]);
+  // var mimeString = base64Image.split(',')[0].split(':')[1].split(';')[0];
+  // var ab = new ArrayBuffer(byteString.length);
+  // var ia = new Uint8Array(ab);
+  // for (var i = 0; i < byteString.length; i++) {
+  //     ia[i] = byteString.charCodeAt(i);
+  // }
+  // var blob = new Blob([ab], { type: mimeString });
+  // formData.append('gis_snap', blob, 'snapshot.jpg');
+  
+  $.ajax({
+      type: "POST",
+      url: "https://iwms.punecorporation.org/api/gis-data",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+          console.log(response);
+        //  window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + response.lastInsertIdIWMS;
+      },
+      error: function (xhr, status, error) {
+          console.error("Save failed:", error);
+      },
+  });
+  
+
 }
+
 
 function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data

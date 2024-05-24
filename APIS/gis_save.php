@@ -23,12 +23,19 @@ if (!$configData) {
     exit;
 }
 
+date_default_timezone_set('Asia/Kolkata');
+$currentDateTime = date('Y-m-d H:i:s');
+
 if ($department == "Road") {
 
     $geoJSONData = json_decode($data['geoJSON'], true);
     $selectCoordinatesData = $data['selectCoordinatesData'];
     $roadLength = isset($data['roadLength']) ? $data['roadLength'] : null;
     $bufferWidth = isset($data['bufferWidth']) ? $data['bufferWidth'] : null;
+    $area =  isset($data['area']) ? $data['area'] : 0;
+
+    print_r($area);
+    echo $area ;
 
     $geometry = $geoJSONData['features'][0]['geometry'];
     $geometryJSON = json_encode($geometry);
@@ -110,6 +117,11 @@ if ($department == "Road") {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
         // Respond with success message, including IDs from both insert operations
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+        $stmtUpdate->execute();
         echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
         // If the insert into IWMS_polygon fails, consider how you want to handle the error.
@@ -122,6 +134,9 @@ if ($department == "Road") {
     $selectCoordinatesData = $data['selectCoordinatesData'];
     $selectedGeometry = $selectCoordinatesData[1]['geometry'];
     $selectedGeometryJson = json_encode($selectedGeometry);
+
+    $area =  isset($data['area']) ? $data['area'] : 0;
+   
 
     $stmtIWMS = $pdo->prepare("INSERT INTO \"Polygon_data\" (
 
@@ -181,6 +196,11 @@ if ($department == "Road") {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
         // Respond with success message, including IDs from both insert operations
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+        $stmtUpdate->execute();
         echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
         // If the insert into IWMS_polygon fails, consider how you want to handle the error.
@@ -198,6 +218,8 @@ if ($department == "Road") {
 
     $selectedGeometry = isset($selectCoordinatesData[1]['geometry']) ? $selectCoordinatesData[1]['geometry'] : (isset($selectCoordinatesData[0]['geometry']) ? $selectCoordinatesData[0]['geometry'] : null);
     $selectedGeometryJson = json_encode($selectedGeometry);
+    $area =  isset($data['area']) ? $data['area'] : 0;
+   
    // print_r($configData);
 
    // return ;
@@ -254,6 +276,11 @@ $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMSDrainage = $pdo->lastInsertId();
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+        $stmtUpdate->execute();
         // Respond with success message, including IDs from both insert operations
         echo json_encode(["message" => "Data successfully saved  tables","lastInsertIdIWMS" => $lastInsertIdIWMSDrainage]);
     } catch (PDOException $e) {
