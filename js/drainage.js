@@ -1517,16 +1517,35 @@ function Savedata(lastDrawnPolylineId) {
   var geoJSONString;
   let selectCoordinatesData ;
   var geoJSONStringJson
+  var area = 0; 
 
   if(mapMode == 'tracing'){
    
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
+
+    
+    if (currentPolyline) {
+      area = turf.area(geoJSONStringJson); 
+      console.log(area);
+  }
   }else{
   geoJSONString = toGISformat();
   geoJSONStringJson = JSON.parse(geoJSONString);
   selectCoordinatesData = geoJSONStringJson.features;
+
+  if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
+    const geometry = geoJSONStringJson.features[1].geometry;
+    console.log(geometry.type);
+    if (geometry.type === "Polygon") {
+        area = turf.area(geoJSONStringJson.features[1]); 
+        console.log(area);
+    } else if (geometry.type === "LineString") {
+        area = turf.length(geoJSONStringJson.features[1], { units: 'meters' }); 
+    }
+}
+
   }
 
 
@@ -1553,6 +1572,36 @@ function Savedata(lastDrawnPolylineId) {
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
+
+
+  var formData = new FormData();
+  formData.append('proj_id', '20698');
+  formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
+  formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
+  formData.append('polygon_area', 0);
+  formData.append('polygon_centroid', 0);
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates));
+  formData.append('road_no', '11');
+  formData.append('user_id', '5');
+  formData.append('length', area);
+  formData.append('width', width);
+
+
+  $.ajax({
+    type: "POST",
+    url: "https://iwms.punecorporation.org/api/gis-data",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+        console.log(response);
+     
+    },
+    error: function (xhr, status, error) {
+        console.error("Save failed:", error);
+    },
+});
+
   var payload = 
   JSON.stringify( {
     geoJSON: bufferGeoJSONString,
@@ -1560,6 +1609,7 @@ function Savedata(lastDrawnPolylineId) {
     bufferWidth: bufferWidth,
     gis_id: lastInsertedId,
     department: department,
+    area:area,
     selectCoordinatesData:selectCoordinatesData,
   });
 
@@ -1577,6 +1627,9 @@ function Savedata(lastDrawnPolylineId) {
       console.error("Save failed:", error);
     },
   });
+
+
+
 }
 
 function SavetoKML() {
