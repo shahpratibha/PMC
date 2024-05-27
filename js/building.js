@@ -1574,7 +1574,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+'&department=Building'+`&lastInsertedId=`+lastInsertedId;
+    //window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+'&department=Building'+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
@@ -1607,8 +1607,7 @@ function Savedata(lastDrawnPolylineId) {
     processData: false,
     contentType: false,
     success: function (response) {
-        console.log(response);
-      //  window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + response.lastInsertIdIWMS;
+      window.location.href = response.data.redirect_Url;   
     },
     error: function (xhr, status, error) {
         console.error("Save failed:", error);
