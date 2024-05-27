@@ -47,7 +47,7 @@ const wardname = getQueryParam('wardname');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 
-
+var wardBoundary = null ;
 
 var lastDrawnPolylineIdSave = null ;
 
@@ -305,6 +305,7 @@ function fitbou(filter) {
     "&outputFormat=application/json";
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
+    wardBoundary = data;
     map.fitBounds(geojson.getBounds());
   });
 }
@@ -1092,7 +1093,33 @@ map.on("draw:drawvertex", function (e) {
   });
 
 
-
+  function checkIfInsideWard(latlng) {
+    var point = turf.point([latlng.lng, latlng.lat]);
+    var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
+    return turf.booleanPointInPolygon(point, polygon);
+  }
+  var drawControlAdded = false;
+  
+  map.on('mousemove', function(e) {
+    var isInside = checkIfInsideWard(e.latlng);
+    
+   if (isInside) {
+          map.getContainer().style.cursor = 'crosshair';
+          // Add draw control if not already added
+          if (!drawControlAdded) {
+            map.addControl(drawControlBuilding);
+            drawControlAdded = true;
+          }
+        } else {
+          map.getContainer().style.cursor = 'not-allowed';
+          // Remove draw control if currently added
+          if (drawControlAdded) {
+            map.removeControl(drawControlBuilding);
+            drawControlAdded = false;
+          }
+        }
+      
+  });
 
 
 
