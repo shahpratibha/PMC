@@ -161,7 +161,7 @@ function toggleSelectLayerButton(show) {
           if (searchTerm.length >= 3 && searchType) {
             let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-            let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+            let geoServerURL = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
               cqlFilter
             )}`;
 
@@ -235,7 +235,7 @@ function toggleSelectLayerButton(show) {
 
         }
 
-        var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+        var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
           }&HEIGHT=${size.y}&BBOX=${bbox}`;
@@ -442,7 +442,7 @@ function toggleSelectLayerButton(show) {
 
       // Change the button's onclick function to stop the task
       button.onclick = function () {
-        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
+        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px;  height:20px; " title="SELECT-FEATURE">';
         // Remove the click event listener from the map
         var drawFeatureButton = document.querySelector('.draw_feature');
         if (drawFeatureButton) {
@@ -491,10 +491,10 @@ function toggleSelectLayerButton(show) {
 
     editControl.onAdd = function (map) {
       var button = L.DomUtil.create('button', 'custom-button');
-      button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
+      button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">';
       button.onclick = function () {
         var drawFeatureButton = document.querySelector('.draw_feature');
-        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">') {
+        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">') {
           button.innerHTML = 'Finish';
           performTask();
 
@@ -511,7 +511,7 @@ function toggleSelectLayerButton(show) {
             drawFeatureButton.setAttribute('disabled', false);
           }
         } else {
-          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; position: fixed;" title="SELECT FEATURE">';
+          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
           // Finish or reset any ongoing operation here
           if (drawFeatureButton) {
             drawFeatureButton.setAttribute('disabled', false);
