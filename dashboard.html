@@ -28,6 +28,16 @@
       width: 156px;
 
     }
+
+    
+
+    .leaflet-control-zoom {
+  position: absolute;
+  left: 96vw;
+  top: 85vh;
+  border: 2px solid darkblue;
+}
+
   </style>
 </head>
 
@@ -309,7 +319,7 @@
             style="font-weight: bold; margin-top: 3px; margin-right: 5px; width: 10px; position: fixed;"></i>
         </button>
 
-        <p id="tablestats" class="tablestats"
+        <p id="tablestatss" class="tablestats"
           style="position: fixed; color: darkblue; font-size: 12px;font-weight: bold;  z-index: 9999; margin-top: 45px; margin-left:0px;">
 
         </p>
@@ -2257,7 +2267,7 @@ function tableData(typeName, geoServerURL,cqlFilter){
 
           // -----------------------
           var printButton = $("#printButton")
-          var tablestats = $("#tablestats")
+          var tablestats = $("#tablestatss")
           var isClosed = false;
         
 
