@@ -35,7 +35,7 @@ a {
 }
 
 .leaflet-div-icon {
-  margin-left: -10px;
+  margin-left: -10px ;
   margin-top: -10px;
   width: 5px;
   height: 5px;
@@ -538,7 +538,7 @@ top: 0px;
   cursor: pointer;
   left: 518px;
   position: absolute;
-  top: 476ppx;
+  top: 487px !important;
   height: 37px;
   width: 37px;
 
@@ -554,7 +554,7 @@ top: 0px;
   top: 500px !important;
   border: 2px solid #2b13bb;
   border-radius: 5px 5px 5px 5px !important;
-  display: none !important;
+  /* display: none; */
   left: 560px !important;
   border-bottom: 2px solid #2b13bb !important;
 }

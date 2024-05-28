@@ -479,7 +479,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'deleteFeatureButton');
-  div.innerHTML = '<button id="deleteFeatureButton"  title="Draw New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+  div.innerHTML = '<button id="deleteFeatureButton"  title="Delete New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -521,7 +521,7 @@ if (workType == "New") {
     // controlUI.style.top='60px';
     // controlUI.style.border='2px solid darkblue';
     // controlUI.style.borderRadius='5px'
-    // controlUI.style.display = 'none'
+    controlUI.style.display = 'none'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
       L.DomEvent.preventDefault(e);
