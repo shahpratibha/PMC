@@ -177,7 +177,7 @@ let wardData = [
   },
   {
     ward_id: '2',
-    ward_name: 'Dhole Patil  Ward',
+    ward_name: 'Dhole Patil Ward',
     ward_marathi_name: 'ढोले पाटील',
     zone_id: '1',
     ward_no: '3',
