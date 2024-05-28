@@ -1318,7 +1318,10 @@ $.ajax({
       console.log(formDataFromStorage);
       let contentData = '<tr>';
       for (const property in formDataFromStorage) {
-        contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        if (formDataFromStorage[property] !== null) {  // Check for null value
+          contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      }
       }
       contentData += '</tr>';
       $('#workTableData').html(contentData);
@@ -1352,7 +1355,10 @@ $.ajax({
     console.log(formDataFromStorage);
     let contentData = '<tr>';
     for (const property in formDataFromStorage) {
-      contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      if (formDataFromStorage[property] !== null) {  // Check for null value
+        contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+    }
     }
     contentData += '</tr>';
     $('#workTableData').html(contentData);
