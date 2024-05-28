@@ -985,12 +985,6 @@ textarea {
   height: 40px;
 }
 
-.leaflet-control-zoom {
-  position: relative;
-  right: 10%;
-  bottom: 15px;
-  border: 1px solid;
-}
 
 /* popup */
 
@@ -1171,7 +1165,7 @@ button {
     text-shadow: black;
     text-transform: uppercase;
   }
-  #tablestats {
+  #tablestatss {
     position: absolute;
     top: 5px;
     font-size: 8px;
@@ -1427,17 +1421,19 @@ button {
     margin-right: 10px;
     border: 2px solid #383899;
   }
-  #tablestats {
+  #tablestatss {
+    /* left: 60%;s */
+    top: 53vh;
     position: absolute;
     border: none;
     color: darkblue;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: bold;
     z-index: 9999;
-    margin-top: -4px;
+    margin-top: 0px;
     margin-left: 0px;
     background-color: transparent;
-    margin-right: 190px;
+    margin-right: 100px;
   }
   #paginationControls {
     position: absolute;

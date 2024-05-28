@@ -219,7 +219,7 @@ let wardData = [
   },
   {
     ward_id: '9',
-    ward_name: 'Dhankawadi - Sahakar Nagar ',
+    ward_name: 'Dhankawadi - Sahakar Nagar',
     ward_marathi_name: 'धनकवडी - सहकारनगर',
     zone_id: '3',
     ward_no: '7',
