@@ -491,7 +491,7 @@ function toggleSelectLayerButton(show) {
 
     editControl.onAdd = function (map) {
       var button = L.DomUtil.create('button', 'custom-button');
-      button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">';
+      button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
       button.onclick = function () {
         var drawFeatureButton = document.querySelector('.draw_feature');
         if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">') {
@@ -511,7 +511,7 @@ function toggleSelectLayerButton(show) {
             drawFeatureButton.setAttribute('disabled', false);
           }
         } else {
-          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
+          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">';
           // Finish or reset any ongoing operation here
           if (drawFeatureButton) {
             drawFeatureButton.setAttribute('disabled', false);

@@ -2,7 +2,7 @@ var map, geojson;
 
 //Add Basemap
 var map = L.map("map", {
-  center:[18.52, 73.89],
+  cen00er:[18.52, 73.89],
   zoom: 11,
   minZoom:10,
   maxZoom:19,
@@ -383,7 +383,7 @@ let mapMode = 'snapping';
 
 if(workType == "New"){
 
-  var customToolSelector = L.control({ position: 'topleft' });
+  var customToolSelector = L.control({ position: 'bottomleft' });
 
 // Initialize the mapMode variable
 
@@ -393,7 +393,7 @@ var customDrawControls = L.control({ position: 'topleft' });
   // Define the HTML content for the control
   customDrawControls.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:75%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 25px; padding:3px;"></button>';
+    div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:95%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 25px; padding:3px;"></button>';
     customDrawControlsContainer = div;
     return div;
   };
