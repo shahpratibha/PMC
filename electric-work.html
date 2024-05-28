@@ -249,20 +249,9 @@ function toggleSelectLayerButton(show) {
       map.on("click", function (e) {
         let size = map.getSize();
         let bbox = map.getBounds().toBBoxString();
-        let layer = "pmc:Exist_Road";
+        let layer = "pmc:Bhavan";
 
-        if (department == 'Road') {
-          layer = "pmc:Exist_Road";
-
-        }
-        else if (department == 'Building') {
-          layer = "pmc:Reservations";
-
-        }
-        else if (department == 'Drainage') {
-          layer = "pmc:storm_water";
-
-        }
+       
 
         var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x

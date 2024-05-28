@@ -83,7 +83,7 @@ var wms_layer1 = L.tileLayer.wms(
       maxZoom: 21,
       opacity: 1,
     }
-  );
+  ).addTo(map);
   var wms_layer11 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Reservations",
@@ -97,18 +97,17 @@ var wms_layer1 = L.tileLayer.wms(
   });
 
   
-  var wms_layer13 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
-    {
-      layers: "Drainage_data",
-      format: "image/png",
-      transparent: true,
-      tiled: true,
-      version: "1.1.0",
-      maxZoom: 21,
-      opacity: 1,
-    }
-  ).addTo(map);
+  var wms_layer_bhavan = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Bhavan",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+
+    opacity: 1,
+  }).addTo(map);
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -249,7 +248,7 @@ var WMSlayers = {
   Roads: wms_layer1,
   Boundary: wms_layer12,
   Amenity: wms_layer11,
-  Drainage: wms_layer13,
+  wms_layer_bhavan: wms_layer_bhavan,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
@@ -313,7 +312,7 @@ var drawControlElectrical = new L.Control.Draw({
         className: "leaflet-div-icon", // specify the icon class
       }),
     },
-    polygon: false,
+    polygon: true,
     circle: true,
     marker: false,
     rectangle: false,
@@ -1561,6 +1560,8 @@ function Savedata(lastDrawnPolylineId) {
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
+  console.log(selectCoordinatesData);
+
   var payload = 
   JSON.stringify( {
     geoJSON: bufferGeoJSONString,
@@ -1579,7 +1580,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-   window.location.href = "geometry_page.html";
+   //window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
