@@ -191,23 +191,23 @@
 			IWMS_line.setParams({
 				CQL_FILTER: filter,
 				maxZoom: 19.5,
-				// styles: "Highlight_polygon"
+				styles: "IWMS_line"
 			}).addTo(map);
 			IWMS_polygon.setParams({
 				CQL_FILTER: filter,
 				maxZoom: 19.5,
-				styles: "Highlight_polygon"
+				styles: "IWMS_polygon"
 			}).addTo(map);
 			IWMS_point.setParams({
 				CQL_FILTER: filter,
 				maxZoom: 19.5,
-				// styles: "Highlight_polygon"
+				styles: "IWMS_points"
 			}).addTo(map);
 
 
 			getdata(filter)
 
-			const layerDetails = ["Work_ID", "Name_of_Work", "Department", "Work_Type", "Project_Office", "zone_id", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number"];
+			const layerDetails = ["Work_ID", "Name_of_Work", "Department", "Work_Type", "Project_Office", "zone_id", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number","length","width","area"];
 			let all_data = '';
 
 			function getdata(filters) {
@@ -218,7 +218,7 @@
 					const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
 						layerName +
 						"&CQL_FILTER=" +
-						filters + // Ensure variable name is 'filters'
+						filters + 
 						"&outputFormat=application/json";
 
 					// console.log(urlm);
@@ -226,7 +226,7 @@
 
 					const promise = $.getJSON(urlm).then(function (data) {
 						// console.log(data, "data");
-						const htmldata = data.features[0]?.properties || {}; // Safe navigation to handle cases where data.features might be empty
+						const htmldata = data.features[0]?.properties || {}; 
 						// console.log(htmldata, "htmldata");
 
 						let txtk1 = "";
@@ -247,8 +247,10 @@
 					all_data = results.join(''); // Join all the HTML strings from the promises
 
 					const detaildata1 = "<div style='max-height: 350px; max-width: 250px;'><table style='width:110%;' class='popup-table'>" +
-						all_data +
-						"<tr><td>Co-Ordinates</td><td>" + "e.latlng" + "</td></tr></table></div>";
+						all_data
+						//  +
+						// "<tr><td>Co-Ordinates</td><td>" + "" + "</td></tr></table></div>"
+						;
 
 					// console.log(detaildata1, "detaildata1");
 					$('#workTableData').html(detaildata1);

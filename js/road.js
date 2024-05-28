@@ -1463,7 +1463,9 @@ map.on("draw:created", function (e) {
         console.log(formDataFromStorage);
         let contentData = '<tr>';
         for (const property in formDataFromStorage) {
-          contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+          if (formDataFromStorage[property] !== null) {  // Check for null value
+            contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        }
         }
         contentData += '</tr>';
         $('#workTableData').html(contentData);
@@ -1497,7 +1499,10 @@ map.on("draw:created", function (e) {
         console.log(formDataFromStorage);
         let contentData = '<tr>';
         for (const property in formDataFromStorage) {
-          contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+          // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+          if (formDataFromStorage[property] !== null) {  // Check for null value
+            contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        }
         }
         contentData += '</tr>';
         $('#workTableData').html(contentData);
@@ -1733,7 +1738,7 @@ function Savedata(lastDrawnPolylineId) {
       contentType: "application/json",
       success: function (response) {
           console.log(response);
-         window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + lastInsertedId;
+       //  window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + lastInsertedId;
       },
       error: function (xhr, status, error) {
           console.error("Save failed:", error);
@@ -1773,7 +1778,7 @@ function Savedata(lastDrawnPolylineId) {
       contentType: false,
       success: function (response) {
           console.log(response);
-        //  window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + response.lastInsertIdIWMS;
+         window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
           console.error("Save failed:", error);

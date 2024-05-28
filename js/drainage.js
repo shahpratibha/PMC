@@ -47,6 +47,7 @@ const wardname = getQueryParam('wardname');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 
+var wardBoundary = null ;
 
 
 var lastDrawnPolylineIdSave = null ;
@@ -277,6 +278,7 @@ function fitbou(filter) {
     "&outputFormat=application/json";
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
+    wardBoundary = data;
     map.fitBounds(geojson.getBounds());
   });
 }
@@ -1077,6 +1079,33 @@ map.on("draw:drawvertex", function (e) {
   });
 
 
+  function checkIfInsideWard(latlng) {
+    var point = turf.point([latlng.lng, latlng.lat]);
+    var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
+    return turf.booleanPointInPolygon(point, polygon);
+  }
+  var drawControlAdded = false;
+  
+  map.on('mousemove', function(e) {
+    var isInside = checkIfInsideWard(e.latlng);
+    
+   if (isInside) {
+          map.getContainer().style.cursor = 'crosshair';
+          // Add draw control if not already added
+          if (!drawControlAdded) {
+            map.addControl(drawControlDrainage);
+            drawControlAdded = true;
+          }
+        } else {
+          map.getContainer().style.cursor = 'not-allowed';
+          // Remove draw control if currently added
+          if (drawControlAdded) {
+            map.removeControl(drawControlDrainage);
+            drawControlAdded = false;
+          }
+        }
+      
+  });
 
 
 
@@ -1316,7 +1345,10 @@ $.ajax({
       console.log(formDataFromStorage);
       let contentData = '<tr>';
       for (const property in formDataFromStorage) {
-        contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        if (formDataFromStorage[property] !== null) {  // Check for null value
+          contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      }
       }
       contentData += '</tr>';
       $('#workTableData').html(contentData);
@@ -1350,7 +1382,10 @@ $.ajax({
     console.log(formDataFromStorage);
     let contentData = '<tr>';
     for (const property in formDataFromStorage) {
-      contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+      if (formDataFromStorage[property] !== null) {  // Check for null value
+        contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+    }
     }
     contentData += '</tr>';
     $('#workTableData').html(contentData);
@@ -1595,7 +1630,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: false,
     success: function (response) {
         console.log(response);
-     
+        window.location.href = response.data.redirect_Url;
     },
     error: function (xhr, status, error) {
         console.error("Save failed:", error);
@@ -1621,7 +1656,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
      
-    window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Drainage`+`&lastInsertedId=`+lastInsertedId;
+   // window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Drainage`+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);

@@ -177,7 +177,7 @@ let wardData = [
   },
   {
     ward_id: '2',
-    ward_name: 'Dhole Patil  Ward',
+    ward_name: 'Dhole Patil Ward',
     ward_marathi_name: 'ढोले पाटील',
     zone_id: '1',
     ward_no: '3',
@@ -2755,7 +2755,6 @@ var northArrowControl = L.Control.extend({
   onAdd: function (map) {
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
-      // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
       '<img  src="png/002-cardinal-point.png" alt="" style="width: 30px;  height:50px; border:2px solid darkblue; background:white; border-radius:5px;">';
 
     return container;
