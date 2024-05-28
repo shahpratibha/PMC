@@ -530,7 +530,7 @@
     //   "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
     //   "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
     //   "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
-    //   "pmc:Data": ["works_aa_a", "name_of_wo", "departme_1",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
+    //   "pmc:Data": ["works_aa_a", "name_of_wo", "Department",  "work_type","stage","scope_of_w","Budget_Code","Agency", "Project_Office", "zone_id", "zone", "ward", "tender_amo", "je_name", "contact_no"],
     // };
 
     // map.on("contextmenu", async (e) => {
@@ -765,7 +765,7 @@ function fitbous(filter) {
       }
 
       if (selectedDepartments.length > 0) {
-        filter.departme_1 = selectedDepartments
+        filter.Department = selectedDepartments
           .map((department) => `'${department}'`)
           .join(",");
       }
@@ -1436,7 +1436,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=departme_1&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=Department&outputFormat=application/json";
 
       if (cqlFilter) {
         geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
@@ -1447,7 +1447,7 @@ var selectButton = $('#headingWard button');
         var departmentSet = new Set();
         // console.log(data, "data")
         $.each(data.features, function (index, feature) {
-          var department = feature.properties.departme_1;
+          var department = feature.properties.Department;
           departmentSet.add(department);
         });
 
@@ -1535,7 +1535,7 @@ var selectButton = $('#headingWard button');
           .map((department) => `'${department}'`)
           .join(",");
         cqlFilter +=
-          (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
+          (cqlFilter ? " AND " : "") + `Department IN (${departments})`;
       }
 
       var geoServerURL =
@@ -1639,7 +1639,7 @@ var selectButton = $('#headingWard button');
           .map((department) => `'${department}'`)
           .join(",");
         cqlFilter +=
-          (cqlFilter ? " AND " : "") + `departme_1 IN (${departments})`;
+          (cqlFilter ? " AND " : "") + `Department IN (${departments})`;
       }
       if (stages.length > 0) {
         stages = stages.map((stage) => `'${stage}'`).join(",");
@@ -1911,7 +1911,7 @@ console.log("hrrrrrrrrrrrrrrrrrr")
               IWMS_point.setParams({
                 CQL_FILTER: cqlFilter,
                 maxZoom: 19.5,
-                styles: "IWMS_Point"
+                styles: "IWMS_points"
               });
 
               IWMS_line.setParams({
