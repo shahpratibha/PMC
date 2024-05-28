@@ -478,12 +478,16 @@ td {
 /* circle */
 .leaflet-draw-draw-circlemarker {
   position: absolute;
-  top: -247px;
-  left: 56px;
-  border-bottom: 2px solid darkblue;
-  border: 2px solid darkblue;
+  top: 435px;
+  left: 605px;
+  border-bottom: 2px solid #2B13BB !important;
+  border-top: 2px solid #2B13BB !important;
+  border-left: 2px solid #2B13BB !important;
+  border-right: 2px solid #2B13BB !important;
   border-top: none;
-  width: 30px;
+  width: 37px !important;
+  height: 37px  !important;
+  border-radius: 5px 5px 5px 5px !important;
 }
 
 /* .leaflet-draw-draw-polyline {
@@ -534,7 +538,7 @@ top: 0px;
   cursor: pointer;
   left: 518px;
   position: absolute;
-  top: 487px;
+  top: 476ppx;
   height: 37px;
   width: 37px;
 

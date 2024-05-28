@@ -336,7 +336,7 @@ var customDrawControls = L.control({ position: 'topleft' });
 // Define the HTML content for the control
 customDrawControls.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  div.innerHTML = '<button class="draw_feature" style="border:2px solid #2B13BB; height:37px; width:37px; position: absolute; margin-top:605px; left:693px; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -354,8 +354,11 @@ customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
   div.style.padding = '4px';
   div.style.backgroundColor = 'white';
-  div.style.border = '2px solid darkblue';
-  div.style.top = "20px";
+  div.style.border = '2px solid #2B13BB';
+  div.style.top = "595px";
+  div.style.left="785px";
+  div.style.height="37px";
+  div.style.width="37px";
 
   // Create a new button element
   var button = document.createElement('button');
@@ -369,6 +372,7 @@ customToolSelector.onAdd = function (map) {
   img.src = 'png/Trace_tool.png';
   img.style.height = '20px';
   img.style.width = '20px';
+  
 
   button.appendChild(img);
 
@@ -529,14 +533,14 @@ deleteControl.onAdd = function(map) {
   // button.style.padding='5px';
   // button.style.fontSize='15px';
   // button.style.borderRadius='5px';
- button.style.display='none';
+//  button.style.display='none';
   button.title = "Delete Selected Feature";
 
 // Style the button
 // button.style.backgroundColor = 'white';   
 // button.style.color = 'black';            
 // button.style.padding = '5px 10px';       
-button.style.border = 'none';             
+// button.style.border = 'none';             
 // button.style.cursor = 'pointer';          
 
 button.onclick = function() {
