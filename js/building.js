@@ -46,6 +46,8 @@ const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardname');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
 
 var wardBoundary = null ;
 
@@ -1602,8 +1604,8 @@ function Savedata(lastDrawnPolylineId) {
   formData.append('polygon_area', area);
   formData.append('polygon_centroid', JSON.stringify(centroid.geometry.coordinates));
   formData.append('geometry', JSON.stringify(flipCoordinates(selectCoordinatesData[1].geometry.coordinates.slice())));
-  formData.append('road_no', '11');
-  formData.append('user_id', '5');
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
 
 
   $.ajax({

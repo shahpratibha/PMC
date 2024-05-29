@@ -46,6 +46,9 @@ const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardname');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
+
 
 
 
@@ -1527,16 +1530,31 @@ function Savedata(lastDrawnPolylineId) {
   var geoJSONString;
   let selectCoordinatesData ;
   var geoJSONStringJson
+  var area = 0; // Initialize area variable
+  var centroid = 0 ;
+
 
   if(mapMode == 'tracing'){
    
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
+    if (currentPolyline) {
+      area = turf.area(geoJSONStringJson); 
+      console.log(area);
+  }
   }else{
   geoJSONString = toGISformat();
   geoJSONStringJson = JSON.parse(geoJSONString);
   selectCoordinatesData = geoJSONStringJson.features;
+  if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
+    const geometry = geoJSONStringJson.features[1].geometry;
+    if (geometry.type === "Polygon") {
+        area = turf.area(geoJSONStringJson.features[1]);
+    } else if (geometry.type === "LineString") {
+        area = turf.length(geoJSONStringJson.features[1], { units: 'meters' }); 
+    }
+}
   }
 
 
@@ -1571,6 +1589,7 @@ function Savedata(lastDrawnPolylineId) {
     gis_id: lastInsertedId,
     department: department,
     selectCoordinatesData:selectCoordinatesData,
+    geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
   });
 
 
@@ -1581,12 +1600,43 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = "geometry_page.html";
+   // window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
     },
   });
+
+
+  var formData = new FormData();
+  formData.append('proj_id', '20698');
+  formData.append('latitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][1]);
+  formData.append('longitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][0]);
+  formData.append('polygon_area', 0);
+  formData.append('polygon_centroid', 0);
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
+  formData.append('length', area);
+  formData.append('width', width);
+
+  
+  $.ajax({
+      type: "POST",
+      url: "https://iwms.punecorporation.org/api/gis-data",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+          console.log(response);
+         window.location.href = response.data.redirect_Url;
+      },
+      error: function (xhr, status, error) {
+          console.error("Save failed:", error);
+      },
+  });
+
+
 }
 
 function SavetoKML() {
