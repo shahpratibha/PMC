@@ -301,13 +301,42 @@
 								});
 
 								setTimeout(() => {
-									window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Building`+`&lastInsertedId=`+lastInsertedId;
+								//	window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Building`+`&lastInsertedId=`+lastInsertedId;
 								}, 2100);
 							},
 							error: function (xhr, status, error) {
 								console.error('Save failed:', error);
 							},
 						});
+console.log(selectCoordinatesData);
+
+let area = turf.area(selectCoordinatesData[0]);
+let centroid = turf.centroid(selectCoordinatesData[0]);
+						var formData = new FormData();
+						formData.append('proj_id', worksAaApprovalId);
+						formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][0][0]);
+						formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0][1]);
+						formData.append('polygon_area', area);
+						formData.append('polygon_centroid', JSON.stringify(centroid.geometry.coordinates));
+						formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+						formData.append('road_no', struct_no);
+						formData.append('user_id', user_id);
+					  
+					  
+						$.ajax({
+						  type: "POST",
+						  url: "https://iwms.punecorporation.org/api/gis-data",
+						  data: formData,
+						  processData: false,
+						  contentType: false,
+						  success: function (response) {
+							window.location.href = response.data.redirect_Url;   
+						  },
+						  error: function (xhr, status, error) {
+							  console.error("Save failed:", error);
+						  },
+					  });
+					  
 					});
 				}
 			});
