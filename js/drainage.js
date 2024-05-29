@@ -48,6 +48,9 @@ const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
+ 
+
 
 var wardBoundary = null ;
 
@@ -1612,7 +1615,7 @@ function Savedata(lastDrawnPolylineId) {
 
 
   var formData = new FormData();
-  formData.append('proj_id', '20698');
+  formData.append('proj_id', worksAaApprovalId);
   formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
   formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
