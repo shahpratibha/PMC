@@ -409,7 +409,7 @@ td {
   left: 733px !important;
   height: 37px !important;
   width: 37px !important;
- ;
+ 
 
   transition: background-color  0.1s;
 }
@@ -496,7 +496,6 @@ top: 0px;
   top: 487px !important;
   height: 37px;
   width: 37px;
-
   display: none;
   border-top: 2px solid #2b13bb;
 }
@@ -509,7 +508,7 @@ top: 0px;
   top: 500px !important;
   border: 2px solid #2b13bb;
   border-radius: 5px 5px 5px 5px !important;
-  /* display: none; */
+  display: none;
   left: 560px !important;
   border-bottom: 2px solid #2b13bb !important;
 }

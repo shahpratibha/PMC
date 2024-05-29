@@ -353,8 +353,12 @@ customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
   div.style.padding = '5px';
   div.style.backgroundColor = 'white';
-  div.style.border = '2px solid darkblue';
-  div.style.top = "50px";
+  div.style.border = '2px solid #2B13BB';
+  div.style.top = "528px";
+  div.style.left = "785px";
+  div.style.height= "37px";
+  div.style.width= "37px";
+  div.style.borderRadius="5px 5px 5px 5px";
 
   // Create a new button element
   var button = document.createElement('button');
@@ -420,7 +424,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png" style="width: 20px; height: 20px; padding:0px 3px;">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -528,7 +532,7 @@ deleteControl.onAdd = function(map) {
   button.style.padding='5px';
   button.style.fontSize='15px';
   button.style.borderRadius='5px';
- button.style.display='none';
+  button.style.display='none';
   button.title = "Delete Selected Feature";
 
 // Style the button

@@ -320,10 +320,10 @@ var drawControlWaterBodies = new L.Control.Draw({
     rectangle: false,
     circlemarker:false
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  // edit: {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 
@@ -355,8 +355,12 @@ customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
   div.style.padding = '5px';
   div.style.backgroundColor = 'white';
-  div.style.border = '2px solid darkblue';
-  div.style.top = "50px";
+  div.style.border = '2px solid #2B13BB';
+  div.style.top = "528px";
+  div.style.left = "785px";
+  div.style.height= "37px";
+  div.style.width= "37px";
+  div.style.borderRadius="5px 5px 5px 5px";
 
   // Create a new button element
   var button = document.createElement('button');
@@ -395,7 +399,7 @@ var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
+  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Save"> <i Class="fa-regular fa-floppy-disk"></i> </button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -422,7 +426,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png"  style="width: 20px; height: 20px; padding:0px 3px;">';
 customDrawControlsContainer = div;
 return div;
 };
