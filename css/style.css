@@ -510,7 +510,17 @@ padding: 5px;
   width: 30px;
 }
 
-
+/* circle */
+.leaflet-draw-draw-circle {
+  position: absolute;
+  /* top: -283px; */
+  top: -216px;
+  left: 56px;
+  border-bottom: 2px solid darkblue;
+  border: 2px solid darkblue;
+  border-top: none;
+  width: 30px;
+}
 
 /* style="border:2px solid #bbb;  border-radius:5px; background-color:green; color:white; padding: 5px ; display:none" */
 
@@ -582,7 +592,7 @@ top: 0px;
   
     position: absolute;
       /* top: -170px; */
-  top: -217px;
+     top: -217px;
 
       left: 56px;
       border:2px solid darkblue;

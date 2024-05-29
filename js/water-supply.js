@@ -316,17 +316,24 @@ var drawControlWaterBodies = new L.Control.Draw({
         className: "leaflet-div-icon", // specify the icon class
       }),
     },
-    polygon: true,
+    polygon:{  shapeOptions: {
+      color: "red", 
+    },
+    icon: new L.DivIcon({
+      iconSize: new L.Point(6, 6), 
+      className: "leaflet-div-icon", 
+    }),},
 
     circle: false,
     marker: false,
     rectangle: false,
     circlemarker:false
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  edit:false,
+  //  {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 
@@ -398,7 +405,7 @@ var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
+  div.innerHTML = '<button id="save-button" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -411,7 +418,7 @@ customSaveButton.addTo(map);
 var customSaveEditButton = L.control({ position: 'topleft' });
 customSaveEditButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'saveDataButton');
-div.innerHTML = '<button id="saveDataButton" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
+div.innerHTML = '<button id="saveDataButton" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -425,7 +432,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="Edit Feature" src="png/editTool.png">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -439,7 +446,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'deleteFeatureButton');
-div.innerHTML = '<button id="deleteFeatureButton"  title="Draw New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+div.innerHTML = '<button id="deleteFeatureButton"  title="Delete Feature"> <i class="fa-solid fa-trash-can"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -476,13 +483,13 @@ var editControl = L.control({position: 'topleft'});
     controlUI.title = 'Edit features';
     controlUI.href = '#';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-    controlUI.style.fontSize='18px';
-    controlUI.style.position='absolute';
-    controlUI.style.top='60px';
+    // controlUI.style.fontSize='18px';
+    // controlUI.style.position='absolute';
+    // controlUI.style.top='60px';
     controlUI.style.display='none';
 
-    controlUI.style.border='2px solid darkblue';
-    controlUI.style.borderRadius='5px'
+    // controlUI.style.border='2px solid darkblue';
+    // controlUI.style.borderRadius='5px'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
@@ -530,18 +537,18 @@ deleteControl.onAdd = function(map) {
   var button = L.DomUtil.create('button', 'delete-button', container);
   button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
   button.style.border='2px solid darkblue';
-  button.style.padding='5px';
-  button.style.fontSize='15px';
-  button.style.borderRadius='5px';
+  // button.style.padding='5px';
+  // button.style.fontSize='15px';
+  // button.style.borderRadius='5px';
  button.style.display='none';
   button.title = "Delete Selected Feature";
 
 // Style the button
-button.style.backgroundColor = 'white';   
-button.style.color = 'black';            
-button.style.padding = '5px 10px';       
+// button.style.backgroundColor = 'white';   
+// button.style.color = 'black';            
+// button.style.padding = '5px 10px';       
 button.style.border = 'none';             
-button.style.cursor = 'pointer';          
+// button.style.cursor = 'pointer';          
 
 button.onclick = function() {
     if (selectedPolylineId) {
