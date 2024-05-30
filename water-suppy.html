@@ -8,16 +8,20 @@
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css" />
   <!-- <link rel="stylesheet" href="C_form.css" /> -->
-
-
-  <style>
+<style>
     #map {
       top: 0px;
       left: 0px;
       height: 99vh;
       width: 100%;
       z-index: 1;
-    }
+  }
+  leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
+    background-position: 2px 2px !important;
+} 
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+    background-position: -28px 1px !important;
+}
   .draw_feature{
 	top: 574px !important;
 	left: 699px;

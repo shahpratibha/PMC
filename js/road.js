@@ -388,26 +388,30 @@ let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '4px';
+  div.style.padding = '5px';
   div.style.backgroundColor = 'white';
   div.style.border = '2px solid #2B13BB';
-  div.style.left='780px';
-  div.style.height='37px'
-  div.style.width='37px'
+  div.style.left='771px';
+  div.style.height='36px'
+  div.style.width='36px'
   div.style.top = "590px";
 
   // Create a new button element
   var button = document.createElement('button');
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
-  // button.style.marginRight = '5px';
+  button.style.marginRight = '0px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
-
+  button.style.display = 'flex';
+  button.style.justifyContent = 'center';
+  button.style.alignItems = 'center';
+  // button.style.width = '100%';
+  // button.style.height = '100%';
   // Create a new image element
   var img = document.createElement('img');
   img.src = 'png/Trace_tool.png';
-  img.style.height = '20px';
-  img.style.width = '20px';
+  img.style.height = '18px';
+  img.style.width = '18px';
 
   button.appendChild(img);
 
@@ -438,7 +442,7 @@ var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
+  div.innerHTML = '<button id="save-button" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -451,7 +455,7 @@ customSaveButton.addTo(map);
 var customSaveEditButton = L.control({ position: 'topleft' });
 customSaveEditButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'saveDataButton');
-  div.innerHTML = '<button id="saveDataButton" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
+  div.innerHTML = '<button id="saveDataButton" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -465,7 +469,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'editFeatureButton');
-  div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+  div.innerHTML = '<img id="editFeatureButton"  title="Edit New Feature" src="png/editTool.png">';
   customDrawControlsContainer = div;
   return div;
 };
@@ -479,7 +483,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'deleteFeatureButton');
-  div.innerHTML = '<button id="deleteFeatureButton"  title="Delete New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+  div.innerHTML = '<button id="deleteFeatureButton"  title="Delete  Feature"> <i class="fa-solid fa-trash-can"></i></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -571,7 +575,7 @@ if (workType == "New") {
     var container = L.DomUtil.create('div', 'leaflet-bar');
     var button = L.DomUtil.create('button', 'delete-button', container);
     button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-    button.title = "Delete Selected Feature";
+    button.title = "Delete  Feature";
 
     button.onclick = function () {
       if (selectedPolylineId) {

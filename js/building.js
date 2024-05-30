@@ -383,12 +383,6 @@ var drawControlBuilding = new L.Control.Draw({
 
 
 if(workType == "New"){
-
-  var customToolSelector = L.control({ position: 'topleft' });
-
-// Initialize the mapMode variable
-
-
 var customDrawControls = L.control({ position: 'topleft' });
 
   // Define the HTML content for the control
@@ -405,6 +399,9 @@ var customDrawControls = L.control({ position: 'topleft' });
 
 
 var customSaveButton = L.control({ position: 'topleft' });
+// Initialize the mapMode variable
+let mapMode = 'snapping';
+
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');

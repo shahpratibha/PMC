@@ -405,8 +405,8 @@ td {
   border-radius: 5px !important;
   cursor: pointer;
   /* position: absolute; */
-  top: 476px !important;
-  left: 733px !important;
+  top: 477px !important;
+  left: 727px !important;
   height: 37px !important;
   width: 37px !important;
  
@@ -478,7 +478,7 @@ top: 0px;
   top: 543px;
   height: 37px;
   width: 37px;
-  left: 603px;
+  left: 599px;
   font-size: 15px;
   border-bottom: 2px solid #2b13bb;
 }
@@ -557,8 +557,8 @@ width: 37px;
   margin: 0;
   padding: 0;
   position: fixed !important;
-  left: 560px !important;
-  top: 650px !important;
+  left: 595px !important;
+  top: 645px !important;
   white-space: nowrap;
 }
 

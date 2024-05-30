@@ -352,7 +352,7 @@ let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '4px';
+  div.style.padding = '5px';
   div.style.backgroundColor = 'white';
   div.style.border = '2px solid #2B13BB';
   div.style.top = "595px";
