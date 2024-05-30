@@ -48,6 +48,7 @@ const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
 let wardNames = wardname.split(',').map(id => id.trim());
 
 
@@ -1657,16 +1658,14 @@ function Savedata(lastDrawnPolylineId) {
 
 
   var formData = new FormData();
-  formData.append('proj_id', '20698');
-  formData.append('latitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][0]);
-  formData.append('polygon_area', 0);
-  formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('proj_id', worksAaApprovalId);
+  formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][0][0]);
+  formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0][1]);
+  formData.append('polygon_area', area);
+  formData.append('polygon_centroid', JSON.stringify(centroid.geometry.coordinates));
+  formData.append('geometry', JSON.stringify(flipCoordinates(selectCoordinatesData[1].geometry.coordinates.slice())));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
-  formData.append('length', area);
-  formData.append('width', width);
 
   
   $.ajax({
