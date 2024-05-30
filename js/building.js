@@ -1618,13 +1618,13 @@ function Savedata(lastDrawnPolylineId) {
     contentType: false,
     success: function (response) {
       window.location.href = response.data.redirect_Url;   
+      // window.close();  
+
     },
     error: function (xhr, status, error) {
         console.error("Save failed:", error);
     },
 });
-
-
 
 }
 
