@@ -43,26 +43,20 @@ function getQueryParam(param) {
 const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardname');
+const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
+let wardNames = wardname.split(',').map(id => id.trim());
 
 
+var wardBoundary = null ;
 
 
 var lastDrawnPolylineIdSave = null ;
 
 
-
-var cql_filterm = `Ward_Name='${wardname}'`;
-fitbou(cql_filterm);
-ward_boundary.setParams({
- cql_filter: cql_filterm,
-    styles: "highlight",
-});
-ward_boundary.addTo(map).bringToFront();
 
 
 
@@ -283,9 +277,20 @@ function fitbou(filter) {
     "&outputFormat=application/json";
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
+    wardBoundary = data;
     map.fitBounds(geojson.getBounds());
   });
 }
+
+
+let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+
+        fitbou(cql_filterm);
+        ward_boundary.setParams({
+          cql_filter: cql_filterm,
+          styles: "highlight",
+        });
+ward_boundary.addTo(map).bringToFront();
 
 
 
@@ -1090,6 +1095,42 @@ map.on("draw:drawvertex", function (e) {
     
   });
 
+
+
+  function checkIfInsideWard(latlng) {
+    var point = turf.point([latlng.lng, latlng.lat]);
+    var isInside = false;
+  
+    wardBoundary.features.forEach(function(feature) {
+      if (turf.booleanPointInPolygon(point, feature)) {
+        isInside = true;
+      }
+    });
+  
+    return isInside;
+  }
+  var drawControlAdded = false;
+  
+  map.on('mousemove', function(e) {
+    var isInside = checkIfInsideWard(e.latlng);
+    
+   if (isInside) {
+          map.getContainer().style.cursor = 'crosshair';
+          // Add draw control if not already added
+          if (!drawControlAdded) {
+            map.addControl(drawControlWaterBodies);
+            drawControlAdded = true;
+          }
+        } else {
+          map.getContainer().style.cursor = 'not-allowed';
+          // Remove draw control if currently added
+          if (drawControlAdded) {
+            map.removeControl(drawControlWaterBodies);
+            drawControlAdded = false;
+          }
+        }
+      
+  });
 
 
 

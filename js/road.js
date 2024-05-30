@@ -41,31 +41,18 @@ function getQueryParam(param) {
 const lenght = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardname');
+const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
 const worksAaApprovalId = getQueryParam('proj_id');
- 
+let wardNames = wardname.split(',').map(id => id.trim());
 
 var wardBoundary = null ;
 console.log(workType);
 
 var lastDrawnPolylineIdSave = null;
-
-
-
-var cql_filterm = `Ward_Name='${wardname}'`;
-fitbou(cql_filterm);
-ward_boundary.setParams({
-  cql_filter: cql_filterm,
-  styles: "highlight",
-});
-ward_boundary.addTo(map).bringToFront();
-
-
-
 
 
 
@@ -266,6 +253,18 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
+
+let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+
+        fitbou(cql_filterm);
+        ward_boundary.setParams({
+          cql_filter: cql_filterm,
+          styles: "highlight",
+        });
+ward_boundary.addTo(map).bringToFront();
+
+
 
 
 
@@ -1186,11 +1185,27 @@ map.on("draw:editvertex", function (e) {
 });
 
 
+// function checkIfInsideWard(latlng) {
+//   var point = turf.point([latlng.lng, latlng.lat]);
+//   var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
+//   console.log(polygon);
+//   return turf.booleanPointInPolygon(point, wardBoundary.features);
+// }
+
+
 function checkIfInsideWard(latlng) {
   var point = turf.point([latlng.lng, latlng.lat]);
-  var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
-  return turf.booleanPointInPolygon(point, polygon);
+  var isInside = false;
+
+  wardBoundary.features.forEach(function(feature) {
+    if (turf.booleanPointInPolygon(point, feature)) {
+      isInside = true;
+    }
+  });
+
+  return isInside;
 }
+
 var drawControlAdded = false;
 
 map.on('mousemove', function(e) {

@@ -371,7 +371,7 @@ async function fetchAndPostData(id) {
       }
       
 
-      if (!project.constituency_ward_id) {
+      if (!project.gis_ward_id) {
         showModal(' Please fill in the information. Missing Ward .');
         return;
       }
@@ -384,8 +384,30 @@ async function fetchAndPostData(id) {
 
       const department = depData.find(dep => dep.department_id == project.d_id);
       const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
+
+//  gis_ward_id  have to take ward from this and its coming multiple     "gis_ward_id": "1,2",
       const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
       wardname = ward ? ward.ward_name : wardname;
+
+      //
+      const wardIds = project?.gis_ward_id?.split(',').map(id => parseInt(id.trim()));
+
+// Find the corresponding ward names
+const wardNames = wardIds?.map(id => {
+    const ward = wardData?.find(w => w.ward_id == id);
+    return ward ? ward.ward_name : null;
+  })
+   // Filter out any null values
+
+// Optionally, join the ward names into a single string
+const joinedWardNames = wardNames?.join(', ');
+
+
+console.log(joinedWardNames);
+
+
+
+
       updateLocalStorage('department',department.department_name);
 
 
@@ -409,7 +431,7 @@ async function fetchAndPostData(id) {
           contactNo: project.contact || '',
           dateIn: project.con_appr_date || '',
           projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : 'Ward Office') : 'Unknown',
-          ward: ward ? ward.ward_name : '',
+          ward: ward ? joinedWardNames : '',
           zone: zone ? zone.zone_name : '',
           budgetCodes: budgetCodes || '',
           Id: project.works_aa_approval_id,

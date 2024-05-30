@@ -43,32 +43,20 @@ function getQueryParam(param) {
 const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardname');
+const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
 const worksAaApprovalId = getQueryParam('proj_id');
- 
+let wardNames = wardname.split(',').map(id => id.trim());
+
 
 
 var wardBoundary = null ;
 
 
 var lastDrawnPolylineIdSave = null ;
-
-
-
-var cql_filterm = `Ward_Name='${wardname}'`;
-fitbou(cql_filterm);
-ward_boundary.setParams({
- cql_filter: cql_filterm,
-    styles: "highlight",
-});
-ward_boundary.addTo(map).bringToFront();
-
-
-
 
 
 
@@ -287,6 +275,18 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
+let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+
+        fitbou(cql_filterm);
+        ward_boundary.setParams({
+          cql_filter: cql_filterm,
+          styles: "highlight",
+        });
+ward_boundary.addTo(map).bringToFront();
+
+
+
 
 
 
