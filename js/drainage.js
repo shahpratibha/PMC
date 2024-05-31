@@ -19,7 +19,7 @@ var googleSat = L.tileLayer(
 );
 
 var ward_boundary= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -67,7 +67,7 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 
 var wms_layer1 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
     {
       layers: "Roads",
       format: "image/png",
@@ -79,7 +79,7 @@ var wms_layer1 = L.tileLayer.wms(
     }
   );
   var wms_layer11 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -92,7 +92,7 @@ var wms_layer1 = L.tileLayer.wms(
 
   
   var wms_layer13 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
     {
       layers: "Drainage_data",
       format: "image/png",
@@ -115,7 +115,7 @@ var baseLayers = {};
 
  
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -141,7 +141,7 @@ var wms_layer14 = L.tileLayer
   });
  
 var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -152,7 +152,7 @@ var wms_layer15 = L.tileLayer
   });
  
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -164,7 +164,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -201,7 +201,7 @@ var IWMS_line = L.tileLayer
 });
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -216,7 +216,7 @@ var wms_layer16 = L.tileLayer.wms(
 
  
 var Zone_layer= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -264,7 +264,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -341,7 +341,7 @@ var customDrawControls = L.control({ position: 'topleft' });
 // Define the HTML content for the control
 customDrawControls.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  div.innerHTML = '<button class="draw_feature" style="border:2px solid #2B13BB; height:37px; width:37px; position: absolute; margin-top:605px; left:693px; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -357,10 +357,13 @@ let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '4px';
+  div.style.padding = '5px';
   div.style.backgroundColor = 'white';
-  div.style.border = '2px solid darkblue';
-  div.style.top = "20px";
+  div.style.border = '2px solid #2B13BB';
+  div.style.top = "595px";
+  div.style.left="785px";
+  div.style.height="37px";
+  div.style.width="37px";
 
   // Create a new button element
   var button = document.createElement('button');
@@ -374,6 +377,7 @@ customToolSelector.onAdd = function (map) {
   img.src = 'png/Trace_tool.png';
   img.style.height = '20px';
   img.style.width = '20px';
+  
 
   button.appendChild(img);
 
@@ -534,14 +538,14 @@ deleteControl.onAdd = function(map) {
   // button.style.padding='5px';
   // button.style.fontSize='15px';
   // button.style.borderRadius='5px';
- button.style.display='none';
+//  button.style.display='none';
   button.title = "Delete Selected Feature";
 
 // Style the button
 // button.style.backgroundColor = 'white';   
 // button.style.color = 'black';            
 // button.style.padding = '5px 10px';       
-button.style.border = 'none';             
+// button.style.border = 'none';             
 // button.style.cursor = 'pointer';          
 
 button.onclick = function() {
@@ -799,7 +803,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in//geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -950,7 +954,7 @@ function getClosestRoadPoint(latlng) {
   var bbox = turf.bbox(bufferedPoint);
   layer = "pmc:storm_water";
 
-  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
   console.log("burl", url);
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -990,7 +994,7 @@ function getClosestRoadPointLast(latlng) {
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
   let layer = "pmc:storm_water";
-  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -2045,7 +2049,7 @@ map.on("contextmenu", (e) => {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
@@ -2077,3 +2081,231 @@ map.on("contextmenu", (e) => {
       });
   }
 });
+// legend start
+
+// Now continue with your remaining JavaScript code...
+// GeoServer URL
+var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
+
+var workspace = "Drainage";
+
+// Variable to keep track of legend visibility
+var legendVisible = true;
+var processedLayers = [];
+// Add the WMS Legend control to the map
+var legendControl = L.control({ position: "topright" });
+
+legendControl.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Function to fetch and populate the legend
+  function updateLegend() {
+    // Clear the existing legend
+    div.innerHTML = '';
+
+    // Fetch capabilities to get all layers in the 'pmc' workspace
+    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
+      .then((response) => response.text())
+      .then((data) => {
+        // Parse capabilities XML response
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(data, "text/xml");
+
+        // Extract layer names and legend URLs for layers in the 'pmc' workspace
+        var layers = xml.querySelectorAll('Layer[queryable="1"]');
+        
+
+        layers.forEach((layer) => {
+          var layerName = layer.querySelector("Name").textContent;
+          var layerWorkspace = layerName.split(":")[0]; // Extract workspace from layer name
+          if (layerWorkspace === workspace && !processedLayers.includes(layerName)) {
+            var legendUrl =
+              geoserverUrl +
+              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+              layerName;
+            var layerParts = layerName.split(":"); // Split layer name by ":"
+            var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
+            div.innerHTML +=
+              "<p><strong>" +
+              layerDisplayName + // Use layerDisplayName instead of layerName
+              "</strong></p>" +
+              '<img src="' +
+              legendUrl +
+              '" alt="' +
+              layerDisplayName + // Use layerDisplayName instead of layerName
+              ' legend"><br>';
+            processedLayers.push(layerName); // Add processed layer to the list
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching capabilities:", error);
+      });
+  }
+
+  // Initially update the legend
+  updateLegend();
+
+  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+  div.style.position = "fixed";
+  div.style.bottom = "0";
+  div.style.right = "0";
+  div.style.height = "40vh";
+  div.style.width = "300px";
+  div.style.overflowY = "auto";
+  div.style.scrollbarWidth = "thin";
+  div.style.backgroundColor = "white";
+  div.style.border = "2px solid darkblue";
+  // div.style.borderRadius = "10px";
+  div.style.padding = "10px";
+  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
+
+  // Toggle legend visibility function
+  function toggleLegend() {
+    if (legendVisible) {
+      div.style.height = "0"; // Minimize the legend
+      legendVisible = false;
+    } else {
+      div.style.height = "40vh"; // Maximize the legend
+      legendVisible = true;
+    }
+  }
+
+  // Add event listener to the legend control
+  div.addEventListener('click', toggleLegend);
+
+  return div;
+};
+// -----------------------------------------------------
+// Add collapsible button
+var collapseButton = L.control({ position: "topright" });
+
+collapseButton.onAdd = function (map) {
+  var button = L.DomUtil.create("button", "collapse-button");
+  button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>"; // Initial text
+
+  // Apply styling
+  button.style.backgroundColor = "white";
+  button.style.border = "2px solid darkblue";
+  button.style.width = "35px";
+  button.style.height = "35px";
+  button.style.borderRadius = "5px";
+  button.style.color = "black";
+  button.style.padding = "10px";
+  button.style.textAlign = "center";
+  button.style.textDecoration = "none";
+  button.style.display = "block";
+  button.style.margin = "10px";
+  button.style.cursor = "pointer";
+  button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
+
+  // Toggle legend visibility when the button is clicked
+  button.onclick = function () {
+    var legendDiv = document.querySelector(".info.legend");
+    if (
+      legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+
+
+      legendDiv.style.display = "block";
+      legendDiv.style.height = "40vh";
+      legendDiv.style.width = "200px";
+      legendDiv.style.top ="12%";
+      legendDiv.style.right ="2%";
+      legendDiv.style.scrollbarWidth = "thin";
+      legendDiv.style.scrollbarColor =  "#163140 white";
+      // legendDiv.style.borderRadius= "20px";
+      legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
+      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = true;
+    } else {
+      legendDiv.style.display = "none";
+      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = false;
+    }
+  };
+
+  return button;
+};
+
+collapseButton.addTo(map);
+
+// Create a legend control
+var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Initially hide the legend content
+  div.style.display = "none";
+
+  // Create a button to toggle the visibility of the legend content
+  var toggleButton = L.DomUtil.create("button", "legend-toggle");
+  toggleButton.innerHTML = "";
+  toggleButton.style.backgroundColor = "transparent";
+
+  toggleButton.onclick = function () {
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  };
+  div.appendChild(toggleButton);
+
+  // Fetch capabilities to get all layers in the 'pmc' workspace
+  fetch(
+    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+  )
+    .then((response) => response.text())
+    .then((data) => {
+      // Parse capabilities XML response
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(data, "text/xml");
+
+      // Extract layer names and legend URLs for layers in the 'pmc' workspace
+      var layers = xml.querySelectorAll('Layer[queryable="1"]');
+      layers.forEach(function (layer) {
+        var layerName = layer.querySelector("Name").textContent;
+        if (layerName.startsWith("Drainage:")) {
+          var legendUrl =
+            this.geoserverUrl +
+            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+            layerName;
+          var layerParts = layerName.split(":"); // Split layer name by ":"
+          var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
+          div.innerHTML +=
+            "<p><strong>" +
+            layerDisplayName +
+            "</strong></p>" +
+            '<img src="' +
+            legendUrl +
+            '" alt="' +
+            layerDisplayName +
+            ' legend"><br>';
+        }
+      });
+
+      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+      div.style.position = "fixed";
+      div.style.bottom = "0";
+      div.style.right = "0";
+      div.style.height = "60vh";
+      div.style.width = "300px";
+      div.style.overflowY = "auto";
+      div.style.scrollbarWidth = "thin";
+      div.style.backgroundColor = "white";
+      div.style.border = "2px solid darkblue";
+      // div.style.borderRadius = "10px";
+      div.style.padding = "10px";
+    })
+    .catch((error) => {
+      console.error("Error fetching capabilities:", error);
+    });
+
+  return div;
+};
+
+legend.addTo(map);

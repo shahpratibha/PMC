@@ -90,7 +90,7 @@
 
 
 		var map, geojson;
-		// const API_URL = "https://iwmsgis.pmc.gov.in/geopulse/autodcr/";
+		// const API_URL = "https://iwmsgis.pmc.gov.in//geopulse/autodcr/";
 		// const API_URL = "http://localhost/Autodcr";
 
 		// Add Basemap
@@ -136,7 +136,7 @@
 		var baseLayers = {};
 
 		var IWMS_line = L.tileLayer
-			.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+			.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
 				layers: "IWMS_line",
 				format: "image/png",
 				transparent: true,
@@ -146,7 +146,7 @@
 				opacity: 1,
 			});
 		var IWMS_polygon = L.tileLayer
-			.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+			.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
 				layers: "IWMS_polygon",
 				format: "image/png",
 				transparent: true,
@@ -156,7 +156,7 @@
 				opacity: 1,
 			});
 		var IWMS_point = L.tileLayer
-			.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+			.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
 				layers: "IWMS_point",
 				format: "image/png",
 				transparent: true,
@@ -215,7 +215,7 @@
 				const promises = [];
 
 				layers.forEach(function (layerName) {
-					const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+					const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
 						layerName +
 						"&CQL_FILTER=" +
 						filters + 
@@ -271,7 +271,7 @@
 			let pendingRequests = layers.length;
 
 			layers.forEach(function (layerName) {
-				const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+				const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
 					layerName +
 					"&CQL_FILTER=" +
 					filter +

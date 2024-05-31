@@ -1,12 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PMC</title>
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+  #saveDataButton {
+  border: 2px solid #2b13bb;
+  border-bottom: 2px solid #2b13bb;
+  border-top: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px;
+  background-color: white;
+  position: fixed;
+  color: black;
+  padding: 0px 5px;
+  display: none;
+  top: 683px;
+  font-size: 19px;
+  height: 37px;
+  width: 37px;
+  left: 865px;
+}
+.delete-button {
+  border: 2px solid #2b13bb;
+  padding: 6px 7.3px;
+  font-size: 14px;
+  border-radius: 5px 5px 5px 5px;
+  display: block;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  left: 513px;
+  position: absolute;
+  top: 487px !important;
+  height: 37px;
+  width: 37px;
+  display: none ;
+  border-top: 2px solid #2b13bb;
+}
+
+#deleteFeatureButton {
+  border: 2px solid #2b13bb;
+  border-top: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px;
+  background-color: white;
+  color: black;
+  padding: 3px 7px;
+  display: none;
+  position: fixed;
+  top: 683px;
+  font-size: 15px;
+  height: 37px;
+  width: 37px;
+  left: 908px;
+}
+
+
+
+#editFeatureButton {
+  border: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px;
+  height: 37px;
+  width: 37px;
+  display: none;
+  position: fixed;
+  top: 683px;
+  left: 822px;
+  padding: 5px;
+  background: white;
+  border-bottom: 2px solid #2b13bb;
+}
+.leaflet-draw-draw-polyline {
+  top: 430px !important;
+  position: absolute;
+  left: 643px;
+  border: 2px solid #2b13bb !important;
+  border-bottom: 2px solid darkblue;
+  height: 37px !important;
+  width: 37px !important;
+  border-radius: 5px 5px 5px 5px !important;
+}
+.leaflet-control-edit-interior {
+  font-size: 15px;
+  position: absolute !important;
+  height: 37px !important;
+  width: 37px !important;
+  top: 501px !important;
+  border: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px !important;
+  /* display: none; */
+  left: 555px !important;
+  border-bottom: 2px solid #2b13bb !important;
+}
+.leaflet-draw-toolbar a {
+    background-image: url(images/spritesheet.png);
+    background-image: linear-gradient(transparent, transparent), url(images/spritesheet.svg);
+    background-repeat: no-repeat;
+    background-size: 360px 36px !important;
+    background-clip: padding-box;
+}
+  </style>
   
 
 
@@ -163,7 +258,7 @@ function toggleSelectLayerButton(show) {
           if (searchTerm.length >= 3 && searchType) {
             let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-            let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+            let geoServerURL = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
               cqlFilter
             )}`;
 
@@ -237,7 +332,7 @@ function toggleSelectLayerButton(show) {
 
         }
 
-        var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+        var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
           }&HEIGHT=${size.y}&BBOX=${bbox}`;
@@ -476,7 +571,7 @@ function toggleSelectLayerButton(show) {
 
       // Change the button's onclick function to stop the task
       button.onclick = function () {
-        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
+        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px;  height:20px padding:5px; " title="SELECT-FEATURE">';
         // Remove the click event listener from the map
         var drawFeatureButton = document.querySelector('.draw_feature');
         if (drawFeatureButton) {
@@ -528,7 +623,7 @@ function toggleSelectLayerButton(show) {
       button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
       button.onclick = function () {
         var drawFeatureButton = document.querySelector('.draw_feature');
-        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">') {
+        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">') {
           button.innerHTML = 'Finish';
           performTask();
 
@@ -545,7 +640,7 @@ function toggleSelectLayerButton(show) {
             drawFeatureButton.setAttribute('disabled', false);
           }
         } else {
-          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; position: fixed;" title="SELECT FEATURE">';
+          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">';
           // Finish or reset any ongoing operation here
           if (drawFeatureButton) {
             drawFeatureButton.setAttribute('disabled', false);

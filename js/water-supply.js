@@ -19,7 +19,7 @@ var googleSat = L.tileLayer(
 );
 
 var ward_boundary= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -71,7 +71,7 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 
 var wms_layer1 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
     {
       layers: "Roads",
       format: "image/png",
@@ -83,7 +83,7 @@ var wms_layer1 = L.tileLayer.wms(
     }
   );
   var wms_layer11 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -96,7 +96,7 @@ var wms_layer1 = L.tileLayer.wms(
 
   
   var wms_layer13 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
     {
       layers: "Drainage_data",
       format: "image/png",
@@ -119,7 +119,7 @@ var baseLayers = {};
 
  
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -145,7 +145,7 @@ var wms_layer14 = L.tileLayer
   });
  
 var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -156,7 +156,7 @@ var wms_layer15 = L.tileLayer
   });
  
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -168,7 +168,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -205,7 +205,7 @@ var IWMS_line = L.tileLayer
 });
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -220,7 +220,7 @@ var wms_layer16 = L.tileLayer.wms(
 
  
 var Zone_layer= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -271,7 +271,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-    "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -371,8 +371,12 @@ customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
   div.style.padding = '5px';
   div.style.backgroundColor = 'white';
-  div.style.border = '2px solid darkblue';
-  div.style.top = "50px";
+  div.style.border = '2px solid #2B13BB';
+  div.style.top = "528px";
+  div.style.left = "785px";
+  div.style.height= "37px";
+  div.style.width= "37px";
+  div.style.borderRadius="5px 5px 5px 5px";
 
   // Create a new button element
   var button = document.createElement('button');
@@ -438,7 +442,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Edit Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="Edit Feature" src="png/editTool.png" style="width: 20px; height: 20px; padding:0px 3px;">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -812,7 +816,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://pmc.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -963,7 +967,7 @@ function getClosestRoadPoint(latlng) {
   var bbox = turf.bbox(bufferedPoint);
   layer = "pmc:storm_water";
 
-  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
   console.log("burl", url);
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -1003,7 +1007,7 @@ function getClosestRoadPointLast(latlng) {
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
   let layer = "pmc:storm_water";
-  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -2059,7 +2063,7 @@ map.on("contextmenu", (e) => {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
@@ -2101,7 +2105,7 @@ map.on("contextmenu", (e) => {
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://pmc.geopulsea.com/geoserver";
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 
 var workspace = "pmc1";
 
@@ -2273,7 +2277,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://pmc.geopulsea.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {

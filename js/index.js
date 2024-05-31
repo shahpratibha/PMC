@@ -1,20 +1,9 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/iwms/";
+const API_URL = "http://localhost/iwms/";
 
-// const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
+// const publicAPI_URL = "https://iwmsgis.pmc.gov.in//gis/iwms/";
 // const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
 
-// // Use the public URL
-// fetch(publicAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
-
-// // Use the private URL
-// fetch(privateAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
 
 var map = L.map("map", {
   center:[18.52, 73.89],
@@ -56,7 +45,7 @@ var Esri_WorldImagery = L.tileLayer(
 var baseLayers = {};
 
 var wms_layer1 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Roads",
     format: "image/png",
@@ -70,7 +59,7 @@ var wms_layer1 = L.tileLayer.wms(
 // .addTo(map);
 
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -81,7 +70,7 @@ var wms_layer12 = L.tileLayer
       }).addTo(map);
 
 var wms_layer11 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -93,7 +82,7 @@ var wms_layer11 = L.tileLayer
   });
 
 var wms_layer13 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Drainage_data",
     format: "image/png",
@@ -106,7 +95,7 @@ var wms_layer13 = L.tileLayer.wms(
 );
 
 var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -117,7 +106,7 @@ var wms_layer14 = L.tileLayer
   });
 
 var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -128,7 +117,7 @@ var wms_layer15 = L.tileLayer
   });
 
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -140,7 +129,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -155,7 +144,7 @@ var wms_layer3 = L.tileLayer.wms(
 
 
 var IWMS_point = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -167,7 +156,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -192,7 +181,7 @@ var IWMS_line = L.tileLayer
 
   
   var wms_layer21 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Bhavan",
     format: "image/png",
     transparent: true,
@@ -204,7 +193,7 @@ var IWMS_line = L.tileLayer
   });
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -222,7 +211,7 @@ console.log(wardname, "wardname");
 ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
 
 var ward_boundary= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -235,7 +224,7 @@ var ward_boundary= L.tileLayer.wms(
 );
 
 var Zone_layer= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -288,7 +277,7 @@ control.setPosition('topright');
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -432,7 +421,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in//geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1365,7 +1354,7 @@ map.on("contextmenu", async (e) => {
 
   for (let layer in layerDetails) {
       let selectedKeys = layerDetails[layer];
-      let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+      let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
       try {
           let response = await fetch(urrr);
@@ -1398,7 +1387,7 @@ map.on("dblclick", function (e) {
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
     }&HEIGHT=${size.y}&BBOX=${bbox}`;
@@ -1584,7 +1573,7 @@ map.on("dblclick", function (e) {
 
 // // Now continue with your remaining JavaScript code...
 // // GeoServer URL
-// var geoserverUrl = "https://pmc.geopulsea.com/geoserver";
+// var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 
 // var workspace = "pmc1";
 
@@ -1748,7 +1737,7 @@ map.on("dblclick", function (e) {
 
 //   // Fetch capabilities to get all layers in the 'pmc' workspace
 //   fetch(
-//     "https://pmc.geopulsea.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+//     "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
 //   )
 //     .then((response) => response.text())
 //     .then((data) => {
@@ -1805,50 +1794,50 @@ map.on("dblclick", function (e) {
 
 // // for legend////////////////////////////////////////////////////////////////////
 
-// // Create a custom control for the north arrow
-// var northArrowControl = L.Control.extend({
-//   options: {
-//     position: "bottomleft",
-//   },
+// Create a custom control for the north arrow
+var northArrowControl = L.Control.extend({
+  options: {
+    position: "bottomleft",
+  },
 
-//   onAdd: function (map) {
-//     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
-//     container.innerHTML =
-//       // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-//       '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px; ">';
-//     return container;
-//   },
-// });
+  onAdd: function (map) {
+    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+    container.innerHTML =
+      // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
+      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px; ">';
+    return container;
+  },
+});
 
-// // Add the custom north arrow control to the map
-// map.addControl(new northArrowControl());
+// Add the custom north arrow control to the map
+map.addControl(new northArrowControl());
 
-// // zoom
+// zoom
 
-// // Customize the zoom control position
-// map.zoomControl.setPosition('bottomright');
-// // close 
-// function closeDropdown() {
-//   var dropdownList = document.querySelector(".dropdown-list");
-//   dropdownList.style.display = "none";
-// }
-
-
-// document.addEventListener("click", function(event) {
-//   var dropdownContainer = document.querySelector(".dropdown-container");
-//   var dropdownList = document.querySelector(".dropdown-list");
+// Customize the zoom control position
+map.zoomControl.setPosition('bottomright');
+// close 
+function closeDropdown() {
+  var dropdownList = document.querySelector(".dropdown-list");
+  dropdownList.style.display = "none";
+}
 
 
-//   if (!dropdownContainer.contains(event.target) && event.target !== dropdownList) {
-//       closeDropdown();
-//   }
-// });
+document.addEventListener("click", function(event) {
+  var dropdownContainer = document.querySelector(".dropdown-container");
+  var dropdownList = document.querySelector(".dropdown-list");
 
 
-// var villageName = getUrlParameter('village_name');
+  if (!dropdownContainer.contains(event.target) && event.target !== dropdownList) {
+      closeDropdown();
+  }
+});
 
 
-// if (villageName) {
-//   performTaskBasedOnVillage(villageName);
-// }
+var villageName = getUrlParameter('village_name');
+
+
+if (villageName) {
+  performTaskBasedOnVillage(villageName);
+}
 
