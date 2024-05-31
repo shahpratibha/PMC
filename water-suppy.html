@@ -180,28 +180,22 @@ border-radius: 5px 5px 5px 5px !important;
 }
 
 
-   
+  
 
-    .leaflet-container .leaflet-control-attribution {
-
-      display: none;
-    }
-
-
-
-    .leaflet-control-zoom {
-      position: absolute;
-      left: 96vw;
-      top: 85vh;
-      border: 2px solid darkblue;
-    }
-
-    .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
- 
-    background-clip: padding-box;
-    border: 2px solid darkblue;
-    
+/* circle */
+.leaflet-draw-draw-circlemarker {
+  position: absolute;
+  top: -247px;
+  left: 56px;
+  border-bottom: 2px solid darkblue;
+  border: 2px solid darkblue;
+  border-top: none;
+  width: 30px;
 }
+
+
+
+
 
   </style>
   <!-- bootstrap -->
@@ -333,16 +327,7 @@ function toggleSelectLayerButton(show) {
 
     
     $(document).ready(function () {
-      var wardname = localStorage.getItem("wardname");
-      if (wardname) {
-        var cql_filterm = `Ward_Name='${wardname}'`;
-        fitbou(cql_filterm);
-        ward_boundary.setParams({
-          cql_filter: cql_filterm,
-          styles: "highlight",
-        });
-        ward_boundary.addTo(map).bringToFront();
-      }
+     
       $("#searchInputDashboard").autocomplete({
         minLength: 3,
         source: function (request, response) {
@@ -411,20 +396,9 @@ function toggleSelectLayerButton(show) {
       map.on("click", function (e) {
         let size = map.getSize();
         let bbox = map.getBounds().toBBoxString();
-        let layer = "pmc:Exist_Road";
+        let layer = "pmc:storm_water";
 
-        if (department == 'Road') {
-          layer = "pmc:Exist_Road";
-
-        }
-        else if (department == 'Building') {
-          layer = "pmc:Reservations";
-
-        }
-        else if (department == 'Drainage') {
-          layer = "pmc:storm_water";
-
-        }
+       
 
         var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
@@ -608,14 +582,49 @@ function toggleSelectLayerButton(show) {
                   });
 
                   setTimeout(() => {
-                    window.location.href = "geometry_page.html";
+                    // window.location.href = "geometry_page.html";
                   }, 2100);
                 },
                 error: function (xhr, status, error) {
                   console.error("Save failed:", error);
                 },
               });
+
+              
+              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
+          console.log(selectCoordinatesData)
+            var formData = new FormData();
+            formData.append('proj_id', worksAaApprovalId);
+            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+            formData.append('polygon_area', 0);
+            formData.append('polygon_centroid', 0);
+            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+            formData.append('road_no', struct_no);
+            formData.append('user_id', user_id);
+            formData.append('length', area);
+            formData.append('width', width);
+          
+                      $.ajax({
+                type: "POST",
+                url: "https://iwms.punecorporation.org/api/gis-data",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                   window.location.href = response.data.redirect_Url;
+                },
+                error: function (xhr, status, error) {
+                    console.error("Save failed:", error);
+                },
             });
+
+            });
+
+            
+          
+         
 
           
         }

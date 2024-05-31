@@ -43,27 +43,20 @@ function getQueryParam(param) {
 const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardname');
+const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
+let wardNames = wardname.split(',').map(id => id.trim());
+
+
 
 var wardBoundary = null ;
 
 
 var lastDrawnPolylineIdSave = null ;
-
-
-
-var cql_filterm = `Ward_Name='${wardname}'`;
-fitbou(cql_filterm);
-ward_boundary.setParams({
- cql_filter: cql_filterm,
-    styles: "highlight",
-});
-ward_boundary.addTo(map).bringToFront();
-
-
-
 
 
 
@@ -283,6 +276,18 @@ function fitbou(filter) {
   });
 }
 
+let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+
+        fitbou(cql_filterm);
+        ward_boundary.setParams({
+          cql_filter: cql_filterm,
+          styles: "highlight",
+        });
+ward_boundary.addTo(map).bringToFront();
+
+
+
+
 
 
 // Add a search bar
@@ -425,7 +430,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="edit New Feature" src="png/editTool.png">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -439,7 +444,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'deleteFeatureButton');
-div.innerHTML = '<button id="deleteFeatureButton"  title="Draw New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+div.innerHTML = '<button id="deleteFeatureButton"  title="delete New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -1614,14 +1619,14 @@ function Savedata(lastDrawnPolylineId) {
 
 
   var formData = new FormData();
-  formData.append('proj_id', '20698');
+  formData.append('proj_id', worksAaApprovalId);
   formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
   formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
   formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-  formData.append('road_no', '11');
-  formData.append('user_id', '5');
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
   formData.append('length', area);
   formData.append('width', width);
 

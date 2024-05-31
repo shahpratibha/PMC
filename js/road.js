@@ -41,26 +41,18 @@ function getQueryParam(param) {
 const lenght = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardname');
+const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
+let wardNames = wardname.split(',').map(id => id.trim());
+
 var wardBoundary = null ;
 console.log(workType);
 
 var lastDrawnPolylineIdSave = null;
-
-
-
-var cql_filterm = `Ward_Name='${wardname}'`;
-fitbou(cql_filterm);
-ward_boundary.setParams({
-  cql_filter: cql_filterm,
-  styles: "highlight",
-});
-ward_boundary.addTo(map).bringToFront();
-
-
-
 
 
 
@@ -261,6 +253,18 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
+
+let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+
+        fitbou(cql_filterm);
+        ward_boundary.setParams({
+          cql_filter: cql_filterm,
+          styles: "highlight",
+        });
+ward_boundary.addTo(map).bringToFront();
+
+
 
 
 
@@ -469,7 +473,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'editFeatureButton');
-  div.innerHTML = '<img id="editFeatureButton"  title="Edit New Feature" src="png/editTool.png">';
+  div.innerHTML = '<img id="editFeatureButton"  title=" Edit Feature" src="png/editTool.png">';
   customDrawControlsContainer = div;
   return div;
 };
@@ -483,7 +487,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'deleteFeatureButton');
-  div.innerHTML = '<button id="deleteFeatureButton"  title="Delete  Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+  div.innerHTML = '<button id="deleteFeatureButton"  title="Delete Feature"> <i class="fa-solid fa-trash-can"></i></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -1189,11 +1193,27 @@ map.on("draw:editvertex", function (e) {
 });
 
 
+// function checkIfInsideWard(latlng) {
+//   var point = turf.point([latlng.lng, latlng.lat]);
+//   var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
+//   console.log(polygon);
+//   return turf.booleanPointInPolygon(point, wardBoundary.features);
+// }
+
+
 function checkIfInsideWard(latlng) {
   var point = turf.point([latlng.lng, latlng.lat]);
-  var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
-  return turf.booleanPointInPolygon(point, polygon);
+  var isInside = false;
+
+  wardBoundary.features.forEach(function(feature) {
+    if (turf.booleanPointInPolygon(point, feature)) {
+      isInside = true;
+    }
+  });
+
+  return isInside;
 }
+
 var drawControlAdded = false;
 
 map.on('mousemove', function(e) {
@@ -1752,14 +1772,14 @@ function Savedata(lastDrawnPolylineId) {
   console.log(selectCoordinatesData[1].geometry.coordinates);
 
   var formData = new FormData();
-  formData.append('proj_id', '20698');
+  formData.append('proj_id', worksAaApprovalId);
   formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
   formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
   formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-  formData.append('road_no', '11');
-  formData.append('user_id', '5');
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
   formData.append('length', area);
   formData.append('width', width);
   // If you have a base64 string for the image, you can add it as a Blob

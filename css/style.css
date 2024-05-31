@@ -445,6 +445,17 @@ td {
   border-radius: 5px 5px 5px 5px !important;
 }
 
+/* circle */
+.leaflet-draw-draw-circle {
+  position: absolute;
+  /* top: -283px; */
+  top: -216px;
+  left: 56px;
+  border-bottom: 2px solid darkblue;
+  border: 2px solid darkblue;
+  border-top: none;
+  width: 30px;
+}
 /* .leaflet-draw-draw-polyline {
   top: 500px;
   left: 500px;
@@ -515,6 +526,12 @@ top: 0px;
 
 /* polygon leaflet css */
 
+/* .leaflet-draw-draw-polygon{
+  
+    position: absolute;
+     top: -217px; 
+
+}*/
 /* .leaflet-draw-draw-polygon {
   position: fixed !important;
 

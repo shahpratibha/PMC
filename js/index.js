@@ -55,7 +55,8 @@ var wms_layer1 = L.tileLayer.wms(
     maxZoom: 21,
     opacity: 1,
   }
-).addTo(map);
+);
+// .addTo(map);
 
 var wms_layer12 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
@@ -157,6 +158,18 @@ var IWMS_point = L.tileLayer
 var IWMS_line = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "IWMS_line",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
+
+
+  var IWMS_polygon = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "IWMS_polygon",
     format: "image/png",
     transparent: true,
     tiled: true,

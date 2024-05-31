@@ -284,7 +284,8 @@ function getQueryParam(param) {
 
 const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
-
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
 var wardname = null;
 var lastDrawnPolylineIdSave = null ;
 
@@ -370,7 +371,7 @@ async function fetchAndPostData(id) {
       }
       
 
-      if (!project.constituency_ward_id) {
+      if (!project.gis_ward_id) {
         showModal(' Please fill in the information. Missing Ward .');
         return;
       }
@@ -383,8 +384,30 @@ async function fetchAndPostData(id) {
 
       const department = depData.find(dep => dep.department_id == project.d_id);
       const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
+
+//  gis_ward_id  have to take ward from this and its coming multiple     "gis_ward_id": "1,2",
       const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
       wardname = ward ? ward.ward_name : wardname;
+
+      //
+      const wardIds = project?.gis_ward_id?.split(',').map(id => parseInt(id.trim()));
+
+// Find the corresponding ward names
+const wardNames = wardIds?.map(id => {
+    const ward = wardData?.find(w => w.ward_id == id);
+    return ward ? ward.ward_name : null;
+  })
+   // Filter out any null values
+
+// Optionally, join the ward names into a single string
+const joinedWardNames = wardNames?.join(', ');
+
+
+console.log(joinedWardNames);
+
+
+
+
       updateLocalStorage('department',department.department_name);
 
 
@@ -408,7 +431,7 @@ async function fetchAndPostData(id) {
           contactNo: project.contact || '',
           dateIn: project.con_appr_date || '',
           projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : 'Ward Office') : 'Unknown',
-          ward: ward ? ward.ward_name : '',
+          ward: ward ? joinedWardNames : '',
           zone: zone ? zone.zone_name : '',
           budgetCodes: budgetCodes || '',
           Id: project.works_aa_approval_id,
@@ -445,15 +468,25 @@ async function fetchAndPostData(id) {
             const roadLength = response.data.lenght; 
             const wardName = response.data.wardname;
             const workType = project.work_type;
+
+            if(struct_no >= 10){
+              const baseURL = "ward.html";
+          
+              // Create the query string
+              const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+              
+              // Redirect to the new URL with query parameters
+             window.location.href = baseURL + queryString;
+            }
        
-            if (department.department_name === "Road") {
+           else if (department.department_name === "Road") {
               
             
               const baseURL = "road.html";
           
               // Create the query string
-              const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
-          
+              const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+              
               // Redirect to the new URL with query parameters
              window.location.href = baseURL + queryString;
           }
@@ -463,7 +496,7 @@ async function fetchAndPostData(id) {
             const baseURL = "building.html";
         
             // Create the query string
-            const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+            const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
         
             // Redirect to the new URL with query parameters
             window.location.href = baseURL + queryString;
@@ -474,7 +507,7 @@ async function fetchAndPostData(id) {
           const baseURL = "drainage.html";
       
           // Create the query string
-          const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
       
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
@@ -486,7 +519,7 @@ async function fetchAndPostData(id) {
         const baseURL = "water-suppy.html";
     
         // Create the query string
-        const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+        const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
     
         // Redirect to the new URL with query parameters
         window.location.href = baseURL + queryString;
@@ -498,7 +531,7 @@ async function fetchAndPostData(id) {
       const baseURL = "electric-work.html";
   
       // Create the query string
-      const queryString = `?lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}`;
+      const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
   
       // Redirect to the new URL with query parameters
       window.location.href = baseURL + queryString;
@@ -878,10 +911,8 @@ var drawControlRoad = new L.Control.Draw({
     rectangle: false,
     circlemarker:false
   },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
+  edit:false,
+ 
 });
 
 
@@ -2386,12 +2417,43 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-    window.location.href = "geometry_page.html";
+    // window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
     },
   });
+  area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
+  console.log(selectCoordinatesData)
+    var formData = new FormData();
+    formData.append('proj_id', worksAaApprovalId);
+    formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+    formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+    formData.append('polygon_area', 0);
+    formData.append('polygon_centroid', 0);
+    formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+    formData.append('road_no', struct_no);
+    formData.append('user_id', user_id);
+    formData.append('length', area);
+    formData.append('width', width);
+  
+              $.ajax({
+        type: "POST",
+        url: "https://iwms.punecorporation.org/api/gis-data",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+           window.location.href = response.data.redirect_Url;
+        },
+        error: function (xhr, status, error) {
+            console.error("Save failed:", error);
+        },
+    });
+
+    
+
 }
 
 function SavetoKML() {

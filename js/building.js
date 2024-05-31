@@ -43,33 +43,19 @@ function getQueryParam(param) {
 // const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
 // const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardname');
+const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
 const workType = getQueryParam('workType');
-
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
 var wardBoundary = null ;
-
 var lastDrawnPolylineIdSave = null ;
-
-
-
-var cql_filterm = `Ward_Name='${wardname}'`;
-fitbou(cql_filterm);
-ward_boundary.setParams({
- cql_filter: cql_filterm,
-    styles: "highlight",
-});
-ward_boundary.addTo(map).bringToFront();
-
-
-
-
-
+let wardNames = wardname.split(',').map(id => id.trim());
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:19,
 }).addTo(map);
-
 
 
 var wms_layer1 = L.tileLayer.wms(
@@ -96,17 +82,7 @@ var wms_layer1 = L.tileLayer.wms(
       opacity: 1,
     }
   )
-  // var wms_layer11 = L.tileLayer
-  // .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-  //   layers: "Reservations",
-  //   format: "image/png",
-  //   transparent: true,
-  //   tiled: true,
-  //   version: "1.1.0",
-  //   maxZoom: 21,
-
-  //   opacity: 1,
-  // }).addTo(map);
+ 
 
   var wms_layer_bhavan = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
@@ -257,14 +233,7 @@ var Zone_layer= L.tileLayer.wms(
   }
 );
  
- 
-// //////////////////////////added 11-03-2023/////////////////////////////////////////
 
-
-
-
-
- 
 var WMSlayers = {
   "OSM": osm,
   "Esri": Esri_WorldImagery,
@@ -291,6 +260,10 @@ control.setPosition('topright');
 
 
 
+
+
+
+
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -309,6 +282,16 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
+
+let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+
+        fitbou(cql_filterm);
+        ward_boundary.setParams({
+          cql_filter: cql_filterm,
+          styles: "highlight",
+        });
+ward_boundary.addTo(map).bringToFront();
 
 
 
@@ -405,7 +388,7 @@ let mapMode = 'snapping';
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
+  div.innerHTML = '<button id="save-button" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -418,7 +401,7 @@ customSaveButton.addTo(map);
 var customSaveEditButton = L.control({ position: 'topleft' });
 customSaveEditButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'saveDataButton');
-div.innerHTML = '<button id="saveDataButton" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
+div.innerHTML = '<button id="saveDataButton" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -432,7 +415,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/editTool.png">';
+div.innerHTML = '<img id="editFeatureButton"  title="Edit Feature" src="png/editTool.png">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -446,7 +429,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'deleteFeatureButton');
-div.innerHTML = '<button id="deleteFeatureButton"  title="Draw New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+div.innerHTML = '<button id="deleteFeatureButton"  title="Delete Feature"> <i class="fa-solid fa-trash-can"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -1092,9 +1075,17 @@ map.on("draw:drawvertex", function (e) {
 
   function checkIfInsideWard(latlng) {
     var point = turf.point([latlng.lng, latlng.lat]);
-    var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
-    return turf.booleanPointInPolygon(point, polygon);
+    var isInside = false;
+  
+    wardBoundary.features.forEach(function(feature) {
+      if (turf.booleanPointInPolygon(point, feature)) {
+        isInside = true;
+      }
+    });
+  
+    return isInside;
   }
+  
   var drawControlAdded = false;
   
   map.on('mousemove', function(e) {
@@ -1593,14 +1584,14 @@ function Savedata(lastDrawnPolylineId) {
   };
 
   var formData = new FormData();
-  formData.append('proj_id', '20698');
+  formData.append('proj_id', worksAaApprovalId);
   formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][0][0]);
   formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0][1]);
   formData.append('polygon_area', area);
   formData.append('polygon_centroid', JSON.stringify(centroid.geometry.coordinates));
   formData.append('geometry', JSON.stringify(flipCoordinates(selectCoordinatesData[1].geometry.coordinates.slice())));
-  formData.append('road_no', '11');
-  formData.append('user_id', '5');
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
 
 
   $.ajax({
@@ -1611,13 +1602,13 @@ function Savedata(lastDrawnPolylineId) {
     contentType: false,
     success: function (response) {
       window.location.href = response.data.redirect_Url;   
+      // window.close();  
+
     },
     error: function (xhr, status, error) {
         console.error("Save failed:", error);
     },
 });
-
-
 
 }
 
