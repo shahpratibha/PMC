@@ -468,8 +468,18 @@ console.log(joinedWardNames);
             const roadLength = response.data.lenght; 
             const wardName = response.data.wardname;
             const workType = project.work_type;
+
+            if(struct_no >= 10){
+              const baseURL = "ward.html";
+          
+              // Create the query string
+              const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+              
+              // Redirect to the new URL with query parameters
+             window.location.href = baseURL + queryString;
+            }
        
-            if (department.department_name === "Road") {
+           else if (department.department_name === "Road") {
               
             
               const baseURL = "road.html";
