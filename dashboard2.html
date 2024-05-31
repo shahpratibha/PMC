@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,22 +22,40 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
 
-  <link rel="stylesheet" href="css/C_form.css" />
+  <link rel="stylesheet" href="css/C_form.css"/>
 
   <style>
     .select2-dropdown {
-      width: 156px;
+      /* width: 156px; */
 
     }
+    .select2-container--open .select2-dropdown {
+  left: -32px;
+  /* width: 190px !important ; */
+}
+.select2-results__option {
+    padding: 6px;
+    margin-left: 25px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+    .select2-dropdown {
+    /* background-color: white; */
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    left: -100000px;
+    width: 100%;
+    z-index: 1051;
+}
 
+.select2-container--default .select2-results>.select2-results__options {
+    max-height: 100px ;
+    overflow-y: auto;
+}
 
-
-    .leaflet-control-zoom {
-      position: absolute;
-      left: 96vw;
-      top: 85vh;
-      border: 2px solid darkblue;
-    }
   </style>
 </head>
 
@@ -57,11 +75,11 @@
         </h2>
         <div id="collapseOffice" class="accordion-collapse collapse" aria-labelledby="headingOffice"
           data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
+          <div class="accordion-body" >
+            <div class="form-group" >
               <!-- <label>Select Office</label> -->
               <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off">
-
+                
               </select>
             </div>
 
@@ -103,6 +121,7 @@
           data-bs-parent="#formAccordion">
           <div class="accordion-body">
             <div class="form-group">
+              <!-- <label>Zone Name</label> -->
               <select id="zones" style="width: 100%" class="form-control select2" multiple="multiple"
                 onchange="loadAdminWardNameAndFilter();">
                 <option value=""></option>
@@ -112,7 +131,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Ward Section -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingWard">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -125,6 +144,7 @@
           <div class="accordion-body">
 
             <div class="form-group">
+              <!-- <label for="admin_ward_name">Ward Name</label> -->
               <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%"
                 onchange="loadVillagesAndFilter();">
                 <option value=""></option>
@@ -134,7 +154,7 @@
           </div>
         </div>
       </div>
-
+      <!-- village Section -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingVillage">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -146,7 +166,7 @@
           data-bs-parent="#formAccordion">
           <div class="accordion-body">
             <div class="form-group">
-
+              <!-- <label>Village Name</label> -->
               <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%"
                 onchange="loadDepartmentsAndFilter();">
                 <option value=""></option>
@@ -155,7 +175,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Department Section -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingDepartment">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -167,7 +187,7 @@
           data-bs-parent="#formAccordion">
           <div class="accordion-body">
             <div class="form-group">
-
+              <!-- <label for="admin_ward_name">Departments</label> -->
               <select class="form-control select2" id="departments" style="width:100%" multiple="multiple"
                 onchange="loadStagesAndFilter();">
                 <option value=""></option>
@@ -177,7 +197,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Project Status -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingProjectStatus">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -189,7 +209,7 @@
           data-bs-parent="#formAccordion">
           <div class="accordion-body">
             <div class="form-group">
-
+              <!-- <label>Project Status</label> -->
               <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage"
                 onchange="loadWorkTypesAndFilter();">
                 <option value=""></option>
@@ -198,7 +218,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Work Type -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingWorkType">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -219,7 +239,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Project Cost Section -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingProjectCost">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -249,6 +269,8 @@
         </div>
       </div>
 
+
+      <!-- Date Range Section -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingDateRange">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -260,6 +282,7 @@
           data-bs-parent="#formAccordion">
           <div class="accordion-body">
             <div class="form-group">
+              <!-- <label for="date_range">Date Range</label> -->
               <input type="text" name="" class="form-control" id="date_range" />
             </div>
           </div>
@@ -274,13 +297,14 @@
   <div class="d-flex justify-content-between ms-auto bg-transparent" role="search"
     style="position: absolute; z-index: 9999;">
     <img src="png/pmcjpeg.png" alt="" class="logopng">
+    <!-- <h5 class="text-dark fw-bold">Geo<span class="text-dark">Pulse</span></h5> -->
     <h5 class="tablestats">
     </h5>
     <div class="input-group ">
 
 
       <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
-        style="border-radius: 10px;border: 2px solid darkblue;">
+        style="border-radius: 10px;border: 2px solid darkblue;" >
         <option value="">Select Type</option>
       </select>
 
@@ -301,9 +325,10 @@
   <div id="content">
     <div id="map"></div>
     <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
+    <!-- add button for open table -->
 
     <button id="openTableBtn"><img src="png/dtabasetable.png" alt="" class="tablebtn"></button>
-
+    <!-- button open end code -->
     <div class="row tabchart">
       <div id="table-container-dashboard" style="position: relative; transition: 0s;">
 
@@ -312,8 +337,8 @@
             style="font-weight: bold; margin-top: 3px; margin-right: 5px; width: 10px; position: fixed;"></i>
         </button>
 
-        <p id="tablestatss" class="tablestats"
-          style="position: fixed; color: darkblue; font-size: 12px;font-weight: bold;  z-index: 9999; margin-top: 45px; margin-left:0px;">
+        <p id="tablestats" class="tablestats"
+          style=" color: darkblue; font-size: 10px;font-weight: bold;  z-index: 9999; margin-left:0px;">
 
         </p>
 
@@ -356,7 +381,7 @@
 
         <button id="printButton" onclick="printData()"
           style="position: absolute; top: 0%;  right: 5%; z-index: 999; color: green; font-size: 12px; background-color: transparent; height: 29px; width: 35px;">
-
+          <!-- Changed position to fixed -->
           <i class="fa-solid fa-file-export" style="float: left; top: 0px; left: 400px;"></i>
         </button>
       </div>
@@ -364,6 +389,7 @@
   </div>
 
 
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
@@ -382,13 +408,16 @@
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
+  <!-- <script src="libs/polyline-measure/line-measure.js"></script> -->
+  <!-- <script src="libs/leaflet-measure-master/leaflet-measure.js"></script> -->
+
   <script src="libs/feat.js"></script>
   <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
   <script src="js/index.js"></script>
   <script src="js/select2.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+  <!-- <script src="contex.js"></script> -->
 
 
   <script>
@@ -401,7 +430,7 @@
       document.getElementById("mySidenav").style.scrollbarWidth = "thin";
 
       document.getElementById("content").style.marginLeft = "9.5%";
-
+      // document.getElementById("content").style.margintop = "-109px";
 
       document.getElementById("content").style.zIndex = "0";
 
@@ -411,7 +440,7 @@
 
     function closeNav() {
       document.getElementById("mySidenav").style.width = "0";
-
+      // document.getElementById("content").style.margintop = "-19px";
 
       document.getElementById("content").style.marginLeft = "9.5%";
     }
@@ -420,7 +449,7 @@
     $(function () {
       $("#mySidenav").draggable();
     });
-
+    //
     // -----------------------------------
 
 
@@ -449,7 +478,7 @@
             var fromDate = selectedDates[0];
             var toDate = selectedDates[1];
 
-
+            // Validate that toDate is greater than fromDate
             if (toDate <= fromDate) {
               Swal.fire({
                 position: "center",
@@ -457,6 +486,7 @@
                 title: "Oops...",
                 text: "To date must be greater than From date.",
                 showConfirmButton: false,
+                // timer: 2100,
                 showCloseButton: true,
                 customClass: {
                   popup: 'custom-modal-class',
@@ -477,11 +507,11 @@
                 },
                 didOpen: () => {
                   // Apply custom styles directly to the modal elements
-                  document.querySelector('.custom-modal-class').style.width = '400px';
-                  document.querySelector('.custom-modal-class').style.height = '250px';
-                  document.querySelector('.custom-icon-class').style.fontSize = '10px';
-                  document.querySelector('.custom-title-class').style.fontSize = '1.5em';
-                  document.querySelector('.custom-text-class').style.fontSize = '1em';
+                  document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
+                  document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
+                  document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
+                  document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
+                  document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
                   document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
                   document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
                   document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
@@ -527,7 +557,7 @@
 
     //   for (let layer in layerDetails2) {
     //       let selectedKeys = layerDetails2[layer];
-    //       let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+    //       let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
     //       try {
     //           let response = await fetch(urrr);
@@ -554,58 +584,20 @@
 
 
     // -------------------added 11-2-24------------------------
-    // function fitbou(filter) {
-    //   layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
-    //   layers.forEach(function (layerName) {
-    //     var urlm =
-    //       "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-    //       layerName +
-    //       "&CQL_FILTER=" +
-    //       filter +
-    //       "&outputFormat=application/json";
-    //     // console.log(urlm, "fittobound url")
-    //     $.getJSON(urlm, function (data) {
-    //       console.log(data)
-    //       geojson = L.geoJson(data, {});
-    //       map.fitBounds(geojson.getBounds());
-    //     });
-    //   });
-    // }
-
-    function fitbous(filter) {
-      var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
-      var bounds = null;
-
-      var processLayer = function (layerName, callback) {
+    function fitbou(filter) {
+      layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      layers.forEach(function (layerName) {
         var urlm =
           "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
           layerName +
           "&CQL_FILTER=" +
           filter +
           "&outputFormat=application/json";
-
+        // console.log(urlm, "fittobound url")
         $.getJSON(urlm, function (data) {
-          var geojson = L.geoJson(data);
-          var layerBounds = geojson.getBounds();
-          if (bounds) {
-            bounds.extend(layerBounds);
-          } else {
-            bounds = layerBounds;
-          }
-          callback();
-        });
-      };
-
-      var layersProcessed = 0;
-      layers.forEach(function (layerName) {
-        processLayer(layerName, function () {
-          layersProcessed++;
-          if (layersProcessed === layers.length) {
-            // Apply the combined bounds to the map after all layers are processed
-            if (bounds) {
-              map.fitBounds(bounds);
-            }
-          }
+          console.log(data)
+          geojson = L.geoJson(data, {});
+          map.fitBounds(geojson.getBounds());
         });
       });
     }
@@ -761,7 +753,7 @@
 
 
       if (selectedAmountValue && selectedAmountValue.trim() !== "") {
-        var amountCondition = `Tender_Amount ${selectedAmountComparison === "greater_than" ? ">" : "<"
+        var amountCondition = `tender_amo ${selectedAmountComparison === "greater_than" ? ">" : "<"
           } ${parseFloat(selectedAmountValue)}`;
         // If other filters are applied, append "AND" to the amount condition
         if (cqlFilter !== "") {
@@ -830,12 +822,12 @@
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
-      tableData(typeName, geoServerURL, cqlFilter)
+        tableData(typeName, geoServerURL,cqlFilter)
 
 
 
@@ -844,7 +836,7 @@
       // var typeName = layers.join(',');
 
       // var geoServerURL =
-      //   "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+      //   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
       //   typeName +
       //   "&outputFormat=application/json&CQL_FILTER=" +
       //   encodeURIComponent(cqlFilter);
@@ -1078,22 +1070,22 @@
     // newly added 20/04/2022
 
 
-    //             // Trigger the opening of the Select2 dropdown when the select button is clicked
-    //             var selectButton = $('#headingOffice button');
-    //             selectButton.on('click', function() {
-    //                 //select.select2('open');
-    //                 // Find the search input within the Select2 dropdown
-    // var searchInput = $('.select2-search__field');
+//             // Trigger the opening of the Select2 dropdown when the select button is clicked
+//             var selectButton = $('#headingOffice button');
+//             selectButton.on('click', function() {
+//                 //select.select2('open');
+//                 // Find the search input within the Select2 dropdown
+// var searchInput = $('.select2-search__field');
 
-    // // Handle the click event on the search input
-    // searchInput.on('click', function(event) {
-    //     // Trigger the opening of the Select2 dropdown
-    //     select.select2('open');
-    //     // Prevent the default behavior (e.g., focusing the search input) 
-    //     // so that the dropdown remains open after clicking on the search input
-    //     event.preventDefault();
-    //     event.stopPropagation();
-    // });
+// // Handle the click event on the search input
+// searchInput.on('click', function(event) {
+//     // Trigger the opening of the Select2 dropdown
+//     select.select2('open');
+//     // Prevent the default behavior (e.g., focusing the search input) 
+//     // so that the dropdown remains open after clicking on the search input
+//     event.preventDefault();
+//     event.stopPropagation();
+// });
 
 
 
@@ -1103,7 +1095,7 @@
       select.empty();
 
       $.getJSON(
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -1128,15 +1120,15 @@
           }
 
           select.select2({
-            placeholder: 'search',
+            placeholder: 'search', 
             templateResult: function (option) {
               if (!option.id) {
                 return option.text;
               }
-
+              
 
               var $option = $(
-
+                
                 '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
                 option.text +
                 "</span>"
@@ -1159,11 +1151,11 @@
             multiple: true,
             dropdownPosition: 'below' // Set the dropdown position below the select box
           });
-          // Trigger the opening of the Select2 dropdown when the select button is clicked
-          var selectButton = $('#headingOffice button');
-          selectButton.on('click', function () {
-            select.select2('open');
-          });
+           // Trigger the opening of the Select2 dropdown when the select button is clicked
+           var selectButton = $('#headingOffice button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
 
           select.on("change", function () {
             loadZones();
@@ -1181,7 +1173,7 @@
       select.empty();
 
       $.getJSON(
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -1205,18 +1197,18 @@
             select.select2("destroy");
           }
           select.select2({
-            placeholder: 'search',
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
+    placeholder: 'search', 
+    templateResult: function (option) {
+        if (!option.id) {
+            return option.text;
+        }
 
 
-              // select.select2({
-              //   templateResult: function (option) {
-              //     if (!option.id) {
-              //       return option.text;
-              //     }
+          // select.select2({
+          //   templateResult: function (option) {
+          //     if (!option.id) {
+          //       return option.text;
+          //     }
 
               var $option = $(
                 '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
@@ -1224,8 +1216,8 @@
                 "</span>"
               );
               return $option;
-            },
-
+            }, 
+           
             templateSelection: function (option) {
               if (!option.id) {
                 return option.text;
@@ -1237,15 +1229,15 @@
                 "</span>"
               );
             },
-            closeOnSelect: false,
+            closeOnSelect : false,
             dropdownParent: select.parent(),
             multiple: true,
           });
-          // Trigger the opening of the Select2 dropdown when the select button is clicked
-          var selectButton = $('#headingOfficeYear button');
-          selectButton.on('click', function () {
-            select.select2('open');
-          });
+            // Trigger the opening of the Select2 dropdown when the select button is clicked
+            var selectButton = $('#headingOfficeYear button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
 
           select.on("change", function () {
             loadZones();
@@ -1262,7 +1254,7 @@
       var project_fi = $("#project_fi").val();
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
       if (project_fi.length > 0) {
         project_fi = project_fi
           .map((projectFi) => `'${projectFi}'`)
@@ -1270,7 +1262,7 @@
 
         let cqlFilter = `project_fi  IN (${project_fi})`;
         geoServerURL =
-          "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+          "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
       }
 
@@ -1298,7 +1290,7 @@
         }
 
         select.select2({
-          placeholder: 'search',
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1327,11 +1319,11 @@
           multiple: true,
         });
 
-        // Trigger the opening of the Select2 dropdown when the select button is clicked
-        var selectButton = $('#headingZone button');
-        selectButton.on('click', function () {
-          select.select2('open');
-        });
+// Trigger the opening of the Select2 dropdown when the select button is clicked
+var selectButton = $('#headingZone button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
       });
     }
 
@@ -1355,7 +1347,7 @@
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
 
 
 
@@ -1387,7 +1379,7 @@
         }
 
         select.select2({
-          placeholder: 'search',
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1409,23 +1401,23 @@
               '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
               option.text +
               "</span>"
-
+              
             );
           },
           closeOnSelect: false,
           dropdownParent: select.parent(),
           multiple: true,
-
+          
         });
         // Trigger the opening of the Select2 dropdown when the select button is clicked
-        var selectButton = $('#headingWard button');
-        selectButton.on('click', function () {
-          select.select2('open');
-        });
+var selectButton = $('#headingWard button');
+            selectButton.on('click', function() {
+                select.select2('open');
+            });
       });
     }
 
-
+    
 
     function loadVillages() {
       var select = $("#villages");
@@ -1453,7 +1445,7 @@
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
 
 
 
@@ -1486,7 +1478,7 @@
 
         // Initialize Select2 with the updated options
         select.select2({
-          placeholder: 'search',
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1550,7 +1542,7 @@
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=departme_1&outputFormat=application/json";
 
       if (cqlFilter) {
         geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
@@ -1581,7 +1573,7 @@
         }
 
         select.select2({
-          placeholder: 'search',
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1653,7 +1645,7 @@
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json";
 
 
       if (cqlFilter) {
@@ -1684,7 +1676,7 @@
         }
 
         select.select2({
-          placeholder: 'search',
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1761,7 +1753,7 @@
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json";
 
       if (cqlFilter) {
         geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
@@ -1796,7 +1788,7 @@
 
         // Initialize Select2 with the updated options
         select.select2({
-          placeholder: 'search',
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1927,12 +1919,11 @@
 
     $(document).ready(function () {
       var columns = [
-        "Work_ID",
-        "Name_of_Work",
-        "Scope_of_Work",
-        "Name_of_JE",
-        "length",
-
+        "works_aa_a",
+        "name_of_wo",
+        "scope_of_w",
+        "je_name",
+        "length"
       ];
 
       var select = document.getElementById("search_type");
@@ -1949,8 +1940,8 @@
       $("#search_type").change(function () {
         var selectedValue = $(this).val();
 
-        // console.log("select dropdown", select);
-        // console.log("dependent dropdown", selectedValue);
+// console.log("select dropdown", select);
+// console.log("dependent dropdown", selectedValue);
 
 
 
@@ -1959,8 +1950,8 @@
 
         function getValues(callback) {
           var geoServerURL =
-            "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=" + selectedValue + "&outputFormat=application/json";
-          console.log(geoServerURL, "geoServerURLsearch")
+            "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line&propertyName=" + selectedValue + "&outputFormat=application/json";
+console.log(geoServerURL,"geoServerURLsearch")
           $.getJSON(geoServerURL, function (data) {
             var workTypeSet = new Set();
 
@@ -1978,7 +1969,7 @@
 
             // Convert the Set to an array
             var uniqueWorkTypes = Array.from(workTypeSet);
-            console.log(uniqueWorkTypes, "uniqueWorkTypes")
+            console.log(uniqueWorkTypes,"uniqueWorkTypes")
             // Call the callback function with the uniqueWorkTypes array
             callback(uniqueWorkTypes);
           });
@@ -1990,9 +1981,9 @@
             source: data,
             select: function (event, ui) {
               var selectedValue1 = ui.item.value;
-
+              
               var searchtypefield = $("#search_type").val();
-              console.log(searchtypefield, "searchtypefield", "selectedValue1", selectedValue1)
+              console.log(searchtypefield,"searchtypefield","selectedValue1",selectedValue1)
               let cqlFilter;
 
               // Handle number (double) values in filter condition
@@ -2007,25 +1998,25 @@
 
 
 
+              
+         var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      var typeName = layers.join(',');
 
-              var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
-              var typeName = layers.join(',');
+      var geoServerURL =
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        typeName +
+        "&outputFormat=application/json&CQL_FILTER=" +
+        encodeURIComponent(cqlFilter);
 
-              var geoServerURL =
-                "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
-                typeName +
-                "&outputFormat=application/json&CQL_FILTER=" +
-                encodeURIComponent(cqlFilter);
+tableData(typeName, geoServerURL,cqlFilter)
 
-              tableData(typeName, geoServerURL, cqlFilter)
-
-              console.log("hrrrrrrrrrrrrrrrrrr")
+console.log("hrrrrrrrrrrrrrrrrrr")
 
               // Apply filter to IWMS_point and IWMS_line layers
               IWMS_point.setParams({
                 CQL_FILTER: cqlFilter,
                 maxZoom: 19.5,
-                styles: "IWMS_Point"
+                styles: "IWMS_Points"
               });
 
               IWMS_line.setParams({
@@ -2038,7 +2029,7 @@
               console.log("Adding IWMS_point and IWMS_line layers with filter:", cqlFilter);
               IWMS_point.addTo(map).bringToFront();
               IWMS_line.addTo(map).bringToFront();
-              fitbous(cqlFilter);
+              fitbou(cqlFilter);
             }
           });
         });
@@ -2125,7 +2116,7 @@
 
 
 
-    function tableData(typeName, geoServerURL, cqlFilter) {
+function tableData(typeName, geoServerURL,cqlFilter){
 
       var openTable = $(document).ready(function () {
         // Function to toggle table visibility
@@ -2145,7 +2136,7 @@
 
           var totalcountofselectedrecords = filteredData.totalFeatures;
           var totalTenderAmount = filteredData.features.reduce(function (total, project) {
-            var tenderAmount = parseFloat(project.properties.Tender_Amount);
+            var tenderAmount = parseFloat(project.properties.tender_amo);
             return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
           }, 0);
 
@@ -2164,21 +2155,21 @@
             const currentPageData = project.slice(startIndex, endIndex);
 
             currentPageData.forEach(project => {
-              var tenderAmount = parseFloat(project.properties.Tender_Amount);
+              var tenderAmount = parseFloat(project.properties.tender_amo);
               tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
 
               const row = `
             <tr data-coordinates='${JSON.stringify(project.geometry)}'>
                 <td>${project.properties.zone}</td>
                 <td>${project.properties.ward}</td>
-                <td>${project.properties.Department}</td>
-                <td>${project.properties.Work_Type}</td>
+                <td>${project.properties.departme_1}</td>
+                <td>${project.properties.work_type}</td>
                 <td>${tenderAmount}</td>
-                <td>${project.properties.Name_of_JE}</td>
+                <td>${project.properties.je_name}</td>
                 <td>${project.properties.Agency}</td>
                 <td>${project.properties.Project_Office}</td> 
                 <td>${project.properties.Budget_Code}</td>
-                <td>${project.properties.Created_At}</td>
+                <td>${project.properties.created_at}</td>
                 <td>${project.properties.Work_Completion_Date}</td>
             </tr>`;
 
@@ -2240,8 +2231,8 @@
               },
             }).addTo(map); // Add the bounds layer to the map
 
-            var bounds = boundsLayer.getBounds();
-            map.fitBounds(bounds).setZoom(17.5);
+            var bounds = boundsLayer.getBounds(); 
+            map.fitBounds(bounds).setZoom(17.5); 
             setTimeout(function () {
               map.removeLayer(boundsLayer);
             }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
@@ -2255,9 +2246,9 @@
 
           // -----------------------
           var printButton = $("#printButton")
-          var tablestats = $("#tablestatss")
+          var tablestats = $("#tablestats")
           var isClosed = false;
-
+        
 
           $("#closeTableBtnDashboard").click(function () {
 
@@ -2273,11 +2264,11 @@
 
     }
     //close 
+    
+  
+</script>
 
-
-  </script>
-
-
+  
 
 </body>
 

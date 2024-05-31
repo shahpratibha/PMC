@@ -4,10 +4,7 @@ body {
   background-color: transparent;
 }
 
-.select2-container--open .select2-dropdown {
-  left: -32px;
-  /* margin-top: 33px; */
-}
+
 form {
   max-width: 1325px;
   margin: auto;
@@ -1035,7 +1032,7 @@ button {
 }
 .select2-container--open .select2-dropdown {
   left: -32px;
-  width: 190px !important;
+  /* width: 190px !important ; */
 }
 .accordion-header {
   margin-bottom: 0;
