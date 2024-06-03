@@ -1,0 +1,144 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow: hidden;
+    padding: 10px;
+    background-color: #e8f5e9;
+}
+
+.container {  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar select, .search-bar button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-bar button {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}
+
+.main-content {
+    display: flex;
+    width: 100vw;
+    max-width: 98vw;
+    transition: all 0.3s ease;
+}
+
+.map-container {
+    width: 100vw;
+    position: relative;
+}
+
+#map {
+    width: 98vw;
+    height: 95vh;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+
+.tablestats {
+    /* border: 2px solid darkblue; */
+    /* position: fixed; */
+    color: #04c;
+    font-size: 53%;
+    /* background-color: rgba(173, 216, 230, 0.5); */
+    /* background-color: #c8d7ab70; */
+    font-weight: bold;
+    /* top: 12%;
+    right: 15%; */
+    padding: 3px;
+    /* border-radius: 5px 5px;/ */
+    /* z-index: 9999; */
+    text-shadow: black;
+    text-transform: uppercase;
+  }
+.filters {
+    width: 20vw;
+    margin-left: -5vw;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: margin-left 0.3s ease, opacity 0.3s ease;
+}
+
+.filters h3 {
+    margin-top: 15px;
+}
+
+.showCount{
+    background-color: #e8f5e9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.accordion {
+    width: 100%;
+}
+
+.accordion-item {
+    border-top: 1px solid #ccc;
+}
+
+.accordion-item:first-child {
+    border-top: none;
+}
+
+.accordion-header {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+    background-color: white;
+    border-top: 1px solid #ccc;
+}
+
+.toggle-button {
+    position: absolute;
+    top: 20vh;
+    right: 10px;
+    z-index: 1000;
+    background-color: white;
+    color: darkblue;
+    border: 2px solid darkblue;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* leaflet zoom */
+
+.leaflet-control-zoom {
+    position: absolute;
+    /* left: 95vw;
+    top: 80vh; */
+    border: 2px solid darkblue;
+    color: darkblue;
+  }
+  

@@ -240,15 +240,7 @@ function toggleSelectLayerButton(show) {
      
       var wardname = localStorage.getItem("wardname");
       console.log(wardname);
-      // if (wardname) {
-      //   var cql_filterm = `Ward_Name IN('Yeravada Kalas Dhanori')`;
-      //   fitbou(cql_filterm);
-      //   ward_boundary.setParams({
-      //     cql_filter: cql_filterm,
-      //     styles: "highlight",
-      //   });
-      //   ward_boundary.addTo(map).bringToFront();
-      // }
+    
       $("#searchInputDashboard").autocomplete({
         minLength: 3,
         source: function (request, response) {

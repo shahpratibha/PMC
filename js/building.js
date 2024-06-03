@@ -1150,7 +1150,7 @@ map.on('draw:deleted', function(e) {
 
   traceLayer.clearLayers();
 
-  // Reset the currentPolyline variable to null to ensure it doesn't retain any old reference
+
   if (currentPolyline) {
     currentPolyline.remove(); // Removes the polyline from the map
     currentPolyline = null;   // Dereferences the polyline object
