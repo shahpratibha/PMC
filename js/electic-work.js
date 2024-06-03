@@ -270,7 +270,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-    "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +

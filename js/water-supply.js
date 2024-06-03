@@ -48,6 +48,7 @@ const department = getQueryParam('department');
 const workType = getQueryParam('workType');
 const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
 let wardNames = wardname.split(',').map(id => id.trim());
 
 
@@ -270,7 +271,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-    "https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -1100,7 +1101,7 @@ map.on("draw:drawvertex", function (e) {
   function checkIfInsideWard(latlng) {
     var point = turf.point([latlng.lng, latlng.lat]);
     var isInside = false;
-  
+  console.log(wardBoundary);
     wardBoundary.features.forEach(function(feature) {
       if (turf.booleanPointInPolygon(point, feature)) {
         isInside = true;
@@ -1684,6 +1685,8 @@ function Savedata(lastDrawnPolylineId) {
       },
   });
 
+
+  
 
 }
 
