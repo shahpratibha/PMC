@@ -2181,6 +2181,9 @@ var northArrowControl = L.Control.extend({
   },
 });
 map.addControl(new northArrowControl());
+
+
+
 // map.on("contextmenu", (e) => {
 //   let size = map.getSize();
 //   let bbox = map.getBounds().toBBoxString();
