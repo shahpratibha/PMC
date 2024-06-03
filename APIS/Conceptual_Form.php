@@ -44,8 +44,11 @@ try {
     $budget_year = $formDataArray['budget_year'] ?? null;
     $agency = $formDataArray['agency'] ?? null;
     $work_completion_date = $formDataArray['work_completion_date'] ?? null;
+    $struct_no = $formDataArray['struct_no'] ?? null;
+    $user_id = $formDataArray['user_id'] ?? null;
 
-    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_office, junior_engineer_name, contact_no, date_in, zone, ward, width, length, budgetCode, works_approval_id, created_at, conceptual_no, con_appr_date, created_date, tender_amount, updated_date, gis_id, no_of_road, area, measure_in, project_from, budget_year, agency, work_completion_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_office, junior_engineer_name, contact_no, date_in, zone, ward, width, length, budgetCode, works_approval_id, created_at, conceptual_no, con_appr_date, created_date, tender_amount, updated_date, gis_id, no_of_road, area, measure_in, project_from, budget_year, agency, work_completion_date,struct_no,user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -78,7 +81,10 @@ try {
         $project_from,
         $budget_year,
         $agency,
-        $work_completion_date
+        $work_completion_date,
+        $struct_no,
+        $user_id
+
     ]);
 
     $lastInsertId = $pdo->lastInsertId();
