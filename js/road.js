@@ -32,6 +32,21 @@ var ward_boundary = L.tileLayer.wms(
   }
 );
 
+//pmc:PMC_wards_admin_boundary
+
+var ward_admin_boundary = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
+    layers: "PMC_wards_admin_boundary",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    opacity: 1,
+    maxZoom: 21,
+  }
+).addTo(map);
+
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
@@ -48,6 +63,9 @@ const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
 const worksAaApprovalId = getQueryParam('proj_id');
 let wardNames = wardname.split(',').map(id => id.trim());
+let ward_id =  getQueryParam('ward_id') ;
+let zone_id =  getQueryParam('zone_id') ;
+let prabhag_id =  getQueryParam('prabhag_id') ;
 
 var wardBoundary = null ;
 console.log(workType);
@@ -224,6 +242,8 @@ var WMSlayers = {
   PMC: wms_layer3,
   // geodata: wms_layer4,
   OSMRoad: wms_layer16,
+  ward_admin_boundary:ward_admin_boundary
+
 };
 
 
@@ -239,7 +259,7 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function fitbou(filter) {
-  var layer = "pmc:ward_boundary1";
+  var layer = "pmc:PMC_wards_admin_boundary";
   var urlm =
     "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
@@ -254,15 +274,23 @@ function fitbou(filter) {
   });
 }
 
+let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
+let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
 
-let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+let cql_filterm = '';
 
+ cql_filterm = `zone_id='${zone_id}' AND ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`;
+    if (prabhag_ids.length > 0) {
+        cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
+    }
+
+   
         fitbou(cql_filterm);
-        ward_boundary.setParams({
+        ward_admin_boundary.setParams({
           cql_filter: cql_filterm,
           styles: "highlight",
         });
-ward_boundary.addTo(map).bringToFront();
+        ward_admin_boundary.addTo(map).bringToFront();
 
 
 

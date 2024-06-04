@@ -31,6 +31,19 @@ var ward_boundary= L.tileLayer.wms(
   }
 );
 
+var ward_admin_boundary = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
+    layers: "PMC_wards_admin_boundary",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    opacity: 1,
+    maxZoom: 21,
+  }
+).addTo(map);
+
 
 
 
@@ -52,6 +65,10 @@ const worksAaApprovalId = getQueryParam('proj_id');
 var wardBoundary = null ;
 var lastDrawnPolylineIdSave = null ;
 let wardNames = wardname.split(',').map(id => id.trim());
+let ward_id =  getQueryParam('ward_id') ;
+let zone_id =  getQueryParam('zone_id') ;
+let prabhag_id =  getQueryParam('prabhag_id') ;
+
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:19,
@@ -248,7 +265,8 @@ var WMSlayers = {
   PMC: wms_layer3,
   // geodata: wms_layer4,
   OSMRoad : wms_layer16,
-  Bhavan:wms_layer_bhavan
+  Bhavan:wms_layer_bhavan,
+  ward_admin_boundary:ward_admin_boundary
 };
  
  
@@ -269,13 +287,14 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function fitbou(filter) {
-  var layer = "pmc:ward_boundary1";
+  var layer = "pmc:PMC_wards_admin_boundary";
   var urlm =
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
     "&outputFormat=application/json";
+    console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
     wardBoundary = data;
@@ -284,14 +303,23 @@ function fitbou(filter) {
 }
 
 
-let cql_filterm = `Ward_Name IN(${wardNames.map(name => `'${name}'`).join(",")})`;
+let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
+let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
 
-        fitbou(cql_filterm);
-        ward_boundary.setParams({
-          cql_filter: cql_filterm,
-          styles: "highlight",
-        });
-ward_boundary.addTo(map).bringToFront();
+let cql_filterm = '';
+
+ cql_filterm = `zone_id='${zone_id}' AND ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`;
+    if (prabhag_ids.length > 0) {
+        cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
+    }
+
+
+fitbou(cql_filterm);
+ward_admin_boundary.setParams({
+  cql_filter: cql_filterm,
+  styles: "highlight",
+});
+ward_admin_boundary.addTo(map).bringToFront();
 
 
 
