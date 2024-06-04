@@ -384,19 +384,20 @@ td {
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  /* width: 24em; */
+  width: 28em !important;
+  /* height: 10em !important; */
   /* max-width: 30%; */
-  /* padding: 1.25em; */
+  /* padding: 1.25em !important; */
   border: none;
   border-radius: 5px;
   background: #fff;
-  font-family: inherit;
-  font-size: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+  font-size: 14px  !important;
 }
 
 .custom-button {
   width: auto;
-  padding: px 5px;
+  padding: 1px 2px;
   background-color: #fff;
   /* color: darkblue; */
   font-weight: bold;
@@ -404,8 +405,8 @@ td {
   border: 2px solid #2b13bb;
   border-radius: 5px !important;
   cursor: pointer;
-  /* position: absolute; */
-  top: 477px !important;
+  position: absolute !important;
+  top: 673px !important;
   left: 727px !important;
   height: 37px !important;
   width: 37px !important;

@@ -473,7 +473,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'editFeatureButton');
-  div.innerHTML = '<img id="editFeatureButton"  title=" Edit Feature" src="png/editTool.png">';
+  div.innerHTML = '<img id="editFeatureButton"  title=" Edit Feature" src="png/editTool.png" >';
   customDrawControlsContainer = div;
   return div;
 };
@@ -2181,6 +2181,9 @@ var northArrowControl = L.Control.extend({
   },
 });
 map.addControl(new northArrowControl());
+
+
+
 // map.on("contextmenu", (e) => {
 //   let size = map.getSize();
 //   let bbox = map.getBounds().toBBoxString();

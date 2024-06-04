@@ -1812,6 +1812,8 @@ var northArrowControl = L.Control.extend({
 // Add the custom north arrow control to the map
 map.addControl(new northArrowControl());
 
+
+
 // zoom
 
 // Customize the zoom control position
