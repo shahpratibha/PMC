@@ -1105,7 +1105,7 @@ map.on("draw:drawvertex", function (e) {
   function checkIfInsideWard(latlng) {
     var point = turf.point([latlng.lng, latlng.lat]);
     var isInside = false;
-  
+  console.log(wardBoundary);
     wardBoundary.features.forEach(function(feature) {
       if (turf.booleanPointInPolygon(point, feature)) {
         isInside = true;
@@ -1687,6 +1687,8 @@ function Savedata(lastDrawnPolylineId) {
       },
   });
 
+
+  
 
 }
 

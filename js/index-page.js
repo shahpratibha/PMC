@@ -449,8 +449,9 @@ console.log(joinedWardNames);
           project_from: project.project_from,
           budget_year: data.budget_data[0]?.budget_year ? data.budget_data[0]?.budget_year : null,
           agency: project.agency,
-          work_completion_date: project.work_completion_date
-
+          work_completion_date: project.work_completion_date,
+          struct_no:struct_no,
+          user_id:user_id
       };
 
       console.log(data.gis_data.gis_id);
