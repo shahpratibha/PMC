@@ -463,7 +463,7 @@ function toggleSelectLayerButton(show) {
 
 
             $('#table-container').show();
-    console.log(formDataFromStorage);
+
     let contentData = '<tr>';
     for (const property in formDataFromStorage) {
       contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -575,9 +575,9 @@ function toggleSelectLayerButton(show) {
                     },
                   });
 
-                  setTimeout(() => {
-                    // window.location.href = "geometry_page.html";
-                  }, 2100);
+                  // setTimeout(() => {
+                  //   // window.location.href = "geometry_page.html";
+                  // }, 2100);
                 },
                 error: function (xhr, status, error) {
                   console.error("Save failed:", error);
@@ -585,37 +585,37 @@ function toggleSelectLayerButton(show) {
               });
 
               
-              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
-          console.log(selectCoordinatesData)
-            var formData = new FormData();
-            formData.append('proj_id', worksAaApprovalId);
-            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-            formData.append('polygon_area', 0);
-            formData.append('polygon_centroid', 0);
-            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-            formData.append('road_no', struct_no);
-            formData.append('user_id', user_id);
-            formData.append('length', area);
-            formData.append('width', width);
-          
-                      $.ajax({
-                type: "POST",
-                url: "https://iwms.punecorporation.org/api/gis-data",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    console.log(response);
-                   window.location.href = response.data.redirect_Url;
-                },
-                error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
-                },
-            });
+          area = turf.area(selectCoordinatesData[0]);
+          var formData = new FormData();
+          formData.append('proj_id', worksAaApprovalId);
+          formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+          formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+          formData.append('polygon_area', 0);
+          formData.append('polygon_centroid', 0);
+          formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+          formData.append('road_no', '11');
+          formData.append('user_id', '5');
+          formData.append('length', area);
+          formData.append('width', width);
+        
+                    $.ajax({
+              type: "POST",
+              url: "https://iwms.punecorporation.org/api/gis-data",
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function (response) {
+                
+                window.location.href = response.data.redirect_Url;
+              },
+              error: function (xhr, status, error) {
+                  console.error("Save failed:", error);
+              },
+          });
 
             });
 
+            
             
           
          
