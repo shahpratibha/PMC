@@ -454,8 +454,6 @@ console.log(joinedWardNames);
           user_id:user_id
       };
 
-      console.log(data.gis_data.gis_id);
-
       // Post the data using jQuery's AJAX
       $.ajax({
           type: "POST",
@@ -470,11 +468,13 @@ console.log(joinedWardNames);
             const wardName = response.data.wardname;
             const workType = project.work_type;
 
+
+  
             if(struct_no >= 10){
               const baseURL = "ward.html";
           
               // Create the query string
-              const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+              const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
               
               // Redirect to the new URL with query parameters
              window.location.href = baseURL + queryString;
@@ -486,7 +486,7 @@ console.log(joinedWardNames);
               const baseURL = "road.html";
           
               // Create the query string
-              const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+              const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
               
               // Redirect to the new URL with query parameters
              window.location.href = baseURL + queryString;
@@ -497,7 +497,7 @@ console.log(joinedWardNames);
             const baseURL = "building.html";
         
             // Create the query string
-            const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+            const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
         
             // Redirect to the new URL with query parameters
             window.location.href = baseURL + queryString;
@@ -508,7 +508,7 @@ console.log(joinedWardNames);
           const baseURL = "drainage.html";
       
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
       
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
@@ -520,7 +520,7 @@ console.log(joinedWardNames);
         const baseURL = "water-suppy.html";
     
         // Create the query string
-        const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+        const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
     
         // Redirect to the new URL with query parameters
         window.location.href = baseURL + queryString;
@@ -532,7 +532,7 @@ console.log(joinedWardNames);
       const baseURL = "electric-work.html";
   
       // Create the query string
-      const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}`;
+      const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
   
       // Redirect to the new URL with query parameters
       window.location.href = baseURL + queryString;
