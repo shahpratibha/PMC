@@ -295,7 +295,7 @@
       select.empty();
 
       $.getJSON(
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -373,7 +373,7 @@
       select.empty();
 
       $.getJSON(
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -454,7 +454,7 @@
       var project_fi = $("#project_fi").val();
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
       if (project_fi.length > 0) {
         project_fi = project_fi
           .map((projectFi) => `'${projectFi}'`)
@@ -462,7 +462,7 @@
 
         let cqlFilter = `project_fi  IN (${project_fi})`;
         geoServerURL =
-          "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+          "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
       }
 
@@ -547,7 +547,7 @@ var selectButton = $('#headingZone button');
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
 
 
 
@@ -645,7 +645,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
 
 
 

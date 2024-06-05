@@ -776,7 +776,7 @@ function fitbous(filter) {
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
@@ -1716,7 +1716,7 @@ ented   //////////////////////////////////////////////
 
         function getValues(callback) {
           var geoServerURL =
-            "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=" + selectedValue + "&outputFormat=application/json";
+            "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=" + selectedValue + "&outputFormat=application/json";
 
           $.getJSON(geoServerURL, function (data) {
             var workTypeSet = new Set();
@@ -1767,7 +1767,7 @@ ented   //////////////////////////////////////////////
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);

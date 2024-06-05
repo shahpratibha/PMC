@@ -263,7 +263,7 @@
             if (searchTerm.length >= 3 && searchType) {
               let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-              let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+              let geoServerURL = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
                 cqlFilter
               )}`;
 
@@ -662,29 +662,7 @@
         return button;
       };
 
-      // code for image on perform button
-
-      //     editControl.onAdd = function (map) {
-      //   var button = L.DomUtil.create('button', 'custom-button');
-      //   var img = document.createElement('img');
-      //   img.src = './png/003-selection.png';
-      //   img.style.width = '25px'; // Example width
-      //   img.style.height = '25px'; // Example height
-      //   button.appendChild(img);
-      //   button.innerHTML += ' Perform Task';
-      //   button.onclick = function () {
-      //     if (button.innerHTML.includes('Perform Task')) {
-      //       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
-      //       performTask();
-      //     } else {
-      //       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
-      //     }
-      //   };
-      //   return button;
-      // };
-
-      // Add the control to the map
-
+      
       editControl.addTo(map);
 
       // /////////////////////////////////////////// 14-03-2024 for adding the selection on the map ////////////////////////////////////////

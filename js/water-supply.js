@@ -1109,7 +1109,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://pmc.geopulsea.com/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1260,7 +1260,7 @@ function getClosestRoadPoint(latlng) {
   var bbox = turf.bbox(bufferedPoint);
   layer = "pmc:storm_water";
 
-  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
   console.log("burl", url);
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -1300,7 +1300,7 @@ function getClosestRoadPointLast(latlng) {
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
   let layer = "pmc:storm_water";
-  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -1955,12 +1955,12 @@ function Savedata(lastDrawnPolylineId) {
 
 
   var formData = new FormData();
-  formData.append('proj_id', '20698');
-  formData.append('latitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][0]);
+  formData.append('proj_id', worksAaApprovalId);
+  formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
+  formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
   formData.append('length', area);

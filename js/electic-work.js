@@ -1300,7 +1300,7 @@ function getClosestRoadPointLast(latlng) {
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
   let layer = "pmc:Exist_Road";
-  var url = `https://pmc.geopulsea.com/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
       fetch(url)
