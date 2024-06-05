@@ -3,13 +3,16 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+/* body{
+  overflow: hidden;
+} */
 #map {
   top: 0px;
   left: 0px;
-  height: 99vh;
+  height: 100vh;
   width: 100%;
   z-index: 1;
+  position: absolute;
 }
 
 .leaflet-container .leaflet-control-attribution {
@@ -395,68 +398,18 @@ td {
   font-size: 14px  !important;
 }
 
-.custom-button {
-  width: auto;
-  padding: 1px 2px;
-  background-color: #fff;
-  /* color: darkblue; */
-  font-weight: bold;
-  font-size: 10px !important;
-  border: 2px solid #2b13bb;
-  border-radius: 5px !important;
-  cursor: pointer;
-  position: absolute !important;
-  top: 673px !important;
-  left: 727px !important;
-  height: 37px !important;
-  width: 37px !important;
- 
-
-  transition: background-color  0.1s;
-}
 
 .custom-button:hover {
   background-color: #bbb;
 }
 
 
-.leaflet-draw-draw-polyline {
-  top: 430px;
-  position: absolute;
-  left: 645px;
-  border: 2px solid #2b13bb !important;
-  border-bottom: 2px solid darkblue;
-  height: 37px !important;
-  width: 37px !important;
-  border-radius: 5px 5px 5px 5px !important;
-}
+
 
 /* circle */
-.leaflet-draw-draw-circlemarker {
-  position: absolute;
-  top: 435px;
-  left: 605px;
-  border-bottom: 2px solid #2B13BB !important;
-  border-top: 2px solid #2B13BB !important;
-  border-left: 2px solid #2B13BB !important;
-  border-right: 2px solid #2B13BB !important;
-  border-top: none;
-  width: 37px !important;
-  height: 37px  !important;
-  border-radius: 5px 5px 5px 5px !important;
-}
 
 /* circle */
-.leaflet-draw-draw-circle {
-  position: absolute;
-  /* top: -283px; */
-  top: -216px;
-  left: 56px;
-  border-bottom: 2px solid darkblue;
-  border: 2px solid darkblue;
-  border-top: none;
-  width: 30px;
-}
+
 /* .leaflet-draw-draw-polyline {
   top: 500px;
   left: 500px;
@@ -476,54 +429,6 @@ border: 2px solid darkblue;
 top: 0px;
 } */
 
-#save-button {
-  /* border: 2px solid rgb(187, 187, 187); */
-  border-radius: 5px 5px 5px 5px;
-  background-color: white;
-  color: black;
-  padding: 7px;
-  display: none;
-  position: absolute;
-  border: 2px solid #2b13bb;
-  border-top: 2px solid #2b13bb;
-  border-bottom: 2px solid #2b13bb;
-  top: 543px;
-  height: 37px;
-  width: 37px;
-  left: 599px;
-  font-size: 15px;
-  border-bottom: 2px solid #2b13bb;
-}
-.delete-button {
-  border: 2px solid #2b13bb;
-  padding: 6px 7.3px;
-  font-size: 14px;
-  border-radius: 5px 5px 5px 5px;
-  display: block;
-  background-color: white;
-  color: black;
-  cursor: pointer;
-  left: 518px;
-  position: absolute;
-  top: 487px !important;
-  height: 37px;
-  width: 37px;
-  display: none;
-  border-top: 2px solid #2b13bb;
-}
-
-.leaflet-control-edit-interior {
-  font-size: 15px;
-  position: absolute !important;
-  height: 37px !important;
-  width: 37px !important;
-  top: 500px !important;
-  border: 2px solid #2b13bb;
-  border-radius: 5px 5px 5px 5px !important;
-  display: none;
-  left: 560px !important;
-  border-bottom: 2px solid #2b13bb !important;
-}
 
 /* polygon leaflet css */
 
@@ -562,24 +467,4 @@ top: 0px;
 .leaflet-touch .geocoder-control-input:focus {
   width: 300px;
 }
-/* .custom-button {
-left: 650px;
-height: 37px;
-width: 37px;
-
-
-} */
-.leaflet-draw-actions {
-  display: none;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: fixed !important;
-  left: 595px !important;
-  top: 645px !important;
-  white-space: nowrap;
-}
-
-
-
 

@@ -374,7 +374,7 @@ if (workType == "New") {
   // Define the HTML content for the control
   customDrawControls.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #2B13BB; position:absolute; margin-top: 600px; margin-left: 685px; border-radius:5px; background-color:white; padding: 5px; width: 37px; height: 37px; ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+    div.innerHTML = '<button class="draw_feature"  style="" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
     customDrawControlsContainer = div;
     return div;
   };
@@ -392,13 +392,13 @@ let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
-  div.style.backgroundColor = 'white';
-  div.style.border = '2px solid #2B13BB';
-  div.style.left='771px';
-  div.style.height='36px'
-  div.style.width='36px'
-  div.style.top = "590px";
+  // div.style.padding = '5px';
+  // div.style.backgroundColor = 'white';
+  // div.style.border = '2px solid #2B13BB';
+  // div.style.left='771px';
+  // div.style.height='36px'
+  // div.style.width='36px'
+  // div.style.top = "590px";
 
   // Create a new button element
   var button = document.createElement('button');
@@ -406,7 +406,7 @@ customToolSelector.onAdd = function (map) {
   button.id = 'traceToolButton';
   button.style.marginRight = '0px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
-  button.style.display = 'flex';
+  // button.style.display = 'flex';
   button.style.justifyContent = 'center';
   button.style.alignItems = 'center';
   // button.style.width = '100%';
@@ -414,8 +414,8 @@ customToolSelector.onAdd = function (map) {
   // Create a new image element
   var img = document.createElement('img');
   img.src = 'png/Trace_tool.png';
-  img.style.height = '18px';
-  img.style.width = '18px';
+  img.style.height = '20px';
+  img.style.width = '20px';
 
   button.appendChild(img);
 

@@ -4,13 +4,12 @@ const API_URL = "http://localhost/iwms/";
 // const publicAPI_URL = "https://iwmsgis.pmc.gov.in//gis/iwms/";
 // const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
 
-
 var map = L.map("map", {
-  center:[18.52, 73.89],
+  center: [18.52, 73.89],
   zoom: 11.66,
   minZoom: 10,
   maxZoom: 19,
-  preferCanvas:true,
+  preferCanvas: true,
   boxZoom: true,
   trackResize: true,
   wheelPxPerZoomLevel: 40,
@@ -20,9 +19,8 @@ var map = L.map("map", {
   fadeAnimation: true,
   zoomAnimationThreshold: 10,
   bounceAtZoomLimits: true,
-  inertia: true      
+  inertia: true,
 });
-
 
 var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
@@ -33,13 +31,13 @@ var googleSat = L.tileLayer(
 );
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom:19,
+  maxZoom: 19,
 }).addTo(map);
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
-    maxZoom:19.9,
+    maxZoom: 19.9,
   }
 );
 var baseLayers = {};
@@ -67,10 +65,12 @@ var wms_layer12 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-      }).addTo(map);
+  })
+  .addTo(map);
 
-var wms_layer11 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+var wms_layer11 = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -79,7 +79,8 @@ var wms_layer11 = L.tileLayer
     maxZoom: 21,
 
     opacity: 1,
-  });
+  }
+);
 
 var wms_layer13 = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
@@ -94,8 +95,9 @@ var wms_layer13 = L.tileLayer.wms(
   }
 );
 
-var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+var wms_layer14 = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -103,10 +105,12 @@ var wms_layer14 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  });
+  }
+);
 
-var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+var wms_layer15 = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -114,7 +118,8 @@ var wms_layer15 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  });
+  }
+);
 
 var wms_layer17 = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
@@ -124,7 +129,7 @@ var wms_layer17 = L.tileLayer.wms(
     transparent: true,
     tiled: true,
     version: "1.1.0",
-        opacity: 1,
+    opacity: 1,
     maxZoom: 21,
   }
 );
@@ -141,10 +146,9 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
-
-
-var IWMS_point = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+var IWMS_point = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -153,10 +157,12 @@ var IWMS_point = L.tileLayer
     // attribution: "DP_Roads",
     opacity: 1,
     maxZoom: 21,
-  });
+  }
+);
 
-var IWMS_line = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+var IWMS_line = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -164,11 +170,12 @@ var IWMS_line = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  });
+  }
+);
 
-
-  var IWMS_polygon = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+var IWMS_polygon = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  {
     layers: "IWMS_polygon",
     format: "image/png",
     transparent: true,
@@ -176,12 +183,12 @@ var IWMS_line = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  });
+  }
+);
 
-
-  
-  var wms_layer21 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+var wms_layer21 = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
     layers: "Bhavan",
     format: "image/png",
     transparent: true,
@@ -190,7 +197,8 @@ var IWMS_line = L.tileLayer
     maxZoom: 21,
 
     opacity: 1,
-  });
+  }
+);
 
 var wms_layer16 = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
@@ -207,10 +215,10 @@ var wms_layer16 = L.tileLayer.wms(
 // console.log(localStorage," ")
 var wardname = localStorage.getItem("wardname");
 console.log(wardname, "wardname");
- 
+
 ///////////////////////////////////////// added 11-03-2023 /////////////////////////////////////////////////////
 
-var ward_boundary= L.tileLayer.wms(
+var ward_boundary = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
@@ -223,7 +231,7 @@ var ward_boundary= L.tileLayer.wms(
   }
 );
 
-var Zone_layer= L.tileLayer.wms(
+var Zone_layer = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
     layers: "Zone_layer",
@@ -236,18 +244,12 @@ var Zone_layer= L.tileLayer.wms(
   }
 );
 
-
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
-
-
-
-
-
 var WMSlayers = {
-  "OSM": osm,
-  "Esri": Esri_WorldImagery,
-  "Satellite": googleSat,
+  OSM: osm,
+  Esri: Esri_WorldImagery,
+  Satellite: googleSat,
   Boundary: wms_layer12,
   Data: wms_layer14,
   Revenue: wms_layer15,
@@ -255,7 +257,7 @@ var WMSlayers = {
   PMC: wms_layer3,
   Amenity: wms_layer11,
   Bhavan: wms_layer21,
-  
+
   Drainage: wms_layer13,
   Roads: wms_layer1,
   // geodata: wms_layer4,
@@ -271,8 +273,7 @@ var WMSlayers = {
 
 // refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
-control.setPosition('topright');
-
+control.setPosition("topright");
 
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
@@ -309,8 +310,7 @@ searchControl.on("results", function (data) {
 map.options.scale = true; // Enables the scale control
 
 // You can also customize the scale options
-L.control.scale(
-).addTo(map);
+L.control.scale().addTo(map);
 var drawControl = new L.Control.Draw({
   draw: {
     polyline: {
@@ -334,8 +334,6 @@ var drawControl = new L.Control.Draw({
 });
 // map.addControl(drawControl);
 
-
-
 toggleDrawControl();
 console.log(map.getZoom(), "map.getZoom()");
 function toggleDrawControl() {
@@ -348,7 +346,6 @@ function toggleDrawControl() {
 
 // Event listener for map zoomend event
 map.on("zoomend", toggleDrawControl);
-
 
 // {{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{this is for selecting existing layer }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 
@@ -541,8 +538,10 @@ map.on("draw:created", function (e) {
           // Apply custom styles directly to the modal elements
           document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
           document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          document.querySelector(".custom-modal-class").style.transition = "all 1.2s ease";
-          document.querySelector(".custom-icon-class").style.transition = "all 1.2s ease";
+          document.querySelector(".custom-modal-class").style.transition =
+            "all 1.2s ease";
+          document.querySelector(".custom-icon-class").style.transition =
+            "all 1.2s ease";
           document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
           document.querySelector(".custom-title-class").style.fontSize =
             "1.5em"; // Set your desired title size
@@ -598,8 +597,10 @@ map.on("draw:created", function (e) {
           // Apply custom styles directly to the modal elements
           document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
           document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
-          document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
+          document.querySelector(".custom-modal-class").style.transition =
+            "all 0.5s ease";
+          document.querySelector(".custom-icon-class").style.transition =
+            "all 0.5s ease";
           document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
           document.querySelector(".custom-title-class").style.fontSize =
             "1.5em"; // Set your desired title size
@@ -966,19 +967,19 @@ function Savedata(lastDrawnPolylineId) {
 
 //**************************************************line mesure*************************************************************
 // L.control
-  //   .polylineMeasure({
-    //     position: "topright",
-    //     unit: "kilometres",
-    //     showBearings: true,
-    //     clearMeasurementsOnStop: false,
-    //     showClearControl: true,
-    //     showUnitControl: true,
-  //   })
-  //   .addTo(map);
+//   .polylineMeasure({
+//     position: "topright",
+//     unit: "kilometres",
+//     showBearings: true,
+//     clearMeasurementsOnStop: false,
+//     showClearControl: true,
+//     showUnitControl: true,
+//   })
+//   .addTo(map);
 
 //**********************************************************area measure**********************************************************************
 // var measureControl = new L.Control.Measure({
-  //   position: "topright",
+//   position: "topright",
 // });
 // measureControl.addTo(map);
 
@@ -1142,8 +1143,8 @@ $(document).ready(function () {
       var title = $("#workTable thead th").eq($(this).index()).text();
       $(this).html(
         '<input type="text" class="form-control" placeholder="Search ' +
-        title +
-        '" />'
+          title +
+          '" />'
       );
     });
 
@@ -1334,18 +1335,40 @@ function getWardNameById(wardId, wardData) {
   }
 }
 
-
 // var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
 //Pop-Up show
 const layerDetails = {
-  "pmc:Data": ["Work_ID", "Name_of_Work", "Department",  "Work_Type", "Project_Office", "Zone", "Ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "GIS_Created_At"],
-  "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
-  "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
-  "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
-  "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
-  "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
+  "pmc:Data": [
+    "Work_ID",
+    "Name_of_Work",
+    "Department",
+    "Work_Type",
+    "Project_Office",
+    "Zone",
+    "Ward",
+    "Tender_Amount",
+    "Name_of_JE",
+    "Contact_Number",
+    "GIS_Created_At",
+  ],
+  "pmc:Exist_Road": ["rid", "surveystatus", "roadclass", "swd_condition"],
+  "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision", "Area"],
+  "pmc:storm_water": [
+    "OBJECTID",
+    "basin_name",
+    "category",
+    "descriptio",
+    "i_length",
+  ],
+  "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area", "Category", "Unique_ID"],
+  "pmc:Sewage_Treatment_Plant": [
+    "OBJECTID",
+    "STP_Name",
+    "STP_Area",
+    "Category",
+    "Unique_ID",
+  ],
   "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
-
 };
 
 map.on("contextmenu", async (e) => {
@@ -1353,28 +1376,37 @@ map.on("contextmenu", async (e) => {
   let size = map.getSize();
 
   for (let layer in layerDetails) {
-      let selectedKeys = layerDetails[layer];
-      let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+    let selectedKeys = layerDetails[layer];
+    let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+      e.containerPoint.x
+    )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+      size.x
+    }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-      try {
-          let response = await fetch(urrr);
-          let html = await response.json();
+    try {
+      let response = await fetch(urrr);
+      let html = await response.json();
 
-          var htmldata = html.features[0].properties;
-          let txtk1 = "";
-          for (let key of selectedKeys) {
-              if (htmldata.hasOwnProperty(key)) {
-                  let value = htmldata[key];
-                  txtk1 += "<tr><td>" + key + "</td><td>" + value +"</td></tr>";
-              }
-          }
-
-          let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:110%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
-
-          L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      } catch (error) {
-          console.error("Error fetching data:", error);
+      var htmldata = html.features[0].properties;
+      let txtk1 = "";
+      for (let key of selectedKeys) {
+        if (htmldata.hasOwnProperty(key)) {
+          let value = htmldata[key];
+          txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+        }
       }
+
+      let detaildata1 =
+        "<div style='max-height: 350px; max-height: 250px;'><table  style='width:110%;' class='popup-table' >" +
+        txtk1 +
+        "</td></tr><tr><td>Co-Ordinates</td><td>" +
+        e.latlng +
+        "</td></tr></table></div>";
+
+      L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
 });
 
@@ -1389,8 +1421,9 @@ map.on("dblclick", function (e) {
   let style = "pmc:Data";
   let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
-  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
-    }&HEIGHT=${size.y}&BBOX=${bbox}`;
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+    size.x
+  }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
   // you can use this url for further processing such as fetching data from server or showing it on the map
 
@@ -1569,8 +1602,6 @@ map.on("dblclick", function (e) {
 
 // legend start
 
-
-
 // // Now continue with your remaining JavaScript code...
 // // GeoServer URL
 // var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
@@ -1601,7 +1632,6 @@ map.on("dblclick", function (e) {
 
 //         // Extract layer names and legend URLs for layers in the 'pmc' workspace
 //         var layers = xml.querySelectorAll('Layer[queryable="1"]');
-        
 
 //         layers.forEach((layer) => {
 //           var layerName = layer.querySelector("Name").textContent;
@@ -1636,8 +1666,6 @@ map.on("dblclick", function (e) {
 
 //   // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
 //   <div id="legend"></div>
-
-
 
 //   // Toggle legend visibility function
 //   function toggleLegend() {
@@ -1684,7 +1712,6 @@ map.on("dblclick", function (e) {
 //     if (
 //       legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
 
-
 //       legendDiv.style.display = "block";
 //       legendDiv.style.height = "40vh";
 //       legendDiv.style.width = "200px";
@@ -1719,7 +1746,6 @@ map.on("dblclick", function (e) {
 
 //   // Initially hide the legend content
 //   div.style.display = "none";
-  
 
 //   // Create a button to toggle the visibility of the legend content
 //   var toggleButton = L.DomUtil.create("button", "legend-toggle");
@@ -1790,8 +1816,6 @@ map.on("dblclick", function (e) {
 
 // legend.addTo(map);
 
-
-
 // // for legend////////////////////////////////////////////////////////////////////
 
 // Create a custom control for the north arrow
@@ -1812,34 +1836,30 @@ var northArrowControl = L.Control.extend({
 // Add the custom north arrow control to the map
 map.addControl(new northArrowControl());
 
-
-
 // zoom
 
 // Customize the zoom control position
-map.zoomControl.setPosition('bottomright');
-// close 
+map.zoomControl.setPosition("bottomright");
+// close
 function closeDropdown() {
   var dropdownList = document.querySelector(".dropdown-list");
   dropdownList.style.display = "none";
 }
 
-
-document.addEventListener("click", function(event) {
+document.addEventListener("click", function (event) {
   var dropdownContainer = document.querySelector(".dropdown-container");
   var dropdownList = document.querySelector(".dropdown-list");
 
-
-  if (!dropdownContainer.contains(event.target) && event.target !== dropdownList) {
-      closeDropdown();
+  if (
+    !dropdownContainer.contains(event.target) &&
+    event.target !== dropdownList
+  ) {
+    closeDropdown();
   }
 });
 
-
-var villageName = getUrlParameter('village_name');
-
+var villageName = getUrlParameter("village_name");
 
 if (villageName) {
   performTaskBasedOnVillage(villageName);
 }
-
