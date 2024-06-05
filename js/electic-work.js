@@ -556,8 +556,6 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
-
-
 let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
 let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
 let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
