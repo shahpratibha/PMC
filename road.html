@@ -17,12 +17,12 @@
   position: fixed;
   color: black;
   padding: 0px 5px;
-  display: none;
+  display: block;
   top: 75%; /* changed from 683px */
   font-size: 19px;
   height: 37px;
   width: 37px;
-  left: 90%; /* changed from 865px */
+  left: 50%;
 }
 
 .delete-button {
@@ -50,13 +50,13 @@
   background-color: white;
   color: black;
   padding: 3px 7px;
-  display: none;
+  display: block;
   position: fixed;
   top: 75%; /* changed from 683px */
   font-size: 15px;
   height: 37px;
   width: 37px;
-  left: 95%; /* changed from 908px */
+  left: 47%; /* changed from 908px */
 }
 
 #editFeatureButton {
@@ -236,6 +236,7 @@
 
 
 function toggleSelectLayerButton(show) {
+  console.log("efa");
   var saveBtn = document.getElementById('editFeatureButton');
   var editBtn = document.getElementById('saveDataButton');
   var deleteBtn = document.getElementById('deleteFeatureButton');
@@ -416,9 +417,7 @@ function toggleSelectLayerButton(show) {
 
 
           }
-          document
-            .getElementById("saveDataButton")
-            .addEventListener("click", function () {
+          document.getElementById("saveDataButton").addEventListener("click", function () {
               var featureData = selectedFeature.toGeoJSON();
 
               var featureId = featureData.features[0].id;
