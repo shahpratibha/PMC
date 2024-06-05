@@ -48,10 +48,7 @@ const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
 const worksAaApprovalId = getQueryParam('proj_id');
 let wardNames = wardname.split(',').map(id => id.trim());
-
 var wardBoundary = null ;
-console.log(workType);
-
 var lastDrawnPolylineIdSave = null;
 
 
