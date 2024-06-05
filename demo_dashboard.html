@@ -1,112 +1,9 @@
-<<<<<<< HEAD
-=======
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Template</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
-    <style>
-        /* Basic CSS for layout */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .map-container {
-            flex: 1;
-            min-width: 50%;
-            margin-right: 20px;
-        }
-        .search-container {
-            flex: 1;
-            min-width: 50%;
-            margin-left: 20px;
-        }
-        /* Styles for filter button */
-        .filter-button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        /* Styles for search button */
-        .search-button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        /* Styles for map container */
-        #map {
-            height: 400px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="map-container">
-            <div id="map"></div>
-        </div>
-        <div class="search-container">
-            <div class="filter-container">
-                <label for="filter">Filter:</label>
-                <select id="filter">
-                    <option value="all">All</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
-                <button class="filter-button" onclick="applyFilter()">Apply Filter</button>
-            </div>
-            <div class="search-container">
-                <label for="search">Search:</label>
-                <input type="text" id="search" placeholder="Enter keyword">
-                <button class="search-button" onclick="search()">Search</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([51.505, -0.09], 13); // Initial map view
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        function applyFilter() {
-            // Logic to apply filter
-            var selectedFilter = document.getElementById("filter").value;
-            console.log("Filter applied:", selectedFilter);
-            // Implement your filter logic here
-        }
-
-        function search() {
-            // Logic to perform search
-            var keyword = document.getElementById("search").value;
-            console.log("Searching for:", keyword);
-            // Implement your search logic here
-        }
-    </script>
-</body>
-</html> -->
-
-
-
-
-<!-- copilot -->
->>>>>>> c7aae853c57e1ae07a2a3dda09d87db2bc49b2ef
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map Template</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
@@ -120,110 +17,7 @@
 
 
     <style>
-=======
    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 10px;
-    background-color: #e8f5e9;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-
-.search-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.search-bar select, .search-bar button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.search-bar button {
-    background-color: #4caf50;
-    color: white;
-    cursor: pointer;
-}
-
-.main-content {
-    display: flex;
-    width: 100vw;
-    max-width: 98vw;
-}
-
-.map-container {
-    width: 100vw;
-    position: relative;
-}
-
-#map {
-    width: 80vw;
-    height: 85vh;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-}
-
-.filters {
-    width:30vw;
-    margin-left: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.filters h3 {
-    margin-top: 15px;
-}
-
-.showCount{
-    background-color: #e8f5e9;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.accordion {
-    width: 100%;
-}
-
-.accordion-item {
-    border-top: 1px solid #ccc;
-}
-
-.accordion-item:first-child {
-    border-top: none;
-}
-
-.accordion-header {
-    width: 100%;
-    text-align: left;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border: none;
-    outline: none;
-    cursor: pointer;
-}
-
-.accordion-content {
-    display: none;
-    padding: 10px;
-    background-color: white;
-    border-top: 1px solid #ccc;
-}
-
->>>>>>> c7aae853c57e1ae07a2a3dda09d87db2bc49b2ef
     </style>
 </head>
 <body>
@@ -231,51 +25,81 @@ body {
         
         <div class="main-content">
             <div class="map-container">
-<<<<<<< HEAD
                 <button class="toggle-button" id="toggleFilters"><i class="fa-solid fa-filter"></i></button>
                 <div id="map"></div>
+                <!-- table button -->
+                <button id="openTableBtn"><img src="png/dtabasetable.png" alt="" class="tablebtn"></button>
+
+                <!-- table design -->
+                <div class="row tabchart">
+                  <div id="table-container-dashboard" style="position: relative; transition: 0s;">
+            
+                    <button id="closeTableBtnDashboard" class="close-button">
+                      <i class="fa-solid fa-minus"
+                        style="font-weight: bold; margin-top: 3px; margin-right: 5px; width: 10px; position: fixed;"></i>
+                    </button>
+            
+                    <p id="tablestats" class="tablestats"
+                      style="position: fixed; color: darkblue; font-size: 12px;font-weight: bold;  z-index: 9999; margin-top: 45px; margin-left:0px;">
+            
+                    </p>
+            
+            
+                    <div style="position: absolute; top: 30px;  height:240px; width: 97%; overflow: scroll; scrollbar-width: thin;">
+                      <table id="workTableDashboard" class="table table-bordered table-hover"
+                        style=" left: 0px; height:100px; width: 100px; overflow: scroll; ">
+                        <thead id="thead">
+                          <tr>
+                            <th>Zone</th>
+                            <th>Ward</th>
+                            <th>Department</th>
+                            <th>Work Type</th>
+                            <th>Tender Amount</th>
+                            <th>JE Name</th>
+                            <th>Contractor Name</th>
+                            <th>Project Office</th>
+                            <th>Budget Code</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                    <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
+            
+                    <div id="paginationControls"
+                      style="position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); display: flex; font-size: 12px; gap: 10px;">
+                      <button class="pagibtn" style="background-color: transparent; color: #333;" id="previousPageButton"><i
+                          class="fa-solid fa-backward "></i></button>
+                      <p id="currentPage"></p>
+                      <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
+                    </div>
+            
+            
+            
+            
+                    <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
+            
+                    <button id="printButton" onclick="printData()"
+                      style="position: absolute; top: 0%;  right: 5%; z-index: 999; color: green; font-size: 12px; background-color: transparent; height: 29px; width: 35px;">
+                      <!-- Changed position to fixed -->
+                      <i class="fa-solid fa-file-export" style="float: left; top: 0px; left: 400px;"></i>
+                    </button>
+                  </div>
+                </div>
             </div>
+
             <div class="filters" id="filters">
                 <div class="showCount">
                   <h5 class="tablestats"> </h5>
-=======
-                <div id="map"></div>
-                <!-- <div class="info-window">
-                    <div class="info-content">
-                        <h3>Information Window</h3>
-                        <ul>
-                            <li>Installation No: 456</li>
-                            <li>Installation No: 456</li>
-                            <li>Installation No: 456</li>
-                            <li>Installation No: 456</li>
-                        </ul>
-                    </div>
-                    <div class="comments">
-                        <h3>Comments</h3>
-                        <div class="comment">
-                            <p>Lorem ipsum dolor sit amet consectetur. Pellentesque laoreet ultrices tellus feugiat cursus.</p>
-                            <span>Abdul Hadi</span> <span>05-02-2023 08:24 AM</span>
-                        </div>
-                        <div class="comment">
-                            <p>Lorem ipsum dolor sit amet consectetur cursus.</p>
-                            <span>Abdul Hadi</span> <span>05-02-2023 08:24 AM</span>
-                        </div>
-                        <input type="text" placeholder="Comment">
-                    </div>
-                </div> -->
-            </div>
-            <div class="filters">
-                <div class="showCount">
-                    <h5>Show Count</h5>
->>>>>>> c7aae853c57e1ae07a2a3dda09d87db2bc49b2ef
                 </div>
-                <div class="search-bar">
+                <!-- <div class="search-bar">
                     <button>Search</button>
-                </div>
+                </div> -->
                 <h3>Filters</h3>
                 <div class="accordion">
                     <div class="accordion-item">
-<<<<<<< HEAD
                         <button class="accordion-header">Select Office</button>
                         <div class="accordion-content">
                             <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off"></select>
@@ -362,48 +186,11 @@ body {
 
               </div>
           </div>
-=======
-                        <button class="accordion-header">Local Government</button>
-                        <div class="accordion-content">
-                            <label><input type="checkbox"> District Lahore</label>
-                            <label><input type="checkbox"> UC Lahore</label>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Local Government</button>
-                        <div class="accordion-content">
-                            <label><input type="checkbox"> District Lahore</label>
-                            <label><input type="checkbox"> UC Lahore</label>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Local Government</button>
-                        <div class="accordion-content">
-                            <label><input type="checkbox"> District Lahore</label>
-                            <label><input type="checkbox"> UC Lahore</label>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Local Government</button>
-                        <div class="accordion-content">
-                            <label><input type="checkbox"> District Lahore</label>
-                            <label><input type="checkbox"> UC Lahore</label>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Local Government</button>
-                        <div class="accordion-content">
-                            <label><input type="checkbox"> District Lahore</label>
-                            <label><input type="checkbox"> UC Lahore</label>
-                        </div>
-                    </div>
->>>>>>> c7aae853c57e1ae07a2a3dda09d87db2bc49b2ef
                 </div>
             </div>
         </div>
     </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<<<<<<< HEAD
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -420,6 +207,7 @@ body {
         document.addEventListener('DOMContentLoaded', function() {
         const filters = document.getElementById('filters');
         const map = document.getElementById('map');
+        const tableBtn = document.getElementById('openTableBtn'); 
         const button = document.getElementById('toggleFilters');
         let filtersVisible = false;
 
@@ -428,14 +216,20 @@ body {
                 filters.style.marginLeft = '0';
                 filters.style.opacity = '1';
                 map.style.width = '79vw';
-                button.style.right = 'calc(3vw + 1px)'; // Adjust the button position here
+                button.style.top="18%";
+                button.style.right = 'calc(3vw + 1px)'; 
                 button.innerHTML = '<i class="fa-solid fa-filter-circle-xmark"></i>';
-            } else {
+                tableBtn.style.right = 'calc(3vw + 1px)';
+                tableBtn.style.top= '27%';
+              } else {
                 filters.style.marginLeft = '-35vw';
                 filters.style.opacity = '0';
                 map.style.width = '98vw';
-                button.style.right = '40px'; // Adjust the button position here
+                button.style.top="18%";
+                button.style.right = '40px';
                 button.innerHTML = '<i class="fa-solid fa-filter"></i>';
+                tableBtn.style.right = '40px';
+                tableBtn.style.top= '27%';
             }
             filtersVisible = !filtersVisible;
         });
@@ -688,17 +482,14 @@ function loadInitialData() {
 
    IWMS_point.setParams({
      CQL_FILTER: cqlFilter,
-     // styles: "point", // Assuming "pointhighlight" is a predefined style
    });
 
-   // console.log("addded")
    IWMS_point.addTo(map).bringToFront();
 
    IWMS_line.setParams({
      CQL_FILTER: cqlFilter,
-     // styles: "line",
    });
-   // console.log("addded")
+ 
    IWMS_line.addTo(map).bringToFront();
 
    IWMS_polygon.setParams({
@@ -1693,49 +1484,6 @@ var openTable = $(document).ready(function () {
 //close 
 
 
-=======
-    <script >
-
-document.addEventListener("DOMContentLoaded", function() {
-    var map = L.map("map", {
-  center:[18.52, 73.89],
-  zoom: 11,
-  minZoom:10,
-  maxZoom:19,
-  zoomSnap:0.5,
-  zoomDelta:0.5,
-});
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-    }).addTo(map);
-
-    // Sample marker data
-    var markers = [
-        [31.5145, 74.3560],
-        [31.5295, 74.3700],
-        [31.5204, 74.3587]
-    ];
-
-    markers.forEach(function(location) {
-        L.marker(location).addTo(map);
-    });
-
-    var acc = document.getElementsByClassName("accordion-header");
-    for (var i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        });
-    }
-});
-
->>>>>>> c7aae853c57e1ae07a2a3dda09d87db2bc49b2ef
     </script>
 </body>
 </html>

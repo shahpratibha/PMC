@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     overflow: hidden;
-    padding: 10px;
+    /* padding: 10px; */
     background-color: #e8f5e9;
 }
 
@@ -46,7 +46,7 @@ body {
 
 #map {
     width: 98vw;
-    height: 95vh;
+    height: 100vh;
     border: 1px solid #ccc;
     border-radius: 10px;
     transition: width 0.3s ease;
@@ -54,18 +54,11 @@ body {
 
 
 .tablestats {
-    /* border: 2px solid darkblue; */
-    /* position: fixed; */
+ 
     color: #04c;
     font-size: 53%;
-    /* background-color: rgba(173, 216, 230, 0.5); */
-    /* background-color: #c8d7ab70; */
     font-weight: bold;
-    /* top: 12%;
-    right: 15%; */
     padding: 3px;
-    /* border-radius: 5px 5px;/ */
-    /* z-index: 9999; */
     text-shadow: black;
     text-transform: uppercase;
   }
@@ -85,7 +78,7 @@ body {
 }
 
 .showCount{
-    background-color: #e8f5e9;
+    background-color: #9393d633;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -127,7 +120,7 @@ body {
     background-color: white;
     color: darkblue;
     border: 2px solid darkblue;
-    padding: 10px;
+    padding: 8px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -142,3 +135,23 @@ body {
     color: darkblue;
   }
   
+  /* table */
+
+  #openTableBtn {
+    position: absolute;
+    z-index: 9999;
+    top: 24%;
+    width: auto;
+    padding: 6px;
+    /* height: 5.5%; */
+    right: 10px;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #383899;
+  }
+
+  .tablebtn {
+    /* padding: 5px; */
+    width: 20px;
+    height: 20px;
+  }
