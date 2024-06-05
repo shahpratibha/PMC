@@ -537,7 +537,7 @@ console.log(joinedWardNames);
       // Redirect to the new URL with query parameters
       window.location.href = baseURL + queryString;
   }
-  else if (department.department_name ==="Project") {
+  else if (department.department_name ==="Project Work") {
               
             
     const baseURL = "project.html";
@@ -548,7 +548,7 @@ console.log(joinedWardNames);
     // Redirect to the new URL with query parameters
    window.location.href = baseURL + queryString;
 }    
-else if (department.department_name == 'Solid waste Management') {
+else if (department.department_name === 'Solid waste Management') {
               
             
   const baseURL = "solidWasteManagement.html";
@@ -558,7 +558,8 @@ else if (department.department_name == 'Solid waste Management') {
 
   // Redirect to the new URL with query parameters
   window.location.href = baseURL + queryString;
-}   else if (department.department_name === "Garden ") {
+}   
+else if (department.department_name === "Garden Horticulture") {
               
             
   const baseURL = "garden.html";
