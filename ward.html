@@ -373,9 +373,9 @@
           // Check if there is a selected feature
 
           toggleSelectLayerButton(true);
-
+                console.log(editableLayers.getLayers());
           if (editableLayers.getLayers().length > 0) {
-            selectedFeature = editableLayers.getLayers()[1];
+            selectedFeature = editableLayers.getLayers()[0];
 
             // Get the coordinates of the right-clicked point
             var latlng = e.latlng;
@@ -398,8 +398,12 @@
             document
               .getElementById("saveDataButton")
               .addEventListener("click", function () {
+                
+                console.log(selectedFeature);
                 var featureData = selectedFeature.toGeoJSON();
 
+
+              
                 var featureId = featureData.features[0].id;
                 let formDataFromStorage;
                 let formDataTemp = localStorage.getItem(
