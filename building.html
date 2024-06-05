@@ -580,29 +580,7 @@ let centroid = turf.centroid(selectCoordinatesData[0]);
 			return button;
 		};
 
-		// code for image on perform button
-
-		//     editControl.onAdd = function (map) {
-		//   var button = L.DomUtil.create('button', 'custom-button');
-		//   var img = document.createElement('img');
-		//   img.src = './png/003-selection.png';
-		//   img.style.width = '25px'; // Example width
-		//   img.style.height = '25px'; // Example height
-		//   button.appendChild(img);
-		//   button.innerHTML += ' Perform Task';
-		//   button.onclick = function () {
-		//     if (button.innerHTML.includes('Perform Task')) {
-		//       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
-		//       performTask();
-		//     } else {
-		//       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
-		//     }
-		//   };
-		//   return button;
-		// };
-
-		// Add the control to the map
-
+		
 		editControl.addTo(map);
 
 		// /////////////////////////////////////////// 14-03-2024 for adding the selection on the map ////////////////////////////////////////
@@ -620,26 +598,6 @@ let centroid = turf.centroid(selectCoordinatesData[0]);
 
 				// Customize the zoom control position
 		map.zoomControl.setPosition('bottomright');
-
-
-
-		
-
-var northArrowControl = L.Control.extend({
-  options: {
-    position: "bottomleft",
-  },
-
-  onAdd: function (map) {
-    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
-    container.innerHTML =
-      // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" alt="" style="width: 30px;  height:50px; border:2px solid darkblue; background:white; border-radius:5px;">';
-
-    return container;
-  },
-});
-map.addControl(new northArrowControl());
 
 	</script>
 </body>

@@ -254,6 +254,259 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
 
+
+// north image & scale
+// You can also customize the scale options
+L.control.scale().addTo(map);
+
+var northArrowControl = L.Control.extend({
+  options: {
+    position: "bottomleft",
+  },
+
+  onAdd: function (map) {
+    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+    container.innerHTML =
+      // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
+      '<img  src="png/002-cardinal-point.png" alt="" style="width: 30px;  height:50px; border:2px solid darkblue; background:white; border-radius:5px;">';
+
+    return container;
+  },
+});
+map.addControl(new northArrowControl());
+
+
+
+
+// Now continue with your remaining JavaScript code...
+// GeoServer URL
+var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
+
+var workspace = "Road";
+
+// Variable to keep track of legend visibility
+var legendVisible = true;
+var processedLayers = [];
+// Add the WMS Legend control to the map
+var legendControl = L.control({ position: "topright" });
+
+legendControl.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Function to fetch and populate the legend
+  function updateLegend() {
+    // Clear the existing legend
+    div.innerHTML = '';
+
+    // Fetch capabilities to get all layers in the 'pmc' workspace
+    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
+      .then((response) => response.text())
+      .then((data) => {
+        // Parse capabilities XML response
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(data, "text/xml");
+
+        // Extract layer names and legend URLs for layers in the 'pmc' workspace
+        var layers = xml.querySelectorAll('Layer[queryable="1"]');
+        
+
+        layers.forEach((layer) => {
+          var layerName = layer.querySelector("Name").textContent;
+          var layerWorkspace = layerName.split(":")[0]; // Extract workspace from layer name
+          if (layerWorkspace === workspace && !processedLayers.includes(layerName)) {
+            var legendUrl =
+              geoserverUrl +
+              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+              layerName;
+            var layerParts = layerName.split(":"); // Split layer name by ":"
+            var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
+            div.innerHTML +=
+              "<p><strong>" +
+              layerDisplayName + // Use layerDisplayName instead of layerName
+              "</strong></p>" +
+              '<img src="' +
+              legendUrl +
+              '" alt="' +
+              layerDisplayName + // Use layerDisplayName instead of layerName
+              ' legend"><br>';
+            processedLayers.push(layerName); // Add processed layer to the list
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching capabilities:", error);
+      });
+  }
+
+  // Initially update the legend
+  updateLegend();
+
+  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+  div.style.position = "fixed";
+  div.style.bottom = "0";
+  div.style.right = "0";
+  div.style.height = "40vh";
+  div.style.width = "300px";
+  div.style.overflowY = "auto";
+  div.style.scrollbarWidth = "thin";
+  div.style.backgroundColor = "white";
+  div.style.border = "2px solid darkblue";
+  div.style.borderRadius = "10px";
+  div.style.padding = "10px";
+  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
+
+  // Toggle legend visibility function
+  function toggleLegend() {
+    if (legendVisible) {
+      div.style.height = "0"; // Minimize the legend
+      legendVisible = false;
+    } else {
+      div.style.height = "40vh"; // Maximize the legend
+      legendVisible = true;
+    }
+  }
+
+  // Add event listener to the legend control
+  div.addEventListener('click', toggleLegend);
+
+  return div;
+};
+// -----------------------------------------------------
+// Add collapsible button
+var collapseButton = L.control({ position: "topright" });
+
+collapseButton.onAdd = function (map) {
+  var button = L.DomUtil.create("button", "collapse-button");
+  button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>"; // Initial text
+
+  // Apply styling
+  button.style.backgroundColor = "white";
+  button.style.border = "2px solid darkblue";
+  button.style.width = "35px";
+  button.style.height = "35px";
+  button.style.borderRadius = "5px";
+  button.style.color = "black";
+  button.style.padding = "10px";
+  button.style.textAlign = "center";
+  button.style.textDecoration = "none";
+  button.style.display = "block";
+  button.style.margin = "10px";
+  button.style.cursor = "pointer";
+  button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
+
+  // Toggle legend visibility when the button is clicked
+  button.onclick = function () {
+    var legendDiv = document.querySelector(".info.legend");
+    if (
+      legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+
+
+      legendDiv.style.display = "block";
+      legendDiv.style.height = "40vh";
+      legendDiv.style.width = "200px";
+      legendDiv.style.top ="12%";
+      legendDiv.style.right ="2%";
+      legendDiv.style.scrollbarWidth = "thin";
+      legendDiv.style.scrollbarColor =  "#163140 white";
+      // legendDiv.style.borderRadius= "20px";
+      legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
+      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = true;
+    } else {
+      legendDiv.style.display = "none";
+      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+      button.style.backgroundColor = "white"; // Change color to indicate action
+      legendVisible = false;
+    }
+  };
+
+  return button;
+};
+
+collapseButton.addTo(map);
+
+// Create a legend control
+var legend = L.control({ position: "bottomright" });
+
+legend.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "info legend");
+
+  // Initially hide the legend content
+  div.style.display = "none";
+
+  // Create a button to toggle the visibility of the legend content
+  var toggleButton = L.DomUtil.create("button", "legend-toggle");
+  toggleButton.innerHTML = "";
+  toggleButton.style.backgroundColor = "transparent";
+
+  toggleButton.onclick = function () {
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  };
+  div.appendChild(toggleButton);
+
+  // Fetch capabilities to get all layers in the 'pmc' workspace
+  fetch(
+    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+  )
+    .then((response) => response.text())
+    .then((data) => {
+      // Parse capabilities XML response
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(data, "text/xml");
+
+      // Extract layer names and legend URLs for layers in the 'pmc' workspace
+      var layers = xml.querySelectorAll('Layer[queryable="1"]');
+      layers.forEach(function (layer) {
+        var layerName = layer.querySelector("Name").textContent;
+        if (layerName.startsWith("Road:")) {
+          var legendUrl =
+            this.geoserverUrl +
+            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+            layerName;
+          var layerParts = layerName.split(":"); // Split layer name by ":"
+          var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
+          div.innerHTML +=
+            "<p><strong>" +
+            layerDisplayName +
+            "</strong></p>" +
+            '<img src="' +
+            legendUrl +
+            '" alt="' +
+            layerDisplayName +
+            ' legend"><br>';
+        }
+      });
+
+      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
+      div.style.position = "fixed";
+      div.style.bottom = "0";
+      div.style.right = "0";
+      div.style.height = "60vh";
+      div.style.width = "300px";
+      div.style.overflowY = "auto";
+      div.style.scrollbarWidth = "thin";
+      div.style.backgroundColor = "white";
+      div.style.border = "2px solid darkblue";
+      // div.style.borderRadius = "10px";
+      div.style.padding = "10px";
+    })
+    .catch((error) => {
+      console.error("Error fetching capabilities:", error);
+    });
+
+  return div;
+};
+
+legend.addTo(map);
+
+// ---------------
+
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -552,11 +805,7 @@ if (workType == "New") {
     controlUI.title = 'Edit features';
     controlUI.href = '#';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-    // controlUI.style.fontSize='18px';
-    // controlUI.style.position='absolute';
-    // controlUI.style.top='60px';
-    // controlUI.style.border='2px solid darkblue';
-    // controlUI.style.borderRadius='5px'
+    
     controlUI.style.display = 'none'
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
@@ -951,19 +1200,6 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
 
 
-// for vertex mapping
-
-
-// Example line coordinates
-// var lineCoordinates = [
-//   [51.505, -0.09],
-//   [51.51, -0.1],
-//   [51.515, -0.09]
-// ];
-
-// // Example point
-// var point = L.latLng(51.513, -0.095);
-
 // Function to calculate distance between two points
 function closestVertex(point, lineCoordinates) {
   console.log(lineCoordinates)
@@ -1221,13 +1457,6 @@ map.on("draw:editvertex", function (e) {
 });
 
 
-// function checkIfInsideWard(latlng) {
-//   var point = turf.point([latlng.lng, latlng.lat]);
-//   var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
-//   console.log(polygon);
-//   return turf.booleanPointInPolygon(point, wardBoundary.features);
-// }
-
 
 function checkIfInsideWard(latlng) {
   var point = turf.point([latlng.lng, latlng.lat]);
@@ -1334,10 +1563,7 @@ function handleMouseMove(event) {
         } else {
           const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
           console.log(turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }));
-          // if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
-          //   currentPolyline.addLatLng(result.marker);
-          //   currentPolyline.redraw();
-          // }
+         
           currentPolyline.addLatLng(result.marker);
           currentPolyline.redraw();
         }
@@ -1483,13 +1709,6 @@ map.on("draw:created", function (e) {
 
     drawnItems.addLayer(layer);
 
-    // layer.on('click', function () {
-    //   enableEditing(layer);
-    // });
-
-    // layer.on('click', function() {
-    //   selectedPolylineId = layer._leaflet_id;
-    // });
 
 
     if (e.layerType === "polyline") {
@@ -1810,17 +2029,7 @@ function Savedata(lastDrawnPolylineId) {
   formData.append('user_id', user_id);
   formData.append('length', area);
   formData.append('width', width);
-  // If you have a base64 string for the image, you can add it as a Blob
-  // var base64Image = 'data:image/jpeg;base64,<base64string>';
-  // var byteString = atob(base64Image.split(',')[1]);
-  // var mimeString = base64Image.split(',')[0].split(':')[1].split(';')[0];
-  // var ab = new ArrayBuffer(byteString.length);
-  // var ia = new Uint8Array(ab);
-  // for (var i = 0; i < byteString.length; i++) {
-  //     ia[i] = byteString.charCodeAt(i);
-  // }
-  // var blob = new Blob([ab], { type: mimeString });
-  // formData.append('gis_snap', blob, 'snapshot.jpg');
+
   
   $.ajax({
       type: "POST",
@@ -2191,288 +2400,5 @@ function getWardNameById(wardId, wardData) {
     return "";
   }
 }
-// You can also customize the scale options
-L.control.scale().addTo(map);
-
-var northArrowControl = L.Control.extend({
-  options: {
-    position: "bottomleft",
-  },
-
-  onAdd: function (map) {
-    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
-    container.innerHTML =
-      // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" alt="" style="width: 30px;  height:50px; border:2px solid darkblue; background:white; border-radius:5px;">';
-
-    return container;
-  },
-});
-map.addControl(new northArrowControl());
 
 
-
-// map.on("contextmenu", (e) => {
-//   let size = map.getSize();
-//   let bbox = map.getBounds().toBBoxString();
-//   let layer = "pmc:Data";
-//   let style = "pmc:Data";
-//   let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-//     e.containerPoint.x
-//   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-//     size.x
-//   }&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-//   if (urrr) {
-//     fetch(urrr)
-//       .then((response) => response.json())
-//       .then((html) => {
-//         var htmldata = html.features[0].properties;
-//         let keys = Object.keys(htmldata);
-//         let values = Object.values(htmldata);
-//         let txtk1 = "";
-//         var xx = 0;
-//         for (let gb in keys) {
-//           txtk1 +=
-//             "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
-//           xx += 1;
-//         }
-
-//         let detaildata1 =
-//           "<div style='max-height: 350px; max-width:200px;'><table  style='width:80%;' class='popup-table' >" +
-//           txtk1 +
-//           "</td></tr><tr><td>Co-Ordinates</td><td>" +
-//           e.latlng +
-//           "</td></tr></table></div>";
-
-//         L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-//       });
-//   }
-// });
-
-// Now continue with your remaining JavaScript code...
-// GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
-
-var workspace = "Road";
-
-// Variable to keep track of legend visibility
-var legendVisible = true;
-var processedLayers = [];
-// Add the WMS Legend control to the map
-var legendControl = L.control({ position: "topright" });
-
-legendControl.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
-
-  // Function to fetch and populate the legend
-  function updateLegend() {
-    // Clear the existing legend
-    div.innerHTML = '';
-
-    // Fetch capabilities to get all layers in the 'pmc' workspace
-    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
-      .then((response) => response.text())
-      .then((data) => {
-        // Parse capabilities XML response
-        var parser = new DOMParser();
-        var xml = parser.parseFromString(data, "text/xml");
-
-        // Extract layer names and legend URLs for layers in the 'pmc' workspace
-        var layers = xml.querySelectorAll('Layer[queryable="1"]');
-        
-
-        layers.forEach((layer) => {
-          var layerName = layer.querySelector("Name").textContent;
-          var layerWorkspace = layerName.split(":")[0]; // Extract workspace from layer name
-          if (layerWorkspace === workspace && !processedLayers.includes(layerName)) {
-            var legendUrl =
-              geoserverUrl +
-              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-              layerName;
-            var layerParts = layerName.split(":"); // Split layer name by ":"
-            var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
-            div.innerHTML +=
-              "<p><strong>" +
-              layerDisplayName + // Use layerDisplayName instead of layerName
-              "</strong></p>" +
-              '<img src="' +
-              legendUrl +
-              '" alt="' +
-              layerDisplayName + // Use layerDisplayName instead of layerName
-              ' legend"><br>';
-            processedLayers.push(layerName); // Add processed layer to the list
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching capabilities:", error);
-      });
-  }
-
-  // Initially update the legend
-  updateLegend();
-
-  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-  div.style.position = "fixed";
-  div.style.bottom = "0";
-  div.style.right = "0";
-  div.style.height = "40vh";
-  div.style.width = "300px";
-  div.style.overflowY = "auto";
-  div.style.scrollbarWidth = "thin";
-  div.style.backgroundColor = "white";
-  div.style.border = "2px solid darkblue";
-  div.style.borderRadius = "10px";
-  div.style.padding = "10px";
-  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
-
-  // Toggle legend visibility function
-  function toggleLegend() {
-    if (legendVisible) {
-      div.style.height = "0"; // Minimize the legend
-      legendVisible = false;
-    } else {
-      div.style.height = "40vh"; // Maximize the legend
-      legendVisible = true;
-    }
-  }
-
-  // Add event listener to the legend control
-  div.addEventListener('click', toggleLegend);
-
-  return div;
-};
-// -----------------------------------------------------
-// Add collapsible button
-var collapseButton = L.control({ position: "topright" });
-
-collapseButton.onAdd = function (map) {
-  var button = L.DomUtil.create("button", "collapse-button");
-  button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>"; // Initial text
-
-  // Apply styling
-  button.style.backgroundColor = "white";
-  button.style.border = "2px solid darkblue";
-  button.style.width = "35px";
-  button.style.height = "35px";
-  button.style.borderRadius = "5px";
-  button.style.color = "black";
-  button.style.padding = "10px";
-  button.style.textAlign = "center";
-  button.style.textDecoration = "none";
-  button.style.display = "block";
-  button.style.margin = "10px";
-  button.style.cursor = "pointer";
-  button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
-
-  // Toggle legend visibility when the button is clicked
-  button.onclick = function () {
-    var legendDiv = document.querySelector(".info.legend");
-    if (
-      legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
-
-
-      legendDiv.style.display = "block";
-      legendDiv.style.height = "40vh";
-      legendDiv.style.width = "200px";
-      legendDiv.style.top ="12%";
-      legendDiv.style.right ="2%";
-      legendDiv.style.scrollbarWidth = "thin";
-      legendDiv.style.scrollbarColor =  "#163140 white";
-      // legendDiv.style.borderRadius= "20px";
-      legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
-      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-
-      button.style.backgroundColor = "white"; // Change color to indicate action
-      legendVisible = true;
-    } else {
-      legendDiv.style.display = "none";
-      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-      button.style.backgroundColor = "white"; // Change color to indicate action
-      legendVisible = false;
-    }
-  };
-
-  return button;
-};
-
-collapseButton.addTo(map);
-
-// Create a legend control
-var legend = L.control({ position: "bottomright" });
-
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
-
-  // Initially hide the legend content
-  div.style.display = "none";
-
-  // Create a button to toggle the visibility of the legend content
-  var toggleButton = L.DomUtil.create("button", "legend-toggle");
-  toggleButton.innerHTML = "";
-  toggleButton.style.backgroundColor = "transparent";
-
-  toggleButton.onclick = function () {
-    if (div.style.display === "none") {
-      div.style.display = "block";
-    } else {
-      div.style.display = "none";
-    }
-  };
-  div.appendChild(toggleButton);
-
-  // Fetch capabilities to get all layers in the 'pmc' workspace
-  fetch(
-    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
-  )
-    .then((response) => response.text())
-    .then((data) => {
-      // Parse capabilities XML response
-      var parser = new DOMParser();
-      var xml = parser.parseFromString(data, "text/xml");
-
-      // Extract layer names and legend URLs for layers in the 'pmc' workspace
-      var layers = xml.querySelectorAll('Layer[queryable="1"]');
-      layers.forEach(function (layer) {
-        var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("Road:")) {
-          var legendUrl =
-            this.geoserverUrl +
-            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-            layerName;
-          var layerParts = layerName.split(":"); // Split layer name by ":"
-          var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
-          div.innerHTML +=
-            "<p><strong>" +
-            layerDisplayName +
-            "</strong></p>" +
-            '<img src="' +
-            legendUrl +
-            '" alt="' +
-            layerDisplayName +
-            ' legend"><br>';
-        }
-      });
-
-      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-      div.style.position = "fixed";
-      div.style.bottom = "0";
-      div.style.right = "0";
-      div.style.height = "60vh";
-      div.style.width = "300px";
-      div.style.overflowY = "auto";
-      div.style.scrollbarWidth = "thin";
-      div.style.backgroundColor = "white";
-      div.style.border = "2px solid darkblue";
-      // div.style.borderRadius = "10px";
-      div.style.padding = "10px";
-    })
-    .catch((error) => {
-      console.error("Error fetching capabilities:", error);
-    });
-
-  return div;
-};
-
-legend.addTo(map);
