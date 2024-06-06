@@ -277,202 +277,381 @@
 
         editableLayers.on("contextmenu", function (e) {
           // Check if there is a selected feature
+// --------------------------------------
+toggleSelectLayerButton(true);
 
-          toggleSelectLayerButton(true);
 
-          if (editableLayers.getLayers().length > 0) {
-            selectedFeature = editableLayers.getLayers()[1];
+if (editableLayers.getLayers().length > 0) {
+  selectedFeature = editableLayers.getLayers()[1];
 
-            // Get the coordinates of the right-clicked point
-            var latlng = e.latlng;
-            var popupContent = "<h5>Selected Feature</h5>";
+  // Get the coordinates of the right-clicked point
+  var latlng = e.latlng;
+  var popupContent = "<h5>Selected Feature</h5>";
 
-            if (localStorage.getItem("conceptual_form_data_temp")) {
-              const formDataFromStorage = JSON.parse(
-                localStorage.getItem("conceptual_form_data_temp")
-              );
+  if (localStorage.getItem("conceptual_form_data_temp")) {
+    const formDataFromStorage = JSON.parse(
+      localStorage.getItem("conceptual_form_data_temp")
+    );
 
-              $("#table-container").show();
-              console.log(formDataFromStorage);
-              let contentData = "<tr>";
-              for (const property in formDataFromStorage) {
-                contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-              }
-              contentData += "</tr>";
-              $("#workTableData").html(contentData);
-            }
-            document
-              .getElementById("saveDataButton")
-              .addEventListener("click", function () {
-                var featureData = selectedFeature.toGeoJSON();
 
-                var featureId = featureData.features[0].id;
-                let formDataFromStorage;
-                let formDataTemp = localStorage.getItem(
-                  "conceptual_form_data_temp"
-                );
-                if (formDataTemp) {
-                  localStorage.setItem("conceptual_form_data", formDataTemp);
-                  formDataFromStorage = JSON.parse(formDataTemp);
-                }
 
-                var roadLength =
-                  formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Length")
-                    ? formDataFromStorage.Length
-                    : 10;
+    $('#table-container').show();
 
-                var bufferWidth =
-                  formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Width")
-                    ? formDataFromStorage.Width
-                    : 20;
+let contentData = '<tr>';
+for (const property in formDataFromStorage) {
+contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+}
+contentData += '</tr>';
+$('#workTableData').html(contentData);
 
-                let selectCoordinatesData = featureData.features;
-                localStorage.setItem(
-                  "selectCoordinatesData",
-                  JSON.stringify(selectCoordinatesData)
-                );
 
-                var lastInsertedId = localStorage.getItem("lastInsertedId");
+  }
+  document
+    .getElementById("saveDataButton")
+    .addEventListener("click", function () {
+      var featureData = selectedFeature.toGeoJSON();
 
-                var payload = JSON.stringify({
-                  geoJSON: JSON.stringify(featureData),
-                  roadLength: roadLength,
-                  bufferWidth: bufferWidth,
-                  gis_id: lastInsertedId,
-                  department: department,
-                  selectCoordinatesData: selectCoordinatesData,
-                  geometryType:
-                    selectCoordinatesData[selectCoordinatesData.length - 1]
-                      .geometry.type,
-                });
+      var featureId = featureData.features[0].id;
+      let formDataFromStorage;
+      let formDataTemp = localStorage.getItem(
+        "conceptual_form_data_temp"
+      );
+      if (formDataTemp) {
+        localStorage.setItem("conceptual_form_data", formDataTemp);
+        formDataFromStorage = JSON.parse(formDataTemp);
+      }
 
-                $.ajax({
-                  type: "POST",
-                  url: "APIS/gis_update.php",
-                  data: payload,
-                  contentType: "application/json",
-                  success: function (response) {
-                    Swal.fire({
-                      position: "center",
-                      icon: "success",
-                      title: "Success",
-                      text: "Saved Successfully",
-                      showConfirmButton: false,
-                      showCloseButton: true,
-                      customClass: {
-                        popup: "custom-modal-class",
-                        icon: "custom-icon-class",
-                        title: "custom-title-class",
-                        content: "custom-text-class",
-                        closeButton: "custom-close-button-class",
-                      },
-                      showClass: {
-                        popup: "swal2-show",
-                        backdrop: "swal2-backdrop-show",
-                        icon: "swal2-icon-show",
-                      },
-                      hideClass: {
-                        popup: "swal2-hide",
-                        backdrop: "swal2-backdrop-hide",
-                        icon: "swal2-icon-hide",
-                      },
-                      didOpen: () => {
-                        // Apply custom styles directly to the modal elements
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.width = "400px"; // Set your desired width
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.height = "250px"; // Set your desired height
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.transition = "all 0.5s ease";
-                        document.querySelector(
-                          ".custom-icon-class"
-                        ).style.fontSize = "10px"; // Set your desired icon size
-                        document.querySelector(
-                          ".custom-icon-class"
-                        ).style.transition = "all o.5s ease";
-                        document.querySelector(
-                          ".custom-title-class"
-                        ).style.fontSize = "1.5em"; // Set your desired title size
-                        document.querySelector(
-                          ".custom-text-class"
-                        ).style.fontSize = "1em"; // Set your desired text size
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.backgroundColor = "#f44336"; // Red background color
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.color = "white"; // White text color
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.borderRadius = "0"; // Rounded corners
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.padding = "5px"; // Padding around the close button
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.fontSize = "20px"; // Font size of the close button
-                      },
-                    });
+      var roadLength =
+        formDataFromStorage &&
+          formDataFromStorage.hasOwnProperty("Length")
+          ? formDataFromStorage.Length
+          : 10;
 
-                    setTimeout(() => {
-                      //  window.location.href = "geometry_page.html";
-                    }, 2100);
-                  },
-                  error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
-                  },
-                });
+      var bufferWidth =
+        formDataFromStorage &&
+          formDataFromStorage.hasOwnProperty("Width")
+          ? formDataFromStorage.Width
+          : 20;
 
-                console.log(selectCoordinatesData);
 
-                area = turf.area(selectCoordinatesData[0]);
-                var formData = new FormData();
-                formData.append("proj_id", "20698");
-                formData.append(
-                  "latitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][1]
-                );
-                formData.append(
-                  "longitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][0]
-                );
-                formData.append("polygon_area", 0);
-                formData.append("polygon_centroid", 0);
-                formData.append(
-                  "geometry",
-                  JSON.stringify(
-                    selectCoordinatesData[0].geometry.coordinates?.map(
-                      (coordinates) => coordinates.slice().reverse()
-                    )
-                  )
-                );
-                formData.append("road_no", "11");
-                formData.append("user_id", "5");
-                formData.append("length", area);
-                formData.append("width", width);
 
-                $.ajax({
-                  type: "POST",
-                  url: "https://iwms.punecorporation.org/api/gis-data",
-                  data: formData,
-                  processData: false,
-                  contentType: false,
-                  success: function (response) {
-                    console.log(response);
-                    window.location.href = response.data.redirect_Url;
-                  },
-                  error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
-                  },
-                });
-              });
-          }
-        });
+      let selectCoordinatesData = featureData.features;
+      localStorage.setItem(
+        "selectCoordinatesData",
+        JSON.stringify(selectCoordinatesData)
+      );
+
+      var lastInsertedId = localStorage.getItem("lastInsertedId");
+
+
+      var payload = JSON.stringify({
+        geoJSON: JSON.stringify(featureData),
+        roadLength: roadLength,
+        bufferWidth: bufferWidth,
+        gis_id: lastInsertedId,
+        department: department,
+        selectCoordinatesData: selectCoordinatesData,
+        geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
+      });
+
+      $.ajax({
+        type: "POST",
+        url: "APIS/gis_update.php",
+        data: payload,
+        contentType: "application/json",
+        success: function (response) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Success",
+            text: "Saved Successfully",
+            showConfirmButton: false,
+            showCloseButton: true,
+            customClass: {
+              popup: "custom-modal-class",
+              icon: "custom-icon-class",
+              title: "custom-title-class",
+              content: "custom-text-class",
+              closeButton: "custom-close-button-class",
+            },
+            showClass: {
+              popup: "swal2-show",
+              backdrop: "swal2-backdrop-show",
+              icon: "swal2-icon-show",
+            },
+            hideClass: {
+              popup: "swal2-hide",
+              backdrop: "swal2-backdrop-hide",
+              icon: "swal2-icon-hide",
+            },
+            didOpen: () => {
+              // Apply custom styles directly to the modal elements
+              document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+              document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+              document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
+              document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+              document.querySelector(".custom-icon-class").style.transition = "all o.5s ease";
+              document.querySelector(".custom-title-class").style.fontSize =
+                "1.5em"; // Set your desired title size
+              document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+              document.querySelector(
+                ".custom-close-button-class"
+              ).style.backgroundColor = "#f44336"; // Red background color
+              document.querySelector(".custom-close-button-class").style.color =
+                "white"; // White text color
+              document.querySelector(
+                ".custom-close-button-class"
+              ).style.borderRadius = "0"; // Rounded corners
+              document.querySelector(".custom-close-button-class").style.padding =
+                "5px"; // Padding around the close button
+              document.querySelector(".custom-close-button-class").style.fontSize =
+                "20px"; // Font size of the close button
+            },
+          });
+
+          setTimeout(() => {
+          //  window.location.href = "geometry_page.html";
+          }, 2100);
+        },
+        error: function (xhr, status, error) {
+          console.error("Save failed:", error);
+        },
+      });
+
+     
+   area = turf.area(selectCoordinatesData[0]);
+  var formData = new FormData();
+  formData.append('proj_id', worksAaApprovalId);
+  formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+  formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+  formData.append('polygon_area', 0);
+  formData.append('polygon_centroid', 0);
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('road_no', '11');
+  formData.append('user_id', '5');
+  formData.append('length', area);
+  formData.append('width', width);
+
+            $.ajax({
+      type: "POST",
+      url: "https://iwms.punecorporation.org/api/gis-data",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        window.location.href = response.data.redirect_Url;
+      },
+      error: function (xhr, status, error) {
+          console.error("Save failed:", error);
+      },
+  });
+
+    });
+
+    
+
+ 
+  
+}
+});
+
+
+// --------------------------------------
+        //   toggleSelectLayerButton(true);
+
+        //   if (editableLayers.getLayers().length > 0) {
+        //     selectedFeature = editableLayers.getLayers()[1];
+
+        //     // Get the coordinates of the right-clicked point
+        //     var latlng = e.latlng;
+        //     var popupContent = "<h5>Selected Feature</h5>";
+
+        //     if (localStorage.getItem("conceptual_form_data_temp")) {
+        //       const formDataFromStorage = JSON.parse(
+        //         localStorage.getItem("conceptual_form_data_temp")
+        //       );
+
+        //       $("#table-container").show();
+        //       console.log(formDataFromStorage);
+        //       let contentData = "<tr>";
+        //       for (const property in formDataFromStorage) {
+        //         contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        //       }
+        //       contentData += "</tr>";
+        //       $("#workTableData").html(contentData);
+        //     }
+        //     document
+        //       .getElementById("saveDataButton")
+        //       .addEventListener("click", function () {
+        //         var featureData = selectedFeature.toGeoJSON();
+
+        //         var featureId = featureData.features[0].id;
+        //         let formDataFromStorage;
+        //         let formDataTemp = localStorage.getItem(
+        //           "conceptual_form_data_temp"
+        //         );
+        //         if (formDataTemp) {
+        //           localStorage.setItem("conceptual_form_data", formDataTemp);
+        //           formDataFromStorage = JSON.parse(formDataTemp);
+        //         }
+
+        //         var roadLength =
+        //           formDataFromStorage &&
+        //           formDataFromStorage.hasOwnProperty("Length")
+        //             ? formDataFromStorage.Length
+        //             : 10;
+
+        //         var bufferWidth =
+        //           formDataFromStorage &&
+        //           formDataFromStorage.hasOwnProperty("Width")
+        //             ? formDataFromStorage.Width
+        //             : 20;
+
+        //         let selectCoordinatesData = featureData.features;
+        //         localStorage.setItem(
+        //           "selectCoordinatesData",
+        //           JSON.stringify(selectCoordinatesData)
+        //         );
+
+        //         var lastInsertedId = localStorage.getItem("lastInsertedId");
+
+        //         var payload = JSON.stringify({
+        //           geoJSON: JSON.stringify(featureData),
+        //           roadLength: roadLength,
+        //           bufferWidth: bufferWidth,
+        //           gis_id: lastInsertedId,
+        //           department: department,
+        //           selectCoordinatesData: selectCoordinatesData,
+        //           geometryType:
+        //             selectCoordinatesData[selectCoordinatesData.length - 1]
+        //               .geometry.type,
+        //         });
+
+        //         $.ajax({
+        //           type: "POST",
+        //           url: "APIS/gis_update.php",
+        //           data: payload,
+        //           contentType: "application/json",
+        //           success: function (response) {
+        //             Swal.fire({
+        //               position: "center",
+        //               icon: "success",
+        //               title: "Success",
+        //               text: "Saved Successfully",
+        //               showConfirmButton: false,
+        //               showCloseButton: true,
+        //               customClass: {
+        //                 popup: "custom-modal-class",
+        //                 icon: "custom-icon-class",
+        //                 title: "custom-title-class",
+        //                 content: "custom-text-class",
+        //                 closeButton: "custom-close-button-class",
+        //               },
+        //               showClass: {
+        //                 popup: "swal2-show",
+        //                 backdrop: "swal2-backdrop-show",
+        //                 icon: "swal2-icon-show",
+        //               },
+        //               hideClass: {
+        //                 popup: "swal2-hide",
+        //                 backdrop: "swal2-backdrop-hide",
+        //                 icon: "swal2-icon-hide",
+        //               },
+        //               didOpen: () => {
+        //                 // Apply custom styles directly to the modal elements
+        //                 document.querySelector(
+        //                   ".custom-modal-class"
+        //                 ).style.width = "400px"; // Set your desired width
+        //                 document.querySelector(
+        //                   ".custom-modal-class"
+        //                 ).style.height = "250px"; // Set your desired height
+        //                 document.querySelector(
+        //                   ".custom-modal-class"
+        //                 ).style.transition = "all 0.5s ease";
+        //                 document.querySelector(
+        //                   ".custom-icon-class"
+        //                 ).style.fontSize = "10px"; // Set your desired icon size
+        //                 document.querySelector(
+        //                   ".custom-icon-class"
+        //                 ).style.transition = "all o.5s ease";
+        //                 document.querySelector(
+        //                   ".custom-title-class"
+        //                 ).style.fontSize = "1.5em"; // Set your desired title size
+        //                 document.querySelector(
+        //                   ".custom-text-class"
+        //                 ).style.fontSize = "1em"; // Set your desired text size
+        //                 document.querySelector(
+        //                   ".custom-close-button-class"
+        //                 ).style.backgroundColor = "#f44336"; // Red background color
+        //                 document.querySelector(
+        //                   ".custom-close-button-class"
+        //                 ).style.color = "white"; // White text color
+        //                 document.querySelector(
+        //                   ".custom-close-button-class"
+        //                 ).style.borderRadius = "0"; // Rounded corners
+        //                 document.querySelector(
+        //                   ".custom-close-button-class"
+        //                 ).style.padding = "5px"; // Padding around the close button
+        //                 document.querySelector(
+        //                   ".custom-close-button-class"
+        //                 ).style.fontSize = "20px"; // Font size of the close button
+        //               },
+        //             });
+
+        //             setTimeout(() => {
+        //               //  window.location.href = "geometry_page.html";
+        //             }, 2100);
+        //           },
+        //           error: function (xhr, status, error) {
+        //             console.error("Save failed:", error);
+        //           },
+        //         });
+
+        //         console.log(selectCoordinatesData);
+
+        //         area = turf.area(selectCoordinatesData[0]);
+        //         var formData = new FormData();
+        //         formData.append("proj_id", "20698");
+        //         formData.append(
+        //           "latitude",
+        //           selectCoordinatesData[0].geometry.coordinates[0][1]
+        //         );
+        //         formData.append(
+        //           "longitude",
+        //           selectCoordinatesData[0].geometry.coordinates[0][0]
+        //         );
+        //         formData.append("polygon_area", 0);
+        //         formData.append("polygon_centroid", 0);
+        //         formData.append(
+        //           "geometry",
+        //           JSON.stringify(
+        //             selectCoordinatesData[0].geometry.coordinates?.map(
+        //               (coordinates) => coordinates.slice().reverse()
+        //             )
+        //           )
+        //         );
+        //         formData.append("road_no", "11");
+        //         formData.append("user_id", "5");
+        //         formData.append("length", area);
+        //         formData.append("width", width);
+
+        //         $.ajax({
+        //           type: "POST",
+        //           url: "https://iwms.punecorporation.org/api/gis-data",
+        //           data: formData,
+        //           processData: false,
+        //           contentType: false,
+        //           success: function (response) {
+        //             console.log(response);
+        //             window.location.href = response.data.redirect_Url;
+        //           },
+        //           error: function (xhr, status, error) {
+        //             console.error("Save failed:", error);
+        //           },
+        //         });
+        //       });
+        //   }
+        // });
 
         // Change the button text to "Finish"
         var button = document.querySelector(".custom-button");
