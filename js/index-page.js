@@ -559,9 +559,9 @@ else if (department.department_name === 'Solid waste Management') {
   // Redirect to the new URL with query parameters
   window.location.href = baseURL + queryString;
 }   
-else if (department.department_name === "Garden Horticulture") {
+else if (department.department_name === "Garden") {
               
-            
+             
   const baseURL = "garden.html";
 
   // Create the query string

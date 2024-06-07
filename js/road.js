@@ -572,7 +572,12 @@ searchControl.on("results", function (data) {
   for (var i = data.results.length - 1; i >= 0; i--) {
     results.addLayer(L.marker(data.results[i].latlng));
   }
+
+
 });
+
+
+
 
 //******** draw controls */
 

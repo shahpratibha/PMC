@@ -1,110 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PMC</title>
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css" />
- 
+
   <style>
-#saveDataButton {
-  border: 2px solid #2b13bb;
-  border-bottom: 2px solid #2b13bb;
-  border-top: 2px solid #2b13bb;
-  border-radius: 5px 5px 5px 5px;
-  background-color: white;
-  position: fixed;
-  color: black;
-  padding: 0px 5px;
-  display: none;
-  top: 75%; /* changed from 683px */
-  font-size: 19px;
-  height: 37px;
-  width: 37px;
-  left: 90%; /* changed from 865px */
-}
+    #saveDataButton {
+      border: 2px solid #2b13bb;
+      border-bottom: 2px solid #2b13bb;
+      border-top: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px;
+      background-color: white;
+      position: fixed;
+      color: black;
+      padding: 0px 5px;
+      display: none;
+      top: 92%;
+      /* changed from 683px */
+      font-size: 19px;
+      height: 37px;
+      width: 37px;
+      left: 53%;
+      /* changed from 865px */
+    }
 
-.delete-button {
-  border: 2px solid #2b13bb;
-  padding: 6px 7.3px;
-  font-size: 14px;
-  border-radius: 5px 5px 5px 5px;
-  display: block;
-  background-color: white;
-  color: black;
-  cursor: pointer;
-  left: 53%; /* changed from 513px */
-  position: absolute;
-  top: 53%; /* changed from 487px */
-  height: 37px;
-  width: 37px;
-  display: none;
-  border-top: 2px solid #2b13bb;
-}
+    .delete-button {
+      border: 2px solid #2b13bb;
+      padding: 6px 7.3px;
+      font-size: 14px;
+      border-radius: 5px 5px 5px 5px;
+      display: block;
+      background-color: white;
+      color: black;
+      cursor: pointer;
+      left: 53%;
+      /* changed from 513px */
+      position: absolute;
+      top: 53%;
+      /* changed from 487px */
+      height: 37px;
+      width: 37px;
+      display: none;
+      border-top: 2px solid #2b13bb;
+    }
 
-#deleteFeatureButton {
-  border: 2px solid #2b13bb;
-  border-top: 2px solid #2b13bb;
-  border-radius: 5px 5px 5px 5px;
-  background-color: white;
-  color: black;
-  padding: 3px 7px;
-  display: none;
-  position: fixed;
-  top: 75%; /* changed from 683px */
-  font-size: 15px;
-  height: 37px;
-  width: 37px;
-  left: 95%; /* changed from 908px */
-}
+    #deleteFeatureButton {
+      border: 2px solid #2b13bb;
+      border-top: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px;
+      background-color: white;
+      color: black;
+      padding: 3px 7px;
+      display: none;
+      position: fixed;
+      top: 92%;
+      /* changed from 683px */
+      font-size: 15px;
+      height: 37px;
+      width: 37px;
+      left: 60%;
+      /* changed from 908px */
+    }
 
-#editFeatureButton {
-  border: 2px solid #2b13bb;
-  border-radius: 5px 5px 5px 5px;
-  height: 37px;
-  width: 37px;
-  display: none;
-  position: fixed;
-  top: 75%; /* changed from 683px */
-  left: 85%; /* changed from 822px */
-  padding: 5px;
-  background: white;
-  border-bottom: 2px solid #2b13bb;
-}
+    #editFeatureButton {
+      border: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px;
+      height: 37px;
+      width: 37px;
+      display: none;
+      position: fixed;
+      top: 92%;
+      /* changed from 683px */
+      left: 56%;
+      /* changed from 822px */
+      padding: 5px;
+      background: white;
+      border-bottom: 2px solid #2b13bb;
+    }
 
-.leaflet-draw-draw-polyline {
-  top: 55%; /* changed from 478px */
-  position: absolute;
-  left: 70%; /* changed from 643px */
-  border: 2px solid #2b13bb !important;
-  border-bottom: 2px solid darkblue;
-  height: 37px !important;
-  width: 37px !important;
-  border-radius: 5px 5px 5px 5px !important;
-}
+    .leaflet-draw-draw-polyline {
+      top: 55%;
+      /* changed from 478px */
+      position: absolute;
+      left: 70%;
+      /* changed from 643px */
+      border: 2px solid #2b13bb !important;
+      border-bottom: 2px solid darkblue;
+      height: 37px !important;
+      width: 37px !important;
+      border-radius: 5px 5px 5px 5px !important;
+    }
 
-.leaflet-control-edit-interior {
-  font-size: 15px;
-  position: absolute !important;
-  height: 37px !important;
-  width: 37px !important;
-  top: 58%; /* changed from 501px */
-  border: 2px solid #2b13bb;
-  border-radius: 5px 5px 5px 5px !important;
-  left: 60%; /* changed from 555px */
-  border-bottom: 2px solid #2b13bb !important;
-}
+    .leaflet-control-edit-interior {
+      font-size: 15px;
+      position: absolute !important;
+      height: 37px !important;
+      width: 37px !important;
+      top: 58%;
+      /* changed from 501px */
+      border: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px !important;
+      left: 60%;
+      /* changed from 555px */
+      border-bottom: 2px solid #2b13bb !important;
+    }
 
-.leaflet-draw-toolbar a {
-  background-image: url(images/spritesheet.png);
-  background-image: linear-gradient(transparent, transparent), url(images/spritesheet.svg);
-  background-repeat: no-repeat;
-  background-size: 360px 36px !important;
-  background-clip: padding-box;
-}
+    .leaflet-draw-toolbar a {
+      background-image: url(images/spritesheet.png);
+      background-image: linear-gradient(transparent, transparent), url(images/spritesheet.svg);
+      background-repeat: no-repeat;
+      background-size: 360px 36px !important;
+      background-clip: padding-box;
+    }
   </style>
-  
+
 
 
   <!-- bootstrap -->
@@ -123,10 +136,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
     integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
@@ -143,7 +156,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
@@ -188,16 +201,26 @@
   <link rel="stylesheet" href="libs/leaflet-measure-master/leaflet-measure.css" />
 
   <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.3/src/leaflet.geometryutil.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geometryutil/0.9.3/leaflet.geometryutil.min.js"></script>
 
 
   <script src="libs/feat.js"></script>
 
-   
+  <!-- measuement -->
 
-<!-- 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.css" />
+
+
+  <!-- for measurement -->
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.js"></script>
+
+
+  <!-- 
   <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
   <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script> -->
 
@@ -212,7 +235,7 @@
   <p href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</p>
 
   <div>
-    <img src="png/pmcjpeg.png" alt="" class="logopng1" >
+    <img src="png/pmcjpeg.png" alt="" class="logopng1">
   </div>
 
 
@@ -226,7 +249,7 @@
     </table>
   </div>
 
- <script src="js/config.js"></script>
+  <script src="js/config.js"></script>
 
   <script src="js/road.js"></script>
   <!-- <script src="js/mainmodal/legend.js"></script> -->
@@ -235,25 +258,39 @@
   <script>
 
 
-function toggleSelectLayerButton(show) {
-  var saveBtn = document.getElementById('editFeatureButton');
-  var editBtn = document.getElementById('saveDataButton');
-  var deleteBtn = document.getElementById('deleteFeatureButton');
-  if (saveBtn  && editBtn ) {
-      saveBtn.style.display = show ? 'block' : 'none';
-      editBtn.style.display = show ? 'block' : 'none';
-      deleteBtn.style.display = show ? 'block' : 'none';
-  }
-}
+    var measureControl = new L.Control.Measure({
+      position: 'topright',
+      primaryLengthUnit: 'meters', // can be 'feet', 'meters', 'miles', 'kilometers'
+      secondaryLengthUnit: 'kilometers',
+      primaryAreaUnit: 'sqmeters', // can be 'acres', 'hectares', 'sqmeters', 'sqfeet'
+      secondaryAreaUnit: 'hectares',
+      activeColor: '#ABE67E', // Base color for map features while actively measuring
+      completedColor: '#C8F2BE' // Base color for permanent features generated from completed measure
+    });
+    map.addControl(measureControl);
 
 
 
-    
+
+    function toggleSelectLayerButton(show) {
+      var saveBtn = document.getElementById('editFeatureButton');
+      var editBtn = document.getElementById('saveDataButton');
+      var deleteBtn = document.getElementById('deleteFeatureButton');
+      if (saveBtn && editBtn) {
+        saveBtn.style.display = show ? 'block' : 'none';
+        editBtn.style.display = show ? 'block' : 'none';
+        deleteBtn.style.display = show ? 'block' : 'none';
+      }
+    }
+
+
+
+
     $(document).ready(function () {
-     
+
       var wardname = localStorage.getItem("wardname");
       console.log(wardname);
-    
+
       $("#searchInputDashboard").autocomplete({
         minLength: 3,
         source: function (request, response) {
@@ -308,17 +345,17 @@ function toggleSelectLayerButton(show) {
 
 
 
-   // var department = localStorage.getItem("department");
-    
+    // var department = localStorage.getItem("department");
+
     var editableLayers = new L.FeatureGroup().addTo(map);
-    var selectedFeature = null ;
+    var selectedFeature = null;
 
 
 
     function performTask() {
 
-    
-   
+
+
       map.on("click", function (e) {
         let size = map.getSize();
         let bbox = map.getBounds().toBBoxString();
@@ -356,33 +393,33 @@ function toggleSelectLayerButton(show) {
 
       function highlightFeature(featureData) {
         // Check if any features are present in the featureData
-            if (
-              !featureData ||
-              !featureData.features ||
-              featureData.features.length === 0
-            )
-              
-              // Clear existing editable layers
-              editableLayers.clearLayers();
+        if (
+          !featureData ||
+          !featureData.features ||
+          featureData.features.length === 0
+        )
 
-            // Get the first feature from the featureData
-            var feature = featureData.features[0];
+          // Clear existing editable layers
+          editableLayers.clearLayers();
 
-            var geojsonLayer = L.geoJSON(feature, {
-              style: {
-                color: "red",
-                weight: 3,
-                opacity: 1,
-                fillOpacity: 0.5,
-              },
-            });
+        // Get the first feature from the featureData
+        var feature = featureData.features[0];
 
-            editableLayers.addLayer(geojsonLayer);
+        var geojsonLayer = L.geoJSON(feature, {
+          style: {
+            color: "red",
+            weight: 3,
+            opacity: 1,
+            fillOpacity: 0.5,
+          },
+        });
 
-            if (editableLayers.getLayers().length > 0) {
-            
-              map.fitBounds(editableLayers.getBounds());
-            }
+        editableLayers.addLayer(geojsonLayer);
+
+        if (editableLayers.getLayers().length > 0) {
+
+          map.fitBounds(editableLayers.getBounds());
+        }
       }
 
       editableLayers.on("contextmenu", function (e) {
@@ -393,11 +430,11 @@ function toggleSelectLayerButton(show) {
 
         if (editableLayers.getLayers().length > 0) {
           selectedFeature = editableLayers.getLayers()[1];
-     
+
           // Get the coordinates of the right-clicked point
           var latlng = e.latlng;
           var popupContent = "<h5>Selected Feature</h5>";
-      
+
           if (localStorage.getItem("conceptual_form_data_temp")) {
             const formDataFromStorage = JSON.parse(
               localStorage.getItem("conceptual_form_data_temp")
@@ -406,13 +443,13 @@ function toggleSelectLayerButton(show) {
 
 
             $('#table-container').show();
-    console.log(formDataFromStorage);
-    let contentData = '<tr>';
-    for (const property in formDataFromStorage) {
-      contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-    }
-    contentData += '</tr>';
-    $('#workTableData').html(contentData);
+            console.log(formDataFromStorage);
+            let contentData = '<tr>';
+            for (const property in formDataFromStorage) {
+              contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+            }
+            contentData += '</tr>';
+            $('#workTableData').html(contentData);
 
 
           }
@@ -519,42 +556,42 @@ function toggleSelectLayerButton(show) {
                   });
 
                   setTimeout(() => {
-                  //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
+                    //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
                   }, 2100);
                 },
                 error: function (xhr, status, error) {
                   console.error("Save failed:", error);
                 },
               });
-             
-              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
-          console.log(selectCoordinatesData)
-            var formData = new FormData();
-            formData.append('proj_id', worksAaApprovalId);
-            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-            formData.append('polygon_area', 0);
-            formData.append('polygon_centroid', 0);
-            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-            formData.append('road_no', struct_no);
-            formData.append('user_id', user_id);
-            formData.append('length', area);
-            formData.append('width', width);
-          
-                      $.ajax({
+
+              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
+              console.log(selectCoordinatesData)
+              var formData = new FormData();
+              formData.append('proj_id', worksAaApprovalId);
+              formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+              formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+              formData.append('polygon_area', 0);
+              formData.append('polygon_centroid', 0);
+              formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+              formData.append('road_no', struct_no);
+              formData.append('user_id', user_id);
+              formData.append('length', area);
+              formData.append('width', width);
+
+              $.ajax({
                 type: "POST",
                 url: "https://iwms.punecorporation.org/api/gis-data",
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    console.log(response);
-                   window.location.href = response.data.redirect_Url;
+                  console.log(response);
+                  window.location.href = response.data.redirect_Url;
                 },
                 error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
+                  console.error("Save failed:", error);
                 },
-            });
+              });
 
             });
 
@@ -582,36 +619,96 @@ function toggleSelectLayerButton(show) {
     }
 
 
-    document
-            .getElementById("editFeatureButton")
-            .addEventListener("click", function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              selectedFeature.eachLayer(function (layer) {
-                if (layer.editing) {
-                  layer.editing.enable();
-                } else {
-                  layer.on("click", function () {
-                    if (this.editing) {
-                      this.editing.enable();
-                    }
-                  });
-                }
+    // document
+    //         .getElementById("editFeatureButton")
+    //         .addEventListener("click", function (event) {
+    //           event.preventDefault();
+    //           event.stopPropagation();
+    //           selectedFeature.eachLayer(function (layer) {
+    //             if (layer.editing) {
+    //               layer.editing.enable();
+    //             } else {
+    //               layer.on("click", function () {
+    //                 if (this.editing) {
+    //                   this.editing.enable();
+    //                 }
+    //               });
+    //             }
+    //           });
+    //         });
+
+
+    //  document.getElementById('deleteFeatureButton').addEventListener('click', function() {
+    //     if (!selectedFeature) {
+    //         alert('No feature selected!');
+    //         return;
+    //     }
+
+    //     editableLayers.removeLayer(selectedFeature);
+    //     selectedFeature = null;  
+
+    // });
+    // ----------------------
+    document.getElementById("editFeatureButton").addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      selectedFeature.eachLayer(function (layer) {
+        if (layer.editing) {
+          layer.editing.enable();
+          updatePopup(layer); // Initial update
+          layer.on('edit', function () {
+            updatePopup(layer);
+          });
+        } else {
+          layer.on("click", function () {
+            if (this.editing) {
+              this.editing.enable();
+              updatePopup(this); // Initial update
+              this.on('edit', function () {
+                updatePopup(this);
               });
-            });
+            }
+          });
+        }
+      });
+    });
 
-
- document.getElementById('deleteFeatureButton').addEventListener('click', function() {
-    if (!selectedFeature) {
+    document.getElementById('deleteFeatureButton').addEventListener('click', function () {
+      if (!selectedFeature) {
         alert('No feature selected!');
         return;
+      }
+
+      editableLayers.removeLayer(selectedFeature);
+      selectedFeature = null;
+    });
+
+    function updatePopup(layer) {
+      let content;
+      var coordinates = layer._latlngs[0]
+      var turfCoords = coordinates.map(function (coord) {
+        return [coord.lng, coord.lat];
+      });
+
+      if (layer instanceof L.Polyline) {
+        var line = turf.lineString(turfCoords);
+        var length = turf.length(line, { units: 'meters' });
+        content = length + "M"
+      } else if (layer instanceof L.Polygon) {
+        var polygon = turf.polygon([turfCoords]);   
+        var area = turf.area(polygon);
+        content = length + "SQM"
+      }
+
+      if (!layer._popup) {
+        layer.bindPopup(content);
+      } else {
+        layer.setPopupContent(content);
+      }
+      layer.openPopup();
     }
 
-    editableLayers.removeLayer(selectedFeature);
-    selectedFeature = null;  
-
-});
-
+    // ----------------------
 
 
 
@@ -710,11 +807,11 @@ function toggleSelectLayerButton(show) {
     // 
     // Customize the zoom control position
     map.zoomControl.setPosition('bottomright');
-   
-  
 
 
-    
+
+
+
 
   </script>
 </body>

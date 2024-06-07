@@ -1,318 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>PMC</title>
-	<link rel="icon" href="png/pmcjpeg.png" type="image/x-icon" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PMC</title>
+    <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon" />
 
-	<!-- External CSS -->
-	<link rel="stylesheet" href="css/geom.css" />
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/geom.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-	<link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-
-	<!-- External JavaScript -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-	<script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-	<script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
-	<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
-	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-	<!-- Leaflet Draw -->
-	<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+    <!-- External JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 </head>
-
 <body class="bg-light">
-	<img src="png/pmcjpeg.png" alt="" class="logopng1" />
-	<div id="content" style="width: 100%" class="container">
-		<div id="button-container" class=""></div>
+    <img src="png/pmcjpeg.png" alt="" class="logopng1" />
+    <div id="content" style="width: 100%" class="container">
+        <div id="button-container" class=""></div>
 
-		<section id="map-section" class="">
-			<!-- <h2>MARK AREA</h2> -->
+        <section id="map-section" class="">
+            <form class="mt-3" style="overflow: hidden">
+                <div style="margin: 0; float: left">
+                    <h5 class="text-secondary">Preview Map</h5>
+                </div>
+                <div style="float: right; margin-top: -40px; margin-left: 95%">
+                    <i class="fa-solid fa-print text-primary" id="generatePdfBtn" onclick="printPage()" style="font-size: 25px"></i>
+                </div>
+                <div id="map"></div>
+                <a class="geopulseaname" style="color: darkblue; position: absolute; z-index: 99999; bottom: 0.5%; right: 0; font-weight: bold; font-size: 10px;">@GeoPulse Analytics</a>
+                <div id="table-container">
+                    <table id="workTable" class="table table-bordered table-hover" style="width: 100% !important; font-size: 10px">
+                        <thead>
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="workTableData"></tbody>
+                    </table>
+                    <div id="pagination-controls" class="pagination">
+					
+					</div>
+					
+                </div>
+            </form>
+        </section>
+    </div>
 
-			<form class="mt-3" style="overflow: hidden">
-				<div style="margin: 0; float: left">
-					<h5 class="text-secondary">Preview Map</h5>
-				</div>
-				<div style="float: right; margin-top: -40px; margin-left: 95%">
-					<i class="fa-solid fa-print text-primary" id="generatePdfBtn" onclick="printPage()"
-						style="font-size: 25px"></i>
-				</div>
+    <script>
+        var map = L.map("map", {
+            center: [18.52, 73.89],
+            zoom: 8,
+            minZoom: 9,
+            maxZoom: 16,
+            boxZoom: true,
+            trackResize: true,
+            wheelPxPerZoomLevel: 40,
+            zoomAnimation: true,
+            dragging: true,
+            zoomControl: false,
+            scrollWheelZoom: true,
+            doubleClickZoom: false,
+            touchZoom: false
+        });
 
-				<div id="map"></div>
+        var googleSat = L.tileLayer("http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
+            maxZoom: 20,
+            subdomains: ["mt0", "mt1", "mt2", "mt3"]
+        });
 
-				<a class="geopulseaname" style="
-							color: darkblue;
-							position: absolute;
-							z-index: 99999;
-							bottom: 0.5%;
-							right: 0;
-							font-weight: bold;
-							/* background-color: rgba(173, 216, 230, 0.5); */
-							font-size: 10px;
-						">@GeoPulse Analytics</a>
+        var Esri_WorldImagery = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+            maxZoom: 20
+        });
 
-				<div id="table-container">
-					<table id="workTable" class="table table-bordered table-hover"
-						style="width: 100% !important; font-size: 10px">
-						<thead></thead>
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19
+        }).addTo(map);
 
-						<tbody id="workTableData"></tbody>
-					</table>
-				</div>
-			</form>
-		</section>
-	</div>
+        var IWMS_line = L.tileLayer.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+            layers: "IWMS_line",
+            format: "image/png",
+            transparent: true,
+            tiled: true,
+            version: "1.1.0",
+            opacity: 1
+        });
 
+        var IWMS_polygon = L.tileLayer.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+            layers: "IWMS_polygon",
+            format: "image/png",
+            transparent: true,
+            tiled: true,
+            version: "1.1.0",
+            opacity: 1
+        });
 
+        var IWMS_point = L.tileLayer.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+            layers: "IWMS_point",
+            format: "image/png",
+            transparent: true,
+            tiled: true,
+            version: "1.1.0",
+            opacity: 1
+        });
 
+        var WMSlayers = {
+            "Esri": Esri_WorldImagery,
+            "Satellite": googleSat,
+            "osm": osm,
+            "IWMS_line": IWMS_line,
+            "IWMS_polygon": IWMS_polygon,
+            "IWMS_point": IWMS_point
+        };
 
-	<script>
+        var control = new L.control.layers({}, WMSlayers).addTo(map);
+        control.setPosition('topright');
 
+        var highlightLayer;
 
-		// updated code with geoserver
+        $(document).ready(function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var villageName = urlParams.get('Work_ID');
+            var filter = "Work_ID = " + villageName;
 
+            console.log(villageName, "work id", filter);
+            FitbouCustomiseRevenue(filter);
 
-		var map, geojson;
-		// const API_URL = "https://iwmsgis.pmc.gov.in//geopulse/autodcr/";
-		// const API_URL = "http://localhost/Autodcr";
+            IWMS_line.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_line" }).addTo(map);
+            IWMS_polygon.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_polygon" }).addTo(map);
+            IWMS_point.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_points" }).addTo(map);
 
-		// Add Basemap
-		var map = L.map("map", {
-			center: [18.52, 73.89],
-			zoom: 8,
-			minZoom: 9,
-			maxZoom: 16,
-			boxZoom: true,
-			trackResize: true,
-			wheelPxPerZoomLevel: 40,
-			zoomAnimation: true,
-			dragging: false, // Disable dragging
-   			zoomControl: false,
-			scrollWheelZoom: true, // Disable scroll wheel zoom
-			doubleClickZoom: false, // Disable double-click zoom
-			touchZoom: false
-
-		});
-
-
-		// var map = L.map("map", {}).setView([18.52, 73.895], 12, L.CRS.EPSG4326);
-
-		var googleSat = L.tileLayer(
-			"http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-			{
-				maxZoom: 20,
-				subdomains: ["mt0", "mt1", "mt2", "mt3"],
-			}
-		);
-
-
-
-		var Esri_WorldImagery = L.tileLayer(
-			"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-			{
-				maxZoom: 20,
-			}
-		);
-		var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-			maxZoom: 19,
-		}).addTo(map);
-		var baseLayers = {};
-
-		var IWMS_line = L.tileLayer
-			.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
-				layers: "IWMS_line",
-				format: "image/png",
-				transparent: true,
-				tiled: true,
-				version: "1.1.0",
-				// attribution: "Revenue",
-				opacity: 1,
-			});
-		var IWMS_polygon = L.tileLayer
-			.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
-				layers: "IWMS_polygon",
-				format: "image/png",
-				transparent: true,
-				tiled: true,
-				version: "1.1.0",
-				// attribution: "Revenue",
-				opacity: 1,
-			});
-		var IWMS_point = L.tileLayer
-			.wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
-				layers: "IWMS_point",
-				format: "image/png",
-				transparent: true,
-				tiled: true,
-				version: "1.1.0",
-				// attribution: "Revenue",
-				opacity: 1,
-			});
-		// .addTo(map);
+            getdata(filter);
 
 
-		var WMSlayers = {
-			"Esri": Esri_WorldImagery,
-			"Satellite": googleSat,
-			osm:osm,
+			
 
-			IWMS_line: IWMS_line,
-			IWMS_polygon: IWMS_polygon,
-			IWMS_point: IWMS_point,
+            function getdata(filters) {
+                const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point"];
+                const promises = [];
+                const layerDetails = ["id", "Work_ID", "Name_of_Work", "Department", "Work_Type", "Project_Office", "zone_id", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "length_1", "width", "area", "geometry"];
 
-		};
-		var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
-		control.setPosition('topright');
+                layers.forEach(function (layerName) {
+                    const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+                        layerName +
+                        "&CQL_FILTER=" +
+                        filters +
+                        "&outputFormat=application/json";
 
-		$(document).ready(function () {
-			var urlParams = new URLSearchParams(window.location.search);
-			var villageName = urlParams.get('Work_ID');
-			filter = "Work_ID = " + villageName;
-			console.log(villageName, "work id", filter);
-			FitbouCustomiseRevenue(filter)
+                    $('#table-container').show();
 
-			IWMS_line.setParams({
-				CQL_FILTER: filter,
-				maxZoom: 19.5,
-				styles: "IWMS_line"
-			}).addTo(map);
-			IWMS_polygon.setParams({
-				CQL_FILTER: filter,
-				maxZoom: 19.5,
-				styles: "IWMS_polygon"
-			}).addTo(map);
-			IWMS_point.setParams({
-				CQL_FILTER: filter,
-				maxZoom: 19.5,
-				styles: "IWMS_points"
-			}).addTo(map);
+                    const promise = $.getJSON(urlm).then(function (data) {
+                        return data.features.map(feature => {
+                            const properties = feature.properties;
+                            let filteredData = {};
+                            layerDetails.forEach(key => {
+                                if (properties[key] !== undefined && properties[key] !== null) {
+                                    filteredData[key] = properties[key];
+                                }else  if (feature[key] !== undefined){
+									console.log("hhhhhhhhhhhhh",feature)
+									filteredData[key] = JSON.stringify(feature[key]);
+								}
+                            });
+                            filteredData.geometry = feature.geometry;
+                            return filteredData;
+                        });
+                    });
 
+                    promises.push(promise);
+                });
 
-			getdata(filter)
+                Promise.all(promises).then(function (results) {
+                    const flattenedResults = results.flat();
+                    paginateResults(flattenedResults);
+                }).catch(function (error) {
+                    console.error("An error occurred: ", error);
+                });
+            }
 
-			const layerDetails = ["Work_ID", "Name_of_Work", "Department", "Work_Type", "Project_Office", "zone_id", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number","length","width","area"];
-			let all_data = '';
+            function paginateResults(data) {
+                const itemsPerPage = 1;
+                let currentPage = 1;
+				console.log(data,"daraar")
 
-			function getdata(filters) {
-				const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point"];
-				const promises = [];
-
-				layers.forEach(function (layerName) {
-					const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-						layerName +
-						"&CQL_FILTER=" +
-						filters + 
-						"&outputFormat=application/json";
-
-					// console.log(urlm);
-					$('#table-container').show();
-
-					const promise = $.getJSON(urlm).then(function (data) {
-						// console.log(data, "data");
-						const htmldata = data.features[0]?.properties || {}; 
-						// console.log(htmldata, "htmldata");
-
-						let txtk1 = "";
-						for (let key of layerDetails) {
-							if (htmldata.hasOwnProperty(key) && htmldata[key] !== null) {
-								let value = htmldata[key];
-								txtk1 += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
-							}
-						}
-
-						return txtk1;
-					});
-
-					promises.push(promise);
-				});
-
-				Promise.all(promises).then(function (results) {
-					all_data = results.join(''); // Join all the HTML strings from the promises
-
-					const detaildata1 = "<div style='max-height: 350px; max-width: 250px;'><table style='width:110%;' class='popup-table'>" +
-						all_data
-						//  +
-						// "<tr><td>Co-Ordinates</td><td>" + "" + "</td></tr></table></div>"
-						;
-
-					// console.log(detaildata1, "detaildata1");
-					$('#workTableData').html(detaildata1);
-				}).catch(function (error) {
-					console.error("An error occurred: ", error);
-				});
-			}
+                function displayPage(page) {
+                    const tableBody = document.getElementById('workTableData');
+                    tableBody.innerHTML = '';
 
 
+                    if (data.length === 0) {
+                        const emptyMessage = document.createElement('tr');
+                        emptyMessage.className = 'empty-message';
+                        emptyMessage.innerHTML = '<td colspan="2">No data available.</td>';
+                        tableBody.appendChild(emptyMessage);
+                        return;
+                    }
+
+                    const start = (page - 1) * itemsPerPage;
+                    const item = data[start];
+
+                    for (const [key, value] of Object.entries(item)) {
+                        if (key !== "geometry") {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+                            tableBody.appendChild(row);
+                        }
+                    }
 
 
+					const paginationControlss = document.getElementById('pagination-controls');
+                    paginationControlss.innerHTML = '';
 
-		});
+                    highlightFeature(item.geometry);
+                    updatePagination(page);
+                }
 
-		function FitbouCustomiseRevenue(filter) {
-			const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point"];
-			let bounds = L.latLngBounds();
-			let pendingRequests = layers.length;
+                function updatePagination(page) {
+                    const paginationControls = document.getElementById('pagination-controls');
+                    paginationControls.innerHTML = '';
 
-			layers.forEach(function (layerName) {
-				const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-					layerName +
-					"&CQL_FILTER=" +
-					filter +
-					"&outputFormat=application/json";
+                    const totalPages = Math.ceil(data.length / itemsPerPage);
+					// let button1 = document.createElement('button');
+					// button1.textContent = "Zoom All";
+					// paginationControls.appendChild(button1);
+					// button1.addEventListener('click', () => {
+                    //         alert("heelo")
+							
+                    //     });
 
-				$.getJSON(urlm, function (data) {
-					const geojson = L.geoJson(data, {});
-					if (geojson && geojson.getBounds && geojson.getBounds().isValid()) {
-						bounds.extend(geojson.getBounds());
-					}
+                    for (let i = 1; i <= totalPages; i++) {
+                        const button = document.createElement('button');
+                        button.textContent = i;
+                        if (i === page) {
+                            button.style.fontWeight = 'bold';
+                        }
+                        button.addEventListener('click', () => {
+                            currentPage = i;
+                            displayPage(i);
+                        });
+                        paginationControls.appendChild(button);
+                    }
+					
+                }
 
-					pendingRequests--;
-					if (pendingRequests === 0 && bounds.isValid()) {
-						map.fitBounds(bounds);
-					}
-				});
-			});
-		}
+                function highlightFeature(geometry) {
+                    if (highlightLayer) {
+                        map.removeLayer(highlightLayer);
+                    }
+                    highlightLayer = L.geoJSON(geometry, {
+                        style: {
+                            color: '#0000FF',
+                            weight: 5,
+                            opacity: 0.65
+                        }
+                    }).addTo(map);
+                    // map.fitBounds(highlightLayer.getBounds());
+                }
+				function zoomAllFeatures(data) {
+                if (highlightLayer) {
+                    map.removeLayer(highlightLayer);
+                }
+                highlightLayer = L.geoJSON(data.map(item => item.geometry), {
+                    style: {
+                        color: '#ff7800',
+                        weight: 5,
+                        opacity: 0.65
+                    }
+                }).addTo(map);
+                map.fitBounds(highlightLayer.getBounds());
+            }
 
+                displayPage(currentPage);
+            }
+        });
 
+        function FitbouCustomiseRevenue(filter) {
+            const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point"];
+            let bounds = L.latLngBounds();
+            let pendingRequests = layers.length;
 
+            layers.forEach(function (layerName) {
+                const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+                    layerName +
+                    "&CQL_FILTER=" +
+                    filter +
+                    "&outputFormat=application/json";
 
+                $.getJSON(urlm, function (data) {
+                    const geojson = L.geoJson(data, {});
+                    if (geojson && geojson.getBounds && geojson.getBounds().isValid()) {
+                        bounds.extend(geojson.getBounds());
+                    }
 
+                    pendingRequests--;
+                    if (pendingRequests === 0 && bounds.isValid()) {
+                        map.fitBounds(bounds);
+                    }
+                });
+            });
+        }
 
-
-
-
-
-
-		// // updated code with geoserver
-		// $(function () {
-		// 	$('#table-container').draggable();
-		// });
-	</script>
-
-	<script>
-		function printPage() {
-			// Trigger the browser's print dialog
-			window.print();
-		}
-	</script>
+        function printPage() {
+            window.print();
+        }
+    </script>
 </body>
-
 </html>

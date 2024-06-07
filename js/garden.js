@@ -113,7 +113,19 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }).addTo(map);
 
-
+  var Garden= L.tileLayer.wms(
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+    {
+      layers: "Garden",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      opacity: 1,
+      maxZoom: 21,
+    }
+   ) .addTo(map);
+  
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
