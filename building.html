@@ -453,7 +453,6 @@ border-radius: 5px 5px 5px 5px !important;
 								console.error('Save failed:', error);
 							},
 						});
-console.log(selectCoordinatesData);
 
 let area = turf.area(selectCoordinatesData[0]);
 let centroid = turf.centroid(selectCoordinatesData[0]);
@@ -506,22 +505,53 @@ let centroid = turf.centroid(selectCoordinatesData[0]);
 			};
 		}
 
-		document.getElementById('editFeatureButton').addEventListener('click', function (event) {
-			event.preventDefault();
-			event.stopPropagation();
-			selectedFeature.eachLayer(function (layer) {
-				if (layer.editing) {
-					layer.editing.enable();
-				} else {
-					layer.on('click', function () {
-						if (this.editing) {
-							this.editing.enable();
-						}
-					});
-				}
-			});
-		});
+		function updatePopup(layer) {
+  let content;
+  var coordinates = layer._latlngs[0];
+  var turfCoords = coordinates.map(function (coord) {
+    return [coord.lng, coord.lat];
+  });
 
+  if (layer instanceof L.Polyline) {
+    var line = turf.lineString(turfCoords);
+    var length = turf.length(line, { units: 'meters' });
+    content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+  } else if (layer instanceof L.Polygon) {
+    var polygon = turf.polygon([turfCoords]);
+    var area = turf.area(polygon);
+    content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  }
+
+  if (!layer._popup) {
+    layer.bindPopup(content);
+  } else {
+    layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
+
+document.getElementById("editFeatureButton").addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    selectedFeature.eachLayer(function (layer) {
+        if (layer.editing) {
+            layer.editing.enable();
+            layer.on('edit', function () {
+                updatePopup(layer);
+            });
+        } else {
+            layer.on("click", function () {
+                if (this.editing) {
+                    this.editing.enable();
+                    updatePopup(this);
+                    this.on('edit', function () {
+                        updatePopup(this);
+                    });
+                }
+            });
+        }
+    });
+});
 		document.getElementById('deleteFeatureButton').addEventListener('click', function () {
 			if (!selectedFeature) {
 				alert('No feature selected!');

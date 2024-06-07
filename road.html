@@ -453,9 +453,7 @@
 
 
           }
-          document
-            .getElementById("saveDataButton")
-            .addEventListener("click", function () {
+          document.getElementById("saveDataButton").addEventListener("click", function () {
               var featureData = selectedFeature.toGeoJSON();
 
               var featureId = featureData.features[0].id;
@@ -483,6 +481,11 @@
 
 
               let selectCoordinatesData = featureData.features;
+
+              var lenghtSelect = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
+
+              console.log(lenghtSelect);
+
               localStorage.setItem(
                 "selectCoordinatesData",
                 JSON.stringify(selectCoordinatesData)
@@ -493,7 +496,7 @@
 
               var payload = JSON.stringify({
                 geoJSON: JSON.stringify(featureData),
-                roadLength: roadLength,
+                roadLength: lenghtSelect,
                 bufferWidth: bufferWidth,
                 gis_id: lastInsertedId,
                 department: department,
@@ -563,22 +566,22 @@
                   console.error("Save failed:", error);
                 },
               });
-
-              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
-              console.log(selectCoordinatesData)
-              var formData = new FormData();
-              formData.append('proj_id', worksAaApprovalId);
-              formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-              formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-              formData.append('polygon_area', 0);
-              formData.append('polygon_centroid', 0);
-              formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-              formData.append('road_no', struct_no);
-              formData.append('user_id', user_id);
-              formData.append('length', area);
-              formData.append('width', width);
-
-              $.ajax({
+             
+              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
+          console.log(selectCoordinatesData)
+            var formData = new FormData();
+            formData.append('proj_id', worksAaApprovalId);
+            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+            formData.append('polygon_area', 0);
+            formData.append('polygon_centroid', 0);
+            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+            formData.append('road_no', struct_no);
+            formData.append('user_id', user_id);
+            formData.append('length', lenghtSelect);
+            formData.append('width', width);
+          
+                      $.ajax({
                 type: "POST",
                 url: "https://iwms.punecorporation.org/api/gis-data",
                 data: formData,
@@ -618,60 +621,54 @@
       };
     }
 
+    function updatePopup(layer) {
+  let content;
+  var coordinates = layer._latlngs[0];
+  var turfCoords = coordinates.map(function (coord) {
+    return [coord.lng, coord.lat];
+  });
 
-    // document
-    //         .getElementById("editFeatureButton")
-    //         .addEventListener("click", function (event) {
-    //           event.preventDefault();
-    //           event.stopPropagation();
-    //           selectedFeature.eachLayer(function (layer) {
-    //             if (layer.editing) {
-    //               layer.editing.enable();
-    //             } else {
-    //               layer.on("click", function () {
-    //                 if (this.editing) {
-    //                   this.editing.enable();
-    //                 }
-    //               });
-    //             }
-    //           });
-    //         });
+  if (layer instanceof L.Polyline) {
+    var line = turf.lineString(turfCoords);
+    var length = turf.length(line, { units: 'meters' });
+    content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+  } else if (layer instanceof L.Polygon) {
+    var polygon = turf.polygon([turfCoords]);
+    var area = turf.area(polygon);
+    content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  }
+
+  if (!layer._popup) {
+    layer.bindPopup(content);
+  } else {
+    layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
 
 
-    //  document.getElementById('deleteFeatureButton').addEventListener('click', function() {
-    //     if (!selectedFeature) {
-    //         alert('No feature selected!');
-    //         return;
-    //     }
-
-    //     editableLayers.removeLayer(selectedFeature);
-    //     selectedFeature = null;  
-
-    // });
-    // ----------------------
-    document.getElementById("editFeatureButton").addEventListener("click", function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      selectedFeature.eachLayer(function (layer) {
+document.getElementById("editFeatureButton").addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    selectedFeature.eachLayer(function (layer) {
         if (layer.editing) {
-          layer.editing.enable();
-          updatePopup(layer); // Initial update
-          layer.on('edit', function () {
-            updatePopup(layer);
-          });
+            layer.editing.enable();
+            layer.on('edit', function () {
+                updatePopup(layer);
+            });
         } else {
-          layer.on("click", function () {
-            if (this.editing) {
-              this.editing.enable();
-              updatePopup(this); // Initial update
-              this.on('edit', function () {
-                updatePopup(this);
-              });
-            }
-          });
+            layer.on("click", function () {
+                if (this.editing) {
+                    this.editing.enable();
+                    updatePopup(this);
+                    this.on('edit', function () {
+                        updatePopup(this);
+                    });
+                }
+            });
         }
-      });
     });
+});
 
     document.getElementById('deleteFeatureButton').addEventListener('click', function () {
       if (!selectedFeature) {
@@ -754,7 +751,9 @@
         }
       };
       return button;
-    };
+    }; 
+     
+    
 
 
     // code for image on perform button

@@ -1800,32 +1800,37 @@ function Savedata(lastDrawnPolylineId) {
   var centroid = null 
 
 
-  if(mapMode == 'tracing'){
-   
+  if (mapMode === 'tracing') {
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
-  }else{
-  geoJSONString = toGISformat();
-  geoJSONStringJson = JSON.parse(geoJSONString);
-  selectCoordinatesData = geoJSONStringJson.features;
-
-    if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
-      const geometry = geoJSONStringJson.features[1].geometry;
-      console.log(geometry.type);
-      if (geometry.type === "Polygon") {
-          area = turf.area(geoJSONStringJson.features[1]); 
-          centroid = turf.centroid(geoJSONStringJson.features[1]);
-          console.log(centroid);
-          console.log(area);
-      } else if (geometry.type === "LineString") {
-          area = turf.length(geoJSONStringJson.features[0], { units: 'kilometers' }); 
-      }
+  } else {
+    geoJSONString = toGISformat();
+    geoJSONStringJson = JSON.parse(geoJSONString);
+    selectCoordinatesData = geoJSONStringJson.features;
   }
-
- 
+  
+  if (selectCoordinatesData && selectCoordinatesData.length > 0) {
+    const lastFeature = selectCoordinatesData[selectCoordinatesData.length - 1];
+    const geometry = lastFeature.geometry;
+    console.log(geometry.type);
+  
+    if (geometry.type === "Polygon") {
+      area = turf.area(lastFeature);
+      centroid = turf.centroid(lastFeature);
+      console.log(centroid);
+      console.log(area);
+    } else if (geometry.type === "LineString") {
+      area = turf.length(lastFeature, { units: 'kilometers' });
+      centroid = null; // Centroids are typically not relevant for LineStrings
+      console.log(area);
+    }
+    else if (geometry.type === "Point") {
+      area = 0;
+      centroid = null; // Centroids are typically not relevant for LineStrings
+      console.log(area);
+    }
   }
-
 
   localStorage.setItem(
     "selectCoordinatesData",
@@ -1854,7 +1859,8 @@ function Savedata(lastDrawnPolylineId) {
     gis_id: lastInsertedId,
     department: department,
     selectCoordinatesData:selectCoordinatesData,
-    area:area
+    area:area,
+    geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
   });
 
 
@@ -1873,22 +1879,38 @@ function Savedata(lastDrawnPolylineId) {
   });
 
 
-  const flipCoordinates = (data) => {
-    const flippedData = data.map(subArray => 
-      subArray.map(coordinates => coordinates.slice().reverse())
-    );
-    return flippedData.reverse();
-  };
+  const lastGeometry = selectCoordinatesData[selectCoordinatesData.length - 1].geometry;
+const geometryType = lastGeometry.type;
+
+
+  let latitude, longitude, geometryCoordinates, polygon_centroid;
+
+  if (geometryType === 'Point') {
+    latitude = lastGeometry.coordinates[1];
+    longitude = lastGeometry.coordinates[0];
+    geometryCoordinates = lastGeometry.coordinates;
+    polygon_centroid = null;
+  } else if (geometryType === 'Polygon') {
+  
+    latitude = lastGeometry.coordinates[0][0][1];
+    longitude = lastGeometry.coordinates[0][0][0];
+    geometryCoordinates = lastGeometry.coordinates.map(ring => ring.map(coordinate => coordinate.slice().reverse()));
+    polygon_centroid = centroid?.geometry?.coordinates;
+  } else {
+    console.error('Unsupported geometry type:', geometryType);
+  }
 
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][0][0]);
-  formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0][1]);
+  formData.append('latitude', latitude);
+  formData.append('longitude', longitude);
   formData.append('polygon_area', area);
-  formData.append('polygon_centroid', JSON.stringify(centroid.geometry.coordinates));
-  formData.append('geometry', JSON.stringify(flipCoordinates(selectCoordinatesData[1].geometry.coordinates.slice())));
+  formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
+  formData.append('geometry', JSON.stringify(geometryCoordinates));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
+
+
 
 
   $.ajax({

@@ -519,14 +519,21 @@ $('#workTableData').html(contentData);
                 );
 
                 var lastInsertedId = localStorage.getItem("lastInsertedId");
+               
+                var selectLength = turf.length(selectCoordinatesData[0].geometry, {
+                  units: "meters",
+                });
+
+               console.log(selectLength);
 
                 var payload = JSON.stringify({
                   geoJSON: JSON.stringify(featureData),
-                  roadLength: roadLength,
+                  roadLength: selectLength,
                   bufferWidth: bufferWidth,
                   gis_id: lastInsertedId,
                   department: department,
                   selectCoordinatesData: selectCoordinatesData,
+                  area: area,
                 });
 
                 // ---------------------------------
@@ -603,7 +610,7 @@ $('#workTableData').html(contentData);
           formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
           formData.append('road_no', '11');
           formData.append('user_id', '5');
-          formData.append('length', area);
+          formData.append('length', selectLength);
           formData.append('width', width);
         
                     $.ajax({
@@ -770,24 +777,54 @@ $('#workTableData').html(contentData);
           // Reset any ongoing operation here
         };
       }
+      function updatePopup(layer) {
+  let content;
+  var coordinates = layer._latlngs[0];
+  var turfCoords = coordinates.map(function (coord) {
+    return [coord.lng, coord.lat];
+  });
 
-      document
-        .getElementById("editFeatureButton")
-        .addEventListener("click", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          selectedFeature.eachLayer(function (layer) {
-            if (layer.editing) {
-              layer.editing.enable();
-            } else {
-              layer.on("click", function () {
+  if (layer instanceof L.Polyline) {
+    var line = turf.lineString(turfCoords);
+    var length = turf.length(line, { units: 'meters' });
+    content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+  } else if (layer instanceof L.Polygon) {
+    var polygon = turf.polygon([turfCoords]);
+    var area = turf.area(polygon);
+    content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  }
+
+  if (!layer._popup) {
+    layer.bindPopup(content);
+  } else {
+    layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
+
+
+document.getElementById("editFeatureButton").addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+   selectedFeature.eachLayer(function (layer) {
+        if (layer.editing) {
+            layer.editing.enable();
+            layer.on('edit', function () {
+                updatePopup(layer);
+            });
+        } else {
+            layer.on("click", function () {
                 if (this.editing) {
-                  this.editing.enable();
+                    this.editing.enable();
+                    updatePopup(this);
+                    this.on('edit', function () {
+                        updatePopup(this);
+                    });
                 }
-              });
-            }
-          });
-        });
+            });
+        }
+    });
+}); 
 
       document
         .getElementById("deleteFeatureButton")
