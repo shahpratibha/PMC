@@ -482,10 +482,10 @@ function toggleSelectLayerButton(show) {
 
               var lastInsertedId = localStorage.getItem("lastInsertedId");
 
-
+              selectedLenght = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
               var payload = JSON.stringify({
                 geoJSON: JSON.stringify(featureData),
-                roadLength: roadLength,
+                roadLength: selectedLenght,
                 bufferWidth: bufferWidth,
                 gis_id: lastInsertedId,
                 department: department,
@@ -555,7 +555,7 @@ function toggleSelectLayerButton(show) {
                   console.error("Save failed:", error);
                 },
               });
-              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
+          
               console.log(selectCoordinatesData)
                 var formData = new FormData();
                 formData.append('proj_id', worksAaApprovalId);
@@ -566,7 +566,7 @@ function toggleSelectLayerButton(show) {
                 formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
                 formData.append('road_no', struct_no);
                 formData.append('user_id', user_id);
-                formData.append('length', area);
+                formData.append('length', selectedLenght);
                 formData.append('width', width);
               
                           $.ajax({
@@ -615,23 +615,54 @@ function toggleSelectLayerButton(show) {
     }
 
 
-    document
-            .getElementById("editFeatureButton")
-            .addEventListener("click", function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              selectedFeature.eachLayer(function (layer) {
-                if (layer.editing) {
-                  layer.editing.enable();
-                } else {
-                  layer.on("click", function () {
-                    if (this.editing) {
-                      this.editing.enable();
-                    }
-                  });
-                }
-              });
+    function updatePopup(layer) {
+  let content;
+  var coordinates = layer._latlngs[0];
+  var turfCoords = coordinates.map(function (coord) {
+    return [coord.lng, coord.lat];
+  });
+
+  if (layer instanceof L.Polyline) {
+    var line = turf.lineString(turfCoords);
+    var length = turf.length(line, { units: 'meters' });
+    content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+  } else if (layer instanceof L.Polygon) {
+    var polygon = turf.polygon([turfCoords]);
+    var area = turf.area(polygon);
+    content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  }
+
+  if (!layer._popup) {
+    layer.bindPopup(content);
+  } else {
+    layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
+
+
+document.getElementById("editFeatureButton").addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+   selectedFeature.eachLayer(function (layer) {
+        if (layer.editing) {
+            layer.editing.enable();
+            layer.on('edit', function () {
+                updatePopup(layer);
             });
+        } else {
+            layer.on("click", function () {
+                if (this.editing) {
+                    this.editing.enable();
+                    updatePopup(this);
+                    this.on('edit', function () {
+                        updatePopup(this);
+                    });
+                }
+            });
+        }
+    });
+}); 
 
 
  document.getElementById('deleteFeatureButton').addEventListener('click', function() {

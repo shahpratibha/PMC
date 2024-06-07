@@ -1520,6 +1520,8 @@ let throttle = false; // Throttling flag to control event frequency
 map.on("draw:created", function (e) {
 
 
+  console.log(e);
+
   toggleSaveButton(true);
   toggleEditDeleteButton(true);
 
@@ -1875,29 +1877,36 @@ function Savedata(lastDrawnPolylineId) {
   var area = 0; // Initialize area variable
   var centroid = 0 ;
 
-  if(mapMode == 'tracing'){
-   
+  if (mapMode === 'tracing') {
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
-
-    if (currentPolyline) {
-      area = turf.area(geoJSONStringJson); 
-      console.log(area);
+  } else {
+    geoJSONString = toGISformat();
+    geoJSONStringJson = JSON.parse(geoJSONString);
+    selectCoordinatesData = geoJSONStringJson.features;
   }
-  }else{
-  geoJSONString = toGISformat();
-  geoJSONStringJson = JSON.parse(geoJSONString);
-  selectCoordinatesData = geoJSONStringJson.features;
-
-  if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
-    const geometry = geoJSONStringJson.features[1].geometry;
+  
+  if (selectCoordinatesData && selectCoordinatesData.length > 0) {
+    const lastFeature = selectCoordinatesData[selectCoordinatesData.length - 1];
+    const geometry = lastFeature.geometry;
+    console.log(geometry.type);
+  
     if (geometry.type === "Polygon") {
-        area = turf.area(geoJSONStringJson.features[1]);
+      area = turf.area(lastFeature);
+      centroid = turf.centroid(lastFeature);
+      console.log(centroid);
+      console.log(area);
     } else if (geometry.type === "LineString") {
-        area = turf.length(geoJSONStringJson.features[1], { units: 'meters' }); 
+      area = turf.length(lastFeature, { units: 'kilometers' });
+      centroid = null; // Centroids are typically not relevant for LineStrings
+      console.log(area);
     }
-}
+    else if (geometry.type === "Point") {
+      area = 0;
+      centroid = null; // Centroids are typically not relevant for LineStrings
+      console.log(area);
+    }
   }
 
 
@@ -1953,13 +1962,39 @@ function Savedata(lastDrawnPolylineId) {
   });
 
 
+  const lastGeometry = selectCoordinatesData[selectCoordinatesData.length - 1].geometry;
+  const geometryType = lastGeometry.type;
+  
+  
+    let latitude, longitude, geometryCoordinates, polygon_centroid;
+  
+    if (geometryType === 'Point') {
+      latitude = lastGeometry.coordinates[1];
+      longitude = lastGeometry.coordinates[0];
+      geometryCoordinates = lastGeometry.coordinates;
+      polygon_centroid = null;
+    } else if (geometryType === 'Polygon') {
+    
+      latitude = lastGeometry.coordinates[0][0][1];
+      longitude = lastGeometry.coordinates[0][0][0];
+      geometryCoordinates = lastGeometry.coordinates.map(ring => ring.map(coordinate => coordinate.slice().reverse()));
+      polygon_centroid = centroid?.geometry?.coordinates;
+    } else  if (geometryType === 'LineString') {
+      latitude = lastGeometry.coordinates[0][1];
+      longitude = lastGeometry.coordinates[0][0];
+      geometryCoordinates = lastGeometry.coordinates.map(coordinate => coordinate.slice().reverse());
+      polygon_centroid = null;
+    }
+  
+
+
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][0]);
-  formData.append('polygon_area', 0);
-  formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('latitude', latitude);
+  formData.append('longitude', longitude);
+  formData.append('polygon_area', area);
+  formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
+  formData.append('geometry', JSON.stringify(geometryCoordinates));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
   formData.append('length', area);

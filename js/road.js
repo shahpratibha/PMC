@@ -68,7 +68,7 @@ let zone_id =  getQueryParam('zone_id') ;
 let prabhag_id =  getQueryParam('prabhag_id') ;
 
 var wardBoundary = null ;
-console.log(workType);
+
 
 var lastDrawnPolylineIdSave = null;
 
@@ -519,7 +519,6 @@ function fitbou(filter) {
     "&CQL_FILTER=" +
     filter +
     "&outputFormat=application/json";
-    console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
     wardBoundary = data;
@@ -597,15 +596,7 @@ var drawControlRoad = new L.Control.Draw({
     circlemarker: false
   },
   edit:false,
-  //  {
-  //   featureGroup: drawnItems,
-  //   remove: true,
-  // },
-  drawcreate: function(e) {
-    var layer = e.layer; // Get the drawn layer
-
-    console.log(layer);
-  }
+  
 });
 
 
@@ -791,7 +782,7 @@ customDeleteLayerButton.addTo(map);
 
 
 function enableEditing(layer) {
-  console.log(layer);
+
   drawnItems.eachLayer(function (otherLayer) {
     if (otherLayer !== layer && otherLayer.editing && otherLayer.editing.enabled()) {
       otherLayer.editing.disable();
@@ -881,7 +872,7 @@ if (workType == "New") {
         button.style.backgroundColor = 'red';
         drawnItems.eachLayer(function (layer) {
           layer.on('click', function () {
-            console.log("hello")
+
             selectedPolylineId = layer;
             layer.setStyle({ color: 'green', weight: 7 });
 
@@ -898,7 +889,7 @@ if (workType == "New") {
 }
 
 function handleDeletePolyline(polylineId) {
-  console.log(polylineId);
+
   removeAssociatedLayers(polylineId);
 }
 
@@ -1093,9 +1084,9 @@ function updateAssociatedLayers(polylineId, bufferWidth) {
 }
 
 function removeAssociatedLayers(layerId) {
-  console.log(layerId);
+
   var associatedLayers = associatedLayersRegistry[layerId];
-  console.log(associatedLayersRegistry);
+ 
   if (layerId) {
     drawnItems.removeLayer(layerId);
   }
@@ -1215,7 +1206,6 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
 // Function to calculate distance between two points
 function closestVertex(point, lineCoordinates) {
-  console.log(lineCoordinates)
 
   // Initialize variables to store the closest vertex and its distance
   var closestVertex = null;
@@ -1223,9 +1213,7 @@ function closestVertex(point, lineCoordinates) {
 
   // Iterate over line vertices
   lineCoordinates.forEach(function (coord) {
-    // console.log(coord,"coord")
     var vertex = L.latLng(coord.lat, coord.lng);
-    // console.log(vertex,"vertex,",point,"point")
     var dist = distance(vertex, point);
     if (dist < closestDistance) {
       closestVertex = vertex;
@@ -1239,8 +1227,7 @@ function closestVertex(point, lineCoordinates) {
     distance: closestDistance
   };
 
-  console.log("Closest vertex:", closestVertex);
-  console.log("Distance:", closestDistance);
+
 
   return result
 
@@ -1266,13 +1253,13 @@ function getClosestRoadPointTrace(latlng) {
   layer = "pmc:Exist_Road";
 
   var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
-  console.log("burl", url);
+ 
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(response => response.json())
       .then(data => {
         firstClickPoints = data;
-        console.log(data);
+
         //  highlightFeature(data);
         var closestPoint = null;
         var closestPointv = null;
@@ -1284,9 +1271,7 @@ function getClosestRoadPointTrace(latlng) {
           // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
           closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
-          // (lat,lng,distance)
-          console.log(closestPoint, "closestPoint", closestPointv, "closestPointv")
-
+       
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
         }
         resolve({ marker: closestPointv, distance: distance, data });
@@ -1309,7 +1294,7 @@ function getClosestRoadPoint(latlng) {
   layer = "pmc:Exist_Road";
 
   var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
-  console.log("burl", url);
+
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(response => response.json())
@@ -1324,9 +1309,7 @@ function getClosestRoadPoint(latlng) {
           // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
           closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
-          // (lat,lng,distance)
-          console.log(closestPoint, "closestPoint", closestPointv, "closestPointv")
-
+     
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
         }
         resolve({ marker: closestPointv, distance: distance });
@@ -1341,7 +1324,7 @@ function getClosestRoadPoint(latlng) {
 
 
 function highlightFeature(featureData) {
-  console.log(featureData);
+
   // Check if any features are present in the featureData
   if (!featureData || !featureData.features || featureData.features.length === 0)
     // Clear existing editable layers
@@ -1575,8 +1558,7 @@ function handleMouseMove(event) {
           vertexClickCount++;
         } else {
           const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
-          console.log(turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }));
-         
+    
           currentPolyline.addLatLng(result.marker);
           currentPolyline.redraw();
         }
@@ -1606,10 +1588,7 @@ map.on("draw:created", function (e) {
   if (mapMode == 'snapping') {
     var newFeature = e.layer.toGeoJSON();
 
-    //var isInsideWard = checkIfInsideWard(newFeature, ward_boundary);
-
-    //console.log(isInsideWard);
-
+   
     getGeodataFeatures().then(function (geodataFeatures) {
       var isAllowed = checkOverlapWithGeodata(newFeature, geodataFeatures);
 
@@ -1744,7 +1723,7 @@ map.on("draw:created", function (e) {
       success: function (response) {
         $('#table-container').show();
         const formDataFromStorage = response.data;
-        console.log(formDataFromStorage);
+  
         let contentData = '<tr>';
         for (const property in formDataFromStorage) {
           if (formDataFromStorage[property] !== null) {  // Check for null value
@@ -1780,7 +1759,7 @@ map.on("draw:created", function (e) {
       success: function (response) {
         $('#table-container').show();
         const formDataFromStorage = response.data;
-        console.log(formDataFromStorage);
+   
         let contentData = '<tr>';
         for (const property in formDataFromStorage) {
           // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -1965,7 +1944,7 @@ function Savedata(lastDrawnPolylineId) {
 
       if (currentPolyline) {
           area = turf.area(geoJSONStringJson); 
-          console.log(area);
+
       }
      
   } else {
@@ -1985,7 +1964,7 @@ function Savedata(lastDrawnPolylineId) {
      
   }
 
-  console.log(area);
+
 
   localStorage.setItem("selectCoordinatesData", JSON.stringify(selectCoordinatesData));
   let formDataTemp = localStorage.getItem("conceptual_form_data_temp");
@@ -2021,7 +2000,7 @@ function Savedata(lastDrawnPolylineId) {
       data: payload,
       contentType: "application/json",
       success: function (response) {
-          console.log(response);
+ 
        //  window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + lastInsertedId;
       },
       error: function (xhr, status, error) {
@@ -2029,7 +2008,7 @@ function Savedata(lastDrawnPolylineId) {
       },
   });
 
-  console.log(selectCoordinatesData[1].geometry.coordinates);
+
 
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
@@ -2051,7 +2030,7 @@ function Savedata(lastDrawnPolylineId) {
       processData: false,
       contentType: false,
       success: function (response) {
-          console.log(response);
+ 
          window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
@@ -2105,7 +2084,6 @@ function toGISformat() {
     }
   }
 
-  // console.log(data);
 
   // Get GeoJSON representation of the drawn layer
   var geoJSON = drawnItems.toGeoJSON();
