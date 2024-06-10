@@ -224,7 +224,6 @@
                         }
                     }
 
-
 					const paginationControlss = document.getElementById('pagination-controls');
                     paginationControlss.innerHTML = '';
 
@@ -277,6 +276,7 @@
                 if (highlightLayer) {
                     map.removeLayer(highlightLayer);
                 }
+
                 highlightLayer = L.geoJSON(data.map(item => item.geometry), {
                     style: {
                         color: '#ff7800',

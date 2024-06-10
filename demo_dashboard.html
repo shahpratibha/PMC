@@ -72,14 +72,14 @@
               </table>
             </div>
             <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
-
+<!-- 
             <div id="paginationControls"
               style="position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); display: flex; font-size: 12px; gap: 10px;">
               <button class="pagibtn" style="background-color: transparent; color: #333;" id="previousPageButton"><i
                   class="fa-solid fa-backward "></i></button>
               <p id="currentPage"></p>
               <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
-            </div>
+            </div> -->
 
 
 
@@ -545,83 +545,7 @@
       return filteredData;
     }
 
-    // -----------------------------------------
-
-    //  function loadProjectOff() {
-    //    var select = $("#project_Off");
-    //    select.empty();
-
-    //    $.getJSON(
-    //      "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=Project_Office&outputFormat=application/json",
-    //      function (data) {
-    //        var projectFiSet = new Set();
-
-    //        $.each(data.features, function (index, feature) {
-    //          var project_fi = feature.properties.Project_Office;
-    //          projectFiSet.add(project_fi);
-    //        });
-
-    //        var uniqueProjectFiSet = Array.from(projectFiSet);
-
-    //        $.each(uniqueProjectFiSet, function (index, project_fi) {
-    //          select.append(
-    //            $("<option>", {
-    //              value: project_fi,
-    //              text: project_fi,
-    //            })
-    //          );
-    //        });
-
-    //        if (select.hasClass("select2-hidden-accessible")) {
-    //          select.select2("destroy");
-    //        }
-
-    //        select.select2({
-    //          placeholder: 'search', 
-    //          templateResult: function (option) {
-    //            if (!option.id) {
-    //              return option.text;
-    //            }
-
-
-    //            var $option = $(
-
-    //              '<span><input type="checkbox" class="select2-option-checkbox" />' +
-    //              option.text +
-    //              "</span>"
-    //            );
-    //            return $option;
-    //          },
-    //          templateSelection: function (option) {
-    //            if (!option.id) {
-    //              return option.text;
-    //            }
-
-    //            return $(
-    //              '<span><input type="checkbox" class="select2-option-checkbox" checked />' +
-    //              option.text +
-    //              "</span>"
-    //            );
-    //          },
-    //          closeOnSelect: false,
-    //          dropdownParent: select.parent(),
-    //          multiple: true,
-    //          dropdownPosition: 'below' // Set the dropdown position below the select box
-    //        });
-    //         // Trigger the opening of the Select2 dropdown when the select button is clicked
-    //         var selectButton = $('#headingOffice button');
-    //          selectButton.on('click', function() {
-    //              select.select2('open');
-    //          });
-
-    //        select.on("change", function () {
-    //          loadZones();
-    //          filterDataAndDrawMap();
-    //        });
-    //      }
-    //    );
-    //  }
-
+    
     // check changes
     function loadProjectOff() {
       var select = $("#project_Off");
