@@ -391,7 +391,7 @@ if (workType == "New") {
     });
 
     return controlDiv;
-  };
+  }; 
 
   editControl.addTo(map);
 

@@ -1397,7 +1397,7 @@ map.on("draw:drawvertex", function (e) {
     var isInside = checkIfInsideWard(e.latlng);
     
    if (isInside) {
-          map.getContainer().style.cursor = 'crosshair';
+          map.getContainer().style.cursor = 'pointer';
           // Add draw control if not already added
           if (!drawControlAdded) {
             map.addControl(drawControlDrainage);
