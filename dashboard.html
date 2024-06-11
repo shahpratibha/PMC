@@ -757,6 +757,12 @@
       // console.log("addded")
       IWMS_line.addTo(map).bringToFront();
 
+      IWMS_polygon.setParams({
+        CQL_FILTER: cqlFilter,
+        // styles: "line",
+      });
+      // console.log("addded")
+      IWMS_polygon.addTo(map).bringToFront();
 
       if (cqlFilter_ward) {
         ward_boundary.setParams({
@@ -774,7 +780,7 @@
       }
 
 
-      var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      var layers = ["pmc:IWMS_point", "pmc:IWMS_line","pmc:IWMS_polygon"];
       var typeName = layers.join(',');
 
       var geoServerURL =

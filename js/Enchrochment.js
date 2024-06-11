@@ -19,7 +19,7 @@ var googleSat = L.tileLayer(
 );
 
 var ward_boundary= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -47,15 +47,14 @@ var ward_admin_boundary = L.tileLayer.wms(
 
 
 
-
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
 
-const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
-const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
+// const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
+// const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
@@ -63,22 +62,12 @@ const workType = getQueryParam('workType');
 const struct_no = getQueryParam('struct_no') ;
 const user_id = getQueryParam('user_id') ;
 const worksAaApprovalId = getQueryParam('proj_id');
+var wardBoundary = null ;
+var lastDrawnPolylineIdSave = null ;
 let wardNames = wardname.split(',').map(id => id.trim());
 let ward_id =  getQueryParam('ward_id') ;
 let zone_id =  getQueryParam('zone_id') ;
 let prabhag_id =  getQueryParam('prabhag_id') ;
-
-
-var wardBoundary = null ;
-
-
-
-
-var lastDrawnPolylineIdSave = null ;
-
-
-
-
 
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -86,9 +75,8 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 
-
 var wms_layer1 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
     {
       layers: "Roads",
       format: "image/png",
@@ -98,20 +86,21 @@ var wms_layer1 = L.tileLayer.wms(
       maxZoom: 21,
       opacity: 1,
     }
-  ).addTo(map);
-  var wms_layer11 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
-    layers: "Reservations",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
+  );
+  var wms_layer13 = L.tileLayer.wms(
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+    {
+      layers: "Drainage_data",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  )
+ 
 
-    opacity: 1,
-  });
-
-  
   var wms_layer_bhavan = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Bhavan",
@@ -124,6 +113,8 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }).addTo(map);
 
+
+
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
@@ -135,7 +126,7 @@ var baseLayers = {};
 
  
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -150,7 +141,7 @@ var wms_layer12 = L.tileLayer
 
  
 var wms_layer14 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -161,7 +152,7 @@ var wms_layer14 = L.tileLayer
   });
  
 var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -172,7 +163,7 @@ var wms_layer15 = L.tileLayer
   });
  
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -184,7 +175,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -199,7 +190,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -210,7 +201,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
@@ -220,8 +211,19 @@ var IWMS_line = L.tileLayer
   opacity: 1,
 });
 
+var IWMS_polygon = L.tileLayer
+.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  layers: "IWMS_polygon",
+  format: "image/png",
+  transparent: true,
+  tiled: true,
+  version: "1.1.0",
+  opacity: 1,
+  maxZoom: 21,
+});
+
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -236,7 +238,7 @@ var wms_layer16 = L.tileLayer.wms(
 
  
 var Zone_layer= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -248,28 +250,22 @@ var Zone_layer= L.tileLayer.wms(
   }
 );
  
- 
-// //////////////////////////added 11-03-2023/////////////////////////////////////////
 
-
-
-
-
- 
 var WMSlayers = {
   "OSM": osm,
   "Esri": Esri_WorldImagery,
   "Satellite": googleSat,
   Roads: wms_layer1,
   Boundary: wms_layer12,
-  Amenity: wms_layer11,
-  wms_layer_bhavan: wms_layer_bhavan,
+  // Amenity: wms_layer11,
+  Drainage: wms_layer13,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
   // geodata: wms_layer4,
   OSMRoad : wms_layer16,
+  Bhavan:wms_layer_bhavan,
   ward_admin_boundary:ward_admin_boundary
 };
  
@@ -280,10 +276,10 @@ var WMSlayers = {
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
-// north image and scale
-
 // You can also customize the scale options
 L.control.scale().addTo(map);
+
+// north image and scale & legend
 
 var northArrowControl = L.Control.extend({
   options: {
@@ -300,6 +296,7 @@ var northArrowControl = L.Control.extend({
   },
 });
 map.addControl(new northArrowControl());
+
 
 
 
@@ -490,7 +487,7 @@ legend.onAdd = function (map) {
       var layers = xml.querySelectorAll('Layer[queryable="1"]');
       layers.forEach(function (layer) {
         var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("Road:")) {
+        if (layerName.startsWith("Bhavan:")) {
           var legendUrl =
             this.geoserverUrl +
             "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
@@ -536,7 +533,11 @@ legend.addTo(map);
 
 
 
-// ----------------------
+// ------------------------------------
+
+
+
+
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -556,12 +557,13 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
+
 let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
 let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
 let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
 
 let cql_filterm = '';
-
 if (zone_ids.length > 0) {
   cql_filterm = `zone_id IN(${zone_ids.map(id => `'${id}'`).join(",")})`;
 } else {
@@ -580,13 +582,13 @@ if (prabhag_ids.length > 0) {
   cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
 }
 
+
 fitbou(cql_filterm);
 ward_admin_boundary.setParams({
   cql_filter: cql_filterm,
   styles: "highlight",
 });
 ward_admin_boundary.addTo(map).bringToFront();
-
 
 
 
@@ -606,7 +608,7 @@ searchControl.on("results", function (data) {
 
 
 
-var drawControlElectrical = new L.Control.Draw({
+var drawControlRoad = new L.Control.Draw({
   draw: {
     polyline: {
       shapeOptions: {
@@ -617,92 +619,69 @@ var drawControlElectrical = new L.Control.Draw({
         className: "leaflet-div-icon", // specify the icon class
       }),
     },
-    polygon:{
-      shapeOptions: {
-        color: "red", 
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6), 
-        className: "leaflet-div-icon", 
-      }),
-    },
-    circle: true,
+    polygon: false,
+
+    circle: false,
     marker: false,
     rectangle: false,
     circlemarker:false
   },
+  edit: false,
+  // {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
+});
+
+
+var drawControlBuilding = new L.Control.Draw({
+  draw: {
+    polyline:false,
+    
+    polygon:  {
+        shapeOptions: {
+          color: "red", 
+        },
+        icon: new L.DivIcon({
+          iconSize: new L.Point(6, 6), 
+          className: "leaflet-div-icon", 
+        }),
+      },
+
+    circle: false,
+    marker: false,
+    rectangle: false,
+  },
   edit:false,
+  //  {
+  //   featureGroup: drawnItems,
+  //   remove: true,
+  // },
 });
 
 
 
 
 if(workType == "New"){
-
 var customDrawControls = L.control({ position: 'topleft' });
 
-// Define the HTML content for the control
-customDrawControls.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
-  customDrawControlsContainer = div;
-  return div;
-};
+  // Define the HTML content for the control
+  customDrawControls.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'draw-control');
+    div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:75%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 25px; padding:3px;"></button>';
+    customDrawControlsContainer = div;
+    return div;
+  };
 
-// Add the control to the map
-customDrawControls.addTo(map);
+  // Add the control to the map
+  customDrawControls.addTo(map);
 }
 
-var customToolSelector = L.control({ position: 'topleft' });
 
+var customSaveButton = L.control({ position: 'topleft' });
 // Initialize the mapMode variable
 let mapMode = 'snapping';
 
-customToolSelector.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
-  div.style.backgroundColor = 'white';
-  div.style.border = '2px solid #2B13BB';
-  div.style.top = "528px";
-  div.style.left = "785px";
-  div.style.height= "37px";
-  div.style.width= "37px";
-  div.style.borderRadius="5px 5px 5px 5px";
-
-  // Create a new button element
-  var button = document.createElement('button');
-  button.className = 'form-check-button';
-  button.id = 'traceToolButton';
-  button.style.marginRight = '5px';
-  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
-
-  // Create a new image element
-  var img = document.createElement('img');
-  img.src = 'png/Trace_tool.png';
-  img.style.height = '20px';
-  img.style.width = '20px';
-
-  button.appendChild(img);
-
-  // Add event listener to toggle mapMode and update button appearance
-  button.addEventListener('click', function() {
-      if (mapMode === 'snapping') {
-          mapMode = 'tracing';
-          button.style.backgroundColor = 'lightblue';
-      } else {
-          mapMode = 'snapping';
-          button.style.backgroundColor = 'white';
-      }
-      console.log("Current Map Mode:", mapMode); // Optional: for debugging
-  });
-
-  div.appendChild(button);
-
-  return div;
-};
-
-customToolSelector.addTo(map);
-var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'save-button');
@@ -733,7 +712,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Edit Feature" src="png/editTool.png" style="width: 20px; height: 20px; padding:0px 3px;">';
+div.innerHTML = '<img id="editFeatureButton"  title="Edit Feature" src="png/editTool.png">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -787,10 +766,9 @@ var editControl = L.control({position: 'topleft'});
     // controlUI.style.fontSize='18px';
     // controlUI.style.position='absolute';
     // controlUI.style.top='60px';
-    controlUI.style.display='none';
-
     // controlUI.style.border='2px solid darkblue';
     // controlUI.style.borderRadius='5px'
+    controlUI.style.display='none';
 
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
@@ -837,7 +815,7 @@ deleteControl.onAdd = function(map) {
   var container = L.DomUtil.create('div', 'leaflet-bar');
   var button = L.DomUtil.create('button', 'delete-button', container);
   button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-  button.style.border='2px solid darkblue';
+  // button.style.border='2px solid darkblue';
   // button.style.padding='5px';
   // button.style.fontSize='15px';
   // button.style.borderRadius='5px';
@@ -848,7 +826,7 @@ deleteControl.onAdd = function(map) {
 // button.style.backgroundColor = 'white';   
 // button.style.color = 'black';            
 // button.style.padding = '5px 10px';       
-button.style.border = 'none';             
+// button.style.border = 'none';             
 // button.style.cursor = 'pointer';          
 
 button.onclick = function() {
@@ -876,7 +854,6 @@ return container;
 
 
 deleteControl.addTo(map);
-
 }
 
 
@@ -907,6 +884,7 @@ function toggleEditDeleteButton(show) {
 }
 
 
+
 // Button Click Event to Show SweetAlert Success Popup
 document.getElementById("save-button").addEventListener("click", function () {
   
@@ -929,10 +907,10 @@ var isDrawControlAdded = false;
 
 function toggleDrawControl() {
   if (isDrawControlAdded) {
-    map.removeControl(drawControlElectrical);
+    map.removeControl(drawControlBuilding);
     isDrawControlAdded = false;
   } else {
-    map.addControl(drawControlElectrical);
+    map.addControl(drawControlBuilding);
     isDrawControlAdded = true;
 
   }
@@ -1256,7 +1234,7 @@ function getClosestRoadPoint(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  layer = "pmc:Exist_Road";
+  layer = "pmc:Reservations";
 
   var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
   console.log("burl", url);
@@ -1297,7 +1275,7 @@ function getClosestRoadPointLast(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  let layer = "pmc:Exist_Road";
+  let layer = "pmc:Reservations";
   var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
@@ -1392,7 +1370,6 @@ map.on("draw:drawvertex", function (e) {
   });
 
 
-
   function checkIfInsideWard(latlng) {
     var point = turf.point([latlng.lng, latlng.lat]);
     var isInside = false;
@@ -1405,6 +1382,7 @@ map.on("draw:drawvertex", function (e) {
   
     return isInside;
   }
+  
   var drawControlAdded = false;
   
   map.on('mousemove', function(e) {
@@ -1414,14 +1392,14 @@ map.on("draw:drawvertex", function (e) {
           map.getContainer().style.cursor = 'crosshair';
           // Add draw control if not already added
           if (!drawControlAdded) {
-            map.addControl(drawControlElectrical);
+            map.addControl(drawControlBuilding);
             drawControlAdded = true;
           }
         } else {
           map.getContainer().style.cursor = 'not-allowed';
           // Remove draw control if currently added
           if (drawControlAdded) {
-            map.removeControl(drawControlElectrical);
+            map.removeControl(drawControlBuilding);
             drawControlAdded = false;
           }
         }
@@ -1469,7 +1447,7 @@ map.on('draw:deleted', function(e) {
 
   traceLayer.clearLayers();
 
-  // Reset the currentPolyline variable to null to ensure it doesn't retain any old reference
+
   if (currentPolyline) {
     currentPolyline.remove(); // Removes the polyline from the map
     currentPolyline = null;   // Dereferences the polyline object
@@ -1519,12 +1497,8 @@ let throttle = false; // Throttling flag to control event frequency
 
 map.on("draw:created", function (e) {
 
-
-  console.log(e);
-
-  toggleSaveButton(true);
   toggleEditDeleteButton(true);
-
+  toggleSaveButton(true);
 
  if(mapMode == 'snapping'){ 
   var newFeature = e.layer.toGeoJSON();
@@ -1587,52 +1561,7 @@ map.on("draw:created", function (e) {
       return ;
     }
   });
-  if (e.layerType === "polyline") {
-    var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
-    var roadLenght = lenght;
-    if (length > roadLenght) {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Oops...",
-        text: `The Road is longer than ${roadLenght} kilometers. Please draw a shorter Road.`,
-        showConfirmButton: false,
-        showCloseButton: true,
-        customClass: {
-          popup: 'custom-modal-class',
-          icon: 'custom-icon-class',
-          title: 'custom-title-class',
-          content: 'custom-text-class',
-          closeButton: 'custom-close-button-class'
-        },
-        showClass: {
-          popup: 'swal2-show',
-          backdrop: 'swal2-backdrop-show',
-          icon: 'swal2-icon-show'
-        },
-        hideClass: {
-          popup: 'swal2-hide',
-          backdrop: 'swal2-backdrop-hide',
-          icon: 'swal2-icon-hide'
-        },
-        didOpen: () => {
-          // Apply custom styles directly to the modal elements
-          document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
-          document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
-          document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
-          document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
-          document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
-          document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
-          document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
-          document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
-          document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
-          document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
-        }
-      });
-      
-      return; // Stop further processing
-    }
-  }
+ 
   var layer = e.layer;
 
 
@@ -1683,8 +1612,6 @@ $.ajax({
 }
 else if (mapMode == 'tracing'){
 let layer = currentPolyline ;
-var bufferWidth = width;
-
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
 var geoJSON = layer.toGeoJSON();
@@ -1727,11 +1654,6 @@ map.on("draw:edited", function (e) {
    e.layers.eachLayer(function (layer) {
     var geoJSON = layer.toGeoJSON();
     var popupContent = UpdateArea(geoJSON);
-    var roadLenght = lenght;
-    var bufferWidth = width;
-
-    // Check for and remove existing associated layers
-    removeAssociatedLayers(layer._leaflet_id);
 
     var lastDrawnPolylineId = layer._leaflet_id;
     $.ajax({
@@ -1873,9 +1795,10 @@ function Savedata(lastDrawnPolylineId) {
 
   var geoJSONString;
   let selectCoordinatesData ;
-  var geoJSONStringJson
-  var area = 0; // Initialize area variable
-  var centroid = 0 ;
+  var geoJSONStringJson;
+  var area = 0; 
+  var centroid = null 
+
 
   if (mapMode === 'tracing') {
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
@@ -1909,7 +1832,6 @@ function Savedata(lastDrawnPolylineId) {
     }
   }
 
-
   localStorage.setItem(
     "selectCoordinatesData",
     JSON.stringify(selectCoordinatesData)
@@ -1919,8 +1841,6 @@ function Savedata(lastDrawnPolylineId) {
     localStorage.setItem("conceptual_form_data", formDataTemp);
   }
 
-  var roadLenght = lenght;
-  var bufferWidth = width;
 
 
   var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
@@ -1933,18 +1853,15 @@ function Savedata(lastDrawnPolylineId) {
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
-  console.log(selectCoordinatesData);
-
-
-  var payload = JSON.stringify({
+  var payload = 
+  JSON.stringify( {
     geoJSON: bufferGeoJSONString,
-    roadLength: roadLenght,
-    bufferWidth: bufferWidth,
     gis_id: lastInsertedId,
     department: department,
-    selectCoordinatesData: selectCoordinatesData,
+    selectCoordinatesData:selectCoordinatesData,
+    area:area,
     geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
-});
+  });
 
 
   $.ajax({
@@ -1954,7 +1871,7 @@ function Savedata(lastDrawnPolylineId) {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
-   //window.location.href = "geometry_page.html";
+    //window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+'&department=Building'+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
@@ -1963,30 +1880,25 @@ function Savedata(lastDrawnPolylineId) {
 
 
   const lastGeometry = selectCoordinatesData[selectCoordinatesData.length - 1].geometry;
-  const geometryType = lastGeometry.type;
-  
-  
-    let latitude, longitude, geometryCoordinates, polygon_centroid;
-  
-    if (geometryType === 'Point') {
-      latitude = lastGeometry.coordinates[1];
-      longitude = lastGeometry.coordinates[0];
-      geometryCoordinates = lastGeometry.coordinates;
-      polygon_centroid = null;
-    } else if (geometryType === 'Polygon') {
-    
-      latitude = lastGeometry.coordinates[0][0][1];
-      longitude = lastGeometry.coordinates[0][0][0];
-      geometryCoordinates = lastGeometry.coordinates.map(ring => ring.map(coordinate => coordinate.slice().reverse()));
-      polygon_centroid = centroid?.geometry?.coordinates;
-    } else  if (geometryType === 'LineString') {
-      latitude = lastGeometry.coordinates[0][1];
-      longitude = lastGeometry.coordinates[0][0];
-      geometryCoordinates = lastGeometry.coordinates.map(coordinate => coordinate.slice().reverse());
-      polygon_centroid = null;
-    }
-  
+const geometryType = lastGeometry.type;
 
+
+  let latitude, longitude, geometryCoordinates, polygon_centroid;
+
+  if (geometryType === 'Point') {
+    latitude = lastGeometry.coordinates[1];
+    longitude = lastGeometry.coordinates[0];
+    geometryCoordinates = lastGeometry.coordinates;
+    polygon_centroid = null;
+  } else if (geometryType === 'Polygon') {
+  
+    latitude = lastGeometry.coordinates[0][0][1];
+    longitude = lastGeometry.coordinates[0][0][0];
+    geometryCoordinates = lastGeometry.coordinates.map(ring => ring.map(coordinate => coordinate.slice().reverse()));
+    polygon_centroid = centroid?.geometry?.coordinates;
+  } else {
+    console.error('Unsupported geometry type:', geometryType);
+  }
 
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
@@ -1997,25 +1909,25 @@ function Savedata(lastDrawnPolylineId) {
   formData.append('geometry', JSON.stringify(geometryCoordinates));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
-  formData.append('length', area);
-  formData.append('width', width);
 
-  
+
+
+
   $.ajax({
-      type: "POST",
-      url: "https://iwms.punecorporation.org/api/gis-data",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-          console.log(response);
-         window.location.href = response.data.redirect_Url;
-      },
-      error: function (xhr, status, error) {
-          console.error("Save failed:", error);
-      },
-  });
-  
+    type: "POST",
+    url: "https://iwms.punecorporation.org/api/gis-data",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      window.location.href = response.data.redirect_Url;   
+      // window.close();  
+
+    },
+    error: function (xhr, status, error) {
+        console.error("Save failed:", error);
+    },
+});
 
 }
 
@@ -2370,12 +2282,13 @@ function getWardNameById(wardId, wardData) {
   }
 }
 
+
 map.on("contextmenu", (e) => {
   let size = map.getSize();
   let bbox = map.getBounds().toBBoxString();
   let layer = "pmc:Data";
   let style = "pmc:Data";
-  let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
     size.x
@@ -2407,5 +2320,6 @@ map.on("contextmenu", (e) => {
       });
   }
 });
+
 
 
