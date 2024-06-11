@@ -13,11 +13,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
-  <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
   <link rel="stylesheet" href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css">
 
   <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
 
   <link rel="stylesheet" href="css/C_form.css"/>
 
@@ -26,9 +28,16 @@
       width: 156px;
 
     }
-    /* .select2-container--default.select2-container--focus .select2-selection--multiple {
-    border: 0 !important;
-    } */
+
+    
+
+    .leaflet-control-zoom {
+  position: absolute;
+  left: 96vw;
+  top: 85vh;
+  border: 2px solid darkblue;
+}
+
   </style>
 </head>
 
@@ -51,7 +60,7 @@
           <div class="accordion-body" >
             <div class="form-group" >
               <!-- <label>Select Office</label> -->
-              <select style="width: 100%" class="" multiple="multiple" id="project_Off">
+              <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off">
                 
               </select>
             </div>
@@ -310,7 +319,7 @@
             style="font-weight: bold; margin-top: 3px; margin-right: 5px; width: 10px; position: fixed;"></i>
         </button>
 
-        <p id="tablestats" class="tablestats"
+        <p id="tablestatss" class="tablestats"
           style="position: fixed; color: darkblue; font-size: 12px;font-weight: bold;  z-index: 9999; margin-top: 45px; margin-left:0px;">
 
         </p>
@@ -390,7 +399,7 @@
   <script src="js/select2.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- <script src="contex.js"></script> -->
+  <script src="contex.js"></script>
 
 
   <script>
@@ -511,10 +520,10 @@
 
 
 
-function fitbous(filter) {
+    function fitbous(filter) {
   var layers = ["pmc:IWMS_point", "pmc:IWMS_line","pmc:IWMS_polygon"];
-  var bounds = L.latLngBounds(); // Initialize an empty LatLngBounds object
-  console.log("layerBounds","layerBounds")
+  var bounds = null;
+ 
   var processLayer = function (layerName, callback) {
     var urlm =
       "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
@@ -522,32 +531,32 @@ function fitbous(filter) {
       "&CQL_FILTER=" +
       filter +
       "&outputFormat=application/json";
-   console.log(urlm)
+   
     $.getJSON(urlm, function (data) {
       var geojson = L.geoJson(data);
       var layerBounds = geojson.getBounds();
-      console.log(layerBounds,"layerBounds")
-      bounds.extend(layerBounds); // Extend the bounds
+      if (bounds) {
+        bounds.extend(layerBounds);
+      } else {
+        bounds = layerBounds;
+      }
       callback();
     });
   };
-
+ 
   var layersProcessed = 0;
   layers.forEach(function (layerName) {
     processLayer(layerName, function () {
       layersProcessed++;
       if (layersProcessed === layers.length) {
         // Apply the combined bounds to the map after all layers are processed
-        if (bounds.isValid()) {
+        if (bounds) {
           map.fitBounds(bounds);
-        } else {
-          console.error("No valid bounds were found for the layers.");
         }
       }
     });
   });
 }
-
     // -------------------added 11-2-24------------------------
 
 
@@ -653,7 +662,7 @@ function fitbous(filter) {
       }
 
       if (selectedDepartments.length > 0) {
-        filter.Department = selectedDepartments
+        filter.Department= selectedDepartments
           .map((department) => `'${department}'`)
           .join(",");
       }
@@ -700,7 +709,7 @@ function fitbous(filter) {
 
 
       if (selectedAmountValue && selectedAmountValue.trim() !== "") {
-        var amountCondition = `tender_amo ${selectedAmountComparison === "greater_than" ? ">" : "<"
+        var amountCondition = `Tender_Amount ${selectedAmountComparison === "greater_than" ? ">" : "<"
           } ${parseFloat(selectedAmountValue)}`;
         // If other filters are applied, append "AND" to the amount condition
         if (cqlFilter !== "") {
@@ -729,7 +738,7 @@ function fitbous(filter) {
 
       console.log(cqlFilter, "layerfilter", cqlFilter_ward, "wardhighlightfilter", cqlFilter_zone, "zonehighlightfilter")
 
-      fitbous(cqlFilter);
+      fitbou(cqlFilter);
 
 
 
@@ -748,13 +757,6 @@ function fitbous(filter) {
       // console.log("addded")
       IWMS_line.addTo(map).bringToFront();
 
-      IWMS_polygon.setParams({
-        CQL_FILTER: cqlFilter,
-        // styles: "line",
-      });
-      // console.log("addded")
-      IWMS_polygon.addTo(map).bringToFront();
-
 
       if (cqlFilter_ward) {
         ward_boundary.setParams({
@@ -772,17 +774,189 @@ function fitbous(filter) {
       }
 
 
-      var layers = ["pmc:IWMS_point", "pmc:IWMS_line","pmc:IWMS_polygon"];
+      var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
 
         tableData(typeName, geoServerURL,cqlFilter)
 
+
+
+
+      // var layers = ["pmc:IWMS_point", "pmc:IWMS_line"];
+      // var typeName = layers.join(',');
+
+      // var geoServerURL =
+      //   "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+      //   typeName +
+      //   "&outputFormat=application/json&CQL_FILTER=" +
+      //   encodeURIComponent(cqlFilter);
+
+
+
+      // var openTable = $(document).ready(function () {
+      //   // Function to toggle table visibility
+      //   $("#openTableBtn").click(function () {
+      //     var tableContainer = $("#table-container-dashboard");
+      //     var isOpen = tableContainer.css("display") !== "none";
+      //     if (isOpen) {
+      //       tableContainer.hide(); // Hide the table if it's already open
+      //     } else {
+      //       tableContainer.show(); // Show the table if it's closed
+      //     }
+      //   });
+
+
+
+
+      //   $.getJSON(geoServerURL, function (data) {
+      //     filteredData = data;
+
+      //     var totalcountofselectedrecords = filteredData.totalFeatures;
+      //     var totalTenderAmount = filteredData.features.reduce(function (total, project) {
+      //       var tenderAmount = parseFloat(project.properties.tender_amo);
+      //       return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
+      //     }, 0);
+
+
+
+      //     var project = data.features;
+      //     const pageSize = 100; // Number of items per page
+      //     let currentPage = 1; // Current page number
+
+      //     function updateTable(project, page) {
+      //       const tableBody = document.getElementById('workTableDashboard').getElementsByTagName('tbody')[0];
+      //       tableBody.innerHTML = '';
+
+      //       const startIndex = (page - 1) * pageSize;
+      //       const endIndex = startIndex + pageSize;
+      //       const currentPageData = project.slice(startIndex, endIndex);
+
+      //       currentPageData.forEach(project => {
+      //         var tenderAmount = parseFloat(project.properties.tender_amo);
+      //         tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
+
+      //         const row = `
+      //       <tr data-coordinates='${JSON.stringify(project.geometry)}'>
+      //           <td>${project.properties.zone}</td>
+      //           <td>${project.properties.ward}</td>
+      //           <td>${project.properties.departme_1}</td>
+      //           <td>${project.properties.work_type}</td>
+      //           <td>${tenderAmount}</td>
+      //           <td>${project.properties.je_name}</td>
+      //           <td>${project.properties.Agency}</td>
+      //           <td>${project.properties.Project_Office}</td> 
+      //           <td>${project.properties.Budget_Code}</td>
+      //           <td>${project.properties.created_at}</td>
+      //           <td>${project.properties.Work_Completion_Date}</td>
+      //       </tr>`;
+
+      //         tableBody.insertAdjacentHTML('beforeend', row);
+      //       });
+
+      //       updatePaginationButtons(project.length);
+      //       const currentPageElement = document.getElementById('currentPage');
+      //       if (currentPageElement) {
+      //         currentPageElement.textContent = currentPage;
+      //       }
+      //     }
+
+      //     function updatePaginationButtons(totalItems) {
+      //       const totalPages = Math.ceil(totalItems / pageSize);
+      //       const pagination = document.getElementById('paginationControls');
+      //       pagination.innerHTML = '';
+
+      //       const previousButton = document.createElement('button');
+      //       previousButton.innerHTML = '<i class="fa-solid fa-backward"></i>';
+      //       previousButton.addEventListener('click', () => {
+      //         if (currentPage > 1) {
+      //           currentPage--;
+      //           updateTable(project, currentPage);
+      //         }
+      //       });
+      //       pagination.appendChild(previousButton);
+
+      //       const pageInfo = document.createElement('P');
+      //       pageInfo.textContent = `Page${currentPage}`;
+      //       pagination.appendChild(pageInfo);
+
+      //       const nextButton = document.createElement('button');
+      //       nextButton.innerHTML = '<i class="fa-solid fa-forward"></i>';
+      //       nextButton.addEventListener('click', () => {
+      //         if (currentPage < totalPages) {
+      //           currentPage++;
+      //           updateTable(project, currentPage);
+      //         }
+      //       });
+      //       pagination.appendChild(nextButton);
+      //     }
+
+      //     // Assuming you have an initial call to updateTable with the initial page
+      //     updateTable(project, currentPage);
+
+      //     $(".tablestats").html(`Total Amount - ${totalTenderAmount.toFixed(2)} L ,
+      //   Total Projects - ${totalcountofselectedrecords}`);
+
+
+
+      //     ///////////////////////////////// new added for speed  19-03-2024 ////////////////////////////////////////////////////
+
+
+
+      //     $("#workTableDashboard tbody").on("click", "tr", function () {
+      //       var coordinatesStr = $(this).data("coordinates");
+      //       var coordinatesObj = coordinatesStr;
+      //       var boundsLayer = L.geoJSON(coordinatesObj, {
+      //         style: {
+      //           fillColor: "blue", // Fill color
+      //           fillOpacity: 0.3, // Fill opacity
+      //           color: "blue", // Border color
+      //           weight: 2, // Border weight
+      //         },
+      //       }).addTo(map); // Add the bounds layer to the map
+
+      //       var bounds = boundsLayer.getBounds(); // Get the bounds of the layer
+      //       map.fitBounds(bounds).setZoom(17.5); // Fit map to the bounds and set zoom level
+
+      //       // Optionally, you can remove the bounds layer after a certain duration
+      //       setTimeout(function () {
+      //         map.removeLayer(boundsLayer);
+      //       }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
+      //     });
+      //     // drag and drop
+      //     $(function () {
+      //       $("#table-container-dashboard").draggable();
+      //     });
+
+
+
+      //     // -----------------------
+      //     var printButton = $("#printButton")
+      //     var tablestats = $("#tablestats")
+      //     var isClosed = false;
+      //     // tableContainer.slideDown();
+      //     // tableContainer.css({
+      //     //   display: "flex",
+      //     //   flexDirection: "row",
+      //     //   justifyContent: "center",
+      //     // });
+
+      //     $("#closeTableBtnDashboard").click(function () {
+
+      //       var tableContainer = $("#table-container-dashboard");
+      //       tableContainer.hide();
+
+      //     });
+
+
+      //   });
+
+      // });
 
 
       // ====================================
@@ -852,6 +1026,22 @@ function fitbous(filter) {
     // newly added 20/04/2022
 
 
+//             // Trigger the opening of the Select2 dropdown when the select button is clicked
+//             var selectButton = $('#headingOffice button');
+//             selectButton.on('click', function() {
+//                 //select.select2('open');
+//                 // Find the search input within the Select2 dropdown
+// var searchInput = $('.select2-search__field');
+
+// // Handle the click event on the search input
+// searchInput.on('click', function(event) {
+//     // Trigger the opening of the Select2 dropdown
+//     select.select2('open');
+//     // Prevent the default behavior (e.g., focusing the search input) 
+//     // so that the dropdown remains open after clicking on the search input
+//     event.preventDefault();
+//     event.stopPropagation();
+// });
 
 
 
@@ -861,7 +1051,7 @@ function fitbous(filter) {
       select.empty();
 
       $.getJSON(
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=Project_Office&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -886,7 +1076,7 @@ function fitbous(filter) {
           }
 
           select.select2({
-            // placeholder: 'search', 
+            placeholder: 'search', 
             templateResult: function (option) {
               if (!option.id) {
                 return option.text;
@@ -939,7 +1129,7 @@ function fitbous(filter) {
       select.empty();
 
       $.getJSON(
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=project_fi&outputFormat=application/json",
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
         function (data) {
           var projectFiSet = new Set();
 
@@ -963,7 +1153,7 @@ function fitbous(filter) {
             select.select2("destroy");
           }
           select.select2({
-    // placeholder: 'search', 
+    placeholder: 'search', 
     templateResult: function (option) {
         if (!option.id) {
             return option.text;
@@ -1020,7 +1210,7 @@ function fitbous(filter) {
       var project_fi = $("#project_fi").val();
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=zone&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
       if (project_fi.length > 0) {
         project_fi = project_fi
           .map((projectFi) => `'${projectFi}'`)
@@ -1028,7 +1218,7 @@ function fitbous(filter) {
 
         let cqlFilter = `project_fi  IN (${project_fi})`;
         geoServerURL =
-          "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
+          "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
           encodeURIComponent(cqlFilter);
       }
 
@@ -1056,7 +1246,7 @@ function fitbous(filter) {
         }
 
         select.select2({
-          // placeholder: 'search', 
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1113,7 +1303,7 @@ var selectButton = $('#headingZone button');
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=ward&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
 
 
 
@@ -1145,7 +1335,7 @@ var selectButton = $('#headingZone button');
         }
 
         select.select2({
-          // placeholder: 'search', 
+          placeholder: 'search', 
           templateResult: function (option) {
             if (!option.id) {
               return option.text;
@@ -1211,7 +1401,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=village&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
 
 
 
@@ -1308,7 +1498,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=Department&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line&propertyName=Department&outputFormat=application/json";
 
       if (cqlFilter) {
         geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
@@ -1411,7 +1601,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=stage&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=stage&outputFormat=application/json";
 
 
       if (cqlFilter) {
@@ -1519,7 +1709,7 @@ var selectButton = $('#headingWard button');
       }
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=work_type&outputFormat=application/json";
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=work_type&outputFormat=application/json";
 
       if (cqlFilter) {
         geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
@@ -1679,17 +1869,18 @@ var selectButton = $('#headingWard button');
     }
 
 
-ented   //////////////////////////////////////////////
 
-    /////////////////   // search butoon implem
+    /////////////////   // search butoon implemented   //////////////////////////////////////////////
+
 
     $(document).ready(function () {
       var columns = [
-        "Work_ID",
-        "Name_of_Work",
-        "Scope_of_Work",
-        "Name_of_JE",
-        "length"
+      "Work_ID",
+      "Name_of_Work",
+      "Scope_of_Work",
+      "Name_of_JE",
+      "length",
+
       ];
 
       var select = document.getElementById("search_type");
@@ -1716,8 +1907,8 @@ ented   //////////////////////////////////////////////
 
         function getValues(callback) {
           var geoServerURL =
-            "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=" + selectedValue + "&outputFormat=application/json";
-
+            "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=" + selectedValue + "&outputFormat=application/json";
+console.log(geoServerURL,"geoServerURLsearch")
           $.getJSON(geoServerURL, function (data) {
             var workTypeSet = new Set();
 
@@ -1735,7 +1926,7 @@ ented   //////////////////////////////////////////////
 
             // Convert the Set to an array
             var uniqueWorkTypes = Array.from(workTypeSet);
-
+            console.log(uniqueWorkTypes,"uniqueWorkTypes")
             // Call the callback function with the uniqueWorkTypes array
             callback(uniqueWorkTypes);
           });
@@ -1747,7 +1938,9 @@ ented   //////////////////////////////////////////////
             source: data,
             select: function (event, ui) {
               var selectedValue1 = ui.item.value;
+              
               var searchtypefield = $("#search_type").val();
+              console.log(searchtypefield,"searchtypefield","selectedValue1",selectedValue1)
               let cqlFilter;
 
               // Handle number (double) values in filter condition
@@ -1767,7 +1960,7 @@ ented   //////////////////////////////////////////////
       var typeName = layers.join(',');
 
       var geoServerURL =
-        "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
+        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
         typeName +
         "&outputFormat=application/json&CQL_FILTER=" +
         encodeURIComponent(cqlFilter);
@@ -1786,14 +1979,14 @@ console.log("hrrrrrrrrrrrrrrrrrr")
               IWMS_line.setParams({
                 CQL_FILTER: cqlFilter,
                 maxZoom: 19.5,
-                styles: "IWMS_line"
+                styles: "line"
               });
-
               IWMS_polygon.setParams({
                 CQL_FILTER: cqlFilter,
                 maxZoom: 19.5,
                 styles: "IWMS_polygon"
               });
+
 
               // Add layers to map and perform other actions
               console.log("Adding IWMS_point and IWMS_line layers with filter:", cqlFilter);
@@ -1907,7 +2100,7 @@ function tableData(typeName, geoServerURL,cqlFilter){
 
           var totalcountofselectedrecords = filteredData.totalFeatures;
           var totalTenderAmount = filteredData.features.reduce(function (total, project) {
-            var tenderAmount = parseFloat(project.properties.tender_amo);
+            var tenderAmount = parseFloat(project.properties.Tender_Amount);
             return total + (isNaN(tenderAmount) ? 0 : tenderAmount / 100000);
           }, 0);
 
@@ -1926,21 +2119,21 @@ function tableData(typeName, geoServerURL,cqlFilter){
             const currentPageData = project.slice(startIndex, endIndex);
 
             currentPageData.forEach(project => {
-              var tenderAmount = parseFloat(project.properties.tender_amo);
+              var tenderAmount = parseFloat(project.properties.Tender_Amount);
               tenderAmount = isNaN(tenderAmount) ? 0 : tenderAmount / 100000;
 
               const row = `
             <tr data-coordinates='${JSON.stringify(project.geometry)}'>
                 <td>${project.properties.zone}</td>
                 <td>${project.properties.ward}</td>
-                <td>${project.properties.departme_1}</td>
-                <td>${project.properties.work_type}</td>
+                <td>${project.properties.Department}</td>
+                <td>${project.properties.Work_Type}</td>
                 <td>${tenderAmount}</td>
-                <td>${project.properties.je_name}</td>
+                <td>${project.properties.Name_of_JE}</td>
                 <td>${project.properties.Agency}</td>
                 <td>${project.properties.Project_Office}</td> 
                 <td>${project.properties.Budget_Code}</td>
-                <td>${project.properties.created_at}</td>
+                <td>${project.properties.Created_At}</td>
                 <td>${project.properties.Work_Completion_Date}</td>
             </tr>`;
 
@@ -2017,7 +2210,7 @@ function tableData(typeName, geoServerURL,cqlFilter){
 
           // -----------------------
           var printButton = $("#printButton")
-          var tablestats = $("#tablestats")
+          var tablestats = $("#tablestatss")
           var isClosed = false;
         
 
