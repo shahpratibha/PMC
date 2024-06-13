@@ -637,7 +637,6 @@ var drawControlElectrical = new L.Control.Draw({
 
 
 
-if(workType == "New"){
 
 var customDrawControls = L.control({ position: 'topleft' });
 
@@ -651,7 +650,6 @@ customDrawControls.onAdd = function (map) {
 
 // Add the control to the map
 customDrawControls.addTo(map);
-}
 
 var customToolSelector = L.control({ position: 'topleft' });
 
@@ -774,7 +772,7 @@ function enableEditing(layer) {
 
 // Currently selected layer for editing
 // Custom button for toggling edit mode
-if(workType == "New"){
+//if(workType == "New"){
 var editControl = L.control({position: 'topleft'});
     editControl.onAdd = function (map) {
       
@@ -877,7 +875,7 @@ return container;
 
 deleteControl.addTo(map);
 
-}
+//}
 
 
 function handleDeletePolyline(polylineId) {
