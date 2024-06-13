@@ -1920,7 +1920,7 @@ const geometryType = lastGeometry.type;
     processData: false,
     contentType: false,
     success: function (response) {
-      window.location.href = response.data.redirect_Url;   
+     // window.location.href = response.data.redirect_Url;   
       // window.close();  
 
     },
