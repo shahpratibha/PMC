@@ -1,19 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PMC</title>
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/drainage.css"/>
-
-  
  
+  <style>
+#saveDataButton {
+  border: 2px solid #2b13bb;
+  border-bottom: 2px solid #2b13bb;
+  border-top: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px;
+  background-color: white;
+  position: fixed;
+  color: black;
+  padding: 0px 5px;
+  display: none;
+  top: 75%; /* changed from 683px */
+  font-size: 19px;
+  height: 37px;
+  width: 37px;
+  left: 90%; /* changed from 865px */
+}
+
+.delete-button {
+  border: 2px solid #2b13bb;
+  padding: 6px 7.3px;
+  font-size: 14px;
+  border-radius: 5px 5px 5px 5px;
+  display: block;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  left: 53%; /* changed from 513px */
+  position: absolute;
+  top: 53%; /* changed from 487px */
+  height: 37px;
+  width: 37px;
+  display: none;
+  border-top: 2px solid #2b13bb;
+}
+
+#deleteFeatureButton {
+  border: 2px solid #2b13bb;
+  border-top: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px;
+  background-color: white;
+  color: black;
+  padding: 3px 7px;
+  display: none;
+  position: fixed;
+  top: 75%; /* changed from 683px */
+  font-size: 15px;
+  height: 37px;
+  width: 37px;
+  left: 95%; /* changed from 908px */
+}
+
+#editFeatureButton {
+  border: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px;
+  height: 37px;
+  width: 37px;
+  display: none;
+  position: fixed;
+  top: 75%; /* changed from 683px */
+  left: 85%; /* changed from 822px */
+  padding: 5px;
+  background: white;
+  border-bottom: 2px solid #2b13bb;
+}
+
+.leaflet-draw-draw-polyline {
+  top: 55%; /* changed from 478px */
+  position: absolute;
+  left: 70%; /* changed from 643px */
+  border: 2px solid #2b13bb !important;
+  border-bottom: 2px solid darkblue;
+  height: 37px !important;
+  width: 37px !important;
+  border-radius: 5px 5px 5px 5px !important;
+}
+
+.leaflet-control-edit-interior {
+  font-size: 15px;
+  position: absolute !important;
+  height: 37px !important;
+  width: 37px !important;
+  top: 58%; /* changed from 501px */
+  border: 2px solid #2b13bb;
+  border-radius: 5px 5px 5px 5px !important;
+  left: 60%; /* changed from 555px */
+  border-bottom: 2px solid #2b13bb !important;
+}
+
+.leaflet-draw-toolbar a {
+  background-image: url(images/spritesheet.png);
+  background-image: linear-gradient(transparent, transparent), url(images/spritesheet.svg);
+  background-repeat: no-repeat;
+  background-size: 360px 36px !important;
+  background-clip: padding-box;
+}
+  </style>
+  
+
+
   <!-- bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -22,9 +119,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
     integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
@@ -36,6 +135,7 @@
   <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
 
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -63,6 +163,7 @@
   <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
 
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
   <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
@@ -71,8 +172,10 @@
 
 
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
 
@@ -81,20 +184,24 @@
 
   <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
   <script src="libs/polyline-measure/line-measure.js"></script>
+
   <link rel="stylesheet" href="libs/leaflet-measure-master/leaflet-measure.css" />
+
   <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.3/src/leaflet.geometryutil.min.js"></script>
 
 
 
   <script src="libs/feat.js"></script>
 
+   
 
-
-  <!-- <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
+<!-- 
+  <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
   <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script> -->
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </head>
 
@@ -118,9 +225,12 @@
       <tbody id="workTableData"></tbody>
     </table>
   </div>
-  <script src="js/config.js"></script>
 
-  <script src="js/drainage.js"></script>
+ <script src="js/config.js"></script>
+
+  <script src="js/road.js"></script>
+  <!-- <script src="js/mainmodal/legend.js"></script> -->
+  <script src="js/mainmodal/contextMenu.js"></script>
 
   <script>
 
@@ -140,7 +250,10 @@ function toggleSelectLayerButton(show) {
 
     
     $(document).ready(function () {
-   
+     
+      var wardname = localStorage.getItem("wardname");
+      console.log(wardname);
+    
       $("#searchInputDashboard").autocomplete({
         minLength: 3,
         source: function (request, response) {
@@ -150,7 +263,7 @@ function toggleSelectLayerButton(show) {
           if (searchTerm.length >= 3 && searchType) {
             let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-            let geoServerURL = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+            let geoServerURL = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
               cqlFilter
             )}`;
 
@@ -340,10 +453,10 @@ function toggleSelectLayerButton(show) {
 
               var lastInsertedId = localStorage.getItem("lastInsertedId");
 
-              selectedLenght = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
+
               var payload = JSON.stringify({
                 geoJSON: JSON.stringify(featureData),
-                roadLength: selectedLenght,
+                roadLength: roadLength,
                 bufferWidth: bufferWidth,
                 gis_id: lastInsertedId,
                 department: department,
@@ -413,36 +526,40 @@ function toggleSelectLayerButton(show) {
                   console.error("Save failed:", error);
                 },
               });
+             
+              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
+          console.log(selectCoordinatesData)
+            var formData = new FormData();
+            formData.append('proj_id', worksAaApprovalId);
+            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+            formData.append('polygon_area', 0);
+            formData.append('polygon_centroid', 0);
+            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+            formData.append('road_no', struct_no);
+            formData.append('user_id', user_id);
+            formData.append('length', area);
+            formData.append('width', width);
           
-              console.log(selectCoordinatesData)
-                var formData = new FormData();
-                formData.append('proj_id', worksAaApprovalId);
-                formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-                formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-                formData.append('polygon_area', 0);
-                formData.append('polygon_centroid', 0);
-                formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-                formData.append('road_no', struct_no);
-                formData.append('user_id', user_id);
-                formData.append('length', selectedLenght);
-                formData.append('width', width);
-              
-                          $.ajax({
-                    type: "POST",
-                    url: "https://iwms.punecorporation.org/api/gis-data",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        console.log(response);
-                       window.location.href = response.data.redirect_Url;
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Save failed:", error);
-                    },
-                });
+                      $.ajax({
+                type: "POST",
+                url: "https://iwms.punecorporation.org/api/gis-data",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                   window.location.href = response.data.redirect_Url;
+                },
+                error: function (xhr, status, error) {
+                    console.error("Save failed:", error);
+                },
             });
 
+            });
+
+            
+          
           
         }
       });
@@ -459,7 +576,7 @@ function toggleSelectLayerButton(show) {
 
       // Change the button's onclick function to stop the task
       button.onclick = function () {
-        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
+        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px;  height:20px padding:5px; " title="SELECT-FEATURE">';
         // Remove the click event listener from the map
         var drawFeatureButton = document.querySelector('.draw_feature');
         if (drawFeatureButton) {
@@ -473,54 +590,23 @@ function toggleSelectLayerButton(show) {
     }
 
 
-    function updatePopup(layer) {
-  let content;
-  var coordinates = layer._latlngs[0];
-  var turfCoords = coordinates.map(function (coord) {
-    return [coord.lng, coord.lat];
-  });
-
-  if (layer instanceof L.Polyline) {
-    var line = turf.lineString(turfCoords);
-    var length = turf.length(line, { units: 'meters' });
-    content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
-  } else if (layer instanceof L.Polygon) {
-    var polygon = turf.polygon([turfCoords]);
-    var area = turf.area(polygon);
-    content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
-  }
-
-  if (!layer._popup) {
-    layer.bindPopup(content);
-  } else {
-    layer.setPopupContent(content);
-  }
-  layer.openPopup();
-}
-
-
-document.getElementById("editFeatureButton").addEventListener("click", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-   selectedFeature.eachLayer(function (layer) {
-        if (layer.editing) {
-            layer.editing.enable();
-            layer.on('edit', function () {
-                updatePopup(layer);
-            });
-        } else {
-            layer.on("click", function () {
-                if (this.editing) {
-                    this.editing.enable();
-                    updatePopup(this);
-                    this.on('edit', function () {
-                        updatePopup(this);
-                    });
+    document
+            .getElementById("editFeatureButton")
+            .addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              selectedFeature.eachLayer(function (layer) {
+                if (layer.editing) {
+                  layer.editing.enable();
+                } else {
+                  layer.on("click", function () {
+                    if (this.editing) {
+                      this.editing.enable();
+                    }
+                  });
                 }
+              });
             });
-        }
-    });
-}); 
 
 
  document.getElementById('deleteFeatureButton').addEventListener('click', function() {
@@ -542,7 +628,7 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
       button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
       button.onclick = function () {
         var drawFeatureButton = document.querySelector('.draw_feature');
-        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">') {
+        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">') {
           button.innerHTML = 'Finish';
           performTask();
 
@@ -559,7 +645,7 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
             drawFeatureButton.setAttribute('disabled', false);
           }
         } else {
-          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; position: fixed;" title="SELECT FEATURE">';
+          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">';
           // Finish or reset any ongoing operation here
           if (drawFeatureButton) {
             drawFeatureButton.setAttribute('disabled', false);
@@ -582,7 +668,28 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
     };
 
 
-    
+    // code for image on perform button
+
+
+    //     editControl.onAdd = function (map) {
+    //   var button = L.DomUtil.create('button', 'custom-button');
+    //   var img = document.createElement('img');
+    //   img.src = './png/003-selection.png'; 
+    //   img.style.width = '25px'; // Example width
+    //   img.style.height = '25px'; // Example height
+    //   button.appendChild(img);
+    //   button.innerHTML += ' Perform Task'; 
+    //   button.onclick = function () {
+    //     if (button.innerHTML.includes('Perform Task')) {
+    //       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
+    //       performTask();
+    //     } else {
+    //       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
+    //     }
+    //   };
+    //   return button;
+    // };
+
 
 
     // Add the control to the map
@@ -608,239 +715,14 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
       this.style.backgroundColor = "#ccc"; // Change background color when clicked
     });
 
-    
+    // 
     // Customize the zoom control position
     map.zoomControl.setPosition('bottomright');
+   
+  
 
 
-    // legend start
-
-// Now continue with your remaining JavaScript code...
-// GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
-
-var workspace = "Drainage";
-
-// Variable to keep track of legend visibility
-var legendVisible = true;
-var processedLayers = [];
-// Add the WMS Legend control to the map
-var legendControl = L.control({ position: "topright" });
-
-legendControl.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
-
-  // Function to fetch and populate the legend
-  function updateLegend() {
-    // Clear the existing legend
-    div.innerHTML = '';
-
-    // Fetch capabilities to get all layers in the 'pmc' workspace
-    fetch(geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities")
-      .then((response) => response.text())
-      .then((data) => {
-        // Parse capabilities XML response
-        var parser = new DOMParser();
-        var xml = parser.parseFromString(data, "text/xml");
-
-        // Extract layer names and legend URLs for layers in the 'pmc' workspace
-        var layers = xml.querySelectorAll('Layer[queryable="1"]');
-        
-
-        layers.forEach((layer) => {
-          var layerName = layer.querySelector("Name").textContent;
-          var layerWorkspace = layerName.split(":")[0]; // Extract workspace from layer name
-          if (layerWorkspace === workspace && !processedLayers.includes(layerName)) {
-            var legendUrl =
-              geoserverUrl +
-              "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-              layerName;
-            var layerParts = layerName.split(":"); // Split layer name by ":"
-            var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
-            div.innerHTML +=
-              "<p><strong>" +
-              layerDisplayName + // Use layerDisplayName instead of layerName
-              "</strong></p>" +
-              '<img src="' +
-              legendUrl +
-              '" alt="' +
-              layerDisplayName + // Use layerDisplayName instead of layerName
-              ' legend"><br>';
-            processedLayers.push(layerName); // Add processed layer to the list
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching capabilities:", error);
-      });
-  }
-
-  // Initially update the legend
-  updateLegend();
-
-  // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-  div.style.position = "fixed";
-  div.style.bottom = "0";
-  div.style.right = "0";
-  div.style.height = "40vh";
-  div.style.width = "300px";
-  div.style.overflowY = "auto";
-  div.style.scrollbarWidth = "thin";
-  div.style.backgroundColor = "white";
-  div.style.border = "2px solid darkblue";
-  // div.style.borderRadius = "10px";
-  div.style.padding = "10px";
-  div.style.transition = "all 0.3s ease-in-out"; // Add transition for smooth animation
-
-  // Toggle legend visibility function
-  function toggleLegend() {
-    if (legendVisible) {
-      div.style.height = "0"; // Minimize the legend
-      legendVisible = false;
-    } else {
-      div.style.height = "40vh"; // Maximize the legend
-      legendVisible = true;
-    }
-  }
-
-  // Add event listener to the legend control
-  div.addEventListener('click', toggleLegend);
-
-  return div;
-};
-// -----------------------------------------------------
-// Add collapsible button
-var collapseButton = L.control({ position: "topright" });
-
-collapseButton.onAdd = function (map) {
-  var button = L.DomUtil.create("button", "collapse-button");
-  button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>"; // Initial text
-
-  // Apply styling
-  button.style.backgroundColor = "white";
-  button.style.border = "2px solid darkblue";
-  button.style.width = "35px";
-  button.style.height = "35px";
-  button.style.borderRadius = "5px";
-  button.style.color = "black";
-  button.style.padding = "10px";
-  button.style.textAlign = "center";
-  button.style.textDecoration = "none";
-  button.style.display = "block";
-  button.style.margin = "10px";
-  button.style.cursor = "pointer";
-  button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
-
-  // Toggle legend visibility when the button is clicked
-  button.onclick = function () {
-    var legendDiv = document.querySelector(".info.legend");
-    if (
-      legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
-
-
-      legendDiv.style.display = "block";
-      legendDiv.style.height = "40vh";
-      legendDiv.style.width = "200px";
-      legendDiv.style.top ="12%";
-      legendDiv.style.right ="2%";
-      legendDiv.style.scrollbarWidth = "thin";
-      legendDiv.style.scrollbarColor =  "#163140 white";
-      // legendDiv.style.borderRadius= "20px";
-      legendDiv.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.7)"; // Add shadow
-      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-
-      button.style.backgroundColor = "white"; // Change color to indicate action
-      legendVisible = true;
-    } else {
-      legendDiv.style.display = "none";
-      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-      button.style.backgroundColor = "white"; // Change color to indicate action
-      legendVisible = false;
-    }
-  };
-
-  return button;
-};
-
-collapseButton.addTo(map);
-
-// Create a legend control
-var legend = L.control({ position: "bottomright" });
-
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "info legend");
-
-  // Initially hide the legend content
-  div.style.display = "none";
-
-  // Create a button to toggle the visibility of the legend content
-  var toggleButton = L.DomUtil.create("button", "legend-toggle");
-  toggleButton.innerHTML = "";
-  toggleButton.style.backgroundColor = "transparent";
-
-  toggleButton.onclick = function () {
-    if (div.style.display === "none") {
-      div.style.display = "block";
-    } else {
-      div.style.display = "none";
-    }
-  };
-  div.appendChild(toggleButton);
-
-  // Fetch capabilities to get all layers in the 'pmc' workspace
-  fetch(
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
-  )
-    .then((response) => response.text())
-    .then((data) => {
-      // Parse capabilities XML response
-      var parser = new DOMParser();
-      var xml = parser.parseFromString(data, "text/xml");
-
-      // Extract layer names and legend URLs for layers in the 'pmc' workspace
-      var layers = xml.querySelectorAll('Layer[queryable="1"]');
-      layers.forEach(function (layer) {
-        var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("Drainage:")) {
-          var legendUrl =
-            this.geoserverUrl +
-            "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
-            layerName;
-          var layerParts = layerName.split(":"); // Split layer name by ":"
-          var layerDisplayName = layerParts[layerParts.length - 1]; // Take the last part as the display name
-          div.innerHTML +=
-            "<p><strong>" +
-            layerDisplayName +
-            "</strong></p>" +
-            '<img src="' +
-            legendUrl +
-            '" alt="' +
-            layerDisplayName +
-            ' legend"><br>';
-        }
-      });
-
-      // Apply CSS to fit to bottom right, occupy 60% of screen height, and provide scrollbar
-      div.style.position = "fixed";
-      div.style.bottom = "0";
-      div.style.right = "0";
-      div.style.height = "60vh";
-      div.style.width = "300px";
-      div.style.overflowY = "auto";
-      div.style.scrollbarWidth = "thin";
-      div.style.backgroundColor = "white";
-      div.style.border = "2px solid darkblue";
-      // div.style.borderRadius = "10px";
-      div.style.padding = "10px";
-    })
-    .catch((error) => {
-      console.error("Error fetching capabilities:", error);
-    });
-
-  return div;
-};
-
-legend.addTo(map);
+    
 
   </script>
 </body>

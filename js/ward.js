@@ -441,7 +441,10 @@ function toggleEditDeleteButton(show) {
   for (let i = 0; i < saveBtns.length; i++) {
     saveBtns[i].style.display = show ? "block" : "none";
     editBtn[i].style.display = show ? "block" : "none";
+<<<<<<< HEAD
   
+=======
+>>>>>>> d4d946d028c6c6ba3ffd5301ba74a3591205a697
   }
 }
 

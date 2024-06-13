@@ -254,13 +254,14 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function fitbou(filter) {
-  var layer = "pmc:ward_boundary1";
+  var layer = "pmc:PMC_wards_admin_boundary";
   var urlm =
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
     "&outputFormat=application/json";
+    console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
     wardBoundary = data;
@@ -1125,7 +1126,7 @@ map.on("draw:deleted", function (e) {
 
   traceLayer.clearLayers();
 
-  // Reset the currentPolyline variable to null to ensure it doesn't retain any old reference
+
   if (currentPolyline) {
     currentPolyline.remove(); // Removes the polyline from the map
     currentPolyline = null; // Dereferences the polyline object
@@ -1574,6 +1575,8 @@ function Savedata(lastDrawnPolylineId) {
   formData.append("road_no", struct_no);
   formData.append("user_id", user_id);
 
+
+
   $.ajax({
     type: "POST",
     url: "https://iwms.punecorporation.org/api/gis-data",
@@ -1940,24 +1943,8 @@ function getWardNameById(wardId, wardData) {
     return "";
   }
 }
-// You can also customize the scale options
-L.control.scale().addTo(map);
 
-var northArrowControl = L.Control.extend({
-  options: {
-    position: "bottomleft",
-  },
 
-  onAdd: function (map) {
-    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
-    container.innerHTML =
-      // '<div class="north-arrow" ><i class="fas fa-long-arrow-alt-up p-1"  style="width: 20px; background-color:white;  height: 20px;"></i></div>';
-      '<img  src="png/002-cardinal-point.png" alt="" style="width: 30px;  height:50px; border:2px solid darkblue; background:white; border-radius:5px;">';
-
-    return container;
-  },
-});
-map.addControl(new northArrowControl());
 map.on("contextmenu", (e) => {
   let size = map.getSize();
   let bbox = map.getBounds().toBBoxString();

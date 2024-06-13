@@ -5,7 +5,7 @@
 // GeoServer URL
 var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 
-var workspace = "pmc1";
+var workspace = "Bhavan";
 
 // Variable to keep track of legend visibility
 var legendVisible = true;
@@ -187,7 +187,7 @@ legend.onAdd = function (map) {
       var layers = xml.querySelectorAll('Layer[queryable="1"]');
       layers.forEach(function (layer) {
         var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("pmc1:")) {
+        if (layerName.startsWith("Bhavan:")) {
           var legendUrl =
             this.geoserverUrl +
             "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +

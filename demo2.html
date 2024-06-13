@@ -3,710 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latestst/css/boxicons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <title>GeoPulse</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css">
-  
-    <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css">
-    <link rel="stylesheet" type="text/css"
-      href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
-  <style>
-    
-  </style>
+
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .map-container {
+            flex-grow: 1;
+            height: 500px;
+        }
+        .project-details {
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        h3 {
+            margin-top: 0;
+        }
+        .filters {
+            margin-bottom: 20px;
+          
+        }
+        .filter-group {
+            /* margin-bottom: 20px; */
+            padding: 10px;
+            border: 1px solid gray;
+            font-size: 10px;
+        }
+        .filter-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        .filter-group input[type="text"] {
+            width: 80%;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            display: none;
+        }
+        .filter-group ul {
+            list-style-type: none;
+            padding: 0;
+            display: none;
+        }
+        .filter-group ul.active,
+        .filter-group input[type="text"].active {
+            display: block;
+            forced-color-adjust: blue;
+        }
+        .filter-group li {
+            margin-bottom: 5px;
+        }
+      
+        .icon-container {
+    position:absolute;
+    right:1%; 
+    top:0%;
+    font-size: 15px;
+}
+
+/* Style the icon */
+.icon-container i {
+    color: black; /* Default color */
+}
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-    
-</body class="overflow-hidden " class="" style="background-color: #f3f3f3">
-<div class="sidebar" id="mySidenav" type="button">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-minus"
-      style="width: 15px; "></i></a>
-  <div class="accordion" id="formAccordion">
-      <!-- Office Section -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOffice">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseOffice" aria-expanded="false" aria-controls="collapseOffice">
-            Select Office
-          </button>
-        </h2>
-        <div id="collapseOffice" class="accordion-collapse collapse" aria-labelledby="headingOffice"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body" >
-            <div class="form-group" >
-              <!-- <label>Select Office</label> -->
-              <select style="width: 100%" class="" multiple="multiple" id="project_Off">
+    <div class="sidebar">
+        <div class="filters">
+            <h3>Filters</h3>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Select Office  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Department Name" class="filter-input">
+                <ul class="select2"  multiple="multiple" id="project_Off">
+                    <!-- <li><input type="checkbox"> Department 1</li>
+                    <li><input type="checkbox"> Department 2</li>
+                    <li><input type="checkbox"> Department 3</li> -->
+                </ul>
+            </div>
+            <div onclick="toggleFilter(this)" class="filter-group">
+                <label >Ward Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
                 
-              </select>
+                <input type="text" placeholder="Search By Ward Name" class="filter-input">
+               
+                <ul class="select2"multiple="multiple" id="project_fi" >
+                    <li><input type="checkbox"> Lohegaon</li>
+                    <li><input type="checkbox"> Baner</li>
+                    <li><input type="checkbox"> Option 3</li>
+                    <li><input type="checkbox"> Option 4</li>
+                    <li><input type="checkbox"> Option 5</li>
+                    <li><input type="checkbox"> Option 6</li>
+                </ul>
             </div>
-
-          </div>
-        </div>
-      </div>
-       <!-- Year Section -->
-       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOfficeYear">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseOfficeYear" aria-expanded="false" aria-controls="collapseOfficeYear">
-            Select Year
-          </button>
-        </h2>
-        <div id="collapseOfficeYear" class="accordion-collapse collapse" aria-labelledby="headingOfficeYear"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-
-            <div class="form-group">
-              <!-- <label>Select Year</label> -->
-              <select style="width: 100%;" class="select2 form-control" multiple="multiple" id="project_fi">
-                <option value=""></option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Zone  -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingZone">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseZone" aria-expanded="false" aria-controls="collapseZone">
-            Zone Selection
-          </button>
-        </h2>
-        <div id="collapseZone" class="accordion-collapse collapse" aria-labelledby="headingZone"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
-              <!-- <label>Zone Name</label> -->
-              <select id="zones" style="width: 100%" class="form-control select2" multiple="multiple"
-                onchange="loadAdminWardNameAndFilter();">
-                <option value=""></option>
-              </select>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <!-- Ward Section -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingWard">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseWard" aria-expanded="false" aria-controls="collapseWard">
-            Ward Selection
-          </button>
-        </h2>
-        <div id="collapseWard" class="accordion-collapse collapse" aria-labelledby="headingWard"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-
-            <div class="form-group">
-              <!-- <label for="admin_ward_name">Ward Name</label> -->
-              <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%"
-                onchange="loadVillagesAndFilter();">
-                <option value=""></option>
-              </select>
-            </div>
-
-          </div>
-        </div>
-      </div>
-       <!-- village Section -->
-       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingVillage">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseVillage" aria-expanded="false" aria-controls="collapseVillage">
-            Village Selection
-          </button>
-        </h2>
-        <div id="collapseVillage" class="accordion-collapse collapse" aria-labelledby="headingVillage"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
-              <!-- <label>Village Name</label> -->
-              <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%"
-                onchange="loadDepartmentsAndFilter();">
-                <option value=""></option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Department Section -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingDepartment">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseDepartment" aria-expanded="false" aria-controls="collapseDepartment">
-            Select Department
-          </button>
-        </h2>
-        <div id="collapseDepartment" class="accordion-collapse collapse" aria-labelledby="headingDepartment"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
-              <!-- <label for="admin_ward_name">Departments</label> -->
-              <select class="form-control select2" id="departments" style="width:100%" multiple="multiple"
-                onchange="loadStagesAndFilter();">
-                <option value=""></option>
-              </select>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <!-- Project Status -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingProjectStatus">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseProjectStatus" aria-expanded="false" aria-controls="collapseProjectStatus">
-            Select Project Status
-          </button>
-        </h2>
-        <div id="collapseProjectStatus" class="accordion-collapse collapse" aria-labelledby="headingProjectStatus"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
-              <!-- <label>Project Status</label> -->
-              <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage"
-                onchange="loadWorkTypesAndFilter();">
-                <option value=""></option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Work Type -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingWorkType">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseWorkType" aria-expanded="false" aria-controls="collapseWorkType">
-            Select Work Type
-          </button>
-        </h2>
-        <div id="collapseWorkType" class="accordion-collapse collapse" aria-labelledby="headingWorkType"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-
-            <div class="form-group">
-              <label>Work Type</label>
-              <select class="select2 form-control" multiple="multiple" style="width:100%" id="work_type">
-                <option value=""></option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Project Cost Section -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingProjectCost">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseProjectCost" aria-expanded="false" aria-controls="collapseProjectCost">
-            Project Cost
-          </button>
-        </h2>
-        <div id="collapseProjectCost" class="accordion-collapse collapse" aria-labelledby="headingProjectCost"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-12">
-                  <select class="form-select" id="amount_comparison">
-                    <option value="greater_than">Greater Than</option>
-                    <option value="less_than">Less Than</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- Date Range Section -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingDateRange">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseDateRange" aria-expanded="false" aria-controls="collapseDateRange">
-            Date Range Selection
-          </button>
-        </h2>
-        <div id="collapseDateRange" class="accordion-collapse collapse" aria-labelledby="headingDateRange"
-          data-bs-parent="#formAccordion">
-          <div class="accordion-body">
-            <div class="form-group">
-              <!-- <label for="date_range">Date Range</label> -->
-              <input type="text" name="" class="form-control" id="date_range" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-
-  </div>
- 
-
-
-  
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
-  <script
-    src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
-  <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-  <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
-  <!-- <script src="libs/polyline-measure/line-measure.js"></script> -->
-  <!-- <script src="libs/leaflet-measure-master/leaflet-measure.js"></script> -->
-
-  <script src="libs/feat.js"></script>
-  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-  <script src="js/index.js"></script>
-  <script src="js/select2.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- <script src="contex.js"></script> -->
-
-
-  <script>
-  function loadProjectOff() {
-      var select = $("#project_Off");
-      select.empty();
-
-      $.getJSON(
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=Project_Office&outputFormat=application/json",
-        function (data) {
-          var projectFiSet = new Set();
-
-          $.each(data.features, function (index, feature) {
-            var project_fi = feature.properties.Project_Office;
-            projectFiSet.add(project_fi);
-          });
-
-          var uniqueProjectFiSet = Array.from(projectFiSet);
-
-          $.each(uniqueProjectFiSet, function (index, project_fi) {
-            select.append(
-              $("<option>", {
-                value: project_fi,
-                text: project_fi,
-              })
-            );
-          });
-
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-
-          select.select2({
-            // placeholder: 'search', 
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-              
-
-              var $option = $(
-                
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                option.text +
-                "</span>"
-              );
-              return $option;
-            },
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                option.text +
-                "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-            dropdownPosition: 'below' // Set the dropdown position below the select box
-          });
-           // Trigger the opening of the Select2 dropdown when the select button is clicked
-           var selectButton = $('#headingOffice button');
-            selectButton.on('click', function() {
-                select.select2('open');
-            });
-
-          select.on("change", function () {
-            loadZones();
-            filterDataAndDrawMap();
-          });
-        }
-      );
-    }
-
-
-    // newly added 20/04/2022
-
-    function loadProjectFi() {
-      var select = $("#project_fi");
-      select.empty();
-
-      $.getJSON(
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=project_fi&outputFormat=application/json",
-        function (data) {
-          var projectFiSet = new Set();
-
-          $.each(data.features, function (index, feature) {
-            var project_fi = feature.properties.project_fi;
-            projectFiSet.add(project_fi);
-          });
-
-          var uniqueProjectFiSet = Array.from(projectFiSet);
-
-          $.each(uniqueProjectFiSet, function (index, project_fi) {
-            select.append(
-              $("<option>", {
-                value: project_fi,
-                text: project_fi,
-              })
-            );
-          });
-
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-          select.select2({
-    // placeholder: 'search', 
-    templateResult: function (option) {
-        if (!option.id) {
-            return option.text;
-        }
-
-
-          // select.select2({
-          //   templateResult: function (option) {
-          //     if (!option.id) {
-          //       return option.text;
-          //     }
-
-              var $option = $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-                option.text +
-                "</span>"
-              );
-              return $option;
-            }, 
            
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Zone Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Zone Name" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Zone 1</li>
+                    <li><input type="checkbox"> Zone 2</li>
+                    <li><input type="checkbox"> Zone 3</li>
+                </ul>
+            </div>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Village Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Village Name" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Village 1</li>
+                    <li><input type="checkbox"> Village 2</li>
+                    <li><input type="checkbox"> Village 3</li>
+                </ul>
+            </div>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Project Status   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Project Status" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Status 1</li>
+                    <li><input type="checkbox"> Status 2</li>
+                    <li><input type="checkbox"> Status 3</li>
+                </ul>
+            </div>
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Work Type   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Work Type" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Work Type 1</li>
+                    <li><input type="checkbox"> Work Type 2</li>
+                    <li><input type="checkbox"> Work Type 3</li>
+                </ul>
+            </div>
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Budget Code   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Budget Code" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Budget 1</li>
+                    <li><input type="checkbox"> Budget 2</li>
+                    <li><input type="checkbox"> Budget 3</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="map-container" id="map"></div>
+        <div class="project-details">
+            <h3>Project Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Ward</th>
+                        <th>Department</th>
+                        <th>Ward Scope</th>
+                        <th>Ward Name</th>
+                        <th>Work Type</th>
+                        <th>Date</th>
+                        <th>Tender Amount</th>
+                        <th>JE Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>D.M.C. Zone 1</td>
+                        <td>Yerwada</td>
+                        <td>Road</td>
+                        <td>Resurfacing</td>
+                        <td>To Carry Out Surfacing Volume</td>
+                        <td>New</td>
+                        <td>01-02-2022</td>
+                        <td>12,09,233</td>
+                        <td>Sapana Sahare</td>
+                    </tr>
+                    <!-- Add more rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize the map
+            const map = L.map('map').setView([18.5204, 73.8567], 13); // Coordinates for Pune
 
-              return $(
-                '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-                option.text +
-                "</span>"
-              );
-            },
-            closeOnSelect : false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-            // Trigger the opening of the Select2 dropdown when the select button is clicked
-            var selectButton = $('#headingOfficeYear button');
-            selectButton.on('click', function() {
-                select.select2('open');
-            });
+            // Add a tile layer to the map
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
 
-          select.on("change", function () {
-            loadZones();
-            filterDataAndDrawMap();
-          });
-        }
-      );
+           
+        });
+        
+function toggleFilter(div) {
+    const input = div.querySelector('.filter-input');
+    const ul = div.querySelector('ul');
+    const isActive = input.classList.contains('active');
+
+    // Remove 'active' class from all filter inputs and their associated ul elements
+    document.querySelectorAll('.filter-input').forEach(input => {
+        input.classList.remove('active');
+        input.nextElementSibling.classList.remove('active');
+    });
+
+    // If the clicked filter is not active, add 'active' class to it
+    if (!isActive) {
+        input.classList.add('active');
+        ul.classList.add('active');
     }
+}
 
-    function loadZones() {
-      var select = $("#zones");
-      select.empty();
+// Function to filter checkboxes based on search input
+function filterCheckboxes(input) {
+    const filter = input.value.toLowerCase();
+    const ul = input.nextElementSibling;
+    const li = ul.getElementsByTagName('li');
 
-      var project_fi = $("#project_fi").val();
-
-      var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json";
-      if (project_fi.length > 0) {
-        project_fi = project_fi
-          .map((projectFi) => `'${projectFi}'`)
-          .join(",");
-
-        let cqlFilter = `project_fi  IN (${project_fi})`;
-        geoServerURL =
-          "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=zone&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-      }
-
-      $.getJSON(geoServerURL, function (data) {
-        var zoneSet = new Set();
-
-        $.each(data.features, function (index, feature) {
-          var zone = feature.properties.zone;
-          zoneSet.add(zone);
-        });
-
-        var uniqueZoneSet = Array.from(zoneSet);
-
-        $.each(uniqueZoneSet, function (index, zone) {
-          select.append(
-            $("<option>", {
-              value: zone,
-              text: zone,
-            })
-          );
-        });
-
-        if (select.hasClass("select2-hidden-accessible")) {
-          select.select2("destroy");
+    for (let i = 0; i < li.length; i++) {
+        const text = li[i].textContent || li[i].innerText;
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
         }
-
-        select.select2({
-          // placeholder: 'search', 
-          templateResult: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            var $option = $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-              option.text +
-              "</span>"
-            );
-            return $option;
-          },
-          templateSelection: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            return $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-              option.text +
-              "</span>"
-            );
-          },
-          closeOnSelect: false,
-          dropdownParent: select.parent(),
-          multiple: true,
-        });
-
-// Trigger the opening of the Select2 dropdown when the select button is clicked
-var selectButton = $('#headingZone button');
-            selectButton.on('click', function() {
-                select.select2('open');
-            });
-      });
     }
+}
 
-    function loadAdminWardName() {
-      var select = $("#admin_ward_name");
-      select.empty();
-      var project_fi = $("#project_fi").val();
-      var zones = $("#zones").val();
-      let cqlFilter = "";
+// Add event listeners to filter inputs
+document.querySelectorAll('.filter-input').forEach(input => {
+    input.addEventListener('input', function(event) {
+        event.stopPropagation(); // Stop event propagation
+        filterCheckboxes(this);
+    });
+    // Stop event propagation for click events on the input element
+ input.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+      // Stop event propagation for mousedown events on the input element to prevent the div from closing
+      input.addEventListener('mousedown', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
+ 
+// Add event listeners to checkboxes to stop propagation
+document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
 
-      if (project_fi.length > 0) {
-        project_fi = project_fi
-          .map((projectFi) => `'${projectFi}'`)
-          .join(",");
-        cqlFilter = `project_fi IN (${project_fi})`;
-      }
-
-      if (zones.length > 0) {
-        zones = zones.map((zone) => `'${zone}'`).join(",");
-        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-      }
-
-      var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=ward&outputFormat=application/json";
-
-
-
-      if (cqlFilter) {
-        geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
-      }
-
-      $.getJSON(geoServerURL, function (data) {
-        var wardSet = new Set();
-
-        $.each(data.features, function (index, feature) {
-          var ward = feature.properties.ward;
-          wardSet.add(ward);
-        });
-
-        var uniqueWard = Array.from(wardSet);
-
-        $.each(uniqueWard, function (index, ward) {
-          select.append(
-            $("<option>", {
-              value: ward,
-              text: ward,
-            })
-          );
-        });
-
-        if (select.hasClass("select2-hidden-accessible")) {
-          select.select2("destroy");
-        }
-
-        select.select2({
-          // placeholder: 'search', 
-          templateResult: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            var $option = $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-              option.text +
-              "</span>"
-            );
-            return $option;
-          },
-          templateSelection: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            return $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-              option.text +
-              "</span>"
-              
-            );
-          },
-          closeOnSelect: false,
-          dropdownParent: select.parent(),
-          multiple: true,
-          
-        });
-        // Trigger the opening of the Select2 dropdown when the select button is clicked
-var selectButton = $('#headingWard button');
-            selectButton.on('click', function() {
-                select.select2('open');
-            });
-      });
-    }
-
-    
-
-    function loadVillages() {
-      var select = $("#villages");
-      select.empty();
-
-      var project_fi = $("#project_fi").val();
-      var zones = $("#zones").val();
-      var wards = $("#admin_ward_name").val();
-      let cqlFilter = "";
-
-      if (project_fi.length > 0) {
-        project_fi = project_fi
-          .map((projectFi) => `'${projectFi}'`)
-          .join(",");
-        cqlFilter = `project_fi IN (${project_fi})`;
-      }
-
-      if (zones.length > 0) {
-        zones = zones.map((zone) => `'${zone}'`).join(",");
-        cqlFilter += (cqlFilter ? " AND " : "") + `zone IN (${zones})`;
-      }
-      if (wards.length > 0) {
-        wards = wards.map((ward) => `'${ward}'`).join(",");
-        cqlFilter += (cqlFilter ? " AND " : "") + `ward IN (${wards})`;
-      }
-
-      var geoServerURL =
-        "https://pmc.geopulsea.com//geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&propertyName=village&outputFormat=application/json";
-
-
-
-      if (cqlFilter) {
-        geoServerURL += "&CQL_FILTER=" + encodeURIComponent(cqlFilter);
-      }
-
-      $.getJSON(geoServerURL, function (data) {
-        var villageSet = new Set();
-        $.each(data.features, function (index, feature) {
-          var village = feature.properties.village;
-          villageSet.add(village);
-        });
-
-        var uniqueVillage = Array.from(villageSet);
-
-        $.each(uniqueVillage, function (index, village) {
-          select.append(
-            $("<option>", {
-              value: village,
-              text: village,
-            })
-          );
-        });
-
-        // Destroy the existing Select2 instance, if it exists
-        if (select.hasClass("select2-hidden-accessible")) {
-          select.select2("destroy");
-        }
-
-        // Initialize Select2 with the updated options
-        select.select2({
-          placeholder: 'search', 
-          templateResult: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            var $option = $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" />' +
-              option.text +
-              "</span>"
-            );
-            return $option;
-          },
-          templateSelection: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-
-            return $(
-              '<span class="select2-option"><input type="checkbox" class="select2-option-checkbox" checked />' +
-              option.text +
-              "</span>"
-            );
-          },
-          closeOnSelect: false,
-          dropdownParent: select.parent(),
-          multiple: true,
-        });
-
-
-      });
-    }
+</script>
+</body>
+</html>
