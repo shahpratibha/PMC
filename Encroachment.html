@@ -288,7 +288,7 @@ border-radius: 5px 5px 5px 5px !important;
 			map.on('click', function (e) {
 				let size = map.getSize();
 				let bbox = map.getBounds().toBBoxString();
-				let layer = 'pmc:Bhavan';
+				let layer = 'pmc:PMC_Boundary';
 
 				var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
 					e.containerPoint.x
