@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Browser Dimensions</title>
+    <title>Browser Dimensions</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,6 +15,7 @@
             align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
+            position: relative;
         }
 
         .dimensions {
@@ -31,6 +32,44 @@
             margin: 10px 0;
             color: #333;
         }
+
+        .button-container {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .my-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #2b13bb;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        @media (max-width: 1024px) {
+            .my-button {
+                font-size: 0.95em;
+                padding: 9px 18px;
+            }
+        }
+        @media (max-width: 768px) {
+            .my-button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .my-button {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -41,13 +80,17 @@
         <div id="height" class="dimension-value"></div>
     </div>
 
+    <div class="button-container">
+        <button class="my-button">Click Me!</button>
+    </div>
+
     <script>
         function updateDimensions() {
             document.getElementById('width').textContent = window.innerWidth + 'px';
             document.getElementById('height').textContent = window.innerHeight + 'px';
 
-            console.log('Browser Width:', width);
-            console.log('Browser Height:', height);
+            console.log('Browser Width:', window.innerWidth);
+            console.log('Browser Height:', window.innerHeight);
         }
 
         window.addEventListener('resize', updateDimensions);

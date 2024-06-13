@@ -1,11 +1,14 @@
-@media only screen and (min-width:992px) and (max-width:1400px){
+@media only screen and (min-width: 992px) and (max-width: 1400px) {
   .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
     background-position: 2px 2px !important;
-}
+  }
   .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
     background-position: -28px 1px !important;
   }
-  .draw_feature { 
+  .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circlemarker {
+    background-position: -269px 2px !important;
+  }
+  .draw_feature {
     top: 81vh;
     left: 699px;
     position: absolute;
@@ -70,7 +73,7 @@
     /* display: none !important; */
     border-radius: 5px 5px 5px 5px !important;
   }
-  
+
   #editFeatureButton {
     border: 2px solid #2b13bb;
     border-radius: 5px 5px 5px 5px;
@@ -95,7 +98,7 @@
     border-radius: 5px !important;
     cursor: pointer;
     /* position: absolute; */
-    top: 67.300vh;
+    top: 67.3vh;
     left: 784px !important;
     height: 37px !important;
     width: 37px !important;
@@ -115,7 +118,7 @@
     top: 77.4vh;
     height: 37px;
     width: 37px;
-    left: 615px;
+    left: 578px;
     font-size: 15px;
     border-bottom: 2px solid #2b13bb;
   }
@@ -128,9 +131,9 @@
     background-color: white;
     color: black;
     cursor: pointer;
-    left: 532px;
+    left: 498px;
     position: absolute;
-    top: 68.84vh;
+    top: 68.9vh;
     height: 37px;
     width: 37px;
     display: none;
@@ -139,7 +142,7 @@
     border-left: 2px solid #2b13bb !important;
     border-right: 2px solid #2b13bb !important;
   }
-  
+
   .leaflet-control-edit-interior {
     font-size: 15px;
     position: absolute !important;
@@ -149,19 +152,23 @@
     border: 2px solid #2b13bb;
     border-radius: 5px 5px 5px 5px !important;
     display: none;
-    left: 573px !important;
+    left: 537px !important;
     border-bottom: 2px solid #2b13bb !important;
   }
-  
+
   /* circle */
   .leaflet-draw-draw-circlemarker {
     position: absolute;
-    top: -260px;
-    left: 56px;
-    border-bottom: 2px solid darkblue;
-    border: 2px solid darkblue;
-    /* border-top: none; */
+    top: 390px;
+    left: 618px;
+    border-bottom: 2px solid #2b13bb !important;
+    border: 2px solid #2b13bb;
     width: 30px;
+    height: 37px !important;
+    width: 37px !important;
+    border-top: 2px solid #2b13bb;
+    border-left: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px !important;
   }
   #traceToolButton {
     width: auto;
@@ -190,16 +197,9 @@
     top: 88vh !important;
     white-space: nowrap;
   }
-
 }
 
-
-
-
-
-
-
-@media (min-width:1440px){
+@media (min-width: 1440px) {
   #traceToolButton {
     width: auto;
     /* padding: 1px 2px; */
@@ -211,16 +211,16 @@
     border-radius: 5px !important;
     cursor: pointer;
     position: absolute !important;
-    top: 78.400vh;
-    left:778px !important;
+    top: 78.4vh;
+    left: 778px !important;
     height: 37px !important;
     width: 37px !important;
     border-radius: 5px 5px 5px 5px;
   }
   .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
     background-position: 2px 2px !important;
-    font-size:  10px !important;
-}
+    font-size: 10px !important;
+  }
   .custom-button {
     width: auto;
     padding: 9px 8px !important;
@@ -232,8 +232,8 @@
     border-radius: 5px !important;
     cursor: pointer;
     position: absolute;
-    top: 68.700vh;
-  
+    top: 68.7vh;
+
     left: 740px !important;
     height: 37px !important;
     width: 37px !important;
@@ -241,7 +241,7 @@
   }
   .leaflet-top .leaflet-control {
     margin-top: 9px !important;
-}
+  }
   .draw_feature {
     top: 79.64vh;
     left: 699px;
@@ -253,13 +253,13 @@
   }
   .leaflet-draw-draw-polyline {
     top: 61.2vh;
-    
+
     left: 658px !important;
     border: 2px solid #2b13bb !important;
     border-bottom: 2px solid darkblue;
     height: 37px !important;
     width: 37px !important;
-    /* display: none !important; */
+    display: none;
     border-radius: 5px 5px 5px 5px !important;
   }
   #save-button {
@@ -273,23 +273,23 @@
     border: 2px solid #2b13bb;
     border-top: 2px solid #2b13bb;
     border-bottom: 2px solid #2b13bb;
-    top: 76.800vh !important;
+    top: 76.8vh !important;
     height: 37px;
     width: 37px;
-    left: 618px;
+    left: 580px;
     font-size: 15px;
     border-bottom: 2px solid #2b13bb;
   }
   .delete-button {
     border: 2px solid #2b13bb;
-    padding: 7px ;
+    padding: 7px;
     font-size: 14px;
     border-radius: 5px 5px 5px 5px;
     display: block;
     background-color: white;
     color: black;
     cursor: pointer;
-    left: 536px;
+    left: 501px;
     position: absolute;
     top: 70vh;
     height: 37px;
@@ -305,11 +305,11 @@
     position: absolute !important;
     height: 37px !important;
     width: 37px !important;
-    top: 71.700vh !important;
+    top: 71.7vh !important;
     border: 2px solid #2b13bb;
     border-radius: 5px 5px 5px 5px !important;
-    display: none;
-    left: 576px !important;
+    /* display: none !important; */
+    left: 540px !important;
     border-bottom: 2px solid #2b13bb !important;
   }
   .leaflet-draw-actions {
@@ -330,7 +330,7 @@
     width: 37px !important;
     display: none !important;
     position: fixed;
-    top: 90.750vh;
+    top: 90.75vh;
     left: 829px;
     padding: 5px;
     background: white;
@@ -346,7 +346,7 @@
     color: black;
     /* padding: 5px 5px; */
     display: none;
-    top: 90.750vh;
+    top: 90.75vh;
     font-size: 19px;
     height: 37px;
     width: 37px;
@@ -361,14 +361,14 @@
     padding: 3px 7px;
     display: none;
     position: fixed;
-    top: 90.750vh;
+    top: 90.75vh;
     font-size: 15px;
     height: 37px;
     width: 37px;
     left: 909px;
   }
   .leaflet-draw-draw-polyline {
-    top: 62.500vh;
+    top: 62.5vh;
     position: absolute !important;
     left: 658px !important;
     border: 2px solid #2b13bb !important;
@@ -379,5 +379,20 @@
     /* display: none !important; */
     border-radius: 5px 5px 5px 5px !important;
   }
+  .leaflet-draw-draw-circlemarker {
+    position: absolute;
+    top: 464px;
+    left: 619px;
+    border-bottom: 2px solid #2b13bb !important;
+    border: 2px solid #2b13bb;
+    width: 30px;
+    height: 37px !important;
+    width: 37px !important;
+    border-top: 2px solid #2b13bb;
+    border-left: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px !important;
+  }
+  .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circlemarker {
+    background-position: -269px 1px !important;
+  }
 }
-

@@ -411,11 +411,14 @@ customToolSelector.onAdd = function (map) {
   // button.style.alignItems = 'center';
   // button.style.width = '100%';
   // button.style.height = '100%';
+  button.style.zIndex='9999';
   // Create a new image element
+
   var img = document.createElement('img');
   img.src = 'png/Trace_tool.png';
   img.style.height = '20px';
   img.style.width = '20px';
+
 
   button.appendChild(img);
 

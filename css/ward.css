@@ -72,7 +72,7 @@
     background: white;
     border-bottom: 2px solid #2b13bb;
   }
-  @media (min-width: 1440px) and (max-width: 1600px) and (min-height: 800px) {
+  @media (min-width: 1440px) and (max-width: 1600px) {
     .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
         background-position: 2px 2px !important;
       }
@@ -143,3 +143,4 @@
       }
 
   }
+ 
