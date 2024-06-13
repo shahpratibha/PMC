@@ -1,20 +1,7 @@
 var map, geojson;
 const API_URL = "http://localhost/PMC/IWMS/";
 
-// const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-// const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
 
-// // Use the public URL
-// fetch(publicAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
-
-// // Use the private URL
-// fetch(privateAPI_URL)
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
 
 var map = L.map("map", {
   center:[18.52, 73.89],
@@ -265,21 +252,12 @@ var WMSlayers = {
   PMC: wms_layer3,
   Amenity: wms_layer11,
   Bhavan: wms_layer21,
-  
   Drainage: wms_layer13,
   Roads: wms_layer1,
-  // geodata: wms_layer4,
   OSMRoad: wms_layer16,
 };
 
-// function refreshWMSLayer() {
-//   // Remove the layer from the map
-//   map.removeLayer(wms_layer4);
-//   // Add the layer again
-//   wms_layer4.addTo(map);
-// }
 
-// refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
