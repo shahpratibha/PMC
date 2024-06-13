@@ -162,17 +162,15 @@
             <label>Select Office  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
             <input type="text" placeholder="Search" class="filter-input">
             <ul class="select2"  multiple="multiple" id="project_Off">
-                <!-- <li><input type="checkbox"> Department 1</li>
-                <li><input type="checkbox"> Department 2</li>
-                <li><input type="checkbox"> Department 3</li> -->
+              
             </ul>
-        </div>
+           </div>
            <div onclick="toggleFilter(this)" class="filter-group">
             <label >Select Year <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
                 </label>
              <input type="text" placeholder="Search" class="filter-input">
              <ul class="select2"  multiple="multiple" id="project_fi">
-             
+
             </ul>
               
            
@@ -182,7 +180,9 @@
                 </label>
              <input type="text" placeholder="Search" class="filter-input">
              <ul class="select2"  multiple="multiple" id="zones" onchange="loadAdminWardNameAndFilter();">
-             
+              <li>
+
+              </li>
              </ul>
              
            
@@ -194,10 +194,7 @@
              <ul class="select2"  multiple="multiple" id="admin_ward_name" onchange="loadVillagesAndFilter();">
              
              </ul>
-              <!-- <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%"
-                onchange="loadVillagesAndFilter();">
-                <option value=""></option>
-              </select> -->
+           
           
           </div>
            <div onclick="toggleFilter(this)" class="filter-group">
@@ -207,10 +204,7 @@
              <ul class="select2"  multiple="multiple" id="villages" onchange="loadDepartmentsAndFilter();">
              
              </ul>
-              <!-- <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%"
-                onchange="loadDepartmentsAndFilter();">
-                <option value=""></option>
-              </select> -->
+          
             
           </div>
            <div onclick="toggleFilter(this)" class="filter-group">
@@ -220,10 +214,7 @@
              <ul class="select2"  multiple="multiple" id="villages" onchange="loadDepartmentsAndFilter();">
              
              </ul>
-              <!-- <select class="form-control select2" id="departments" style="width:100%" multiple="multiple"
-                onchange="loadStagesAndFilter();">
-                <option value=""></option>
-              </select> -->
+            
            
           </div>
            <div onclick="toggleFilter(this)" class="filter-group">
@@ -234,10 +225,7 @@
              onchange="loadWorkTypesAndFilter();">
              
              </ul>
-              <!-- <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage"
-                onchange="loadWorkTypesAndFilter();">
-                <option value=""></option>
-              </select> -->
+            
            
           </div>
            <div onclick="toggleFilter(this)" class="filter-group">
@@ -245,15 +233,20 @@
                 </label>
              <input type="text" placeholder="Search" class="filter-input">
 
-              <select class="select2 form-control" multiple="multiple" style="width:100%" id="work_type">
-                <option value=""></option>
-              </select>
+             <ul class="select2"  multiple="multiple" id="work_type">
+             
+             </ul>
+
             
           </div>
            <div onclick="toggleFilter(this)" class="filter-group">
             <label > Project Cost <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
                 </label>
-             <input type="text" placeholder="Search By Ward Name" class="filter-input">
+             <!-- <input type="text" placeholder="Search By Ward Name" class="filter-input"> -->
+
+             <ul class="select2"  multiple="multiple" id="work_type">
+             
+             </ul>
 
               <div class="row">
                 <div class="col-md-12">
@@ -628,149 +621,236 @@
     }
 
 
-    // check changes
-    function loadProjectOff() {
-      var select = $("#project_Off");
-      select.empty();
+    // // check changes
+    // function loadProjectOff() {
+    //   var select = $("#project_Off");
+    //   select.empty();
 
-      // Function to initialize Select2 dropdown
-      function initializeSelect2() {
-        select.select2({
-          placeholder: 'Search',
-          templateResult: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-            var $option = $('<span><input type="checkbox" class="select2-option-checkbox" />' + option.text + "</span>");
-            return $option;
-          },
-          templateSelection: function (option) {
-            if (!option.id) {
-              return option.text;
-            }
-            return $('<span><input type="checkbox" class="select2-option-checkbox" checked />' + option.text + "</span>");
-          },
-          closeOnSelect: false,
-          dropdownParent: select.parent(),
-          multiple: true,
-          dropdownPosition: 'below' // Set the dropdown position below the select box
-        });
-      }
+    //   // Function to initialize Select2 dropdown
+    //   function initializeSelect2() {
+    //     select.select2({
+       
+    //       templateResult: function (option) {
+    //         if (!option.id) {
+    //           return li.text;
+    //         }
+    //         var $option = $('<li><input type="checkbox" class="select2-option-checkbox" />' + option.text + "</li>");
+    //         return $option;
+    //       },
+    //       templateSelection: function (option) {
+    //         if (!option.id) {
+    //           return option.text;
+    //         }
+    //         return $('<li><input type="checkbox" class="select2-option-checkbox" checked />' + option.text + "</li>");
+    //       },
+    //       closeOnSelect: false,
+    //       dropdownParent: select.parent(),
+    //       multiple: true,
+    //       dropdownPosition: 'below' // Set the dropdown position below the select box
+    //     });
+    //   }
 
-      // Load Select2 dropdown when accordion item is opened
-      $(".accordion-header").on("click", function () {
-        initializeSelect2();
-        select.select2('open');
+    //   // Load Select2 dropdown when accordion item is opened
+    //   $(".accordion-header").on("click", function () {
+    //     initializeSelect2();
+    //     select.select2('open');
+    //   });
+
+    //   $.getJSON(
+    //     "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=Project_Office&outputFormat=application/json",
+    //     function (data) {
+    //       var projectFiSet = new Set();
+
+    //       $.each(data.features, function (index, feature) {
+    //         var project_fi = feature.properties.Project_Office;
+    //         projectFiSet.add(project_fi);
+    //       });
+
+    //       var uniqueProjectFiSet = Array.from(projectFiSet);
+
+    //       $.each(uniqueProjectFiSet, function (index, project_fi) {
+    //         select.append(
+    //           $("<li>", {
+    //             value: project_fi,
+    //             text: project_fi,
+    //           })
+    //         );
+    //       });
+
+    //       // Event listener for select change
+    //       select.on("change", function () {
+    //         loadZones();
+    //         filterDataAndDrawMap();
+    //       });
+    //     }
+    //   );
+    // }
+
+
+
+    // // check changes
+    // // newly added 20/04/2022
+
+    // function loadProjectFi() {
+    //   var select = $("#project_fi");
+    //   select.empty();
+
+    //   $.getJSON(
+    //     "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=project_fi&outputFormat=application/json",
+    //     function (data) {
+    //       var projectFiSet = new Set();
+
+    //       $.each(data.features, function (index, feature) {
+    //         var project_fi = feature.properties.project_fi;
+    //         projectFiSet.add(project_fi);
+    //       });
+
+    //       var uniqueProjectFiSet = Array.from(projectFiSet);
+
+    //       $.each(uniqueProjectFiSet, function (index, project_fi) {
+    //         select.append(
+    //           $("<li>", {
+    //             value: project_fi,
+    //             text: project_fi,
+    //           })
+    //         );
+    //       });
+
+    //       if (select.hasClass("select2-hidden-accessible")) {
+    //         select.select2("destroy");
+    //       }
+    //       select.select2({
+    //         placeholder: 'search',
+    //         templateResult: function (option) {
+    //           if (!option.id) {
+    //             return option.text;
+    //           }
+
+
+
+    //           var $option = $(
+    //             '<span><input type="checkbox" class="select2-option-checkbox" />' +
+    //             option.text +
+    //             "</span>"
+    //           );
+    //           return $option;
+    //         },
+
+    //         templateSelection: function (option) {
+    //           if (!option.id) {
+    //             return option.text;
+    //           }
+
+    //           return $(
+    //             '<span><input type="checkbox" class="select2-option-checkbox" checked />' +
+    //             option.text +
+    //             "</span>"
+    //           );
+    //         },
+    //         closeOnSelect: false,
+    //         dropdownParent: select.parent(),
+    //         multiple: true,
+    //       });
+    //       // Trigger the opening of the Select2 dropdown when the select button is clicked
+    //       var selectButton = $('#headingOfficeYear button');
+    //       selectButton.on('click', function () {
+    //         select.select2('open');
+    //       });
+
+    //       select.on("change", function () {
+    //         loadZones();
+    //         filterDataAndDrawMap();
+    //       });
+    //     }
+    //   );
+    // }
+// -------------------------------
+
+function loadProjectOff() {
+  var ul = $("#project_Off");
+  ul.empty();
+
+  $.getJSON(
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=Project_Office&outputFormat=application/json",
+    function (data) {
+      var projectFiSet = new Set();
+
+      $.each(data.features, function (index, feature) {
+        var project_fi = feature.properties.Project_Office;
+        projectFiSet.add(project_fi);
       });
 
-      $.getJSON(
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=Project_Office&outputFormat=application/json",
-        function (data) {
-          var projectFiSet = new Set();
+      var uniqueProjectFiSet = Array.from(projectFiSet);
 
-          $.each(data.features, function (index, feature) {
-            var project_fi = feature.properties.Project_Office;
-            projectFiSet.add(project_fi);
-          });
+      $.each(uniqueProjectFiSet, function (index, project_fi) {
+        ul.append(
+          $("<li>").append(
+            $("<input>", {
+              type: "checkbox",
+              class: "select2-option-checkbox",
+              value: project_fi,
+              id: "project_Off_" + index
+            }),
+            $("<label>", {
+              for: "project_Off_" + index,
+              text: project_fi
+            })
+          )
+        );
+      });
 
-          var uniqueProjectFiSet = Array.from(projectFiSet);
-
-          $.each(uniqueProjectFiSet, function (index, project_fi) {
-            select.append(
-              $("<option>", {
-                value: project_fi,
-                text: project_fi,
-              })
-            );
-          });
-
-          // Event listener for select change
-          select.on("change", function () {
-            loadZones();
-            filterDataAndDrawMap();
-          });
-        }
-      );
+      // Event listener for checkbox change
+      ul.on("change", "input[type='checkbox']", function () {
+        loadZones();
+        filterDataAndDrawMap();
+      });
     }
+  );
+}
 
+function loadProjectFi() {
+  var ul = $("#project_fi");
+  ul.empty();
 
+  $.getJSON(
+    "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=project_fi&outputFormat=application/json",
+    function (data) {
+      var projectFiSet = new Set();
 
-    // check changes
-    // newly added 20/04/2022
+      $.each(data.features, function (index, feature) {
+        var project_fi = feature.properties.project_fi;
+        projectFiSet.add(project_fi);
+      });
 
-    function loadProjectFi() {
-      var select = $("#project_fi");
-      select.empty();
+      var uniqueProjectFiSet = Array.from(projectFiSet);
 
-      $.getJSON(
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point,IWMS_polygon,IWMS_line&propertyName=project_fi&outputFormat=application/json",
-        function (data) {
-          var projectFiSet = new Set();
+      $.each(uniqueProjectFiSet, function (index, project_fi) {
+        ul.append(
+          $("<li>").append(
+            $("<input>", {
+              type: "checkbox",
+              class: "select2-option-checkbox",
+              value: project_fi,
+              id: "project_fi_" + index
+            }),
+            $("<label>", {
+              for: "project_fi_" + index,
+              text: project_fi
+            })
+          )
+        );
+      });
 
-          $.each(data.features, function (index, feature) {
-            var project_fi = feature.properties.project_fi;
-            projectFiSet.add(project_fi);
-          });
-
-          var uniqueProjectFiSet = Array.from(projectFiSet);
-
-          $.each(uniqueProjectFiSet, function (index, project_fi) {
-            select.append(
-              $("<option>", {
-                value: project_fi,
-                text: project_fi,
-              })
-            );
-          });
-
-          if (select.hasClass("select2-hidden-accessible")) {
-            select.select2("destroy");
-          }
-          select.select2({
-            placeholder: 'search',
-            templateResult: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-
-
-              var $option = $(
-                '<span><input type="checkbox" class="select2-option-checkbox" />' +
-                option.text +
-                "</span>"
-              );
-              return $option;
-            },
-
-            templateSelection: function (option) {
-              if (!option.id) {
-                return option.text;
-              }
-
-              return $(
-                '<span><input type="checkbox" class="select2-option-checkbox" checked />' +
-                option.text +
-                "</span>"
-              );
-            },
-            closeOnSelect: false,
-            dropdownParent: select.parent(),
-            multiple: true,
-          });
-          // Trigger the opening of the Select2 dropdown when the select button is clicked
-          var selectButton = $('#headingOfficeYear button');
-          selectButton.on('click', function () {
-            select.select2('open');
-          });
-
-          select.on("change", function () {
-            loadZones();
-            filterDataAndDrawMap();
-          });
-        }
-      );
+      // Event listener for checkbox change
+      ul.on("change", "input[type='checkbox']", function () {
+        loadZones();
+        filterDataAndDrawMap();
+      });
     }
+  );
+}
+
+    // ----------------------------
 
     function loadZones() {
       var select = $("#zones");
@@ -803,7 +883,7 @@
 
         $.each(uniqueZoneSet, function (index, zone) {
           select.append(
-            $("<option>", {
+            $("<li>", {
               value: zone,
               text: zone,
             })
@@ -892,7 +972,7 @@
 
         $.each(uniqueWard, function (index, ward) {
           select.append(
-            $("<option>", {
+            $("<li>", {
               value: ward,
               text: ward,
             })
@@ -989,7 +1069,7 @@
 
         $.each(uniqueVillage, function (index, village) {
           select.append(
-            $("<option>", {
+            $("<li>", {
               value: village,
               text: village,
             })
@@ -1086,7 +1166,7 @@
 
         $.each(uniqueDepartments, function (index, department) {
           select.append(
-            $("<option>", {
+            $("<li>", {
               value: department,
               text: department,
             })
@@ -1189,7 +1269,7 @@
 
         $.each(uniqueStageSet, function (index, stage) {
           select.append(
-            $("<option>", {
+            $("<li>", {
               value: stage,
               text: stage,
             })
@@ -1299,7 +1379,7 @@
         // Populate select options with unique work types
         $.each(uniqueWorkTypes, function (index, workType) {
           select.append(
-            $("<option>", {
+            $("<li>", {
               value: workType,
               text: workType,
             })

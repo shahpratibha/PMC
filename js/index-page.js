@@ -32,7 +32,7 @@ var ward_boundary = L.tileLayer.wms(
 );
 
 ///Note: ************** only this code is in use ///////// we can remove other code after other pages works properly
-
+// department list-------------------------
 
 let depData = [
   {
@@ -139,6 +139,7 @@ let depData = [
   },
 ];
 
+// zone details-------------------------------------
 let zoneData = [
   {
     zone_id: '1',
@@ -166,6 +167,10 @@ let zoneData = [
     zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.५',
   },
 ];
+
+
+// ward-----------------------
+
 
 let wardData = [
   {
