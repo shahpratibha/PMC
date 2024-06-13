@@ -3,150 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagination Example</title>
+    <title>GeoPulse</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        table {
-            width: 50%;
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .map-container {
+            flex-grow: 1;
+            height: 500px;
+        }
+        .project-details {
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        h3 {
+            margin-top: 0;
+        }
+        .filters {
+            margin-bottom: 20px;
+          
+        }
+        .filter-group {
+            /* margin-bottom: 20px; */
+            padding: 10px;
+            border: 1px solid gray;
+            font-size: 10px;
+        }
+        .filter-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        .filter-group input[type="text"] {
+            width: 80%;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            display: none;
+        }
+        .filter-group ul {
+            list-style-type: none;
+            padding: 0;
+            display: none;
+        }
+        .filter-group ul.active,
+        .filter-group input[type="text"].active {
+            display: block;
+            forced-color-adjust: blue;
+        }
+        .filter-group li {
+            margin-bottom: 5px;
+        }
+      
+        .icon-container {
+    position:absolute;
+    right:1%; 
+    top:0%;
+    font-size: 15px;
+}
+
+/* Style the icon */
+.icon-container i {
+    color: black; /* Default color */
+}
+
+table {
+            width: 100%;
             border-collapse: collapse;
-            margin: 20px auto;
         }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
+        table th, table td {
+            border: 1px solid #ddd;
             padding: 8px;
+        }
+        table th {
+            background-color: #f2f2f2;
             text-align: left;
         }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .pagination button {
-            margin: 0 5px;
-            padding: 10px;
-        }
     </style>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
+    <div class="sidebar">
+        <div class="filters">
+            <h3>Filters</h3>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Select Office  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Department Name" class="filter-input">
+                <ul class="select2"  multiple="multiple" id="project_Off">
+                    <!-- <li><input type="checkbox"> Department 1</li>
+                    <li><input type="checkbox"> Department 2</li>
+                    <li><input type="checkbox"> Department 3</li> -->
+                </ul>
+            </div>
+            <div onclick="toggleFilter(this)" class="filter-group">
+                <label >Ward Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+                
+                <input type="text" placeholder="Search By Ward Name" class="filter-input">
+               
+                <ul class="select2"multiple="multiple" id="project_fi" >
+                    <li><input type="checkbox"> Lohegaon</li>
+                    <li><input type="checkbox"> Baner</li>
+                    <li><input type="checkbox"> Option 3</li>
+                    <li><input type="checkbox"> Option 4</li>
+                    <li><input type="checkbox"> Option 5</li>
+                    <li><input type="checkbox"> Option 6</li>
+                </ul>
+            </div>
+           
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Zone Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Zone Name" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Zone 1</li>
+                    <li><input type="checkbox"> Zone 2</li>
+                    <li><input type="checkbox"> Zone 3</li>
+                </ul>
+            </div>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Village Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Village Name" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Village 1</li>
+                    <li><input type="checkbox"> Village 2</li>
+                    <li><input type="checkbox"> Village 3</li>
+                </ul>
+            </div>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Project Status   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Project Status" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Status 1</li>
+                    <li><input type="checkbox"> Status 2</li>
+                    <li><input type="checkbox"> Status 3</li>
+                </ul>
+            </div>
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Work Type   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Work Type" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Work Type 1</li>
+                    <li><input type="checkbox"> Work Type 2</li>
+                    <li><input type="checkbox"> Work Type 3</li>
+                </ul>
+            </div>
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Budget Code   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Budget Code" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Budget 1</li>
+                    <li><input type="checkbox"> Budget 2</li>
+                    <li><input type="checkbox"> Budget 3</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="map-container" id="map"></div>
+        <div class="project-details">
+            <h3>Project Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Ward</th>
+                        <th>Department</th>
+                        <th>Ward Scope</th>
+                        <th>Ward Name</th>
+                        <th>Work Type</th>
+                        <th>Date</th>
+                        <th>Tender Amount</th>
+                        <th>JE Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>D.M.C. Zone 1</td>
+                        <td>Yerwada</td>
+                        <td>Road</td>
+                        <td>Resurfacing</td>
+                        <td>To Carry Out Surfacing Volume</td>
+                        <td>New</td>
+                        <td>01-02-2022</td>
+                        <td>12,09,233</td>
+                        <td>Sapana Sahare</td>
+                    </tr>
+                    <!-- Add more rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize the map
+            const map = L.map('map').setView([18.5204, 73.8567], 13); // Coordinates for Pune
 
-<h1 style="text-align: center;">Work Data</h1>
-<table id="workTable">
-    <thead>
-        <tr>
-            <th>Field</th>
-            <th>Value</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+            // Add a tile layer to the map
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
 
-<div class="pagination">
-    <button onclick="prevPage()">Previous</button>
-    <button onclick="nextPage()">Next</button>
-</div>
-
-<script>
-    const data = [
-        {
-            "Work_ID": 21380,
-            "Name_of_Work": "Solid Waste Management",
-            "Department": "Solid waste Management",
-            "Work_Type": "New",
-            "zone": "D.M.C. Zone 1",
-            "ward": "Yeravada Kalas Dhanori",
-            "Name_of_JE": "Demoje All department",
-            "Contact_Number": "4534545455",
-            "area": 10477.073446493,
-            "id": "IWMS_polygon.94320",
-            "geometry": {"type": "MultiPolygon", "coordinates": [[[[73.891954, 18.598624, 0], [73.892703, 18.59941, 0], [73.893877, 18.59826, 0], [73.893877, 18.59826, 0], [73.891954, 18.598624, 0]]]]}
-        },
-        {
-            "Work_ID": 21380,
-            "Name_of_Work": "Solid Waste Management",
-            "Department": "Solid waste Management",
-            "Work_Type": "New",
-            "zone": "D.M.C. Zone 1",
-            "ward": "Yeravada Kalas Dhanori",
-            "Name_of_JE": "Demoje All department",
-            "Contact_Number": "4534545455",
-            "area": 5008.5512834294,
-            "id": "IWMS_polygon.94321",
-            "geometry": {"type": "MultiPolygon", "coordinates": [[[[73.866604, 18.58214, 0], [73.867021, 18.582378, 0], [73.867446, 18.581687, 0], [73.866999, 18.581377, 0], [73.866604, 18.58214, 0]]]]}
-        },
-        {
-            "Work_ID": 21380,
-            "Name_of_Work": "Solid Waste Management",
-            "Department": "Solid waste Management",
-            "Work_Type": "New",
-            "zone": "D.M.C. Zone 1",
-            "ward": "Yeravada Kalas Dhanori",
-            "Name_of_JE": "Demoje All department",
-            "Contact_Number": "4534545455",
-            "area": 9764.7342839804,
-            "id": "IWMS_polygon.94322",
-            "geometry": {"type": "MultiPolygon", "coordinates": [[[[73.887983, 18.590895, 0], [73.887194, 18.589945, 0], [73.888233, 18.589881, 0], [73.888506, 18.589981, 0], [73.888703, 18.590255, 0], [73.887983, 18.590895, 0]]]]}
-        },
-        {
-            "Work_ID": 21380,
-            "Name_of_Work": "Solid Waste Management",
-            "Department": "Solid waste Management",
-            "Work_Type": "New",
-            "zone": "D.M.C. Zone 1",
-            "ward": "Yeravada Kalas Dhanori",
-            "Name_of_JE": "Demoje All department",
-            "Contact_Number": "4534545455",
-            "area": 10357.912519147,
-            "id": "IWMS_polygon.94329",
-            "geometry": {"type": "MultiPolygon", "coordinates": [[[[73.880644, 18.58576, 0], [73.88147, 18.586635, 0], [73.881985, 18.585415, 0], [73.881889, 18.585212, 0], [73.880644, 18.58576, 0]]]]}
-        }
-    ];
-
-    let currentPage = 1;
-    const pageSize = 1;
-
-    function renderTable(page) {
-        const tbody = document.querySelector('#workTable tbody');
-        tbody.innerHTML = ''; // Clear the table body
-
-        const start = (page - 1) * pageSize;
-        const end = start + pageSize;
-        const pageData = data.slice(start, end);
-
-        pageData.forEach(row => {
-            for (const key in row) {
-                const tr = document.createElement('tr');
-                let value = row[key];
-                if (typeof value === 'object') {
-                    value = JSON.stringify(value);
-                }
-                tr.innerHTML = `
-                    <td>${key}</td>
-                    <td>${value}</td>
-                `;
-                tbody.appendChild(tr);
-            }
+           
         });
-    }
+        
+function toggleFilter(div) {
+    const input = div.querySelector('.filter-input');
+    const ul = div.querySelector('ul');
+    const isActive = input.classList.contains('active');
 
-    function prevPage() {
-        if (currentPage > 1) {
-            currentPage--;
-            renderTable(currentPage);
+    // Remove 'active' class from all filter inputs and their associated ul elements
+    document.querySelectorAll('.filter-input').forEach(input => {
+        input.classList.remove('active');
+        input.nextElementSibling.classList.remove('active');
+    });
+
+    // If the clicked filter is not active, add 'active' class to it
+    if (!isActive) {
+        input.classList.add('active');
+        ul.classList.add('active');
+    }
+}
+
+// Function to filter checkboxes based on search input
+function filterCheckboxes(input) {
+    const filter = input.value.toLowerCase();
+    const ul = input.nextElementSibling;
+    const li = ul.getElementsByTagName('li');
+
+    for (let i = 0; i < li.length; i++) {
+        const text = li[i].textContent || li[i].innerText;
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
         }
     }
+}
 
-    function nextPage() {
-        if (currentPage < Math.ceil(data.length / pageSize)) {
-            currentPage++;
-            renderTable(currentPage);
-        }
-    }
+// Add event listeners to filter inputs
+document.querySelectorAll('.filter-input').forEach(input => {
+    input.addEventListener('input', function(event) {
+        event.stopPropagation(); // Stop event propagation
+        filterCheckboxes(this);
+    });
+    // Stop event propagation for click events on the input element
+ input.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+      // Stop event propagation for mousedown events on the input element to prevent the div from closing
+      input.addEventListener('mousedown', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
+ 
+// Add event listeners to checkboxes to stop propagation
+document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
 
-    // Initial render
-    renderTable(currentPage);
 </script>
-
 </body>
 </html>

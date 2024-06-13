@@ -19,9 +19,58 @@
     href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
 
 
-  <style>
+    <style>
+             .filters {
+            margin-bottom: 20px;
+          
+        }
+        .filter-group {
+            /* margin-bottom: 20px; */
+            padding: 10px;
+            border: 1px solid gray;
+            font-size: 10px;
+        }
+        .filter-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        .filter-group input[type="text"] {
+            width: 80%;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            display: none;
+        }
+        .filter-group ul {
+            list-style-type: none;
+            padding: 0;
+            display: none;
+        }
+        .filter-group ul.active,
+        .filter-group input[type="text"].active {
+            display: block;
+            forced-color-adjust: blue;
+        }
+        .filter-group li {
+            margin-bottom: 5px;
+        }
+      
+        .icon-container {
+    position:absolute;
+    right:1%; 
+    top:0%;
+    font-size: 15px;
+}
 
-  </style>
+/* Style the icon */
+.icon-container i {
+    color: black; /* Default color */
+}
+    </style>
 </head>
 
 <body>
@@ -71,20 +120,7 @@
                 <tbody></tbody>
               </table>
             </div>
-            <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
-<!-- 
-            <div id="paginationControls"
-              style="position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); display: flex; font-size: 12px; gap: 10px;">
-              <button class="pagibtn" style="background-color: transparent; color: #333;" id="previousPageButton"><i
-                  class="fa-solid fa-backward "></i></button>
-              <p id="currentPage"></p>
-              <button class="pagibtn" id="nextPageButton"><i class="fa-solid fa-forward"></i></button>
-            </div> -->
 
-
-
-
-            <!-- /////////////////////////////////////////newly adedd  for pagination   19-03-2024 ////////////////////////////////////////////////////// -->
 
             <button id="printButton" onclick="printData()"
               style="position: absolute; top: 0%;  right: 5%; z-index: 999; color: green; font-size: 12px; background-color: transparent; height: 29px; width: 35px;">
@@ -93,89 +129,132 @@
             </button>
           </div>
         </div>
+        <!-- table end -->
+        <!-- search bar -->
+        <div class="SearchBar">
+
+
+          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
+            style="border-radius: 10px;border: 2px solid darkblue;">
+            <option value="">Select Type</option>
+          </select>
+
+          <input class="form-contro ms-2" type="search" placeholder="Search" aria-label="Search"
+            id="searchInputDashboard" style=" border-radius: 10px; border: 2px solid darkblue;" />
+          <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
+
+        </div>
+        <!-- search bar -->
       </div>
 
+
+      <!-- filter start -->
       <div class="filters" id="filters">
+        <!-- table stats -->
         <div class="showCount">
           <h5 class="tablestats"> </h5>
         </div>
-        <!-- <div class="search-bar">
-                    <button>Search</button>
-                </div> -->
-        <h3>Filters</h3>
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-header">Select Office</button>
-            <div class="accordion-content">
-              <select style="width: 100%" class="select2 form-control" multiple="multiple" id="project_Off">
+        <!-- table stats -->
 
-              </select>
-            </div>
+        <h3>Filters</h3>
+        <div>
+          <div class="filter-group"  onclick="toggleFilter(this)">
+            <label>Select Office  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+            <input type="text" placeholder="Search" class="filter-input">
+            <ul class="select2"  multiple="multiple" id="project_Off">
+                <!-- <li><input type="checkbox"> Department 1</li>
+                <li><input type="checkbox"> Department 2</li>
+                <li><input type="checkbox"> Department 3</li> -->
+            </ul>
+        </div>
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label >Select Year <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search" class="filter-input">
+             <ul class="select2"  multiple="multiple" id="project_fi">
+             
+            </ul>
+              
+           
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header">Select Year</button>
-            <div class="accordion-content">
-              <select style="width: 100%;" class="select2 form-control" multiple="multiple" id="project_fi">
-                <option value=""></option>
-              </select>
-            </div>
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label >Zone Selection <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search" class="filter-input">
+             <ul class="select2"  multiple="multiple" id="zones" onchange="loadAdminWardNameAndFilter();">
+             
+             </ul>
+             
+           
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header">Zone Selection</button>
-            <div class="accordion-content">
-              <select id="zones" style="width: 100%" class="form-control select2" multiple="multiple"
-                onchange="loadAdminWardNameAndFilter();">
-                <option value=""></option>
-              </select>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-header"> Ward Selection</button>
-            <div class="accordion-content">
-              <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%"
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label > Ward Selection <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search" class="filter-input">
+             <ul class="select2"  multiple="multiple" id="admin_ward_name" onchange="loadVillagesAndFilter();">
+             
+             </ul>
+              <!-- <select class="select2 form-control" multiple="multiple" id="admin_ward_name" style="width:100%"
                 onchange="loadVillagesAndFilter();">
                 <option value=""></option>
-              </select>
-            </div>
+              </select> -->
+          
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header"> Village Selection</button>
-            <div class="accordion-content">
-              <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%"
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label > Village Selection <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search" class="filter-input">
+             <ul class="select2"  multiple="multiple" id="villages" onchange="loadDepartmentsAndFilter();">
+             
+             </ul>
+              <!-- <select class="form-control select2" multiple="multiple" id="villages" style="width: 100%"
                 onchange="loadDepartmentsAndFilter();">
                 <option value=""></option>
-              </select>
-            </div>
+              </select> -->
+            
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header">Select Department</button>
-            <div class="accordion-content">
-              <select class="form-control select2" id="departments" style="width:100%" multiple="multiple"
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label >Select Department <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search" class="filter-input">
+             <ul class="select2"  multiple="multiple" id="villages" onchange="loadDepartmentsAndFilter();">
+             
+             </ul>
+              <!-- <select class="form-control select2" id="departments" style="width:100%" multiple="multiple"
                 onchange="loadStagesAndFilter();">
                 <option value=""></option>
-              </select>
-            </div>
+              </select> -->
+           
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header"> Select Project Status</button>
-            <div class="accordion-content">
-              <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage"
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label > Select Project Status <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search" class="filter-input">
+             <ul class="select2"  multiple="multiple" id="stage"
+             onchange="loadWorkTypesAndFilter();">
+             
+             </ul>
+              <!-- <select class="select2 form-control" multiple="multiple" style="width: 100%" id="stage"
                 onchange="loadWorkTypesAndFilter();">
                 <option value=""></option>
-              </select>
-            </div>
+              </select> -->
+           
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header"> Select Work Type</button>
-            <div class="accordion-content">
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label > Select Work Type <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search" class="filter-input">
+
               <select class="select2 form-control" multiple="multiple" style="width:100%" id="work_type">
                 <option value=""></option>
               </select>
-            </div>
+            
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header"> Project Cost</button>
-            <div class="accordion-content">
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label > Project Cost <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search By Ward Name" class="filter-input">
+
               <div class="row">
                 <div class="col-md-12">
                   <select class="form-select" id="amount_comparison">
@@ -189,17 +268,20 @@
                   <input type="text" class="form-control" id="amount_value" placeholder="Enter amount" />
                 </div>
               </div>
-            </div>
+            
           </div>
-          <div class="accordion-item">
-            <button class="accordion-header"> Date Range Selection</button>
-            <div class="accordion-content">
+           <div onclick="toggleFilter(this)" class="filter-group">
+            <label > Date Range Selection <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+             <input type="text" placeholder="Search By Ward Name" class="filter-input">
+
               <input type="text" name="" class="form-control" id="date_range" />
 
-            </div>
+            
           </div>
         </div>
       </div>
+      <!-- filter end -->
     </div>
   </div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -545,7 +627,7 @@
       return filteredData;
     }
 
-    
+
     // check changes
     function loadProjectOff() {
       var select = $("#project_Off");
@@ -1457,9 +1539,9 @@
             }, 5000); // Remove the bounds layer after 5 seconds (adjust duration as needed)
           });
           // drag and drop
-          $(function () {
-            $("#table-container-dashboard").draggable();
-          });
+          // $(function () {
+          //   $("#table-container-dashboard").draggable();
+          // });
 
 
 
@@ -1483,7 +1565,66 @@
 
     }
     //close 
+// ------accordtion div------------------
 
+       
+function toggleFilter(div) {
+    const input = div.querySelector('.filter-input');
+    const ul = div.querySelector('ul');
+    const isActive = input.classList.contains('active');
+
+    // Remove 'active' class from all filter inputs and their associated ul elements
+    document.querySelectorAll('.filter-input').forEach(input => {
+        input.classList.remove('active');
+        input.nextElementSibling.classList.remove('active');
+    });
+
+    // If the clicked filter is not active, add 'active' class to it
+    if (!isActive) {
+        input.classList.add('active');
+        ul.classList.add('active');
+    }
+}
+
+// Function to filter checkboxes based on search input
+function filterCheckboxes(input) {
+    const filter = input.value.toLowerCase();
+    const ul = input.nextElementSibling;
+    const li = ul.getElementsByTagName('li');
+
+    for (let i = 0; i < li.length; i++) {
+        const text = li[i].textContent || li[i].innerText;
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+// Add event listeners to filter inputs
+document.querySelectorAll('.filter-input').forEach(input => {
+    input.addEventListener('input', function(event) {
+        event.stopPropagation(); // Stop event propagation
+        filterCheckboxes(this);
+    });
+    // Stop event propagation for click events on the input element
+ input.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+      // Stop event propagation for mousedown events on the input element to prevent the div from closing
+      input.addEventListener('mousedown', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
+ 
+// Add event listeners to checkboxes to stop propagation
+document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
+// --------------------
 
   </script>
 </body>
