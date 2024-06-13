@@ -1,0 +1,59 @@
+#traceToolButton{
+    border: 2px solid red;
+    position: absolute;
+    /* bottom: -10vh;
+    right: 10vw; */
+    height: 37px !important;
+    width: 37px !important;
+}   
+#editFeatureButton{
+    border: 1px solid red;
+    width: 37px;
+    height: 37px;
+    position: relative;
+    bottom: 20vh;
+    /* right: 10vw; */
+}
+.draw_feature {
+   bottom: -85vh;
+    left: 699px;
+    position: absolute;
+    height: 37px;
+    width: 37px;
+    border: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px;
+  }
+  .saveDataButton {
+    border: 2px solid #2b13bb;
+    border-bottom: 2px solid #2b13bb;
+    border-top: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px;
+    background-color: white;
+    position: fixed;
+    color: black;
+    padding: 5px 5px;
+    display: none;
+    /* top: 94vh; */
+    bottom: 20vh;
+    font-size: 19px;
+    height: 37px;
+    width: 37px;
+    left: 880px;
+  }
+  .custom-button {
+    width: auto;
+    padding: 1px 5px;
+    background-color: #fff;
+    /* color: darkblue; */
+    font-weight: bold;
+    font-size: 9px !important;
+    border: 2px solid #2b13bb;
+    border-radius: 5px !important;
+    cursor: pointer;
+    /* position: absolute; */
+    top: 60vh;
+    left: 700px !important;
+    height: 37px !important;
+    width: 37px !important;
+    transition: background-color 0.1s;
+  }

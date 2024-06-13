@@ -9,7 +9,6 @@ var map = L.map("map", {
   zoomSnap: 0.5,
   zoomDelta: 0.5,
 });
-
 var googleSat = L.tileLayer(
   "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
   {
@@ -442,6 +441,7 @@ function toggleEditDeleteButton(show) {
   for (let i = 0; i < saveBtns.length; i++) {
     saveBtns[i].style.display = show ? "block" : "none";
     editBtn[i].style.display = show ? "block" : "none";
+  
   }
 }
 

@@ -407,8 +407,8 @@ customToolSelector.onAdd = function (map) {
   button.style.marginRight = '0px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
   // button.style.display = 'flex';
-  button.style.justifyContent = 'center';
-  button.style.alignItems = 'center';
+  // button.style.justifyContent = 'center';
+  // button.style.alignItems = 'center';
   // button.style.width = '100%';
   // button.style.height = '100%';
   // Create a new image element
