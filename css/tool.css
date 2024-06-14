@@ -7,8 +7,8 @@
   border-radius: 5px !important;
   cursor: pointer;
   position:fixed !important;
-  top: 91.970%;
-  left: 58% !important;
+  top: 91%;
+  left: 59.50% !important;
   height: 37px !important;
   width: 37px !important;
   transform: translateX(-50%); 
@@ -25,9 +25,9 @@
   border-radius: 5px !important;
   cursor: pointer;
   position: fixed !important;
-  top: 90.700%;
+  top: 89.600%;
   transform: translateX(-50%); 
-  left: 60.900% !important;
+  left: 60.50% !important;
   height: 37px !important;
   width: 37px !important;
   transition: background-color 0.1s;
