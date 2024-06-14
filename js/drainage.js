@@ -521,16 +521,37 @@ function fitbou(filter) {
   });
 }
 
-let cql_filterm = `Ward_Name IN(${wardNames
-  .map((name) => `'${name}'`)
-  .join(",")})`;
+let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
+let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
+let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
+
+let cql_filterm = '';
+
+if (zone_ids.length > 0) {
+  cql_filterm = `zone_id IN(${zone_ids.map(id => `'${id}'`).join(",")})`;
+} else {
+  console.log('No valid zone_id provided.');
+}
+
+// Add ward_id to the filter
+if (ward_ids.length > 0) {
+  cql_filterm += ` AND ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`;
+} else {
+  console.log('No valid ward_id provided.');
+}
+
+// Add prabhag_id to the filter if any
+if (prabhag_ids.length > 0) {
+  cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
+}
 
 fitbou(cql_filterm);
-ward_boundary.setParams({
+ward_admin_boundary.setParams({
   cql_filter: cql_filterm,
   styles: "highlight",
 });
-ward_boundary.addTo(map).bringToFront();
+ward_admin_boundary.addTo(map).bringToFront();
+
 
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);
