@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,47 +32,61 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-<style>
+    <style>
+        .pagination {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
 
-    
-#deleteFeatureButton {
-      border: 2px solid #2b13bb;
-      border-top: 2px solid #2b13bb;
-      border-radius: 5px 5px 5px 5px;
-      background-color: white;
-      color: black;
-      padding: 3px 7px;
-      display: none;
-      position: fixed;
-      top: 92%;
-      /* changed from 683px */
-      font-size: 15px;
-      height: 37px;
-      width: 37px;
-      left: 60%;
-      /* changed from 908px */
-    }
+        .pagination button {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            margin: 0 5px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-    #editFeatureButton {
-      border: 2px solid #2b13bb;
-      border-radius: 5px 5px 5px 5px;
-      height: 37px;
-      width: 37px;
-      display: none;
-      position: fixed;
-      top: 92%;
-      /* changed from 683px */
-      left: 56%;
-      /* changed from 822px */
-      padding: 5px;
-      background: white;
-      border-bottom: 2px solid #2b13bb;
-    }
+        .pagination button:hover {
+            background-color: #007bff;
+            /* border: 1px solid black; */
+        }
 
-</style>
+        .pagination button.active {
+            width: 35px;
+            height: 35px;
+            padding: 0;
+            background-color: #007bff;
+            color: white;
+            border: 2px solid #007bff;
+            border-radius: 50%;
+        }
+
+        .pagination .arrow {
+            background-color: transparent;
+            border: none;
+        }
+
+        .pagination .arrow:hover {
+            background-color: transparent !important;
+            color: inherit;
+        }
+
+        .pagination .arrow:focus {
+            outline: none;
+        }
+    </style>
 
 
 </head>
+
 <body class="bg-light">
     <img src="png/pmcjpeg.png" alt="" class="logopng1" />
     <div id="content" style="width: 100%" class="container">
@@ -83,12 +98,16 @@
                     <h5 class="text-secondary">Preview Map</h5>
                 </div>
                 <div style="float: right; margin-top: -40px; margin-left: 95%">
-                    <i class="fa-solid fa-print text-primary" id="generatePdfBtn" onclick="printPage()" style="font-size: 25px"></i>
+                    <i class="fa-solid fa-print text-primary" id="generatePdfBtn" onclick="printPage()"
+                        style="font-size: 25px"></i>
                 </div>
                 <div id="map"></div>
-                <a class="geopulseaname" style="color: darkblue; position: absolute; z-index: 99999; bottom: 0.5%; right: 0; font-weight: bold; font-size: 10px;">@GeoPulse Analytics</a>
+                <a class="geopulseaname"
+                    style="color: darkblue; position: absolute; z-index: 99999; bottom: 0.5%; right: 0; font-weight: bold; font-size: 10px;">@GeoPulse
+                    Analytics</a>
                 <div id="table-container">
-                    <table id="workTable" class="table table-bordered table-hover" style="width: 100% !important; font-size: 10px">
+                    <table id="workTable" class="table table-bordered table-hover"
+                        style="width: 100% !important; font-size: 10px">
                         <thead>
                             <tr>
                                 <th>Attribute</th>
@@ -98,10 +117,8 @@
                         <tbody id="workTableData"></tbody>
                     </table>
                     <div id="pagination-controls" class="pagination">
-					
-					</div>
-					
-                </div>
+
+                    </div>
             </form>
         </section>
     </div>
@@ -191,13 +208,10 @@
 
             getdata(filter);
 
-
-			
-
             function getdata(filters) {
                 const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point"];
                 const promises = [];
-                const layerDetails = ["id", "Work_ID", "Name_of_Work", "Department", "Work_Type", "Project_Office", "zone_id", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "length_1", "width", "area", "geometry"];
+                const layerDetails = ["id", "Work_ID", "Name_of_Work", "Department", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "length_1", "width", "area", "geometry"];
 
                 layers.forEach(function (layerName) {
                     const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
@@ -215,10 +229,10 @@
                             layerDetails.forEach(key => {
                                 if (properties[key] !== undefined && properties[key] !== null) {
                                     filteredData[key] = properties[key];
-                                }else  if (feature[key] !== undefined){
-									console.log("hhhhhhhhhhhhh",feature)
-									filteredData[key] = JSON.stringify(feature[key]);
-								}
+                                } else if (feature[key] !== undefined) {
+                                    // console.log("hhhhhhhhhhhhh", feature)
+                                    filteredData[key] = JSON.stringify(feature[key]);
+                                }
                             });
                             filteredData.geometry = feature.geometry;
                             return filteredData;
@@ -239,12 +253,10 @@
             function paginateResults(data) {
                 const itemsPerPage = 1;
                 let currentPage = 1;
-				console.log(data,"daraar")
 
                 function displayPage(page) {
                     const tableBody = document.getElementById('workTableData');
                     tableBody.innerHTML = '';
-
 
                     if (data.length === 0) {
                         const emptyMessage = document.createElement('tr');
@@ -255,20 +267,22 @@
                     }
 
                     const start = (page - 1) * itemsPerPage;
-                    const item = data[start];
-
-                    for (const [key, value] of Object.entries(item)) {
-                        if (key !== "geometry") {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `<td>${key}</td><td>${value}</td>`;
-                            tableBody.appendChild(row);
+                    const end = Math.min(start + itemsPerPage, data.length);
+                    for (let i = start; i < end; i++) {
+                        const item = data[i];
+                        for (const [key, value] of Object.entries(item)) {
+                            if (key !== "geometry") {
+                                const row = document.createElement('tr');
+                                const displayValue = key === 'length_1' ? parseFloat(value).toFixed(2) : value;
+                                row.innerHTML = `<td>${key}</td><td>${displayValue}</td>`;
+                                tableBody.appendChild(row);
+                            }
                         }
                     }
 
-					const paginationControlss = document.getElementById('pagination-controls');
-                    paginationControlss.innerHTML = '';
-
-                    highlightFeature(item.geometry);
+                    const paginationControls = document.getElementById('pagination-controls');
+                    paginationControls.innerHTML = '';
+                    highlightFeature(data[start].geometry);
                     updatePagination(page);
                 }
 
@@ -277,27 +291,61 @@
                     paginationControls.innerHTML = '';
 
                     const totalPages = Math.ceil(data.length / itemsPerPage);
-					// let button1 = document.createElement('button');
-					// button1.textContent = "Zoom All";
-					// paginationControls.appendChild(button1);
-					// button1.addEventListener('click', () => {
-                    //         alert("heelo")
-							
-                    //     });
 
-                    for (let i = 1; i <= totalPages; i++) {
+                    const prevButton = document.createElement('button');
+
+                    prevButton.innerHTML = '<';
+
+                    prevButton.classList.add('arrow');
+                    prevButton.disabled = page === 1;
+                    prevButton.addEventListener('click', () => {
+                        if (page > 1) {
+                            displayPage(page - 1);
+                        }
+                    });
+                    paginationControls.appendChild(prevButton);
+
+                    const maxVisiblePages = 5;
+                    let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+                    let endPage = startPage + maxVisiblePages - 1;
+                    if (endPage > totalPages) {
+                        endPage = totalPages;
+                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                    }
+
+
+
+                    for (let i = startPage; i <= endPage; i++) {
                         const button = document.createElement('button');
                         button.textContent = i;
+                        button.classList.add('page-num');
                         if (i === page) {
                             button.style.fontWeight = 'bold';
                         }
                         button.addEventListener('click', () => {
-                            currentPage = i;
                             displayPage(i);
                         });
                         paginationControls.appendChild(button);
                     }
-					
+                    // Count button
+                    // const countButton = document.createElement('button');
+                    // countButton.classList.add('count');
+                    // countButton.textContent = '23';
+                    // countButton.disabled = true;
+                    // paginationControls.appendChild(countButton);
+
+
+                    const nextButton = document.createElement('button');
+                    nextButton.innerHTML = '>';
+
+                    nextButton.classList.add('arrow');
+                    nextButton.disabled = page === totalPages;
+                    nextButton.addEventListener('click', () => {
+                        if (page < totalPages) {
+                            displayPage(page + 1);
+                        }
+                    });
+                    paginationControls.appendChild(nextButton);
                 }
 
                 function highlightFeature(geometry) {
@@ -311,505 +359,45 @@
                             opacity: 0.65
                         }
                     }).addTo(map);
-                    // map.fitBounds(highlightLayer.getBounds());
-                }
-				function zoomAllFeatures(data) {
-                if (highlightLayer) {
-                    map.removeLayer(highlightLayer);
+                    map.fitBounds(highlightLayer.getBounds());
                 }
 
-                highlightLayer = L.geoJSON(data.map(item => item.geometry), {
-                    style: {
-                        color: '#ff7800',
-                        weight: 5,
-                        opacity: 0.65
-                    }
-                }).addTo(map);
-                map.fitBounds(highlightLayer.getBounds());
-            }
-
+                // Display initial page
                 displayPage(currentPage);
             }
-        });
 
-        function FitbouCustomiseRevenue(filter) {
-            const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point"];
-            let bounds = L.latLngBounds();
-            let pendingRequests = layers.length;
-
-            layers.forEach(function (layerName) {
-                const urlm = "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-                    layerName +
-                    "&CQL_FILTER=" +
-                    filter +
-                    "&outputFormat=application/json";
-
-                $.getJSON(urlm, function (data) {
-                    const geojson = L.geoJson(data, {});
-                    if (geojson && geojson.getBounds && geojson.getBounds().isValid()) {
-                        bounds.extend(geojson.getBounds());
-                    }
-
-                    pendingRequests--;
-                    if (pendingRequests === 0 && bounds.isValid()) {
-                        map.fitBounds(bounds);
-                    }
-                });
-            });
-        }
-
-        function printPage() {
-            window.print();
-        }
-
-//edit feautere 
-
-
-var editControl = L.control({ position: 'topleft' });
-var customSaveEditButton = L.control({ position: 'topleft' });
-customSaveEditButton.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'saveDataButton');
-  div.innerHTML = '<button id="saveDataButton" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
-  customDrawControlsContainer = div;
-  return div;
-};
-
-
-customSaveEditButton.addTo(map);
-
-
-
-var customEditLayerButton = L.control({ position: 'topleft' });
-
-customEditLayerButton.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'editFeatureButton');
-  div.innerHTML = '<img id="editFeatureButton"  title=" Edit Feature" src="png/editTool.png" >';
-  customDrawControlsContainer = div;
-  return div;
-};
-
-
-customEditLayerButton.addTo(map);
-
-
-var customDeleteLayerButton = L.control({ position: 'topleft' });
-
-customDeleteLayerButton.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'deleteFeatureButton');
-  div.innerHTML = '<button id="deleteFeatureButton"  title="Delete Feature"> <i class="fa-solid fa-trash-can"></i></button>';
-  customDrawControlsContainer = div;
-  return div;
-};
-
-
-customDeleteLayerButton.addTo(map);
-
-
-var editableLayers = new L.FeatureGroup().addTo(map);
-    var selectedFeature = null;
-
-
-
-    function performTask() {
-
-
-      map.on("click", function (e) {
-        let size = map.getSize();
-        let bbox = map.getBounds().toBBoxString();
-        let layer = "pmc:Exist_Road";
-
-        if (department == 'Road') {
-          layer = "pmc:Exist_Road";
-
-        }
-        else if (department == 'Building') {
-          layer = "pmc:Reservations";
-
-        }
-        else if (department == 'Drainage') {
-          layer = "pmc:storm_water";
-
-        }
-
-        var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-          e.containerPoint.x
-        )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
-          }&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-
-
-
-
-        fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-
-            highlightFeature(data);
-          });
-      });
-
-      function highlightFeature(featureData) {
-        // Check if any features are present in the featureData
-        if (
-          !featureData ||
-          !featureData.features ||
-          featureData.features.length === 0
-        )
-
-          // Clear existing editable layers
-          editableLayers.clearLayers();
-
-        // Get the first feature from the featureData
-        var feature = featureData.features[0];
-
-        var geojsonLayer = L.geoJSON(feature, {
-          style: {
-            color: "red",
-            weight: 3,
-            opacity: 1,
-            fillOpacity: 0.5,
-          },
-        });
-
-        editableLayers.addLayer(geojsonLayer);
-
-        if (editableLayers.getLayers().length > 0) {
-
-          map.fitBounds(editableLayers.getBounds());
-        }
-      }
-
-      editableLayers.on("contextmenu", function (e) {
-        // Check if there is a selected feature
-
-        toggleSelectLayerButton(true);
-
-
-        if (editableLayers.getLayers().length > 0) {
-          selectedFeature = editableLayers.getLayers()[1];
-
-          // Get the coordinates of the right-clicked point
-          var latlng = e.latlng;
-          var popupContent = "<h5>Selected Feature</h5>";
-
-          if (localStorage.getItem("conceptual_form_data_temp")) {
-            const formDataFromStorage = JSON.parse(
-              localStorage.getItem("conceptual_form_data_temp")
-            );
-
-
-
-            $('#table-container').show();
-            console.log(formDataFromStorage);
-            let contentData = '<tr>';
-            for (const property in formDataFromStorage) {
-              contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-            }
-            contentData += '</tr>';
-            $('#workTableData').html(contentData);
-
-
-          }
-          document.getElementById("saveDataButton").addEventListener("click", function () {
-              var featureData = selectedFeature.toGeoJSON();
-
-              var featureId = featureData.features[0].id;
-              let formDataFromStorage;
-              let formDataTemp = localStorage.getItem(
-                "conceptual_form_data_temp"
-              );
-              if (formDataTemp) {
-                localStorage.setItem("conceptual_form_data", formDataTemp);
-                formDataFromStorage = JSON.parse(formDataTemp);
-              }
-
-              var roadLength =
-                formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Length")
-                  ? formDataFromStorage.Length
-                  : 10;
-
-              var bufferWidth =
-                formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Width")
-                  ? formDataFromStorage.Width
-                  : 20;
-
-
-
-              let selectCoordinatesData = featureData.features;
-
-              var lenghtSelect = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
-
-              console.log(lenghtSelect);
-
-              localStorage.setItem(
-                "selectCoordinatesData",
-                JSON.stringify(selectCoordinatesData)
-              );
-
-              var lastInsertedId = localStorage.getItem("lastInsertedId");
-
-
-              var payload = JSON.stringify({
-                geoJSON: JSON.stringify(featureData),
-                roadLength: lenghtSelect,
-                bufferWidth: bufferWidth,
-                gis_id: lastInsertedId,
-                department: department,
-                selectCoordinatesData: selectCoordinatesData,
-              });
-
-              $.ajax({
-                type: "POST",
-                url: "APIS/gis_update.php",
-                data: payload,
-                contentType: "application/json",
-                success: function (response) {
-                  Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Success",
-                    text: "Saved Successfully",
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                    customClass: {
-                      popup: "custom-modal-class",
-                      icon: "custom-icon-class",
-                      title: "custom-title-class",
-                      content: "custom-text-class",
-                      closeButton: "custom-close-button-class",
-                    },
-                    showClass: {
-                      popup: "swal2-show",
-                      backdrop: "swal2-backdrop-show",
-                      icon: "swal2-icon-show",
-                    },
-                    hideClass: {
-                      popup: "swal2-hide",
-                      backdrop: "swal2-backdrop-hide",
-                      icon: "swal2-icon-hide",
-                    },
-                    didOpen: () => {
-                      // Apply custom styles directly to the modal elements
-                      document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-                      document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-                      document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
-                      document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-                      document.querySelector(".custom-icon-class").style.transition = "all o.5s ease";
-                      document.querySelector(".custom-title-class").style.fontSize =
-                        "1.5em"; // Set your desired title size
-                      document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-                      document.querySelector(
-                        ".custom-close-button-class"
-                      ).style.backgroundColor = "#f44336"; // Red background color
-                      document.querySelector(".custom-close-button-class").style.color =
-                        "white"; // White text color
-                      document.querySelector(
-                        ".custom-close-button-class"
-                      ).style.borderRadius = "0"; // Rounded corners
-                      document.querySelector(".custom-close-button-class").style.padding =
-                        "5px"; // Padding around the close button
-                      document.querySelector(".custom-close-button-class").style.fontSize =
-                        "20px"; // Font size of the close button
-                    },
-                  });
-
-                  setTimeout(() => {
-                    //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
-                  }, 2100);
-                },
-                error: function (xhr, status, error) {
-                  console.error("Save failed:", error);
-                },
-              });
-             
-              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
-          console.log(selectCoordinatesData)
-            var formData = new FormData();
-            formData.append('proj_id', worksAaApprovalId);
-            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-            formData.append('polygon_area', 0);
-            formData.append('polygon_centroid', 0);
-            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-            formData.append('road_no', struct_no);
-            formData.append('user_id', user_id);
-            formData.append('length', lenghtSelect);
-            formData.append('width', width);
-          
-                      $.ajax({
-                type: "POST",
-                url: "https://iwms.punecorporation.org/api/gis-data",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                  console.log(response);
-                  window.location.href = response.data.redirect_Url;
-                },
-                error: function (xhr, status, error) {
-                  console.error("Save failed:", error);
-                },
-              });
-
-            });
-
-        }
-      });
-
-
-      // Change the button text to "Finish"
-      var button = document.querySelector('.custom-button');
-      button.innerHTML = 'Finish';
-
-      // Change the button's onclick function to stop the task
-      button.onclick = function () {
-        button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px;  height:20px padding:5px; " title="SELECT-FEATURE">';
-        // Remove the click event listener from the map
-        var drawFeatureButton = document.querySelector('.draw_feature');
-        if (drawFeatureButton) {
-          drawFeatureButton.removeAttribute('disabled');
-        }
-
-        map.off("click");
-        toggleSelectLayerButton(false);
-        // Reset any ongoing operation here
-      };
-    }
-
-    function updatePopup(layer) {
-  let content;
-  var coordinates = layer._latlngs[0];
-  var turfCoords = coordinates.map(function (coord) {
-    return [coord.lng, coord.lat];
-  });
-
-  if (layer instanceof L.Polyline) {
-    var line = turf.lineString(turfCoords);
-    var length = turf.length(line, { units: 'meters' });
-    content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
-  } else if (layer instanceof L.Polygon) {
-    var polygon = turf.polygon([turfCoords]);
-    var area = turf.area(polygon);
-    content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
-  }
-
-  if (!layer._popup) {
-    layer.bindPopup(content);
-  } else {
-    layer.setPopupContent(content);
-  }
-  layer.openPopup();
-}
-
-
-document.getElementById("editFeatureButton").addEventListener("click", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    selectedFeature.eachLayer(function (layer) {
-        if (layer.editing) {
-            layer.editing.enable();
-            layer.on('edit', function () {
-                updatePopup(layer);
-            });
-        } else {
-            layer.on("click", function () {
-                if (this.editing) {
-                    this.editing.enable();
-                    updatePopup(this);
-                    this.on('edit', function () {
-                        updatePopup(this);
+            function FitbouCustomiseRevenue(filter) {
+                const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point"];
+                let bounds = L.latLngBounds();
+                let pendingRequests = layers.length;
+
+                layers.forEach(function (layerName) {
+                    const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+                        layerName +
+                        "&CQL_FILTER=" +
+                        filter +
+                        "&outputFormat=application/json";
+
+                    $.getJSON(urlm, function (data) {
+                        const geojson = L.geoJson(data, {});
+                        if (geojson && geojson.getBounds && geojson.getBounds().isValid()) {
+                            bounds.extend(geojson.getBounds());
+                        }
+
+                        pendingRequests--;
+                        if (pendingRequests === 0 && bounds.isValid()) {
+                            map.fitBounds(bounds);
+                        }
                     });
-                }
-            });
-        }
-    });
-});
+                });
+            }
 
-    document.getElementById('deleteFeatureButton').addEventListener('click', function () {
-      if (!selectedFeature) {
-        alert('No feature selected!');
-        return;
-      }
-
-      editableLayers.removeLayer(selectedFeature);
-      selectedFeature = null;
-    });
-
-    function updatePopup(layer) {
-      let content;
-      var coordinates = layer._latlngs[0]
-      var turfCoords = coordinates.map(function (coord) {
-        return [coord.lng, coord.lat];
-      });
-
-      if (layer instanceof L.Polyline) {
-        var line = turf.lineString(turfCoords);
-        var length = turf.length(line, { units: 'meters' });
-        content = length + "M"
-      } else if (layer instanceof L.Polygon) {
-        var polygon = turf.polygon([turfCoords]);   
-        var area = turf.area(polygon);
-        content = length + "SQM"
-      }
-
-      if (!layer._popup) {
-        layer.bindPopup(content);
-      } else {
-        layer.setPopupContent(content);
-      }
-      layer.openPopup();
-    }
-
-    // ----------------------
-
-
-
-    editControl.onAdd = function (map) {
-      var button = L.DomUtil.create('button', 'custom-button');
-      button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT FEATURE">';
-      button.onclick = function () {
-        var drawFeatureButton = document.querySelector('.draw_feature');
-        if (button.innerHTML === '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">') {
-          button.innerHTML = 'Finish';
-          performTask();
-
-          // Remove the draw control if it's currently added
-    
-
-    
-        } else {
-          button.innerHTML = '<img src="png/003-selection.png" alt="" style="width:20px; height:20px; " title="SELECT FEATURE">';
-          // Finish or reset any ongoing operation here
-          if (drawFeatureButton) {
-            drawFeatureButton.setAttribute('disabled', false);
-          }
-
-          // button.innerHTML = 'Select Feature';
-          // Add the draw control back if it's not currently added
- 
-          // Show the custom draw controls button
-          if (drawFeatureButton) {
-            drawFeatureButton.setAttribute('disabled', false);
-          }
-        }
-      };
-      return button;
-    }; 
-     
-    
-
-
-
-    // Add the control to the map
-
-    editControl.addTo(map);
-
-
-
-
+            function printPage() {
+                window.print();
+            }
+        });
 
     </script>
 </body>
+
 </html>
