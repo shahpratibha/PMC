@@ -1,7 +1,20 @@
 var map, geojson;
 const API_URL = "http://localhost/PMC/IWMS/";
 
+// const publicAPI_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
+// const privateAPI_URL = "https://192.168.54.92/gis/iwms/";
 
+// // Use the public URL
+// fetch(publicAPI_URL)
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error(error));
+
+// // Use the private URL
+// fetch(privateAPI_URL)
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error(error));
 
 var map = L.map("map", {
   center:[18.52, 73.89],
@@ -252,12 +265,21 @@ var WMSlayers = {
   PMC: wms_layer3,
   Amenity: wms_layer11,
   Bhavan: wms_layer21,
+  
   Drainage: wms_layer13,
   Roads: wms_layer1,
+  // geodata: wms_layer4,
   OSMRoad: wms_layer16,
 };
 
+// function refreshWMSLayer() {
+//   // Remove the layer from the map
+//   map.removeLayer(wms_layer4);
+//   // Add the layer again
+//   wms_layer4.addTo(map);
+// }
 
+// refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
@@ -316,27 +338,27 @@ map.options.scale = true; // Enables the scale control
 // You can also customize the scale options
 L.control.scale(
 ).addTo(map);
-var drawControl = new L.Control.Draw({
-  draw: {
-    polyline: {
-      shapeOptions: {
-        color: "red", // set the color for the polygon border
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6), // set the size of the icon
-        className: "leaflet-div-icon", // specify the icon class
-      }),
-    },
-    polygon: false,
-    circle: false,
-    marker: false,
-    rectangle: false,
-  },
-  edit: {
-    featureGroup: drawnItems,
-    remove: true,
-  },
-});
+// var drawControl = new L.Control.Draw({
+//   draw: {
+//     polyline: {
+//       shapeOptions: {
+//         color: "red", // set the color for the polygon border
+//       },
+//       icon: new L.DivIcon({
+//         iconSize: new L.Point(6, 6), // set the size of the icon
+//         className: "leaflet-div-icon", // specify the icon class
+//       }),
+//     },
+//     polygon: false,
+//     circle: false,
+//     marker: false,
+//     rectangle: false,
+//   },
+//   edit: {
+//     featureGroup: drawnItems,
+//     remove: true,
+//   },
+// });
 // map.addControl(drawControl);
 
 
@@ -969,23 +991,6 @@ function Savedata(lastDrawnPolylineId) {
   });
 }
 
-//**************************************************line mesure*************************************************************
-// L.control
-  //   .polylineMeasure({
-    //     position: "topright",
-    //     unit: "kilometres",
-    //     showBearings: true,
-    //     clearMeasurementsOnStop: false,
-    //     showClearControl: true,
-    //     showUnitControl: true,
-  //   })
-  //   .addTo(map);
-
-//**********************************************************area measure**********************************************************************
-// var measureControl = new L.Control.Measure({
-  //   position: "topright",
-// });
-// measureControl.addTo(map);
 
 function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
