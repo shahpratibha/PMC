@@ -549,6 +549,26 @@ if (ward_ids.length > 0) {
 if (prabhag_ids.length > 0) {
   cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
 }
+
+
+if (zone_ids.length > 0) {
+  cql_filterm = `zone_id IN(${zone_ids.map(id => `'${id}'`).join(",")})`;
+} else {
+  console.log('No valid zone_id provided.');
+}
+
+// Add ward_id to the filter
+if (ward_ids.length > 0) {
+  cql_filterm += ` AND ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`;
+} else {
+  console.log('No valid ward_id provided.');
+}
+
+// Add prabhag_id to the filter if any
+if (prabhag_ids.length > 0) {
+  cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
+}
+   
    
         fitbou(cql_filterm);
         ward_admin_boundary.setParams({
