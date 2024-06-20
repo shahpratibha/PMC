@@ -1,18 +1,16 @@
 var main_url = "https://iwmsgis.pmc.gov.in/geoserver/"
 
-// html page code ......................
 function toggleFilter(div) {
   const input = div.querySelector('.filter-input');
   const ul = div.querySelector('ul');
   const isActive = input.classList.contains('active');
 
-  // Remove 'active' class from all filter inputs and their associated ul elements
+
   document.querySelectorAll('.filter-input').forEach(input => {
     input.classList.remove('active');
     input.nextElementSibling.classList.remove('active');
   });
 
-  // If the clicked filter is not active, add 'active' class to it
   if (!isActive) {
     input.classList.add('active');
     ul.classList.add('active');
@@ -122,7 +120,7 @@ $(document).ready(function () {
   $('#daterange').daterangepicker({
     opens: 'left',
     locale: {
-      format: 'MMMM D, YYYY' // Format to show Month name, Day, and Year
+      format: 'MMMM D, YYYY' 
     },
     startDate: start,
     endDate: end,
@@ -139,10 +137,8 @@ $(document).ready(function () {
     }
   }, cb);
 
-  // Call the callback function to set the initial value
   cb(start, end);
 
-  // Additional initialization functions
   function cb(start, end) {
     $('#daterange').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     console.log('Selected date range: ' + start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -741,28 +737,27 @@ $(document).ready(function () {
 
   $("#workTable tbody").on("click", "tr", function () {
     var data = dataTable.row(this).data();
-    var nameOfWork = data[0]; // Assuming the first column contains the name of the work
+    var nameOfWork = data[0]; 
 
-    // Your logic to determine the coordinates of the highlighted area based on the clicked data
+    
     var highlightedAreaCoordinates = [
       [18.532343, 73.917303],
       [18.526969, 73.926744],
       [18.533809, 73.928547],
-      [18.532343, 73.917303], // Example coordinates, replace with your actual coordinates
+      [18.532343, 73.917303], 
     ];
 
-    // Create a polygon layer representing the highlighted area and add it to the map
+ 
     var highlightedAreaLayer = L.polygon(highlightedAreaCoordinates, {
       color: "red",
       fillColor: "red",
       fillOpacity: 0.5,
     }).addTo(map);
 
-    // Fit the map view to the bounds of the highlighted area
     map.fitBounds(highlightedAreaLayer.getBounds());
   });
 
-  // Hide table on close button click
+
   $("#closeTableBtn").click(function () {
     tableContainer.slideUp();
   });
@@ -867,5 +862,3 @@ function getWardNameById(wardId, wardData) {
     return "";
   }
 }
-
-// ----------------------search bar
