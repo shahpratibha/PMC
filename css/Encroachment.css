@@ -6,7 +6,7 @@
         background-position: -269px 2px !important;
     }
     .draw_feature {
-        top: 91%;
+        top: 91% ;
         left: 54%;
         position:fixed;
         height: 37px;
@@ -16,7 +16,7 @@
       }
       .custom-button {
         width: auto;
-        padding: 1px 5px;
+        padding: 9px 5px;
         background-color: #fff;
         /* color: darkblue; */
         font-weight: bold;
@@ -25,7 +25,7 @@
         border-radius: 5px !important;
         cursor: pointer;
         position: fixed !important;
-        top:89.50%;
+        top:89.60%;
         left: 56.70% !important;
         height: 37px !important;
         width: 37px !important;
@@ -63,7 +63,7 @@
         position: fixed;
         color: black;
         padding: 5px 5px;
-        /* display: none; */
+        display: none;
         top: 91%;
         font-size: 17px;
         height: 37px;
@@ -75,8 +75,9 @@
         border-radius: 5px 5px 5px 5px;
         height: 37px !important;
         width: 37px !important;
-        /* display: none; */
+        display: none;
         position: fixed;
+        font-size: 15px !important;
         top: 91%;
         left:65.30%;
         padding: 3px 5px !important;
@@ -90,10 +91,10 @@
         background-color: white;
         color: black;
         padding: 3px 7px;
-        /* display: none; */
+        display: none;
         position: fixed;
         top: 91%;
-        font-size: 15px;
+        font-size: 14px;
         height: 37px;
         width: 37px;
         left: 72.90%;
@@ -115,6 +116,16 @@
         left:42.8%;
         font-size: 15px;
         border-bottom: 2px solid #2b13bb;
+      }
+      .leaflet-draw-actions {
+        display: none;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: fixed !important;
+        left: 520px !important;
+        top: 86vh!important;
+        white-space: nowrap;
       }
       .delete-button {
         border: 2px solid #2b13bb;
@@ -138,6 +149,7 @@
       }
       .leaflet-control-edit-interior {
         font-size: 15px;
+        padding: 2px 9px;
         position:fixed !important;
         height: 37px !important;
         width: 37px !important;
@@ -148,7 +160,7 @@
         left:46.50%!important;
         border-bottom: 2px solid #2b13bb !important;
       }
-      
+     
 }
 @media only screen and (min-width: 1400px){
     .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
@@ -168,7 +180,7 @@
       }
       .custom-button {
         width: auto;
-        padding: 1px 5px;
+        padding: 9px 5px;
         background-color: #fff;
         /* color: darkblue; */
         font-weight: bold;
@@ -214,9 +226,9 @@
         position: fixed;
         color: black;
         padding: 5px 5px;
-        /* display: none; */
+        display: none;
         top: 91%;
-        font-size: 17px;
+        font-size: 15px;
         height: 37px;
         width: 37px;
         left: 56.700%;
@@ -226,7 +238,7 @@
         border-radius: 5px 5px 5px 5px;
         height: 37px !important;
         width: 37px !important;
-        /* display: none; */
+        display: none;
         position: fixed;
         top: 91%;
         left:54.110%;
@@ -241,10 +253,10 @@
         background-color: white;
         color: black;
         padding: 3px 7px;
-        /* display: none; */
+        display: none;
         position: fixed;
         top: 91%;
-        font-size: 15px;
+        font-size: 14px;
         height: 37px;
         width: 37px;
         left:59.300%;
@@ -298,5 +310,15 @@
         left:38.800%;
         font-size: 15px;
         border-bottom: 2px solid #2b13bb;
+      }
+      .leaflet-draw-actions {
+        display: none;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: fixed !important;
+        left: 40% !important;
+        top: 86%!important;
+        white-space: nowrap;
       }
 }

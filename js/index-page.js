@@ -33,289 +33,288 @@ var ward_boundary = L.tileLayer.wms(
 
 ///Note: ************** only this code is in use ///////// we can remove other code after other pages works properly
 
-
 let depData = [
   {
-    department_id: '1',
-    department_name: 'Road',
-    department_marathi_name: 'पथ',
-    department_code: '21',
+    department_id: "1",
+    department_name: "Road",
+    department_marathi_name: "पथ",
+    department_code: "21",
   },
   {
-    department_id: '2',
-    department_name: 'Building',
-    department_marathi_name: 'भवन',
-    department_code: '78',
+    department_id: "2",
+    department_name: "Building",
+    department_marathi_name: "भवन",
+    department_code: "78",
   },
   {
-    department_id: '3',
-    department_name: 'Project Work',
-    department_marathi_name: 'प्रकल्प',
-    department_code: '',
+    department_id: "3",
+    department_name: "Project Work",
+    department_marathi_name: "प्रकल्प",
+    department_code: "",
   },
   {
-    department_id: '4',
-    department_name: 'Water Supply',
-    department_marathi_name: 'पाणीपुरवठा',
-    department_code: '',
+    department_id: "4",
+    department_name: "Water Supply",
+    department_marathi_name: "पाणीपुरवठा",
+    department_code: "",
   },
   {
-    department_id: '5',
-    department_name: 'Drainage',
-    department_marathi_name: 'मलनिःसारण देखभाल व दुरुस्ती',
-    department_code: '',
+    department_id: "5",
+    department_name: "Drainage",
+    department_marathi_name: "मलनिःसारण देखभाल व दुरुस्ती",
+    department_code: "",
   },
   {
-    department_id: '6',
-    department_name: 'Electrical',
-    department_marathi_name: 'विद्युत',
-    department_code: '',
+    department_id: "6",
+    department_name: "Electrical",
+    department_marathi_name: "विद्युत",
+    department_code: "",
   },
   {
-    department_id: '7',
-    department_name: 'Solid waste Management',
-    department_marathi_name: 'घनकचरा',
-    department_code: '',
+    department_id: "7",
+    department_name: "Solid waste Management",
+    department_marathi_name: "घनकचरा",
+    department_code: "",
   },
   {
-    department_id: '8',
-    department_name: 'PMAY',
-    department_marathi_name: 'प्रधानमंत्री आवास योजना',
-    department_code: '',
+    department_id: "8",
+    department_name: "PMAY",
+    department_marathi_name: "प्रधानमंत्री आवास योजना",
+    department_code: "",
   },
   {
-    department_id: '9',
-    department_name: 'Garden',
-    department_marathi_name: 'उद्यान ',
-    department_code: '',
+    department_id: "9",
+    department_name: "Garden",
+    department_marathi_name: "उद्यान ",
+    department_code: "",
   },
   {
-    department_id: '14',
-    department_name: 'Education Department (Primary)',
-    department_marathi_name: 'शिक्षण विभाग (प्राथमिक)',
-    department_code: 'EDU',
+    department_id: "14",
+    department_name: "Education Department (Primary)",
+    department_marathi_name: "शिक्षण विभाग (प्राथमिक)",
+    department_code: "EDU",
   },
   {
-    department_id: '11',
-    department_name: 'Slum',
-    department_marathi_name: 'झोनिपु',
-    department_code: '',
+    department_id: "11",
+    department_name: "Slum",
+    department_marathi_name: "झोनिपु",
+    department_code: "",
   },
   {
-    department_id: '12',
-    department_name: 'Encroachment ',
-    department_marathi_name: 'अतिक्रमण',
-    department_code: '',
+    department_id: "12",
+    department_name: "Encroachment ",
+    department_marathi_name: "अतिक्रमण",
+    department_code: "",
   },
   {
-    department_id: '13',
-    department_name: 'Garden Horticulture',
-    department_marathi_name: 'उद्यान',
-    department_code: 'GRHOR',
+    department_id: "13",
+    department_name: "Garden Horticulture",
+    department_marathi_name: "उद्यान",
+    department_code: "GRHOR",
   },
   {
-    department_id: '10',
-    department_name: 'Market',
-    department_marathi_name: 'मंडई',
-    department_code: '',
+    department_id: "10",
+    department_name: "Market",
+    department_marathi_name: "मंडई",
+    department_code: "",
   },
   {
-    department_id: '16',
-    department_name: 'Sport',
-    department_marathi_name: 'क्रीडा',
-    department_code: '',
+    department_id: "16",
+    department_name: "Sport",
+    department_marathi_name: "क्रीडा",
+    department_code: "",
   },
   {
-    department_id: '17',
-    department_name: 'City Engineer Office',
-    department_marathi_name: 'शहर अभियंता कार्यालय',
-    department_code: 'CTEO',
+    department_id: "17",
+    department_name: "City Engineer Office",
+    department_marathi_name: "शहर अभियंता कार्यालय",
+    department_code: "CTEO",
   },
   {
-    department_id: '18',
-    department_name: 'Environment',
-    department_marathi_name: 'पर्यावरण',
-    department_code: 'EVMT',
+    department_id: "18",
+    department_name: "Environment",
+    department_marathi_name: "पर्यावरण",
+    department_code: "EVMT",
   },
 ];
 
 let zoneData = [
   {
-    zone_id: '1',
-    zone_name: 'D.M.C. Zone 1',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.१ ',
+    zone_id: "1",
+    zone_name: "D.M.C. Zone 1",
+    zone_marathi_name: "विकेंद्रित कामे परिमंडळ क्र.१ ",
   },
   {
-    zone_id: '2',
-    zone_name: 'D.M.C. Zone 2',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.२',
+    zone_id: "2",
+    zone_name: "D.M.C. Zone 2",
+    zone_marathi_name: "विकेंद्रित कामे परिमंडळ क्र.२",
   },
   {
-    zone_id: '3',
-    zone_name: 'D.M.C. Zone 3',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.३',
+    zone_id: "3",
+    zone_name: "D.M.C. Zone 3",
+    zone_marathi_name: "विकेंद्रित कामे परिमंडळ क्र.३",
   },
   {
-    zone_id: '4',
-    zone_name: 'D.M.C. Zone 4',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.४ ',
+    zone_id: "4",
+    zone_name: "D.M.C. Zone 4",
+    zone_marathi_name: "विकेंद्रित कामे परिमंडळ क्र.४ ",
   },
   {
-    zone_id: '5',
-    zone_name: 'D.M.C. Zone 5',
-    zone_marathi_name: 'विकेंद्रित कामे परिमंडळ क्र.५',
+    zone_id: "5",
+    zone_name: "D.M.C. Zone 5",
+    zone_marathi_name: "विकेंद्रित कामे परिमंडळ क्र.५",
   },
 ];
 
 let wardData = [
   {
-    ward_id: '1',
-    ward_name: 'Yeravada Kalas Dhanori',
-    ward_marathi_name: 'येरवडा कळस धानोरी',
-    zone_id: '1',
-    ward_no: '2',
+    ward_id: "1",
+    ward_name: "Yeravada Kalas Dhanori",
+    ward_marathi_name: "येरवडा कळस धानोरी",
+    zone_id: "1",
+    ward_no: "2",
   },
   {
-    ward_id: '2',
-    ward_name: 'Dhole Patil Ward',
-    ward_marathi_name: 'ढोले पाटील',
-    zone_id: '1',
-    ward_no: '3',
+    ward_id: "2",
+    ward_name: "Dhole Patil Ward",
+    ward_marathi_name: "ढोले पाटील",
+    zone_id: "1",
+    ward_no: "3",
   },
   {
-    ward_id: '3',
-    ward_name: 'Nagar Road - Vadgaonsheri',
-    ward_marathi_name: 'नगररोड - वडगावशेरी',
-    zone_id: '1',
-    ward_no: '1',
+    ward_id: "3",
+    ward_name: "Nagar Road - Vadgaonsheri",
+    ward_marathi_name: "नगररोड - वडगावशेरी",
+    zone_id: "1",
+    ward_no: "1",
   },
   {
-    ward_id: '4',
-    ward_name: 'Shivajinagar - Ghole Road',
-    ward_marathi_name: 'शिवाजीनगर - घोलेरोड',
-    zone_id: '2',
-    ward_no: '5',
+    ward_id: "4",
+    ward_name: "Shivajinagar - Ghole Road",
+    ward_marathi_name: "शिवाजीनगर - घोलेरोड",
+    zone_id: "2",
+    ward_no: "5",
   },
   {
-    ward_id: '5',
-    ward_name: 'Aundh - Baner',
-    ward_marathi_name: 'औंध - बाणेर',
-    zone_id: '2',
-    ward_no: '4',
+    ward_id: "5",
+    ward_name: "Aundh - Baner",
+    ward_marathi_name: "औंध - बाणेर",
+    zone_id: "2",
+    ward_no: "4",
   },
   {
-    ward_id: '6',
-    ward_name: 'Kothrud - Bawdhan',
-    ward_marathi_name: 'कोथरूड - बावधन',
-    zone_id: '2',
-    ward_no: '6',
+    ward_id: "6",
+    ward_name: "Kothrud - Bawdhan",
+    ward_marathi_name: "कोथरूड - बावधन",
+    zone_id: "2",
+    ward_no: "6",
   },
   {
-    ward_id: '7',
-    ward_name: 'Warje - Karvenagar',
-    ward_marathi_name: 'वारजे - कर्वेनगर',
-    zone_id: '3',
-    ward_no: '9',
+    ward_id: "7",
+    ward_name: "Warje - Karvenagar",
+    ward_marathi_name: "वारजे - कर्वेनगर",
+    zone_id: "3",
+    ward_no: "9",
   },
   {
-    ward_id: '9',
-    ward_name: 'Dhankawadi - Sahakar Nagar',
-    ward_marathi_name: 'धनकवडी - सहकारनगर',
-    zone_id: '3',
-    ward_no: '7',
+    ward_id: "9",
+    ward_name: "Dhankawadi - Sahakar Nagar",
+    ward_marathi_name: "धनकवडी - सहकारनगर",
+    zone_id: "3",
+    ward_no: "7",
   },
   {
-    ward_id: '8',
-    ward_name: 'Sinhgad Road Ward',
-    ward_marathi_name: 'सिंहगड रोड',
-    zone_id: '3',
-    ward_no: '8',
+    ward_id: "8",
+    ward_name: "Sinhgad Road Ward",
+    ward_marathi_name: "सिंहगड रोड",
+    zone_id: "3",
+    ward_no: "8",
   },
   {
-    ward_id: '10',
-    ward_name: 'Wanawadi - Ramtekadi',
-    ward_marathi_name: 'वानवडी - रामटेकडी',
-    zone_id: '4',
-    ward_no: '11',
+    ward_id: "10",
+    ward_name: "Wanawadi - Ramtekadi",
+    ward_marathi_name: "वानवडी - रामटेकडी",
+    zone_id: "4",
+    ward_no: "11",
   },
   {
-    ward_id: '11',
-    ward_name: 'Hadapsar - Mundhwa',
-    ward_marathi_name: 'हडपसर - मुंढवा',
-    zone_id: '4',
-    ward_no: '10',
+    ward_id: "11",
+    ward_name: "Hadapsar - Mundhwa",
+    ward_marathi_name: "हडपसर - मुंढवा",
+    zone_id: "4",
+    ward_no: "10",
   },
   {
-    ward_id: '12',
-    ward_name: 'Kondhwa - Yewalewadi',
-    ward_marathi_name: 'कोंढवा - येवलेवाडी',
-    zone_id: '4',
-    ward_no: '12',
+    ward_id: "12",
+    ward_name: "Kondhwa - Yewalewadi",
+    ward_marathi_name: "कोंढवा - येवलेवाडी",
+    zone_id: "4",
+    ward_no: "12",
   },
   {
-    ward_id: '13',
-    ward_name: 'Bhavani Peth',
-    ward_marathi_name: 'भवानी पेठ ',
-    zone_id: '5',
-    ward_no: '14',
+    ward_id: "13",
+    ward_name: "Bhavani Peth",
+    ward_marathi_name: "भवानी पेठ ",
+    zone_id: "5",
+    ward_no: "14",
   },
   {
-    ward_id: '14',
-    ward_name: 'Bibwewadi',
-    ward_marathi_name: 'बिबवेवाडी ',
-    zone_id: '5',
-    ward_no: '15',
+    ward_id: "14",
+    ward_name: "Bibwewadi",
+    ward_marathi_name: "बिबवेवाडी ",
+    zone_id: "5",
+    ward_no: "15",
   },
   {
-    ward_id: '15',
-    ward_name: 'Kasaba VishramBagwada',
-    ward_marathi_name: 'कसबा विश्रामबागवाडा',
-    zone_id: '5',
-    ward_no: '13',
+    ward_id: "15",
+    ward_name: "Kasaba VishramBagwada",
+    ward_marathi_name: "कसबा विश्रामबागवाडा",
+    zone_id: "5",
+    ward_no: "13",
   },
 ];
-
 
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
-
-const lenght = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
-const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
-const struct_no = getQueryParam('struct_no');
-const user_id = getQueryParam('user_id');
+const lenght =
+  getQueryParam("length") !== undefined
+    ? parseInt(getQueryParam("length"), 10)
+    : 40;
+const width =
+  getQueryParam("width") !== undefined
+    ? parseInt(getQueryParam("width"), 10)
+    : 10;
+const struct_no = getQueryParam("struct_no");
+const user_id = getQueryParam("user_id");
 var wardname = null;
 var lastDrawnPolylineIdSave = null;
 
-
 function initializeLocalStorage() {
-  if (localStorage.getItem('lastInsertedId') === null) {
-    localStorage.setItem('lastInsertedId', 'defaultId');
+  if (localStorage.getItem("lastInsertedId") === null) {
+    localStorage.setItem("lastInsertedId", "defaultId");
   }
-  if (localStorage.getItem('bufferWidth') === null) {
-    localStorage.setItem('bufferWidth', width);
+  if (localStorage.getItem("bufferWidth") === null) {
+    localStorage.setItem("bufferWidth", width);
   }
-  if (localStorage.getItem('roadLenght') === null) {
-    localStorage.setItem('roadLenght', lenght);
+  if (localStorage.getItem("roadLenght") === null) {
+    localStorage.setItem("roadLenght", lenght);
   }
-  if (localStorage.getItem('wardname') === null) {
-    localStorage.setItem('wardname', '');
+  if (localStorage.getItem("wardname") === null) {
+    localStorage.setItem("wardname", "");
   }
-  if (localStorage.getItem('department') === null) {
-    localStorage.setItem('department', 'Road');
+  if (localStorage.getItem("department") === null) {
+    localStorage.setItem("department", "Road");
   }
 }
 
-
 initializeLocalStorage();
-
 
 function updateLocalStorage(key, value) {
   localStorage.setItem(key, value);
 }
-
 
 function showModal(message) {
   var modal = document.getElementById("myModal");
@@ -340,76 +339,71 @@ function closeModal() {
   modal.style.display = "none";
 }
 
-
-
 async function fetchAndPostData(id) {
   try {
     //  const response = await fetch(`http://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
-    const response = await fetch(`https://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`);
+    const response = await fetch(
+      `https://iwms.punecorporation.org/api/project-gis-data?proj_id=${id}`
+    );
 
     //  const response = await fetch('api-responses/all-project-data.json');
     const data = await response.json();
 
-
-
     let project = data.data;
     console.log(project);
     if (!project) {
-      alert('Project with this project_id is not found');
+      alert("Project with this project_id is not found");
       return;
     }
 
-
     if (!project.work_type) {
-      showModal(' Please fill in the information. Missing project work type ');
+      showModal(" Please fill in the information. Missing project work type ");
       return;
     }
 
     if (!project.d_id) {
-      showModal(' Please fill in the information. Missing department ID.');
+      showModal(" Please fill in the information. Missing department ID.");
       return;
     }
-
 
     if (!project.gis_ward_id) {
-      showModal(' Please fill in the information. Missing Ward .');
+      showModal(" Please fill in the information. Missing Ward .");
       return;
     }
-
 
     // Function to open the modal
 
-
     // openModal();
 
-    const department = depData.find(dep => dep.department_id == project.d_id);
-    const zone = zoneData.find(z => z.zone_id == project.constituency_zone_id);
+    const department = depData.find((dep) => dep.department_id == project.d_id);
+    const zone = zoneData.find(
+      (z) => z.zone_id == project.constituency_zone_id
+    );
 
     //  gis_ward_id  have to take ward from this and its coming multiple     "gis_ward_id": "1,2",
-    const ward = wardData.find(w => w.ward_id == project.constituency_ward_id);
+    const ward = wardData.find(
+      (w) => w.ward_id == project.constituency_ward_id
+    );
     wardname = ward ? ward.ward_name : wardname;
 
     //
-    const wardIds = project?.gis_ward_id?.split(',').map(id => parseInt(id.trim()));
+    const wardIds = project?.gis_ward_id
+      ?.split(",")
+      .map((id) => parseInt(id.trim()));
 
     // Find the corresponding ward names
-    const wardNames = wardIds?.map(id => {
-      const ward = wardData?.find(w => w.ward_id == id);
+    const wardNames = wardIds?.map((id) => {
+      const ward = wardData?.find((w) => w.ward_id == id);
       return ward ? ward.ward_name : null;
-    })
+    });
     // Filter out any null values
 
     // Optionally, join the ward names into a single string
-    const joinedWardNames = wardNames?.join(', ');
-
+    const joinedWardNames = wardNames?.join(", ");
 
     console.log(joinedWardNames);
 
-
-
-
-    updateLocalStorage('department', department.department_name);
-
+    updateLocalStorage("department", department.department_name);
 
     var cql_filterm = `Ward_Name='${wardname}'`;
     fitbou(cql_filterm);
@@ -419,21 +413,29 @@ async function fetchAndPostData(id) {
     });
     ward_boundary.addTo(map).bringToFront();
 
-    let budgetCodes = data?.budget_data?.map(budget => budget.budget_code.trim()).join(', ');
+    let budgetCodes = data?.budget_data
+      ?.map((budget) => budget.budget_code.trim())
+      .join(", ");
     const payload = {
-      projectNo: project.sys_proj_id || '',
-      aaWork: project.name_of_work || '',
-      scopeOfWork: project.scope_of_work || '',
-      workType: project.work_type || '',
-      projectFinancialYear: project.project_financial_year || '',
-      department: department ? department.department_name : '',
-      juniorName: project.je_name || '',
-      contactNo: project.contact || '',
-      dateIn: project.con_appr_date || '',
-      projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : 'Ward Office') : 'Unknown',
-      ward: ward ? joinedWardNames : '',
-      zone: zone ? zone.zone_name : '',
-      budgetCodes: budgetCodes || '',
+      projectNo: project.sys_proj_id || "",
+      aaWork: project.name_of_work || "",
+      scopeOfWork: project.scope_of_work || "",
+      workType: project.work_type || "",
+      projectFinancialYear: project.project_financial_year || "",
+      department: department ? department.department_name : "",
+      juniorName: project.je_name || "",
+      contactNo: project.contact || "",
+      dateIn: project.con_appr_date || "",
+      projectOffice: project.project_from
+        ? project.project_from === "1"
+          ? "Main Office"
+          : project.project_from === "2"
+          ? "Zone Office"
+          : "Ward Office"
+        : "Unknown",
+      ward: ward ? joinedWardNames : "",
+      zone: zone ? zone.zone_name : "",
+      budgetCodes: budgetCodes || "",
       Id: project.works_aa_approval_id,
       Length: lenght,
       Width: width,
@@ -445,13 +447,17 @@ async function fetchAndPostData(id) {
       gis_id: data.gis_data[0]?.gis_id ? data.gis_data[0]?.gis_id : null,
       no_of_road: project.no_of_road,
       area: project.area,
-      measure_in: data.gis_data[0]?.measure_in ? data.gis_data[0]?.measure_in : null,
+      measure_in: data.gis_data[0]?.measure_in
+        ? data.gis_data[0]?.measure_in
+        : null,
       project_from: project.project_from,
-      budget_year: data.budget_data[0]?.budget_year ? data.budget_data[0]?.budget_year : null,
+      budget_year: data.budget_data[0]?.budget_year
+        ? data.budget_data[0]?.budget_year
+        : null,
       agency: project.agency,
       work_completion_date: project.work_completion_date,
       struct_no: struct_no,
-      user_id: user_id
+      user_id: user_id,
     };
 
     // Post the data using jQuery's AJAX
@@ -461,176 +467,516 @@ async function fetchAndPostData(id) {
       data: JSON.stringify(payload),
       contentType: "application/json",
       success: function (response) {
-
         const lastInsertedId = response.data.id;
         const bufferWidth = response.data.width;
         const roadLength = response.data.lenght;
         const wardName = response.data.wardname;
         const workType = project.work_type;
 
-
-
         if (struct_no >= 10) {
           const baseURL = "ward.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-
-        else if (department.department_name === "Road") {
-
-
+        } else if (department.department_name === "Road") {
           const baseURL = "road.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-        else if (department.department_name === "Building") {
-
-
+        } else if (department.department_name === "Building") {
           const baseURL = "building.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-        else if (department.department_name === "Drainage") {
-
-
+        } else if (department.department_name === "Drainage") {
           const baseURL = "drainage.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-
-        else if (department.department_name === "Water Supply") {
-
-
+        } else if (department.department_name === "Water Supply") {
           const baseURL = "water-suppy.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-
-        else if (department.department_name === "Electrical") {
-
-
+        } else if (department.department_name === "Electrical") {
           const baseURL = "electric-work.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-        else if (department.department_name === "Project Work") {
-
-
+        } else if (department.department_name === "Project Work") {
           const baseURL = "project.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-        else if (department.department_name === 'Solid waste Management') {
-
-
+        } else if (department.department_name === "Solid waste Management") {
           const baseURL = "solidWasteManagement.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-
-        else if (department.department_name === "Garden") {
-
-
+        } else if (department.department_name === "Garden") {
           const baseURL = "garden.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-        else if (department.department_name === "Garden Horticulture") {
-
-
-          const baseURL = "gardenHorticulture.html";
+        } else if (department.department_name === "Market") {
+          const baseURL = "market.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
-        else if (department.department_name === "Encroachment ") {
+        } else if (department.department_name === "Garden Horticulture") {
+          const baseURL = "gardenhorticulture.html";
 
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        } else if (department.department_name === "Encroachment ") {
           const baseURL = "Encroachment.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }
+        } else if (department.department_name === "Sport") {
+          const baseURL = "sport.html";
 
-        else if (department.department_name === 'Slum') {
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        } else if (
+          department.department_name === "Education Department (Primary)"
+        ) {
+          const baseURL = "Education.html";
 
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        } else if (department.department_name === "Environment") {
+          const baseURL = "Environtment.html";
+
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        } else if (department.department_name === "Slum") {
           const baseURL = "slum.html";
 
           // Create the query string
-          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+          const queryString = `?proj_id=${encodeURIComponent(
+            id
+          )}&lastInsertedId=${encodeURIComponent(
+            lastInsertedId
+          )}&width=${encodeURIComponent(
+            bufferWidth
+          )}&length=${encodeURIComponent(
+            roadLength
+          )}&wardName=${encodeURIComponent(
+            wardName
+          )}&department=${encodeURIComponent(
+            department.department_name
+          )}&workType=${encodeURIComponent(
+            workType
+          )}&struct_no=${encodeURIComponent(
+            struct_no
+          )}&user_id=${encodeURIComponent(
+            user_id
+          )}&zone_id=${encodeURIComponent(
+            project.gis_zone_id
+          )}&ward_id=${encodeURIComponent(
+            project.gis_ward_id
+          )}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
 
-        updateLocalStorage('lastInsertedId', response.data.id);
-        updateLocalStorage('bufferWidth', response.data.width);
-        updateLocalStorage('roadLenght', response.data.lenght);
-        updateLocalStorage('wardname', response.data.wardname);
+        updateLocalStorage("lastInsertedId", response.data.id);
+        updateLocalStorage("bufferWidth", response.data.width);
+        updateLocalStorage("roadLenght", response.data.lenght);
+        updateLocalStorage("wardname", response.data.wardname);
 
-        updateLocalStorage('conceptual_form_data_temp', JSON.stringify(payload));
+        updateLocalStorage(
+          "conceptual_form_data_temp",
+          JSON.stringify(payload)
+        );
 
-
-
-        localStorage.removeItem('conceptual_form_data');
-        localStorage.removeItem('selectCoordinatesData');
+        localStorage.removeItem("conceptual_form_data");
+        localStorage.removeItem("selectCoordinatesData");
       },
       error: function (xhr, status, error) {
         console.error("Save failed:", error);
-      }
+      },
     });
-
   } catch (error) {
-    console.error('Error fetching project data:', error);
+    console.error("Error fetching project data:", error);
   }
 }
 
-
 async function loadData() {
-  const worksAaApprovalId = getQueryParam('proj_id');
+  const worksAaApprovalId = getQueryParam("proj_id");
 
   if (worksAaApprovalId != null) {
     await fetchAndPostData(worksAaApprovalId);
@@ -641,18 +987,16 @@ loadData();
 
 ///Note: ************** only this code is in use ///////// we can remove other code after other pages works properly
 
-
-console.log(wardname)
+console.log(wardname);
 
 const department = localStorage.getItem("department");
-let conceptualFormDataConfig = JSON.parse(localStorage.getItem("conceptual_form_data_temp"));
-
-
+let conceptualFormDataConfig = JSON.parse(
+  localStorage.getItem("conceptual_form_data_temp")
+);
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
 }).addTo(map);
-
 
 if (department == "Building") {
   var wms_layer1 = L.tileLayer.wms(
@@ -678,7 +1022,7 @@ if (department == "Building") {
       maxZoom: 21,
       opacity: 1,
     }
-  )
+  );
   var wms_layer11 = L.tileLayer
     .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
       layers: "Reservations",
@@ -689,12 +1033,11 @@ if (department == "Building") {
       maxZoom: 21,
 
       opacity: 1,
-    }).addTo(map);
-}
-else if (department == "Road") {
-  var wms_layer1 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
-    {
+    })
+    .addTo(map);
+} else if (department == "Road") {
+  var wms_layer1 = L.tileLayer
+    .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
       layers: "Roads",
       format: "image/png",
       transparent: true,
@@ -702,8 +1045,8 @@ else if (department == "Road") {
       version: "1.1.0",
       maxZoom: 21,
       opacity: 1,
-    }
-  ).addTo(map);
+    })
+    .addTo(map);
   var wms_layer13 = L.tileLayer.wms(
     "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
     {
@@ -716,8 +1059,9 @@ else if (department == "Road") {
       opacity: 1,
     }
   );
-  var wms_layer11 = L.tileLayer
-    .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  var wms_layer11 = L.tileLayer.wms(
+    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+    {
       layers: "Reservations",
       format: "image/png",
       transparent: true,
@@ -726,7 +1070,8 @@ else if (department == "Road") {
       maxZoom: 21,
 
       opacity: 1,
-    });
+    }
+  );
 } else if (department == "Drainage") {
   var wms_layer1 = L.tileLayer.wms(
     "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
@@ -740,8 +1085,9 @@ else if (department == "Road") {
       opacity: 1,
     }
   );
-  var wms_layer11 = L.tileLayer
-    .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  var wms_layer11 = L.tileLayer.wms(
+    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+    {
       layers: "Reservations",
       format: "image/png",
       transparent: true,
@@ -750,12 +1096,11 @@ else if (department == "Road") {
       maxZoom: 21,
 
       opacity: 1,
-    });
+    }
+  );
 
-
-  var wms_layer13 = L.tileLayer.wms(
-    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
-    {
+  var wms_layer13 = L.tileLayer
+    .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
       layers: "Drainage_data",
       format: "image/png",
       transparent: true,
@@ -763,11 +1108,9 @@ else if (department == "Road") {
       version: "1.1.0",
       maxZoom: 21,
       opacity: 1,
-    }
-  ).addTo(map);
+    })
+    .addTo(map);
 }
-
-
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -776,8 +1119,6 @@ var Esri_WorldImagery = L.tileLayer(
   }
 );
 var baseLayers = {};
-
-
 
 var wms_layer12 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
@@ -788,14 +1129,12 @@ var wms_layer12 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  }).addTo(map);
+  })
+  .addTo(map);
 
-
-
-
-
-var wms_layer14 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+var wms_layer14 = L.tileLayer.wms(
+  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -803,10 +1142,12 @@ var wms_layer14 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  });
+  }
+);
 
-var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+var wms_layer15 = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -814,7 +1155,8 @@ var wms_layer15 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  });
+  }
+);
 
 var wms_layer17 = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
@@ -841,10 +1183,9 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
-
-
-var IWMS_point = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+var IWMS_point = L.tileLayer.wms(
+  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -852,10 +1193,12 @@ var IWMS_point = L.tileLayer
     version: "1.1.0",
     opacity: 1,
     maxZoom: 21,
-  });
+  }
+);
 
-var IWMS_line = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+var IWMS_line = L.tileLayer.wms(
+  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -863,7 +1206,8 @@ var IWMS_line = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  });
+  }
+);
 
 var wms_layer16 = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
@@ -878,8 +1222,6 @@ var wms_layer16 = L.tileLayer.wms(
   }
 );
 
-
-
 var Zone_layer = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
@@ -893,18 +1235,12 @@ var Zone_layer = L.tileLayer.wms(
   }
 );
 
-
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
-
-
-
-
-
 var WMSlayers = {
-  "OSM": osm,
-  "Esri": Esri_WorldImagery,
-  "Satellite": googleSat,
+  OSM: osm,
+  Esri: Esri_WorldImagery,
+  Satellite: googleSat,
   Roads: wms_layer1,
   Boundary: wms_layer12,
   Amenity: wms_layer11,
@@ -917,12 +1253,9 @@ var WMSlayers = {
   OSMRoad: wms_layer16,
 };
 
-
-
-
 // refreshWMSLayer();
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
-control.setPosition('topright');
+control.setPosition("topright");
 // north & scale
 // You can also customize the scale options
 L.control.scale().addTo(map);
@@ -962,8 +1295,6 @@ function fitbou(filter) {
   });
 }
 
-
-
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);
 var results = new L.LayerGroup().addTo(map);
@@ -977,8 +1308,6 @@ searchControl.on("results", function (data) {
 });
 
 //******** draw controls */
-
-
 
 var drawControlRoad = new L.Control.Draw({
   draw: {
@@ -995,12 +1324,10 @@ var drawControlRoad = new L.Control.Draw({
     circle: false,
     marker: false,
     rectangle: false,
-    circlemarker: false
+    circlemarker: false,
   },
   edit: false,
-
 });
-
 
 var drawControlBuilding = new L.Control.Draw({
   draw: {
@@ -1026,7 +1353,6 @@ var drawControlBuilding = new L.Control.Draw({
   },
 });
 
-
 var drawControlDrainage = new L.Control.Draw({
   draw: {
     polyline: {
@@ -1051,65 +1377,60 @@ var drawControlDrainage = new L.Control.Draw({
   },
 });
 
-
-
 // map.addControl(drawControl);
 if (department == "Road") {
-  var customDrawControls = L.control({ position: 'topleft' });
+  var customDrawControls = L.control({ position: "topleft" });
 
+  // Add the control to the map
+  customDrawControls.addTo(map);
+} else if (department == "Building") {
+  var customDrawControls = L.control({ position: "topleft" });
 
   // Add the control to the map
   customDrawControls.addTo(map);
 }
-else if (department == "Building") {
-  var customDrawControls = L.control({ position: 'topleft' });
 
-  // Add the control to the map
-  customDrawControls.addTo(map);
-}
-
-
-var customToolSelector = L.control({ position: 'topleft' });
+var customToolSelector = L.control({ position: "topleft" });
 
 // Initialize the mapMode variable
-let mapMode = 'snapping';
+let mapMode = "snapping";
 
 customToolSelector.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
-  div.style.backgroundColor = 'white';
-  div.style.border = '2px solid darkblue';
+  var div = L.DomUtil.create("div", "leaflet-control leaflet-bar");
+  div.style.padding = "5px";
+  div.style.backgroundColor = "white";
+  div.style.border = "2px solid darkblue";
   div.style.top = "50px";
-  var input = document.createElement('input');
-  input.type = 'checkbox';
-  input.className = 'form-check-input';
-  input.id = 'flexSwitchCheckDefault';
-  input.style.marginRight = '5px';
+  var input = document.createElement("input");
+  input.type = "checkbox";
+  input.className = "form-check-input";
+  input.id = "flexSwitchCheckDefault";
+  input.style.marginRight = "5px";
 
   // Set the checkbox state based on the current mapMode
-  input.checked = (mapMode === 'tracing');
+  input.checked = mapMode === "tracing";
 
-  var label = document.createElement('label');
+  var label = document.createElement("label");
   // Create a new image element
-  var img = document.createElement('img');
+  var img = document.createElement("img");
 
   // Set the src attribute of the image element to the path of the image
-  img.src = 'png/Trace_tool.png';
-  img.style.height = '20px';
-  img.style.width = '20px';
+  img.src = "png/Trace_tool.png";
+  img.style.height = "20px";
+  img.style.width = "20px";
 
-  label.className = 'form-check-label';
-  label.title = 'ENABLE TRACING';
+  label.className = "form-check-label";
+  label.title = "ENABLE TRACING";
 
-  label.setAttribute('for', 'flexSwitchCheckDefault');
-  label.textContent = '';
+  label.setAttribute("for", "flexSwitchCheckDefault");
+  label.textContent = "";
   label.appendChild(img);
   // Add event listener to toggle mapMode
-  input.addEventListener('change', function () {
+  input.addEventListener("change", function () {
     if (this.checked) {
-      mapMode = 'tracing';
+      mapMode = "tracing";
     } else {
-      mapMode = 'snapping';
+      mapMode = "snapping";
     }
     console.log("Current Map Mode:", mapMode); // Optional: for debugging
   });
@@ -1122,96 +1443,99 @@ customToolSelector.onAdd = function (map) {
 
 if (department == "Road") {
   customToolSelector.addTo(map);
-
 }
 
-var customSaveButton = L.control({ position: 'topleft' });
+var customSaveButton = L.control({ position: "topleft" });
 
 customSaveButton.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'save-button');
-  div.innerHTML = '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
+  var div = L.DomUtil.create("div", "save-button");
+  div.innerHTML =
+    '<button id="save-button" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i> </button>';
   customDrawControlsContainer = div;
   return div;
 };
-
 
 customSaveButton.addTo(map);
 
-// save data button 
+// save data button
 
-var customSaveEditButton = L.control({ position: 'topleft' });
+var customSaveEditButton = L.control({ position: "topleft" });
 customSaveEditButton.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'saveDataButton');
-  div.innerHTML = '<button id="saveDataButton" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
+  var div = L.DomUtil.create("div", "saveDataButton");
+  div.innerHTML =
+    '<button id="saveDataButton" type="button"  title="Draw New Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
   customDrawControlsContainer = div;
   return div;
 };
-
 
 customSaveEditButton.addTo(map);
 
-
-
-var customEditLayerButton = L.control({ position: 'topleft' });
+var customEditLayerButton = L.control({ position: "topleft" });
 
 customEditLayerButton.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'editFeatureButton');
-  div.innerHTML = '<img id="editFeatureButton"  title="Draw New Feature" src="png/edit_tool.png">';
+  var div = L.DomUtil.create("div", "editFeatureButton");
+  div.innerHTML =
+    '<img id="editFeatureButton"  title="Draw New Feature" src="png/edit_tool.png">';
   customDrawControlsContainer = div;
   return div;
 };
-
 
 customEditLayerButton.addTo(map);
 
-
-
-var customDeleteLayerButton = L.control({ position: 'topleft' });
+var customDeleteLayerButton = L.control({ position: "topleft" });
 
 customDeleteLayerButton.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'deleteFeatureButton');
-  div.innerHTML = '<button id="deleteFeatureButton"  title="Draw New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+  var div = L.DomUtil.create("div", "deleteFeatureButton");
+  div.innerHTML =
+    '<button id="deleteFeatureButton"  title="Draw New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
   customDrawControlsContainer = div;
   return div;
 };
 
-
 customDeleteLayerButton.addTo(map);
-
 
 function enableEditing(layer) {
   console.log(layer);
   drawnItems.eachLayer(function (otherLayer) {
-    if (otherLayer !== layer && otherLayer.editing && otherLayer.editing.enabled()) {
+    if (
+      otherLayer !== layer &&
+      otherLayer.editing &&
+      otherLayer.editing.enabled()
+    ) {
       otherLayer.editing.disable();
     }
   });
   var edit = new L.EditToolbar.Edit(map, {
     featureGroup: L.featureGroup([layer]), // Create a new feature group containing only the selected layer
-    remove: true
+    remove: true,
   });
   edit.enable();
 }
 
-
 // Custom button for toggling edit mode
-var editControl = L.control({ position: 'topleft' });
+var editControl = L.control({ position: "topleft" });
 editControl.onAdd = function (map) {
+  var controlDiv = L.DomUtil.create(
+    "div",
+    "leaflet-control-edit leaflet-bar leaflet-control"
+  );
 
-  var controlDiv = L.DomUtil.create('div', 'leaflet-control-edit leaflet-bar leaflet-control');
-
-  var controlUI = L.DomUtil.create('a', 'leaflet-control-edit-interior', controlDiv);
-  controlUI.title = 'Edit features';
-  controlUI.href = '#';
+  var controlUI = L.DomUtil.create(
+    "a",
+    "leaflet-control-edit-interior",
+    controlDiv
+  );
+  controlUI.title = "Edit features";
+  controlUI.href = "#";
   controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-  controlUI.style.fontSize = '18px';
-  controlUI.style.position = 'absolute';
-  controlUI.style.top = '37px';
-  controlUI.style.left = '52px';
+  controlUI.style.fontSize = "18px";
+  controlUI.style.position = "absolute";
+  controlUI.style.top = "37px";
+  controlUI.style.left = "52px";
   // controlUI.style.border='2px solid darkblue';
-  controlUI.style.borderRadius = '5px'
+  controlUI.style.borderRadius = "5px";
 
-  L.DomEvent.addListener(controlUI, 'click', function (e) {
+  L.DomEvent.addListener(controlUI, "click", function (e) {
     L.DomEvent.preventDefault(e);
 
     // Disable all layers' editing mode first
@@ -1228,7 +1552,7 @@ editControl.onAdd = function (map) {
       controlUI.innerHTML = '<i class="fa-regular fa-floppy-disk"></i>';
       // Allow user to click on a feature to select and edit
       drawnItems.eachLayer(function (layer) {
-        layer.on('click', function () {
+        layer.on("click", function () {
           enableEditing(layer); // Enable editing on the clicked layer
         });
       });
@@ -1237,7 +1561,7 @@ editControl.onAdd = function (map) {
       controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
       // Remove click handlers to disable selection
       drawnItems.eachLayer(function (layer) {
-        layer.off('click');
+        layer.off("click");
       });
     }
   });
@@ -1249,43 +1573,41 @@ editControl.addTo(map);
 
 var selectedPolylineId = null;
 
-
-var deleteControl = L.control({ position: 'topleft' });
+var deleteControl = L.control({ position: "topleft" });
 
 deleteControl.onAdd = function (map) {
-  var container = L.DomUtil.create('div', 'leaflet-bar');
-  var button = L.DomUtil.create('button', 'delete-button', container);
+  var container = L.DomUtil.create("div", "leaflet-bar");
+  var button = L.DomUtil.create("button", "delete-button", container);
   button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-  button.style.border = '2px solid darkblue';
-  button.style.padding = '5px';
-  button.style.fontSize = '13px';
-  button.style.borderRadius = '5px';
-  button.style.top = '85px';
-  button.style.padding = '5px';
-  button.style.left = '52px';
+  button.style.border = "2px solid darkblue";
+  button.style.padding = "5px";
+  button.style.fontSize = "13px";
+  button.style.borderRadius = "5px";
+  button.style.top = "85px";
+  button.style.padding = "5px";
+  button.style.left = "52px";
   button.title = "Delete Selected Feature";
 
   // Style the button
-  button.style.backgroundColor = 'white';
-  button.style.color = 'black';
-  button.style.padding = '5px 10px';
-  button.style.border = 'none';
-  button.style.cursor = 'pointer';
+  button.style.backgroundColor = "white";
+  button.style.color = "black";
+  button.style.padding = "5px 10px";
+  button.style.border = "none";
+  button.style.cursor = "pointer";
 
   button.onclick = function () {
     if (selectedPolylineId) {
       handleDeletePolyline(selectedPolylineId._leaflet_id);
-      selectedPolylineId = null;  // Reset selected polyline ID after deletion
-      button.style.backgroundColor = 'white';
+      selectedPolylineId = null; // Reset selected polyline ID after deletion
+      button.style.backgroundColor = "white";
     } else {
       alert("Please select a feature to delete.");
-      button.style.backgroundColor = 'red';
+      button.style.backgroundColor = "red";
       drawnItems.eachLayer(function (layer) {
-        layer.on('click', function () {
-          console.log("hello")
+        layer.on("click", function () {
+          console.log("hello");
           selectedPolylineId = layer;
-          layer.setStyle({ color: 'green', weight: 7 });
-
+          layer.setStyle({ color: "green", weight: 7 });
         });
       });
     }
@@ -1294,45 +1616,35 @@ deleteControl.onAdd = function (map) {
   return container;
 };
 
-
-
 deleteControl.addTo(map);
-
 
 function handleDeletePolyline(polylineId) {
   console.log(polylineId);
   removeAssociatedLayers(polylineId);
 }
 
-
-
-
-
 function toggleSaveButton(show) {
-  var saveBtn = document.getElementById('save-button');
+  var saveBtn = document.getElementById("save-button");
   if (saveBtn) {
-    saveBtn.style.display = show ? 'block' : 'none';
+    saveBtn.style.display = show ? "block" : "none";
   }
 }
 
-
 // Button Click Event to Show SweetAlert Success Popup
 document.getElementById("save-button").addEventListener("click", function () {
-
   Swal.fire({
-    icon: 'success',
-    title: 'Success',
-    text: 'Your feature has been saved successfully!',
+    icon: "success",
+    title: "Success",
+    text: "Your feature has been saved successfully!",
     customClass: {
-      popup: 'my-custom-popup', // Custom class for the popup
-      title: 'my-custom-title', // Custom class for the title
-      content: 'my-custom-text' // Custom class for the text
-    }
+      popup: "my-custom-popup", // Custom class for the popup
+      title: "my-custom-title", // Custom class for the title
+      content: "my-custom-text", // Custom class for the text
+    },
   });
 });
 
 var isDrawControlAdded = false;
-
 
 // toggleDrawControl();
 
@@ -1340,8 +1652,7 @@ function toggleDrawControl() {
   if (isDrawControlAdded) {
     if (department == "Building") {
       map.removeControl(drawControlBuilding);
-    }
-    else if (department == "Road") {
+    } else if (department == "Road") {
       map.removeControl(drawControlRoad);
     } else if (department == "Drainage") {
       map.removeControl(drawControlRoad);
@@ -1351,87 +1662,81 @@ function toggleDrawControl() {
   } else {
     if (department == "Building") {
       map.addControl(drawControlBuilding);
-
     } else {
       map.addControl(drawControlRoad);
-
     }
 
     isDrawControlAdded = true;
-
   }
 }
 
+document
+  .querySelector(".draw_feature")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    // Toggle draw control when the "Draw Feature" button is clicked
 
+    if (map.getZoom() > 15) {
+      toggleDrawControl();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: "Zoom In to 200 m zoom range",
+        showConfirmButton: false,
+        showCloseButton: true,
+        customClass: {
+          popup: "custom-modal-class",
+          icon: "custom-icon-class",
+          title: "custom-title-class",
+          content: "custom-text-class",
+          closeButton: "custom-close-button-class",
+        },
+        showClass: {
+          popup: "swal2-show",
+          backdrop: "swal2-backdrop-show",
+          icon: "swal2-icon-show",
+        },
+        hideClass: {
+          popup: "swal2-hide",
+          backdrop: "swal2-backdrop-hide",
+          icon: "swal2-icon-hide",
+        },
+        didOpen: () => {
+          // Apply custom styles directly to the modal elements
+          document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+          document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+          document.querySelector(".custom-modal-class").style.transition =
+            "all 0.5s ease";
+          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+          document.querySelector(".custom-icon-class").style.transition =
+            "all 0.5s ease";
+          document.querySelector(".custom-title-class").style.fontSize =
+            "1.5em"; // Set your desired title size
+          document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.backgroundColor = "#f44336"; // Red background color
+          document.querySelector(".custom-close-button-class").style.color =
+            "white"; // White text color
+          document.querySelector(
+            ".custom-close-button-class"
+          ).style.borderRadius = "0"; // Rounded corners
+          document.querySelector(".custom-close-button-class").style.padding =
+            "5px"; // Padding around the close button
+          document.querySelector(".custom-close-button-class").style.fontSize =
+            "20px"; // Font size of the close button
+        },
+      });
+    }
+  });
 
-document.querySelector('.draw_feature').addEventListener('click', function (event) {
-  event.preventDefault();
-  // Toggle draw control when the "Draw Feature" button is clicked
-
-  if (map.getZoom() > 15) {
-    toggleDrawControl();
-
-  } else {
-    Swal.fire({
-      position: "center",
-      icon: "error",
-      title: "Oops...",
-      text: "Zoom In to 200 m zoom range",
-      showConfirmButton: false,
-      showCloseButton: true,
-      customClass: {
-        popup: "custom-modal-class",
-        icon: "custom-icon-class",
-        title: "custom-title-class",
-        content: "custom-text-class",
-        closeButton: "custom-close-button-class",
-      },
-      showClass: {
-        popup: "swal2-show",
-        backdrop: "swal2-backdrop-show",
-        icon: "swal2-icon-show",
-      },
-      hideClass: {
-        popup: "swal2-hide",
-        backdrop: "swal2-backdrop-hide",
-        icon: "swal2-icon-hide",
-      },
-      didOpen: () => {
-        // Apply custom styles directly to the modal elements
-        document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-        document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-        document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
-        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-        document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
-        document.querySelector(".custom-title-class").style.fontSize =
-          "1.5em"; // Set your desired title size
-        document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-        document.querySelector(
-          ".custom-close-button-class"
-        ).style.backgroundColor = "#f44336"; // Red background color
-        document.querySelector(".custom-close-button-class").style.color =
-          "white"; // White text color
-        document.querySelector(
-          ".custom-close-button-class"
-        ).style.borderRadius = "0"; // Rounded corners
-        document.querySelector(".custom-close-button-class").style.padding =
-          "5px"; // Padding around the close button
-        document.querySelector(".custom-close-button-class").style.fontSize =
-          "20px"; // Font size of the close button
-      },
-    });
-
-  }
-});
-
-
-document.querySelector('#save-button').addEventListener('click', function (event) {
-  Savedata(lastDrawnPolylineIdSave);
-});
-
-
-
-
+document
+  .querySelector("#save-button")
+  .addEventListener("click", function (event) {
+    Savedata(lastDrawnPolylineIdSave);
+  });
 
 // function for added buffer
 
@@ -1449,7 +1754,7 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
       opacity: 0.5,
       lineJoin: "round",
     },
-    interactive: false
+    interactive: false,
   }).addTo(map);
 
   var dashedLineLayer = L.geoJSON(geoJSON, {
@@ -1460,18 +1765,18 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
       dashArray: "10, 10",
       lineJoin: "round",
     },
-    interactive: false
+    interactive: false,
   }).addTo(map);
 
   // Store references to the associated layers
   associatedLayersRegistry[polylineLayer._leaflet_id] = {
     bufferLayer: bufferLayer,
     dashedLineLayer: dashedLineLayer,
-    polylineLayer: polylineLayer
+    polylineLayer: polylineLayer,
   };
 
   // Attach an event listener to update these layers when the polyline is edited
-  polylineLayer.on('edit', function () {
+  polylineLayer.on("edit", function () {
     updateAssociatedLayers(polylineLayer._leaflet_id, bufferWidth);
   });
 }
@@ -1483,7 +1788,9 @@ function updateAssociatedLayers(polylineId, bufferWidth) {
     var halfBufferWidth = bufferWidth / 2;
 
     // Recreate the buffer based on new polyline geometry
-    var newBuffered = turf.buffer(updatedGeoJSON, halfBufferWidth, { units: 'meters' });
+    var newBuffered = turf.buffer(updatedGeoJSON, halfBufferWidth, {
+      units: "meters",
+    });
     layers.bufferLayer.clearLayers(); // Remove the old buffer
     layers.bufferLayer.addData(newBuffered); // Add the new buffer
 
@@ -1611,15 +1918,11 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
 // tracing tool
 
-
-
-
 // for vertex mapping
-
 
 // Function to calculate distance between two points
 function closestVertex(point, lineCoordinates) {
-  console.log(lineCoordinates)
+  console.log(lineCoordinates);
 
   // Initialize variables to store the closest vertex and its distance
   var closestVertex = null;
@@ -1640,16 +1943,14 @@ function closestVertex(point, lineCoordinates) {
   var result = {
     lat: closestVertex.lat,
     lng: closestVertex.lng,
-    distance: closestDistance
+    distance: closestDistance,
   };
 
   console.log("Closest vertex:", closestVertex);
   console.log("Distance:", closestDistance);
 
-  return result
-
+  return result;
 }
-
 
 function distance(latlng1, latlng2) {
   var latlng1Rad = L.latLng(latlng1.lat, latlng1.lng).toBounds(10).getCenter();
@@ -1657,54 +1958,65 @@ function distance(latlng1, latlng2) {
   return latlng1Rad.distanceTo(latlng2Rad);
 }
 
-
 // for vertex mapping
-
-
-
 
 function getClosestRoadPoint(latlng) {
   var buffer = 10; // Buffer distance in meters
   var clickedPoint = latlng;
-  var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, { units: 'meters' });
+  var bufferedPoint = turf.buffer(
+    turf.point([clickedPoint.lng, clickedPoint.lat]),
+    buffer,
+    { units: "meters" }
+  );
   var bbox = turf.bbox(bufferedPoint);
-  if (department == 'Road') {
+  if (department == "Road") {
     layer = "pmc:Exist_Road";
-
-  }
-  else if (department == 'Building') {
+  } else if (department == "Building") {
     layer = "pmc:Reservations";
-
-  }
-  else if (department == 'Drainage') {
+  } else if (department == "Drainage") {
     layer = "pmc:storm_water";
-
   }
-  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(
+    ","
+  )},EPSG:4326`;
   console.log("burl", url);
   return new Promise((resolve, reject) => {
     fetch(url)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         var closestPoint = null;
         var closestPointv = null;
         var distance = Infinity;
         if (data.features && data.features.length > 0) {
           var geometry = data.features[0].geometry;
-          var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
-          var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
+          var flattenedCoordinates = geometry.coordinates.reduce(
+            (acc, val) => acc.concat(val),
+            []
+          );
+          var line = flattenedCoordinates.map((coord) =>
+            L.latLng(coord[1], coord[0])
+          );
           // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
           closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
-          closestPointv = closestVertex(clickedPoint, line)
+          closestPointv = closestVertex(clickedPoint, line);
           // (lat,lng,distance)
-          console.log(closestPoint, "closestPoint", closestPointv, "closestPointv")
+          console.log(
+            closestPoint,
+            "closestPoint",
+            closestPointv,
+            "closestPointv"
+          );
 
-          distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
+          distance = turf.distance(
+            turf.point([clickedPoint.lng, clickedPoint.lat]),
+            turf.point([closestPointv.lng, closestPointv.lat]),
+            { units: "meters" }
+          );
         }
         resolve({ marker: closestPointv, distance: distance });
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
         reject(error);
       });
   });
@@ -1717,28 +2029,29 @@ var lastPointMarker = null;
 function getClosestRoadPointLast(latlng) {
   var buffer = 10; // Buffer distance in meters, adjust as necessary
   var clickedPoint = latlng;
-  var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, { units: 'meters' });
+  var bufferedPoint = turf.buffer(
+    turf.point([clickedPoint.lng, clickedPoint.lat]),
+    buffer,
+    { units: "meters" }
+  );
   var bbox = turf.bbox(bufferedPoint);
   let layer = "pmc:Exist_Road";
 
-  if (department == 'Road') {
+  if (department == "Road") {
     layer = "pmc:Exist_Road";
-
-  }
-  else if (department == 'Building') {
+  } else if (department == "Building") {
     layer = "pmc:Reservations";
-
-  }
-  else if (department == 'Drainage') {
+  } else if (department == "Drainage") {
     layer = "pmc:storm_water";
-
   }
-  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(
+    ","
+  )},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
     fetch(url)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (lastPointMarker) {
           map.removeLayer(lastPointMarker);
           lastPointMarker = null;
@@ -1746,50 +2059,54 @@ function getClosestRoadPointLast(latlng) {
 
         if (data.features && data.features.length > 0) {
           var geometry = data.features[0].geometry;
-          var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
-          var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
+          var flattenedCoordinates = geometry.coordinates.reduce(
+            (acc, val) => acc.concat(val),
+            []
+          );
+          var line = flattenedCoordinates.map((coord) =>
+            L.latLng(coord[1], coord[0])
+          );
           var closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
 
-
-
-          var distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPoint.lng, closestPoint.lat]), { units: 'meters' });
+          var distance = turf.distance(
+            turf.point([clickedPoint.lng, clickedPoint.lat]),
+            turf.point([closestPoint.lng, closestPoint.lat]),
+            { units: "meters" }
+          );
 
           if (distance <= 20) {
             var rectangleIcon = L.divIcon({
-              className: 'custom-rectangle-icon',
+              className: "custom-rectangle-icon",
               html: '<div style="width: 7px; height: 7px; background-color: white; border: 1px solid black;"></div>',
-              iconSize: [7, 7]
+              iconSize: [7, 7],
             });
 
-
-            lastPointMarker = L.marker(closestPoint, { icon: rectangleIcon }).addTo(map);
+            lastPointMarker = L.marker(closestPoint, {
+              icon: rectangleIcon,
+            }).addTo(map);
             lastPointMarker.distance = distance;
           }
         }
 
-        resolve({ marker: lastPointMarker, distance: lastPointMarker ? lastPointMarker.distance : Infinity });
+        resolve({
+          marker: lastPointMarker,
+          distance: lastPointMarker ? lastPointMarker.distance : Infinity,
+        });
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
         reject(error);
       });
   });
 }
-
-
-
-
-
 
 let lastDrawnPoint = null;
 let drawTimeout = null;
 let currentDrawLayer;
 let vertexClickCount = 0;
 
-
 let traceLayer = L.layerGroup().addTo(map);
 let currentPolyline;
-
 
 map.on("draw:drawvertex", function (e) {
   vertexClickCount++;
@@ -1797,8 +2114,8 @@ map.on("draw:drawvertex", function (e) {
     if (e.layers._layers.hasOwnProperty(key)) {
       const layer = e.layers._layers[key];
       const originalLatlng = layer._latlng;
-      getClosestRoadPoint(originalLatlng).then(result => {
-        if (result && result.distance <= 20.0000) {
+      getClosestRoadPoint(originalLatlng).then((result) => {
+        if (result && result.distance <= 20.0) {
           layer._latlng.lat = result.marker.lat;
           layer._latlng.lng = result.marker.lng;
           layer.setLatLng(result.marker);
@@ -1807,15 +2124,14 @@ map.on("draw:drawvertex", function (e) {
     }
   }
 });
-
 
 map.on("draw:editvertex", function (e) {
   for (const key in e.layers._layers) {
     if (e.layers._layers.hasOwnProperty(key)) {
       const layer = e.layers._layers[key];
       const originalLatlng = layer._latlng;
-      getClosestRoadPoint(originalLatlng).then(result => {
-        if (result && result.distance <= 20.0000) {
+      getClosestRoadPoint(originalLatlng).then((result) => {
+        if (result && result.distance <= 20.0) {
           layer._latlng.lat = result.marker.lat;
           layer._latlng.lng = result.marker.lng;
           layer.setLatLng(result.marker);
@@ -1823,49 +2139,37 @@ map.on("draw:editvertex", function (e) {
       });
     }
   }
-
 });
 
-
-
-
-
-
-
-map.on('draw:drawstart', function (e) {
+map.on("draw:drawstart", function (e) {
   // toggleSaveButton(false);
   vertexClickCount = 0;
   currentDrawLayer = e.layer;
-  map.on('mousemove', handleMouseMove);
+  map.on("mousemove", handleMouseMove);
 
-  currentPolyline = L.polyline([], { color: 'red' }).addTo(drawnItems);
+  currentPolyline = L.polyline([], { color: "red" }).addTo(drawnItems);
 });
 
-map.on('draw:drawstop', function () {
+map.on("draw:drawstop", function () {
   vertexClickCount = 0;
   if (drawTimeout) clearTimeout(drawTimeout);
-  map.off('mousemove', handleMouseMove);
+  map.off("mousemove", handleMouseMove);
 });
 
-
-map.on('draw:editstart', function (e) {
+map.on("draw:editstart", function (e) {
   // toggleSaveButton(false);
   currentDrawLayer = e.layer;
-  map.on('mousemove', handleMouseMove);
+  map.on("mousemove", handleMouseMove);
 });
 
-map.on('draw:editstop', function () {
+map.on("draw:editstop", function () {
   if (drawTimeout) clearTimeout(drawTimeout);
-  map.off('mousemove', handleMouseMove);
+  map.off("mousemove", handleMouseMove);
 });
 
-map.on('draw:deleted', function (e) {
-
+map.on("draw:deleted", function (e) {
   e.layers.eachLayer(function (layer) {
-
     removeAssociatedLayers(layer._leaflet_id);
-
-
   });
 
   traceLayer.clearLayers();
@@ -1873,12 +2177,9 @@ map.on('draw:deleted', function (e) {
   // Reset the currentPolyline variable to null to ensure it doesn't retain any old reference
   if (currentPolyline) {
     currentPolyline.remove(); // Removes the polyline from the map
-    currentPolyline = null;   // Dereferences the polyline object
+    currentPolyline = null; // Dereferences the polyline object
   }
-
 });
-
-
 
 function handleMouseMove(event) {
   if (throttle) return;
@@ -1888,17 +2189,24 @@ function handleMouseMove(event) {
     throttle = false;
   }, 300); // Adjust the 100 ms here to change the throttling rate
 
-  if (mapMode === 'tracing' && vertexClickCount > 0) {
+  if (mapMode === "tracing" && vertexClickCount > 0) {
     if (!currentPolyline) return;
     let newPoint = event.latlng;
-    getClosestRoadPoint(newPoint).then(result => {
+    getClosestRoadPoint(newPoint).then((result) => {
       if (result.distance <= 20) {
         if (vertexClickCount === 1) {
           currentPolyline.addLatLng(result.marker);
           vertexClickCount++;
         } else {
           const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
-          if (!lastPoint || turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }) < 50) {
+          if (
+            !lastPoint ||
+            turf.distance(
+              turf.point([lastPoint.lng, lastPoint.lat]),
+              turf.point([result.marker.lng, result.marker.lat]),
+              { units: "meters" }
+            ) < 50
+          ) {
             currentPolyline.addLatLng(result.marker);
             currentPolyline.redraw();
           }
@@ -1908,7 +2216,7 @@ function handleMouseMove(event) {
         }
       }
     });
-  } else if (mapMode === 'snapping') {
+  } else if (mapMode === "snapping") {
     if (drawTimeout) clearTimeout(drawTimeout);
     lastDrawnPoint = event.latlng;
     drawTimeout = setTimeout(() => {
@@ -1919,14 +2227,10 @@ function handleMouseMove(event) {
 
 let throttle = false; // Throttling flag to control event frequency
 
-
-
 map.on("draw:created", function (e) {
-
-
   toggleSaveButton(true);
 
-  if (mapMode == 'snapping') {
+  if (mapMode == "snapping") {
     var newFeature = e.layer.toGeoJSON();
 
     getGeodataFeatures().then(function (geodataFeatures) {
@@ -1963,10 +2267,14 @@ map.on("draw:created", function (e) {
           didOpen: () => {
             // Apply custom styles directly to the modal elements
             document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-            document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-            document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
-            document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-            document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
+            document.querySelector(".custom-modal-class").style.height =
+              "250px"; // Set your desired height
+            document.querySelector(".custom-modal-class").style.transition =
+              "all 0.5s ease";
+            document.querySelector(".custom-icon-class").style.fontSize =
+              "10px"; // Set your desired icon size
+            document.querySelector(".custom-icon-class").style.transition =
+              "all 0.5s ease";
             document.querySelector(".custom-title-class").style.fontSize =
               "1.5em"; // Set your desired title size
             document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
@@ -1980,8 +2288,9 @@ map.on("draw:created", function (e) {
             ).style.borderRadius = "0"; // Rounded corners
             document.querySelector(".custom-close-button-class").style.padding =
               "5px"; // Padding around the close button
-            document.querySelector(".custom-close-button-class").style.fontSize =
-              "20px"; // Font size of the close button
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.fontSize = "20px"; // Font size of the close button
           },
         });
         return;
@@ -1999,35 +2308,46 @@ map.on("draw:created", function (e) {
           showConfirmButton: false,
           showCloseButton: true,
           customClass: {
-            popup: 'custom-modal-class',
-            icon: 'custom-icon-class',
-            title: 'custom-title-class',
-            content: 'custom-text-class',
-            closeButton: 'custom-close-button-class'
+            popup: "custom-modal-class",
+            icon: "custom-icon-class",
+            title: "custom-title-class",
+            content: "custom-text-class",
+            closeButton: "custom-close-button-class",
           },
           showClass: {
-            popup: 'swal2-show',
-            backdrop: 'swal2-backdrop-show',
-            icon: 'swal2-icon-show'
+            popup: "swal2-show",
+            backdrop: "swal2-backdrop-show",
+            icon: "swal2-icon-show",
           },
           hideClass: {
-            popup: 'swal2-hide',
-            backdrop: 'swal2-backdrop-hide',
-            icon: 'swal2-icon-hide'
+            popup: "swal2-hide",
+            backdrop: "swal2-backdrop-hide",
+            icon: "swal2-icon-hide",
           },
           didOpen: () => {
             // Apply custom styles directly to the modal elements
-            document.querySelector('.custom-modal-class').style.width = '400px'; // Set your desired width
-            document.querySelector('.custom-modal-class').style.height = '250px'; // Set your desired height
-            document.querySelector('.custom-icon-class').style.fontSize = '10px'; // Set your desired icon size
-            document.querySelector('.custom-title-class').style.fontSize = '1.5em'; // Set your desired title size
-            document.querySelector('.custom-text-class').style.fontSize = '1em'; // Set your desired text size
-            document.querySelector('.custom-close-button-class').style.backgroundColor = '#f44336'; // Red background color
-            document.querySelector('.custom-close-button-class').style.color = 'white'; // White text color
-            document.querySelector('.custom-close-button-class').style.borderRadius = '0'; // Rounded corners
-            document.querySelector('.custom-close-button-class').style.padding = '5px'; // Padding around the close button
-            document.querySelector('.custom-close-button-class').style.fontSize = '20px'; // Font size of the close button
-          }
+            document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+            document.querySelector(".custom-modal-class").style.height =
+              "250px"; // Set your desired height
+            document.querySelector(".custom-icon-class").style.fontSize =
+              "10px"; // Set your desired icon size
+            document.querySelector(".custom-title-class").style.fontSize =
+              "1.5em"; // Set your desired title size
+            document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.backgroundColor = "#f44336"; // Red background color
+            document.querySelector(".custom-close-button-class").style.color =
+              "white"; // White text color
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.borderRadius = "0"; // Rounded corners
+            document.querySelector(".custom-close-button-class").style.padding =
+              "5px"; // Padding around the close button
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.fontSize = "20px"; // Font size of the close button
+          },
         });
 
         return; // Stop further processing
@@ -2035,11 +2355,7 @@ map.on("draw:created", function (e) {
     }
     var layer = e.layer;
 
-
     drawnItems.addLayer(layer);
-
-
-
 
     if (e.layerType === "polyline" && department === "Road") {
       var bufferWidth = localStorage.getItem("bufferWidth");
@@ -2059,25 +2375,21 @@ map.on("draw:created", function (e) {
       data: { id: lastInsertedId },
       dataType: "json",
       success: function (response) {
-
-
-        $('#table-container').show();
+        $("#table-container").show();
         const formDataFromStorage = response.data;
         console.log(formDataFromStorage);
-        let contentData = '<tr>';
+        let contentData = "<tr>";
         for (const property in formDataFromStorage) {
           contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
         }
-        contentData += '</tr>';
-        $('#workTableData').html(contentData);
-
+        contentData += "</tr>";
+        $("#workTableData").html(contentData);
       },
       error: function (error) {
         console.error("AJAX request failed:", error);
       },
     });
-  }
-  else if (mapMode == 'tracing') {
+  } else if (mapMode == "tracing") {
     let layer = currentPolyline;
     var bufferWidth = localStorage.getItem("bufferWidth");
     createBufferAndDashedLine(layer, roadLenght, bufferWidth);
@@ -2096,26 +2408,22 @@ map.on("draw:created", function (e) {
       data: { id: lastInsertedId },
       dataType: "json",
       success: function (response) {
-
-        $('#table-container').show();
+        $("#table-container").show();
         const formDataFromStorage = response.data;
         console.log(formDataFromStorage);
-        let contentData = '<tr>';
+        let contentData = "<tr>";
         for (const property in formDataFromStorage) {
           contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
         }
-        contentData += '</tr>';
-        $('#workTableData').html(contentData);
+        contentData += "</tr>";
+        $("#workTableData").html(contentData);
       },
       error: function (error) {
         console.error("AJAX request failed:", error);
       },
     });
   }
-
 });
-
-
 
 map.on("draw:edited", function (e) {
   toggleSaveButton(true);
@@ -2195,8 +2503,7 @@ map.on("draw:edited", function (e) {
           popupContent += "</table>";
 
           // Add buttons for adding and deleting rows
-          popupContent +=
-            `
+          popupContent += `
           <button class="popup-button" onclick="Savedata('${lastDrawnPolylineId}')">Save</button>
       `;
           popupContent +=
@@ -2268,14 +2575,14 @@ function deleteRow() {
 }
 
 function Savedata(lastDrawnPolylineId) {
-
   var geoJSONString;
   let selectCoordinatesData;
-  var geoJSONStringJson
+  var geoJSONStringJson;
 
-  if (mapMode == 'tracing') {
-
-    geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
+  if (mapMode == "tracing") {
+    geoJSONString = currentPolyline
+      ? JSON.stringify(currentPolyline.toGeoJSON())
+      : "{}";
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
   } else {
@@ -2301,7 +2608,6 @@ function Savedata(lastDrawnPolylineId) {
   var lastInsertedId = localStorage.getItem("lastInsertedId");
   var department = localStorage.getItem("department");
 
-
   var polylineLayerId = lastDrawnPolylineId; // You need to set this to the correct ID
   var bufferGeoJSONString = "{}";
   if (
@@ -2312,16 +2618,14 @@ function Savedata(lastDrawnPolylineId) {
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
-  var payload =
-    JSON.stringify({
-      geoJSON: bufferGeoJSONString,
-      roadLength: roadLenght,
-      bufferWidth: bufferWidth,
-      gis_id: lastInsertedId,
-      department: department,
-      selectCoordinatesData: selectCoordinatesData,
-    });
-
+  var payload = JSON.stringify({
+    geoJSON: bufferGeoJSONString,
+    roadLength: roadLenght,
+    bufferWidth: bufferWidth,
+    gis_id: lastInsertedId,
+    department: department,
+    selectCoordinatesData: selectCoordinatesData,
+  });
 
   $.ajax({
     type: "POST",
@@ -2336,19 +2640,32 @@ function Savedata(lastDrawnPolylineId) {
       console.error("Save failed:", error);
     },
   });
-  area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
-  console.log(selectCoordinatesData)
+  area = turf.length(selectCoordinatesData[0].geometry, { units: "meters" });
+  console.log(selectCoordinatesData);
   var formData = new FormData();
-  formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-  formData.append('polygon_area', 0);
-  formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-  formData.append('road_no', struct_no);
-  formData.append('user_id', user_id);
-  formData.append('length', area);
-  formData.append('width', width);
+  formData.append("proj_id", worksAaApprovalId);
+  formData.append(
+    "latitude",
+    selectCoordinatesData[0].geometry.coordinates[0][1]
+  );
+  formData.append(
+    "longitude",
+    selectCoordinatesData[0].geometry.coordinates[0][0]
+  );
+  formData.append("polygon_area", 0);
+  formData.append("polygon_centroid", 0);
+  formData.append(
+    "geometry",
+    JSON.stringify(
+      selectCoordinatesData[0].geometry.coordinates?.map((coordinates) =>
+        coordinates.slice().reverse()
+      )
+    )
+  );
+  formData.append("road_no", struct_no);
+  formData.append("user_id", user_id);
+  formData.append("length", area);
+  formData.append("width", width);
 
   $.ajax({
     type: "POST",
@@ -2364,9 +2681,6 @@ function Savedata(lastDrawnPolylineId) {
       console.error("Save failed:", error);
     },
   });
-
-
-
 }
 
 function SavetoKML() {
@@ -2529,8 +2843,8 @@ $(document).ready(function () {
       var title = $("#workTable thead th").eq($(this).index()).text();
       $(this).html(
         '<input type="text" class="form-control" placeholder="Search ' +
-        title +
-        '" />'
+          title +
+          '" />'
       );
     });
 
@@ -2727,8 +3041,9 @@ map.on("contextmenu", (e) => {
   let style = "pmc:Data";
   let urrr = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
     e.containerPoint.x
-  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
-    }&HEIGHT=${size.y}&BBOX=${bbox}`;
+  )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+    size.x
+  }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
   if (urrr) {
     fetch(urrr)
@@ -2756,5 +3071,3 @@ map.on("contextmenu", (e) => {
       });
   }
 });
-
-

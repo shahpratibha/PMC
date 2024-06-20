@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!-- saved from url=(0115)file:///C:/Users/GEOPUL~1/AppData/Local/Temp/MicrosoftEdgeDownloads/c14a77ec-18b9-4bc1-b149-16a028c96d87/video.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk Videos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #054688;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .video-container {
+            display: none;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .video-container.active {
+            display: flex;
+        }
+
+        .video-item {
+            max-width: 45%;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .video-item video {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .video-title {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #2d3d4d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Helpdesk</h1>
+    <select id="topicSelect" onchange="showVideos()">
+        <option value="">Select Department</option>
+        <option value="Road">Road</option>
+        <option value="Bhavan">Building</option>
+        <option value="Drainage">Drainage</option>
+        <option value="SWM">SWM</option>
+        <option value="Water Supply">Water Supply</option>
+        <option value="electrical">Electrical</option>
+        <option value="Project work">Project Work</option>
+        <option value="Garden">Garden</option>
+        <option value="Garden_horticulture">Garden horticulture</option>
+    </select>
+    <div class="video-container" id="videoContainer"></div>
+
+    <script>
+        function showVideos() {
+            const videoContainer = document.getElementById('videoContainer');
+            const selectedTopic = document.getElementById('topicSelect').value;
+
+            if (!selectedTopic) {
+                videoContainer.classList.remove('active');
+                videoContainer.innerHTML = '';
+                return;
+            }
+
+            videoContainer.classList.add('active');
+
+            // Clear any existing videos
+            videoContainer.innerHTML = '';
+
+            // Array of video filenames for each topic
+            const videos = {
+                'Bhavan': ['1.  Recording cordinates.mp4','2 Selection of whole Ward.mp4','3 GIS mapping.mp4','4 Delete.mp4','5 BLDG repair.mp4'],
+                'Road':['1 Recording coordinates.mp4','2 Gis mapping.mp4','3 Editing.mp4','4. Delete.mp4','5 Selection of whole Ward.mp4','6 Repair road.mp4','7 length restriction.mp4'],
+                'SWM':['1. Recording coordinates.mp4','2. Selection of whole Ward.mp4','3. Gis mapping.mp4','4. Delete.mp4'],
+                'Drainage' : ['1. Drainage mapping.mp4','2 Selection of whole Ward.mp4','3. Editing a drainage line.mp4','4. Deleting a drawn line.mp4','5. Placing chambers.mp4','6. Deleting chamber.mp4','7. Record coordinates for Repairing .mp4','8. Repair work mapping.mp4'],
+                'Garden':['1. Recording coordinates.mp4','2. Selection of whole Ward.mp4','3. Gis mapping.mp4','4. Delete.mp4','5. Selecting a feature for repair work.mp4'],
+                'Garden_horticulture':['1. Recording coordinates.mp4','2. Selection of whole Ward.mp4','3. Gis mapping.mp4','4. Delete.mp4','5. Selecting a feature for repair work.mp4'],
+                'Water Supply':['1. Recording coordinates.mp4','2. Selection of whole Ward.mp4','3. Water_line mapping.mp4','4. editing line.mp4','5. Deleting a line.mp4'],
+                'Project work':['1. Recording cordinates _1 .mp4','2. Record cordinates_2.mp4','3. Selection of whole Ward.mp4','4.  Gis mapping.mp4','5.  Editing.mp4','6. Delete.mp4','6. Delete.mp4','7 length restriction.mp4'],
+                'electrical':['1 Recording_cordinates.mp4','2 Selection_of_whole_Ward.mp4','3 GIS_mapping.mp4','4 Delete_feature.mp4'],
+                
+            };
+
+            // Loop through the video files and create video elements
+            if (videos[selectedTopic]) {
+                videos[selectedTopic].forEach(file => {
+                    const videoItem = document.createElement('div');
+                    videoItem.classList.add('video-item');
+
+                    const videoTitle = document.createElement('div');
+                    videoTitle.classList.add('video-title');
+                    videoTitle.innerText = file;
+
+                    const videoElement = document.createElement('video');
+                    videoElement.src = `IWMS/${selectedTopic}/${file}`;
+                    videoElement.controls = true;
+                    videoElement.innerText = `Your browser does not support the video tag.`;
+
+                    videoItem.appendChild(videoTitle);
+                    videoItem.appendChild(videoElement);
+
+                    videoContainer.appendChild(videoItem);
+                });
+            }
+        }
+    </script>
+
+
+</body></html>
