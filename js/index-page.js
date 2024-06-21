@@ -408,9 +408,6 @@ async function fetchAndPostData(id) {
     const joinedWardNames = wardNames?.join(', ');
 
 
-    console.log(joinedWardNames);
-
-
 
 
     updateLocalStorage('department', department.department_name);
@@ -438,6 +435,10 @@ async function fetchAndPostData(id) {
       projectOffice: project.project_from ? (project.project_from === '1' ? 'Main Office' : project.project_from === '2' ? 'Zone Office' : 'Ward Office') : 'Unknown',
       ward: ward ? joinedWardNames : '',
       zone: zone ? zone.zone_name : '',
+      wardId: project.constituency_ward_id,
+      zoneId: project.constituency_zone_id,
+      departmentId: project.d_id,
+      stage: project.stage_id || '',
       budgetCodes: budgetCodes || '',
       Id: project.works_aa_approval_id,
       Length: lenght,
@@ -472,7 +473,6 @@ async function fetchAndPostData(id) {
         const roadLength = response.data.lenght;
         const wardName = response.data.wardname;
         const workType = project.work_type;
-
 
 
         if (struct_no >= 10) {

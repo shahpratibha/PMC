@@ -18,17 +18,7 @@ var googleSat = L.tileLayer(
   }
 );
 
-var ward_boundary = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "ward_boundary1",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    opacity: 1,
-    maxZoom: 21,
-  })
-  .addTo(map);
+
 
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -94,8 +84,7 @@ var wms_layer12 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  })
-  .addTo(map);
+  }).addTo(map);
 
 var wms_layer14 = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
@@ -213,6 +202,20 @@ var ward_admin_boundary = L.tileLayer.wms(
   }
 ).addTo(map);
 
+
+var ward_boundary = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "ward_boundary1",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    opacity: 1,
+    maxZoom: 21,
+  })
+  .addTo(map);
+
+
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
 var WMSlayers = {
@@ -227,6 +230,7 @@ var WMSlayers = {
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
+  ward_boundary: ward_boundary,
   // geodata: wms_layer4,
   OSMRoad: wms_layer16,
 };
@@ -240,7 +244,7 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function fitbou(filter) {
-  var layer = "pmc:ward_boundary1";
+  var layer = prabhag_ids.length > 0 ? "PMC_wards_admin_boundary" : "ward_boundary1";
   var urlm =
     "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
@@ -265,7 +269,6 @@ let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== '
 let cql_filterm = '';
 
 
-console.log(ward_ids, zone_ids, prabhag_ids);
 
 
 if (zone_ids.length > 0) {
@@ -305,12 +308,35 @@ if (prabhag_ids.length > 0) {
   cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
 }
 
-fitbou(cql_filterm);
-ward_admin_boundary.setParams({
-  cql_filter: cql_filterm,
-  styles: "highlight",
-});
-ward_admin_boundary.addTo(map).bringToFront();
+console.log(cql_filterm);
+
+function applyFilter() {
+  if (prabhag_ids.length > 0) {
+    ward_admin_boundary.setParams({
+       cql_filter: cql_filterm,
+      styles: "highlight"
+    });
+    ward_admin_boundary.addTo(map).bringToFront();
+  } else {
+    ward_boundary.setParams({
+      //  cql_filter: 'ward_id IN('1')',
+      cql_filter: `ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`,
+      styles: "highlight"
+    });
+    ward_boundary.addTo(map).bringToFront();
+  }
+
+  cql_filterm = prabhag_ids.length > 0 ? cql_filterm : `ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`;
+
+  fitbou(cql_filterm);
+}
+
+// Call the function to apply the filter
+applyFilter();
+
+
+
+
 
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);

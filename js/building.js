@@ -1808,6 +1808,12 @@ function Savedata(lastDrawnPolylineId) {
     geoJSONString = toGISformat();
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = geoJSONStringJson.features;
+
+    selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+      return el.geometry.coordinates.length > 0;
+    });
+
+    
   }
   
   if (selectCoordinatesData && selectCoordinatesData.length > 0) {

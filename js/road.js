@@ -1726,7 +1726,57 @@ map.on("draw:created", function (e) {
 
 		var tempGeoJSON = currentPolyline.toGeoJSON();
       
-    
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text:  `The Road is longer than ${roadLenght} kilometers. `,
+      showConfirmButton: false,
+      showCloseButton: true,
+      
+      customClass: {
+        popup: "custom-modal-class",
+        icon: "custom-icon-class",
+        title: "custom-title-class",
+        content: "custom-text-class",
+        closeButton: "custom-close-button-class",
+      },
+      showClass: {
+        popup: "swal2-show",
+        backdrop: "swal2-backdrop-show",
+        icon: "swal2-icon-show",
+      },
+      hideClass: {
+        popup: "swal2-hide",
+        backdrop: "swal2-backdrop-hide",
+        icon: "swal2-icon-hide",
+      },
+      didOpen: () => {
+        // Apply custom styles directly to the modal elements
+        document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+        document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+        document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
+        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+        
+        document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
+        document.querySelector(".custom-title-class").style.fontSize =
+          "1.5em"; // Set your desired title size
+        document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+        document.querySelector(
+          ".custom-close-button-class"
+        ).style.backgroundColor = "#f44336"; // Red background color
+        document.querySelector(".custom-close-button-class").style.color =
+          "white"; // White text color
+        document.querySelector(
+          ".custom-close-button-class"
+        ).style.borderRadius = "0"; // Rounded corners
+        document.querySelector(".custom-close-button-class").style.padding =
+          "5px"; // Padding around the close button
+        document.querySelector(".custom-close-button-class").style.fontSize =
+          "20px"; // Font size of the close button
+      },
+    });
      
     }else {
 
@@ -1989,6 +2039,12 @@ function Savedata(lastDrawnPolylineId) {
       geoJSONStringJson = JSON.parse(geoJSONString);
       selectCoordinatesData = geoJSONStringJson.features;
 
+      // if coordinates are present than only take else remove empty index object
+
+      selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+          return el.geometry.coordinates.length > 0;
+      });
+
     
       if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
         const geometry = geoJSONStringJson.features[1].geometry;
@@ -2002,12 +2058,18 @@ function Savedata(lastDrawnPolylineId) {
   }
 
 
-
+// have to check and remote this code in future 
   localStorage.setItem("selectCoordinatesData", JSON.stringify(selectCoordinatesData));
   let formDataTemp = localStorage.getItem("conceptual_form_data_temp");
   if (formDataTemp) {
       localStorage.setItem("conceptual_form_data", formDataTemp);
   }
+   
+// have to check and remote this code in future 
+
+
+
+
 
   var roadLenght = lenght;
   var bufferWidth = width;

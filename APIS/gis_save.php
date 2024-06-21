@@ -39,11 +39,11 @@ if ($isWardSelection){
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
         \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
         :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
     )");
 
@@ -120,12 +120,12 @@ else if ($department == "Road") {
    
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id
     )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -156,6 +156,13 @@ else if ($department == "Road") {
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':length_1', $area, PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
+
+    
     
 
     try {
@@ -196,12 +203,12 @@ else if ($department == "Building") {
    if($geometryType == "LineString"){
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id
     )");
     
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -232,7 +239,13 @@ else if ($department == "Building") {
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':length_1', $area, PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
+
         try {
             $stmtIWMS->execute();
             $lastInsertIdIWMSDrainage = $pdo->lastInsertId();
@@ -255,12 +268,12 @@ else if ($department == "Building") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:department,:stage,:zone_id,:ward_id
     )");
     
 
@@ -298,6 +311,11 @@ else if ($department == "Building") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
     try {
         $stmtIWMS->execute();
@@ -319,12 +337,12 @@ else if ($department == "Building") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a , department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a , :department,:stage,:zone_id,:ward_id
     )");
    
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -360,6 +378,11 @@ else if ($department == "Building") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
 
 
@@ -399,12 +422,12 @@ else if ($department == "Drainage") {
 
    $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
     geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-    conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-    \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1
+    conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+    \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1,department,stage,zone_id,ward_id
 ) VALUES (
     ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-    :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-    :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1
+    :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+    :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1 ,:department,:stage,:zone_id,:ward_id
 )");
 
 $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -445,6 +468,11 @@ $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
 $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
 $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
 $stmtIWMS->bindParam(':length_1', $area, PDO::PARAM_STR);
+ $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+$stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
 
     try {
         $stmtIWMS->execute();
@@ -488,12 +516,12 @@ else if ($department == "Electrical") {
    if($geometryType == "LineString"){
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id
     )");
     
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -533,6 +561,11 @@ else if ($department == "Electrical") {
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':length_1', $area, PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
         try {
             $stmtIWMS->execute();
@@ -557,12 +590,12 @@ else if ($department == "Electrical") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:department,:stage,:zone_id,:ward_id
     )");
     //test commit
 
@@ -601,6 +634,11 @@ else if ($department == "Electrical") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
 
 
@@ -630,12 +668,12 @@ else if ($department == "Electrical") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a, :department,:stage,:zone_id,:ward_id
     )");
     //test commit
 
@@ -673,6 +711,11 @@ else if ($department == "Electrical") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
 
 
@@ -725,12 +768,12 @@ else if ($department == "Water Supply") {
     if($geometryType == "LineString"){
         $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
             geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-            conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-            \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1
+            conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+            \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1,department,stage,zone_id,ward_id
         ) VALUES (
             ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-            :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-            :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1
+            :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+            :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id
         )");
         
         $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -771,6 +814,11 @@ else if ($department == "Water Supply") {
         $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
         $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
         $stmtIWMS->bindParam(':length_1', $area, PDO::PARAM_STR);
+         $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
         
             try {
                 $stmtIWMS->execute();
@@ -797,11 +845,11 @@ else if ($department == "Water Supply") {
     
     
             geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-            conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
+            conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
             \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
         ) VALUES (
             ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-            :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
+            :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
             :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
         )");
         //test commit
@@ -841,6 +889,11 @@ else if ($department == "Water Supply") {
         $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
         $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
         $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+         $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
         
     
     
@@ -870,12 +923,12 @@ else if ($department == "Water Supply") {
     
     
             geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-            conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-            \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a
+            conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+            \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a ,department,stage,zone_id,ward_id
         ) VALUES (
             ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-            :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-            :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a
+            :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+            :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a , :department,:stage,:zone_id,:ward_id
         )");
         //test commit
     
@@ -912,7 +965,12 @@ else if ($department == "Water Supply") {
         
         $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
         $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
-        $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);  
+         $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+        $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
         
     
     
@@ -952,12 +1010,12 @@ else if ($department == "Solid waste Management") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a , department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a , :department,:stage,:zone_id,:ward_id
     )");
     //test commit
 
@@ -989,6 +1047,11 @@ else if ($department == "Solid waste Management") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
      try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
@@ -1018,12 +1081,12 @@ else if ($department == "Garden") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a, :department,:stage,:zone_id,:ward_id
     )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -1053,6 +1116,13 @@ else if ($department == "Garden") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
+
+    
      try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
@@ -1087,12 +1157,12 @@ else if ($department == "Encroachment ") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a ,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a , :department,:stage,:zone_id,:ward_id
     )");
    
 
@@ -1123,6 +1193,13 @@ else if ($department == "Encroachment ") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
+
+
      try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
@@ -1165,12 +1242,12 @@ else if ($department == "Slum") {
    if($geometryType == "LineString"){
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id
     )");
     
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -1207,6 +1284,12 @@ else if ($department == "Slum") {
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':length_1', $area, PDO::PARAM_STR);
+
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
         try {
             $stmtIWMS->execute();
@@ -1230,12 +1313,12 @@ else if ($department == "Slum") {
     $stmtIWMS = $pdo->prepare("INSERT INTO \"Polygon_data\" (
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a ,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a , :department,:stage,:zone_id,:ward_id
     )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -1273,6 +1356,12 @@ else if ($department == "Slum") {
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
 
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
+
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
@@ -1294,12 +1383,12 @@ else if ($department == "Slum") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\" ,departme_1,\"Budget_Code\",works_aa_a,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :departme_1,:Budget_Code,:works_aa_a , :department,:stage,:zone_id,:ward_id
     )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -1335,6 +1424,11 @@ else if ($department == "Slum") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
     
 
     try {
@@ -1371,12 +1465,12 @@ else if ($department == "Garden") {
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a ,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a , :department,:stage,:zone_id,:ward_id  
     )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -1406,6 +1500,13 @@ else if ($department == "Garden") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
+     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
+
+
      try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
