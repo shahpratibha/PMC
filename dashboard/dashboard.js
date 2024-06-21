@@ -2,35 +2,25 @@ var main_url = "https://iwmsgis.pmc.gov.in/geoserver/"
 
 // html page code ......................
 
+
 function toggleFilter(label) {
-  console.log('Toggle filter function called');
+  const input = label.nextElementSibling; // Get the input element next to the label
+  const ul = input.nextElementSibling; // Get the ul element next to the input
 
-  const div = label.closest('.filter-group');
-  const input = div.querySelector('.filter-input');
-  const ul = div.querySelector('ul');
-  const isActive = input.classList.contains('active');
-
-  console.log('Current active state:', isActive);
-
-  // Remove 'active' class from all filter inputs and their associated ul elements
-  document.querySelectorAll('.filter-input').forEach(input => {
-    input.classList.remove('active');
-    input.nextElementSibling.classList.remove('active');
-  });
-
+  // Toggle 'active' class for the clicked filter input and its associated ul
   input.classList.toggle('active');
   ul.classList.toggle('active');
-
-  // Toggle visibility of the input field
-  input.style.display = input.classList.contains('active') ? 'block' : 'none';
-
-  console.log('Input display style:', input.style.display);
-  // If the clicked filter is not active, add 'active' class to it
-  if (input.classList.contains('active')) {
-    input.focus();
-    filterCheckboxes(input);
-  }
 }
+
+// Function to close filter groups when clicking outside
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.filter-group')) {
+    document.querySelectorAll('.filter-input').forEach(filterInput => {
+      filterInput.classList.remove('active');
+      filterInput.nextElementSibling.classList.remove('active');
+    });
+  }
+});
 
 // Function to filter checkboxes based on search input
 function filterCheckboxes(input) {
@@ -47,6 +37,7 @@ function filterCheckboxes(input) {
     }
   }
 }
+
 document.addEventListener('DOMContentLoaded', function () {
   // Add event listeners to filter inputs
   document.querySelectorAll('.filter-input').forEach(input => {
@@ -70,9 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
       event.stopPropagation(); // Stop event propagation
     });
   });
-
-
 });
+
+
+// });
 
 // toggleFilterend---------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function () {
@@ -80,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const map = document.getElementById('map');
   const tableBtn = document.getElementById('openTableBtn');
   const button = document.getElementById('toggleFilters');
+ 
   let filtersVisible = false;
 
   button.addEventListener('click', function () {
@@ -88,9 +81,9 @@ document.addEventListener('DOMContentLoaded', function () {
       filters.style.opacity = '1';
       map.style.width = '81vw';
       button.style.top = "15vh";
-      button.style.right = 'calc(1.3vw + 1px)';
+      button.style.right = 'calc(0.8vw )';
       button.innerHTML = '<i class="fa-solid fa-filter-circle-xmark"></i>';
-      tableBtn.style.right = 'calc(1.3vw + 1px)';
+      tableBtn.style.right = 'calc(0.8vw)';
       tableBtn.style.top = '22vh';
     } else {
       filters.style.marginLeft = '-35vw';
@@ -109,21 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // -------------------------------------------------------------------------
 
 
-  // accordation clicking activity
-
-
-  var acc = document.getElementsByClassName("accordion-header");
-  for (var i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
-      this.classList.toggle("active");
-      var panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
-    });
-  }
 });
 
 
@@ -133,8 +111,9 @@ function updateTableStats(stats) {
 }
 
 
+
 $(document).ready(function () {
-  search()
+  // search()
 
   var start = moment().subtract(29, 'days');
   var end = moment();
@@ -157,16 +136,16 @@ $(document).ready(function () {
       '2021-2022': [moment('2021-04-01'), moment('2022-03-31')],
     }
   }, cb);
-
-  // Call the callback function to set the initial value
   cb(start, end);
 
-  // Additional initialization functions
   function cb(start, end) {
     $('#daterange').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-    var formattedStartDate = start.format('M/D/YY, h:mm A');
-    var formattedEndDate =  end.format('M/D/YY, h:mm A');
+    var formattedStartDate = start.format('M/D/YY, h:mm A');;
+    var formattedEndDate = end.format('M/D/YY, h:mm A');;
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
+    console.log(cql_filter1, "lll")
+
+    DataTableFilter(cql_filter1)
 
 
     loadinitialData(cql_filter1);
@@ -179,19 +158,8 @@ $(document).ready(function () {
 
 
       FilterAndZoom(mainfilter);
+      DataTableFilter(mainfilter)
 
-
-      var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon"];
-      var typeName = layers.join(',');
-      var cqlFilter = mainfilter;
-      var geoServerURL =
-        "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
-        typeName +
-        "&outputFormat=application/json&CQL_FILTER=" +
-        encodeURIComponent(cqlFilter);
-      var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Tender_Amount', 'Created_At'];
-
-      showtable(typeName, geoServerURL, cqlFilter, headers);
     })
 
   }
@@ -201,8 +169,7 @@ $(document).ready(function () {
   }
 
   function loadinitialData(cql_filter) {
-    const filternames = ["Project_Office", "project_fi", "zone", "ward", "Department", "stage", "village", "Work_Type"];
-    // console.log(filternames, "project_fi");
+    const filternames = ["Project_Office", "project_fi", "zone", "ward", "Department", "stage", "Work_Type"]; //accordn column names , if want add one more filter criteria add here
 
     filternames.forEach(function (filtername) {
       var url = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=${filtername}&outputFormat=application/json&cql_filter=${encodeURIComponent(cql_filter)}`;
@@ -216,19 +183,15 @@ $(document).ready(function () {
           var column_name = feature.properties[filtername];
           if (column_name !== null && column_name !== "#N/A") {
             if (projectFiMap.has(column_name)) {
-              projectFiMap.set(column_name, projectFiMap.get(column_name) + 1);
+              // projectFiMap.set(column_name, projectFiMap.get(column_name) + 1);
+                  projectFiMap.set(column_name, (projectFiMap.get(column_name) || 0) + 1);
             } else {
               projectFiMap.set(column_name, 1);
             }
           }
         });
-
         var uniqueProjectFiList = Array.from(projectFiMap.entries()).map(([name, count]) => `${name} (${count})`);
-        // console.log(uniqueProjectFiList, "uniqueProjectFiList")
         populateDropdown(filtername, uniqueProjectFiList);
-
-
-
       });
     });
 
@@ -241,17 +204,14 @@ $(document).ready(function () {
 
   function initialize() {
 
-
     $('#daterange').on('apply.daterangepicker', function (ev, picker) {
       var startDate = picker.startDate.format('YYYY-MM-DD');
       var endDate = picker.endDate.format('YYYY-MM-DD');
-      var formattedStartDate = startDate.format('M/D/YY, h:mm A');
-    var formattedEndDate =  endDate.format('M/D/YY, h:mm A');
 
       console.log('Selected date rangelooooooooooooooo:', startDate, 'to', endDate);
 
-      cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
-      console.log(cql_filter1,"for trial")
+      cql_filter1 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
+
       loadinitialData(cql_filter1);
       const cql_filter = getCqlFilter();
       getCheckedValues(function (filterString) {
@@ -262,20 +222,9 @@ $(document).ready(function () {
 
         FilterAndZoom(mainfilter);
 
-        var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon"];
-        var typeName = layers.join(',');
-        var cqlFilter = mainfilter;
-        var geoServerURL =
-          "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
-          typeName +
-          "&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-        var headers = ['Sr_No','Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
+        DataTableFilter(mainfilter)
 
-        showtable(typeName, geoServerURL, cqlFilter, headers);
       });
-
-
     });
   }
 
@@ -286,10 +235,25 @@ $(document).ready(function () {
 
 
 
+function DataTableFilter(cql_filter1) {
+  var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon"];
+  var typeName = layers.join(',');
+  var cqlFilter = cql_filter1;
+  var geoServerURL =
+    `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(cqlFilter)}`;
+  var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
+
+  showtable(typeName, geoServerURL, cqlFilter, headers);
+
+}
+
+
+
+
 function populateDropdown(dropdownId, data) {
   var ul = $("#" + dropdownId);
   ul.empty();
-
+  // var searchBox= $(' <input type="text" placeholder="Search" class="filter-input">')
   data.forEach(function (item) {
     // console.log(item, "items")
     var listItem = $('<li><label><input type="checkbox" class="select2-option-checkbox" value="' + item + '"> ' + item + '</label></li>');
@@ -332,11 +296,7 @@ function getCheckedValues(callback) {
       // Join all filter strings with "AND"
       var filterString = filters.join(" AND ");
 
-      // // Update the selected count in the label
-      // var label = $('label[for="' + filtername + '"]');
-      // if (label.length > 0) {
-      //   label.find('.selected-count').text(' (' + values.length + ')');
-      // }
+  
 
       // Update the selected count in the label
     var label = $('label[for="' + filtername + '"]');
@@ -355,11 +315,7 @@ function getCheckedValues(callback) {
   });
 }
 
-// Function to toggle the filter panel
-function toggleFilter(element) {
-  var filterGroup = $(element).closest('.filter-group');
-  filterGroup.find('ul').toggle();
-}
+
 
 
 
@@ -493,6 +449,8 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
   }
 
   
+
+
   function createTable(data, headers) {
     var tableContainer = document.getElementById('tablecontainer');
     if (!tableContainer) {
@@ -500,33 +458,41 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
       return;
     }
     tableContainer.innerHTML = ""; // Clear any existing content
-  
+
     // Create minimize button
     var minimizeButton = document.createElement('button');
     minimizeButton.innerText = '-';
     minimizeButton.className = 'minimize-button';
     minimizeButton.addEventListener('click', function () {
-      var table = document.querySelector('.data-table');
-      if (table.style.display === 'none') {
-        table.style.display = 'table';
+      var tableDetail = document.querySelector('.tableDetail');
+      if (tableDetail.style.display === 'none') {
+        tableDetail.style.display = 'block';
         minimizeButton.innerText = '-';
+        document.getElementById('openTableBtn').style.display = 'none'; // Hide the show button
       } else {
-        table.style.display = 'none';
-        minimizeButton.innerText = '+';
+        tableDetail.style.display = 'none';
+        minimizeButton.style.display='none';
+        // minimizeButton.innerText = '+';
+        document.getElementById('openTableBtn').style.display = 'block'; // Show the show button
       }
     });
     tableContainer.appendChild(minimizeButton);
-  
+
+    // Create tableDetail div
+    var tableDetail = document.createElement('div');
+    tableDetail.className = 'tableDetail';
+    tableContainer.appendChild(tableDetail);
+
     var table = document.createElement('table');
     table.className = 'data-table'; // Add a class for styling
     table.id = 'data-table'; // Add an ID for DataTables initialization
-  
+
     var thead = document.createElement('thead');
     var headerRow = document.createElement('tr');
-  
+
     // Add 'Serial No' as the first header
     headers.unshift('Sr_no');
-  
+
     // Create header cells
     headers.forEach(headerText => {
       var th = document.createElement('th');
@@ -535,18 +501,18 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
-  
+
     var tbody = document.createElement('tbody');
-  
+
     // Populate table rows with data
     data.forEach((item, index) => {
       var row = document.createElement('tr');
-  
+
       // Add serial number as the first column
       var serialNumberCell = document.createElement('td');
       serialNumberCell.textContent = index + 1;
       row.appendChild(serialNumberCell);
-  
+
       // Add other data columns
       headers.slice(1).forEach(header => { // Exclude the first header (Serial No)
         if (header !== 'Serial No' && header !== 'geometry') {
@@ -555,7 +521,7 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
           row.appendChild(cell);
         }
       });
-  
+
       // Add click listener to highlight the geometry on the map
       row.addEventListener('click', function () {
         console.log(item);
@@ -567,35 +533,53 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
             weight: 2, // Border weight
           },
         }).addTo(map); // Add the bounds layer to the map
-  
+
         var bounds = boundsLayer.getBounds();
         map.fitBounds(bounds);
-  
+
         // Remove the bounds layer after 5 seconds
         setTimeout(function () {
           map.removeLayer(boundsLayer);
         }, 5000);
       });
-  
+
       tbody.appendChild(row);
     });
-  
+
     table.appendChild(tbody);
-    tableContainer.appendChild(table);
-  
+    tableDetail.appendChild(table);
+
     // Initialize DataTables after rendering the table
     $(document).ready(function() {
       $('#data-table').DataTable({
         paging: true, // Enable pagination
-        lengthChange: true, // Disable the 'Show X entries' dropdown
+        lengthChange: true, // Enable the 'Show X entries' dropdown
         searching: true, // Enable search box
         ordering: true, // Enable column sorting
         info: true, // Enable showing 'Showing X of Y entries' info
         autoWidth: false, // Disable auto width calculation
+        scrollY: 400, // Enable vertical scrolling within the table
+        scrollCollapse: true, 
+        fixedHeader: true 
       });
     });
-  }
+}
+
+// Function to show the hidden table
+function showTable() {
+    var tableDetail = document.querySelector('.tableDetail');
+    var minimizeButton = document.querySelector('.minimize-button');
+    tableDetail.style.display = 'block';
+    minimizeButton.style.display='block';
+    // minimizeButton.innerText = '-';
+    document.getElementById('openTableBtn').style.display = 'none'; // Hide the show button
+}
+
+// Add event listener to the show table button
+document.getElementById('openTableBtn').addEventListener('click', showTable);
+
   
+  // -------------------------------------------------------------
   function tableData(typeName, geoServerURL, cqlFilter, headers) {
     $.getJSON(geoServerURL, function (data) {
       var filteredData = data;
@@ -635,134 +619,201 @@ $(document).ready(function() {
 // for search button
 
 
-function search(){
+document.addEventListener('DOMContentLoaded', (event) => {
+  var columns = ["Work_ID","Budget_Code", "Name_of_Work", "Scope_of_Work", "Name_of_JE","Agency"];
+  var select = document.getElementById("search_type");
 
-var columns = [
-  "Work_ID",
-  "Name_of_Work",
-  "Scope_of_Work",
-  "Name_of_JE",
-  "length",
-
-];
-
-var select = document.getElementById("search_type");
-
-// Populate dropdown with column names
-for (var i = 0; i < columns.length; i++) {
-  var option = document.createElement("option");
-  option.text = columns[i];
-  option.value = columns[i];
-  select.appendChild(option);
-}
-
-// Event listener for dropdown change
-$("#search_type").change(function () {
-  var selectedValue = $(this).val();
-
-  // console.log("select dropdown", select);
-  // console.log("dependent dropdown", selectedValue);
-
-
-
-
-
-
-  function getValues(callback) {
-    var geoServerURL =
-      `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=${selectedValue}&outputFormat=application/json`;
-    console.log(geoServerURL, "geoServerURLsearch")
-    $.getJSON(geoServerURL, function (data) {
-      var workTypeSet = new Set();
-
-      // Populate the Set with work types
-      $.each(data.features, function (index, feature) {
-        var workType = feature.properties[selectedValue];
-
-        // Convert number (double) values to strings
-        if (typeof workType === 'number') {
-          workType = workType.toString();
-        }
-
-        if (workType !== null) {
-          workTypeSet.add(workType);
-        }
-      });
-
-      // Convert the Set to an array
-      var uniqueWorkTypes = Array.from(workTypeSet);
-      console.log(uniqueWorkTypes, "uniqueWorkTypes")
-      // Call the callback function with the uniqueWorkTypes array
-      callback(uniqueWorkTypes);
-    });
+  // Populate dropdown with column names
+  for (var i = 0; i < columns.length; i++) {
+    var option = document.createElement("option");
+    option.text = columns[i];
+    option.value = columns[i];
+    select.appendChild(option);
   }
 
-  // Call getValues function and initialize autocomplete
-  getValues(function (data) {
-    $("#searchInputDashboard").autocomplete({
-      // console.log("heheheh")
-      source: data,
-      select: function (event, ui) {
-        var selectedValue1 = ui.item.value;
-        console.log(selectedValue1,"selectedValue1")
-        var searchtypefield = $("#search_type").val();
-        console.log(searchtypefield, "searchtypefield", "selectedValue1", selectedValue1)
-        let cqlFilter;
+  // Initialize selected value variable
+  let selectedValue;
 
-        // Handle number (double) values in filter condition
-        if (!isNaN(selectedValue1)) {
-          // Use as is for number values in CQL_FILTER
-          cqlFilter = `${searchtypefield} = ${selectedValue1}`;
-        } else {
-          // Enclose string values in quotes for CQL_FILTER
-          cqlFilter = `${searchtypefield} = '${selectedValue1}'`;
-        }
+  // Event listener for dropdown change
+  $("#search_type").change(function () {
+    var selectedValue = $(this).val();
 
+    function getValues(callback) {
+      var geoServerURL = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=${selectedValue}&outputFormat=application/json`;
+      console.log(geoServerURL, "geoServerURLsearch");
 
+      $.getJSON(geoServerURL, function (data) {
+        var workTypeSet = new Set();
 
+        // Populate the Set with work types
+        $.each(data.features, function (index, feature) {
+          var workType = feature.properties[selectedValue];
 
-
-        var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon"];
-        var typeName = layers.join(',');
-
-        var geoServerURL =
-          "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=" +
-          typeName +
-          "&outputFormat=application/json&CQL_FILTER=" +
-          encodeURIComponent(cqlFilter);
-
-        tableData(typeName, geoServerURL, cqlFilter)
-
-        console.log("hrrrrrrrrrrrrrrrrrr")
-
-        // Apply filter to IWMS_point and IWMS_line layers
-        IWMS_point.setParams({
-          CQL_FILTER: cqlFilter,
-          maxZoom: 19.5,
-          styles: "IWMS_points"
+          // Convert number (double) values to strings
+          if (typeof workType === 'number') {
+            workType = workType.toString();
+          }
+          if (workType !== null) {
+            workTypeSet.add(workType);
+          }
         });
 
-        IWMS_line.setParams({
-          CQL_FILTER: cqlFilter,
-          maxZoom: 19.5,
-          styles: "IWMS_line"
-        });
+        // Convert the Set to an array
+        var uniqueWorkTypes = Array.from(workTypeSet);
+        console.log(uniqueWorkTypes, "uniqueWorkTypes");
 
-        IWMS_polygon.setParams({
-          CQL_FILTER: cqlFilter,
-          maxZoom: 19.5,
-          styles: "IWMS_polygon"
-        });
+        // Call the callback function with the uniqueWorkTypes array
+        callback(uniqueWorkTypes);
+      });
+    }
 
-        // Add layers to map and perform other actions
-        console.log("Adding IWMS_point and IWMS_line layers with filter:", cqlFilter);
-        IWMS_point.addTo(map).bringToFront();
-        IWMS_line.addTo(map).bringToFront();
-        IWMS_polygon.addTo(map).bringToFront();
-        fitbous(cqlFilter);
-      }
+    // Call getValues function and initialize autocomplete
+    getValues(function (data) {
+      // console.log("heheheh", data);
+      console.log(selectedValue, "LLLLLLLLLLLLLLLLLLLLLL")
+      // Initialize autocomplete with fetched data
+      autocomplete(document.getElementById("searchInputDashboard"), data);
     });
   });
+
+  // autocomplete function
+  function autocomplete(input, arr) {
+    let currentFocus;
+    input.addEventListener("input", function () {
+      let list, item, i, val = this.value.toLowerCase(); // Convert input value to lowercase for case-insensitive comparison
+      closeAllLists();
+      if (!val) return false;
+      currentFocus = -1;
+      list = document.createElement("ul");
+      list.setAttribute("id", "autocomplete-list");
+      list.setAttribute("class", "autocomplete-items");
+      document.getElementById("autocompleteSuggestions").appendChild(list);
+      for (i = 0; i < arr.length; i++) {
+        if (arr[i].toLowerCase().includes(val)) { // Check if the suggestion contains the input value
+          item = document.createElement("li");
+          item.innerHTML = arr[i].replace(new RegExp(val, 'gi'), (match) => `<strong>${match}</strong>`); // Highlight matching letters
+          item.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          item.addEventListener("click", function () {
+            selectedValue = this.getElementsByTagName("input")[0].value; // Store the selected value
+            console.log(selectedValue, "ppppppppppppppppp")
+
+
+            var searchtypefield = $("#search_type").val();
+            console.log(searchtypefield, "ppppppppppppppppp99999999")
+            let cqlFilter;
+            // if (!isNaN(selectedValue)) {
+            // Use as is for number values in CQL_FILTER
+            // cqlFilter = `${searchtypefield} IN ('${selectedValue}')`;
+            // } else {
+            // Enclose string values in quotes for CQL_FILTER
+            cqlFilter = `${searchtypefield} IN ('${selectedValue}')`;
+            // }
+            console.log(cqlFilter, "cqlFilter")
+
+
+
+
+            IWMS_point.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "IWMS_points"
+            });
+
+            IWMS_line.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "IWMS_line"
+            });
+
+            IWMS_polygon.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "IWMS_polygon"
+            });
+
+            // Add layers to map and perform other actions
+            console.log("Adding IWMS_point, IWMS_line, and IWMS_polygon layers with filter:", cqlFilter);
+            IWMS_point.addTo(map).bringToFront();
+            IWMS_line.addTo(map).bringToFront();
+            IWMS_polygon.addTo(map).bringToFront();
+            fitbous(cqlFilter);
+
+            DataTableFilter(cqlFilter)
+
+
+
+            input.value = selectedValue;
+            closeAllLists();
+          });
+          list.appendChild(item);
+        }
+      }
+    });
+
+    input.addEventListener("keydown", function (e) {
+      let x = document.getElementById("autocomplete-list");
+      if (x) x = x.getElementsByTagName("li");
+      if (e.keyCode === 40) {
+        currentFocus++;
+        addActive(x);
+      } else if (e.keyCode === 38) { //up
+        currentFocus--;
+        addActive(x);
+      } else if (e.keyCode === 13) {
+        e.preventDefault();
+        if (currentFocus > -1) {
+          if (x) {
+            selectedValue = x[currentFocus].getElementsByTagName("input")[0].value; // Store the selected value
+            input.value = selectedValue;
+            closeAllLists();
+          }
+        }
+      }
+    });
+
+    function addActive(x) {
+      if (!x) return false;
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+
+    function removeActive(x) {
+      for (let i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+
+    function closeAllLists(elmnt) {
+      let x = document.getElementsByClassName("autocomplete-items");
+      for (let i = 0; i < x.length; i++) {
+        if (elmnt !== x[i] && elmnt !== input) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
 });
+
+
+// // draggable
+
+// const container = document.querySelector("#tablecontainer");
+// function onMouseDrag({ movementX, movementY }) {
+//     let getContainerStyle = window.getComputedStyle(container);
+//     let leftValue = parseInt(getContainerStyle.left);
+//     let topValue = parseInt(getContainerStyle.top);
+//     container.style.left = `${leftValue + movementX}px`;
+//     container.style.top = `${topValue + movementY}px`;
+// }
+// container.addEventListener("mousedown", () => {
+//     container.addEventListener("mousemove", onMouseDrag);
 // });
-};
+// document.addEventListener("mouseup", () => {
+//     container.removeEventListener("mousemove", onMouseDrag);
+// });
