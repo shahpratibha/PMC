@@ -748,12 +748,47 @@ function enableEditing(layer) {
   });
   edit.enable();
 }
+function updatePopupEdit(layer) {
+  let content;
 
+  // Get the coordinates of the polygon
+  var coordinates = layer.getLatLngs()[0];
+
+  // Convert to Turf.js compatible coordinates
+  var turfCoords = coordinates.map(function (coord) {
+      return [coord.lng, coord.lat];
+  });
+
+  // Ensure the polygon is closed by repeating the first coordinate at the end
+  if (turfCoords[0][0] !== turfCoords[turfCoords.length - 1][0] || turfCoords[0][1] !== turfCoords[turfCoords.length - 1][1]) {
+      turfCoords.push(turfCoords[0]);
+  }
+
+  try {
+      var polygon = turf.polygon([turfCoords]);
+      var area = turf.area(polygon);
+      content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  } catch (error) {
+      console.error("Error creating polygon:", error);
+      return;
+  }
+
+  if (!layer._popup) {
+      layer.bindPopup(content);
+  } else {
+      layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
 
 
 // Currently selected layer for editing
 // Custom button for toggling edit mode
 if(workType == "New"){
+
+
+
+
 var editControl = L.control({position: 'topleft'});
     editControl.onAdd = function (map) {
       
@@ -787,9 +822,17 @@ var editControl = L.control({position: 'topleft'});
             controlUI.innerHTML = '<i class="fa-regular fa-floppy-disk"></i>';
             // Allow user to click on a feature to select and edit
             drawnItems.eachLayer(function (layer) {
-                layer.on('click', function () {
-                    enableEditing(layer); // Enable editing on the clicked layer
-                });
+              layer.on('click', function () {
+                layer.setStyle({ color: 'green', weight: 7 });
+    
+                enableEditing(layer); // Enable editing on the clicked layer
+    
+                updatePopupEdit(layer);
+                        
+              });
+              layer.on('edit', function () {
+                updatePopupEdit(layer);
+            });
             });
         } else {
             map.editEnabled = false;
@@ -797,6 +840,7 @@ var editControl = L.control({position: 'topleft'});
             // Remove click handlers to disable selection
             drawnItems.eachLayer(function (layer) {
                 layer.off('click');
+                layer.setStyle({ color: 'red', weight: 5 });
             });
         }
     });

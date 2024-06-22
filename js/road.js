@@ -820,6 +820,38 @@ function enableEditing(layer) {
   edit.enable();
 }
 
+function updatePopupEdit(layer) {
+  let content;
+
+  
+  var coordinates;
+  if (layer instanceof L.Polyline) {
+      coordinates = layer.getLatLngs();
+  } else if (layer instanceof L.Polygon) {
+      coordinates = layer.getLatLngs()[0];
+  }
+
+  var turfCoords = coordinates.map(function (coord) {
+      return [coord.lng, coord.lat];
+  });
+
+  if (layer instanceof L.Polyline) {
+      var line = turf.lineString(turfCoords);
+      var length = turf.length(line, { units: 'meters' });
+      content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+  } else if (layer instanceof L.Polygon) {
+      var polygon = turf.polygon([turfCoords]);
+      var area = turf.area(polygon);
+      content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  }
+
+  if (!layer._popup) {
+      layer.bindPopup(content);
+  } else {
+      layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
 
 
 if (workType == "New") {
@@ -858,7 +890,13 @@ if (workType == "New") {
             layer.setStyle({ color: 'green', weight: 7 });
 
             enableEditing(layer); // Enable editing on the clicked layer
+
+            updatePopupEdit(layer);
+                    
           });
+          layer.on('edit', function () {
+            updatePopupEdit(layer);
+        });
         });
       } else {
         map.editEnabled = false;
@@ -2016,6 +2054,9 @@ function deleteRow() {
     rowIndex--;
   }
 }
+
+
+
 
 function Savedata(lastDrawnPolylineId) {
   var geoJSONString;
