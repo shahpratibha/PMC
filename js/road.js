@@ -2430,3 +2430,143 @@ function getWardNameById(wardId, wardData) {
 }
 
 
+// // script.js
+
+// // Define the base URL of your video folder
+// const baseVideoFolder = 'http://localhost/iwms/video/road/';
+
+// // Define the array of video filenames
+// const videos = [
+//     '1 Recording coordinates.mp4',
+//     '2 Gis mapping.mp4',
+//     '3 Editing.mp4',
+//     '4. Delete.mp4',
+//     '5 selection of whole Ward.mp4',
+//     '6 Repair road.mp4',
+//     '7 length restriction.mp4'
+//     // Add more video filenames as needed
+// ];
+
+// // Function to open a new tab with the video dropdown selection
+// function openVideoSelectionWindow() {
+//     const windowFeatures = 'width=800,height=600';
+//     const videoSelectionWindow = window.open('', '_blank', windowFeatures);
+
+//     // Build the HTML content for the new window
+//     let videoSelectionHtml = `
+//         <!DOCTYPE html>
+//         <html lang="en">
+//         <head>
+//             <meta charset="UTF-8">
+//             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//             <title>Road Department</title>
+//             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+//             <style>
+//                 body {
+//                     font-family: Arial, sans-serif;
+//                     display: flex;
+//                     flex-direction: column;
+//                     align-items: center;
+//                     padding: 20px;
+//                 }
+//                 h1 {
+//                     margin-bottom: 20px;
+//                     color: blue;
+//                 }
+//                 .video-select {
+//                     margin-bottom: 20px;
+//                     font-size: 16px;
+//                     padding: 10px;
+//                     border-radius: 10px;
+//                     border: 2px solid blue;
+//                     width: 300px;
+//                 }
+//                 .control-buttons {
+//                     margin-top: 10px;
+//                 }
+//                 .control-button {
+//                     background-color: white;
+//                     border: 1px solid black;
+//                     color: black;
+//                     padding: 10px;
+//                     border-radius: 5px;
+//                     cursor: pointer;
+//                     margin: 0 10px;
+//                 }
+//                 .control-button i {
+//                     font-size: 16px;
+//                 }
+//                 #videoPlayer {
+//                     width: 100%;
+//                     height: auto;
+//                     margin-top: 20px;
+//                 }
+//             </style>
+//         </head>
+//         <body>
+//             <h1>Road Department</h1>
+//             <select id="videoSelect" class="video-select">
+//                 ${videos.map((video, index) => `
+//                     <option value="${index}">${video}</option>
+//                 `).join('')}
+//             </select>
+//             <video id="videoPlayer" controls autoplay>
+//                 Your browser does not support the video tag.
+//             </video>
+//             <div class="control-buttons">
+//                 <button id="prevButton" class="control-button">
+//                     <i class="fas fa-backward"></i>
+//                 </button>
+//                 <button id="nextButton" class="control-button">
+//                     <i class="fas fa-forward"></i>
+//                 </button>
+//             </div>
+//             <script>
+//                 const baseVideoFolder = '${baseVideoFolder}';
+//                 const videos = ${JSON.stringify(videos)};
+//                 let currentVideoIndex = 0;
+
+//                 const videoPlayer = document.getElementById('videoPlayer');
+//                 const videoSelect = document.getElementById('videoSelect');
+
+//                 function playVideo(index) {
+//                     currentVideoIndex = index;
+//                     const videoSource = baseVideoFolder + videos[currentVideoIndex];
+//                     videoPlayer.src = videoSource;
+//                     videoPlayer.load();
+//                     videoPlayer.play();
+//                 }
+
+//                 videoSelect.addEventListener('change', function() {
+//                     const index = parseInt(this.value);
+//                     playVideo(index);
+//                 });
+
+//                 document.getElementById('nextButton').addEventListener('click', function() {
+//                     currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+//                     playVideo(currentVideoIndex);
+//                     videoSelect.value = currentVideoIndex;
+//                 });
+
+//                 document.getElementById('prevButton').addEventListener('click', function() {
+//                     currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+//                     playVideo(currentVideoIndex);
+//                     videoSelect.value = currentVideoIndex;
+//                 });
+
+//                 // Play the first video when the window loads
+//                 playVideo(0);
+//                 videoSelect.value = 0;
+//             </script>
+//         </body>
+//         </html>
+//     `;
+
+//     // Write the HTML content to the new window
+//     videoSelectionWindow.document.write(videoSelectionHtml);
+// }
+
+// // Event listener for clicking the help button
+// document.getElementById('helpButton').addEventListener('click', function() {
+//     openVideoSelectionWindow();
+// });

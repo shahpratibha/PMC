@@ -161,6 +161,51 @@ border-radius: 5px 5px 5px 5px !important;
     background-position: -270px 1px !important;
   
 }
+
+#helpButton .icon {
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+#helpButton {
+    position: absolute;
+    top: 15%;
+    left: 1.5%;
+    transform: translateX(-50%);
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    z-index: 1000;
+    padding: 10px; 
+}
+
+#helpButton:hover::after {
+    content: "HELP"; 
+    position: absolute;
+    top: calc(100% + 5px); 
+    left: 50%; 
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap; 
+    z-index: 1000; 
+    display: none; 
+}
+
+#helpButton:hover::after {
+    display: block; 
+}
   </style>
 
 	</style>
@@ -258,6 +303,11 @@ border-radius: 5px 5px 5px 5px !important;
 			<tbody id="workTableData"></tbody>
 		</table>
 	</div>
+
+	<button id="helpButton" onclick="openHelpPage()">
+		<i class="fas fa-question icon"></i>
+	</button>
+
 	<script src="js/config.js"></script>
 
 	<script src="js/building.js"></script>
@@ -630,6 +680,12 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
 		map.zoomControl.setPosition('bottomright');
 
 	</script>
+
+<script>
+	function openHelpPage() {
+		window.open('building_help.html', '_blank');
+	}
+  </script>
 </body>
 
 </html>
