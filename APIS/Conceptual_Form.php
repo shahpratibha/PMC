@@ -17,6 +17,7 @@ try {
     $scopeOfWork = $formDataArray['scopeOfWork'] ?? null;
     $projectFinancialYear = $formDataArray['projectFinancialYear'] ?? null;
     $department = $formDataArray['department'] ?? null;
+    $d_id = $formDataArray['d_id'] ?? null;
     // $projectType = $formDataArray['projectType'];
     $projectOffice = $formDataArray['projectOffice'] ?? null;
     $juniorName = $formDataArray['juniorName'] ?? null;
@@ -46,9 +47,12 @@ try {
     $work_completion_date = $formDataArray['work_completion_date'] ?? null;
     $struct_no = $formDataArray['struct_no'] ?? null;
     $user_id = $formDataArray['user_id'] ?? null;
+    $wardId = $formDataArray['wardId'] ?? null;
+    $zoneId = $formDataArray['zoneId'] ?? null;
+    $departmentId = $formDataArray['departmentId'] ?? null;
+    $stage = $formDataArray['stage'] ?? null;
 
-
-    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_office, junior_engineer_name, contact_no, date_in, zone, ward, width, length, budgetCode, works_approval_id, created_at, conceptual_no, con_appr_date, created_date, tender_amount, updated_date, gis_id, no_of_road, area, measure_in, project_from, budget_year, agency, work_completion_date,struct_no,user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_office, junior_engineer_name, contact_no, date_in, zone, ward, width, length, budgetCode, works_approval_id, created_at, conceptual_no, con_appr_date, created_date, tender_amount, updated_date, gis_id, no_of_road, area, measure_in, project_from, budget_year, agency, work_completion_date,struct_no,user_id,ward_id,zone_id,d_id,stage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?, ?,?,?)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -83,8 +87,11 @@ try {
         $agency,
         $work_completion_date,
         $struct_no,
-        $user_id
-
+        $user_id,
+        $wardId,
+        $zoneId,
+        $departmentId,
+        $stage,
     ]);
 
     $lastInsertId = $pdo->lastInsertId();

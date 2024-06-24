@@ -18,17 +18,9 @@ var googleSat = L.tileLayer(
   }
 );
 
-var ward_boundary = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "ward_boundary1",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    opacity: 1,
-    maxZoom: 21,
-  })
-  .addTo(map);
+
+var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -65,7 +57,7 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 var wms_layer1 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Roads",
     format: "image/png",
@@ -86,7 +78,7 @@ var Esri_WorldImagery = L.tileLayer(
 var baseLayers = {};
 
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -94,11 +86,10 @@ var wms_layer12 = L.tileLayer
     version: "1.1.0",
     maxZoom: 21,
     opacity: 1,
-  })
-  .addTo(map);
+  }).addTo(map);
 
 var wms_layer14 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Data",
     format: "image/png",
@@ -111,7 +102,7 @@ var wms_layer14 = L.tileLayer.wms(
 );
 
 var wms_layer15 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Revenue",
     format: "image/png",
@@ -124,7 +115,7 @@ var wms_layer15 = L.tileLayer.wms(
 );
 
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -136,7 +127,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -149,7 +140,7 @@ var wms_layer3 = L.tileLayer.wms(
 );
 
 var IWMS_point = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  demoURL,
   {
     layers: "IWMS_point",
     format: "image/png",
@@ -162,7 +153,7 @@ var IWMS_point = L.tileLayer.wms(
 );
 
 var IWMS_line = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  demoURL,
   {
     layers: "IWMS_line",
     format: "image/png",
@@ -175,7 +166,7 @@ var IWMS_line = L.tileLayer.wms(
 );
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -188,7 +179,7 @@ var wms_layer16 = L.tileLayer.wms(
 );
 
 var Zone_layer = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -213,6 +204,20 @@ var ward_admin_boundary = L.tileLayer.wms(
   }
 ).addTo(map);
 
+
+var ward_boundary = L.tileLayer
+  .wms(baseURL, {
+    layers: "ward_boundary1",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    opacity: 1,
+    maxZoom: 21,
+  })
+  .addTo(map);
+
+
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
 var WMSlayers = {
@@ -227,6 +232,7 @@ var WMSlayers = {
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
+  ward_boundary: ward_boundary,
   // geodata: wms_layer4,
   OSMRoad: wms_layer16,
 };
@@ -240,7 +246,7 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function fitbou(filter) {
-  var layer = "pmc:ward_boundary1";
+  var layer = prabhag_ids.length > 0 ? "PMC_wards_admin_boundary" : "ward_boundary1";
   var urlm =
     "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
@@ -265,7 +271,6 @@ let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== '
 let cql_filterm = '';
 
 
-console.log(ward_ids, zone_ids, prabhag_ids);
 
 
 if (zone_ids.length > 0) {
@@ -305,12 +310,35 @@ if (prabhag_ids.length > 0) {
   cql_filterm += ` AND prabhag_id IN(${prabhag_ids.map(id => `'${id}'`).join(",")})`;
 }
 
-fitbou(cql_filterm);
-ward_admin_boundary.setParams({
-  cql_filter: cql_filterm,
-  styles: "highlight",
-});
-ward_admin_boundary.addTo(map).bringToFront();
+console.log(cql_filterm);
+
+function applyFilter() {
+  if (prabhag_ids.length > 0) {
+    ward_admin_boundary.setParams({
+       cql_filter: cql_filterm,
+      styles: "highlight"
+    });
+    ward_admin_boundary.addTo(map).bringToFront();
+  } else {
+    ward_boundary.setParams({
+      //  cql_filter: 'ward_id IN('1')',
+      cql_filter: `ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`,
+      styles: "highlight"
+    });
+    ward_boundary.addTo(map).bringToFront();
+  }
+
+  cql_filterm = prabhag_ids.length > 0 ? cql_filterm : `ward_id IN(${ward_ids.map(id => `'${id}'`).join(",")})`;
+
+  fitbou(cql_filterm);
+}
+
+// Call the function to apply the filter
+applyFilter();
+
+
+
+
 
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);
@@ -787,43 +815,6 @@ var northArrowControl = L.Control.extend({
   },
 });
 map.addControl(new northArrowControl());
-// map.on("contextmenu", (e) => {
-//   let size = map.getSize();
-//   let bbox = map.getBounds().toBBoxString();
-//   let layer = "pmc:Data";
-//   let style = "pmc:Data";
-//   let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-//     e.containerPoint.x
-//   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-//     size.x
-//   }&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-//   if (urrr) {
-//     fetch(urrr)
-//       .then((response) => response.json())
-//       .then((html) => {
-//         var htmldata = html.features[0].properties;
-//         let keys = Object.keys(htmldata);
-//         let values = Object.values(htmldata);
-//         let txtk1 = "";
-//         var xx = 0;
-//         for (let gb in keys) {
-//           txtk1 +=
-//             "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
-//           xx += 1;
-//         }
-
-//         let detaildata1 =
-//           "<div style='max-height: 350px; max-width:200px;'><table  style='width:80%;' class='popup-table' >" +
-//           txtk1 +
-//           "</td></tr><tr><td>Co-Ordinates</td><td>" +
-//           e.latlng +
-//           "</td></tr></table></div>";
-
-//         L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-//       });
-//   }
-// });
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL

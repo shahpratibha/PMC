@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
+const API_URL = "http://localhost/PMC/IWMS/";
 
 var map = L.map("map", {
   center:[18.52, 73.89],
@@ -40,8 +40,12 @@ var Esri_WorldImagery = L.tileLayer(
 );
 var baseLayers = {};
 
+
+var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+
 var wms_layer1 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Roads",
     format: "image/png",
@@ -54,7 +58,7 @@ var wms_layer1 = L.tileLayer.wms(
 );
 
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -65,7 +69,7 @@ var wms_layer12 = L.tileLayer
       }).addTo(map);
 
 var wms_layer11 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -76,7 +80,7 @@ var wms_layer11 = L.tileLayer
   });
 
 var wms_layer13 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Drainage_data",
     format: "image/png",
@@ -89,7 +93,7 @@ var wms_layer13 = L.tileLayer.wms(
 );
 
 var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -100,7 +104,7 @@ var wms_layer14 = L.tileLayer
   });
 
 var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -111,7 +115,7 @@ var wms_layer15 = L.tileLayer
   });
 
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -123,7 +127,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -138,7 +142,7 @@ var wms_layer3 = L.tileLayer.wms(
 
 
 var IWMS_point = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(demoURL, {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -149,7 +153,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(demoURL, {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -160,7 +164,7 @@ var IWMS_line = L.tileLayer
   });
 
   var IWMS_polygon = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(demoURL, {
     layers: "IWMS_polygon",
     format: "image/png",
     transparent: true,
@@ -171,7 +175,7 @@ var IWMS_line = L.tileLayer
   });
   
   var wms_layer21 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Bhavan",
     format: "image/png",
     transparent: true,
@@ -183,7 +187,7 @@ var IWMS_line = L.tileLayer
   });
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -199,7 +203,7 @@ var wardname = localStorage.getItem("wardname");
 console.log(wardname, "wardname");
 
 var ward_boundary= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -212,7 +216,7 @@ var ward_boundary= L.tileLayer.wms(
 );
 
 var Zone_layer= L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -244,49 +248,6 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
 
-
-//// var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
-//Pop-Up show
-const layerDetails = {
-  "pmc:Data": ["Work_ID", "Name_of_Work", "Department",  "Work_Type", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "GIS_Created_At"],
-  "pmc:Exist_Road": ["rid", "surveystatus", "roadclass",  "swd_condition"],
-  "pmc:Reservations": ["OBJECTID_1", "Broad_LU", "Decision",  "Area"],
-  "pmc:storm_water": ["OBJECTID", "basin_name", "category",  "descriptio", "i_length"],
-  "pmc:Sewage1": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
-  "pmc:Sewage_Treatment_Plant": ["OBJECTID", "STP_Name", "STP_Area",  "Category", "Unique_ID"],
-  "pmc:Pumping_station": ["OBJECTID", "Unique_ID", "SPS_Name"],
-
-};
-
-map.on("contextmenu", async (e) => {
-  let bbox = map.getBounds().toBBoxString();
-  let size = map.getSize();
-
-  for (let layer in layerDetails) {
-      let selectedKeys = layerDetails[layer];
-      let urrr = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-      try {
-          let response = await fetch(urrr);
-          let html = await response.json();
-
-          var htmldata = html.features[0].properties;
-          let txtk1 = "";
-          for (let key of selectedKeys) {
-              if (htmldata.hasOwnProperty(key)) {
-                  let value = htmldata[key];
-                  txtk1 += "<tr><td>" + key + "</td><td>" + value +"</td></tr>";
-              }
-          }
-
-          let detaildata1 = "<div style='max-height: 350px; max-height: 250px;'><table  style='width:110%;' class='popup-table' >" + txtk1 + "</td></tr><tr><td>Co-Ordinates</td><td>" + e.latlng + "</td></tr></table></div>";
-
-          L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      } catch (error) {
-          console.error("Error fetching data:", error);
-      }
-  }
-});
 
 
 // kml

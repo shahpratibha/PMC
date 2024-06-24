@@ -378,12 +378,7 @@ function fitbous(filter) {
 }
 
 
-
-
-
-
 // for dashboard table dynamic
-
 
 
 function showtable(typeName, geoServerURL, cqlFilter, headers) {
@@ -561,7 +556,8 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
         ordering: true, // Enable column sorting
         info: true, // Enable showing 'Showing X of Y entries' info
         autoWidth: false, // Disable auto width calculation
-        scrollY: 400, // Enable vertical scrolling within the table
+        scrollY: 400, 
+        scrollX: true,
         scrollCollapse: true, 
         fixedHeader: true 
       });
@@ -622,17 +618,6 @@ $(document).ready(function() {
 // for search button
 
 
-// document.addEventListener('DOMContentLoaded', (event) => {
-  // var columns = ["Work_ID","Budget_Code", "Name_of_Work", "Scope_of_Work", "Name_of_JE","Agency"];
-  // var select = document.getElementById("search_type");
-
-  // // Populate dropdown with column names
-  // for (var i = 0; i < columns.length; i++) {
-  //   var option = document.createElement("option");
-  //   option.text = columns[i];
-  //   option.value = columns[i];
-  //   select.appendChild(option);
-  // }
 
   document.addEventListener('DOMContentLoaded', (event) => {
     var columns = {"Work_ID":"Work ID", "Budget_Code":"Budget Code", "Name_of_Work":"Name of Work", "Scope_of_Work":"Scope of Work", "Name_of_JE":"Name of JE", "Agency":"Agency"};

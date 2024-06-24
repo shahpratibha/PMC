@@ -19,8 +19,12 @@ var googleSat = L.tileLayer(
   }
 );
 
+
+var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+
 var ward_boundary = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -35,7 +39,7 @@ var ward_boundary = L.tileLayer.wms(
 //pmc:PMC_wards_admin_boundary
 
 var ward_admin_boundary = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "PMC_wards_admin_boundary",
     format: "image/png",
@@ -81,7 +85,7 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 
 var wms_layer1 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Roads",
     format: "image/png",
@@ -107,7 +111,7 @@ var baseLayers = {};
 
 
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -122,7 +126,7 @@ var wms_layer12 = L.tileLayer
 
 
 var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -133,7 +137,7 @@ var wms_layer14 = L.tileLayer
   });
 
 var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -144,7 +148,7 @@ var wms_layer15 = L.tileLayer
   });
 
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -156,7 +160,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -171,7 +175,7 @@ var wms_layer3 = L.tileLayer.wms(
 
 
 var IWMS_point = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(demoURL, {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -182,7 +186,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(demoURL, {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -193,7 +197,7 @@ var IWMS_line = L.tileLayer
   });
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -208,7 +212,7 @@ var wms_layer16 = L.tileLayer.wms(
 
 
 var Zone_layer = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -280,7 +284,9 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
+// var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
+
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 
 var workspace = "Road";
 
@@ -452,7 +458,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -514,7 +520,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:PMC_wards_admin_boundary";
   var urlm =
-    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -715,7 +721,7 @@ customToolSelector.onAdd = function (map) {
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
   button.style.marginRight = '0px';
-  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
+  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white';
   button.style.display = 'flex';
   button.style.justifyContent = 'center';
   button.style.alignItems = 'center';
@@ -820,6 +826,38 @@ function enableEditing(layer) {
   edit.enable();
 }
 
+function updatePopupEdit(layer) {
+  let content;
+
+  
+  var coordinates;
+  if (layer instanceof L.Polyline) {
+      coordinates = layer.getLatLngs();
+  } else if (layer instanceof L.Polygon) {
+      coordinates = layer.getLatLngs()[0];
+  }
+
+  var turfCoords = coordinates.map(function (coord) {
+      return [coord.lng, coord.lat];
+  });
+
+  if (layer instanceof L.Polyline) {
+      var line = turf.lineString(turfCoords);
+      var length = turf.length(line, { units: 'meters' });
+      content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+  } else if (layer instanceof L.Polygon) {
+      var polygon = turf.polygon([turfCoords]);
+      var area = turf.area(polygon);
+      content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  }
+
+  if (!layer._popup) {
+      layer.bindPopup(content);
+  } else {
+      layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
 
 
 if (workType == "New") {
@@ -858,7 +896,13 @@ if (workType == "New") {
             layer.setStyle({ color: 'green', weight: 7 });
 
             enableEditing(layer); // Enable editing on the clicked layer
+
+            updatePopupEdit(layer);
+                    
           });
+          layer.on('edit', function () {
+            updatePopupEdit(layer);
+        });
         });
       } else {
         map.editEnabled = false;
@@ -1726,7 +1770,57 @@ map.on("draw:created", function (e) {
 
 		var tempGeoJSON = currentPolyline.toGeoJSON();
       
-    
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text:  `The Road is longer than ${roadLenght} kilometers. `,
+      showConfirmButton: false,
+      showCloseButton: true,
+      
+      customClass: {
+        popup: "custom-modal-class",
+        icon: "custom-icon-class",
+        title: "custom-title-class",
+        content: "custom-text-class",
+        closeButton: "custom-close-button-class",
+      },
+      showClass: {
+        popup: "swal2-show",
+        backdrop: "swal2-backdrop-show",
+        icon: "swal2-icon-show",
+      },
+      hideClass: {
+        popup: "swal2-hide",
+        backdrop: "swal2-backdrop-hide",
+        icon: "swal2-icon-hide",
+      },
+      didOpen: () => {
+        // Apply custom styles directly to the modal elements
+        document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+        document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+        document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
+        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+        
+        document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
+        document.querySelector(".custom-title-class").style.fontSize =
+          "1.5em"; // Set your desired title size
+        document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+        document.querySelector(
+          ".custom-close-button-class"
+        ).style.backgroundColor = "#f44336"; // Red background color
+        document.querySelector(".custom-close-button-class").style.color =
+          "white"; // White text color
+        document.querySelector(
+          ".custom-close-button-class"
+        ).style.borderRadius = "0"; // Rounded corners
+        document.querySelector(".custom-close-button-class").style.padding =
+          "5px"; // Padding around the close button
+        document.querySelector(".custom-close-button-class").style.fontSize =
+          "20px"; // Font size of the close button
+      },
+    });
      
     }else {
 
@@ -1967,6 +2061,9 @@ function deleteRow() {
   }
 }
 
+
+
+
 function Savedata(lastDrawnPolylineId) {
   var geoJSONString;
   let selectCoordinatesData;
@@ -1989,6 +2086,12 @@ function Savedata(lastDrawnPolylineId) {
       geoJSONStringJson = JSON.parse(geoJSONString);
       selectCoordinatesData = geoJSONStringJson.features;
 
+      // if coordinates are present than only take else remove empty index object
+
+      selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+          return el.geometry.coordinates.length > 0;
+      });
+
     
       if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
         const geometry = geoJSONStringJson.features[1].geometry;
@@ -2002,12 +2105,18 @@ function Savedata(lastDrawnPolylineId) {
   }
 
 
-
+// have to check and remote this code in future 
   localStorage.setItem("selectCoordinatesData", JSON.stringify(selectCoordinatesData));
   let formDataTemp = localStorage.getItem("conceptual_form_data_temp");
   if (formDataTemp) {
       localStorage.setItem("conceptual_form_data", formDataTemp);
   }
+   
+// have to check and remote this code in future 
+
+
+
+
 
   var roadLenght = lenght;
   var bufferWidth = width;
