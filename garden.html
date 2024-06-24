@@ -430,9 +430,7 @@ border-radius: 5px 5px 5px 5px !important;
 						let selectCoordinatesData = featureData.features;
 						localStorage.setItem('selectCoordinatesData', JSON.stringify(selectCoordinatesData));
 
-						var lastInsertedId = localStorage.getItem('lastInsertedId');
-						console.log(lastInsertedId,"lastInsertedId")
-
+					
 						var payload = JSON.stringify({
 							geoJSON: JSON.stringify(featureData),
 							roadLength: roadLength,

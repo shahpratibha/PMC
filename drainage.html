@@ -529,8 +529,7 @@ function toggleSelectLayerButton(show) {
                 JSON.stringify(selectCoordinatesData)
               );
 
-              var lastInsertedId = localStorage.getItem("lastInsertedId");
-
+   
               selectedLenght = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
               var payload = JSON.stringify({
                 geoJSON: JSON.stringify(featureData),
