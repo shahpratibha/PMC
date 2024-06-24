@@ -284,7 +284,9 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
+// var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
+
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 
 var workspace = "Road";
 
@@ -456,7 +458,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -518,7 +520,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:PMC_wards_admin_boundary";
   var urlm =
-    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
