@@ -208,6 +208,7 @@ else if ($department == "Road") {
     $selectCoordinatesData = $data['selectCoordinatesData'];
     $selectedGeometry = $selectCoordinatesData[0]['geometry'];
     $selectedGeometryJson = json_encode($selectedGeometry);
+    $area =  isset($data['area']) ? $data['area'] : 0;
 
 
     $stmtIWMS = $pdo->prepare("INSERT INTO \"Polygon_data\" (
@@ -243,7 +244,7 @@ else if ($department == "Road") {
 
     $stmtIWMS->bindParam(':gis_id', $configData['gis_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':no_of_road', $configData['no_of_road'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':area', $configData['area'], PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':area', $area, PDO::PARAM_STR);
     $stmtIWMS->bindParam(':measure_in', $configData['measure_in'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Project_Office_Id', $configData['project_from'], PDO::PARAM_STR);
 
