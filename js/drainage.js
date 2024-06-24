@@ -17,7 +17,7 @@ var googleSat = L.tileLayer(
     subdomains: ["mt0", "mt1", "mt2", "mt3"],
   }
 );
-var baseURL = "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms";
+var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
 // var demoURL = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 var ward_boundary= L.tileLayer.wms(
   baseURL,
@@ -33,7 +33,7 @@ var ward_boundary= L.tileLayer.wms(
 );
 
 var ward_admin_boundary = L.tileLayer.wms(
-  "baseURL",
+  baseURL,
   {
     layers: "PMC_wards_admin_boundary",
     format: "image/png",
