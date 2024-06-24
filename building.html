@@ -436,9 +436,11 @@ border-radius: 5px 5px 5px 5px !important;
         return el.features.length > 0;
     });
 	localStorage.setItem('selectCoordinatesData', JSON.stringify(selectCoordinatesData));
-
-
+	
 	selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+
+		let  area = turf.area(selectCoordinatesDataSingle.features[0]);
+
 		var payload = JSON.stringify({
 							geoJSON: JSON.stringify(selectCoordinatesDataSingle),
 							roadLength: roadLength,
@@ -446,6 +448,8 @@ border-radius: 5px 5px 5px 5px !important;
 							gis_id: lastInsertedId,
 							department: department,
 							selectCoordinatesData: selectCoordinatesDataSingle.features,
+							area: area,
+
 						});
 
 						$.ajax({
@@ -510,7 +514,7 @@ border-radius: 5px 5px 5px 5px !important;
 						});
 
 
-						let area = turf.area(selectCoordinatesDataSingle.features[0]);
+						
                         let centroid = turf.centroid(selectCoordinatesDataSingle.features[0]);
 						var formData = new FormData();
 						formData.append('proj_id', worksAaApprovalId);
