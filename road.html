@@ -288,8 +288,6 @@
 
     $(document).ready(function () {
 
-      var wardname = localStorage.getItem("wardname");
-      console.log(wardname);
 
       $("#searchInputDashboard").autocomplete({
         minLength: 3,
@@ -480,27 +478,40 @@
 
 
 
-              let selectCoordinatesData = featureData.features;
-
-              var lenghtSelect = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
-
-              console.log(lenghtSelect);
-
+              let selectCoordinatesData = editableLayers.getLayers().map(layer => layer.toGeoJSON());
+            
+      
               localStorage.setItem(
                 "selectCoordinatesData",
                 JSON.stringify(selectCoordinatesData)
               );
 
-              var lastInsertedId = localStorage.getItem("lastInsertedId");
+     
+           
+
+      //       selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+      //     return el.geometry.coordinates.length > 0;
+      // });
+
+      selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+        return el.features.length > 0;
+    });
 
 
-              var payload = JSON.stringify({
-                geoJSON: JSON.stringify(featureData),
+
+              selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+
+                console.log(selectCoordinatesDataSingle);
+
+                var lenghtSelect = turf.length(selectCoordinatesDataSingle.features[0].geometry, { units: 'meters' });
+
+                var payload = JSON.stringify({
+                geoJSON: JSON.stringify(selectCoordinatesDataSingle),
                 roadLength: lenghtSelect,
                 bufferWidth: bufferWidth,
                 gis_id: lastInsertedId,
                 department: department,
-                selectCoordinatesData: selectCoordinatesData,
+                selectCoordinatesData: selectCoordinatesDataSingle.features,
               });
 
               $.ajax({
@@ -566,22 +577,21 @@
                   console.error("Save failed:", error);
                 },
               });
-             
-              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
-          console.log(selectCoordinatesData)
-            var formData = new FormData();
-            formData.append('proj_id', worksAaApprovalId);
-            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-            formData.append('polygon_area', 0);
-            formData.append('polygon_centroid', 0);
-            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-            formData.append('road_no', struct_no);
-            formData.append('user_id', user_id);
-            formData.append('length', lenghtSelect);
-            formData.append('width', width);
-          
-                      $.ajax({
+        
+         area = turf.length(selectCoordinatesDataSingle.features[0].geometry, { units: 'meters' }); 
+        var formData = new FormData();
+        formData.append('proj_id', worksAaApprovalId);
+        formData.append('latitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][1]);
+        formData.append('longitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][0]);
+        formData.append('polygon_area', 0);
+        formData.append('polygon_centroid', 0);
+        formData.append('geometry', JSON.stringify(selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+        formData.append('road_no', struct_no);
+        formData.append('user_id', user_id);
+        formData.append('length', lenghtSelect);
+        formData.append('width', width);
+
+        $.ajax({
                 type: "POST",
                 url: "https://iwms.punecorporation.org/api/gis-data",
                 data: formData,
@@ -596,6 +606,13 @@
                 },
               });
 
+
+              });
+
+           
+           
+          
+               
             });
 
         }

@@ -401,7 +401,7 @@
 
 
               
-                var featureId = featureData.features[0].id;
+                var featureId = featureData?.features[0]?.id;
                 let formDataFromStorage;
                 let formDataTemp = localStorage.getItem(
                   "conceptual_form_data_temp"
@@ -423,23 +423,30 @@
                     ? formDataFromStorage.Width
                     : 20;
 
-                let selectCoordinatesData = featureData.features;
+                 let selectCoordinatesData = editableLayers.getLayers().map(layer => layer.toGeoJSON());
+
+                 selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+        return el.features.length > 0;
+    });
+
                 localStorage.setItem(
                   "selectCoordinatesData",
                   JSON.stringify(selectCoordinatesData)
                 );
 
-                var lastInsertedId = localStorage.getItem("lastInsertedId");
 
+              // have to save multiple time in db
+               selectCoordinatesData.map((selectCoordinatesDataSingle) => {
                 var payload = JSON.stringify({
-                  geoJSON: JSON.stringify(featureData),
+                  geoJSON: JSON.stringify(selectCoordinatesDataSingle.features),
                   roadLength: roadLength,
                   bufferWidth: bufferWidth,
                   gis_id: lastInsertedId,
                   department: department,
-                  selectCoordinatesData: selectCoordinatesData,
+                  selectCoordinatesData: selectCoordinatesDataSingle.features,
                   isWardSelection: true,
                 });
+
 
                 $.ajax({
                   type: "POST",
@@ -521,25 +528,28 @@
                   },
                 });
 
-                area = turf.length(selectCoordinatesData[0].geometry, {
+
+                area = turf.length(selectCoordinatesDataSingle.features[0].geometry, {
                   units: "meters",
                 });
+
                 var formData = new FormData();
+
                 formData.append("proj_id", worksAaApprovalId);
                 formData.append(
                   "latitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][1]
+                  selectCoordinatesDataSingle.features[0].geometry.coordinates[0][1]
                 );
                 formData.append(
                   "longitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][0]
+                  selectCoordinatesDataSingle.features[0].geometry.coordinates[0][0]
                 );
                 formData.append("polygon_area", area);
                 formData.append("polygon_centroid", 0);
                 formData.append(
                   "geometry",
                   JSON.stringify(
-                    selectCoordinatesData[0].geometry.coordinates?.map(
+                    selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(
                       (coordinates) => coordinates.slice().reverse()
                     )
                   )
@@ -554,13 +564,155 @@
                   processData: false,
                   contentType: false,
                   success: function (response) {
-                    console.log(response);
                     window.location.href = response.data.redirect_Url;
                   },
                   error: function (xhr, status, error) {
                     console.error("Save failed:", error);
                   },
+
+
                 });
+
+
+                });
+
+
+
+                // var payload = JSON.stringify({
+                //   geoJSON: JSON.stringify(featureData),
+                //   roadLength: roadLength,
+                //   bufferWidth: bufferWidth,
+                //   gis_id: lastInsertedId,
+                //   department: department,
+                //   selectCoordinatesData: selectCoordinatesData,
+                //   isWardSelection: true,
+                // });
+
+                // $.ajax({
+                //   type: "POST",
+                //   url: "APIS/gis_update.php",
+                //   data: payload,
+                //   contentType: "application/json",
+                //   success: function (response) {
+                //     Swal.fire({
+                //       position: "center",
+                //       icon: "success",
+                //       title: "Success",
+                //       text: "Saved Successfully",
+                //       showConfirmButton: false,
+                //       showCloseButton: true,
+                //       customClass: {
+                //         popup: "custom-modal-class",
+                //         icon: "custom-icon-class",
+                //         title: "custom-title-class",
+                //         content: "custom-text-class",
+                //         closeButton: "custom-close-button-class",
+                //       },
+                //       showClass: {
+                //         popup: "swal2-show",
+                //         backdrop: "swal2-backdrop-show",
+                //         icon: "swal2-icon-show",
+                //       },
+                //       hideClass: {
+                //         popup: "swal2-hide",
+                //         backdrop: "swal2-backdrop-hide",
+                //         icon: "swal2-icon-hide",
+                //       },
+                //       didOpen: () => {
+                //         // Apply custom styles directly to the modal elements
+                //         document.querySelector(
+                //           ".custom-modal-class"
+                //         ).style.width = "400px"; // Set your desired width
+                //         document.querySelector(
+                //           ".custom-modal-class"
+                //         ).style.height = "250px"; // Set your desired height
+                //         document.querySelector(
+                //           ".custom-modal-class"
+                //         ).style.transition = "all 0.5s ease";
+                //         document.querySelector(
+                //           ".custom-icon-class"
+                //         ).style.fontSize = "10px"; // Set your desired icon size
+                //         document.querySelector(
+                //           ".custom-icon-class"
+                //         ).style.transition = "all o.5s ease";
+                //         document.querySelector(
+                //           ".custom-title-class"
+                //         ).style.fontSize = "1.5em"; // Set your desired title size
+                //         document.querySelector(
+                //           ".custom-text-class"
+                //         ).style.fontSize = "1em"; // Set your desired text size
+                //         document.querySelector(
+                //           ".custom-close-button-class"
+                //         ).style.backgroundColor = "#f44336"; // Red background color
+                //         document.querySelector(
+                //           ".custom-close-button-class"
+                //         ).style.color = "white"; // White text color
+                //         document.querySelector(
+                //           ".custom-close-button-class"
+                //         ).style.borderRadius = "0"; // Rounded corners
+                //         document.querySelector(
+                //           ".custom-close-button-class"
+                //         ).style.padding = "5px"; // Padding around the close button
+                //         document.querySelector(
+                //           ".custom-close-button-class"
+                //         ).style.fontSize = "20px"; // Font size of the close button
+                //       },
+                //     });
+
+                //     setTimeout(() => {
+                //       //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
+                //     }, 2100);
+                //   },
+                //   error: function (xhr, status, error) {
+                //     console.error("Save failed:", error);
+                //   },
+                // });
+
+
+
+
+
+
+              //   area = turf.length(selectCoordinatesData[0].geometry, {
+              //     units: "meters",
+              //   });
+              //   var formData = new FormData();
+              //   formData.append("proj_id", worksAaApprovalId);
+              //   formData.append(
+              //     "latitude",
+              //     selectCoordinatesData[0].geometry.coordinates[0][1]
+              //   );
+              //   formData.append(
+              //     "longitude",
+              //     selectCoordinatesData[0].geometry.coordinates[0][0]
+              //   );
+              //   formData.append("polygon_area", area);
+              //   formData.append("polygon_centroid", 0);
+              //   formData.append(
+              //     "geometry",
+              //     JSON.stringify(
+              //       selectCoordinatesData[0].geometry.coordinates?.map(
+              //         (coordinates) => coordinates.slice().reverse()
+              //       )
+              //     )
+              //   );
+              //   formData.append("road_no", struct_no);
+              //   formData.append("user_id", user_id);
+
+              //   $.ajax({
+              //     type: "POST",
+              //     url: "https://iwms.punecorporation.org/api/gis-data",
+              //     data: formData,
+              //     processData: false,
+              //     contentType: false,
+              //     success: function (response) {
+              //       console.log(response);
+              //       window.location.href = response.data.redirect_Url;
+              //     },
+              //     error: function (xhr, status, error) {
+              //       console.error("Save failed:", error);
+              //     },
+              //   });
               });
           }
         });
