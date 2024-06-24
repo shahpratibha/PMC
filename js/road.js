@@ -21,7 +21,7 @@ var googleSat = L.tileLayer(
 
 
 var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 
 var ward_boundary = L.tileLayer.wms(
   baseURL,
@@ -175,7 +175,7 @@ var wms_layer3 = L.tileLayer.wms(
 
 
 var IWMS_point = L.tileLayer
-  .wms(demoURL, {
+  .wms(baseURL, {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -186,7 +186,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms(demoURL, {
+  .wms(baseURL, {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,

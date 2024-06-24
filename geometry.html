@@ -152,9 +152,9 @@
         var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19
         }).addTo(map);
-
-        var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
-        var IWMS_line = L.tileLayer.wms(demoURL, {
+        var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+        // var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+        var IWMS_line = L.tileLayer.wms(baseURL, {
             layers: "IWMS_line",
             format: "image/png",
             transparent: true,
@@ -163,7 +163,7 @@
             opacity: 1
         });
 
-        var IWMS_polygon = L.tileLayer.wms(demoURL, {
+        var IWMS_polygon = L.tileLayer.wms(baseURL, {
             layers: "IWMS_polygon",
             format: "image/png",
             transparent: true,
@@ -172,7 +172,7 @@
             opacity: 1
         });
 
-        var IWMS_point = L.tileLayer.wms(demoURL, {
+        var IWMS_point = L.tileLayer.wms(baseURL, {
             layers: "IWMS_point",
             format: "image/png",
             transparent: true,
@@ -215,7 +215,7 @@
                 const layerDetails = ["id", "Work_ID", "Name_of_Work", "Department", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "length_1", "width", "area", "geometry"];
 
                 layers.forEach(function (layerName) {
-                    const urlm = "http://iwmsgis.pmc.gov.in:8080/geoserver1/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+                    const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
                         layerName +
                         "&CQL_FILTER=" +
                         filters +
@@ -373,7 +373,7 @@
                 let pendingRequests = layers.length;
 
                 layers.forEach(function (layerName) {
-                    const urlm = "http://iwmsgis.pmc.gov.in:8080/geoserver1/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+                    const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
                         layerName +
                         "&CQL_FILTER=" +
                         filter +
