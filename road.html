@@ -212,17 +212,8 @@
   <!-- measuement -->
 
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.css" />
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.css" /> -->
 
-
-  <!-- for measurement -->
-
-  <script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.js"></script>
-
-
-  <!-- 
-  <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
-  <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script> -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -256,20 +247,6 @@
   <script src="js/mainmodal/contextMenu.js"></script>
 
   <script>
-
-
-    var measureControl = new L.Control.Measure({
-      position: 'topright',
-      primaryLengthUnit: 'meters', // can be 'feet', 'meters', 'miles', 'kilometers'
-      secondaryLengthUnit: 'kilometers',
-      primaryAreaUnit: 'sqmeters', // can be 'acres', 'hectares', 'sqmeters', 'sqfeet'
-      secondaryAreaUnit: 'hectares',
-      activeColor: '#ABE67E', // Base color for map features while actively measuring
-      completedColor: '#C8F2BE' // Base color for permanent features generated from completed measure
-    });
-    map.addControl(measureControl);
-
-
 
 
     function toggleSelectLayerButton(show) {

@@ -19,8 +19,12 @@ var googleSat = L.tileLayer(
   }
 );
 
+
+var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+
 var ward_boundary = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -35,7 +39,7 @@ var ward_boundary = L.tileLayer.wms(
 //pmc:PMC_wards_admin_boundary
 
 var ward_admin_boundary = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "PMC_wards_admin_boundary",
     format: "image/png",
@@ -81,7 +85,7 @@ var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 
 var wms_layer1 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Roads",
     format: "image/png",
@@ -107,7 +111,7 @@ var baseLayers = {};
 
 
 var wms_layer12 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -122,7 +126,7 @@ var wms_layer12 = L.tileLayer
 
 
 var wms_layer14 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -133,7 +137,7 @@ var wms_layer14 = L.tileLayer
   });
 
 var wms_layer15 = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -144,7 +148,7 @@ var wms_layer15 = L.tileLayer
   });
 
 var wms_layer17 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -156,7 +160,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -171,7 +175,7 @@ var wms_layer3 = L.tileLayer.wms(
 
 
 var IWMS_point = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(demoURL, {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -182,7 +186,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
+  .wms(demoURL, {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -193,7 +197,7 @@ var IWMS_line = L.tileLayer
   });
 
 var wms_layer16 = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -208,7 +212,7 @@ var wms_layer16 = L.tileLayer.wms(
 
 
 var Zone_layer = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -715,7 +719,7 @@ customToolSelector.onAdd = function (map) {
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
   button.style.marginRight = '0px';
-  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
+  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white';
   button.style.display = 'flex';
   button.style.justifyContent = 'center';
   button.style.alignItems = 'center';

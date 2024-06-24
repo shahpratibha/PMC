@@ -4,6 +4,11 @@ $dbname = 'pmc';
 $username = 'postgres';
 $password = 'pmc992101';
 
+// $host = 'iwmsgis.pmc.gov.in';
+// $dbname = 'Test';
+// $username = 'postgres';
+// $password = 'pmc992101';
+
 try {
     // Establish a connection to the database
     $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
