@@ -488,11 +488,13 @@
           let bbox = map.getBounds().toBBoxString();
           let layer = "pmc:Exist_Road";
 
-          var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-            e.containerPoint.x
-          )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-            size.x
-          }&HEIGHT=${size.y}&BBOX=${bbox}`;
+          let layers = ["pmc:Exist_Road", "pmc:Reservations"];
+let queryLayers = layers.join(',');
+
+var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  e.containerPoint.x
+)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
 
           fetch(url)
             .then((response) => response.json())
@@ -590,27 +592,39 @@ $('#workTableData').html(contentData);
 
 
 
-      let selectCoordinatesData = featureData.features;
+          let selectCoordinatesData = editableLayers.getLayers().map(layer => layer.toGeoJSON());
+            
+          selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+        return el.features.length > 0;
+    });
+
+
       localStorage.setItem(
         "selectCoordinatesData",
         JSON.stringify(selectCoordinatesData)
       );
 
-    
-      var lenghtSelect = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
 
 
-      var payload = JSON.stringify({
-        geoJSON: JSON.stringify(featureData),
+
+      selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+
+              
+        var lenghtSelect = turf.length(selectCoordinatesDataSingle.features[0].geometry, { units: 'meters' });
+
+        var payload = JSON.stringify({
+        geoJSON: JSON.stringify(selectCoordinatesDataSingle),
         roadLength: lenghtSelect,
         bufferWidth: bufferWidth,
         gis_id: lastInsertedId,
         department: department,
-        selectCoordinatesData: selectCoordinatesData,
-        geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
-      });
+        selectCoordinatesData: selectCoordinatesDataSingle.features,
+        geometryType:
+          selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
+            .geometry.type,
+        });
 
-      $.ajax({
+        $.ajax({
         type: "POST",
         url: "APIS/gis_update.php",
         data: payload,
@@ -666,45 +680,53 @@ $('#workTableData').html(contentData);
           });
 
           setTimeout(() => {
-          //  window.location.href = "geometry_page.html";
+            //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
           }, 2100);
         },
         error: function (xhr, status, error) {
           console.error("Save failed:", error);
         },
-      });
+        });
 
-     
-   area = turf.area(selectCoordinatesData[0]);
-  var formData = new FormData();
-  formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-  formData.append('polygon_area', 0);
-  formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-  formData.append('road_no', '11');
-  formData.append('user_id', '5');
-  formData.append('length', lenghtSelect);
-  formData.append('width', width);
+        area = turf.length(selectCoordinatesDataSingle.features[0].geometry, { units: 'meters' }); 
+        var formData = new FormData();
+        formData.append('proj_id', worksAaApprovalId);
+        formData.append('latitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][1]);
+        formData.append('longitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][0]);
+        formData.append('polygon_area', 0);
+        formData.append('polygon_centroid', 0);
+        formData.append('geometry', JSON.stringify(selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+        formData.append('road_no', struct_no);
+        formData.append('user_id', user_id);
+        formData.append('length', lenghtSelect);
+        formData.append('width', width);
 
-            $.ajax({
-      type: "POST",
-      url: "https://iwms.punecorporation.org/api/gis-data",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        window.location.href = response.data.redirect_Url;
-      },
-      error: function (xhr, status, error) {
+        $.ajax({
+        type: "POST",
+        url: "https://iwms.punecorporation.org/api/gis-data",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          console.log(response);
+          //window.location.href = response.data.redirect_Url;
+        },
+        error: function (xhr, status, error) {
           console.error("Save failed:", error);
-      },
-  });
+        },
+        });
 
-    });
+
+        });
+
+
+
+
+
+});
 
     
+     
 
  
   

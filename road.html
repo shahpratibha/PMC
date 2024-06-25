@@ -600,8 +600,7 @@
 
               selectCoordinatesData.map((selectCoordinatesDataSingle) => {
 
-                console.log(selectCoordinatesDataSingle);
-
+              
                 var lenghtSelect = turf.length(selectCoordinatesDataSingle.features[0].geometry, { units: 'meters' });
 
                 var payload = JSON.stringify({

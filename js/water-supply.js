@@ -59,6 +59,7 @@ function getQueryParam(param) {
 
 
 const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
+const diameter = getQueryParam('diameter') ;
 const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardName');
@@ -663,51 +664,51 @@ customDrawControls.onAdd = function (map) {
 customDrawControls.addTo(map);
 }
 
-var customToolSelector = L.control({ position: 'topleft' });
+//var customToolSelector = L.control({ position: 'topleft' });
 
 // Initialize the mapMode variable
 let mapMode = 'snapping';
 
-customToolSelector.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
-  div.style.backgroundColor = 'white';
-  div.style.border = '2px solid darkblue';
-  div.style.top = "50px";
+// customToolSelector.onAdd = function (map) {
+//   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
+//   div.style.padding = '5px';
+//   div.style.backgroundColor = 'white';
+//   div.style.border = '2px solid darkblue';
+//   div.style.top = "50px";
 
-  // Create a new button element
-  var button = document.createElement('button');
-  button.className = 'form-check-button';
-  button.id = 'traceToolButton';
-  button.style.marginRight = '5px';
-  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
+//   // Create a new button element
+//   var button = document.createElement('button');
+//   button.className = 'form-check-button';
+//   button.id = 'traceToolButton';
+//   button.style.marginRight = '5px';
+//   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
-  // Create a new image element
-  var img = document.createElement('img');
-  img.src = 'png/Trace_tool.png';
-  img.style.height = '20px';
-  img.style.width = '20px';
+//   // Create a new image element
+//   var img = document.createElement('img');
+//   img.src = 'png/Trace_tool.png';
+//   img.style.height = '20px';
+//   img.style.width = '20px';
 
-  button.appendChild(img);
+//   button.appendChild(img);
 
-  // Add event listener to toggle mapMode and update button appearance
-  button.addEventListener('click', function() {
-      if (mapMode === 'snapping') {
-          mapMode = 'tracing';
-          button.style.backgroundColor = 'lightblue';
-      } else {
-          mapMode = 'snapping';
-          button.style.backgroundColor = 'white';
-      }
-      console.log("Current Map Mode:", mapMode); // Optional: for debugging
-  });
+//   // Add event listener to toggle mapMode and update button appearance
+//   button.addEventListener('click', function() {
+//       if (mapMode === 'snapping') {
+//           mapMode = 'tracing';
+//           button.style.backgroundColor = 'lightblue';
+//       } else {
+//           mapMode = 'snapping';
+//           button.style.backgroundColor = 'white';
+//       }
+//       console.log("Current Map Mode:", mapMode); // Optional: for debugging
+//   });
 
-  div.appendChild(button);
+//   div.appendChild(button);
 
-  return div;
-};
+//   return div;
+// };
 
-customToolSelector.addTo(map);
+// customToolSelector.addTo(map);
 var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
