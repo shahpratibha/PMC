@@ -144,9 +144,8 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
-var IWMS_point = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
-  {
+var IWMS_point = L.tileLayer
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms",{
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -157,9 +156,8 @@ var IWMS_point = L.tileLayer.wms(
   }
 );
 
-var IWMS_line = L.tileLayer.wms(
-  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
-  {
+var IWMS_line = L.tileLayer
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms",{
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -441,10 +439,7 @@ function toggleEditDeleteButton(show) {
   for (let i = 0; i < saveBtns.length; i++) {
     saveBtns[i].style.display = show ? "block" : "none";
     editBtn[i].style.display = show ? "block" : "none";
-<<<<<<< HEAD
   
-=======
->>>>>>> d4d946d028c6c6ba3ffd5301ba74a3591205a697
   }
 }
 

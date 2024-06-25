@@ -81,7 +81,6 @@ a {
 }
 .ui-widget.ui-widget-content {
   border: 1px solid #c5c5c5;
-
   z-index: 99999;
 }
 
@@ -396,4 +395,9 @@ td {
 .leaflet-touch .geocoder-control-input:focus {
   width: 300px;
 }
-
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  border: 2px solid darkblue !important;
+}

@@ -18,6 +18,7 @@ var googleSat = L.tileLayer(
   }
 );
 
+
 var ward_boundary= L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
   {
@@ -72,12 +73,7 @@ let prabhag_id =  getQueryParam('prabhag_id') ;
 var wardBoundary = null ;
 
 
-
-
 var lastDrawnPolylineIdSave = null ;
-
-
-
 
 
 
@@ -98,7 +94,7 @@ var wms_layer1 = L.tileLayer.wms(
       maxZoom: 21,
       opacity: 1,
     }
-  ).addTo(map);
+  );
   var wms_layer11 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in//geoserver/pmc/wms", {
     layers: "Reservations",
@@ -112,17 +108,18 @@ var wms_layer1 = L.tileLayer.wms(
   });
 
   
-  var wms_layer_bhavan = L.tileLayer
-  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
-    layers: "Bhavan",
-    format: "image/png",
-    transparent: true,
-    tiled: true,
-    version: "1.1.0",
-    maxZoom: 21,
-
-    opacity: 1,
-  }).addTo(map);
+  var wms_layer13 = L.tileLayer.wms(
+    "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms",
+    {
+      layers: "Drainage_data",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  ).addTo(map);
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -199,7 +196,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms", {
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -210,7 +207,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms", {
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
@@ -252,9 +249,6 @@ var Zone_layer= L.tileLayer.wms(
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
 
 
-
-
-
  
 var WMSlayers = {
   "OSM": osm,
@@ -263,7 +257,7 @@ var WMSlayers = {
   Roads: wms_layer1,
   Boundary: wms_layer12,
   Amenity: wms_layer11,
-  wms_layer_bhavan: wms_layer_bhavan,
+  Drainage: wms_layer13,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
@@ -280,8 +274,8 @@ var WMSlayers = {
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
-// north image and scale
 
+// north image & scale
 // You can also customize the scale options
 L.control.scale().addTo(map);
 
@@ -303,12 +297,13 @@ map.addControl(new northArrowControl());
 
 
 
+
 // legend start
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
 var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
 
-var workspace = "Bhavan";
+var workspace = "Drainage";
 
 // Variable to keep track of legend visibility
 var legendVisible = true;
@@ -490,7 +485,7 @@ legend.onAdd = function (map) {
       var layers = xml.querySelectorAll('Layer[queryable="1"]');
       layers.forEach(function (layer) {
         var layerName = layer.querySelector("Name").textContent;
-        if (layerName.startsWith("Road:")) {
+        if (layerName.startsWith("Drainage:")) {
           var legendUrl =
             this.geoserverUrl +
             "/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
@@ -536,11 +531,11 @@ legend.addTo(map);
 
 
 
-// ----------------------
+// -------------------
+
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
-
 function fitbou(filter) {
   var layer = "pmc:PMC_wards_admin_boundary";
   var urlm =
@@ -556,6 +551,7 @@ function fitbou(filter) {
     map.fitBounds(geojson.getBounds());
   });
 }
+
 let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
 let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
 let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
@@ -590,6 +586,9 @@ ward_admin_boundary.addTo(map).bringToFront();
 
 
 
+
+
+
 // Add a search bar
 var searchControl = new L.esri.Controls.Geosearch().addTo(map);
 var results = new L.LayerGroup().addTo(map);
@@ -606,7 +605,9 @@ searchControl.on("results", function (data) {
 
 
 
-var drawControlElectrical = new L.Control.Draw({
+
+
+var drawControlDrainage = new L.Control.Draw({
   draw: {
     polyline: {
       shapeOptions: {
@@ -617,39 +618,36 @@ var drawControlElectrical = new L.Control.Draw({
         className: "leaflet-div-icon", // specify the icon class
       }),
     },
-    polygon:{
-      shapeOptions: {
-        color: "red", 
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6), 
-        className: "leaflet-div-icon", 
-      }),
-    },
-    circle: true,
+    polygon: false,
+
+    circle: false,
     marker: false,
     rectangle: false,
-    circlemarker:false
+    point:true,
   },
   edit:false,
+  //  {
+  //   featureGroup: drawnItems,
+  //   remove: false,
+  // },
 });
 
 
-
-
+if(workType == "New"){
 
 var customDrawControls = L.control({ position: 'topleft' });
 
 // Define the HTML content for the control
 customDrawControls.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<button class="draw_feature"  style="" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  div.innerHTML = '<button class="draw_feature" style=";  padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
   customDrawControlsContainer = div;
   return div;
 };
 
 // Add the control to the map
 customDrawControls.addTo(map);
+}
 
 var customToolSelector = L.control({ position: 'topleft' });
 
@@ -661,17 +659,18 @@ customToolSelector.onAdd = function (map) {
   // div.style.padding = '5px';
   // div.style.backgroundColor = 'white';
   // div.style.border = '2px solid #2B13BB';
-  // div.style.top = "528px";
-  // div.style.left = "785px";
-  // div.style.height= "37px";
-  // div.style.width= "37px";
-  // div.style.borderRadius="5px 5px 5px 5px";
+  // div.style.top = "595px";
+  // div.style.left="785px";
+  // div.style.height="37px";
+  // div.style.width="37px";
+  div.style.display='none';
 
   // Create a new button element
   var button = document.createElement('button');
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
-  button.style.marginRight = '5px';
+
+  // button.style.marginRight = '5px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
   // Create a new image element
@@ -679,6 +678,8 @@ customToolSelector.onAdd = function (map) {
   img.src = 'png/Trace_tool.png';
   img.style.height = '20px';
   img.style.width = '20px';
+  img.style.display='none';
+  
 
   button.appendChild(img);
 
@@ -731,7 +732,7 @@ var customEditLayerButton = L.control({ position: 'topleft' });
 
 customEditLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'editFeatureButton');
-div.innerHTML = '<img id="editFeatureButton"  title="Edit Feature" src="png/editTool.png" style="width: 20px; height: 20px; padding:0px 3px;">';
+div.innerHTML = '<img id="editFeatureButton"  title="edit New Feature" src="png/editTool.png">';
 customDrawControlsContainer = div;
 return div;
 };
@@ -745,7 +746,7 @@ var customDeleteLayerButton = L.control({ position: 'topleft' });
 
 customDeleteLayerButton.onAdd = function (map) {
 var div = L.DomUtil.create('div', 'deleteFeatureButton');
-div.innerHTML = '<button id="deleteFeatureButton"  title="Delete Feature"> <i class="fa-solid fa-trash-can"></i></button>';
+div.innerHTML = '<button id="deleteFeatureButton"  title="delete New Feature"> <i class="fa-solid fa-trash-can"></i></button>';
 customDrawControlsContainer = div;
 return div;
 };
@@ -772,7 +773,7 @@ function enableEditing(layer) {
 
 // Currently selected layer for editing
 // Custom button for toggling edit mode
-//if(workType == "New"){
+if(workType == "New"){
 var editControl = L.control({position: 'topleft'});
     editControl.onAdd = function (map) {
       
@@ -839,14 +840,14 @@ deleteControl.onAdd = function(map) {
   // button.style.padding='5px';
   // button.style.fontSize='15px';
   // button.style.borderRadius='5px';
- button.style.display='none';
+//  button.style.display='none';
   button.title = "Delete Selected Feature";
 
 // Style the button
 // button.style.backgroundColor = 'white';   
 // button.style.color = 'black';            
 // button.style.padding = '5px 10px';       
-button.style.border = 'none';             
+// button.style.border = 'none';             
 // button.style.cursor = 'pointer';          
 
 button.onclick = function() {
@@ -872,10 +873,9 @@ return container;
 };
 
 
-
 deleteControl.addTo(map);
 
-//}
+}
 
 
 function handleDeletePolyline(polylineId) {
@@ -927,10 +927,10 @@ var isDrawControlAdded = false;
 
 function toggleDrawControl() {
   if (isDrawControlAdded) {
-    map.removeControl(drawControlElectrical);
+    map.removeControl(drawControlDrainage);
     isDrawControlAdded = false;
   } else {
-    map.addControl(drawControlElectrical);
+    map.addControl(drawControlDrainage);
     isDrawControlAdded = true;
 
   }
@@ -1081,7 +1081,7 @@ function removeAssociatedLayers(layerId) {
       map.removeLayer(associatedLayers.bufferLayer);
     if (associatedLayers.dashedLineLayer)
       map.removeLayer(associatedLayers.dashedLineLayer);
-    delete associatedLayersRegistry[layerId]; // Clear the registry entry
+    delete associatedLayersRegistry[layerId]; // Clear the registryÂ entry
   }
 }
 
@@ -1105,7 +1105,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in//geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1254,9 +1254,9 @@ function getClosestRoadPoint(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  layer = "pmc:Exist_Road";
+  layer = "pmc:storm_water";
 
-  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
   console.log("burl", url);
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -1295,8 +1295,8 @@ function getClosestRoadPointLast(latlng) {
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, {units: 'meters'});
   var bbox = turf.bbox(bufferedPoint);
-  let layer = "pmc:Exist_Road";
-  var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
+  let layer = "pmc:storm_water";
+  var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
 
   return new Promise((resolve, reject) => {
       fetch(url)
@@ -1390,18 +1390,10 @@ map.on("draw:drawvertex", function (e) {
   });
 
 
-
   function checkIfInsideWard(latlng) {
     var point = turf.point([latlng.lng, latlng.lat]);
-    var isInside = false;
-  
-    wardBoundary.features.forEach(function(feature) {
-      if (turf.booleanPointInPolygon(point, feature)) {
-        isInside = true;
-      }
-    });
-  
-    return isInside;
+    var polygon = turf.polygon(wardBoundary.features[0].geometry.coordinates[0]);
+    return turf.booleanPointInPolygon(point, polygon);
   }
   var drawControlAdded = false;
   
@@ -1412,19 +1404,20 @@ map.on("draw:drawvertex", function (e) {
           map.getContainer().style.cursor = 'crosshair';
           // Add draw control if not already added
           if (!drawControlAdded) {
-            map.addControl(drawControlElectrical);
+            map.addControl(drawControlDrainage);
             drawControlAdded = true;
           }
         } else {
           map.getContainer().style.cursor = 'not-allowed';
           // Remove draw control if currently added
           if (drawControlAdded) {
-            map.removeControl(drawControlElectrical);
+            map.removeControl(drawControlDrainage);
             drawControlAdded = false;
           }
         }
       
   });
+
 
 
 
@@ -1517,8 +1510,6 @@ let throttle = false; // Throttling flag to control event frequency
 
 map.on("draw:created", function (e) {
 
-
-  console.log(e);
 
   toggleSaveButton(true);
   toggleEditDeleteButton(true);
@@ -1824,7 +1815,7 @@ function UpdateArea(geoJSON) {
     var area = turf.area(geoJSON);
     var formattedArea = (area / 100).toFixed(2);
     popupContent +=
-      "<tr><td>Area in M²</td><td>" + formattedArea + "</td></tr>";
+      "<tr><td>Area in MÂ²</td><td>" + formattedArea + "</td></tr>";
   } else if (
     geometryType === "LineString" ||
     geometryType === "MultiLineString"
@@ -1837,7 +1828,7 @@ function UpdateArea(geoJSON) {
   } else if (geometryType === "CircleMarker" || geometryType === "Circle") {
     var radius = layer.getRadius(); // Get the radius of the circle
     var area = Math.PI * Math.pow(radius, 2); // Calculate area for a circle
-    var formattedArea = (area / 100).toFixed(2) + " m²";
+    var formattedArea = (area / 100).toFixed(2) + " mÂ²";
     popupContent += "<tr><td>Area</td><td>" + formattedArea + "</td></tr>";
   }
   return popupContent;
@@ -1872,39 +1863,35 @@ function Savedata(lastDrawnPolylineId) {
   var geoJSONString;
   let selectCoordinatesData ;
   var geoJSONStringJson
-  var area = 0; // Initialize area variable
-  var centroid = 0 ;
+  var area = 0; 
 
-  if (mapMode === 'tracing') {
+  if(mapMode == 'tracing'){
+   
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
-  } else {
-    geoJSONString = toGISformat();
-    geoJSONStringJson = JSON.parse(geoJSONString);
-    selectCoordinatesData = geoJSONStringJson.features;
+
+    
+    if (currentPolyline) {
+      area = turf.area(geoJSONStringJson); 
+      console.log(area);
   }
-  
-  if (selectCoordinatesData && selectCoordinatesData.length > 0) {
-    const lastFeature = selectCoordinatesData[selectCoordinatesData.length - 1];
-    const geometry = lastFeature.geometry;
+  }else{
+  geoJSONString = toGISformat();
+  geoJSONStringJson = JSON.parse(geoJSONString);
+  selectCoordinatesData = geoJSONStringJson.features;
+
+  if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
+    const geometry = geoJSONStringJson.features[1].geometry;
     console.log(geometry.type);
-  
     if (geometry.type === "Polygon") {
-      area = turf.area(lastFeature);
-      centroid = turf.centroid(lastFeature);
-      console.log(centroid);
-      console.log(area);
+        area = turf.area(geoJSONStringJson.features[1]); 
+        console.log(area);
     } else if (geometry.type === "LineString") {
-      area = turf.length(lastFeature, { units: 'kilometers' });
-      centroid = null; // Centroids are typically not relevant for LineStrings
-      console.log(area);
+        area = turf.length(geoJSONStringJson.features[1], { units: 'meters' }); 
     }
-    else if (geometry.type === "Point") {
-      area = 0;
-      centroid = null; // Centroids are typically not relevant for LineStrings
-      console.log(area);
-    }
+}
+
   }
 
 
@@ -1931,18 +1918,46 @@ function Savedata(lastDrawnPolylineId) {
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
-  console.log(selectCoordinatesData);
 
 
-  var payload = JSON.stringify({
+  var formData = new FormData();
+  formData.append('proj_id', worksAaApprovalId);
+  formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
+  formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
+  formData.append('polygon_area', 0);
+  formData.append('polygon_centroid', 0);
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
+  formData.append('length', area);
+  formData.append('width', width);
+
+
+  $.ajax({
+    type: "POST",
+    url: "https://iwms.punecorporation.org/api/gis-data",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+        console.log(response);
+        window.location.href = response.data.redirect_Url;
+    },
+    error: function (xhr, status, error) {
+        console.error("Save failed:", error);
+    },
+});
+
+  var payload = 
+  JSON.stringify( {
     geoJSON: bufferGeoJSONString,
     roadLength: roadLenght,
     bufferWidth: bufferWidth,
     gis_id: lastInsertedId,
     department: department,
-    selectCoordinatesData: selectCoordinatesData,
-    geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
-});
+    area:area,
+    selectCoordinatesData:selectCoordinatesData,
+  });
 
 
   $.ajax({
@@ -1951,8 +1966,8 @@ function Savedata(lastDrawnPolylineId) {
     data: payload,
     contentType: "application/json",
     success: function (response) {
-      console.log(response);
-   //window.location.href = "geometry_page.html";
+     
+   // window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Drainage`+`&lastInsertedId=`+lastInsertedId;
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
@@ -1960,60 +1975,6 @@ function Savedata(lastDrawnPolylineId) {
   });
 
 
-  const lastGeometry = selectCoordinatesData[selectCoordinatesData.length - 1].geometry;
-  const geometryType = lastGeometry.type;
-  
-  
-    let latitude, longitude, geometryCoordinates, polygon_centroid;
-  
-    if (geometryType === 'Point') {
-      latitude = lastGeometry.coordinates[1];
-      longitude = lastGeometry.coordinates[0];
-      geometryCoordinates = lastGeometry.coordinates;
-      polygon_centroid = null;
-    } else if (geometryType === 'Polygon') {
-    
-      latitude = lastGeometry.coordinates[0][0][1];
-      longitude = lastGeometry.coordinates[0][0][0];
-      geometryCoordinates = lastGeometry.coordinates.map(ring => ring.map(coordinate => coordinate.slice().reverse()));
-      polygon_centroid = centroid?.geometry?.coordinates;
-    } else  if (geometryType === 'LineString') {
-      latitude = lastGeometry.coordinates[0][1];
-      longitude = lastGeometry.coordinates[0][0];
-      geometryCoordinates = lastGeometry.coordinates.map(coordinate => coordinate.slice().reverse());
-      polygon_centroid = null;
-    }
-  
-
-
-  var formData = new FormData();
-  formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', latitude);
-  formData.append('longitude', longitude);
-  formData.append('polygon_area', area);
-  formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
-  formData.append('geometry', JSON.stringify(geometryCoordinates));
-  formData.append('road_no', struct_no);
-  formData.append('user_id', user_id);
-  formData.append('length', area);
-  formData.append('width', width);
-
-  
-  $.ajax({
-      type: "POST",
-      url: "https://iwms.punecorporation.org/api/gis-data",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-          console.log(response);
-         window.location.href = response.data.redirect_Url;
-      },
-      error: function (xhr, status, error) {
-          console.error("Save failed:", error);
-      },
-  });
-  
 
 }
 
@@ -2405,5 +2366,3 @@ map.on("contextmenu", (e) => {
       });
   }
 });
-
-

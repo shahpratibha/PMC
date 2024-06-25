@@ -199,7 +199,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms",{
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -210,7 +210,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms",{
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,

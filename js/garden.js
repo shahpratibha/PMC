@@ -202,7 +202,7 @@ var wms_layer3 = L.tileLayer.wms(
 
  
 var IWMS_point = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms",{
   layers: "IWMS_point",
   format: "image/png",
   transparent: true,
@@ -213,7 +213,7 @@ var IWMS_point = L.tileLayer
 });
  
 var IWMS_line = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms",{
   layers: "IWMS_line",
   format: "image/png",
   transparent: true,
@@ -224,7 +224,7 @@ var IWMS_line = L.tileLayer
 });
 
 var IWMS_polygon = L.tileLayer
-.wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+.wms("http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms",{
   layers: "IWMS_polygon",
   format: "image/png",
   transparent: true,
@@ -680,7 +680,7 @@ var customDrawControls = L.control({ position: 'topleft' });
   // Define the HTML content for the control
   customDrawControls.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style=" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 25px; padding:3px;"></button>';
+    div.innerHTML = '<button class="draw_feature"  style="" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px;"></button>';
     customDrawControlsContainer = div;
     return div;
   };

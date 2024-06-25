@@ -25,11 +25,11 @@
   }
   .custom-button {
     width: auto;
-    padding: 7px 7px;
+    padding: 7px 5px;
     background-color: #fff;
     /* color: darkblue; */
     font-weight: bold;
-    font-size: 14px !important;
+    font-size: 9px !important;
     border: 2px solid #2b13bb;
     border-radius: 5px !important;
     cursor: pointer;
@@ -235,11 +235,11 @@
     }
     .custom-button {
       width: auto;
-      padding: 7px 7px;
+      padding: 7px 5px;
       background-color: #fff;
       /* color: darkblue; */
       font-weight: bold;
-      font-size: 15px !important;
+      font-size: 9px !important;
       border: 2px solid #2b13bb;
       border-radius: 5px !important;
       cursor: pointer;

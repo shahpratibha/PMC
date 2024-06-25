@@ -1,8 +1,14 @@
 <?php
+// $host = 'iwmsgis.pmc.gov.in';
+// $dbname = 'pmc';
+// $username = 'postgres';
+// $password = 'pmc992101';
+
 $host = 'iwmsgis.pmc.gov.in';
-$dbname = 'pmc';
+$dbname = 'Test';
 $username = 'postgres';
 $password = 'pmc992101';
+
 
 try {
     // Establish a connection to the database
