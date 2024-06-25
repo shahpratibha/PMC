@@ -55,9 +55,10 @@ function getQueryParam(param) {
 }
 
 
-const lenght  = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
+
+const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
 const diameter = getQueryParam('diameter') ;
-const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
+const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');

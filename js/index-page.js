@@ -290,9 +290,9 @@ function getQueryParam(param) {
 }
 
 
-const lenght = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
-const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
-const diameter = getQueryParam('diameter') !== undefined ? parseInt(getQueryParam('diameter'), 10) : 0;
+const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
+const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
+const diameter = getQueryParam('diameter') !== undefined ? getQueryParam('diameter') : 0;
 const struct_no = getQueryParam('struct_no');
 const user_id = getQueryParam('user_id');
 var wardname = null;
