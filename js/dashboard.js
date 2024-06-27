@@ -127,8 +127,8 @@ $(document).ready(function () {
     locale: {
       format: 'MMMM D, YYYY' // Format to show Month name, Day, and Year
     },
-    startDate: start,
-    endDate: end,
+    startDate: moment('2024-04-01'), // Set the start date to April 1st, 2024
+    endDate: moment('2025-03-31'),   // Set the end date to March 31st, 2025
     ranges: {
       'Last 7 Days': [moment().subtract(6, 'days'), moment()],
       'This Month': [moment().startOf('month'), moment().endOf('month')],
@@ -142,7 +142,7 @@ $(document).ready(function () {
   cb(start, end);
 
   function cb(start, end) {
-    $('#daterange').val(start.format('2023') + ' - ' + end.format('YYYY'));
+    // $('#daterange').val(start.format('2023') + ' - ' + end.format('YYYY'));
     var formattedStartDate = start.format('M/D/YY, h:mm A');;
     var formattedEndDate = end.format('M/D/YY, h:mm A');;
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
@@ -571,6 +571,9 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
 
     // Initialize DataTables after rendering the table
     $(document).ready(function() {
+      if ($.fn.DataTable.isDataTable('#data-table')) {
+        $('#data-table').DataTable().destroy(); // Destroy existing DataTable if initialized
+      }
       $('#data-table').DataTable({
         paging: true, // Enable pagination
         lengthChange: true, // Enable the 'Show X entries' dropdown
