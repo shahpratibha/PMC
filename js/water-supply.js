@@ -128,6 +128,19 @@ var wms_layer1 = L.tileLayer.wms(
       maxZoom: 21,
       opacity: 1,
     }
+  );
+
+  var wms_water = L.tileLayer.wms(
+    baseURL,
+    {
+      layers: "Water_data",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
   ).addTo(map);
 
 var Esri_WorldImagery = L.tileLayer(
@@ -156,7 +169,7 @@ var wms_layer12 = L.tileLayer
 
  
 var wms_layer14 = L.tileLayer
-  .wms("https://portal.geopulsea.com/geoserver/pmc/wms", {
+  .wms(baseURL, {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -270,6 +283,7 @@ var WMSlayers = {
   Boundary: wms_layer12,
   Amenity: wms_layer11,
   Drainage: wms_layer13,
+  Water :wms_water,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,

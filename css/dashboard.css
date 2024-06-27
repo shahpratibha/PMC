@@ -166,7 +166,7 @@ color: darkblue;
 
 #openTableBtn {
 position: absolute;
-z-index: 9999;
+z-index: 999;
 top: 22vh;
 width: auto;
 padding: 6px;
@@ -311,11 +311,11 @@ position: fixed !important;
 padding: 16px;
 font-size: 13px !important;
 left: 34%;
-top: 2.4%;
-width: 13% !important;
+top: 2.3%;
+width: 15% !important;
 border: 2px solid darkblue;
 border-radius: 10px;
-height: 38px;
+height: 3%;
 }
 thead th {
 position: sticky !important;

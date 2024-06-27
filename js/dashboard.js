@@ -142,7 +142,7 @@ $(document).ready(function () {
   cb(start, end);
 
   function cb(start, end) {
-    $('#daterange').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    $('#daterange').val(start.format('2023') + ' - ' + end.format('YYYY'));
     var formattedStartDate = start.format('M/D/YY, h:mm A');;
     var formattedEndDate = end.format('M/D/YY, h:mm A');;
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
@@ -163,9 +163,31 @@ $(document).ready(function () {
       FilterAndZoom(mainfilter);
       DataTableFilter(mainfilter)
 
-    })
+    });
 
   }
+
+  $('#calendarIcon').on('click', function () {
+    $('#daterange').click();
+  });
+           
+   
+
+$('#daterange').on('apply.daterangepicker', function (ev, picker) {
+    var startDate = picker.startDate.format('YYYY-MM-DD');
+    var endDate = picker.endDate.format('YYYY-MM-DD');
+    console.log('Selected date range:', startDate, 'to', endDate);
+    cql_filter1 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
+    loadinitialData(cql_filter1);
+    const cql_filter = getCqlFilter();
+    getCheckedValues(function (filterString) {
+        const mainfilter = combineFilters(cql_filter1, filterString);
+        console.log("Main Filterfor checking:", mainfilter);
+        FilterAndZoom(mainfilter);
+        DataTableFilter(mainfilter);
+    });
+});
+
   // Function to get cql_filter1 value
   function getCqlFilter() {
     return cql_filter1;
@@ -799,31 +821,16 @@ $(document).ready(function() {
 });
 
 
-// // draggable
 
-// const container = document.querySelector("#tablecontainer");
-// function onMouseDrag({ movementX, movementY }) {
-//     let getContainerStyle = window.getComputedStyle(container);
-//     let leftValue = parseInt(getContainerStyle.left);
-//     let topValue = parseInt(getContainerStyle.top);
-//     container.style.left = `${leftValue + movementX}px`;
-//     container.style.top = `${topValue + movementY}px`;
-// }
-// container.addEventListener("mousedown", () => {
-//     container.addEventListener("mousemove", onMouseDrag);
-// });
-// document.addEventListener("mouseup", () => {
-//     container.removeEventListener("mousemove", onMouseDrag);
-// });
 
 //Pop-Up show
 
 
  
 const layerDetails = {
-  "pmc:IWMS_polygon": ["Work_ID", "Name_of_Work", "project_fi", "Department", "Work_Type", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "GIS_Created_At"],
   "pmc:IWMS_point": ["Work_ID", "Name_of_Work", "project_fi", "Department", "Work_Type", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "GIS_Created_At"],
   "pmc:IWMS_line": ["Work_ID", "Name_of_Work", "project_fi", "Department", "Work_Type", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "GIS_Created_At"],
+  "pmc:IWMS_polygon": ["Work_ID", "Name_of_Work", "project_fi", "Department", "Work_Type", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "Contact_Number", "GIS_Created_At"],
 };
  
 function getCheckedValuesforpopuups() {
