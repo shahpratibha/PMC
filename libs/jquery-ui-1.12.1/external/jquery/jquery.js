@@ -3719,7 +3719,7 @@ jQuery( function() {
 	// Setup
 	div = document.createElement( "div" );
 	container = document.createElement( "div" );
-	container.style.cssText = "position:absolute;border:0;width:0;height:0;top:0;left:-9999px";
+	container.css/style.cssText = "position:absolute;border:0;width:0;height:0;top:0;left:-9999px";
 	body.appendChild( container ).appendChild( div );
 
 	if ( typeof div.style.zoom !== "undefined" ) {
@@ -3728,7 +3728,7 @@ jQuery( function() {
 		// Check if natively block-level elements act like inline-block
 		// elements when setting their display to 'inline' and giving
 		// them layout
-		div.style.cssText = "display:inline;margin:0;border:0;padding:1px;width:1px;zoom:1";
+		div.css/style.cssText = "display:inline;margin:0;border:0;padding:1px;width:1px;zoom:1";
 
 		support.inlineBlockNeedsLayout = val = div.offsetWidth === 3;
 		if ( val ) {
@@ -4268,7 +4268,7 @@ jQuery.fn.extend( {
 		// Setup
 		div = document.createElement( "div" );
 		container = document.createElement( "div" );
-		container.style.cssText = "position:absolute;border:0;width:0;height:0;top:0;left:-9999px";
+		container.css/style.cssText = "position:absolute;border:0;width:0;height:0;top:0;left:-9999px";
 		body.appendChild( container ).appendChild( div );
 
 		// Support: IE6
@@ -4276,7 +4276,7 @@ jQuery.fn.extend( {
 		if ( typeof div.style.zoom !== "undefined" ) {
 
 			// Reset CSS: box-sizing; display; margin; border
-			div.style.cssText =
+			div.css/style.cssText =
 
 				// Support: Firefox<29, Android 2.3
 				// Vendor-prefix box-sizing
@@ -6526,7 +6526,7 @@ var documentElement = document.documentElement;
 		return;
 	}
 
-	div.style.cssText = "float:left;opacity:.5";
+	div.css/style.cssText = "float:left;opacity:.5";
 
 	// Support: IE<9
 	// Make sure that element opacity exists (as opposed to filter)
@@ -6534,14 +6534,14 @@ var documentElement = document.documentElement;
 
 	// Verify style float existence
 	// (IE uses styleFloat instead of cssFloat)
-	support.cssFloat = !!div.style.cssFloat;
+	support.cssFloat = !!div.css/style.cssFloat;
 
 	div.style.backgroundClip = "content-box";
 	div.cloneNode( true ).style.backgroundClip = "";
 	support.clearCloneStyle = div.style.backgroundClip === "content-box";
 
 	container = document.createElement( "div" );
-	container.style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" +
+	container.css/style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" +
 		"padding:0;margin-top:1px;position:absolute";
 	div.innerHTML = "";
 	container.appendChild( div );
@@ -6611,7 +6611,7 @@ var documentElement = document.documentElement;
 		// Setup
 		documentElement.appendChild( container );
 
-		div.style.cssText =
+		div.css/style.cssText =
 
 			// Support: Android 2.3
 			// Vendor-prefix box-sizing
@@ -6644,7 +6644,7 @@ var documentElement = document.documentElement;
 			contents = div.appendChild( document.createElement( "div" ) );
 
 			// Reset CSS: box-sizing; display; margin; border; padding
-			contents.style.cssText = div.style.cssText =
+			contents.css/style.cssText = div.css/style.cssText =
 
 				// Support: Android 2.3
 				// Vendor-prefix box-sizing
@@ -6674,7 +6674,7 @@ var documentElement = document.documentElement;
 			div.innerHTML = "<table><tr><td></td><td>t</td></tr></table>";
 			div.childNodes[ 0 ].style.borderCollapse = "separate";
 			contents = div.getElementsByTagName( "td" );
-			contents[ 0 ].style.cssText = "margin:0;border:0;padding:0;display:none";
+			contents[ 0 ].css/style.cssText = "margin:0;border:0;padding:0;display:none";
 			reliableHiddenOffsetsVal = contents[ 0 ].offsetHeight === 0;
 			if ( reliableHiddenOffsetsVal ) {
 				contents[ 0 ].style.display = "";
@@ -8144,7 +8144,7 @@ jQuery.fn.delay = function( time, type ) {
 	a = div.getElementsByTagName( "a" )[ 0 ];
 
 	// First batch of tests.
-	a.style.cssText = "top:1px";
+	a.css/style.cssText = "top:1px";
 
 	// Test setAttribute on camelCase class.
 	// If it works, we need attrFixes when doing get/setAttribute (ie6/7)
@@ -8636,10 +8636,10 @@ if ( !support.style ) {
 			// Return undefined in the case of empty string
 			// Note: IE uppercases css property names, but if we were to .toLowerCase()
 			// .cssText, that would destroy case sensitivity in URL's, like in "background"
-			return elem.style.cssText || undefined;
+			return elem.css/style.cssText || undefined;
 		},
 		set: function( elem, value ) {
-			return ( elem.style.cssText = value + "" );
+			return ( elem.css/style.cssText = value + "" );
 		}
 	};
 }

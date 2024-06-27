@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoPulse</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .map-container {
+            flex-grow: 1;
+            height: 500px;
+        }
+        .project-details {
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        h3 {
+            margin-top: 0;
+        }
+        .filters {
+            margin-bottom: 20px;
+          
+        }
+        .filter-group {
+            /* margin-bottom: 20px; */
+            padding: 10px;
+            border: 1px solid gray;
+            font-size: 10px;
+        }
+        .filter-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        .filter-group input[type="text"] {
+            width: 80%;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            display: none;
+        }
+        .filter-group ul {
+            list-style-type: none;
+            padding: 0;
+            display: none;
+        }
+        .filter-group ul.active,
+        .filter-group input[type="text"].active {
+            display: block;
+            forced-color-adjust: blue;
+        }
+        .filter-group li {
+            margin-bottom: 5px;
+        }
+      
+        .icon-container {
+    position:absolute;
+    right:1%; 
+    top:0%;
+    font-size: 15px;
+}
+
+/* Style the icon */
+.icon-container i {
+    color: black; /* Default color */
+}
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="filters">
+            <h3>Filters</h3>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Select Office  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Department Name" class="filter-input">
+                <ul class="select2"  multiple="multiple" id="project_Off">
+                    <!-- <li><input type="checkbox"> Department 1</li>
+                    <li><input type="checkbox"> Department 2</li>
+                    <li><input type="checkbox"> Department 3</li> -->
+                </ul>
+            </div>
+            <div onclick="toggleFilter(this)" class="filter-group">
+                <label >Ward Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span>
+                </label>
+                
+                <input type="text" placeholder="Search By Ward Name" class="filter-input">
+               
+                <ul class="select2"multiple="multiple" id="project_fi" >
+                    <li><input type="checkbox"> Lohegaon</li>
+                    <li><input type="checkbox"> Baner</li>
+                    <li><input type="checkbox"> Option 3</li>
+                    <li><input type="checkbox"> Option 4</li>
+                    <li><input type="checkbox"> Option 5</li>
+                    <li><input type="checkbox"> Option 6</li>
+                </ul>
+            </div>
+           
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Zone Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Zone Name" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Zone 1</li>
+                    <li><input type="checkbox"> Zone 2</li>
+                    <li><input type="checkbox"> Zone 3</li>
+                </ul>
+            </div>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Village Name  <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Village Name" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Village 1</li>
+                    <li><input type="checkbox"> Village 2</li>
+                    <li><input type="checkbox"> Village 3</li>
+                </ul>
+            </div>
+            <div class="filter-group"  onclick="toggleFilter(this)">
+                <label>Project Status   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Project Status" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Status 1</li>
+                    <li><input type="checkbox"> Status 2</li>
+                    <li><input type="checkbox"> Status 3</li>
+                </ul>
+            </div>
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Work Type   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Work Type" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Work Type 1</li>
+                    <li><input type="checkbox"> Work Type 2</li>
+                    <li><input type="checkbox"> Work Type 3</li>
+                </ul>
+            </div>
+            <div class="filter-group" onclick="toggleFilter(this)">
+                <label >Budget Code   <span class="icon-container"><i class="fa-solid fa-angle-down"></i></span></label>
+                <input type="text" placeholder="Search By Budget Code" class="filter-input">
+                <ul>
+                    <li><input type="checkbox"> Budget 1</li>
+                    <li><input type="checkbox"> Budget 2</li>
+                    <li><input type="checkbox"> Budget 3</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="map-container" id="map"></div>
+        <div class="project-details">
+            <h3>Project Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Ward</th>
+                        <th>Department</th>
+                        <th>Ward Scope</th>
+                        <th>Ward Name</th>
+                        <th>Work Type</th>
+                        <th>Date</th>
+                        <th>Tender Amount</th>
+                        <th>JE Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>D.M.C. Zone 1</td>
+                        <td>Yerwada</td>
+                        <td>Road</td>
+                        <td>Resurfacing</td>
+                        <td>To Carry Out Surfacing Volume</td>
+                        <td>New</td>
+                        <td>01-02-2022</td>
+                        <td>12,09,233</td>
+                        <td>Sapana Sahare</td>
+                    </tr>
+                    <!-- Add more rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize the map
+            const map = L.map('map').setView([18.5204, 73.8567], 13); // Coordinates for Pune
+
+            // Add a tile layer to the map
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+           
+        });
+        
+function toggleFilter(div) {
+    const input = div.querySelector('.filter-input');
+    const ul = div.querySelector('ul');
+    const isActive = input.classList.contains('active');
+
+    // Remove 'active' class from all filter inputs and their associated ul elements
+    document.querySelectorAll('.filter-input').forEach(input => {
+        input.classList.remove('active');
+        input.nextElementSibling.classList.remove('active');
+    });
+
+    // If the clicked filter is not active, add 'active' class to it
+    if (!isActive) {
+        input.classList.add('active');
+        ul.classList.add('active');
+    }
+}
+
+// Function to filter checkboxes based on search input
+function filterCheckboxes(input) {
+    const filter = input.value.toLowerCase();
+    const ul = input.nextElementSibling;
+    const li = ul.getElementsByTagName('li');
+
+    for (let i = 0; i < li.length; i++) {
+        const text = li[i].textContent || li[i].innerText;
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+// Add event listeners to filter inputs
+document.querySelectorAll('.filter-input').forEach(input => {
+    input.addEventListener('input', function(event) {
+        event.stopPropagation(); // Stop event propagation
+        filterCheckboxes(this);
+    });
+    // Stop event propagation for click events on the input element
+ input.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+      // Stop event propagation for mousedown events on the input element to prevent the div from closing
+      input.addEventListener('mousedown', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
+ 
+// Add event listeners to checkboxes to stop propagation
+document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('click', function(event) {
+        event.stopPropagation(); // Stop event propagation
+    });
+});
+
+</script>
+</body>
+</html>

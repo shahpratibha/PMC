@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PMC</title>
     <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="C_form.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/C_form.css" />
     <!-- legend -->
  
 
@@ -191,7 +191,7 @@
       </main>
       
     </div>
-    <script src="index.js"></script>
+    <script src="js/index.js"></script>
     <script>
       // Create a custom control
 var drawControl = L.control({ position: 'topleft' });
@@ -230,7 +230,7 @@ drawControl.addTo(map);
             if (searchTerm.length >= 3 && searchType) {
               let cqlFilter = `${searchType} ILIKE '%${searchTerm}%'`;
 
-              let geoServerURL = `https://pmc.geopulsea.com/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
+              let geoServerURL = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_point&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
                 cqlFilter
               )}`;
 
@@ -275,7 +275,7 @@ drawControl.addTo(map);
         let bbox = map.getBounds().toBBoxString();
         let layer = "pmc:Exist_Road";
 
-        var url = `https://pmc.geopulsea.com/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+        var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
           size.x
@@ -489,7 +489,7 @@ drawControl.addTo(map);
                         document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
                         document.querySelector(".custom-icon-class").style.transition ="all o.5s ease";
                         document.querySelector(".custom-title-class").style.fontSize =
-                          "1.5em"; // Set your desired title size
+                          "1.5em"; 
                         document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
                         document.querySelector(
                           ".custom-close-button-class"
@@ -507,14 +507,44 @@ drawControl.addTo(map);
                   });
 
                   setTimeout(() => {
-                    window.location.href = "geometry_page.html";
+                    // window.location.href = "geometry_page.html";
                   }, 2100);
                 },
                 error: function (xhr, status, error) {
                   console.error("Save failed:", error);
                 },
               });
+              area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
+          console.log(selectCoordinatesData)
+            var formData = new FormData();
+            formData.append('proj_id', worksAaApprovalId);
+            formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
+            formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+            formData.append('polygon_area', 0);
+            formData.append('polygon_centroid', 0);
+            formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+            formData.append('road_no', struct_no);
+            formData.append('user_id', user_id);
+            formData.append('length', area);
+            formData.append('width', width);
+          
+                      $.ajax({
+                type: "POST",
+                url: "https://iwms.punecorporation.org/api/gis-data",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                   window.location.href = response.data.redirect_Url;
+                },
+                error: function (xhr, status, error) {
+                    console.error("Save failed:", error);
+                },
             });
+
+            });
+
 
           // Add click event listener for edit feature button
           document

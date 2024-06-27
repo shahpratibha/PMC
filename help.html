@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin: 20px 0;
+            color: blue;
+        }
+        #video-select {
+            margin: 20px 0;
+            
+        }
+        #video-container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+            
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+        #videos {
+             width: 200px; 
+             height: 40px;
+            border: 2px solid blue; 
+            border-radius: 5px; 
+            }
+            
+        #controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        #controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            border: 2px solid blue;
+            border-radius: 15px;
+            background-color: white;
+            color: blue;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: blue;
+            color: white;
+        }
+        button i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ROAD</h1>
+
+    <div id="video-select">
+        <label for="videos">Select a video:</label>
+        <select id="videos" onchange="loadVideo()">
+            <option value="video/Road/1 Recording coordinates.mp4">Recording coordinates</option>
+            <option value="video/Road/2 Gis mapping.mp4">Gis mappings</option>
+            <option value="video/Road/3 Editing.mp4">Editing </option>
+            <option value="video/Road/4. Delete.mp4">Delete</option>
+            <option value="video/Road/5 Selection of whole Ward.mp4">Selection of whole Water</option>
+            <option value="video/Road/6 Repair road.mp4">Repair road</option>
+            <option value="video/Road/7 length restriction.mp4">length restriction</option>
+        </select>
+    </div>
+    <!-- C:\xampp\htdocs\iwms\video\Road\1 Recording coordinates.mp4 -->
+    <div id="video-container">
+        <video id="videoPlayer" controls>
+            <source src="./video/Road/1 Recording coordinates.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div id="controls">
+        <button onclick="previousVideo()">Previous</button>
+        <button onclick="nextVideo()">Next</button>
+    </div>
+
+    <script>
+               const videos = ["video/Road/1 Recording coordinates.mp4", "video/Road/2 Gis mapping.mp4", "video/Road/3 Editing.mp4","video/Road/4. Delete.mp4","video/Road/5 Selection of whole Ward.mp4","video/Road/6 Repair road.mp4","video/Road/7 length restriction.mp4"];
+
+        let currentVideoIndex = 0;
+
+        function loadVideo() {
+            const videoSelect = document.getElementById('videos');
+            currentVideoIndex = videoSelect.selectedIndex;
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = videos[currentVideoIndex];
+            videoPlayer.play();
+        }
+
+        function previousVideo() {
+            if (currentVideoIndex > 0) {
+                currentVideoIndex--;
+                document.getElementById('videos').selectedIndex = currentVideoIndex;
+                loadVideo();
+            }
+        }
+
+        function nextVideo() {
+            if (currentVideoIndex < videos.length - 1) {
+                currentVideoIndex++;
+                document.getElementById('videos').selectedIndex = currentVideoIndex;
+                loadVideo();
+            }
+        }
+    </script>
+
+</body>
+</html>

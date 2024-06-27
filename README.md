@@ -1,2 +1,0 @@
-# PMC
-PMC Project
