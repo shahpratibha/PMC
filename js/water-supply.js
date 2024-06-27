@@ -143,6 +143,21 @@ var wms_layer1 = L.tileLayer.wms(
     }
   ).addTo(map);
 
+
+
+  var wms_layer_bhavan = L.tileLayer.wms(
+    baseURL,
+    {
+      layers: "Bhavan",
+      format: "image/png",
+      transparent: true,
+      tiled: true,
+      version: "1.1.0",
+      maxZoom: 21,
+      opacity: 1,
+    }
+  ).addTo(map);
+
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
@@ -284,6 +299,7 @@ var WMSlayers = {
   Amenity: wms_layer11,
   Drainage: wms_layer13,
   Water :wms_water,
+  wms_layer_bhavan: wms_layer_bhavan,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
@@ -632,7 +648,7 @@ var drawControlWaterBodies = new L.Control.Draw({
   draw: {
     polyline: {
       shapeOptions: {
-        color: "red", // set the color for the polygon border
+        color: "blue", // set the color for the polygon border
       },
       icon: new L.DivIcon({
         iconSize: new L.Point(6, 6), // set the size of the icon
@@ -1105,7 +1121,7 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 
   var bufferLayer = L.geoJSON(buffered, {
     style: {
-      color: "#000000",
+      color: "blue",
       weight: 4,
       opacity: 0.5,
       lineJoin: "round",
@@ -1115,10 +1131,9 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 
   var dashedLineLayer = L.geoJSON(geoJSON, {
     style: {
-      color: "#ffffff",
+      color: "blue",
       weight: 2,
       opacity: 1,
-      dashArray: "10, 10",
       lineJoin: "round",
     },
     interactive: false
@@ -1774,7 +1789,8 @@ map.on("draw:created", function (e) {
     var tempGeoJSON = geoJSON;
 
   }
-
+  var bufferWidth = width;
+    createBufferAndDashedLine(layer, roadLenght, bufferWidth);
 
 nearestPointsStorage = []; // Reset the storage for the next drawing
 
