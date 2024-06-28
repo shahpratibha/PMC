@@ -127,8 +127,8 @@ $(document).ready(function () {
     locale: {
       format: 'MMMM D, YYYY' // Format to show Month name, Day, and Year
     },
-    startDate: start,
-    endDate: end,
+    startDate: moment('2024-04-01'), // Set the start date to April 1st, 2024
+    endDate: moment('2025-03-31'),   // Set the end date to March 31st, 2025
     ranges: {
       'Last 7 Days': [moment().subtract(6, 'days'), moment()],
       'This Month': [moment().startOf('month'), moment().endOf('month')],
@@ -142,7 +142,7 @@ $(document).ready(function () {
   cb(start, end);
 
   function cb(start, end) {
-    $('#daterange').val(start.format('2023') + ' - ' + end.format('YYYY'));
+    // $('#daterange').val(start.format('2023') + ' - ' + end.format('YYYY'));
     var formattedStartDate = start.format('M/D/YY, h:mm A');;
     var formattedEndDate = end.format('M/D/YY, h:mm A');;
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
@@ -571,6 +571,9 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
 
     // Initialize DataTables after rendering the table
     $(document).ready(function() {
+      if ($.fn.DataTable.isDataTable('#data-table')) {
+        $('#data-table').DataTable().destroy(); // Destroy existing DataTable if initialized
+      }
       $('#data-table').DataTable({
         paging: true, // Enable pagination
         lengthChange: true, // Enable the 'Show X entries' dropdown
@@ -922,41 +925,3 @@ console.log(cqlFilter123, "cqlFilter123");
   }
 });
  
-
-  //  function for closing popup 
-
-        // Function to close popup
-        function closePopup() {
-          map.closePopup(); // This closes any open popup
-      }
-
-      // Handler to close the popup on specified interactions
-      function handleClick(event) {
-          var isClickInsideMap = map.getContainer().contains(event.target);
-          var isClickInsidePopup = document.querySelector('.leaflet-popup')?.contains(event.target);
-
-          if (!isClickInsideMap && !isClickInsidePopup) {
-              closePopup();
-          }
-      }
-
-      // Add event listeners for clicks on the table container
-      document.getElementById('tablecontainer').addEventListener('click', closePopup);
-
-      // Add event listeners for clicks on any buttons
-      document.querySelectorAll('button').forEach(button => {
-          button.addEventListener('click', closePopup);
-      });
-
-      // Add event listeners for clicks on other specific elements
-      document.querySelectorAll('.other-interactive-element').forEach(element => {
-          element.addEventListener('click', closePopup);
-      });
-
-      // Add a global click listener to handle clicks outside the map and popup
-      document.addEventListener('click', handleClick);
-
-      // Prevent closing popup when interacting with the map itself
-      map.on('click', function(event) {
-          event.originalEvent.stopPropagation();
-      });

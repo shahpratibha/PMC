@@ -638,25 +638,20 @@ let mapMode = 'snapping';
 
 customToolSelector.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.padding = '5px';
-  div.style.backgroundColor = 'white';
-  div.style.border = '2px solid #2B13BB';
-  div.style.top = "528px";
-  div.style.left = "785px";
-  div.style.height= "37px";
-  div.style.width= "37px";
-  div.style.borderRadius="5px 5px 5px 5px";
+  div.style.display='none';
+
 
   // Create a new button element
   var button = document.createElement('button');
   button.className = 'form-check-button';
   button.id = 'traceToolButton';
-  button.style.marginRight = '5px';
+  // button.style.marginRight = '5px';
   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
   // Create a new image element
   var img = document.createElement('img');
   img.src = 'png/Trace_tool.png';
+  img.style.display='none'
   img.style.height = '20px';
   img.style.width = '20px';
 

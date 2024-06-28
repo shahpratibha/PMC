@@ -90,7 +90,7 @@
       .leaflet-draw-draw-polygon {
         left: 575px !important;
         position: absolute !important;
-        top: 414px !important;
+        top: 460px !important;
         height: 37px !important;
         width: 37px !important;
         border-bottom: 2px solid #2b13bb !important;
@@ -100,7 +100,7 @@
         border-radius: 5px 5px 5px 5px !important;
       }
       .leaflet-draw-draw-polyline {
-        top: 414px !important;
+        top: 460px !important;
         position: absolute !important;
         left: 659px !important;
         border: 2px solid #2b13bb !important;
@@ -116,7 +116,7 @@
         border-radius: 5px 5px 5px 5px;
         height: 37px !important;
         width: 37px !important;
-        display: block !important; 
+        display: none !important; 
         position: fixed;
         top: 690px;
         left: 838px;
@@ -152,7 +152,7 @@
         border: 2px solid #2b13bb;
         border-top: 2px solid #2b13bb;
         border-bottom: 2px solid #2b13bb;
-        top: 480px;
+        top: 526px;
         height: 37px;
         width: 37px;
         left: 532px;
@@ -170,7 +170,7 @@
         cursor: pointer;
         left: 448px;
         position: absolute;
-        top: 425px !important;
+        top: 470px !important;
         height: 37px;
         width: 37px;
         display: none;
@@ -185,7 +185,7 @@
         position: absolute !important;
         height: 37px !important;
         width: 37px !important;
-        top: 438px !important;
+        top: 484px !important;
         border: 2px solid #2b13bb;
         border-radius: 5px 5px 5px 5px !important;
         display: none;
@@ -194,7 +194,7 @@
       }
       .leaflet-draw-draw-circle {
         position: absolute;
-        top: 414px;
+        top: 460px;
         left: 618px;
         border-bottom: 2px solid #2b13bb !important;
         border-top: 2px solid #2b13bb !important;
@@ -489,7 +489,7 @@
           let bbox = map.getBounds().toBBoxString();
           let layer = "pmc:Exist_Road";
 
-          let layers = ["pmc:Exist_Road", "pmc:Reservations"];
+          let layers = ["pmc:Exist_Road", "pmc:Bhavan"];
 let queryLayers = layers.join(',');
 
 var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(

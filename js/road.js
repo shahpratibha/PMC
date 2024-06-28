@@ -707,55 +707,6 @@ if (workType == "New") {
 // Initialize the mapMode variable
 let mapMode = 'snapping';
 
-// customToolSelector.onAdd = function (map) {
-//   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-//   div.style.padding = '5px';
-//   div.style.backgroundColor = 'white';
-//   div.style.border = '2px solid #2B13BB';
-//   div.style.left='771px';
-//   div.style.height='36px'
-//   div.style.width='36px'
-//   div.style.top = "590px";
-
-//   // Create a new button element
-//   var button = document.createElement('button');
-//   button.className = 'form-check-button';
-//   button.id = 'traceToolButton';
-//   button.style.marginRight = '0px';
-//   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white';
-//   button.style.display = 'flex';
-//   button.style.justifyContent = 'center';
-//   button.style.alignItems = 'center';
-//   // button.style.width = '100%';
-//   // button.style.height = '100%';
-//   // Create a new image element
-//   var img = document.createElement('img');
-//   img.src = 'png/Trace_tool.png';
-//   img.style.height = '18px';
-//   img.style.width = '18px';
-
-//   button.appendChild(img);
-
-//   // Add event listener to toggle mapMode and update button appearance
-//   button.addEventListener('click', function () {
-//     if (mapMode === 'snapping') {
-//       mapMode = 'tracing';
-//       button.style.backgroundColor = 'lightblue';
-//     } else {
-//       mapMode = 'snapping';
-//       button.style.backgroundColor = 'white';
-//     }
-//     console.log("Current Map Mode:", mapMode); // Optional: for debugging
-//   });
-
-//   div.appendChild(button);
-
-//   return div;
-// };
-
-// if (workType == "New") {
-
-
 //   customToolSelector.addTo(map);
 
 // }
@@ -2129,12 +2080,14 @@ function Savedata(lastDrawnPolylineId) {
       bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
+  
+
   var payload = JSON.stringify({
       geoJSON: bufferGeoJSONString,
       roadLength: roadLenght,
       bufferWidth: bufferWidth,
       gis_id: lastInsertedId,
-      department: department,
+      department: department, 
       selectCoordinatesData: selectCoordinatesData,
       area: area 
   });
