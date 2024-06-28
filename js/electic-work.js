@@ -818,7 +818,7 @@ var editControl = L.control({position: 'topleft'});
     // controlUI.style.fontSize='18px';
     // controlUI.style.position='absolute';
     // controlUI.style.top='60px';
-    controlUI.style.display='none';
+    // controlUI.style.display='none';
 
     // controlUI.style.border='2px solid darkblue';
     // controlUI.style.borderRadius='5px'
