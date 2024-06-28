@@ -249,6 +249,19 @@ var Zone_layer= L.tileLayer.wms(
     maxZoom: 21,
   }
 );
+
+var wms_layer_bhavan = L.tileLayer.wms(
+  baseURL,
+  {
+    layers: "Bhavan",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  }
+).addTo(map);
  
  
 // //////////////////////////added 11-03-2023/////////////////////////////////////////
@@ -262,6 +275,7 @@ var WMSlayers = {
   Roads: wms_layer1,
   Boundary: wms_layer12,
   Amenity: wms_layer11,
+  wms_layer_bhavan: wms_layer_bhavan,
   Drainage: wms_layer13,
   Data: wms_layer14,
   Revenue: wms_layer15,
@@ -1090,7 +1104,7 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 
   var bufferLayer = L.geoJSON(buffered, {
     style: {
-      color: "#000000",
+      color: "blue",
       weight: 4,
       opacity: 0.5,
       lineJoin: "round",
@@ -1100,10 +1114,9 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 
   var dashedLineLayer = L.geoJSON(geoJSON, {
     style: {
-      color: "#ffffff",
+      color: "blue",
       weight: 2,
       opacity: 1,
-      dashArray: "10, 10",
       lineJoin: "round",
     },
     interactive: false
