@@ -607,10 +607,9 @@ var drawControlElectrical = new L.Control.Draw({
         className: "leaflet-div-icon", 
       }),
     },
-    circle: true,
+    point:true,
     marker: false,
     rectangle: false,
-    circlemarker:false
   },
   edit:false,
 });

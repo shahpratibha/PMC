@@ -96,7 +96,7 @@ else if ($department == "Road") {
     $selectCoordinatesData = $data['selectCoordinatesData'];
     $roadLength = isset($data['roadLength']) ? $data['roadLength'] : null;
     $bufferWidth = isset($data['bufferWidth']) ? $data['bufferWidth'] : null;
-    $area =  isset($data['area']) ? $data['area'] : 0;
+    $lenght =  isset($data['area']) ? $data['area'] : 0;
     $geometry = $geoJSONData['features'][0]['geometry'];
     $geometryJSON = json_encode($geometry);
     $selectedGeometry = isset($selectCoordinatesData[1]['geometry']) ? $selectCoordinatesData[1]['geometry'] : (isset($selectCoordinatesData[0]['geometry']) ? $selectCoordinatesData[0]['geometry'] : null);
@@ -120,11 +120,11 @@ else if ($department == "Road") {
    
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",\"Project_Office\",
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, measure_in, \"Project_Office_Id\",\"Project_Office\",
         \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a,length_1,department,stage,zone_id,ward_id
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id, :Project_Office,
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :measure_in, :Project_Office_Id, :Project_Office,
         :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id
     )");
 
@@ -146,7 +146,6 @@ else if ($department == "Road") {
     $stmtIWMS->bindParam(':update_dat', $configData['updated_date'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':gis_id', $configData['gis_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':no_of_road', $configData['no_of_road'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':area', $configData['area'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':measure_in', $configData['measure_in'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Project_Office_Id', $configData['project_from'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Year', $configData['budget_year'], PDO::PARAM_STR);
@@ -155,7 +154,7 @@ else if ($department == "Road") {
     $stmtIWMS->bindParam(':departme_1', $configData['department'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Code', $configData['budgetcode'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':works_aa_a', $configData['works_approval_id'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':length_1', $area, PDO::PARAM_STR);
+    $stmtIWMS->bindParam(':length_1', $lenght, PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Project_Office', $configData['project_office'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':department', $configData['d_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
@@ -168,8 +167,7 @@ else if ($department == "Road") {
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
-        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
-        $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET  \"updatedAt\" = :currentDateTime WHERE id = :id");
         $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
         $stmtUpdate->execute();
