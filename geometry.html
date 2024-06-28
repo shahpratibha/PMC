@@ -34,7 +34,7 @@
 
     <style>
         .pagination {
-            margin-top: 35px;
+            margin-top: 3px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -85,21 +85,50 @@
         
         @media print {
         body {
-            size: tabloid landscape; /* Set page size and orientation */
-            margin: 10mm 10mm 10mm 10mm; /* Adjust margins as needed */
+            size: tabloid landscape; 
+            margin: 10mm 10mm 10mm 10mm; 
         }
 
-        .pagination, /* Adjust styles for printing */
+        .pagination, 
         .geopulseaname,
         #generatePdfBtn {
-            display: none; /* Hide elements not needed on print */
+            display: none; 
         }
 
         table {
-            width: 100%; /* Ensure table width is 100% */
-            font-size: 10pt; /* Adjust font size for print */
+            width: 100%;
+            font-size: 10pt;
         }
     }
+    .edit-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+    margin-left: 88%;
+
+    font-family:sans-serif !important;
+    transition: background-color 0.3s ease;
+    }
+
+
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+       
+        .edit i {
+            margin-right: 10px; 
+        }
+        .leaflet-interactive {
+         transform: scale(1.2); 
+}
     </style>
 
 
@@ -114,6 +143,7 @@
             <form class="mt-3" style="overflow: hidden">
                 <div style="margin: 0; float: left">
                     <h5 class="text-secondary">Preview Map</h5>
+                    
                 </div>
                 <div style="float: right; margin-top: -40px; margin-left: 95%">
                     <i class="fa-solid fa-print text-primary" id="generatePdfBtn" onclick="printPage()"
@@ -132,7 +162,8 @@
                                 <th>Value</th>
                             </tr>
                         </thead>
-                        <tbody id="workTableData"></tbody>
+                        <tbody id="workTableData">
+                        </tbody>
                     </table>
                     <div id="pagination-controls" class="pagination">
 
@@ -170,9 +201,9 @@
         var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19
         }).addTo(map);
-        var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-        // var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
-        var IWMS_line = L.tileLayer.wms(baseURL, {
+        // var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+        var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+        var IWMS_line = L.tileLayer.wms(demoURL, {
             layers: "IWMS_line",
             format: "image/png",
             transparent: true,
@@ -181,7 +212,7 @@
             opacity: 1
         });
 
-        var IWMS_polygon = L.tileLayer.wms(baseURL, {
+        var IWMS_polygon = L.tileLayer.wms(demoURL, {
             layers: "IWMS_polygon",
             format: "image/png",
             transparent: true,
@@ -190,7 +221,7 @@
             opacity: 1
         });
 
-        var IWMS_point = L.tileLayer.wms(baseURL, {
+        var IWMS_point = L.tileLayer.wms(demoURL, {
             layers: "IWMS_point",
             format: "image/png",
             transparent: true,
@@ -298,13 +329,22 @@
                             }
                         }
                     }
+                    const editRow = document.createElement('tr');
+                    editRow.classList.add('no-bottom-border');
+        const editButtonCell = document.createElement('td');
+        editButtonCell.colSpan = 2;
+        editButtonCell.style.textAlign = 'center';
+        editButtonCell.innerHTML = '<button class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit';
+        editRow.appendChild(editButtonCell);
+        tableBody.appendChild(editRow);
 
                     const paginationControls = document.getElementById('pagination-controls');
                     paginationControls.innerHTML = '';
                     highlightFeature(data[start].geometry);
                     updatePagination(page);
+                    
                 }
-
+               
                 function updatePagination(page) {
                     const paginationControls = document.getElementById('pagination-controls');
                     paginationControls.innerHTML = '';

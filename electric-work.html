@@ -488,7 +488,7 @@
           let bbox = map.getBounds().toBBoxString();
           let layer = "pmc:Exist_Road";
 
-          let layers = ["pmc:Exist_Road", "pmc:Reservations"];
+          let layers = ["pmc:Exist_Road", "pmc:Bhavan"];
 let queryLayers = layers.join(',');
 
 var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
