@@ -602,6 +602,52 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        else if (department.department_name === "Education Department (Primary)") {
+
+
+          const baseURL = "Education.html";
+
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        }
+        else if (department.department_name === "Market") {
+
+
+          const baseURL = "market.html";
+
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        }
+        else if (department.department_name === "Environment") {
+
+
+          const baseURL = "Environtment.html";
+
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        }
+        else if (department.department_name === "Sport") {
+
+
+          const baseURL = "sport.html";
+
+          // Create the query string
+          const queryString = `?proj_id=${encodeURIComponent(id)}&lastInsertedId=${encodeURIComponent(lastInsertedId)}&width=${encodeURIComponent(bufferWidth)}&length=${encodeURIComponent(roadLength)}&wardName=${encodeURIComponent(wardName)}&department=${encodeURIComponent(department.department_name)}&workType=${encodeURIComponent(workType)}&struct_no=${encodeURIComponent(struct_no)}&user_id=${encodeURIComponent(user_id)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}`;
+
+          // Redirect to the new URL with query parameters
+          window.location.href = baseURL + queryString;
+        }
+
+
 
         else if (department.department_name === 'Slum') {
 
