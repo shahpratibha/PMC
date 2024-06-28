@@ -922,3 +922,41 @@ console.log(cqlFilter123, "cqlFilter123");
   }
 });
  
+
+  //  function for closing popup 
+
+        // Function to close popup
+        function closePopup() {
+          map.closePopup(); // This closes any open popup
+      }
+
+      // Handler to close the popup on specified interactions
+      function handleClick(event) {
+          var isClickInsideMap = map.getContainer().contains(event.target);
+          var isClickInsidePopup = document.querySelector('.leaflet-popup')?.contains(event.target);
+
+          if (!isClickInsideMap && !isClickInsidePopup) {
+              closePopup();
+          }
+      }
+
+      // Add event listeners for clicks on the table container
+      document.getElementById('tablecontainer').addEventListener('click', closePopup);
+
+      // Add event listeners for clicks on any buttons
+      document.querySelectorAll('button').forEach(button => {
+          button.addEventListener('click', closePopup);
+      });
+
+      // Add event listeners for clicks on other specific elements
+      document.querySelectorAll('.other-interactive-element').forEach(element => {
+          element.addEventListener('click', closePopup);
+      });
+
+      // Add a global click listener to handle clicks outside the map and popup
+      document.addEventListener('click', handleClick);
+
+      // Prevent closing popup when interacting with the map itself
+      map.on('click', function(event) {
+          event.originalEvent.stopPropagation();
+      });
