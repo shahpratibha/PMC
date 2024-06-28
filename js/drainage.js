@@ -648,10 +648,9 @@ var drawControlDrainage = new L.Control.Draw({
 
     },
 
-    circle: false,
+    circle: true,
     marker: false,
     rectangle: false,
-    point:true,
   },
   edit:false,
   //  {
@@ -1598,30 +1597,111 @@ function truncateLineToLength(geojson, maxLength) {
 
 
 
-map.on("draw:created", function (e) {
+  map.on("draw:created", function (e) {
 
 
-  toggleSaveButton(true);
-  toggleEditDeleteButton(true);
+    toggleSaveButton(true);
+    toggleEditDeleteButton(true);
 
 
- if(mapMode == 'snapping'){ 
-  var newFeature = e.layer.toGeoJSON();
+  if(mapMode == 'snapping'){ 
+    var newFeature = e.layer.toGeoJSON();
 
-  getGeodataFeatures().then(function (geodataFeatures) {
-    var isAllowed = checkOverlapWithGeodata(newFeature, geodataFeatures);
+    getGeodataFeatures().then(function (geodataFeatures) {
+      var isAllowed = checkOverlapWithGeodata(newFeature, geodataFeatures);
 
-    if (isAllowed) {
-      // Add the feature to the map if overlap is 10% or less
-      // drawnItems.addLayer(e.layer);
-    } else {
+      if (isAllowed) {
+        // Add the feature to the map if overlap is 10% or less
+        // drawnItems.addLayer(e.layer);
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Oops...",
+          text: "Road overlaps more than 10% with existing Road.",
+          showConfirmButton: false,
+          showCloseButton: true,
+          customClass: {
+            popup: "custom-modal-class",
+            icon: "custom-icon-class",
+            title: "custom-title-class",
+            content: "custom-text-class",
+            closeButton: "custom-close-button-class",
+          },
+          showClass: {
+            popup: "swal2-show",
+            backdrop: "swal2-backdrop-show",
+            icon: "swal2-icon-show",
+          },
+          hideClass: {
+            popup: "swal2-hide",
+            backdrop: "swal2-backdrop-hide",
+            icon: "swal2-icon-hide",
+          },
+          didOpen: () => {
+            // Apply custom styles directly to the modal elements
+            document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+            document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+            document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+            document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+            document.querySelector(".custom-title-class").style.fontSize =
+              "1.5em"; // Set your desired title size
+            document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.backgroundColor = "#f44336"; // Red background color
+            document.querySelector(".custom-close-button-class").style.color =
+              "white"; // White text color
+            document.querySelector(
+              ".custom-close-button-class"
+            ).style.borderRadius = "0"; // Rounded corners
+            document.querySelector(".custom-close-button-class").style.padding =
+              "5px"; // Padding around the close button
+            document.querySelector(".custom-close-button-class").style.fontSize =
+              "20px"; // Font size of the close button
+          },
+        });
+        return ;
+      }
+    });
+    if (e.layerType === "polyline") {
+      var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
+      var roadLenght = lenght;
+      if (length > roadLenght) {
+        
+        var truncatedCoordinates = truncateLineToLength(e.layer.toGeoJSON(), roadLenght);
+      // its returning array of coordinates convert it to geojson
+    
+      var truncatedLineGeoJSON = {
+        type: 'Feature',
+        color: 'blue',
+        geometry: {
+          type: 'LineString',
+          coordinates: truncatedCoordinates,
+        },
+      };
+    
+      // add to drawn items
+    
+      var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON, {
+        style: function (feature) {
+            return { color: 'blue' };
+        }
+    }).addTo(drawnItems);
+      
+      var layer = L.geoJSON(truncatedLineGeoJSON);
+    
+      var tempGeoJSON = currentPolyline.toGeoJSON();
+        
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Oops...",
-        text: "Road overlaps more than 10% with existing Road.",
+        text:  `The Road is longer than ${roadLenght} kilometers. `,
         showConfirmButton: false,
         showCloseButton: true,
+        
         customClass: {
           popup: "custom-modal-class",
           icon: "custom-icon-class",
@@ -1643,9 +1723,11 @@ map.on("draw:created", function (e) {
           // Apply custom styles directly to the modal elements
           document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
           document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
+          document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
           document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-          document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
+          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+          
+          document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
           document.querySelector(".custom-title-class").style.fontSize =
             "1.5em"; // Set your desired title size
           document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
@@ -1663,135 +1745,88 @@ map.on("draw:created", function (e) {
             "20px"; // Font size of the close button
         },
       });
-      return ;
-    }
-  });
-  if (e.layerType === "polyline") {
-    var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
-    var roadLenght = lenght;
+      
+      }else {
+    
+        var layer = e.layer;
+    
+    
+        drawnItems.addLayer(layer);
+        var geoJSON = layer.toGeoJSON();
+        var tempGeoJSON = geoJSON;
+    
+      }
+
+      
+  var bufferWidth = width;
+  createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+    
+    }else {
+    
+      var layer = e.layer;
   
-  }
-  if (length > roadLenght) {
-      
-    var truncatedCoordinates = truncateLineToLength(e.layer.toGeoJSON(), roadLenght);
-  // its returning array of coordinates convert it to geojson
-  console.log('truncatedCoordinates', truncatedCoordinates);
-
-  var truncatedLineGeoJSON = {
-    type: 'Feature',
-    color: 'red',
-    geometry: {
-      type: 'LineString',
-      coordinates: truncatedCoordinates,
-    },
-  };
-
-  // add to drawn items
-
-  var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON, {
-    style: function (feature) {
-        return { color: 'red' };
+  
+      drawnItems.addLayer(layer);
+      var geoJSON = layer.toGeoJSON();
+      var tempGeoJSON = geoJSON;
+  
     }
-}).addTo(drawnItems);
-  // Create a new Leaflet polyline and add it to the map
-  //currentPolyline = L.polyline(truncatedCoordinates, { color: 'red' }).addTo(drawnItems);
-
-  // Optionally, you can add the GeoJSON directly to the map
-  // var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON).addTo(drawnItems);
-  var layer = L.geoJSON(truncatedLineGeoJSON);
-
-  var tempGeoJSON = currentPolyline.toGeoJSON();
     
-  Swal.fire({
-    position: "center",
-    icon: "error",
-    title: "Oops...",
-    text:  `The Road is longer than ${roadLenght} kilometers. `,
-    showConfirmButton: false,
-    showCloseButton: true,
-    
-    customClass: {
-      popup: "custom-modal-class",
-      icon: "custom-icon-class",
-      title: "custom-title-class",
-      content: "custom-text-class",
-      closeButton: "custom-close-button-class",
+
+
+
+  nearestPointsStorage = []; // Reset the storage for the next drawing
+
+  var geoJSON = layer.toGeoJSON();
+  var popupContent = UpdateArea(tempGeoJSON);
+
+  var lastDrawnPolylineId = layer._leaflet_id;
+  lastDrawnPolylineIdSave = layer._leaflet_id;
+  $.ajax({
+    // url: API_URL + "/process.php", // Path to the PHP script
+    url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
+    type: "GET",
+    data: { id: lastInsertedId },
+    dataType: "json",
+    success: function (response) {
+      $('#table-container').show();
+        const formDataFromStorage = response.data;
+        console.log(formDataFromStorage);
+        let contentData = '<tr>';
+        for (const property in formDataFromStorage) {
+          // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+          if (formDataFromStorage[property] !== null) {  // Check for null value
+            contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        }
+        }
+        contentData += '</tr>';
+        $('#workTableData').html(contentData);
+
     },
-    showClass: {
-      popup: "swal2-show",
-      backdrop: "swal2-backdrop-show",
-      icon: "swal2-icon-show",
-    },
-    hideClass: {
-      popup: "swal2-hide",
-      backdrop: "swal2-backdrop-hide",
-      icon: "swal2-icon-hide",
-    },
-    didOpen: () => {
-      // Apply custom styles directly to the modal elements
-      document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-      document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-      document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
-      document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-      document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-      
-      document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
-      document.querySelector(".custom-title-class").style.fontSize =
-        "1.5em"; // Set your desired title size
-      document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-      document.querySelector(
-        ".custom-close-button-class"
-      ).style.backgroundColor = "#f44336"; // Red background color
-      document.querySelector(".custom-close-button-class").style.color =
-        "white"; // White text color
-      document.querySelector(
-        ".custom-close-button-class"
-      ).style.borderRadius = "0"; // Rounded corners
-      document.querySelector(".custom-close-button-class").style.padding =
-        "5px"; // Padding around the close button
-      document.querySelector(".custom-close-button-class").style.fontSize =
-        "20px"; // Font size of the close button
+    error: function (error) {
+      console.error("AJAX request failed:", error);
     },
   });
-   
-  }else {
-
-    var layer = e.layer;
-
-
-    drawnItems.addLayer(layer);
-    var geoJSON = layer.toGeoJSON();
-    var tempGeoJSON = geoJSON;
-
   }
+  else if (mapMode == 'tracing'){
+  let layer = currentPolyline ;
+  var bufferWidth = width;
 
+  nearestPointsStorage = []; // Reset the storage for the next drawing
 
+  var geoJSON = layer.toGeoJSON();
+  var popupContent = UpdateArea(geoJSON);
+  var lastDrawnPolylineId = layer._leaflet_id;
+  lastDrawnPolylineIdSave = layer._leaflet_id;
 
-// layer.on('click', function () {
-//   enableEditing(layer);
-// });
-
-// layer.on('click', function() {
-//   selectedPolylineId = layer._leaflet_id;
-// });
-
-
-
-nearestPointsStorage = []; // Reset the storage for the next drawing
-
-var geoJSON = layer.toGeoJSON();
-var popupContent = UpdateArea(tempGeoJSON);
-
-var lastDrawnPolylineId = layer._leaflet_id;
-lastDrawnPolylineIdSave = layer._leaflet_id;
-$.ajax({
-  // url: API_URL + "/process.php", // Path to the PHP script
-  url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
-  type: "GET",
-  data: { id: lastInsertedId },
-  dataType: "json",
-  success: function (response) {
-     $('#table-container').show();
+  $.ajax({
+    // url: API_URL + "/process.php", // Path to the PHP script
+    url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
+    type: "GET",
+    data: { id: lastInsertedId },
+    dataType: "json",
+    success: function (response) {
+      $('#table-container').show();
       const formDataFromStorage = response.data;
       console.log(formDataFromStorage);
       let contentData = '<tr>';
@@ -1803,51 +1838,14 @@ $.ajax({
       }
       contentData += '</tr>';
       $('#workTableData').html(contentData);
+    },
+    error: function (error) {
+      console.error("AJAX request failed:", error);
+    },
+  });
+  }
 
-  },
-  error: function (error) {
-    console.error("AJAX request failed:", error);
-  },
-});
-}
-else if (mapMode == 'tracing'){
-let layer = currentPolyline ;
-var bufferWidth = width;
-
-nearestPointsStorage = []; // Reset the storage for the next drawing
-
-var geoJSON = layer.toGeoJSON();
-var popupContent = UpdateArea(geoJSON);
-var lastDrawnPolylineId = layer._leaflet_id;
-lastDrawnPolylineIdSave = layer._leaflet_id;
-
-$.ajax({
-  // url: API_URL + "/process.php", // Path to the PHP script
-  url: API_URL + "APIS/Get_Conceptual_Form.php", // Path to the PHP script
-  type: "GET",
-  data: { id: lastInsertedId },
-  dataType: "json",
-  success: function (response) {
-    $('#table-container').show();
-    const formDataFromStorage = response.data;
-    console.log(formDataFromStorage);
-    let contentData = '<tr>';
-    for (const property in formDataFromStorage) {
-      // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-      if (formDataFromStorage[property] !== null) {  // Check for null value
-        contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-    }
-    }
-    contentData += '</tr>';
-    $('#workTableData').html(contentData);
-  },
-  error: function (error) {
-    console.error("AJAX request failed:", error);
-  },
-});
-}
-
-});
+  });
 
 
 

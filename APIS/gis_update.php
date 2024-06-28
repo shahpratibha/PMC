@@ -141,12 +141,12 @@ else if ($department == "Road") {
 
     $stmtIWMS = $pdo->prepare("INSERT INTO \"IWMS_line\" (
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
-        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, area, measure_in, \"Project_Office_Id\",
-        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a
+        conceptual, conc_appr_, created_at, tender_amo, update_dat, gis_id, no_of_road, measure_in, \"Project_Office_Id\",
+        \"Budget_Year\",\"Agency\", \"Work_Comletion_Date\",departme_1,\"Budget_Code\",works_aa_a, \"length_1\"
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
-        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :area, :measure_in, :Project_Office_Id,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a
+        :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :measure_in, :Project_Office_Id,
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a, :length_1
     )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -172,12 +172,11 @@ else if ($department == "Road") {
 
     $stmtIWMS->bindParam(':gis_id', $configData['gis_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':no_of_road', $configData['no_of_road'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':area', $configData['area'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':measure_in', $configData['measure_in'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Project_Office_Id', $configData['project_from'], PDO::PARAM_STR);
 
 
-
+    $stmtIWMS->bindParam(':length_1',  $roadLength, PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Year', $configData['budget_year'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Agency', $configData['agency'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Work_Completion_Date', $configData['work_completion_date'], PDO::PARAM_STR);

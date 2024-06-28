@@ -2129,12 +2129,14 @@ function Savedata(lastDrawnPolylineId) {
       bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
   }
 
+  
+
   var payload = JSON.stringify({
       geoJSON: bufferGeoJSONString,
       roadLength: roadLenght,
       bufferWidth: bufferWidth,
       gis_id: lastInsertedId,
-      department: department,
+      department: department, 
       selectCoordinatesData: selectCoordinatesData,
       area: area 
   });
