@@ -53,8 +53,9 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-const lenght = getQueryParam('length') !== undefined ? parseInt(getQueryParam('length'), 10) : 40;
-const width = getQueryParam('width') !== undefined ? parseInt(getQueryParam('width'), 10) : 10;
+
+const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
+const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
 const lastInsertedId = getQueryParam('lastInsertedId');
 const wardname = getQueryParam('wardName');
 const department = getQueryParam('department');
@@ -606,10 +607,9 @@ var drawControlElectrical = new L.Control.Draw({
         className: "leaflet-div-icon", 
       }),
     },
-    circle: true,
+    point:false,
     marker: false,
     rectangle: false,
-    circlemarker:false
   },
   edit:false,
 });
@@ -631,50 +631,55 @@ customDrawControls.onAdd = function (map) {
 // Add the control to the map
 customDrawControls.addTo(map);
 
-var customToolSelector = L.control({ position: 'topleft' });
+//var customToolSelector = L.control({ position: 'topleft' });
 
 // Initialize the mapMode variable
 let mapMode = 'snapping';
 
-customToolSelector.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-  div.style.display='none';
+// customToolSelector.onAdd = function (map) {
+//   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
+//   div.style.padding = '5px';
+//   div.style.backgroundColor = 'white';
+//   div.style.border = '2px solid #2B13BB';
+//   div.style.top = "528px";
+//   div.style.left = "785px";
+//   div.style.height= "37px";
+//   div.style.width= "37px";
+//   div.style.borderRadius="5px 5px 5px 5px";
 
+//   // Create a new button element
+//   var button = document.createElement('button');
+//   button.className = 'form-check-button';
+//   button.id = 'traceToolButton';
+//   button.style.marginRight = '5px';
+//   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
 
-  // Create a new button element
-  var button = document.createElement('button');
-  button.className = 'form-check-button';
-  button.id = 'traceToolButton';
-  // button.style.marginRight = '5px';
-  button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
+//   // Create a new image element
+//   var img = document.createElement('img');
+//   img.src = 'png/Trace_tool.png';
+//   img.style.height = '20px';
+//   img.style.width = '20px';
 
-  // Create a new image element
-  var img = document.createElement('img');
-  img.src = 'png/Trace_tool.png';
-  img.style.display='none'
-  img.style.height = '20px';
-  img.style.width = '20px';
+//   button.appendChild(img);
 
-  button.appendChild(img);
+//   // Add event listener to toggle mapMode and update button appearance
+//   button.addEventListener('click', function() {
+//       if (mapMode === 'snapping') {
+//           mapMode = 'tracing';
+//           button.style.backgroundColor = 'lightblue';
+//       } else {
+//           mapMode = 'snapping';
+//           button.style.backgroundColor = 'white';
+//       }
+//       console.log("Current Map Mode:", mapMode); // Optional: for debugging
+//   });
 
-  // Add event listener to toggle mapMode and update button appearance
-  button.addEventListener('click', function() {
-      if (mapMode === 'snapping') {
-          mapMode = 'tracing';
-          button.style.backgroundColor = 'lightblue';
-      } else {
-          mapMode = 'snapping';
-          button.style.backgroundColor = 'white';
-      }
-      console.log("Current Map Mode:", mapMode); // Optional: for debugging
-  });
+//   div.appendChild(button);
 
-  div.appendChild(button);
+//   return div;
+// };
 
-  return div;
-};
-
-customToolSelector.addTo(map);
+// customToolSelector.addTo(map);
 var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
@@ -1912,36 +1917,29 @@ function Savedata(lastDrawnPolylineId) {
   var area = 0; // Initialize area variable
   var centroid = 0 ;
 
-  if (mapMode === 'tracing') {
+  if(mapMode == 'tracing'){
+   
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
-  } else {
-    geoJSONString = toGISformat();
-    geoJSONStringJson = JSON.parse(geoJSONString);
-    selectCoordinatesData = geoJSONStringJson.features;
+
+    if (currentPolyline) {
+      area = turf.area(geoJSONStringJson); 
+      console.log(area);
   }
-  
-  if (selectCoordinatesData && selectCoordinatesData.length > 0) {
-    const lastFeature = selectCoordinatesData[selectCoordinatesData.length - 1];
-    const geometry = lastFeature.geometry;
-    console.log(geometry.type);
-  
+  }else{
+  geoJSONString = toGISformat();
+  geoJSONStringJson = JSON.parse(geoJSONString);
+  selectCoordinatesData = geoJSONStringJson.features;
+
+  if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
+    const geometry = geoJSONStringJson.features[1].geometry;
     if (geometry.type === "Polygon") {
-      area = turf.area(lastFeature);
-      centroid = turf.centroid(lastFeature);
-      console.log(centroid);
-      console.log(area);
+        area = turf.area(geoJSONStringJson.features[1]);
     } else if (geometry.type === "LineString") {
-      area = turf.length(lastFeature, { units: 'kilometers' });
-      centroid = null; // Centroids are typically not relevant for LineStrings
-      console.log(area);
+        area = turf.length(geoJSONStringJson.features[1], { units: 'meters' }); 
     }
-    else if (geometry.type === "Point") {
-      area = 0;
-      centroid = null; // Centroids are typically not relevant for LineStrings
-      console.log(area);
-    }
+}
   }
 
 
@@ -1970,18 +1968,109 @@ function Savedata(lastDrawnPolylineId) {
 
   console.log(selectCoordinatesData);
 
+  var pointsGeoJSON = selectCoordinatesData.filter(feature => feature.geometry.type === 'Point');
 
-  var payload = JSON.stringify({
-    geoJSON: bufferGeoJSONString,
-    roadLength: roadLenght,
-    bufferWidth: bufferWidth,
-    gis_id: lastInsertedId,
-    department: department,
-    selectCoordinatesData: selectCoordinatesData,
-    geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
-});
+  console.log(pointsGeoJSON);
 
+  // have to save point data multiple time for each point
 
+  if(pointsGeoJSON.length > 0){
+    let completedRequests = 0;
+    pointsGeoJSON.forEach((point, index) => {
+     
+      var payload = JSON.stringify({
+        geoJSON: JSON.stringify(point),
+        roadLength: roadLenght,
+        bufferWidth: bufferWidth,
+        gis_id: lastInsertedId,
+        department: department,
+        selectCoordinatesData: [point],
+        geometryType: point.geometry.type
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "APIS/gis_save.php",
+      data: payload,
+      contentType: "application/json",
+      success: function (response) {
+        console.log(response);
+     //window.location.href = "geometry_page.html";
+      },
+      error: function (xhr, status, error) {
+        console.error("Save failed:", error);
+      },
+    });
+    let latitude = point.geometry.coordinates[1];
+    let longitude = point.geometry.coordinates[0];
+    let geometryCoordinates = point.geometry.coordinates;
+  
+    var formData = new FormData();
+    formData.append('proj_id', worksAaApprovalId);
+    formData.append('latitude', latitude);
+    formData.append('longitude', longitude);
+    formData.append('polygon_area', 0);
+    formData.append('polygon_centroid', null);
+    formData.append('geometry', JSON.stringify(geometryCoordinates));
+    formData.append('road_no', struct_no);
+    formData.append('user_id', user_id);
+  
+  
+    $.ajax({
+      type: "POST",
+      url: "https://iwms.punecorporation.org/api/gis-data",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        completedRequests++;
+        console.log(completedRequests,pointsGeoJSON.length);
+        if (completedRequests === pointsGeoJSON.length) {
+          window.location.href = response.data.redirect_Url;
+        }
+       
+      },
+      error: function (xhr, status, error) {
+        console.error("Save failed:", error);
+      }
+    });
+  
+  
+  });
+  }else{
+    if (selectCoordinatesData && selectCoordinatesData.length > 0) {
+      const lastFeature = selectCoordinatesData[selectCoordinatesData.length - 1];
+      const geometry = lastFeature.geometry;
+      console.log(geometry.type);
+    
+      if (geometry.type === "Polygon") {
+        area = turf.area(lastFeature);
+        centroid = turf.centroid(lastFeature);
+        console.log(centroid);
+        console.log(area);
+      } else if (geometry.type === "LineString") {
+        area = turf.length(lastFeature, { units: 'kilometers' });
+        centroid = null; // Centroids are typically not relevant for LineStrings
+        console.log(area);
+      }
+      else if (geometry.type === "Point") {
+        area = 0;
+        centroid = null; // Centroids are typically not relevant for LineStrings
+        console.log(area);
+      }
+    }
+  
+  
+
+    var payload = JSON.stringify({
+      geoJSON: bufferGeoJSONString,
+      roadLength: roadLenght,
+      bufferWidth: bufferWidth,
+      gis_id: lastInsertedId,
+      department: department,
+      selectCoordinatesData: selectCoordinatesData,
+      geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
+  });
   $.ajax({
     type: "POST",
     url: "APIS/gis_save.php",
@@ -1996,10 +2085,12 @@ function Savedata(lastDrawnPolylineId) {
     },
   });
 
-
   const lastGeometry = selectCoordinatesData[selectCoordinatesData.length - 1].geometry;
   const geometryType = lastGeometry.type;
-  
+
+  // get the all geomtries with points
+
+
   
     let latitude, longitude, geometryCoordinates, polygon_centroid;
   
@@ -2025,11 +2116,11 @@ function Savedata(lastDrawnPolylineId) {
 
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', latitude);
-  formData.append('longitude', longitude);
-  formData.append('polygon_area', area);
-  formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
-  formData.append('geometry', JSON.stringify(geometryCoordinates));
+  formData.append('latitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][1]);
+  formData.append('longitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][0]);
+  formData.append('polygon_area', 0);
+  formData.append('polygon_centroid', 0);
+  formData.append('geometry', JSON.stringify(selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
   formData.append('length', area);
@@ -2052,6 +2143,7 @@ function Savedata(lastDrawnPolylineId) {
   });
   
 
+  }
 }
 
 function SavetoKML() {

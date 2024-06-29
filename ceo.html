@@ -9,216 +9,229 @@
     <!-- <link rel="stylesheet" href="C_form.css" /> -->
 
     <style>
-  
-      .draw_feature {
-        top: 530px !important;
-        left: 699px;
-        position: relative;
-        height: 37px;
-        width: 37px;
-        border: 2px solid #2b13bb !important;
-      }
-      #saveDataButton {
-        border: 2px solid #2b13bb;
-        border-bottom: 2px solid #2b13bb;
-        border-top: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
-        background-color: white;
-        position: fixed;
-        color: black;
-        padding: 0px 5px;
-        display: none;
-        top: 690px;
-        font-size: 19px;
-        height: 37px;
-        width: 37px;
-        left: 880px;
-      }
-      #deleteFeatureButton {
-        border: 2px solid #2b13bb;
-        border-top: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
-        background-color: white;
-        color: black;
-        padding: 3px 7px;
-        display: none !important;
-        position: fixed;
-        top: 690px;
-        font-size: 15px;
-        height: 37px;
-        width: 37px;
-        left: 925px;
-      }
-      .leaflet-draw-draw-polygon {
-        left: 575px !important;
-        position: absolute !important;
-        top: 414px !important;
-        height: 37px !important;
-        width: 37px !important;
-        border-bottom: 2px solid #2b13bb !important;
-        border-top: 2px solid #2b13bb !important;
-        border-left: 2px solid #2b13bb !important;
-        border-right: 2px solid #2b13bb !important;
-        border-radius: 5px 5px 5px 5px !important;
-      }
-      .leaflet-draw-draw-polyline {
-        top: 414px !important;
-        position: absolute !important;
-        left: 659px !important;
-        border: 2px solid #2b13bb !important;
-        border-bottom: 2px solid darkblue;
-        height: 37px !important;
-        width: 37px !important;
-        border-radius: 5px 5px 5px 5px !important;
-      }
-    
+          .draw_feature {
+      top: 530px !important;
+      left: 699px;
+      position: relative;
+      height: 37px;
+      width: 37px;
+      border: 2px solid #2b13bb !important;
+    }
 
-      #editFeatureButton {
-        border: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
-        height: 37px !important;
-        width: 37px !important;
-        display: block!important; 
-        position: fixed;
-        top: 645px;
-        left: 820px;
-        padding: 5px;
-        background: white;
-        border-bottom: 2px solid #2b13bb;
-      }
-      .custom-button {
-        width: auto;
-        padding: 1px 2px;
-        background-color: #fff;
-        /* color: darkblue; */
-        font-weight: bold;
-        font-size: 10px !important;
-        border: 2px solid #2b13bb;
-        border-radius: 5px !important;
-        cursor: pointer;
-        /* position: absolute; */
-        top: 635px !important;
-        left: 741px !important;
-        height: 37px !important;
-        width: 37px !important;
-        transition: background-color 0.1s;
-      }
-      #save-button {
-        /* border: 2px solid rgb(187, 187, 187); */
-        border-radius: 5px 5px 5px 5px;
-        background-color: white;
-        color: black;
-        padding: 7px;
-        display: none;
-        position: absolute;
-        border: 2px solid #2b13bb;
-        border-top: 2px solid #2b13bb;
-        border-bottom: 2px solid #2b13bb;
-        top: 480px;
-        height: 37px;
-        width: 37px;
-        left: 532px;
-        font-size: 15px;
-        border-bottom: 2px solid #2b13bb;
-      }
-      .delete-button {
-        border: 2px solid #2b13bb;
-        padding: 6px 7.3px;
-        font-size: 14px;
-        border-radius: 5px 5px 5px 5px;
-        display: block;
-        background-color: white;
-        color: black;
-        cursor: pointer;
-        left: 448px;
-        position: absolute;
-        top: 425px !important;
-        height: 37px;
-        width: 37px;
-        display: none;
-        border-top: 2px solid #2b13bb !important;
-        border-bottom: 2px solid #2b13bb !important;
-        border-left: 2px solid #2b13bb !important;
-        border-right: 2px solid #2b13bb !important;
-      }
+    #saveDataButton {
+      border: 2px solid #2b13bb;
+      border-bottom: 2px solid #2b13bb;
+      border-top: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px;
+      background-color: white;
+      position: fixed;
+      color: black;
+      padding: 0px 5px;
+      display: none;
+      top: 690px;
+      font-size: 19px;
+      height: 37px;
+      width: 37px;
+      left: 880px;
+    }
 
-      .leaflet-control-edit-interior {
-        font-size: 15px;
-        position: absolute !important;
-        height: 37px !important;
-        width: 37px !important;
-        top: 438px !important;
-        border: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px !important;
-        display: none;
-        left: 490px !important;
-        border-bottom: 2px solid #2b13bb !important;
-      }
-      .leaflet-draw-draw-circle {
-        position: absolute;
-        top: 414px;
-        left: 618px;
-        border-bottom: 2px solid #2b13bb !important;
-        border-top: 2px solid #2b13bb !important;
-        border-left: 2px solid #2b13bb !important;
-        border-right: 2px solid #2b13bb !important;
-        border-top: none;
-        width: 37px !important;
-        height: 37px !important;
-        border-radius: 5px 5px 5px 5px !important;
-      }
-      .leaflet-draw-edit-edit {
-        display: none !important;
-      }
-      .leaflet-draw-edit-remove {
-        display: none !important;
-      }
+    #deleteFeatureButton {
+      border: 2px solid #2b13bb;
+      border-top: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px;
+      background-color: white;
+      color: black;
+      padding: 3px 7px;
+      display: none !important;
+      position: fixed;
+      top: 690px;
+      font-size: 15px;
+      height: 37px;
+      width: 37px;
+      left: 925px;
+    }
 
-      
-#helpButton .icon {
-    font-size: 10px;
-    width: 16px;
-    height: 16px;
-}
+    .leaflet-draw-draw-polygon {
+      left: 575px !important;
+      position: absolute !important;
+      top: 414px !important;
+      height: 37px !important;
+      width: 37px !important;
+      border-bottom: 2px solid #2b13bb !important;
+      border-top: 2px solid #2b13bb !important;
+      border-left: 2px solid #2b13bb !important;
+      border-right: 2px solid #2b13bb !important;
+      border-radius: 5px 5px 5px 5px !important;
+    }
 
-#helpButton {
-    position: absolute;
-    top: 15%;
-    left: 1.5%;
-    transform: translateX(-50%);
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    z-index: 1000;
-    padding: 10px; 
-}
+    .leaflet-draw-draw-polyline {
+      top: 414px !important;
+      position: absolute !important;
+      left: 659px !important;
+      border: 2px solid #2b13bb !important;
+      border-bottom: 2px solid darkblue;
+      height: 37px !important;
+      width: 37px !important;
+      border-radius: 5px 5px 5px 5px !important;
+    }
 
-#helpButton:hover::after {
-    content: "HELP"; 
-    position: absolute;
-    top: calc(100% + 5px); 
-    left: 50%; 
-    transform: translateX(-50%);
-    background-color: black;
-    color: white;
-    border: 1px solid black;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 12px;
-    white-space: nowrap; 
-    z-index: 1000; 
-    display: none; 
-}
+    .leaflet-draw-draw-circlemarker {
+      position: absolute;
+      top: 414px;
+      left: 618px;
+      border-bottom: 2px solid #2b13bb !important;
+      border-top: 2px solid #2b13bb !important;
+      border-left: 2px solid #2b13bb !important;
+      border-right: 2px solid #2b13bb !important;
+      border-top: none;
+      width: 37px !important;
+      height: 37px !important;
+      border-radius: 5px 5px 5px 5px !important;
+    }
 
-#helpButton:hover::after {
-    display: block; 
-}
+    .leaflet-draw-draw-circle {
+     display: none !important;
+    }
+
+    .leaflet-draw-edit-edit {
+      display: none !important;
+    }
+
+    .leaflet-draw-edit-remove {
+      display: none !important;
+    }
+
+
+    #editFeatureButton {
+      border: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px;
+      height: 37px !important;
+      width: 37px !important;
+      display: none !important;
+      position: fixed;
+      top: 645px;
+      left: 820px;
+      padding: 5px;
+      background: white;
+      border-bottom: 2px solid #2b13bb;
+    }
+
+    .custom-button {
+      width: auto;
+      padding: 1px 2px;
+      background-color: #fff;
+      /* color: darkblue; */
+      font-weight: bold;
+      font-size: 10px !important;
+      border: 2px solid #2b13bb;
+      border-radius: 5px !important;
+      cursor: pointer;
+      /* position: absolute; */
+      top: 635px !important;
+      left: 741px !important;
+      height: 37px !important;
+      width: 37px !important;
+      transition: background-color 0.1s;
+    }
+
+    #save-button {
+      /* border: 2px solid rgb(187, 187, 187); */
+      border-radius: 5px 5px 5px 5px;
+      background-color: white;
+      color: black;
+      padding: 7px;
+      display: none;
+      position: absolute;
+      border: 2px solid #2b13bb;
+      border-top: 2px solid #2b13bb;
+      border-bottom: 2px solid #2b13bb;
+      top: 480px;
+      height: 37px;
+      width: 37px;
+      left: 532px;
+      font-size: 15px;
+      border-bottom: 2px solid #2b13bb;
+    }
+
+    .delete-button {
+      border: 2px solid #2b13bb;
+      padding: 6px 7.3px;
+      font-size: 14px;
+      border-radius: 5px 5px 5px 5px;
+      display: block;
+      background-color: white;
+      color: black;
+      cursor: pointer;
+      left: 448px;
+      position: absolute;
+      top: 425px !important;
+      height: 37px;
+      width: 37px;
+      display: none;
+      border-top: 2px solid #2b13bb !important;
+      border-bottom: 2px solid #2b13bb !important;
+      border-left: 2px solid #2b13bb !important;
+      border-right: 2px solid #2b13bb !important;
+    }
+
+    .leaflet-control-edit-interior {
+      font-size: 15px;
+      position: absolute !important;
+      height: 37px !important;
+      width: 37px !important;
+      top: 438px !important;
+      border: 2px solid #2b13bb;
+      border-radius: 5px 5px 5px 5px !important;
+      display: none;
+      left: 490px !important;
+      border-bottom: 2px solid #2b13bb !important;
+    }
+
+
+    #helpButton .icon {
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
+    }
+
+    #helpButton {
+      position: absolute;
+      top: 15%;
+      left: 1.5%;
+      transform: translateX(-50%);
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      z-index: 1000;
+      padding: 10px;
+    }
+
+    #helpButton:hover::after {
+      content: "HELP";
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: black;
+      color: white;
+      border: 1px solid black;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 12px;
+      white-space: nowrap;
+      z-index: 1000;
+      display: none;
+    }
+
+    #helpButton:hover::after {
+      display: block;
+    }
     </style>
     <!-- bootstrap -->
     <link
@@ -450,11 +463,13 @@
           let bbox = map.getBounds().toBBoxString();
           let layer = "pmc:Exist_Road";
 
-          var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-            e.containerPoint.x
-          )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-            size.x
-          }&HEIGHT=${size.y}&BBOX=${bbox}`;
+          let layers = ["pmc:Exist_Road", "pmc:Bhavan"];
+let queryLayers = layers.join(',');
+
+var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  e.containerPoint.x
+)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
 
           fetch(url)
             .then((response) => response.json())
@@ -552,27 +567,39 @@ $('#workTableData').html(contentData);
 
 
 
-      let selectCoordinatesData = featureData.features;
+          let selectCoordinatesData = editableLayers.getLayers().map(layer => layer.toGeoJSON());
+            
+          selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+        return el.features.length > 0;
+    });
+
+
       localStorage.setItem(
         "selectCoordinatesData",
         JSON.stringify(selectCoordinatesData)
       );
 
-    
-      var lenghtSelect = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' });
 
 
-      var payload = JSON.stringify({
-        geoJSON: JSON.stringify(featureData),
+
+      selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+
+              
+        var lenghtSelect = turf.length(selectCoordinatesDataSingle.features[0].geometry, { units: 'meters' });
+
+        var payload = JSON.stringify({
+        geoJSON: JSON.stringify(selectCoordinatesDataSingle),
         roadLength: lenghtSelect,
         bufferWidth: bufferWidth,
         gis_id: lastInsertedId,
         department: department,
-        selectCoordinatesData: selectCoordinatesData,
-        geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
-      });
+        selectCoordinatesData: selectCoordinatesDataSingle.features,
+        geometryType:
+          selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
+            .geometry.type,
+        });
 
-      $.ajax({
+        $.ajax({
         type: "POST",
         url: "APIS/gis_update.php",
         data: payload,
@@ -628,45 +655,53 @@ $('#workTableData').html(contentData);
           });
 
           setTimeout(() => {
-          //  window.location.href = "geometry_page.html";
+            //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
           }, 2100);
         },
         error: function (xhr, status, error) {
           console.error("Save failed:", error);
         },
-      });
+        });
 
-     
-   area = turf.area(selectCoordinatesData[0]);
-  var formData = new FormData();
-  formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
-  formData.append('polygon_area', 0);
-  formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-  formData.append('road_no', '11');
-  formData.append('user_id', '5');
-  formData.append('length', lenghtSelect);
-  formData.append('width', width);
+        area = turf.length(selectCoordinatesDataSingle.features[0].geometry, { units: 'meters' }); 
+        var formData = new FormData();
+        formData.append('proj_id', worksAaApprovalId);
+        formData.append('latitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][1]);
+        formData.append('longitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][0]);
+        formData.append('polygon_area', 0);
+        formData.append('polygon_centroid', 0);
+        formData.append('geometry', JSON.stringify(selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+        formData.append('road_no', struct_no);
+        formData.append('user_id', user_id);
+        formData.append('length', lenghtSelect);
+        formData.append('width', width);
 
-            $.ajax({
-      type: "POST",
-      url: "https://iwms.punecorporation.org/api/gis-data",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        window.location.href = response.data.redirect_Url;
-      },
-      error: function (xhr, status, error) {
+        $.ajax({
+        type: "POST",
+        url: "https://iwms.punecorporation.org/api/gis-data",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          console.log(response);
+          //window.location.href = response.data.redirect_Url;
+        },
+        error: function (xhr, status, error) {
           console.error("Save failed:", error);
-      },
-  });
+        },
+        });
 
-    });
+
+        });
+
+
+
+
+
+});
 
     
+     
 
  
   
