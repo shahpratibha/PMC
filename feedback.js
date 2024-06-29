@@ -12,7 +12,7 @@
             const iconStyle = document.createElement("style");
             iconStyle.innerHTML = `
                 #feedbackButton .icon {
-                    font-size: 7px;
+                    font-size: 10px;
                     width: 13px;
                     height: 13px;
                 }
@@ -41,10 +41,10 @@
 
                 #feedbackButton::after {
                     content: "FEEDBACK";
-                    position: absolute;
-                    top: 50%;
-                    right: 100%;
-                    transform: translateX(-100px) translateY(-50%);
+                     position: absolute;
+                    right: calc(100% + 5px); 
+                    transform: translatey(-50%)
+                     top: 70%;
                     background-color: black;
                     color: white;
                     border: 1px solid;

@@ -126,11 +126,11 @@
 
 #helpButton {
     position: absolute;
-    top: 15%;
-    left: 1.5%;
+    top: 18%;
+    left: 8%;
     transform: translateX(-50%);
     background-color: white;
-    border: 1px solid black;
+    border: 2px solid #2b13bb;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
@@ -156,75 +156,83 @@
     font-size: 12px;
     white-space: nowrap; 
     z-index: 1000; 
-    display: none; 
+    display: block; 
+    
 }
 
 #helpButton:hover::after {
     display: block; 
 }
-
-
-#feedbackButton .icon {
-    font-size: 10px;
-    width: 16px;
-    height: 16px;
-} 
-
-#feedbackButton {
-    position: absolute;
-    bottom: 13.5%;
-    left: 97.7%;
-    transform: translateX(-50%);
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    z-index: 1000;
-    padding: 10px; 
+/* 
+@media only screen and (max-width: 768px) {
+  #helpButton{
+    top: 116px;
+    left: 24px;
+  }
 }
 
-#feedbackButton:hover::after {
-    content: "FEEDBACK"; 
-    position: absolute;
-    top: 50%; 
-    right: calc(100% + 5px); 
-    transform: translateY(-50%);
-    background-color: black;
-    color: white;
-    border: 1px solid black;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 12px;
-    white-space: nowrap; 
-    z-index: 1000; 
-    display: block;
+@media only screen and (max-width: 1024px) {
+  #helpButton{
+    left: 21.5px;
+  }
 }
 
-#sidebar {
-    position: fixed;
-    right: -250px; /* Hidden by default */
-    top: 0;
-    width: 250px;
-    height: 100%;
-    background-color: white;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-    transition: right 0.3s;
-    z-index: 999;
-    padding: 10px;
-    border-left: 1px solid black;
+@media only screen and (max-width: 1440px) {
+  #helpButton{
+    left: 2px;
+  }
+} */
+
+
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+    #helpButton {
+      top: 18%;
+      left: 3%; 
+    }
+    
+    #helpButton:hover::after {
+      top: 18%;
+      left: 3%;
+    }
 }
 
-#sidebar.open {
-    right: 0;
+/* Laptop view (901px to 1200px) */
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+    #helpButton {
+      top: 18%;
+      left: 2.5%;
+    }
+    
+    #helpButton:hover::after {
+      top: 18%;
+      left: 2.5%;
+    }
 }
 
+/* Desktop view (1201px and up) */
+@media only screen and (min-width: 1201px) {
+    #helpButton {
+      top: 18%;
+      left: 2.5%;
+    }
+    
+    #helpButton:hover::after {
+      top: 18%;
+      left: 2.5%;
+    }
+}
 
-
+@media only screen and (min-width: 1440px) {
+    #helpButton {
+      top: 15%;
+      left: 1.5%;
+    }
+    
+    #helpButton:hover::after {
+      top: 15%;
+      left: 1.5%;
+    }
+}
   </style>
 
 
