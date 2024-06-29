@@ -1487,40 +1487,40 @@ let traceLayer = L.layerGroup().addTo(map);
 let currentPolyline;
 
 
-map.on("draw:drawvertex", function (e) {
-  vertexClickCount++;
-  for (const key in e.layers._layers) {
-    if (e.layers._layers.hasOwnProperty(key)) {
-      const layer = e.layers._layers[key];
-      const originalLatlng = layer._latlng;
-      getClosestRoadPoint(originalLatlng).then(result => {
-        if (result && result.distance <= 20.0000) {
-          layer._latlng.lat = result.marker.lat;
-          layer._latlng.lng = result.marker.lng;
-          layer.setLatLng(result.marker);
-        }
-      });
-    }
-  }
-});
+// map.on("draw:drawvertex", function (e) {
+//   vertexClickCount++;
+//   for (const key in e.layers._layers) {
+//     if (e.layers._layers.hasOwnProperty(key)) {
+//       const layer = e.layers._layers[key];
+//       const originalLatlng = layer._latlng;
+//       getClosestRoadPoint(originalLatlng).then(result => {
+//         if (result && result.distance <= 20.0000) {
+//           layer._latlng.lat = result.marker.lat;
+//           layer._latlng.lng = result.marker.lng;
+//           layer.setLatLng(result.marker);
+//         }
+//       });
+//     }
+//   }
+// });
 
 
-map.on("draw:editvertex", function (e) {
-  for (const key in e.layers._layers) {
-    if (e.layers._layers.hasOwnProperty(key)) {
-      const layer = e.layers._layers[key];
-      const originalLatlng = layer._latlng;
-      getClosestRoadPoint(originalLatlng).then(result => {
-        if (result && result.distance <= 20.0000) {
-          layer._latlng.lat = result.marker.lat;
-          layer._latlng.lng = result.marker.lng;
-          layer.setLatLng(result.marker);
-        }
-      });
-    }
-  }
+// map.on("draw:editvertex", function (e) {
+//   for (const key in e.layers._layers) {
+//     if (e.layers._layers.hasOwnProperty(key)) {
+//       const layer = e.layers._layers[key];
+//       const originalLatlng = layer._latlng;
+//       getClosestRoadPoint(originalLatlng).then(result => {
+//         if (result && result.distance <= 20.0000) {
+//           layer._latlng.lat = result.marker.lat;
+//           layer._latlng.lng = result.marker.lng;
+//           layer.setLatLng(result.marker);
+//         }
+//       });
+//     }
+//   }
 
-});
+// });
 
 
 
@@ -1638,7 +1638,7 @@ function handleMouseMove(event) {
     if (drawTimeout) clearTimeout(drawTimeout);
     lastDrawnPoint = event.latlng;
     drawTimeout = setTimeout(() => {
-      getClosestRoadPointLast(lastDrawnPoint);
+   //   getClosestRoadPointLast(lastDrawnPoint);
     }, 100); // Adjust the delay as needed
   }
 }
