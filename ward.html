@@ -81,18 +81,18 @@
 
 #helpButton {
     position: absolute;
-    top: 15%;
-    left: 1.5%;
+    top: 18%;
+    left: 8%;
     transform: translateX(-50%);
     background-color: white;
-    border: 1px solid black;
+    border: 2px solid darkblue !important;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     z-index: 1000;
     padding: 10px; 
 }
@@ -111,12 +111,65 @@
     font-size: 12px;
     white-space: nowrap; 
     z-index: 1000; 
-    display: none; 
+    display: block; 
+    
 }
 
 #helpButton:hover::after {
     display: block; 
 }
+
+
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+    #helpButton {
+      top: 18%;
+      left: 3%; 
+    }
+    
+    #helpButton:hover::after {
+      top: 18%;
+      left: 3%;
+    }
+}
+
+/* Laptop view (901px to 1200px) */
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+    #helpButton {
+      top: 18%;
+      left: 2.5%;
+    }
+    
+    #helpButton:hover::after {
+      top: 18%;
+      left: 2.5%;
+    }
+}
+
+/* Desktop view (1201px and up) */
+@media only screen and (min-width: 1201px) {
+    #helpButton {
+      top: 18%;
+      left: 2.5%;
+    }
+    
+    #helpButton:hover::after {
+      top: 18%;
+      left: 2.5%;
+    }
+}
+
+@media only screen and (min-width: 1440px) {
+    #helpButton {
+      top: 15%;
+      left: 1.5%;
+    }
+    
+    #helpButton:hover::after {
+      top: 15%;
+      left: 1.5%;
+    }
+}
+
     </style>
 
     <!-- bootstrap -->
@@ -883,20 +936,13 @@
       // Customize the zoom control position
       map.zoomControl.setPosition("bottomright");
     </script>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 010e8113f5be7d0d03e883119518b9a143bffabc
+
 
 <script>
   function openHelpPage() {
       window.open('Ward_help.html', '_blank');
   }
 </script>
-<<<<<<< HEAD
-=======
-=======
->>>>>>> ae42d62bd9159793b903f86c51eb62a0d9a555bd
->>>>>>> 010e8113f5be7d0d03e883119518b9a143bffabc
+
   </body>
 </html>

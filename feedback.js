@@ -23,8 +23,8 @@
             buttonStyle.innerHTML = `
                 #feedbackButton {
                     position: absolute;
-                    top: 15%;
-                    left: 98.1%;
+                    top: 18%;
+                    left: 92%;
                     transform: translateX(-50%);
                     background-color: white;
                     border: 2px solid #2b13bb;
@@ -52,13 +52,93 @@
                     border-radius: 5px;
                     font-size: 12px;
                     white-space: nowrap;
-                    z-index: 1000;
+                    z-index: 999;
                     display: none;
                 }
 
                 #feedbackButton:hover::after {
                     display: block;
                 }
+
+                @media only screen and (min-width: 601px) and (max-width: 900px) {
+                #feedbackButton {
+                top: 18%;
+                left: 96%;
+                width: 32px;
+                height: 30px;
+                padding: 8px;
+                }
+
+             #feedbackButton::after {
+                font-size: 11px;
+                padding: 4px;
+                top: 60%;
+                right: calc(100% + 3px);
+                }
+            }
+
+            @media only screen and (min-width: 601px) and (max-width: 900px) {
+                #feedbackButton {
+                top: 18%;
+                left: 96%;
+                width: 32px;
+                height: 30px;
+                padding: 8px;
+                }
+
+             #feedbackButton::after {
+                font-size: 11px;
+                padding: 4px;
+                top: 60%;
+                right: calc(100% + 3px);
+                }
+            }
+
+            @media only screen and (min-width: 901px) and (max-width: 1200px) {
+                #feedbackButton {
+                top: 18%;
+                left: 97%;
+                width: 32px;
+                }
+
+             #feedbackButton::after {
+                font-size: 11px;
+                padding: 4px;
+                top: 60%;
+                right: calc(100% + 3px);
+                }
+            }
+
+
+        @media only screen and (min-width: 1201px) {
+        #feedbackButton {
+                top: 18%;
+                left: 98%;
+                width: 32px;
+                }
+
+             #feedbackButton::after {
+                font-size: 11px;
+                padding: 4px;
+                top: 60%;
+                right: calc(100% + 3px);
+                }
+        }
+
+        @media only screen and (min-width: 1440px) {
+        #feedbackButton {
+                top: 14%;
+                left: 98.5%;
+                width: 32px;
+                }
+
+             #feedbackButton::after {
+                font-size: 11px;
+                padding: 4px;
+                top: 60%;
+                right: calc(100% + 3px);
+                }
+        }
             `;
             document.head.appendChild(buttonStyle);
 
