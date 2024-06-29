@@ -700,44 +700,6 @@ customDrawControls.addTo(map);
 // Initialize the mapMode variable
 let mapMode = 'snapping';
 
-// customToolSelector.onAdd = function (map) {
-//   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-//   div.style.padding = '5px';
-//   div.style.backgroundColor = 'white';
-//   div.style.border = '2px solid darkblue';
-//   div.style.top = "50px";
-
-//   // Create a new button element
-//   var button = document.createElement('button');
-//   button.className = 'form-check-button';
-//   button.id = 'traceToolButton';
-//   button.style.marginRight = '5px';
-//   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
-
-//   // Create a new image element
-//   var img = document.createElement('img');
-//   img.src = 'png/Trace_tool.png';
-//   img.style.height = '20px';
-//   img.style.width = '20px';
-
-//   button.appendChild(img);
-
-//   // Add event listener to toggle mapMode and update button appearance
-//   button.addEventListener('click', function() {
-//       if (mapMode === 'snapping') {
-//           mapMode = 'tracing';
-//           button.style.backgroundColor = 'lightblue';
-//       } else {
-//           mapMode = 'snapping';
-//           button.style.backgroundColor = 'white';
-//       }
-//       console.log("Current Map Mode:", mapMode); // Optional: for debugging
-//   });
-
-//   div.appendChild(button);
-
-//   return div;
-// };
 
 // customToolSelector.addTo(map);
 var customSaveButton = L.control({ position: 'topleft' });
@@ -1694,93 +1656,102 @@ map.on("draw:created", function (e) {
   if (e.layerType === "polyline") {
     var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
     var roadLenght = lenght;
-
-  }
-  if (length > roadLenght) {
+    if (length > roadLenght) {
       
-    var truncatedCoordinates = truncateLineToLength(e.layer.toGeoJSON(), roadLenght);
-  // its returning array of coordinates convert it to geojson
-  console.log('truncatedCoordinates', truncatedCoordinates);
-
-  var truncatedLineGeoJSON = {
-    type: 'Feature',
-    color: 'red',
-    geometry: {
-      type: 'LineString',
-      coordinates: truncatedCoordinates,
-    },
-  };
-
-  // add to drawn items
-
-  var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON, {
-    style: function (feature) {
-        return { color: 'red' };
-    }
-}).addTo(drawnItems);
-  // Create a new Leaflet polyline and add it to the map
-  //currentPolyline = L.polyline(truncatedCoordinates, { color: 'red' }).addTo(drawnItems);
-
-  // Optionally, you can add the GeoJSON directly to the map
-  // var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON).addTo(drawnItems);
-  var layer = L.geoJSON(truncatedLineGeoJSON);
-
-  var tempGeoJSON = currentPolyline.toGeoJSON();
-    
-  Swal.fire({
-    position: "center",
-    icon: "error",
-    title: "Oops...",
-    text:  `The Road is longer than ${roadLenght} kilometers. `,
-    showConfirmButton: false,
-    showCloseButton: true,
-    
-    customClass: {
-      popup: "custom-modal-class",
-      icon: "custom-icon-class",
-      title: "custom-title-class",
-      content: "custom-text-class",
-      closeButton: "custom-close-button-class",
-    },
-    showClass: {
-      popup: "swal2-show",
-      backdrop: "swal2-backdrop-show",
-      icon: "swal2-icon-show",
-    },
-    hideClass: {
-      popup: "swal2-hide",
-      backdrop: "swal2-backdrop-hide",
-      icon: "swal2-icon-hide",
-    },
-    didOpen: () => {
-      // Apply custom styles directly to the modal elements
-      document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-      document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-      document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
-      document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-      document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-      
-      document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
-      document.querySelector(".custom-title-class").style.fontSize =
-        "1.5em"; // Set your desired title size
-      document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-      document.querySelector(
-        ".custom-close-button-class"
-      ).style.backgroundColor = "#f44336"; // Red background color
-      document.querySelector(".custom-close-button-class").style.color =
-        "white"; // White text color
-      document.querySelector(
-        ".custom-close-button-class"
-      ).style.borderRadius = "0"; // Rounded corners
-      document.querySelector(".custom-close-button-class").style.padding =
-        "5px"; // Padding around the close button
-      document.querySelector(".custom-close-button-class").style.fontSize =
-        "20px"; // Font size of the close button
-    },
-  });
+      var truncatedCoordinates = truncateLineToLength(e.layer.toGeoJSON(), roadLenght);
    
+    var truncatedLineGeoJSON = {
+      type: 'Feature',
+      color: 'blue',
+      geometry: {
+        type: 'LineString',
+        coordinates: truncatedCoordinates,
+      },
+    };
+  
+    // add to drawn items
+  
+    var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON, {
+      style: function (feature) {
+          return { color: 'blue' };
+      }
+  }).addTo(drawnItems);
+    // Create a new Leaflet polyline and add it to the map
+    //currentPolyline = L.polyline(truncatedCoordinates, { color: 'red' }).addTo(drawnItems);
+  
+    // Optionally, you can add the GeoJSON directly to the map
+    // var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON).addTo(drawnItems);
+    var layer = L.geoJSON(truncatedLineGeoJSON);
+  
+    var tempGeoJSON = currentPolyline.toGeoJSON();
+      
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text:  `The Road is longer than ${roadLenght} kilometers. `,
+      showConfirmButton: false,
+      showCloseButton: true,
+      
+      customClass: {
+        popup: "custom-modal-class",
+        icon: "custom-icon-class",
+        title: "custom-title-class",
+        content: "custom-text-class",
+        closeButton: "custom-close-button-class",
+      },
+      showClass: {
+        popup: "swal2-show",
+        backdrop: "swal2-backdrop-show",
+        icon: "swal2-icon-show",
+      },
+      hideClass: {
+        popup: "swal2-hide",
+        backdrop: "swal2-backdrop-hide",
+        icon: "swal2-icon-hide",
+      },
+      didOpen: () => {
+        // Apply custom styles directly to the modal elements
+        document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
+        document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
+        document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
+        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+        document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
+        
+        document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
+        document.querySelector(".custom-title-class").style.fontSize =
+          "1.5em"; // Set your desired title size
+        document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
+        document.querySelector(
+          ".custom-close-button-class"
+        ).style.backgroundColor = "#f44336"; // Red background color
+        document.querySelector(".custom-close-button-class").style.color =
+          "white"; // White text color
+        document.querySelector(
+          ".custom-close-button-class"
+        ).style.borderRadius = "0"; // Rounded corners
+        document.querySelector(".custom-close-button-class").style.padding =
+          "5px"; // Padding around the close button
+        document.querySelector(".custom-close-button-class").style.fontSize =
+          "20px"; // Font size of the close button
+      },
+    });
+     
+    }else {
+  
+      var layer = e.layer;
+  
+  
+      drawnItems.addLayer(layer);
+      var geoJSON = layer.toGeoJSON();
+      var tempGeoJSON = geoJSON;
+  
+    }
+    var bufferWidth = width;
+     // createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+  
   }else {
-
+  
     var layer = e.layer;
 
 
@@ -1789,8 +1760,6 @@ map.on("draw:created", function (e) {
     var tempGeoJSON = geoJSON;
 
   }
-  var bufferWidth = width;
-    createBufferAndDashedLine(layer, roadLenght, bufferWidth);
 
 nearestPointsStorage = []; // Reset the storage for the next drawing
 

@@ -591,5 +591,9 @@ width: 37px;
   /* overflow: scroll; */
   /* scrollbar-width: thin; */
 }
-
-
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  border: 2px solid darkblue !important;
+}

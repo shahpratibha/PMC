@@ -12,7 +12,7 @@
             const iconStyle = document.createElement("style");
             iconStyle.innerHTML = `
                 #feedbackButton .icon {
-                    font-size: 10px;
+                    font-size: 7px;
                     width: 13px;
                     height: 13px;
                 }
