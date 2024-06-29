@@ -1,3 +1,18 @@
+@media screen and (max-width: 768px) {
+  #editFeatureButton {
+    display: none !important;
+  }
+  #saveDataButton {
+    display: none !important;
+  }
+  #deleteFeatureButton {
+    display: none !important;
+  }
+  .draw_feature {
+    display: none !important;
+  }
+}
+
 @media only screen and (min-width: 992px){
     .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
         background-position: -27px 2px !important;
@@ -6,13 +21,13 @@
         background-position: -269px 2px !important;
     }
     .draw_feature {
-        top: 91% ;
-        left: 54%;
-        position:fixed;
-        height: 37px;
-        width: 37px;
-        border: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
+        top: 91% !important;
+        left: 54% !important;
+        position:fixed !important;
+        height: 37px !important;
+        width: 37px !important;
+        border: 2px solid #2b13bb !important;
+        border-radius: 5px 5px 5px 5px !important;
       }
       .custom-button {
         width: auto;
@@ -322,3 +337,49 @@
         white-space: nowrap;
       }
 }
+
+#helpButton .icon {
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+#helpButton {
+    position: absolute;
+    top: 15%;
+    left: 1.5%;
+    transform: translateX(-50%);
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    z-index: 1000;
+    padding: 10px; 
+}
+
+#helpButton:hover::after {
+    content: "HELP"; 
+    position: absolute;
+    top: calc(100% + 5px); 
+    left: 50%; 
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap; 
+    z-index: 1000; 
+    display: none; 
+}
+
+#helpButton:hover::after {
+    display: block; 
+}
+  
