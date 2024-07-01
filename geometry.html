@@ -334,9 +334,12 @@
         const editButtonCell = document.createElement('td');
         editButtonCell.colSpan = 2;
         editButtonCell.style.textAlign = 'center';
-        editButtonCell.innerHTML = '<button class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit';
-        editRow.appendChild(editButtonCell);
-        tableBody.appendChild(editRow);
+        // editButtonCell.innerHTML = '<button class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit';
+            editButtonCell.innerHTML = '<button type="button" onclick="onClickEdit(\'' + data[0].Department.replace(/'/g, "\\'") + '\', \'' + data[0].id.replace(/'/g, "\\'") + '\')" class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit</button>';
+
+
+            editRow.appendChild(editButtonCell);
+            tableBody.appendChild(editRow);
 
                     const paginationControls = document.getElementById('pagination-controls');
                     paginationControls.innerHTML = '';
@@ -453,6 +456,12 @@
 
 //             document.getElementById("generatePdfBtn").onclick = printPage;
 //         });
+
+
+function onClickEdit(department, id) {
+    console.log(department, id);
+}
+
         });
         $(document).ready(function () {
         // Your existing document ready code...

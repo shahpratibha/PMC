@@ -382,17 +382,27 @@ border-radius: 5px 5px 5px 5px !important;
 								? formDataFromStorage.Width
 								: 20;
 
-						let selectCoordinatesData = featureData.features;
+					
+								let selectCoordinatesData = editableLayers.getLayers().map(layer => layer.toGeoJSON());
+            
+      
 						localStorage.setItem('selectCoordinatesData', JSON.stringify(selectCoordinatesData));
 
-				
-						var payload = JSON.stringify({
-							geoJSON: JSON.stringify(featureData),
+
+						selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+        return el.features.length > 0;
+    });
+
+
+
+	                   selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+		                var payload = JSON.stringify({
+							geoJSON: JSON.stringify(selectCoordinatesDataSingle),
 							roadLength: roadLength,
 							bufferWidth: bufferWidth,
 							gis_id: lastInsertedId,
 							department: department,
-							selectCoordinatesData: selectCoordinatesData,
+							selectCoordinatesData: selectCoordinatesDataSingle.features,
 						});
 
 						$.ajax({
@@ -456,15 +466,15 @@ border-radius: 5px 5px 5px 5px !important;
 							},
 						});
 
-let area = turf.area(selectCoordinatesData[0]);
-let centroid = turf.centroid(selectCoordinatesData[0]);
+						let area = turf.area(selectCoordinatesDataSingle.features[0]);
+	                    let centroid = turf.centroid(selectCoordinatesDataSingle.features[0]);
 						var formData = new FormData();
 						formData.append('proj_id', worksAaApprovalId);
-						formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][0][0]);
-						formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0][1]);
+						formData.append('latitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][0][0]);
+						formData.append('longitude', selectCoordinatesDataSingle.features[0].geometry.coordinates[0][0][1]);
 						formData.append('polygon_area', area);
 						formData.append('polygon_centroid', JSON.stringify(centroid.geometry.coordinates));
-						formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+						formData.append('geometry', JSON.stringify(selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
 						formData.append('road_no', struct_no);
 						formData.append('user_id', user_id);
 					  
@@ -482,7 +492,10 @@ let centroid = turf.centroid(selectCoordinatesData[0]);
 							  console.error("Save failed:", error);
 						  },
 					  });
-					  
+
+
+	});
+
 					});
 				}
 			});
