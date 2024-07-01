@@ -201,9 +201,9 @@
         var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19
         }).addTo(map);
-        // var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-        var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
-        var IWMS_line = L.tileLayer.wms(demoURL, {
+        var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+        // var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+        var IWMS_line = L.tileLayer.wms(baseURL, {
             layers: "IWMS_line",
             format: "image/png",
             transparent: true,
@@ -212,7 +212,7 @@
             opacity: 1
         });
 
-        var IWMS_polygon = L.tileLayer.wms(demoURL, {
+        var IWMS_polygon = L.tileLayer.wms(baseURL, {
             layers: "IWMS_polygon",
             format: "image/png",
             transparent: true,
@@ -221,7 +221,7 @@
             opacity: 1
         });
 
-        var IWMS_point = L.tileLayer.wms(demoURL, {
+        var IWMS_point = L.tileLayer.wms(baseURL, {
             layers: "IWMS_point",
             format: "image/png",
             transparent: true,
@@ -334,9 +334,12 @@
         const editButtonCell = document.createElement('td');
         editButtonCell.colSpan = 2;
         editButtonCell.style.textAlign = 'center';
-        editButtonCell.innerHTML = '<button class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit';
-        editRow.appendChild(editButtonCell);
-        tableBody.appendChild(editRow);
+        // editButtonCell.innerHTML = '<button class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit';
+            editButtonCell.innerHTML = '<button type="button" onclick="onClickEdit(\'' + data[0].Department.replace(/'/g, "\\'") + '\', \'' + data[0].id.replace(/'/g, "\\'") + '\')" class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit</button>';
+
+
+            editRow.appendChild(editButtonCell);
+            tableBody.appendChild(editRow);
 
                     const paginationControls = document.getElementById('pagination-controls');
                     paginationControls.innerHTML = '';
@@ -453,6 +456,12 @@
 
 //             document.getElementById("generatePdfBtn").onclick = printPage;
 //         });
+
+
+function onClickEdit(department, id) {
+    console.log(department, id);
+}
+
         });
         $(document).ready(function () {
         // Your existing document ready code...
