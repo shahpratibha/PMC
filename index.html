@@ -263,6 +263,17 @@ function toggleSelectLayerButton(show) {
 
             return false;
           },
+           onEachFeature: function(feature, layer) {
+      // Initialize snapping for this layer if not already initialized
+      if (!layer.snapediting) {
+        layer.snapediting = new L.Handler.PolylineSnap(map, layer);
+        // Assuming 'guideLayers' is an array of guide layers
+        guideLayers.forEach(function(guideLayer) {
+          layer.snapediting.addGuideLayer(guideLayer); // Correct method name here
+        });
+        layer.snapediting.enable();
+      }
+    }
         });
       });
 
