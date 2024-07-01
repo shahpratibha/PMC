@@ -201,9 +201,9 @@
         var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19
         }).addTo(map);
-        // var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-        var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
-        var IWMS_line = L.tileLayer.wms(demoURL, {
+        var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+        // var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+        var IWMS_line = L.tileLayer.wms(baseURL, {
             layers: "IWMS_line",
             format: "image/png",
             transparent: true,
@@ -212,7 +212,7 @@
             opacity: 1
         });
 
-        var IWMS_polygon = L.tileLayer.wms(demoURL, {
+        var IWMS_polygon = L.tileLayer.wms(baseURL, {
             layers: "IWMS_polygon",
             format: "image/png",
             transparent: true,
@@ -221,7 +221,7 @@
             opacity: 1
         });
 
-        var IWMS_point = L.tileLayer.wms(demoURL, {
+        var IWMS_point = L.tileLayer.wms(baseURL, {
             layers: "IWMS_point",
             format: "image/png",
             transparent: true,
