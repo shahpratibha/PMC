@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const filters = document.getElementById('filters');
   const map = document.getElementById('map');
   const tableBtn = document.getElementById('openTableBtn');
+  const daterange = document.getElementById('daterangepicker');
   const tableinfo = document.getElementById('tablecontainer');
   const button = document.getElementById('toggleFilters');
  
@@ -87,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
       tableBtn.style.right = 'calc(0.8vw)';
       tableBtn.style.top = '22vh';
       tableinfo.style.right = 'calc(20vw - 1px)';
+
     } else {
       filters.style.marginLeft = '-35vw';
       filters.style.opacity = '0';
@@ -98,7 +100,8 @@ document.addEventListener('DOMContentLoaded', function () {
       tableBtn.style.right = '40px';
       tableBtn.style.top = '22vh';
       tableBtn.style.right = '10px';
-      tableinfo.style.right = '10px'; // Adjusted position for tableinfo
+      tableinfo.style.right = '10px';
+      
     }
     filtersVisible = !filtersVisible;
   });
@@ -266,10 +269,17 @@ function DataTableFilter(cql_filter1) {
   var cqlFilter = cql_filter1;
   var geoServerURL =
     `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(cqlFilter)}`;
-  var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At','Status'];
+  var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Work_Type', 'Name_of_JE', 'Agency','Budget_Code','Budget_Amount','Used_Amount', 'Tender_Amount', 'stage',  'Created_At','Status'];
 
   showtable(typeName, geoServerURL, cqlFilter, headers);
 
+// // Replace underscores with spaces
+// var headersWithSpaces = headers.map(function(header) {
+//   return header.replace(/_/g, ' ');
+// });
+
+// // Call the showtable function with modified headers
+// showtable(typeName, geoServerURL, cqlFilter, headersWithSpaces);
 }
 
 
@@ -342,8 +352,6 @@ function getCheckedValues(callback) {
 
 
 
-
-
 function FilterAndZoom(filter) {
   fitbous(filter)
   IWMS_point.setParams({
@@ -390,7 +398,7 @@ function fitbous(filter) {
     processLayer(layerName, function () {
       layersProcessed++;
       if (layersProcessed === layers.length) {
-        // Apply the combined bounds to the map after all layers are processed
+        
         if (bounds) {
           map.fitBounds(bounds);
         }
