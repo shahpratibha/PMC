@@ -404,7 +404,7 @@ customDeleteLayerButton.onAdd = function (map) {
 customDeleteLayerButton.addTo(map);
 
 function enableEditing(layer) {
-  console.log(layer);
+ 
   drawnItems.eachLayer(function (otherLayer) {
     if (
       otherLayer !== layer &&
@@ -505,7 +505,7 @@ if (workType == "New") {
         button.style.backgroundColor = "red";
         drawnItems.eachLayer(function (layer) {
           layer.on("click", function () {
-            console.log("hello");
+        ;
             selectedPolylineId = layer;
             layer.setStyle({ color: "green", weight: 7 });
           });
@@ -520,7 +520,7 @@ if (workType == "New") {
 }
 
 function handleDeletePolyline(polylineId) {
-  console.log(polylineId);
+ 
   removeAssociatedLayers(polylineId);
 }
 

@@ -400,7 +400,6 @@ border-radius: 5px 5px 5px 5px !important;
 						const formDataFromStorage = JSON.parse(localStorage.getItem('conceptual_form_data_temp'));
 
 						$('#table-container').show();
-						console.log(formDataFromStorage);
 						let contentData = '<tr>';
 						for (const property in formDataFromStorage) {
 							contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -449,8 +448,10 @@ border-radius: 5px 5px 5px 5px !important;
 							gis_id: lastInsertedId,
 							department: department,
 							selectCoordinatesData: selectCoordinatesDataSingle.features,
-							area: area,
-
+							area: area,	
+							geometryType:
+          selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
+            .geometry.type,
 						});
 
 						$.ajax({

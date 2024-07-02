@@ -539,7 +539,7 @@
 
 
             $('#table-container').show();
-            console.log(formDataFromStorage);
+            
             let contentData = '<tr>';
             for (const property in formDataFromStorage) {
               contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -609,6 +609,9 @@
                 gis_id: lastInsertedId,
                 department: department,
                 selectCoordinatesData: selectCoordinatesDataSingle.features,
+                geometryType:
+          selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
+            .geometry.type,
               });
 
               $.ajax({
@@ -695,7 +698,7 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                  console.log(response);
+               
                   window.location.href = response.data.redirect_Url;
                 },
                 error: function (xhr, status, error) {
@@ -738,9 +741,9 @@
     function updatePopup(layer) {
       
   let content;
-  console.log(layer)
+ 
   var coordinates = layer._latlngs[0];
-  console.log(coordinates)
+
   var turfCoords = coordinates.map(function (coord) {
     return [coord.lng, coord.lat];
   });

@@ -478,7 +478,7 @@ var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.
             );
 
             // $("#table-container").show();
-            // console.log(formDataFromStorage);
+            // 
             // let contentData = "<tr>";
             // for (const property in formDataFromStorage) {
             //   contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -637,7 +637,7 @@ var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.
                   processData: false,
                   contentType: false,
                   success: function (response) {
-                    console.log(response);
+                 
                     window.location.href = response.data.redirect_Url;
                   },
                   error: function (xhr, status, error) {

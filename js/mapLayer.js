@@ -479,7 +479,7 @@ function toGISformat() {
     }
   }
 
-  // console.log(data);
+  
 
   // Get GeoJSON representation of the drawn layer
   var geoJSON = drawnItems.toGeoJSON();
