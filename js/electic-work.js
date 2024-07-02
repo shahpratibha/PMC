@@ -623,7 +623,7 @@ var customDrawControls = L.control({ position: 'topleft' });
 // Define the HTML content for the control
 customDrawControls.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  div.innerHTML = '<button class="draw_feature"  style=";" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -818,7 +818,7 @@ var editControl = L.control({position: 'topleft'});
     // controlUI.style.fontSize='18px';
     // controlUI.style.position='absolute';
     // controlUI.style.top='60px';
-    // controlUI.style.display='none';
+    controlUI.style.display='none';
 
     // controlUI.style.border='2px solid darkblue';
     // controlUI.style.borderRadius='5px'
