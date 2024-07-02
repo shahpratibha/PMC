@@ -306,17 +306,33 @@ color: black; /* Default color */
 
 
 #daterange {
-z-index: 9999;
-position: fixed !important;
-padding: 16px;
-font-size: 13px !important;
-left: 34%;
-top: 2.3%;
-width: 15% !important;
-border: 2px solid darkblue;
-border-radius: 10px;
-height: 3%;
-}
+  z-index: 9999;
+  position: fixed !important;
+  padding: 16px;
+  font-size: 13px !important;
+  left: 62%;
+  top: 2.3%;
+  width: 15% !important;
+  border: 2px solid darkblue;
+  border-radius: 10px;
+  height: 3%;
+  }
+  
+  .daterange-container {
+    display: flex;
+    align-items: center;
+    position: relative; 
+  }
+  
+  
+  .daterange-container .fa-solid  {
+    position: fixed !important;
+    top: 4.2%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    left: 75% !important;
+    z-index: 9999 !important;
+  }
 thead th {
 position: sticky !important;
 padding: 0%;
