@@ -136,9 +136,7 @@
       href="libs/leaflet-measure-master/leaflet-measure.css"
     />
 
-    <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.3/src/leaflet.geometryutil.min.js"></script>
+  </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geometryutil/0.9.3/leaflet.geometryutil.min.js"></script>
 
@@ -190,16 +188,21 @@
     <!-- <script src="js/mainmodal/legend.js"></script> -->
     <!-- <script src="js/mainmodal/contextMenu.js"></script> -->
 
-    <script>
-      function toggleSelectLayerButton(show) {
-        var saveBtn = document.getElementById("editFeatureButton");
-        var editBtn = document.getElementById("saveDataButton");
-        var deleteBtn = document.getElementById("deleteFeatureButton");
-        if (saveBtn && editBtn) {
-          saveBtn.style.display = show ? "block" : "none";
-          editBtn.style.display = show ? "block" : "none";
-          deleteBtn.style.display = show ? "block" : "none";
-        }
+  <script src="js/road.js"></script>
+  <!-- <script src="js/mainmodal/legend.js"></script> -->
+  <!-- <script src="js/mainmodal/contextMenu.js"></script> -->
+
+  <script>
+
+
+    function toggleSelectLayerButton(show) {
+      var saveBtn = document.getElementById('editFeatureButton');
+      var editBtn = document.getElementById('saveDataButton');
+      var deleteBtn = document.getElementById('deleteFeatureButton');
+      if (saveBtn && editBtn) {
+        saveBtn.style.display = show ? 'block' : 'none';
+        editBtn.style.display = show ? 'block' : 'none';
+        deleteBtn.style.display = show ? 'block' : 'none';
       }
 
       $(document).ready(function () {
@@ -788,6 +791,7 @@ document.getElementById('prevButton').addEventListener('click', playPreviousVide
         .addEventListener("click", function () {
           document.getElementById("sidebar").classList.toggle("open");
         });
+    }
     </script>
 
     <script>

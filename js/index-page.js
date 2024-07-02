@@ -478,7 +478,7 @@ async function fetchAndPostData(id) {
         const wardName = response.data.wardname;
         const workType = project.work_type;
 
-
+//1) ward----------------------
         if (struct_no >= 10) {
           const baseURL = "ward.html";
 
@@ -488,7 +488,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
-
+// 2) road---------------------------
         else if (department.department_name === "Road") {
 
 
@@ -500,6 +500,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        //3 ) Building---------------------------
         else if (department.department_name === "Building") {
 
 
@@ -511,6 +512,8 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+
+        // 4) drainage------------------------------
         else if (department.department_name === "Drainage") {
 
 
@@ -522,7 +525,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
-
+        // 5)water-supply-------------------------
         else if (department.department_name === "Water Supply") {
 
 
@@ -535,6 +538,8 @@ async function fetchAndPostData(id) {
           window.location.href = baseURL + queryString;
         }
 
+        // 6) Electrical---------------------
+
         else if (department.department_name === "Electrical") {
 
 
@@ -546,6 +551,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        // 7) project work-------------------------
         else if (department.department_name === "Project Work") {
 
 
@@ -557,6 +563,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        // 8) swm------------------------------
         else if (department.department_name === 'Solid waste Management') {
 
 
@@ -568,7 +575,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
-
+        // 9) garden-------------------------
         else if (department.department_name === "Garden") {
 
 
@@ -580,6 +587,8 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+
+        // 10) garden horticulture----------------------------
         else if (department.department_name === "Garden Horticulture") {
 
 
@@ -591,6 +600,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        // 11) encrochment=----------------------------------------
         else if (department.department_name === "Encroachment ") {
 
 
@@ -602,6 +612,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        // 12) education---------------------------------
         else if (department.department_name === "Education Department (Primary)") {
 
 
@@ -613,6 +624,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        // 13) market--------------------------
         else if (department.department_name === "Market") {
 
 
@@ -624,6 +636,8 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+
+        // 14) Environment----------------------------------
         else if (department.department_name === "Environment") {
 
 
@@ -635,6 +649,7 @@ async function fetchAndPostData(id) {
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
         }
+        // 15) sport---------------------
         else if (department.department_name === "Sport") {
 
 
@@ -645,7 +660,9 @@ async function fetchAndPostData(id) {
 
           // Redirect to the new URL with query parameters
           window.location.href = baseURL + queryString;
-        }   else if (department.department_name === "City Engineer Office") {
+        }  
+        // 16)CEO--------------------------------------
+        else if (department.department_name === "City Engineer Office") {
 
 
           const baseURL = "ceo.html";
@@ -657,7 +674,7 @@ async function fetchAndPostData(id) {
           window.location.href = baseURL + queryString;
         }
 
-
+// 17)slum--------------------------------
 
         else if (department.department_name === 'Slum') {
 
