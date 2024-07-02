@@ -284,7 +284,7 @@ drawControl.addTo(map);
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+
             highlightFeature(data);
           });
       });
@@ -515,7 +515,7 @@ drawControl.addTo(map);
                 },
               });
               area = turf.length(selectCoordinatesData[0].geometry, { units: 'meters' }); 
-          console.log(selectCoordinatesData)
+
             var formData = new FormData();
             formData.append('proj_id', worksAaApprovalId);
             formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
@@ -535,7 +535,6 @@ drawControl.addTo(map);
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    console.log(response);
                    window.location.href = response.data.redirect_Url;
                 },
                 error: function (xhr, status, error) {

@@ -530,7 +530,7 @@ function fitbou(filter) {
     "&CQL_FILTER=" +
     filter +
     "&outputFormat=application/json";
-    console.log(urlm)
+
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
     wardBoundary = data;
@@ -735,7 +735,7 @@ customDeleteLayerButton.addTo(map);
 
 
 function enableEditing(layer) {
-  console.log(layer);
+ 
   drawnItems.eachLayer(function (otherLayer) {
     if (otherLayer !== layer && otherLayer.editing && otherLayer.editing.enabled()) {
         otherLayer.editing.disable();
@@ -901,7 +901,7 @@ button.onclick = function() {
       button.style.backgroundColor = 'red';   
       drawnItems.eachLayer(function (layer) {
         layer.on('click', function () { 
-          console.log("hello")
+      
           selectedPolylineId = layer ;
           layer.setStyle({ color: 'green', weight: 7 });
 
@@ -921,7 +921,7 @@ deleteControl.addTo(map);
 
 
 function handleDeletePolyline(polylineId) {
-  console.log(polylineId);
+ 
   removeAssociatedLayers(polylineId);
 }
 
@@ -1112,9 +1112,9 @@ function updateAssociatedLayers(polylineId, bufferWidth) {
 }
 
 function removeAssociatedLayers(layerId) {
-  console.log(layerId);
+ 
   var associatedLayers = associatedLayersRegistry[layerId];
-  console.log(associatedLayersRegistry);
+  
   if (layerId) {
     drawnItems.removeLayer(layerId);
 }
@@ -1247,7 +1247,7 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
 // Function to calculate distance between two points
 function closestVertex(point,lineCoordinates){
-  console.log(lineCoordinates)
+
   
   // Initialize variables to store the closest vertex and its distance
   var closestVertex = null;
@@ -1271,8 +1271,8 @@ function closestVertex(point,lineCoordinates){
     distance: closestDistance
 };
 
-  console.log("Closest vertex:", closestVertex);
-  console.log("Distance:", closestDistance);
+
+  
  
   return result
   
@@ -1299,7 +1299,7 @@ function getClosestRoadPoint(latlng) {
   layer = "pmc:Exist_Road";
 
   var url = `https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
-  console.log("burl", url);
+ 
   return new Promise((resolve, reject) => {
       fetch(url)
           .then(response => response.json())
@@ -1315,7 +1315,7 @@ function getClosestRoadPoint(latlng) {
                   closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
                   closestPointv = closestVertex(clickedPoint,line)
                   // (lat,lng,distance)
-                  console.log(closestPoint,"closestPoint",closestPointv,"closestPointv")
+                  
                   
                   distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), {units: 'meters'});
               }
@@ -1560,7 +1560,7 @@ let throttle = false; // Throttling flag to control event frequency
 map.on("draw:created", function (e) {
 
 
-  console.log(e);
+
 
   toggleSaveButton(true);
   toggleEditDeleteButton(true);
@@ -1704,7 +1704,7 @@ $.ajax({
   success: function (response) {
      $('#table-container').show();
       const formDataFromStorage = response.data;
-      console.log(formDataFromStorage);
+      
       let contentData = '<tr>';
       for (const property in formDataFromStorage) {
         // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -1741,7 +1741,7 @@ $.ajax({
   success: function (response) {
     $('#table-container').show();
     const formDataFromStorage = response.data;
-    console.log(formDataFromStorage);
+    
     let contentData = '<tr>';
     for (const property in formDataFromStorage) {
       // contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -1925,7 +1925,7 @@ function Savedata(lastDrawnPolylineId) {
 
     if (currentPolyline) {
       area = turf.area(geoJSONStringJson); 
-      console.log(area);
+    
   }
   }else{
   geoJSONString = toGISformat();
@@ -1994,7 +1994,7 @@ function Savedata(lastDrawnPolylineId) {
       data: payload,
       contentType: "application/json",
       success: function (response) {
-        console.log(response);
+     
      //window.location.href = "geometry_page.html";
       },
       error: function (xhr, status, error) {
@@ -2041,22 +2041,22 @@ function Savedata(lastDrawnPolylineId) {
     if (selectCoordinatesData && selectCoordinatesData.length > 0) {
       const lastFeature = selectCoordinatesData[selectCoordinatesData.length - 1];
       const geometry = lastFeature.geometry;
-      console.log(geometry.type);
+      
     
       if (geometry.type === "Polygon") {
         area = turf.area(lastFeature);
         centroid = turf.centroid(lastFeature);
-        console.log(centroid);
-        console.log(area);
+     
+      
       } else if (geometry.type === "LineString") {
         area = turf.length(lastFeature, { units: 'kilometers' });
         centroid = null; // Centroids are typically not relevant for LineStrings
-        console.log(area);
+      
       }
       else if (geometry.type === "Point") {
         area = 0;
         centroid = null; // Centroids are typically not relevant for LineStrings
-        console.log(area);
+      
       }
     }
   
@@ -2077,7 +2077,7 @@ function Savedata(lastDrawnPolylineId) {
     data: payload,
     contentType: "application/json",
     success: function (response) {
-      console.log(response);
+   
    //window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
@@ -2134,7 +2134,7 @@ function Savedata(lastDrawnPolylineId) {
       processData: false,
       contentType: false,
       success: function (response) {
-          console.log(response);
+       
          window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
@@ -2188,7 +2188,7 @@ function toGISformat() {
     }
   }
 
-  // console.log(data);
+  
 
   // Get GeoJSON representation of the drawn layer
   var geoJSON = drawnItems.toGeoJSON();

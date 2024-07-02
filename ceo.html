@@ -757,8 +757,7 @@ function toggleSelectLayerButton(show) {
         processData: false,
         contentType: false,
         success: function (response) {
-          console.log(response);
-          //window.location.href = response.data.redirect_Url;
+          window.location.href = response.data.redirect_Url;
         },
         error: function (xhr, status, error) {
           console.error("Save failed:", error);
@@ -799,7 +798,7 @@ function toggleSelectLayerButton(show) {
         //       );
 
         //       $("#table-container").show();
-        //       console.log(formDataFromStorage);
+        //       
         //       let contentData = "<tr>";
         //       for (const property in formDataFromStorage) {
         //         contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -969,7 +968,7 @@ function toggleSelectLayerButton(show) {
         //           processData: false,
         //           contentType: false,
         //           success: function (response) {
-        //             console.log(response);
+        //          
         //             window.location.href = response.data.redirect_Url;
         //           },
         //           error: function (xhr, status, error) {

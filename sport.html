@@ -635,7 +635,7 @@
 						const formDataFromStorage = JSON.parse(localStorage.getItem('conceptual_form_data_temp'));
 
 						$('#table-container').show();
-						console.log(formDataFromStorage);
+						
 						let contentData = '<tr>';
 						for (const property in formDataFromStorage) {
 							contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -685,7 +685,9 @@
 							department: department,
 							selectCoordinatesData: selectCoordinatesDataSingle.features,
 							area: area,
-
+							geometryType:
+          selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
+            .geometry.type,
 						});
 
 						$.ajax({

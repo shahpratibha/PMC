@@ -240,7 +240,7 @@
   success: function (response) {
 	$('#table-container').show();
 					const formDataFromStorage = response.data;
-					console.log(formDataFromStorage);
+					
 					let contentData = '<tr>';
 					for (const property in formDataFromStorage) {
 						contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
@@ -268,9 +268,9 @@
 				if (localStorage.getItem('selectCoordinatesData') !== null) {
 					let coordinatesData = localStorage.getItem('selectCoordinatesData');
 					coordinatesData = JSON.parse(coordinatesData);
-					console.log(coordinatesData);
+					
 					let polyline;
-					console.log(coordinatesData);
+					
 					return;
 					coordinatesData.forEach(function (feature) {
 						if (feature.geometry.type === 'Polygon') {

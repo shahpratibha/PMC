@@ -491,7 +491,10 @@
             }
             document
               .getElementById("saveDataButton")
-              .addEventListener("click", function () {
+              .addEventListener("click", function (e) {
+                console.log("Save data button clicked");
+                e.preventDefault();
+                e.stopPropagation();
                 var featureData = selectedFeature.toGeoJSON();
 
 
@@ -539,6 +542,9 @@
                   gis_id: lastInsertedId,
                   department: department,
                   selectCoordinatesData: selectCoordinatesDataSingle.features,
+                  geometryType:
+          selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
+            .geometry.type,
                   isWardSelection: true,
                 });
 
@@ -801,7 +807,7 @@
               //     processData: false,
               //     contentType: false,
               //     success: function (response) {
-              //       console.log(response);
+              //    
               //       window.location.href = response.data.redirect_Url;
               //     },
               //     error: function (xhr, status, error) {
