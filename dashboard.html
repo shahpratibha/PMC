@@ -51,53 +51,18 @@
             left:5px;
             top: 50%;
             transform: translateY(-50%);
-            /* pointer-events: none;  */
+            pointer-events: none; 
             color: black;
-    
+            font-size: 15px;
         }
 
         .form-control::placeholder {
             color: black;
             font-family: FontAwesome;
-            text-indent: 0px;
-            text-transform: none; 
-          
+            content: "\f002 Search"; 
+            text-indent: 25px;
+            border: 2px solid;
         }
-        .form-control {
-          border:  2px solid darkblue !important;
-          font-size: 10px !important;
-          font-weight: bold !important;
-
-        
-        }
-       
-        .search-container {
-    display: flex; /* Ensures elements inside align horizontally */
-    align-items: center; /* Centers items vertically */
-    margin-bottom: 10px; /* Adjust margin bottom as needed */
-}
-
-.search-icon {
-    margin-right: 5px; /* Adjust space between icon and input */
-}
-
-.form-control {
-    padding: 8px; /* Adjust padding inside the input field */
-    font-size: 16px; /* Adjust font size as needed */
-    border: 1px solid #ccc; /* Example border styling */
-    border-radius: 4px; /* Example border radius */
-}
-
-.autocomplete-suggestions {
-    /* Additional styling for autocomplete suggestions */
-}
-
-       
-
-        
-      
-
-        
 
 
   </style>
@@ -121,26 +86,19 @@
 
         
         <!-- search bar -->
-        <div class="search-bar">
-          <div class="input-group">
-              <div class="input-group-prepend">
-                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Esri World Geocoder</button>
-                  <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Option 1</a>
-                      <a class="dropdown-item" href="#">Option 2</a>
-                      <a class="dropdown-item" href="#">Option 3</a>
-                  </div>
-              </div>
-              <input type="text" class="form-control" placeholder="Search">
-              <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
-              </div>
-          </div>
-      </div>
-         
-            <!-- <input class="form-control ms-2" type="search" placeholder="&#xf002;  Search " aria-label="Search" id="searchInputDashboard">
+        <div class="SearchBar">
 
-        <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div> -->
+
+          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
+            style="border-radius: 10px;border: 2px solid darkblue;">
+            <option value="">Select Type</option>
+          </select>
+         
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input class="form-control ms-2" type="search" placeholder="&#xf002; Search" aria-label="Search" id="searchInputDashboard">
+        </div>
+        <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
         </div>
         <!-- search bar -->
       </div>

@@ -20,27 +20,44 @@
         .input-group {
             max-width: 600px; /* Maximum width for the entire input group */
             margin: 0 auto; /* Center align the input group */
+            display: flex;
+            justify-content: center;
         }
 
-        .input-group .btn {
-            width: 40px; /* Fixed width for buttons */
+        .input-group .form-control.custom-input-width {
+            width: 150px !important; /* Width for the search input */
         }
 
-        .input-group .form-control {
-            border-radius: 0; /* Remove border-radius from input */
+        .input-group-append .btn {
+            border-left: 0; /* Remove border between input and button */
+        }
+
+        .input-group-append .btn i {
+            color: #007bff; /* Blue color for the search icon */
+        }
+
+        .dropdown-menu {
+            min-width: 200px; /* Minimum width for the dropdown menu */
         }
     </style>
 </head>
 <body>
     <div class="container mt-3">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+        <div class="row">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu">
+                        <!-- <a class="dropdown-item" href="#">Option 1</a>
+                        <a class="dropdown-item" href="#">Option 2</a>
+                        <a class="dropdown-item" href="#">Option 3</a> -->
+                    </div>
+                </div>
+                <input type="text" class="form-control custom-input-width" placeholder="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                </div>
             </div>
-            <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
-                <input type="text" class="form-control" placeholder="Search.." name="search2">
-                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
-            </form>
         </div>
     </div>
 
