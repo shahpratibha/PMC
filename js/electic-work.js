@@ -815,14 +815,7 @@ var editControl = L.control({position: 'topleft'});
     controlUI.title = 'Edit features';
     controlUI.href = '#';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-    // controlUI.style.fontSize='18px';
-    // controlUI.style.position='absolute';
-    // controlUI.style.top='60px';
-    controlUI.style.display='none';
-
-    // controlUI.style.border='2px solid darkblue';
-    // controlUI.style.borderRadius='5px'
-
+   
     L.DomEvent.addListener(controlUI, 'click', function (e) {
         L.DomEvent.preventDefault(e);
 
@@ -838,7 +831,7 @@ var editControl = L.control({position: 'topleft'});
           alert("Please select a feature to edit.");
             map.editEnabled = true;
             controlUI.innerHTML = '<i class="fa-regular fa-floppy-disk"></i>';
-            // Allow user to click on a feature to select and edit
+          
             drawnItems.eachLayer(function (layer) {
               layer.on('click', function () {
                 layer.setStyle({ color: 'green', weight: 7 });
@@ -855,7 +848,7 @@ var editControl = L.control({position: 'topleft'});
         } else {
             map.editEnabled = false;
             controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-            // Remove click handlers to disable selection
+          
             drawnItems.eachLayer(function (layer) {
                 layer.off('click');
                 layer.setStyle({ color: 'red', weight: 5 });
@@ -878,9 +871,7 @@ deleteControl.onAdd = function(map) {
   var button = L.DomUtil.create('button', 'delete-button', container);
   button.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
   button.style.border='2px solid darkblue';
-  // button.style.padding='5px';
-  // button.style.fontSize='15px';
-  // button.style.borderRadius='5px';
+  
  button.style.display='none';
   button.title = "Delete Selected Feature";
 
