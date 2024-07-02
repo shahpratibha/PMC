@@ -273,13 +273,6 @@ function DataTableFilter(cql_filter1) {
 
   showtable(typeName, geoServerURL, cqlFilter, headers);
 
-// // Replace underscores with spaces
-// var headersWithSpaces = headers.map(function(header) {
-//   return header.replace(/_/g, ' ');
-// });
-
-// // Call the showtable function with modified headers
-// showtable(typeName, geoServerURL, cqlFilter, headersWithSpaces);
 }
 
 
@@ -288,9 +281,8 @@ function DataTableFilter(cql_filter1) {
 function populateDropdown(dropdownId, data) {
   var ul = $("#" + dropdownId);
   ul.empty();
-  // var searchBox= $(' <input type="text" placeholder="Search" class="filter-input">')
+ 
   data.forEach(function (item) {
-    // console.log(item, "items")
     var listItem = $('<li><label><input type="checkbox" class="select2-option-checkbox" value="' + item + '"> ' + item + '</label></li>');
     ul.append(listItem);
   });
