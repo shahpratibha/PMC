@@ -3,67 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Bar Example</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Search Input</title>
     <style>
-        body {
-            background-color: #f8f9fa; /* Light grey background */
-        }
+        .SearchBar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 2px solid darkblue;
+    border-radius: 10px 10px 10px 10px !important;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 300px; /* Adjust width as needed */
+}
 
-        .container {
-            margin-top: 50px;
-        }
+.SearchBar select {
+    border: none;
+    padding: 8px 12px;
+    background-color: white;
+    border-bottom: none;
+    border-top: none;
+    border-right: 2px solid darkblue;
+    border-right: 2px solid da;
+    outline: none;
+    height: 30px !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="12" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
 
-        .input-group {
-            max-width: 600px; /* Maximum width for the entire input group */
-            margin: 0 auto; /* Center align the input group */
-            display: flex;
-            justify-content: center;
-        }
+.SearchBar input {
+    border: none;
+    padding: 8px 12px;
+    flex-grow: 1;
+    outline: none;
+}
 
-        .input-group .form-control.custom-input-width {
-            width: 150px !important; /* Width for the search input */
-        }
+.SearchBar button {
+    border: none;
+    background: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
 
-        .input-group-append .btn {
-            border-left: 0; /* Remove border between input and button */
-        }
+.SearchBar button img {
+    width: 16px; /* Adjust icon size as needed */
+    height: 16px;
+}
 
-        .input-group-append .btn i {
-            color: #007bff; /* Blue color for the search icon */
-        }
-
-        .dropdown-menu {
-            min-width: 200px; /* Minimum width for the dropdown menu */
-        }
     </style>
 </head>
 <body>
-    <div class="container mt-3">
-        <div class="row">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                    <div class="dropdown-menu">
-                        <!-- <a class="dropdown-item" href="#">Option 1</a>
-                        <a class="dropdown-item" href="#">Option 2</a>
-                        <a class="dropdown-item" href="#">Option 3</a> -->
-                    </div>
-                </div>
-                <input type="text" class="form-control custom-input-width" placeholder="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </div>
+    <div class="SearchBar">
+      
+        <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
+        style="">
+        <option value="Select Type"></option>
+      </select>
+      <input class="form-control ms-2" type="search" placeholder=" Search" aria-label="Search" id="searchInputDashboard">
+      <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
+        <button>
+            <img src="https://img.icons8.com/material-outlined/24/000000/search.png" alt="Search Icon">
+        </button>
     </div>
-
-    <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 </body>
 </html>

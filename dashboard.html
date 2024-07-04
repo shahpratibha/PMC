@@ -31,10 +31,68 @@
 
   
   <style>
+    
   .daterange-container {
     display: flex;
     align-items: center;
     position: relative; 
+}
+#data-table{
+  font-weight: bold !important;
+  font-weight: 900 !important;
+}
+.dataTables_length{
+  font-weight: bold !important;
+}
+
+.dataTables_paginate {
+   font-weight: bold !important;
+
+
+}
+.dataTables_info{
+  font-weight: bold !important;
+}
+#data-table_filter{
+  font-weight: bold !important;
+  
+}
+#tablecontainer {
+z-index: 9999;
+position: absolute;
+width: 53%;
+bottom: 20%;
+font-weight: bold;
+right: 1%;
+opacity: 0.88;
+/* background-color: white !important; */
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+max-height: 200px;
+font-size: 10px;
+transition: all 0.3s ease;
+
+}
+.tableDetail {
+    max-height: 550px;
+    overflow-y: auto;
+    opacity: 0.88;
+    /* margin-top: 10px; */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    font: 16px / 24px Tahoma, Verdana, sans-serif;
+    color: red !important;
+    text-decoration: none;
+    background: transparent;
 }
 
 
@@ -55,15 +113,8 @@
             color: black;
             font-size: 15px;
         }
-
-        .form-control::placeholder {
-            color: black;
-            font-family: FontAwesome;
-            content: "\f002 Search"; 
-            text-indent: 25px;
-            border: 2px solid;
-        }
-
+        
+     
 
   </style>
 </head>
@@ -91,14 +142,14 @@
 
           <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
             style="border-radius: 10px;border: 2px solid darkblue;">
-            <option value="">Select Type</option>
+            <option value=""></option>  <input class=" type="search" placeholder=" Search" aria-label="Search" id="searchInputDashboard">
+      
+            <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
           </select>
          
-          <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input class="form-control ms-2" type="search" placeholder="&#xf002; Search" aria-label="Search" id="searchInputDashboard">
-        </div>
-        <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
+        
+            <!-- <i class="fas fa-search search-icon"></i> -->
+           
         </div>
         <!-- search bar -->
       </div>
