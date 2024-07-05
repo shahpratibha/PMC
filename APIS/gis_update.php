@@ -79,7 +79,6 @@ $currentDateTime = date('Y-m-d H:i:s');
     $stmtIWMS->bindParam(':update_dat', $configData['updated_date'], PDO::PARAM_STR);  
     $stmtIWMS->bindParam(':gis_id', $configData['gis_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':no_of_road', $configData['no_of_road'], PDO::PARAM_STR);
-    $stmtIWMS->bindParam(':area', $configData['area'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':measure_in', $configData['measure_in'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Project_Office_Id', $configData['project_from'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':Budget_Year', $configData['budget_year'], PDO::PARAM_STR);

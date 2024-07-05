@@ -244,13 +244,18 @@
 
         var highlightLayer;
 
+        function onClickEdit(department, id) {
+            console.log(department, id);// remove "" from id
+            window.location.href = 'road.html?edit="true"&editId=' + id.replace(/"/g, '');
+        }
+
         $(document).ready(function () {
             var urlParams = new URLSearchParams(window.location.search);
             var villageName = urlParams.get('Work_ID');
             var filter = "Work_ID = " + villageName;
 
             console.log(villageName, "work id", filter);
-            FitbouCustomiseRevenue(filter);
+        //    FitbouCustomiseRevenue(filter);
 
             IWMS_line.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_line" }).addTo(map);
             IWMS_polygon.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_polygon" }).addTo(map);
@@ -299,10 +304,12 @@
                     console.error("An error occurred: ", error);
                 });
             }
-
+  
             function paginateResults(data) {
                 const itemsPerPage = 1;
                 let currentPage = 1;
+
+                
 
                 function displayPage(page) {
                     const tableBody = document.getElementById('workTableData');
@@ -334,8 +341,11 @@
         const editButtonCell = document.createElement('td');
         editButtonCell.colSpan = 2;
         editButtonCell.style.textAlign = 'center';
-        // editButtonCell.innerHTML = '<button class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit';
-            editButtonCell.innerHTML = '<button type="button" onclick="onClickEdit(\'' + data[0].Department.replace(/'/g, "\\'") + '\', \'' + data[0].id.replace(/'/g, "\\'") + '\')" class="edit-button"> <i class="fas fa-pen"></i>&nbsp;Edit</button>';
+        const department = data[0].Department.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+const id = data[0].id.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+editButtonCell.innerHTML = `<button type="button" onclick="onClickEdit('${department}', '${id}')" class="edit-button"><i class="fas fa-pen"></i>&nbsp;Edit</button>`;
+
 
 
             editRow.appendChild(editButtonCell);
@@ -458,9 +468,6 @@
 //         });
 
 
-function onClickEdit(department, id) {
-    console.log(department, id);
-}
 
         });
         $(document).ready(function () {
