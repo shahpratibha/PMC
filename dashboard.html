@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PMC</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -19,104 +18,12 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
   <!-- Include daterangepicker CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"   />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"   />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  
-
-
-  
-  <style>
-    
-  .daterange-container {
-    display: flex;
-    align-items: center;
-    position: relative; 
-}
-#data-table{
-  font-weight: bold !important;
-  font-weight: 900 !important;
-}
-.dataTables_length{
-  font-weight: bold !important;
-}
-
-.dataTables_paginate {
-   font-weight: bold !important;
-
-
-}
-.dataTables_info{
-  font-weight: bold !important;
-}
-#data-table_filter{
-  font-weight: bold !important;
-  
-}
-#tablecontainer {
-z-index: 9999;
-position: absolute;
-width: 53%;
-bottom: 20%;
-font-weight: bold;
-right: 1%;
-opacity: 0.88;
-/* background-color: white !important; */
-border-radius: 8px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-max-height: 200px;
-font-size: 10px;
-transition: all 0.3s ease;
-
-}
-.tableDetail {
-    max-height: 550px;
-    overflow-y: auto;
-    opacity: 0.88;
-    /* margin-top: 10px; */
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-}
-.leaflet-container a.leaflet-popup-close-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: none;
-    text-align: center;
-    width: 24px;
-    height: 24px;
-    font: 16px / 24px Tahoma, Verdana, sans-serif;
-    color: red !important;
-    text-decoration: none;
-    background: transparent;
-}
-
-
-.daterange-container .fa-solid  {
-    position: fixed !important;
-    top: 5%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    left: 46.800% !important;
-    z-index: 9999 !important;
-}
-.search-icon {
-            position: absolute;
-            left:5px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none; 
-            color: black;
-            font-size: 15px;
-        }
-        
-     
-
-  </style>
 </head>
 
 <body>
@@ -126,7 +33,11 @@ transition: all 0.3s ease;
       <div class="map-container">
         <img src="png/pmcjpeg.png" alt="" class="logopng">
         <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
-        <button class="toggle-button" id="toggleFilters"><i class="fa-solid fa-filter"></i></button>
+        <button class="toggle-button" id="toggleFilters" title="">
+          <i class="fa-solid fa-filter"></i> 
+      </button>
+  
+        
         <div id="map"></div>
         <div class="daterange-container">
           <input type="text" name="daterange" id="daterange" class="form-control">
@@ -137,22 +48,23 @@ transition: all 0.3s ease;
 
         
         <!-- search bar -->
-        <div class="SearchBar">
-
-
-          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
-            style="border-radius: 10px;border: 2px solid darkblue;">
-            <option value=""></option>  <input class=" type="search" placeholder=" Search" aria-label="Search" id="searchInputDashboard">
       
-            <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
-          </select>
-         
+        <button class="SearchBar">
+
+
+          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"class="custom-dropdown">
+
         
-            <!-- <i class="fas fa-search search-icon"></i> -->
-           
-        </div>
-        <!-- search bar -->
+          </select >
+
+          <input class="form-contro ms-2" type="" placeholder="Search Work ID" aria-label="Search"
+            id="searchInputDashboard" style=" border: 2px solid darkblue;" />
+          <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
+
+        </button>
+    
       </div>
+          <!-- search bar -->
 
 
       <!-- filter start -->
@@ -228,8 +140,6 @@ transition: all 0.3s ease;
       crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
 
@@ -243,6 +153,7 @@ transition: all 0.3s ease;
     <!-- <script src="js/contex.js"></script> -->
     <script src="js/dashboard.js"></script>
     <script src="js/mainmodal/legend.js"></script>
+    
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 

@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
       button.innerHTML = '<i class="fa-solid fa-filter-circle-xmark"></i>';
       tableBtn.style.right = 'calc(1.3vw + 1px)';
       tableBtn.style.top = '22vh';
-      
     } else {
       filters.style.marginLeft = '-35vw';
       filters.style.opacity = '0';

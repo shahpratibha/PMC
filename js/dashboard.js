@@ -72,7 +72,26 @@ document.addEventListener('DOMContentLoaded', function () {
   const map = document.getElementById('map');
   const tableBtn = document.getElementById('openTableBtn');
   const tableinfo = document.getElementById('tablecontainer');
+
   const button = document.getElementById('toggleFilters');
+
+
+  // const button = document.getElementById('toggleFilters');
+
+// Set the title attribute
+button.setAttribute('title', 'Filter');
+
+// Apply CSS styles
+// button.style.backgroundColor = 'white';
+// button.style.color = 'darkblue';
+// button.style.border = '2px solid darkblue';
+// button.style.fontSize = '12px';
+// button.style.padding = '8px';
+// button.style.borderRadius = '5px';
+// button.style.cursor = 'pointer';
+
+  
+  
  
   let filtersVisible = false;
 
@@ -652,18 +671,46 @@ $(document).ready(function() {
    for (var key in columns) {
       if (columns.hasOwnProperty(key)) {
         var option = document.createElement("option");
-        option.text = columns[key]; // Use columns[key] to get the column name
-        option.value = key; // Use key as the value (e.g., Work_ID, Budget_Code)
+        option.text = columns[key]; 
+        option.value = key; 
+
+        
+        
         select.appendChild(option);
+        
       }
     }
-   
-  // Initialize selected value variable
-  let selectedValue;
 
+        
+       
+        
+        // Initialize selected value variable
+        let selectedValue;
+    
+ 
+   
+   
+  
   // Event listener for dropdown change
   $("#search_type").change(function () {
     var selectedValue = $(this).val();
+    var selectedText = columns[selectedValue]; // Get corresponding label from columns object
+    var input = document.getElementById("searchInputDashboard");
+    // Update input placeholder and clear input value
+    var selectedValue = select.value;
+    input.placeholder = "Search " + selectedText;
+    input.value = "";
+
+
+    // Call autocomplete with empty array and selected column
+    autocomplete(input, [], selectedValue);
+
+    // Trigger search based on the selected column immediately after selecting
+    if (selectedValue) {
+        getValues(function (data) {
+            autocomplete(input, data, selectedValue); // Call autocomplete with fetched data and selected column
+        });
+    }
 
     function getValues(callback) {
       var geoServerURL = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=${selectedValue}&outputFormat=application/json`;
@@ -704,7 +751,7 @@ $(document).ready(function() {
   });
 
   // autocomplete function
-  function autocomplete(input, arr) {
+  function autocomplete(input, arr, selectedColumn) {
     let currentFocus;
     input.addEventListener("input", function () {
       let list, item, i, val = this.value.toLowerCase(); // Convert input value to lowercase for case-insensitive comparison
@@ -822,6 +869,7 @@ $(document).ready(function() {
     });
   }
 });
+
 
 
 

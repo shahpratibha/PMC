@@ -200,23 +200,24 @@ font-weight: bold;
 margin-right: 5px;
 font-size: 12px;
 font-weight: bold;
-width: 1%;
+width: 1% !important;
 height: 4.5%;
 position: absolute;
 top: 2%;
-left: 10%;
+left: 12.800%;
+border-left: 2px solid darkblue !important;
+border-right: 2px solid darkblue !important;
+border-top: 2px solid darkblue !important;
+border-bottom: 2px solid darkblue !important;
 z-index: 9999999;
+border-radius: 0;
+border-top-left-radius: 10px;
+border-bottom-left-radius: 10px;
+
+
+
 }
-.SearchBar #searchInputDashboard {
-margin-left: 5px;
-height: 4.5%;
-border-radius: 10px;
-width: 15%;
-position: absolute;
-z-index: 9999;
-top: 2%;
-left: 18%;
-}
+
 /* html */
 
 .filters {
@@ -306,17 +307,33 @@ color: black; /* Default color */
 
 
 #daterange {
-z-index: 9999;
-position: fixed !important;
-padding: 16px;
-font-size: 13px !important;
-left: 34%;
-top: 2.3%;
-width: 15% !important;
-border: 2px solid darkblue;
-border-radius: 10px;
-height: 3%;
-}
+  z-index: 9999;
+  position: fixed !important;
+  padding: 16px;
+  font-size: 13px !important;
+  left: 62%;
+  top: 2.3%;
+  width: 15% !important;
+  border: 2px solid darkblue;
+  border-radius: 10px;
+  height: 3%;
+  }
+  
+  .daterange-container {
+    display: flex;
+    align-items: center;
+    position: relative; 
+  }
+  
+  
+  .daterange-container .fa-solid  {
+    position: fixed !important;
+    top: 4.2%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    left: 75% !important;
+    z-index: 9999 !important;
+  }
 thead th {
 position: sticky !important;
 padding: 0%;
@@ -326,7 +343,20 @@ z-index: 2;
 }
 
 
+#tablecontainer {
+z-index: 9999;
+position: absolute;
+width: 53%;
+bottom: 20%;
+right: 1%;
+background-color: white;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+max-height: 200px;
+font-size: 10px;
+transition: all 0.3s ease;
 
+}
 
 
 .tableDetail {
@@ -458,9 +488,9 @@ width: auto;
 /* position: absolute; */
 z-index: 9999;
 top: 6.5%;
-left: 18%;
+left: 15.700%;
 background-color: #fff;
-width: 250px;
+width: 245px;
 max-width: 250px;
 max-height: 400px;
 overflow-x: hidden;
@@ -468,4 +498,133 @@ overflow-y: scroll;
 scrollbar-width: thin;
 line-height: 2.5;
 
+}
+/* table css */
+.dataTables_info{
+  font-weight: bold !important;
+}
+#data-table_filter{
+  font-weight: bold !important;
+  
+}
+#tablecontainer {
+z-index: 9999;
+position: absolute;
+width: 53%;
+bottom: 20%;
+font-weight: bold;
+right: 1%;
+opacity: 0.88;
+/* background-color: white !important; */
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+max-height: 200px;
+font-size: 10px;
+transition: all 0.3s ease;
+
+}
+.tableDetail {
+    max-height: 550px;
+    overflow-y: auto;
+    opacity: 0.88;
+    /* margin-top: 10px; */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    font: 16px / 24px Tahoma, Verdana, sans-serif;
+    color: red !important;
+    text-decoration: none;
+    background: transparent;
+}
+
+
+
+
+
+
+
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 2px solid darkblue;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1000;
+  top: 2%;
+/* border-radius: 10px 10px 10px 10px; */
+  height: 4%;
+  background-color: white;
+  position: absolute;
+  left: 10%;
+  width: 17%; /* Adjust the width as needed */
+}
+
+.dropdown-icon,
+.search-icon {
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  border-right: 1px solid #ccc;
+}
+
+.search-input {
+  border: none;
+  border-right: 2px solid darkblue;
+  border-left: 2px solid darkblue;
+  padding: 10px;
+  outline: none;
+  flex-grow: 1;
+  width: 100%; /* Take up remaining space */
+}
+
+
+.SearchBar #searchInputDashboard {
+margin-left: 5px;
+height: 4.5%;
+border-radius: 10px;
+
+/* border-radius: 10px; */
+width: 16%;
+position: absolute;
+z-index: 9999;
+top: 2%;
+text-align: center; /* Center align text */
+padding-left: 10px; /* Add padding to move text slightly left */
+left: 14%;
+border: 2px solid darkblue;
+}
+
+/* Placeholder styling */
+#searchInputDashboard::placeholder {
+text-align: center; 
+}
+
+
+input::-webkit-input-placeholder {
+color: #aaa; 
+text-align: center; 
+}
+input::-moz-placeholder {
+color: #aaa; 
+text-align: center; 
+}
+input:-ms-input-placeholder {
+color: #aaa; 
+text-align: center; 
+}
+input:-moz-placeholder {
+color: #aaa;
+text-align: center; 
 }
