@@ -1688,7 +1688,7 @@ else if ($department == "Slum") {
 
 else if ($department == "Project Work") {
     $selectCoordinatesData = $data['selectCoordinatesData'];
-    $selectedGeometry = $selectCoordinatesData[1]['geometry'];
+    $selectedGeometry = $selectCoordinatesData[0]['geometry'];
     $selectedGeometryJson = json_encode($selectedGeometry);
 
     $area =  isset($data['area']) ? $data['area'] : 0;
@@ -2325,5 +2325,4 @@ else if ($department == "Environment") {
     }
     
 } 
-
 

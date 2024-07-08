@@ -54,7 +54,7 @@ a {
   font-size: 15px; /* Adjust the font size as needed */
 }
 
-#table-container {
+/* #table-container {
   background-color: white;
   display: none;
   position: absolute;
@@ -66,7 +66,101 @@ a {
   scrollbar-width: thin;
   z-index: 9999;
   transition: 0s;
+  transition: height 0.3s ease, opacity 0.3s ease;
 }
+
+
+
+#toggle-btn {
+  display: none; 
+  position: absolute;
+  top: -25px; 
+  right: 10px; 
+  background-color: green;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 10000; 
+}
+
+#table-container.show #toggle-btn {
+  display: block;
+}
+
+#table-container.minimized {
+  height: 40px; 
+  overflow: hidden; 
+}
+
+#table-container.minimized #toggle-btn {
+  top: 0; 
+}
+
+#table-container.minimized table {
+  display: none; 
+} */
+
+
+#table-container {
+  display: none; 
+  position: absolute;
+  width: 30%;
+  height: 40%;
+  top: 55%;
+  right: 1%;
+  overflow: hidden; 
+  scrollbar-width: thin;
+  z-index: 9999;
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+#toggle-btn {
+  display: none; /* Hide initially */
+  position: absolute;
+  top: 0; /* Adjust based on needs */
+  right: 10px;
+  background-color: white;
+  border: 2px solid blue;
+  color: blue;
+  border-radius: 10%;
+  width: 31px;
+  height: 31px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 30px; /* Center the icon vertically */
+  cursor: pointer;
+  z-index: 10000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#table-container.show {
+  display: block;
+  overflow: auto; 
+}
+
+#table-container.show #toggle-btn {
+  display: block;
+}
+
+#table-container.minimized {
+  height: 40px;
+  overflow: hidden;
+}
+
+#table-container.minimized #toggle-btn {
+  top: 0;
+}
+
+#table-container.minimized table {
+  display: none;
+}
+#toggle-btn:hover {
+  background-color: lightblue;
+  color: darkblue;
+}
+
 
 /* 
 .close-button {
@@ -584,5 +678,18 @@ width: 37px;
   line-height: 1.3;
   font-size: 10px;
   font-size: 1.08333em;
-  
-} */
+  /* min-height: 1px; */
+  /* width: 240px; */
+  /* height: auto; */
+  /* max-height: 200px; */
+  /* overflow: scroll; */
+  /* scrollbar-width: thin; */
+/* } */
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  border: 2px solid darkblue !important;
+}
+
+

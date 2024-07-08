@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/IWMS/";
+const API_URL = "http://localhost/PMC/iwms/";
 
 var map = L.map("map", {
   center:[18.52, 73.89],

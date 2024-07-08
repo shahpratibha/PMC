@@ -142,7 +142,7 @@ var wms_layer12 = L.tileLayer.wms(
 ).addTo(map);
 
 var wms_layer14 = L.tileLayer.wms(
-  "https://portal.geopulsea.com/geoserver/pmc/wms",
+  baseURL,
   {
     layers: "Data",
     format: "image/png",

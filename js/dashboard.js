@@ -924,4 +924,36 @@ console.log(cqlFilter123, "cqlFilter123");
     }
   }
 });
+
+//  function for closing popup 
+
+        // Function to close popup
+        function closePopup() {
+          map.closePopup(); 
+      }
+
+      function handleClick(event) {
+          var isClickInsideMap = map.getContainer().contains(event.target);
+          var isClickInsidePopup = document.querySelector('.leaflet-popup')?.contains(event.target);
+
+          if (!isClickInsideMap && !isClickInsidePopup) {
+              closePopup();
+          }
+      }
+
+      document.getElementById('tablecontainer').addEventListener('click', closePopup);
+
+      document.querySelectorAll('button').forEach(button => {
+          button.addEventListener('click', closePopup);
+      });
+
+      document.querySelectorAll('.other-interactive-element').forEach(element => {
+          element.addEventListener('click', closePopup);
+      });
+
+      document.addEventListener('click', handleClick);
+
+      map.on('click', function(event) {
+          event.originalEvent.stopPropagation();
+      });
  

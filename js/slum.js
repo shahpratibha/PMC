@@ -730,7 +730,7 @@ var customDrawControls = L.control({ position: 'topleft' });
 // Define the HTML content for the control
 customDrawControls.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  div.innerHTML = '<button class="draw_feature"  style="" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -813,6 +813,7 @@ return div;
 
 customSaveEditButton.addTo(map);
 
+if(editMode){
 
 var saveEditGeomButton = L.control({ position: 'topleft' });
 saveEditGeomButton.onAdd = function (map) {
@@ -933,7 +934,7 @@ document.getElementById('deleteEditGeomButton').addEventListener('click', functi
   });
 });
 
-
+}
 
 
 var customEditLayerButton = L.control({ position: 'topleft' });
