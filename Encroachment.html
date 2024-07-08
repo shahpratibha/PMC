@@ -49,6 +49,43 @@
   width: 37px;
   left: 849px;
 }
+
+#saveEditGeomButton {
+			border: 2px solid #2b13bb;
+			border-bottom: 2px solid #2b13bb;
+			border-top: 2px solid #2b13bb;
+			border-radius: 5px 5px 5px 5px;
+			background-color: white;
+			position: fixed;
+			color: black;
+			padding: 0px 5px;
+			top: 92%;
+			/* changed from 683px */
+			font-size: 19px;
+			height: 37px;
+			width: 37px;
+			left: 50%;
+			/* changed from 865px */
+		}
+
+		#deleteEditGeomButton {
+			border: 2px solid #2b13bb;
+			border-bottom: 2px solid #2b13bb;
+			border-top: 2px solid #2b13bb;
+			border-radius: 5px 5px 5px 5px;
+			background-color: white;
+			position: fixed;
+			color: black;
+			padding: 0px 5px;
+			top: 92%;
+			/* changed from 683px */
+			font-size: 19px;
+			height: 37px;
+			width: 37px;
+			left: 47%;
+			/* changed from 865px */
+		}
+
 #deleteFeatureButton {
   border: 2px solid #2b13bb;
   border-top: 2px solid #2b13bb;
@@ -267,12 +304,17 @@ border-radius: 5px 5px 5px 5px !important;
 			var saveBtn = document.getElementById('editFeatureButton');
 			var editBtn = document.getElementById('saveDataButton');
 			var deleteBtn = document.getElementById('deleteFeatureButton');
+			var deleteBtnEdit = document.getElementById('deleteEditGeomButton');
+			var saveBtnEdit = document.getElementById('saveEditGeomButton');
 			if (saveBtn && editBtn) {
 				saveBtn.style.display = show ? 'block' : 'none';
 				editBtn.style.display = show ? 'block' : 'none';
 				deleteBtn.style.display = show ? 'block' : 'none';
+				deleteBtnEdit.style.display = show ? 'none' : 'block'
+				saveBtnEdit.style.display = show ? 'none' : 'block'
 			}
 		}
+
 
 	
 
@@ -406,7 +448,34 @@ border-radius: 5px 5px 5px 5px !important;
           selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
             .geometry.type,
 						});
+						if (editMode) {
 
+let editIdTemp = editId.split(".")[ 1 ];
+let geometryTypeTemp = editId.split(".")[ 0 ];
+
+console.log('selectCoordinatesData', selectCoordinatesData);
+
+$.ajax({
+	url: 'APIS/Update_Geometry.php', // Path to your PHP save script
+	type: 'POST',
+	contentType: 'application/json',
+	data: JSON.stringify({
+		selectCoordinatesData: selectCoordinatesDataSingle.features,
+		fid: editIdTemp,
+		geometryType:
+			selectCoordinatesDataSingle.features[ selectCoordinatesDataSingle.features.length - 1 ]
+				.geometry.type,
+	}),
+	success: function (response) {
+		alert('Data saved successfully!');
+	},
+	error: function (error) {
+		console.error('Save request failed:', error);
+	}
+});
+
+}
+else {
 						$.ajax({
 							type: 'POST',
 							url: 'APIS/gis_update.php',
@@ -467,6 +536,7 @@ border-radius: 5px 5px 5px 5px !important;
 								console.error('Save failed:', error);
 							},
 						});
+					}
 
 						let area = turf.area(selectCoordinatesDataSingle.features[0]);
 	                    let centroid = turf.centroid(selectCoordinatesDataSingle.features[0]);

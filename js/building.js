@@ -71,6 +71,10 @@ let wardNames = wardname.split(',').map(id => id.trim());
 let ward_id =  getQueryParam('ward_id') ;
 let zone_id =  getQueryParam('zone_id') ;
 let prabhag_id =  getQueryParam('prabhag_id') ;
+let editMode =  getQueryParam('edit') ;
+let editId =  getQueryParam('editId') ;
+
+
 
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -562,6 +566,86 @@ function fitbou(filter) {
 }
 
 
+if (editMode) {
+  // edit id is coming as IWMS_line.11338
+  // split the string and get the id
+ let editIdTemp = editId.split(".")[1];
+ let geometryTypeTemp = editId.split(".")[0];
+  $.ajax({
+      url: 'APIS/get_geometry_page_edit_layer.php', // Path to the PHP script
+      type: 'GET',
+      data: { id: editIdTemp, geometryType: geometryTypeTemp == 'IWMS_line' ? 'LineString' : geometryTypeTemp == 'IWMS_point' ? 'Point' : 'Polygon' },
+      dataType: 'json',
+      success: function (response) {
+          const geometry = response.data;
+
+          let coordinatesData = [];
+          if (geometry.type == 'Polygon') {
+              // Handle single Polygon
+              coordinatesData.push(
+                  L.polygon(geometry.coordinates[0].map((coord) => [coord[1], coord[0]]))
+              );
+          } else if (geometry.type === 'MultiPolygon') {
+              // Handle MultiPolygon
+              geometry.coordinates.forEach((polygonCoords) => {
+                  coordinatesData.push(L.polygon(polygonCoords[0].map((coord) => [coord[1], coord[0]])));
+              });
+          } else if (geometry.type === 'LineString') {
+              // Handle single LineString
+              let coordinates = geometry.coordinates.map((coord) => [coord[1], coord[0]]);
+              coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
+          } else if (geometry.type === 'MultiLineString') {
+              // Handle MultiLineString
+              geometry.coordinates.forEach((lineCoords) => {
+                  let coordinates = lineCoords.map((coord) => [coord[1], coord[0]]);
+                  coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
+              });
+          }
+
+          // Add polygons to the map and make them editable
+          coordinatesData.forEach((layer) => {
+            editableLayers.addLayer(layer); // Add to editable layers
+            layer.addTo(map).bindPopup('Polygon or MultiPolygon');
+            layer.on('click', function () {
+                if (layer.editing) {
+                    layer.editing.enable();
+                    updatePopup(layer);
+                    layer.on('edit', function () {
+                        updatePopup(layer);
+                    });
+                }
+            });
+        });
+
+          // Fit the map view to the bounds of the polygons
+          if (coordinatesData.length > 0) {
+              let bounds = coordinatesData.reduce((bounds, polygon) => {
+                  return bounds.extend(polygon.getBounds());
+              }, L.latLngBounds());
+              map.fitBounds(bounds);
+          }
+      },
+      error: function (error) {
+          console.error('AJAX request failed:', error);
+      },
+  });
+}
+
+// Add edit event handler to save changes
+map.on(L.Draw.Event.EDITED, function (event) {
+  const layers = event.layers;
+  layers.eachLayer(function (layer) {
+      // Here you can save the updated geometry back to your server
+      const updatedGeoJSON = layer.toGeoJSON();
+      console.log('Updated geometry:', updatedGeoJSON);
+      // Perform your AJAX call to save the updated geometry
+  });
+});
+
+
+
+
+
 let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
 let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
 let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
@@ -708,6 +792,127 @@ return div;
 
 
 customSaveEditButton.addTo(map);
+
+
+var saveEditGeomButton = L.control({ position: 'topleft' });
+saveEditGeomButton.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'saveEditGeomButton');
+  div.innerHTML = '<button id="saveEditGeomButton" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
+  customDrawControlsContainer = div;
+  return div;
+};
+
+
+saveEditGeomButton.addTo(map);
+
+
+document.getElementById('saveEditGeomButton').addEventListener('click', function () {
+  let geojson = [];
+  editableLayers.eachLayer(function (layer) {
+      geojson.push(layer.toGeoJSON());
+  });
+
+  let editIdTemp = editId.split(".")[1];
+  let geometryTypeTemp = editId.split(".")[0];
+
+  $.ajax({
+      url: 'APIS/Update_Geometry.php', // Path to your PHP save script
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ selectCoordinatesData: geojson,
+        fid:editIdTemp,
+        geometryType:
+        geojson[0].geometry.type,
+       }),
+      success: function (response) {
+        window.reload();
+          alert('Data saved successfully!');
+      },
+      error: function (error) {
+          console.error('Save request failed:', error);
+      }
+  });
+
+
+  let area = turf.area(geojson[0].geometry);
+  let centroid = turf.centroid(geojson[0].geometry);
+  let polygon_centroid = centroid?.geometry?.coordinates;
+  var formData = new FormData();
+  formData.append('proj_id', worksAaApprovalId);
+  formData.append('latitude',  geojson[0].geometry.coordinates[0][1]);
+  formData.append('longitude',  geojson[0].geometry.coordinates[0][0]);
+  formData.append('polygon_area', area);
+  formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
+  formData.append('geometry', JSON.stringify(geojson[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
+
+
+
+
+
+
+
+  $.ajax({
+          type: "POST",
+          url: "https://iwms.punecorporation.org/api/gis-data",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+         
+            window.location.href = response.data.redirect_Url;
+          },
+          error: function (xhr, status, error) {
+            console.error("Save failed:", error);
+          },
+        });
+
+
+        });
+
+     
+
+//deleteEditGeomButton
+
+
+
+var deleteEditGeomButton = L.control({ position: 'topleft' });
+deleteEditGeomButton.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'deleteEditGeomButton');
+  div.innerHTML = '<button id="deleteEditGeomButton" type="button"  title="Save Feature"> <i class="fa-regular fa-trash-alt"></i></button>';
+  customDrawControlsContainer = div;
+  return div;
+};
+
+
+deleteEditGeomButton.addTo(map);
+
+
+
+document.getElementById('deleteEditGeomButton').addEventListener('click', function () {
+
+  let editIdTemp = editId.split(".")[1];
+  let geometryTypeTemp = editId.split(".")[0];
+
+  $.ajax({
+      url: 'APIS/Delete_Geometry.php', // Path to your PHP save script
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        fid:editIdTemp,
+        geometryType: geometryTypeTemp == 'IWMS_line' ? 'LineString' : geometryTypeTemp == 'IWMS_point' ? 'Point' : 'Polygon',
+       }),
+      success: function (response) {
+          alert('Data Deleted successfully!');
+          window.location.reload();
+      },
+      error: function (error) {
+          console.error('Save request failed:', error);
+      }
+  });
+});
+
 
 
 
@@ -1915,6 +2120,35 @@ function Savedata(lastDrawnPolylineId) {
   });
 
 
+  if (editMode) {
+
+
+
+    let editIdTemp = editId.split(".")[1];
+    let geometryTypeTemp = editId.split(".")[0];
+  
+    console.log('selectCoordinatesData', selectCoordinatesData);
+  
+    $.ajax({
+        url: 'APIS/Update_Geometry.php', // Path to your PHP save script
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ selectCoordinatesData: selectCoordinatesData,
+          fid:editIdTemp,
+          geometryType:
+          selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type,
+         }),
+        success: function (response) {
+            alert('Data saved successfully!');
+        },
+        error: function (error) {
+            console.error('Save request failed:', error);
+        }
+    });
+  
+  
+  }else {
+
   $.ajax({
     type: "POST",
     url: "APIS/gis_save.php",
@@ -1928,6 +2162,7 @@ function Savedata(lastDrawnPolylineId) {
       console.error("Save failed:", error);
     },
   });
+}
 
 
   const lastGeometry = selectCoordinatesData[selectCoordinatesData.length - 1].geometry;

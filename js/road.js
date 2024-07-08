@@ -871,8 +871,8 @@ customSaveEditButton.onAdd = function (map) {
 customSaveEditButton.addTo(map);
 
 
-var customSaveEditButton = L.control({ position: 'topleft' });
-customSaveEditButton.onAdd = function (map) {
+var saveEditGeomButton = L.control({ position: 'topleft' });
+saveEditGeomButton.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'saveEditGeomButton');
   div.innerHTML = '<button id="saveEditGeomButton" type="button"  title="Save Feature"> <i class="fa-regular fa-floppy-disk"></i></button>';
   customDrawControlsContainer = div;
@@ -880,7 +880,7 @@ customSaveEditButton.onAdd = function (map) {
 };
 
 
-customSaveEditButton.addTo(map);
+saveEditGeomButton.addTo(map);
 
 
 document.getElementById('saveEditGeomButton').addEventListener('click', function () {
@@ -932,7 +932,7 @@ document.getElementById('saveEditGeomButton').addEventListener('click', function
           contentType: false,
           success: function (response) {
          
-           // window.location.href = response.data.redirect_Url;
+            window.location.href = response.data.redirect_Url;
           },
           error: function (xhr, status, error) {
             console.error("Save failed:", error);
@@ -1299,14 +1299,19 @@ var associatedLayersRegistry = {};
 function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
   var geoJSON = polylineLayer.toGeoJSON();
   var halfBufferWidth = bufferWidth / 2;
-  var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: "meters" });
+   var buffered = turf.buffer(geoJSON, halfBufferWidth, {units: 'meters' ,radius:0,steps:1 });
 
+  // console.log(geoJSON);
+
+  // var buffered = createRectangularBuffer(geoJSON, halfBufferWidth, "meters");
+
+ 
   var bufferLayer = L.geoJSON(buffered, {
     style: {
       color: "#000000",
       weight: 4,
       opacity: 0.5,
-      lineJoin: "round",
+      lineJoin: "miter",
     },
     interactive: false
   }).addTo(map);
@@ -1317,7 +1322,7 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
       weight: 2,
       opacity: 1,
       dashArray: "10, 10",
-      lineJoin: "round",
+      lineJoin: "miter",
     },
     interactive: false
   }).addTo(map);
@@ -1335,6 +1340,67 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
   });
 }
 
+
+
+
+
+
+ 
+// function createRectangularBuffer(line, width, units) {
+//   // Get the coordinates of the line
+//   var coords = line.geometry.coordinates;
+
+//   // Array to hold the coordinates of the rectangular buffer
+//   var leftCoords = [];
+//   var rightCoords = [];
+
+//   // Function to calculate perpendicular offset
+//   function perpendicularOffset(coord1, coord2, distance, side) {
+//       var dx = coord2[0] - coord1[0];
+//       var dy = coord2[1] - coord1[1];
+//       var length = Math.sqrt(dx * dx + dy * dy);
+
+//       // Normalize
+//       dx /= length;
+//       dy /= length;
+
+//       // Perpendicular vector
+//       var px = -dy * distance;
+//       var py = dx * distance;
+
+//       if (side === "left") {
+//           return [coord1[0] + px, coord1[1] + py];
+//       } else {
+//           return [coord1[0] - px, coord1[1] - py];
+//       }
+//   }
+
+//   // Create the left and right sides of the buffer
+//   for (var i = 0; i < coords.length - 1; i++) {
+//       leftCoords.push(perpendicularOffset(coords[i], coords[i + 1], width / 2, "left"));
+//       rightCoords.push(perpendicularOffset(coords[i], coords[i + 1], width / 2, "right"));
+//   }
+//   // Add the last points
+//   leftCoords.push(perpendicularOffset(coords[coords.length - 2], coords[coords.length - 1], width / 2, "left"));
+//   rightCoords.push(perpendicularOffset(coords[coords.length - 2], coords[coords.length - 1], width / 2, "right"));
+
+//   // Reverse the right side coordinates to create a closed loop
+//   rightCoords.reverse();
+
+//   // Combine left and right coordinates
+//   var bufferCoords = leftCoords.concat(rightCoords);
+
+//   // Close the polygon
+//   bufferCoords.push(bufferCoords[0]);
+
+//   // Create the rectangular polygon
+//   var rectangle = turf.polygon([bufferCoords]);
+
+//   return rectangle;
+// }
+ 
+
+
 function updateAssociatedLayers(polylineId, bufferWidth) {
   var layers = associatedLayersRegistry[polylineId];
   if (layers) {
@@ -1342,7 +1408,7 @@ function updateAssociatedLayers(polylineId, bufferWidth) {
     var halfBufferWidth = bufferWidth / 2;
 
     // Recreate the buffer based on new polyline geometry
-    var newBuffered = turf.buffer(updatedGeoJSON, halfBufferWidth, { units: 'meters' });
+    var newBuffered = turf.buffer(updatedGeoJSON, halfBufferWidth, { units: 'meters' ,steps:2});
     layers.bufferLayer.clearLayers(); // Remove the old buffer
     layers.bufferLayer.addData(newBuffered); // Add the new buffer
 
