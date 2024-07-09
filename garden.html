@@ -387,24 +387,10 @@
         display: none;
       }
 
-<<<<<<< HEAD
       #helpButton:hover::after {
         display: block;
       }
       
-=======
-						$('#table-container').show();
-						
-						let contentData = '<tr>';
-						for (const property in formDataFromStorage) {
-							contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-						}
-						contentData += '</tr>';
-						$('#workTableData').html(contentData);
-					}
-					document.getElementById('saveDataButton').addEventListener('click', function () {
-						var featureData = selectedFeature.toGeoJSON();
->>>>>>> ca890f95f4b4612d999dc06f08a4b590a062cc35
 
 @media only screen and (min-width: 601px) and (max-width: 900px) {
   #helpButton {
