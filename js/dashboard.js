@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// });
 
 // toggleFilterend---------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function () {
@@ -81,17 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // Set the title attribute
 button.setAttribute('title', 'Filter');
 
-// Apply CSS styles
-// button.style.backgroundColor = 'white';
-// button.style.color = 'darkblue';
-// button.style.border = '2px solid darkblue';
-// button.style.fontSize = '12px';
-// button.style.padding = '8px';
-// button.style.borderRadius = '5px';
-// button.style.cursor = 'pointer';
-
-  
-  
  
   let filtersVisible = false;
 
