@@ -547,64 +547,91 @@ if (editMode) {
   // split the string and get the id
  let editIdTemp = editId.split(".")[1];
  let geometryTypeTemp = editId.split(".")[0];
-  $.ajax({
-      url: 'APIS/get_geometry_page_edit_layer.php', // Path to the PHP script
-      type: 'GET',
-      data: { id: editIdTemp, geometryType: geometryTypeTemp == 'IWMS_line' ? 'LineString' : geometryTypeTemp == 'IWMS_point' ? 'Point' : 'Polygon' },
-      dataType: 'json',
-      success: function (response) {
-          const geometry = response.data;
+ $.ajax({
+  url: 'APIS/get_geometry_page_edit_layer.php', // Path to the PHP script
+  type: 'GET',
+  data: { 
+      id: editIdTemp, 
+      geometryType: geometryTypeTemp == 'IWMS_line' ? 'LineString' : geometryTypeTemp == 'IWMS_point' ? 'Point' : 'Polygon' 
+  },
+  dataType: 'json',
+  success: function (response) {
+      const geometry = response.data;
 
-          let coordinatesData = [];
-          if (geometry.type == 'Polygon') {
-              // Handle single Polygon
-              coordinatesData.push(
-                  L.polygon(geometry.coordinates[0].map((coord) => [coord[1], coord[0]]))
-              );
-          } else if (geometry.type === 'MultiPolygon') {
-              // Handle MultiPolygon
-              geometry.coordinates.forEach((polygonCoords) => {
-                  coordinatesData.push(L.polygon(polygonCoords[0].map((coord) => [coord[1], coord[0]])));
-              });
-          } else if (geometry.type === 'LineString') {
-              // Handle single LineString
-              let coordinates = geometry.coordinates.map((coord) => [coord[1], coord[0]]);
+      let coordinatesData = [];
+      if (geometry.type === 'Polygon') {
+          // Handle single Polygon
+          coordinatesData.push(
+              L.polygon(geometry.coordinates[0].map((coord) => [coord[1], coord[0]]))
+          );
+      } else if (geometry.type === 'MultiPolygon') {
+          // Handle MultiPolygon
+          geometry.coordinates.forEach((polygonCoords) => {
+              coordinatesData.push(L.polygon(polygonCoords[0].map((coord) => [coord[1], coord[0]])));
+          });
+      } else if (geometry.type === 'LineString') {
+          // Handle single LineString
+          let coordinates = geometry.coordinates.map((coord) => [coord[1], coord[0]]);
+          coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
+      } else if (geometry.type === 'MultiLineString') {
+          // Handle MultiLineString
+          geometry.coordinates.forEach((lineCoords) => {
+              let coordinates = lineCoords.map((coord) => [coord[1], coord[0]]);
               coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
-          } else if (geometry.type === 'MultiLineString') {
-              // Handle MultiLineString
-              geometry.coordinates.forEach((lineCoords) => {
-                  let coordinates = lineCoords.map((coord) => [coord[1], coord[0]]);
-                  coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
+          });
+      } else if (geometry.type === 'Point') {
+        // Handle single Point
+        let coordinates = [geometry.coordinates[1], geometry.coordinates[0]];
+        let marker = L.marker(coordinates).addTo(map);
+        marker.editing.enable(); // Enable editing for the marker
+        coordinatesData.push(marker);
+    } else if (geometry.type === 'MultiPoint') {
+        // Handle MultiPoint
+        geometry.coordinates.forEach((pointCoords) => {
+            let coordinates = [pointCoords[1], pointCoords[0]];
+            let marker = L.marker(coordinates).addTo(map);
+            marker.editing.enable(); // Enable editing for each marker
+            coordinatesData.push(marker);
+        });
+    }
+
+      // Add geometries to the map and make them editable
+      coordinatesData.forEach((layer) => {
+          editableLayers.addLayer(layer); // Add to editable layers
+
+          if (layer instanceof L.Marker) {
+              // Handle markers (points)
+              layer.on('click', function () {
+                  // Implement point specific interactions here if needed
+                  updatePopup(layer); // Example function call for updating popup
+              });
+          } else {
+              // Handle polygons and polylines
+              layer.on('click', function () {
+                  if (layer.editing) {
+                      layer.editing.enable();
+                      updatePopup(layer); // Example function call for updating popup
+                      layer.on('edit', function () {
+                          updatePopup(layer); // Example function call for updating popup
+                      });
+                  }
               });
           }
+      });
 
-          // Add polygons to the map and make them editable
-          coordinatesData.forEach((layer) => {
-            editableLayers.addLayer(layer); // Add to editable layers
-            layer.addTo(map).bindPopup('Polygon or MultiPolygon');
-            layer.on('click', function () {
-                if (layer.editing) {
-                    layer.editing.enable();
-                    updatePopup(layer);
-                    layer.on('edit', function () {
-                        updatePopup(layer);
-                    });
-                }
-            });
-        });
+      // Fit the map view to the bounds of the geometries
+      if (coordinatesData.length > 0) {
+          let bounds = coordinatesData.reduce((bounds, geometry) => {
+              return bounds.extend(geometry.getBounds ? geometry.getBounds() : geometry.getLatLng());
+          }, L.latLngBounds());
+          map.fitBounds(bounds);
+      }
+  },
+  error: function (error) {
+      console.error('AJAX request failed:', error);
+  },
+});
 
-          // Fit the map view to the bounds of the polygons
-          if (coordinatesData.length > 0) {
-              let bounds = coordinatesData.reduce((bounds, polygon) => {
-                  return bounds.extend(polygon.getBounds());
-              }, L.latLngBounds());
-              map.fitBounds(bounds);
-          }
-      },
-      error: function (error) {
-          console.error('AJAX request failed:', error);
-      },
-  });
 }
 
 // Add edit event handler to save changes
@@ -828,22 +855,28 @@ document.getElementById('saveEditGeomButton').addEventListener('click', function
       }
   });
 
+  let area = 0;
+  let centroid = null;
+  let polygon_centroid = null;
+  let coordinatesArray = [];
+  if (geojson[0].geometry.type === 'Point') {
+    coordinatesArray.push(geojson[0].geometry.coordinates.slice().reverse());
+} else {
+    area = turf.area(geojson[0].geometry);
+    centroid = turf.centroid(geojson[0].geometry);
+    polygon_centroid = centroid?.geometry?.coordinates;
+    coordinatesArray = geojson[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse());
+}
 
-  let area = turf.area(geojson[0].geometry);
-  let centroid = turf.centroid(geojson[0].geometry);
-  let polygon_centroid = centroid?.geometry?.coordinates;
-  var formData = new FormData();
-  formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude',  geojson[0].geometry.coordinates[0][1]);
-  formData.append('longitude',  geojson[0].geometry.coordinates[0][0]);
-  formData.append('polygon_area', area);
-  formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
-  formData.append('geometry', JSON.stringify(geojson[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-  formData.append('road_no', struct_no);
-  formData.append('user_id', user_id);
-
-
-
+var formData = new FormData();
+formData.append('proj_id', worksAaApprovalId);
+formData.append('latitude', geojson[0].geometry.coordinates[0][1]);
+formData.append('longitude', geojson[0].geometry.coordinates[0][0]);
+formData.append('polygon_area', area);
+formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
+formData.append('geometry', JSON.stringify(coordinatesArray));
+formData.append('road_no', struct_no);
+formData.append('user_id', user_id);
 
 
 

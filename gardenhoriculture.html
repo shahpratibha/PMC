@@ -586,7 +586,7 @@
 	<script src="js/gardenhoriculture.js"></script>
 
 	<script>
-		    function toggleSelectLayerButton(show) {
+	  function toggleSelectLayerButton(show) {
       var saveBtn = document.getElementById('editFeatureButton');
       var editBtn = document.getElementById('saveDataButton');
       var deleteBtn = document.getElementById('deleteFeatureButton');
@@ -596,6 +596,9 @@
         saveBtn.style.display = show ? 'block' : 'none';
         editBtn.style.display = show ? 'block' : 'none';
         deleteBtn.style.display = show ? 'block' : 'none';
+        
+      }
+      if(deleteBtnEdit && saveBtnEdit ){
         deleteBtnEdit.style.display = show ? 'none' : 'block'
         saveBtnEdit.style.display = show ? 'none' : 'block'
       }

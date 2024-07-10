@@ -233,7 +233,7 @@
     <script src="feedback.js"></script>
     <script src="js/config.js"></script>
 
-    <script src="js/road.js"></script>
+    <script src="js/project.js"></script>
     <!-- <script src="js/mainmodal/legend.js"></script> -->
     <script src="js/mainmodal/contextMenu.js"></script>
 
@@ -248,6 +248,9 @@
         saveBtn.style.display = show ? 'block' : 'none';
         editBtn.style.display = show ? 'block' : 'none';
         deleteBtn.style.display = show ? 'block' : 'none';
+        
+      }
+      if(deleteBtnEdit && saveBtnEdit ){
         deleteBtnEdit.style.display = show ? 'none' : 'block'
         saveBtnEdit.style.display = show ? 'none' : 'block'
       }

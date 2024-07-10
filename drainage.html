@@ -621,9 +621,11 @@ function toggleSelectLayerButton(show) {
 				saveBtn.style.display = show ? 'block' : 'none';
 				editBtn.style.display = show ? 'block' : 'none';
 				deleteBtn.style.display = show ? 'block' : 'none';
-				deleteBtnEdit.style.display = show ? 'none' : 'block'
-				saveBtnEdit.style.display = show ? 'none' : 'block'
 			}
+      if(deleteBtnEdit && saveBtnEdit ){
+        deleteBtnEdit.style.display = show ? 'none' : 'block'
+        saveBtnEdit.style.display = show ? 'none' : 'block'
+      }
 		}
 
 

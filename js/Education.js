@@ -603,7 +603,7 @@ if (editMode) {
           // Add polygons to the map and make them editable
           coordinatesData.forEach((layer) => {
             editableLayers.addLayer(layer); // Add to editable layers
-            layer.addTo(map).bindPopup('Polygon or MultiPolygon');
+         
             layer.on('click', function () {
                 if (layer.editing) {
                     layer.editing.enable();

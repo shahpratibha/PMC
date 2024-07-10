@@ -644,20 +644,23 @@
 	<script src="js/solidWasteManagement.js"></script>
 
 	<script>
-	function toggleSelectLayerButton(show) {
-			var saveBtn = document.getElementById('editFeatureButton');
-			var editBtn = document.getElementById('saveDataButton');
-			var deleteBtn = document.getElementById('deleteFeatureButton');
-			var deleteBtnEdit = document.getElementById('deleteEditGeomButton');
-			var saveBtnEdit = document.getElementById('saveEditGeomButton');
-			if (saveBtn && editBtn) {
-				saveBtn.style.display = show ? 'block' : 'none';
-				editBtn.style.display = show ? 'block' : 'none';
-				deleteBtn.style.display = show ? 'block' : 'none';
-				deleteBtnEdit.style.display = show ? 'none' : 'block'
-				saveBtnEdit.style.display = show ? 'none' : 'block'
-			}
-		}
+	  function toggleSelectLayerButton(show) {
+      var saveBtn = document.getElementById('editFeatureButton');
+      var editBtn = document.getElementById('saveDataButton');
+      var deleteBtn = document.getElementById('deleteFeatureButton');
+      var deleteBtnEdit = document.getElementById('deleteEditGeomButton');
+      var saveBtnEdit = document.getElementById('saveEditGeomButton');
+      if (saveBtn && editBtn) {
+        saveBtn.style.display = show ? 'block' : 'none';
+        editBtn.style.display = show ? 'block' : 'none';
+        deleteBtn.style.display = show ? 'block' : 'none';
+        
+      }
+      if(deleteBtnEdit && saveBtnEdit ){
+        deleteBtnEdit.style.display = show ? 'none' : 'block'
+        saveBtnEdit.style.display = show ? 'none' : 'block'
+      }
+    }
 
 
 	
