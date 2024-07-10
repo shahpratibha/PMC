@@ -232,13 +232,23 @@
             opacity: 1
         });
 
+        var Ward_layer = L.tileLayer.wms(baseURL, {
+            layers: "GIS_Ward_Layer",
+            format: "image/png",
+            transparent: true,
+            tiled: true,
+            version: "1.1.0",
+            opacity: 1
+        });
+
         var WMSlayers = {
             "Esri": Esri_WorldImagery,
             "Satellite": googleSat,
             "osm": osm,
             "IWMS_line": IWMS_line,
             "IWMS_polygon": IWMS_polygon,
-            "IWMS_point": IWMS_point
+            "IWMS_point": IWMS_point,
+            "Ward_layer":Ward_layer
         };
 
         var control = new L.control.layers({}, WMSlayers).addTo(map);
@@ -246,13 +256,12 @@
 
         var highlightLayer;
 
-        const API_URL = "http://localhost/PMC/IWMS_main/";
+        const API_URL = "http://localhost/pmc_test/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
 
         async function onClickEdit(department, id, Work_ID) {
-            console.log(department, id);// remove "" from id
-
+  
             const response = await fetch(`https://iwms.punecorporation.org/api/project-gis-data?proj_id=${Work_ID}`);
 
             //  const response = await fetch('api-responses/all-project-data.json');
@@ -262,6 +271,19 @@
             const conceptual = await fetch(`${API_URL}APIS/Get_Conceptual_Form_By_Work_Id.php?works_approval_id=${Work_ID}`);
             const resConceptual = await conceptual.json();
             const conceptualData = resConceptual.data;
+
+
+            if (ward > 10) {
+
+
+const baseURL = "ward.html";
+
+// Create the query string
+const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+
+// Redirect to the new URL with query parameters
+window.location.href = baseURL + queryString;
+}
 
             if (department == "Road") {
 
@@ -478,11 +500,12 @@
             IWMS_line.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_line" }).addTo(map);
             IWMS_polygon.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_polygon" }).addTo(map);
             IWMS_point.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "IWMS_points" }).addTo(map);
+            Ward_layer.setParams({ CQL_FILTER: filter, maxZoom: 19.5, styles: "GIS_Ward_Layer" }).addTo(map);
 
             getdata(filter);
 
             function getdata(filters) {
-                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" ];
+                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" ,"GIS_Ward_Layer"];
                 const promises = [];
                 const layerDetails = [ "id", "Work_ID", "Name_of_Work", "Department", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "length_1", "width", "area", "geometry" ];
 

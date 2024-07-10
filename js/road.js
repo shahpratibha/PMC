@@ -718,57 +718,6 @@ var drawControlRoad = new L.Control.Draw({
 });
 
 
-var drawControlBuilding = new L.Control.Draw({
-  draw: {
-    polyline: false,
-
-    polygon: {
-      shapeOptions: {
-        color: "red",
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6),
-        className: "leaflet-div-icon",
-      }),
-    },
-
-    circle: false,
-    marker: false,
-    rectangle: false,
-  },
-  edit: false,
-  //  {
-  //   featureGroup: drawnItems,
-  //   remove: true,
-  // },
-});
-
-
-var drawControlDrainage = new L.Control.Draw({
-  draw: {
-    polyline: {
-      shapeOptions: {
-        color: "red", // set the color for the polygon border
-      },
-      icon: new L.DivIcon({
-        iconSize: new L.Point(6, 6), // set the size of the icon
-        className: "leaflet-div-icon", // specify the icon class
-      }),
-    },
-    polygon: false,
-
-    circle: false,
-    marker: false,
-    rectangle: false,
-    point: true,
-  },
-  edit:false,
-  //  {
-  //   featureGroup: drawnItems,
-  //   remove: true,
-  // },
-});
-
 
 if (workType == "New") {
 
@@ -790,7 +739,7 @@ if (workType == "New") {
 
 //var customToolSelector = L.control({ position: 'topleft' });
 
-// Initialize the mapMode variable
+
 let mapMode = 'snapping';
 
 //   customToolSelector.addTo(map);
@@ -1671,10 +1620,6 @@ function getClosestRoadPointLast(latlng) {
       });
   });
 }
-
-
-
-
 
 
 let lastDrawnPoint = null;

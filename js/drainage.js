@@ -1333,8 +1333,7 @@ var associatedLayersRegistry = {};
 function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
   var geoJSON = polylineLayer.toGeoJSON();
   var halfBufferWidth = bufferWidth / 2;
-  var buffered = turf.buffer(geoJSON, halfBufferWidth, { units: "meters" });
-
+  var buffered = createRectangularBuffer(geoJSON, halfBufferWidth, "meters");
   var bufferLayer = L.geoJSON(buffered, {
     style: {
       color: "blue",
@@ -1368,6 +1367,47 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
   });
 }
 
+function createRectangularBuffer(geoJSON, bufferWidth, units) {
+  if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
+      console.error("Invalid GeoJSON format or empty GeoJSON");
+      return null;
+  }
+
+  var coords = geoJSON.geometry.coordinates;
+  var bufferedCoords = [];
+
+  coords.forEach(function (coord, index) {
+      if (index < coords.length - 1) {
+          var start = turf.point(coord);
+          var end = turf.point(coords[index + 1]);
+          var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
+
+          var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
+          var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
+
+          var leftStart = turf.getCoords(leftOffsetLine)[0];
+          var leftEnd = turf.getCoords(leftOffsetLine)[1];
+          var rightStart = turf.getCoords(rightOffsetLine)[0];
+          var rightEnd = turf.getCoords(rightOffsetLine)[1];
+
+          bufferedCoords.push(leftStart);
+          bufferedCoords.push(leftEnd);
+          bufferedCoords.push(rightEnd);
+          bufferedCoords.push(rightStart);
+      }
+  });
+
+  // Ensure the polygon is closed by adding the first coordinate at the end
+  if (bufferedCoords.length > 0) {
+      bufferedCoords.push(bufferedCoords[0]);
+  }
+
+  var bufferedPolygon = turf.polygon([bufferedCoords]);
+  return turf.featureCollection([bufferedPolygon]);
+}
+
+
+
 function updateAssociatedLayers(polylineId, bufferWidth) {
   var layers = associatedLayersRegistry[polylineId];
   if (layers) {
@@ -1375,7 +1415,7 @@ function updateAssociatedLayers(polylineId, bufferWidth) {
     var halfBufferWidth = bufferWidth / 2;
 
     // Recreate the buffer based on new polyline geometry
-    var newBuffered = turf.buffer(updatedGeoJSON, halfBufferWidth, { units: 'meters' });
+     var newBuffered = createRectangularBuffer(updatedGeoJSON, halfBufferWidth, "meters");;
     layers.bufferLayer.clearLayers(); // Remove the old buffer
     layers.bufferLayer.addData(newBuffered); // Add the new buffer
 

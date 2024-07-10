@@ -35,7 +35,7 @@ if ($isWardSelection){
     $area =  isset($data['area']) ? $data['area'] : 0;
    
 
-    $stmtIWMS = $pdo->prepare("INSERT INTO \"Polygon_data\" (
+    $stmtIWMS = $pdo->prepare("INSERT INTO \"GIS_Ward_Layer\" (
 
 
         geom, je_name, name_of_wo, project_fi, scope_of_w, ward, work_type, zone, contact_no, length, width,
@@ -180,7 +180,7 @@ else if ($department == "Road") {
 
 } 
 
-else if ($department == "Building" || $department == "Project Work" || $department == "Solid waste Management"   || $department == "Drainage" || $department == "Garden" || $department == "Garden Horticulture" || $department == "Electrical" || $department == "Water Supply" || $department == "Encroachment " || $department == "Slum" || $department == "City Engineer Office") {
+else if ($department == "Building" || $department == "Environment" || $department == "Education Department (Primary)" ||  $department == "Project Work" || $department == "Sport"  || $department == "Solid waste Management"   || $department == "Drainage" || $department == "Garden" || $department == "Garden Horticulture" || $department == "Electrical" || $department == "Water Supply" || $department == "Encroachment " || $department == "Slum" || $department == "City Engineer Office") {
 
     $selectCoordinatesData = $data['selectCoordinatesData'];
     $roadLength = isset($data['roadLength']) && $data['roadLength'] !== "" ? $data['roadLength'] : null;
@@ -436,9 +436,9 @@ else if ($department == "Building" || $department == "Project Work" || $departme
 //5) Water Supply
 
 //6) solid Waste Management
-else if (  $department == "Education Department (Primary)" || $department == "Market" || $department == "Sport" || $department == "Environment") {
+else if (  $department == "Market" ) {
     $selectCoordinatesData = $data['selectCoordinatesData'];
-    $selectedGeometry = $selectCoordinatesData[1]['geometry'];
+    $selectedGeometry = $selectCoordinatesData[0]['geometry'];
     $selectedGeometryJson = json_encode($selectedGeometry);
 
     $area =  isset($data['area']) ? $data['area'] : 0;

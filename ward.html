@@ -28,40 +28,40 @@
       }
 
       #saveEditGeomButton {
-			border: 2px solid #2b13bb;
-			border-bottom: 2px solid #2b13bb;
-			border-top: 2px solid #2b13bb;
-			border-radius: 5px 5px 5px 5px;
-			background-color: white;
-			position: fixed;
-			color: black;
-			padding: 0px 5px;
-			top: 92%;
-			/* changed from 683px */
-			font-size: 19px;
-			height: 37px;
-			width: 37px;
-			left: 50%;
-			/* changed from 865px */
-		}
+    border: 2px solid #2b13bb;
+    border-bottom: 2px solid #2b13bb;
+    border-top: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px;
+    background-color: green;
+    position: fixed;
+    color: black;
+    padding: 0px 5px;
+    top: 90%;
+    /* changed from 683px */
+    font-size: 19px;
+    height: 37px;
+    width: 37px;
+    left: 50%;
+    /* changed from 865px */
+  }
 
-		#deleteEditGeomButton {
-			border: 2px solid #2b13bb;
-			border-bottom: 2px solid #2b13bb;
-			border-top: 2px solid #2b13bb;
-			border-radius: 5px 5px 5px 5px;
-			background-color: white;
-			position: fixed;
-			color: black;
-			padding: 0px 5px;
-			top: 92%;
-			/* changed from 683px */
-			font-size: 19px;
-			height: 37px;
-			width: 37px;
-			left: 47%;
-			/* changed from 865px */
-		}
+  #deleteEditGeomButton {
+    border: 2px solid #2b13bb;
+    border-bottom: 2px solid #2b13bb;
+    border-top: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px;
+    background-color: green;
+    position: fixed;
+    color: black;
+    padding: 0px 5px;
+    top: 90%;
+    /* changed from 683px */
+    font-size: 19px;
+    height: 37px;
+    width: 37px;
+    left: 47%;
+    /* changed from 865px */
+  }
 
       .custom-button {
         width: auto;
@@ -738,7 +738,7 @@ else {
                   processData: false,
                   contentType: false,
                   success: function (response) {
-                    window.location.href = response.data.redirect_Url;
+                    //window.location.href = response.data.redirect_Url;
                   },
                   error: function (xhr, status, error) {
                     console.error("Save failed:", error);
