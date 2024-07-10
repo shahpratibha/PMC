@@ -18,21 +18,12 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
   <!-- Include daterangepicker CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"   />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"   />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  
-
-
-  
-  <style>
-
-
-  </style>
 </head>
 
 <body>
@@ -42,7 +33,11 @@
       <div class="map-container">
         <img src="png/pmcjpeg.png" alt="" class="logopng">
         <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
-        <button class="toggle-button" id="toggleFilters"><i class="fa-solid fa-filter"></i></button>
+        <button class="toggle-button" id="toggleFilters" title="">
+          <i class="fa-solid fa-filter"></i> 
+      </button>
+  
+        
         <div id="map"></div>
         <div class="daterange-container">
           <input type="text" name="daterange" id="daterange" class="form-control">
@@ -53,21 +48,23 @@
 
         
         <!-- search bar -->
-        <div class="SearchBar">
+      
+        <button class="SearchBar">
 
 
-          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"
-            style="border-radius: 10px;border: 2px solid darkblue;">
-            <option value="">Select Type</option>
-          </select>
+          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"class="custom-dropdown">
 
-          <input class="form-contro ms-2" type="search" placeholder="Search" aria-label="Search"
-            id="searchInputDashboard" style=" border-radius: 10px; border: 2px solid darkblue;" />
+        
+          </select >
+
+          <input class="form-contro ms-2" type="" placeholder="Search Work ID" aria-label="Search"
+            id="searchInputDashboard" style=" border: 2px solid darkblue;" />
           <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
 
-        </div>
-        <!-- search bar -->
+        </button>
+    
       </div>
+          <!-- search bar -->
 
 
       <!-- filter start -->
@@ -156,6 +153,7 @@
     <!-- <script src="js/contex.js"></script> -->
     <script src="js/dashboard.js"></script>
     <script src="js/mainmodal/legend.js"></script>
+    
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 

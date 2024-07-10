@@ -1,5 +1,5 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
+// const API_URL = "http://localhost/PMC4/";
 
 var map = L.map("map", {
   center:[18.52, 73.89],
@@ -169,7 +169,28 @@ var IWMS_line = L.tileLayer
     maxZoom: 21,
     opacity: 1,
   });
+
+  var GIS_Ward_Layer = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "GIS_Ward_Layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   
+  var Geodata = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Geodata",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   var wms_layer21 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Bhavan",
@@ -238,6 +259,8 @@ var WMSlayers = {
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
+  GIS_Ward_Layer: GIS_Ward_Layer,
+  Geodata:Geodata,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);

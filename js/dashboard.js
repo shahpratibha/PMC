@@ -64,16 +64,22 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// });
 
 // toggleFilterend---------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function () {
   const filters = document.getElementById('filters');
   const map = document.getElementById('map');
   const tableBtn = document.getElementById('openTableBtn');
-  const daterange = document.getElementById('daterangepicker');
   const tableinfo = document.getElementById('tablecontainer');
+
   const button = document.getElementById('toggleFilters');
+
+
+  // const button = document.getElementById('toggleFilters');
+
+// Set the title attribute
+button.setAttribute('title', 'Filter');
+
  
   let filtersVisible = false;
 
@@ -88,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
       tableBtn.style.right = 'calc(0.8vw)';
       tableBtn.style.top = '22vh';
       tableinfo.style.right = 'calc(20vw - 1px)';
-
     } else {
       filters.style.marginLeft = '-35vw';
       filters.style.opacity = '0';
@@ -100,8 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
       tableBtn.style.right = '40px';
       tableBtn.style.top = '22vh';
       tableBtn.style.right = '10px';
-      tableinfo.style.right = '10px';
-      
+      tableinfo.style.right = '10px'; // Adjusted position for tableinfo
     }
     filtersVisible = !filtersVisible;
   });
@@ -200,7 +204,7 @@ $('#daterange').on('apply.daterangepicker', function (ev, picker) {
     const filternames = ["Project_Office", "project_fi", "zone", "ward", "Department", "stage", "Work_Type"]; //accordn column names , if want add one more filter criteria add here
 
     filternames.forEach(function (filtername) {
-      var url = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=${filtername}&outputFormat=application/json&cql_filter=${encodeURIComponent(cql_filter)}`;
+      var url = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon,GIS_Ward_Layer&propertyName=${filtername}&outputFormat=application/json&cql_filter=${encodeURIComponent(cql_filter)}`;
       console.log(url);
       $.getJSON(url, function (data) {
         var projectFiSet = new Set();
@@ -264,12 +268,12 @@ $('#daterange').on('apply.daterangepicker', function (ev, picker) {
 
 
 function DataTableFilter(cql_filter1) {
-  var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon"];
+  var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon","pmc:GIS_Ward_Layer"];
   var typeName = layers.join(',');
   var cqlFilter = cql_filter1;
   var geoServerURL =
     `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(cqlFilter)}`;
-  var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Work_Type', 'Name_of_JE', 'Agency','Budget_Code','Budget_Amount','Used_Amount', 'Tender_Amount', 'stage',  'Created_At','Status'];
+  var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
 
   showtable(typeName, geoServerURL, cqlFilter, headers);
 
@@ -281,8 +285,9 @@ function DataTableFilter(cql_filter1) {
 function populateDropdown(dropdownId, data) {
   var ul = $("#" + dropdownId);
   ul.empty();
- 
+  // var searchBox= $(' <input type="text" placeholder="Search" class="filter-input">')
   data.forEach(function (item) {
+    // console.log(item, "items")
     var listItem = $('<li><label><input type="checkbox" class="select2-option-checkbox" value="' + item + '"> ' + item + '</label></li>');
     ul.append(listItem);
   });
@@ -344,6 +349,8 @@ function getCheckedValues(callback) {
 
 
 
+
+
 function FilterAndZoom(filter) {
   fitbous(filter)
   IWMS_point.setParams({
@@ -358,11 +365,16 @@ function FilterAndZoom(filter) {
     CQL_FILTER: filter,
     maxZoom: 19.5,
   }).addTo(map);
+  GIS_Ward_Layer.setParams({
+    CQL_FILTER: filter,
+    maxZoom: 19.5,
+  }).addTo(map);
 };
 
 
+
 function fitbous(filter) {
-  var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon"];
+  var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon","pmc:GIS_Ward_Layer"];
   var bounds = null;
 
   var processLayer = function (layerName, callback) {
@@ -390,7 +402,7 @@ function fitbous(filter) {
     processLayer(layerName, function () {
       layersProcessed++;
       if (layersProcessed === layers.length) {
-        
+        // Apply the combined bounds to the map after all layers are processed
         if (bounds) {
           map.fitBounds(bounds);
         }
@@ -652,21 +664,49 @@ $(document).ready(function() {
    for (var key in columns) {
       if (columns.hasOwnProperty(key)) {
         var option = document.createElement("option");
-        option.text = columns[key]; // Use columns[key] to get the column name
-        option.value = key; // Use key as the value (e.g., Work_ID, Budget_Code)
+        option.text = columns[key]; 
+        option.value = key; 
+
+        
+        
         select.appendChild(option);
+        
       }
     }
-   
-  // Initialize selected value variable
-  let selectedValue;
 
+        
+       
+        
+        // Initialize selected value variable
+        let selectedValue;
+    
+ 
+   
+   
+  
   // Event listener for dropdown change
   $("#search_type").change(function () {
     var selectedValue = $(this).val();
+    var selectedText = columns[selectedValue]; // Get corresponding label from columns object
+    var input = document.getElementById("searchInputDashboard");
+    // Update input placeholder and clear input value
+    var selectedValue = select.value;
+    input.placeholder = "Search " + selectedText;
+    input.value = "";
+
+
+    // Call autocomplete with empty array and selected column
+    autocomplete(input, [], selectedValue);
+
+    // Trigger search based on the selected column immediately after selecting
+    if (selectedValue) {
+        getValues(function (data) {
+            autocomplete(input, data, selectedValue); // Call autocomplete with fetched data and selected column
+        });
+    }
 
     function getValues(callback) {
-      var geoServerURL = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=${selectedValue}&outputFormat=application/json`;
+      var geoServerURL = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon,GIS_Ward_Layer&propertyName=${selectedValue}&outputFormat=application/json`;
       console.log(geoServerURL, "geoServerURLsearch");
 
       $.getJSON(geoServerURL, function (data) {
@@ -704,7 +744,7 @@ $(document).ready(function() {
   });
 
   // autocomplete function
-  function autocomplete(input, arr) {
+  function autocomplete(input, arr, selectedColumn) {
     let currentFocus;
     input.addEventListener("input", function () {
       let list, item, i, val = this.value.toLowerCase(); // Convert input value to lowercase for case-insensitive comparison
@@ -753,12 +793,18 @@ $(document).ready(function() {
               maxZoom: 19.5,
               styles: "IWMS_polygon"
             });
+            GIS_Ward_Layer.setParams({
+              CQL_FILTER: cqlFilter,
+              maxZoom: 19.5,
+              styles: "IWMS_polygon"
+            });
 
           
             console.log("Adding IWMS_point, IWMS_line, and IWMS_polygon layers with filter:", cqlFilter);
             IWMS_point.addTo(map).bringToFront();
             IWMS_line.addTo(map).bringToFront();
             IWMS_polygon.addTo(map).bringToFront();
+            GIS_Ward_Layer.addTo(map).bringToFront();
             fitbous(cqlFilter);
 
             DataTableFilter(cqlFilter)
@@ -822,6 +868,7 @@ $(document).ready(function() {
     });
   }
 });
+
 
 
 
@@ -924,36 +971,4 @@ console.log(cqlFilter123, "cqlFilter123");
     }
   }
 });
-
-//  function for closing popup 
-
-        // Function to close popup
-        function closePopup() {
-          map.closePopup(); 
-      }
-
-      function handleClick(event) {
-          var isClickInsideMap = map.getContainer().contains(event.target);
-          var isClickInsidePopup = document.querySelector('.leaflet-popup')?.contains(event.target);
-
-          if (!isClickInsideMap && !isClickInsidePopup) {
-              closePopup();
-          }
-      }
-
-      document.getElementById('tablecontainer').addEventListener('click', closePopup);
-
-      document.querySelectorAll('button').forEach(button => {
-          button.addEventListener('click', closePopup);
-      });
-
-      document.querySelectorAll('.other-interactive-element').forEach(element => {
-          element.addEventListener('click', closePopup);
-      });
-
-      document.addEventListener('click', handleClick);
-
-      map.on('click', function(event) {
-          event.originalEvent.stopPropagation();
-      });
  
