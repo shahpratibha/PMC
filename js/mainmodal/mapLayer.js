@@ -266,9 +266,6 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
 
-
-//// var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
-
 // kml
 
 
@@ -282,7 +279,7 @@ map.on("dblclick", function (e) {
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
     }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-  // you can use this url for further processing such as fetching data from server or showing it on the map
+ 
 
   if (urrr) {
     fetch(urrr)
@@ -460,14 +457,12 @@ function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
   var blob = new Blob([kmlContent], {
     type: "application/vnd.google-earth.kml+xml",
-  }); // Set MIME type to KML
-
-  // Create a download link for the KML file
+  }); 
+  
   var a = document.createElement("a");
   a.href = window.URL.createObjectURL(blob);
-  a.download = "output.kml"; // Set file extension to .kml
-
-  // Append the link to the document and trigger a click event to start the download
+  a.download = "output.kml"; 
+ 
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
