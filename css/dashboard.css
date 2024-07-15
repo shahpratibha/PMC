@@ -490,7 +490,7 @@ z-index: 9999;
 top: 6.5%;
 left: 15.700%;
 background-color: #fff;
-width: 245px;
+width: 240px !important;
 max-width: 250px;
 max-height: 400px;
 overflow-x: hidden;
@@ -602,29 +602,9 @@ z-index: 9999;
 top: 2%;
 text-align: center; /* Center align text */
 padding-left: 10px; /* Add padding to move text slightly left */
-left: 14%;
+left: 15%;
 border: 2px solid darkblue;
 }
 
-/* Placeholder styling */
-#searchInputDashboard::placeholder {
-text-align: center; 
-}
 
 
-input::-webkit-input-placeholder {
-color: #aaa; 
-text-align: center; 
-}
-input::-moz-placeholder {
-color: #aaa; 
-text-align: center; 
-}
-input:-ms-input-placeholder {
-color: #aaa; 
-text-align: center; 
-}
-input:-moz-placeholder {
-color: #aaa;
-text-align: center; 
-}

@@ -18,12 +18,15 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css" />
   <!-- Include daterangepicker CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"   />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"   />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+  
+
+  </style>
 </head>
 
 <body>
@@ -33,11 +36,7 @@
       <div class="map-container">
         <img src="png/pmcjpeg.png" alt="" class="logopng">
         <a href="https://geopulsea.com/" class="geopulseaname">@GeoPulse Analytics</a>
-        <button class="toggle-button" id="toggleFilters" title="">
-          <i class="fa-solid fa-filter"></i> 
-      </button>
-  
-        
+        <button class="toggle-button" id="toggleFilters"><i class="fa-solid fa-filter"></i></button>
         <div id="map"></div>
         <div class="daterange-container">
           <input type="text" name="daterange" id="daterange" class="form-control">
@@ -48,23 +47,20 @@
 
         
         <!-- search bar -->
-      
-        <button class="SearchBar">
+        <div class="SearchBar">
 
 
-          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"class="custom-dropdown">
+          <select class="form-select ms-auto" aria-label="Select search category" id="search_type">
+            <option value=""> search type</option>
+          </select>
 
-        
-          </select >
-
-          <input class="form-contro ms-2" type="" placeholder="Search Work ID" aria-label="Search"
-            id="searchInputDashboard" style=" border: 2px solid darkblue;" />
+          <input class="form-contro ms-2" type="search" placeholder="Search" aria-label="Search"
+            id="searchInputDashboard"  />
           <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
 
-        </button>
-    
+        </div>
+        <!-- search bar -->
       </div>
-          <!-- search bar -->
 
 
       <!-- filter start -->
@@ -140,6 +136,8 @@
       crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
 
@@ -153,9 +151,8 @@
     <!-- <script src="js/contex.js"></script> -->
     <script src="js/dashboard.js"></script>
     <script src="js/mainmodal/legend.js"></script>
-    
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+   
 
 </body>
 
