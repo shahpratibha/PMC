@@ -272,8 +272,7 @@
             const resConceptual = await conceptual.json();
             const conceptualData = resConceptual.data;
 
-
-            if (ward > 10) {
+            if (conceptualData.struct_no > 10) {
 
 
 const baseURL = "ward.html";
@@ -505,7 +504,7 @@ window.location.href = baseURL + queryString;
             getdata(filter);
 
             function getdata(filters) {
-                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" ,"GIS_Ward_Layer"];
+                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" ,"pmc:GIS_Ward_Layer"];
                 const promises = [];
                 const layerDetails = [ "id", "Work_ID", "Name_of_Work", "Department", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "length_1", "width", "area", "geometry" ];
 
@@ -679,7 +678,7 @@ window.location.href = baseURL + queryString;
             }
 
             function FitbouCustomiseRevenue(filter) {
-                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" ];
+                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" , "pmc:GIS_Ward_Layer" ];
                 let bounds = L.latLngBounds();
                 let pendingRequests = layers.length;
 
