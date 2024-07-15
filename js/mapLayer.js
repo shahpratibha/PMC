@@ -41,7 +41,7 @@ var Esri_WorldImagery = L.tileLayer(
 var baseLayers = {};
 
 
-var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+var baseURL = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 // var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 
 var wms_layer1 = L.tileLayer.wms(

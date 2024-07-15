@@ -19,7 +19,7 @@ var googleSat = L.tileLayer(
   }
 );
 
-var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+var baseURL = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 // var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 
 var ward_boundary = L.tileLayer.wms(
@@ -288,8 +288,7 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
-
+var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
 var workspace = "Road";
 
 // Variable to keep track of legend visibility
@@ -460,7 +459,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -1387,7 +1386,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in//geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+ const geoserverBaseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",

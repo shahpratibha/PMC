@@ -738,10 +738,13 @@
           let layers = ["pmc:Exist_Road", "pmc:Bhavan"];
 let queryLayers = layers.join(',');
 
-var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-  e.containerPoint.x
-)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+var baseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"
 
+var url =  baseUrl + `?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+  e.containerPoint.x
+)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+  size.x
+}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
           fetch(url)
             .then((response) => response.json())
@@ -1552,7 +1555,7 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
 
         // Fetch capabilities to get all layers in the 'pmc' workspace
         fetch(
-          "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+           geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
         )
           .then((response) => response.text())
           .then((data) => {

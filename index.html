@@ -774,7 +774,7 @@ function toggleSelectLayerButton(show) {
 
         // Fetch capabilities to get all layers in the 'pmc' workspace
         fetch(
-          "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+           geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
         )
           .then((response) => response.text())
           .then((data) => {
