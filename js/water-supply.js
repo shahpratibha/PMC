@@ -640,9 +640,9 @@ if (editMode) {
             layer.on('click', function () {
                 if (layer.editing) {
                     layer.editing.enable();
-                    updatePopup(layer);
+                    updatePopupEdit(layer);
                     layer.on('edit', function () {
-                        updatePopup(layer);
+                      updatePopupEdit(layer);
                     });
                 }
             });

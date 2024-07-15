@@ -65,7 +65,7 @@ try {
     $pdo->commit();
 
     echo json_encode([
-        'success' => true,
+        'status' => true,
         'message' => 'Data updated successfully.',
     ]);
 } catch (Exception $e) {

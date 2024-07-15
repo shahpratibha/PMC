@@ -643,9 +643,9 @@ if (editMode) {
               layer.on('click', function () {
                   if (layer.editing) {
                       layer.editing.enable();
-                      updatePopup(layer); // Example function call for updating popup
+                      updatePopupEdit(layer); // Example function call for updating popup
                       layer.on('edit', function () {
-                          updatePopup(layer); // Example function call for updating popup
+                        updatePopupEdit(layer); // Example function call for updating popup
                       });
                   }
               });
