@@ -203,8 +203,9 @@
         var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19
         }).addTo(map);
-        var baseURL = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
-        // var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+
+        var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
+       
         var IWMS_line = L.tileLayer.wms(baseURL, {
             layers: "IWMS_line",
             format: "image/png",
@@ -256,9 +257,9 @@
 
         var highlightLayer;
 
-        const API_URL = "http://localhost/pmc_test/";
+        // const API_URL = "http://localhost/pmc_test/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
+const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
 
         async function onClickEdit(department, id, Work_ID) {
   
