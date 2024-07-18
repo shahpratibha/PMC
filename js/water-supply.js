@@ -744,7 +744,7 @@ var drawControlWaterBodies = new L.Control.Draw({
       className: "leaflet-div-icon", 
     }),},
 
-    circle: false,
+    circle: true,
     marker: false,
     rectangle: false,
     circlemarker:false
@@ -2196,12 +2196,18 @@ function Savedata(lastDrawnPolylineId) {
 
   selectCoordinatesData.forEach((geom, index) => {
 
+    let centroid = null;
+		let polygon_centroid = null;
+		let coordinatesArray = [];
 
-    if (geom.geometry.type === "Polygon") {
-      area = turf.area(geom);
-  } else if (geom.geometry.type === "LineString") {
-      area = turf.length(geom, { units: 'meters' }); 
-  }
+    if (geom.geometry.type === 'Point') {
+			coordinatesArray.push(geom.geometry.coordinates.slice().reverse());
+		} else {
+			area = turf.area(geom.geometry);
+			centroid = turf.centroid(geom.geometry);
+			polygon_centroid = centroid?.geometry?.coordinates;
+			coordinatesArray = geom.geometry.coordinates?.map((coordinates) => coordinates.slice().reverse());
+		}
 
    var roadLenght = lenght;
   var bufferWidth = width;
@@ -2279,11 +2285,16 @@ function Savedata(lastDrawnPolylineId) {
 
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', geom.geometry.coordinates[0][1]);
-  formData.append('longitude', geom.geometry.coordinates[0][0]);
+  if (geom.geometry.type === 'Point') {
+    formData.append('latitude', geom.geometry.coordinates[1]);
+    formData.append('longitude', geom.geometry.coordinates[0]);
+  } else {
+    formData.append('latitude', geom.geometry.coordinates[0][1]);
+    formData.append('longitude', geom.geometry.coordinates[0][0]);
+  }
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(geom.geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('geometry', JSON.stringify(coordinatesArray));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
   formData.append('length', area);

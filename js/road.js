@@ -1529,7 +1529,7 @@ function getClosestRoadPointTrace(latlng) {
           var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
           var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
           // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
-          closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+         // closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
        
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
@@ -1567,7 +1567,7 @@ function getClosestRoadPoint(latlng) {
           var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
           var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
           // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
-          closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+//          closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
      
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
@@ -1691,22 +1691,22 @@ let currentPolyline;
 // });
 
 
-// map.on("draw:editvertex", function (e) {
-//   for (const key in e.layers._layers) {
-//     if (e.layers._layers.hasOwnProperty(key)) {
-//       const layer = e.layers._layers[key];
-//       const originalLatlng = layer._latlng;
-//       getClosestRoadPoint(originalLatlng).then(result => {
-//         if (result && result.distance <= 20.0000) {
-//           layer._latlng.lat = result.marker.lat;
-//           layer._latlng.lng = result.marker.lng;
-//           layer.setLatLng(result.marker);
-//         }
-//       });
-//     }
-//   }
+map.on("draw:editvertex", function (e) {
+  for (const key in e.layers._layers) {
+    if (e.layers._layers.hasOwnProperty(key)) {
+      const layer = e.layers._layers[key];
+      const originalLatlng = layer._latlng;
+      getClosestRoadPoint(originalLatlng).then(result => {
+        if (result && result.distance <= 20.0000) {
+          layer._latlng.lat = result.marker.lat;
+          layer._latlng.lng = result.marker.lng;
+          layer.setLatLng(result.marker);
+        }
+      });
+    }
+  }
 
-// });
+});
 
 
 
@@ -1824,7 +1824,7 @@ function handleMouseMove(event) {
     if (drawTimeout) clearTimeout(drawTimeout);
     lastDrawnPoint = event.latlng;
     drawTimeout = setTimeout(() => {
-   //   getClosestRoadPointLast(lastDrawnPoint);
+    getClosestRoadPointLast(lastDrawnPoint);
     }, 100); // Adjust the delay as needed
   }
 }
@@ -2302,6 +2302,15 @@ function Savedata(lastDrawnPolylineId) {
 // have to check and remote this code in future 
 
 
+selectCoordinatesData.forEach((geom, index) => {
+  
+
+
+  if (geom.geometry.type === "Polygon") {
+    area = turf.area(geom);
+} else if (geom.geometry.type === "LineString") {
+    area = turf.length(geom, { units: 'meters' }); 
+}
 
 
 
@@ -2323,8 +2332,9 @@ function Savedata(lastDrawnPolylineId) {
       bufferWidth: bufferWidth,
       gis_id: lastInsertedId,
       department: department, 
-      selectCoordinatesData: selectCoordinatesData,
-      area: area 
+      selectCoordinatesData: geom,
+      area: area ,
+      geometryType: geom.geometry.type
   });
 
  
@@ -2377,11 +2387,11 @@ if (editMode) {
 
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+  formData.append('latitude', geom.geometry.coordinates[0][1]);
+  formData.append('longitude', geom.geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('geometry', JSON.stringify(geom.geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
   formData.append('length', area);
@@ -2403,6 +2413,10 @@ if (editMode) {
       },
   });
   
+});
+
+
+ 
 
 }
 
