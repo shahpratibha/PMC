@@ -6,8 +6,14 @@
     <title>PMC</title>
     <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/style.css" />
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/road.css"/>
 
+=======
+    <link rel="stylesheet" href="css/road.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+>>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
     <!-- bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -157,6 +163,7 @@
     </div>
 
     <div id="table-container">
+      <button id="toggle-btn"><i class="fas fa-minus"></i></button>
       <table
         id="workTable"
         class="table table-bordered table-hover"
@@ -179,6 +186,7 @@
     <!-- <script src="js/mainmodal/legend.js"></script> -->
     <script src="js/mainmodal/contextMenu.js"></script>
 
+<<<<<<< HEAD
     <script>
       function toggleSelectLayerButton(show) {
         var saveBtn = document.getElementById("editFeatureButton");
@@ -189,7 +197,31 @@
           editBtn.style.display = show ? "block" : "none";
           deleteBtn.style.display = show ? "block" : "none";
         }
+=======
+  <!-- <script src="js/mainmodal/legend.js"></script> -->
+  <!-- <script src="js/mainmodal/contextMenu.js"></script> -->
+
+  <script>
+
+
+    function toggleSelectLayerButton(show) {
+      var saveBtn = document.getElementById('editFeatureButton');
+      var editBtn = document.getElementById('saveDataButton');
+      var deleteBtn = document.getElementById('deleteFeatureButton');
+      var deleteBtnEdit = document.getElementById('deleteEditGeomButton');
+      var saveBtnEdit = document.getElementById('saveEditGeomButton');
+      if (saveBtn && editBtn) {
+        saveBtn.style.display = show ? 'block' : 'none';
+        editBtn.style.display = show ? 'block' : 'none';
+        deleteBtn.style.display = show ? 'block' : 'none';
+        
+>>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
       }
+      if(deleteBtnEdit && saveBtnEdit ){
+        deleteBtnEdit.style.display = show ? 'none' : 'block'
+        saveBtnEdit.style.display = show ? 'none' : 'block'
+      }
+    }
 
       $(document).ready(function () {
         var wardname = localStorage.getItem("wardname");
@@ -252,21 +284,26 @@
         map.on("click", function (e) {
           let size = map.getSize();
           let bbox = map.getBounds().toBBoxString();
-          let layer = "pmc:Exist_Road";
+        
 
-          if (department == "Road") {
-            layer = "pmc:Exist_Road";
-          } else if (department == "Building") {
-            layer = "pmc:Reservations";
-          } else if (department == "Drainage") {
-            layer = "pmc:storm_water";
-          }
+        let layers = ["pmc:Exist_Road", "pmc:OSM_Road"];
+        let queryLayers = layers.join(',');
 
+<<<<<<< HEAD
           var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
             e.containerPoint.x
           )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
             size.x
           }&HEIGHT=${size.y}&BBOX=${bbox}`;
+=======
+        var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+          e.containerPoint.x
+        )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+
+
+                
+>>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
 
           fetch(url)
             .then((response) => response.json())
@@ -445,6 +482,7 @@
                       },
                     });
 
+<<<<<<< HEAD
                     setTimeout(() => {
                       //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
                     }, 2100);
@@ -475,6 +513,152 @@
                   JSON.stringify(
                     selectCoordinatesData[0].geometry.coordinates?.map(
                       (coordinates) => coordinates.slice().reverse()
+=======
+                  var payload = JSON.stringify({
+                    geoJSON: JSON.stringify(selectCoordinatesDataSingle),
+                    roadLength: lenghtSelect,
+                    bufferWidth: bufferWidth,
+                    gis_id: lastInsertedId,
+                    department: department,
+                    selectCoordinatesData: selectCoordinatesDataSingle.features,
+                    geometryType:
+                      selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
+                        .geometry.type,
+                  });
+                  if (editMode) {
+
+                let editIdTemp = editId.split(".")[ 1 ];
+                let geometryTypeTemp = editId.split(".")[ 0 ];
+
+                console.log('selectCoordinatesData', selectCoordinatesData);
+
+                $.ajax({
+                  url: 'APIS/Update_Geometry.php', // Path to your PHP save script
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({
+                    selectCoordinatesData: selectCoordinatesDataSingle.features,
+                    fid: editIdTemp,
+                    geometryType:
+                      selectCoordinatesDataSingle.features[ selectCoordinatesDataSingle.features.length - 1 ]
+                        .geometry.type,
+                  }),
+                  success: function (response) {
+                    alert('Data saved successfully!');
+                  },
+                  error: function (error) {
+                    console.error('Save request failed:', error);
+                  }
+                });
+
+                }
+                else {
+                  $.ajax({
+                    type: "POST",
+                    url: "APIS/gis_update.php",
+                    data: payload,
+                    contentType: "application/json",
+                    success: function (response) {
+                      Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Success",
+                        text: "Saved Successfully",
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        customClass: {
+                          popup: "custom-modal-class",
+                          icon: "custom-icon-class",
+                          title: "custom-title-class",
+                          content: "custom-text-class",
+                          closeButton: "custom-close-button-class",
+                        },
+                        showClass: {
+                          popup: "swal2-show",
+                          backdrop: "swal2-backdrop-show",
+                          icon: "swal2-icon-show",
+                        },
+                        hideClass: {
+                          popup: "swal2-hide",
+                          backdrop: "swal2-backdrop-hide",
+                          icon: "swal2-icon-hide",
+                        },
+                        didOpen: () => {
+                          // Apply custom styles directly to the modal elements
+                          document.querySelector(
+                            ".custom-modal-class"
+                          ).style.width = "400px"; // Set your desired width
+                          document.querySelector(
+                            ".custom-modal-class"
+                          ).style.height = "250px"; // Set your desired height
+                          document.querySelector(
+                            ".custom-modal-class"
+                          ).style.transition = "all 0.5s ease";
+                          document.querySelector(
+                            ".custom-icon-class"
+                          ).style.fontSize = "10px"; // Set your desired icon size
+                          document.querySelector(
+                            ".custom-icon-class"
+                          ).style.transition = "all o.5s ease";
+                          document.querySelector(
+                            ".custom-title-class"
+                          ).style.fontSize = "1.5em"; // Set your desired title size
+                          document.querySelector(
+                            ".custom-text-class"
+                          ).style.fontSize = "1em"; // Set your desired text size
+                          document.querySelector(
+                            ".custom-close-button-class"
+                          ).style.backgroundColor = "#f44336"; // Red background color
+                          document.querySelector(
+                            ".custom-close-button-class"
+                          ).style.color = "white"; // White text color
+                          document.querySelector(
+                            ".custom-close-button-class"
+                          ).style.borderRadius = "0"; // Rounded corners
+                          document.querySelector(
+                            ".custom-close-button-class"
+                          ).style.padding = "5px"; // Padding around the close button
+                          document.querySelector(
+                            ".custom-close-button-class"
+                          ).style.fontSize = "20px"; // Font size of the close button
+                        },
+                      });
+
+                      setTimeout(() => {
+                        //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
+                      }, 2100);
+                    },
+                    error: function (xhr, status, error) {
+                      console.error("Save failed:", error);
+                    },
+                  });
+                }
+
+                  area = turf.length(
+                    selectCoordinatesDataSingle.features[0].geometry,
+                    { units: "meters" }
+                  );
+                  var formData = new FormData();
+                  formData.append("proj_id", worksAaApprovalId);
+                  formData.append(
+                    "latitude",
+                    selectCoordinatesDataSingle.features[0].geometry
+                      .coordinates[0][1]
+                  );
+                  formData.append(
+                    "longitude",
+                    selectCoordinatesDataSingle.features[0].geometry
+                      .coordinates[0][0]
+                  );
+                  formData.append("polygon_area", 0);
+                  formData.append("polygon_centroid", 0);
+                  formData.append(
+                    "geometry",
+                    JSON.stringify(
+                      selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(
+                        (coordinates) => coordinates.slice().reverse()
+                      )
+>>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
                     )
                   )
                 );
@@ -644,6 +828,105 @@
       //
       // Customize the zoom control position
       map.zoomControl.setPosition("bottomright");
+<<<<<<< HEAD
+=======
+  
+  // script.js
+document.getElementById('helpButton').addEventListener('click', function() {
+    const baseVideoFolder = 'http://localhost/iwms/video/Road/'; 
+    const videos = [
+        'video_1.mp4', 
+        'Gis mapping.mp4'
+        
+    ];
+
+    let currentVideoIndex = 0;
+    
+    function openVideoWindow() {
+        // Check if all videos have been played
+        if (currentVideoIndex >= videos.length) {
+            currentVideoIndex = 0; // Reset index if all videos have been played
+        }
+        
+        const videoUrl = baseVideoFolder + videos[currentVideoIndex];
+        
+        // Open video in a new window or tab
+        window.open(videoUrl, '_blank');
+        
+        // Move to the next video
+        currentVideoIndex++;
+    }
+    
+    // Call the function to open video on button click
+    openVideoWindow();
+});
+
+
+  // script.js
+
+// Define the base URL of your video folder
+const baseVideoFolder = 'http://localhost/iwms/video/road/';
+
+// Define the array of video filenames
+const videos = [
+    'video_1.mp4',
+    'Gis mapping.mp4',
+    '3 Editing.mp4',
+    '4.Delete.mp4',
+    '5 selection of whole Ward.mp4',
+    '6 Repair road.mp4',
+    '7 length restriction.mp4'
+    // Add more video filenames as needed
+];
+
+let currentVideoIndex = 0;
+let videoWindow = null;
+
+// Function to play the current video
+function playVideo(videoIndex) {
+    const videoUrl = baseVideoFolder + videos[videoIndex];
+    
+    // Open the video in a new window/tab
+    if (videoWindow && !videoWindow.closed) {
+        videoWindow.location.href = videoUrl;
+    } else {
+        videoWindow = window.open(videoUrl, '_blank');
+    }
+    currentVideoIndex = videoIndex; // Update the current video index
+}
+
+// Function to play the next video
+function playNextVideo() {
+    currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+    playVideo(currentVideoIndex);
+}
+
+// Function to play the previous video
+function playPreviousVideo() {
+    currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+    playVideo(currentVideoIndex);
+}
+
+// Event listener for clicking the help button
+document.getElementById('helpButton').addEventListener('click', function() {
+    playVideo(currentVideoIndex);
+});
+
+// Event listener for playing the next video
+document.getElementById('nextButton').addEventListener('click', playNextVideo);
+
+// Event listener for playing the previous video
+document.getElementById('prevButton').addEventListener('click', playPreviousVideo);
+
+
+ 
+      document
+        .getElementById("feedbackButton")
+        .addEventListener("click", function () {
+          document.getElementById("sidebar").classList.toggle("open");
+        });
+    
+>>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
     </script>
 
     <script>
@@ -651,5 +934,40 @@
         window.open("project_help.html", "_blank");
       }
     </script>
+
+
+    <script> 
+      
+      $(document).ready(function() {
+      // Function to toggle between minimized and maximized states
+      $("#toggle-btn").click(function() {
+        $("#table-container").toggleClass("minimized");
+        if ($("#table-container").hasClass("minimized")) {
+          $("#toggle-btn").html('<i class="fas fa-plus"></i>'); // Use plus icon when minimized
+        } else {
+          $("#toggle-btn").html('<i class="fas fa-minus"></i>'); // Use minus icon when maximized
+        }
+      });
+
+      // Function to show the table container with the toggle button and scrollbar
+      function showTableContainer() {
+        $("#table-container").show().addClass("show");
+        $("#toggle-btn").html('<i class="fas fa-minus"></i>').show(); // Set to minus icon initially
+      }
+
+      // Simulate dynamic data loading and show the table container
+      setTimeout(function() {
+        let formDataFromStorage = {
+          
+        };
+        let contentData = "";
+        for (const property in formDataFromStorage) {
+          contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        }
+        $("#workTableData").html(contentData);
+        showTableContainer();
+      }, 1000);
+    });
+ </script>
   </body>
 </html>

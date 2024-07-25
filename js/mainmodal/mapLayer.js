@@ -1,5 +1,4 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
 
 var map = L.map("map", {
   center:[18.52, 73.89],
@@ -169,7 +168,28 @@ var IWMS_line = L.tileLayer
     maxZoom: 21,
     opacity: 1,
   });
+
+  var GIS_Ward_Layer = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "GIS_Ward_Layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   
+  var Geodata = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Geodata",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   var wms_layer21 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Bhavan",
@@ -238,14 +258,13 @@ var WMSlayers = {
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
+  GIS_Ward_Layer: GIS_Ward_Layer,
+  Geodata:Geodata,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
-
-
-//// var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
 
 // kml
 
@@ -260,7 +279,7 @@ map.on("dblclick", function (e) {
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
     }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-  // you can use this url for further processing such as fetching data from server or showing it on the map
+ 
 
   if (urrr) {
     fetch(urrr)
@@ -438,14 +457,12 @@ function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
   var blob = new Blob([kmlContent], {
     type: "application/vnd.google-earth.kml+xml",
-  }); // Set MIME type to KML
-
-  // Create a download link for the KML file
+  }); 
+  
   var a = document.createElement("a");
   a.href = window.URL.createObjectURL(blob);
-  a.download = "output.kml"; // Set file extension to .kml
-
-  // Append the link to the document and trigger a click event to start the download
+  a.download = "output.kml"; 
+ 
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -476,7 +493,7 @@ function toGISformat() {
     }
   }
 
-  // console.log(data);
+  
 
   // Get GeoJSON representation of the drawn layer
   var geoJSON = drawnItems.toGeoJSON();

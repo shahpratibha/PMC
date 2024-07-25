@@ -348,7 +348,7 @@ function toggleSelectLayerButton(show) {
               );
 
               $("#table-container").show();
-              console.log(formDataFromStorage);
+              
               let contentData = "<tr>";
               for (const property in formDataFromStorage) {
                 contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
