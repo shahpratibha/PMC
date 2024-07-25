@@ -684,7 +684,7 @@ window.location.href = baseURL + queryString;
                 let pendingRequests = layers.length;
 
                 layers.forEach(function (layerName) {
-                    const urlm =  geoserverUrl + "/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+                    const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
                         layerName +
                         "&CQL_FILTER=" +
                         filter +
