@@ -6,14 +6,9 @@
     <title>PMC</title>
     <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/style.css" />
-<<<<<<< HEAD
-    <link rel="stylesheet" href="css/road.css"/>
-
-=======
     <link rel="stylesheet" href="css/road.css" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
     <!-- bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -186,18 +181,6 @@
     <!-- <script src="js/mainmodal/legend.js"></script> -->
     <script src="js/mainmodal/contextMenu.js"></script>
 
-<<<<<<< HEAD
-    <script>
-      function toggleSelectLayerButton(show) {
-        var saveBtn = document.getElementById("editFeatureButton");
-        var editBtn = document.getElementById("saveDataButton");
-        var deleteBtn = document.getElementById("deleteFeatureButton");
-        if (saveBtn && editBtn) {
-          saveBtn.style.display = show ? "block" : "none";
-          editBtn.style.display = show ? "block" : "none";
-          deleteBtn.style.display = show ? "block" : "none";
-        }
-=======
   <!-- <script src="js/mainmodal/legend.js"></script> -->
   <!-- <script src="js/mainmodal/contextMenu.js"></script> -->
 
@@ -215,7 +198,6 @@
         editBtn.style.display = show ? 'block' : 'none';
         deleteBtn.style.display = show ? 'block' : 'none';
         
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
       }
       if(deleteBtnEdit && saveBtnEdit ){
         deleteBtnEdit.style.display = show ? 'none' : 'block'
@@ -289,13 +271,6 @@
         let layers = ["pmc:Exist_Road", "pmc:OSM_Road"];
         let queryLayers = layers.join(',');
 
-<<<<<<< HEAD
-          var url = `https://iwmsgis.pmc.gov.in//geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-            e.containerPoint.x
-          )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-            size.x
-          }&HEIGHT=${size.y}&BBOX=${bbox}`;
-=======
         var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
           e.containerPoint.x
         )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
@@ -303,7 +278,6 @@
 
 
                 
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
 
           fetch(url)
             .then((response) => response.json())
@@ -482,38 +456,6 @@
                       },
                     });
 
-<<<<<<< HEAD
-                    setTimeout(() => {
-                      //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
-                    }, 2100);
-                  },
-                  error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
-                  },
-                });
-
-                area = turf.length(selectCoordinatesData[0].geometry, {
-                  units: "meters",
-                });
-                console.log(selectCoordinatesData);
-                var formData = new FormData();
-                formData.append("proj_id", worksAaApprovalId);
-                formData.append(
-                  "latitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][1]
-                );
-                formData.append(
-                  "longitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][0]
-                );
-                formData.append("polygon_area", 0);
-                formData.append("polygon_centroid", 0);
-                formData.append(
-                  "geometry",
-                  JSON.stringify(
-                    selectCoordinatesData[0].geometry.coordinates?.map(
-                      (coordinates) => coordinates.slice().reverse()
-=======
                   var payload = JSON.stringify({
                     geoJSON: JSON.stringify(selectCoordinatesDataSingle),
                     roadLength: lenghtSelect,
@@ -658,7 +600,6 @@
                       selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(
                         (coordinates) => coordinates.slice().reverse()
                       )
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
                     )
                   )
                 );
@@ -828,8 +769,6 @@
       //
       // Customize the zoom control position
       map.zoomControl.setPosition("bottomright");
-<<<<<<< HEAD
-=======
   
   // script.js
 document.getElementById('helpButton').addEventListener('click', function() {
@@ -926,7 +865,6 @@ document.getElementById('prevButton').addEventListener('click', playPreviousVide
           document.getElementById("sidebar").classList.toggle("open");
         });
     
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
     </script>
 
     <script>
