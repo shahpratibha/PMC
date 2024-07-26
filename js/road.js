@@ -50,43 +50,10 @@ var ward_admin_boundary = L.tileLayer.wms(
   }
 ).addTo(map);
 
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
-
-
-const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
-const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
-const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardName');
-const department = getQueryParam('department');
-const workType = getQueryParam('workType');
-const struct_no = getQueryParam('struct_no') ;
-const user_id = getQueryParam('user_id') ;
-const worksAaApprovalId = getQueryParam('proj_id');
-let wardNames = wardname.split(',').map(id => id.trim());
-let ward_id =  getQueryParam('ward_id') ;
-let zone_id =  getQueryParam('zone_id') ;
-let prabhag_id =  getQueryParam('prabhag_id') ;
-let editMode =  getQueryParam('edit') ;
-let editId =  getQueryParam('editId') ;
-
-
-
-var wardBoundary = null ;
-console.log(workType);
-
-var lastDrawnPolylineIdSave = null;
-
-
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
 }).addTo(map);
-
-
 
 var wms_layer1 = L.tileLayer.wms(
   baseURL,
@@ -100,8 +67,6 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }
 ).addTo(map);
-
-
 
 
 var Esri_WorldImagery = L.tileLayer(
@@ -283,20 +248,47 @@ var northArrowControl = L.Control.extend({
 });
 map.addControl(new northArrowControl());
 
-
-
-
-// Now continue with your remaining JavaScript code...
-// GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
-
+const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
+const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
+const lastInsertedId = getQueryParam('lastInsertedId');
+const wardname = getQueryParam('wardName');
+const department = getQueryParam('department');
+const workType = getQueryParam('workType');
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
+let wardNames = wardname.split(',').map(id => id.trim());
+let ward_id =  getQueryParam('ward_id') ;
+let zone_id =  getQueryParam('zone_id') ;
+let prabhag_id =  getQueryParam('prabhag_id') ;
+let editMode =  getQueryParam('edit') ;
+let editId =  getQueryParam('editId') ;
+var wardBoundary = null ;
+var lastDrawnPolylineIdSave = null;
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 var workspace = "Road";
-
-// Variable to keep track of legend visibility
 var legendVisible = true;
 var processedLayers = [];
-// Add the WMS Legend control to the map
 var legendControl = L.control({ position: "topright" });
+var collapseButton = L.control({ position: "topright" });
+
+let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
+let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
+let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
+let cql_filterm = '';
+
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+
+
+
+
+
+
+
 
 legendControl.onAdd = function (map) {
   var div = L.DomUtil.create("div", "info legend");
@@ -381,7 +373,6 @@ legendControl.onAdd = function (map) {
 };
 // -----------------------------------------------------
 // Add collapsible button
-var collapseButton = L.control({ position: "topright" });
 
 collapseButton.onAdd = function (map) {
   var button = L.DomUtil.create("button", "collapse-button");
@@ -617,11 +608,6 @@ map.on(L.Draw.Event.EDITED, function (event) {
 
 
 
-let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
-let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
-let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
-
-let cql_filterm = '';
 
 if (zone_ids.length > 0) {
   cql_filterm = `zone_id IN(${zone_ids.map(id => `'${id}'`).join(",")})`;
@@ -664,7 +650,6 @@ searchControl.on("results", function (data) {
   }
 });
 
-//******** draw controls */
 
 
 
@@ -712,69 +697,14 @@ if (workType == "New") {
     return div;
   };
 
-  // Add the control to the map
   customDrawControls.addTo(map);
 
 }
 
 
-//var customToolSelector = L.control({ position: 'topleft' });
-
-
 let mapMode = 'snapping';
 
-// customToolSelector.onAdd = function (map) {
-//   var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
-//   div.style.padding = '5px';
-//   div.style.backgroundColor = 'white';
-//   div.style.border = '2px solid #2B13BB';
-//   div.style.left='771px';
-//   div.style.height='36px'
-//   div.style.width='36px'
-//   div.style.top = "590px";
 
-//   // Create a new button element
-//   var button = document.createElement('button');
-//   button.className = 'form-check-button';
-//   button.id = 'traceToolButton';
-//   button.style.marginRight = '0px';
-//   button.style.backgroundColor = mapMode === 'tracing' ? 'lightblue' : 'white'; // Different color if tracing mode is active
-//   button.style.display = 'flex';
-//   button.style.justifyContent = 'center';
-//   button.style.alignItems = 'center';
-//   // button.style.width = '100%';
-//   // button.style.height = '100%';
-//   // Create a new image element
-//   var img = document.createElement('img');
-//   img.src = 'png/Trace_tool.png';
-//   img.style.height = '18px';
-//   img.style.width = '18px';
-
-//   button.appendChild(img);
-
-//   // Add event listener to toggle mapMode and update button appearance
-//   button.addEventListener('click', function () {
-//     if (mapMode === 'snapping') {
-//       mapMode = 'tracing';
-//       button.style.backgroundColor = 'lightblue';
-//     } else {
-//       mapMode = 'snapping';
-//       button.style.backgroundColor = 'white';
-//     }
-//     console.log("Current Map Mode:", mapMode); // Optional: for debugging
-//   });
-
-//   div.appendChild(button);
-
-//   return div;
-// };
-
-// if (workType == "New") {
-
-
-//   customToolSelector.addTo(map);
-
-// }
 var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
@@ -783,8 +713,6 @@ customSaveButton.onAdd = function (map) {
   customDrawControlsContainer = div;
   return div;
 };
-
-
 customSaveButton.addTo(map);
 
 // save data button 
@@ -797,8 +725,6 @@ customSaveEditButton.onAdd = function (map) {
   customDrawControlsContainer = div;
   return div;
 };
-
-
 customSaveEditButton.addTo(map);
 
 if(editMode){
@@ -1079,10 +1005,6 @@ function toggleSaveButton(show) {
 }
 
 
-
-
-
-
 // Button Click Event to Show SweetAlert Success Popup
 document.getElementById("save-button").addEventListener("click", function () {
 
@@ -1117,7 +1039,7 @@ function toggleDrawControl() {
 // Event listener for map zoomend event
 //map.on("zoomend", toggleDrawControl);
 
-
+if (workType == "New") {
 document.querySelector('.draw_feature').addEventListener('click', function (event) {
   event.preventDefault();
   // Toggle draw control when the "Draw Feature" button is clicked
@@ -1177,14 +1099,12 @@ document.querySelector('.draw_feature').addEventListener('click', function (even
 
   }
 });
+}
 
 
 document.querySelector('#save-button').addEventListener('click', function (event) {
   Savedata(lastDrawnPolylineIdSave);
 });
-
-
-
 
 
 // function for added buffer
@@ -1310,11 +1230,6 @@ function createRectangularBuffer(geoJSON, bufferWidth, units) {
   var bufferedPolygon = turf.polygon([bufferedCoords]);
   return turf.featureCollection([bufferedPolygon]);
 }
-
-
-
-
-
 
 
 
@@ -1614,6 +1529,7 @@ function highlightFeature(featureData) {
 var lastPointMarker = null;
 
 function getClosestRoadPointLast(latlng) {
+  console.log(latlng);
   var buffer = 10; // Buffer distance in meters, adjust as necessary
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, { units: 'meters' });
@@ -1728,14 +1644,14 @@ var drawControlAdded = false;
 map.on('mousemove', function(e) {
   var isInside = checkIfInsideWard(e.latlng);
   
- if (isInside) {
+ if (isInside && workType == "New") {
         map.getContainer().style.cursor = 'crosshair';
         // Add draw control if not already added
         if (!drawControlAdded) {
           map.addControl(drawControlRoad);
           drawControlAdded = true;
         }
-      } else {
+      } else if (workType == "New") {
         map.getContainer().style.cursor = 'not-allowed';
         // Remove draw control if currently added
         if (drawControlAdded) {
@@ -2702,5 +2618,4 @@ function getWardNameById(wardId, wardData) {
     return "";
   }
 }
-
 

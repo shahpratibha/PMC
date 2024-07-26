@@ -1895,33 +1895,58 @@ map.on("draw:created", function (e) {
 
           // Prompt for buffer width
           Swal.fire({
-              title: 'Enter  Diameter in meters',
-              input: 'number',
-              inputAttributes: {
-                  autocapitalize: 'off'
-              },
-              showCancelButton: true,
-              confirmButtonText: 'Create Diameter',
-              showLoaderOnConfirm: true,
-              preConfirm: (bufferWidth) => {
-                  return new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                          if (bufferWidth <= 0) {
-                              reject('Invalid Diameter! Please enter a positive number.');
-                          } else {
-                              resolve(bufferWidth);
-                          }
-                      }, 1000);
-                  });
-              },
-              allowOutsideClick: () => !Swal.isLoading()
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  var bufferWidth = result.value;
-                  createBufferAndDashedLine(layer, roadLenght, bufferWidth);
-                  widthValues.push({ id: lastDrawnPolylineIdSave, width: bufferWidth });
-              }
-          });
+            title: 'Enter Diameter in mm',
+            input: 'number',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            html:
+                '<label>Material:</label><br> <br>' +
+                '<div style="text-align: left;">' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="ci">CI</label>' +
+                '<input type="radio" id="ci" name="material" value="CI" checked style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="di">DI</label>' +
+                '<input type="radio" id="di" name="material" value="DI" style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="ductileIron">Ductile Iron</label>' +
+                '<input type="radio" id="ductileIron" name="material" value="Ductile Iron" style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="gi">GI</label>' +
+                '<input type="radio" id="gi" name="material" value="GI" style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="ms">MS</label>' +
+                '<input type="radio" id="ms" name="material" value="MS" style="margin-left: 10px;"></div></div>' +
+                '<br><label>Diameter:</label><br>',
+            showCancelButton: true,
+            confirmButtonText: 'Create Diameter',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                const bufferWidthMm = Swal.getInput().value;
+                const bufferWidthM = bufferWidthMm / 1000; // Convert mm to meters
+                const materialElement = document.querySelector('input[name="material"]:checked');
+        
+                if (bufferWidthM <= 0 || !materialElement) {
+                    Swal.showValidationMessage('Invalid input! Please enter a positive number and select a material.');
+                    return false;
+                } else {
+                    const material = materialElement.value;
+                    return { bufferWidth: bufferWidthM, material: material };
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var bufferWidth = result.value.bufferWidth;
+                var material = result.value.material;
+                createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+                widthValues.push({ id: lastDrawnPolylineIdSave, width: bufferWidth, material: material });
+            }
+        });
+        
+        
+        
 
       } else {
           var layer = e.layer;
@@ -2225,7 +2250,7 @@ function Savedata(lastDrawnPolylineId) {
   }
 
   let widthDiameter = widthValues[index]?.width;
-
+  let  material = widthValues[index]?.material ;
 
   var payload = 
   JSON.stringify( {
@@ -2236,7 +2261,8 @@ function Savedata(lastDrawnPolylineId) {
     department: department,
     selectCoordinatesData:geom,
     area:area,
-    geometryType: geom.geometry.type
+    geometryType: geom.geometry.type,
+    material: material
   });
 
   if (editMode) {
@@ -2309,7 +2335,7 @@ function Savedata(lastDrawnPolylineId) {
       contentType: false,
       success: function (response) {
        
-         window.location.href = response.data.redirect_Url;
+        // window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
           console.error("Save failed:", error);

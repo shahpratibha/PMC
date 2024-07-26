@@ -681,9 +681,29 @@
           fetch(url)
             .then((response) => response.json())
             .then((data) => {
-              highlightFeature(data);
+              addUniqueFeatures(data);
             });
         });
+
+        function addUniqueFeatures(data) {
+            console.log(data);
+            if (data.features.length === 0) return; // Return if no features
+
+            // Take the first feature
+            const feature = data.features[0];
+            
+            // Check if the feature already exists in editableLayers
+            let isDuplicate = editableLayers.getLayers().some((layer) => {
+              let existingFeature = layer.toGeoJSON().features[0];
+            
+              return existingFeature.id === feature.id;
+            });
+
+            if (!isDuplicate) {
+             
+              highlightFeature(data);
+            }
+} 
 
         function highlightFeature(featureData) {
           // Check if any features are present in the featureData
@@ -692,6 +712,7 @@
             !featureData.features ||
             featureData.features.length === 0
           )
+        
             // Clear existing editable layers
             editableLayers.clearLayers();
 
@@ -969,29 +990,24 @@
       }
 
       document
-        .getElementById("editFeatureButton")
-        .addEventListener("click", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          selectedFeature.eachLayer(function (layer) {
-            if (layer.editing) {
-              layer.editing.enable();
-              layer.on("edit", function () {
-                updatePopup(layer);
-              });
-            } else {
-              layer.on("click", function () {
-                if (this.editing) {
-                  this.editing.enable();
-                  updatePopup(this);
-                  this.on("edit", function () {
-                    updatePopup(this);
-                  });
-                }
-              });
-            }
+  .getElementById("editFeatureButton")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (selectedFeature) {
+      selectedFeature.eachLayer(function (layer) {
+        if (layer instanceof L.Polygon || layer instanceof L.Polyline) {
+          if (!layer.editing) {
+            layer.editing = new L.Edit.Poly(layer);
+          }
+          layer.editing.enable();
+          layer.on("edit", function () {
+            updatePopup(layer);
           });
-        });
+        }
+      });
+    }
+  });
       document
         .getElementById("deleteFeatureButton")
         .addEventListener("click", function () {

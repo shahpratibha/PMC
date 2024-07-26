@@ -467,6 +467,9 @@
           let layer = "pmc:ward_boundary1";
 
           prabhag_ids.length > 0 ? (layer = "PMC_wards_admin_boundary") : (layer = "pmc:ward_boundary1");
+          if (zone_ids.length == 5) {
+            layer = "pmc:PMC_Boundary";
+          }
 
           var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
             e.containerPoint.x
@@ -477,9 +480,32 @@
           fetch(url)
             .then((response) => response.json())
             .then((data) => {
-              highlightFeature(data);
+              addUniqueFeatures(data);
             });
         });
+
+
+
+        function addUniqueFeatures(data) {
+            console.log(data);
+            if (data.features.length === 0) return; // Return if no features
+
+            // Take the first feature
+            const feature = data.features[0];
+            
+            // Check if the feature already exists in editableLayers
+            let isDuplicate = editableLayers.getLayers().some((layer) => {
+              let existingFeature = layer.toGeoJSON().features[0];
+            
+              return existingFeature.id === feature.id;
+            });
+
+            if (!isDuplicate) {
+             
+              highlightFeature(data);
+            }
+} 
+
 
         function highlightFeature(featureData) {
           // Check if any features are present in the featureData
@@ -1013,20 +1039,13 @@ else {
       // Customize the zoom control position
       map.zoomControl.setPosition("bottomright");
     </script>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f52ffbcf7684dcffc32b2b77fed88c70b8e6d2cd
+
 
 <script>
   function openHelpPage() {
       window.open('Ward_help.html', '_blank');
   }
 </script>
-<<<<<<< HEAD
-=======
->>>>>>> ae42d62bd9159793b903f86c51eb62a0d9a555bd
-=======
->>>>>>> f52ffbcf7684dcffc32b2b77fed88c70b8e6d2cd
+
   </body>
 </html>
