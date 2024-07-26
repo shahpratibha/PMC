@@ -7,7 +7,7 @@ var map = L.map("map", {
   minZoom:10,
   maxZoom:19,
   zoomSnap:0.5,
-  zoomDelta:0.5,
+  zoomDelta:0.5
 });
  
 var googleSat = L.tileLayer(
