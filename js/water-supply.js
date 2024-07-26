@@ -1901,40 +1901,40 @@ map.on("draw:created", function (e) {
                 autocapitalize: 'off'
             },
             html:
-                '<label>Material:</label><br>' +
-        '<div style="display: inline-block; margin-right: 10px;">' +
-        '<label for="ci">CI</label>' +
-        '<input type="radio" id="ci" name="material" value="CI"></div>' +
-        '<div style="display: inline-block; margin-right: 10px;">' +
-        '<label for="di">DI</label>' +
-        '<input type="radio" id="di" name="material" value="DI"></div>' +
-        '<div style="display: inline-block; margin-right: 10px;">' +
-        '<label for="ductileIron">Ductile Iron</label>' +
-        '<input type="radio" id="ductileIron" name="material" value="Ductile Iron"></div>' +
-        '<div style="display: inline-block; margin-right: 10px;">' +
-        '<label for="gi">GI</label>' +
-        '<input type="radio" id="gi" name="material" value="GI"></div>' +
-        '<div style="display: inline-block; margin-right: 10px;">' +
-        '<label for="ms">MS</label>' +
-        '<input type="radio" id="ms" name="material" value="MS"></div>',
+                '<label>Material:</label><br> <br>' +
+                '<div style="text-align: left;">' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="ci">CI</label>' +
+                '<input type="radio" id="ci" name="material" value="CI" checked style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="di">DI</label>' +
+                '<input type="radio" id="di" name="material" value="DI" style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="ductileIron">Ductile Iron</label>' +
+                '<input type="radio" id="ductileIron" name="material" value="Ductile Iron" style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="gi">GI</label>' +
+                '<input type="radio" id="gi" name="material" value="GI" style="margin-left: 10px;"></div>' +
+                '<div style="display: inline-block; margin-right: 5px;">' +
+                '<label for="ms">MS</label>' +
+                '<input type="radio" id="ms" name="material" value="MS" style="margin-left: 10px;"></div></div>' +
+                '<br><label>Diameter:</label><br>',
             showCancelButton: true,
             confirmButtonText: 'Create Diameter',
             showLoaderOnConfirm: true,
             preConfirm: () => {
-              const bufferWidthMm = Swal.getInput().value;
-              const bufferWidthM = bufferWidthMm / 1000; // Convert mm to meters
-              const materialElement = document.querySelector('input[name="material"]:checked');
-              return new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                      if (bufferWidthM <= 0 || !materialElement) {
-                          reject('Invalid input! Please enter a positive number and select a material.');
-                      } else {
-                          const material = materialElement.value;
-                          resolve({ bufferWidth: bufferWidthM, material: material });
-                      }
-                  }, 1000);
-              });
-          },
+                const bufferWidthMm = Swal.getInput().value;
+                const bufferWidthM = bufferWidthMm / 1000; // Convert mm to meters
+                const materialElement = document.querySelector('input[name="material"]:checked');
+        
+                if (bufferWidthM <= 0 || !materialElement) {
+                    Swal.showValidationMessage('Invalid input! Please enter a positive number and select a material.');
+                    return false;
+                } else {
+                    const material = materialElement.value;
+                    return { bufferWidth: bufferWidthM, material: material };
+                }
+            },
             allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {
             if (result.isConfirmed) {
@@ -1944,6 +1944,8 @@ map.on("draw:created", function (e) {
                 widthValues.push({ id: lastDrawnPolylineIdSave, width: bufferWidth, material: material });
             }
         });
+        
+        
         
 
       } else {
@@ -2333,7 +2335,7 @@ function Savedata(lastDrawnPolylineId) {
       contentType: false,
       success: function (response) {
        
-         window.location.href = response.data.redirect_Url;
+        // window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
           console.error("Save failed:", error);
