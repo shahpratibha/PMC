@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,7 +49,7 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     />
-
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -75,7 +76,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <link
@@ -134,15 +138,15 @@
       href="libs/leaflet-measure-master/leaflet-measure.css"
     />
 
-    <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+  </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.3/src/leaflet.geometryutil.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geometryutil/0.9.3/leaflet.geometryutil.min.js"></script>
 
     <script src="libs/feat.js"></script>
 
-    <!-- 
-  <link rel="stylesheet" href="libs/leaflet-wms-legend/leaflet.wmslegend.css" />
-  <script src="libs/leaflet-wms-legend/leaflet.wmslegend.js"></script> -->
+    <!-- measuement -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.css" /> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </head>
@@ -174,12 +178,18 @@
       <i class="fas fa-question icon"></i>
     </button>
 
+    <!-- <button id="feedbackButton">
+  <i class="fas fa-arrow-left icon"></i>
+</button>
+<div id="sidebar">
+ 
+</div> -->
     <script src="feedback.js"></script>
     <script src="js/config.js"></script>
 
     <script src="js/road.js"></script>
     <!-- <script src="js/mainmodal/legend.js"></script> -->
-    <script src="js/mainmodal/contextMenu.js"></script>
+    <!-- <script src="js/mainmodal/contextMenu.js"></script> -->
 
   <!-- <script src="js/mainmodal/legend.js"></script> -->
   <!-- <script src="js/mainmodal/contextMenu.js"></script> -->
@@ -206,9 +216,6 @@
     }
 
       $(document).ready(function () {
-        var wardname = localStorage.getItem("wardname");
-        console.log(wardname);
-
         $("#searchInputDashboard").autocomplete({
           minLength: 3,
           source: function (request, response) {
@@ -368,93 +375,30 @@
                     ? formDataFromStorage.Width
                     : 20;
 
-                let selectCoordinatesData = featureData.features;
+                let selectCoordinatesData = editableLayers
+                  .getLayers()
+                  .map((layer) => layer.toGeoJSON());
+
                 localStorage.setItem(
                   "selectCoordinatesData",
                   JSON.stringify(selectCoordinatesData)
                 );
 
-                var lastInsertedId = localStorage.getItem("lastInsertedId");
+                //       selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+                //     return el.geometry.coordinates.length > 0;
+                // });
 
-                var payload = JSON.stringify({
-                  geoJSON: JSON.stringify(featureData),
-                  roadLength: roadLength,
-                  bufferWidth: bufferWidth,
-                  gis_id: lastInsertedId,
-                  department: department,
-                  selectCoordinatesData: selectCoordinatesData,
+                selectCoordinatesData = selectCoordinatesData.filter(function (
+                  el
+                ) {
+                  return el.features.length > 0;
                 });
 
-                $.ajax({
-                  type: "POST",
-                  url: "APIS/gis_update.php",
-                  data: payload,
-                  contentType: "application/json",
-                  success: function (response) {
-                    Swal.fire({
-                      position: "center",
-                      icon: "success",
-                      title: "Success",
-                      text: "Saved Successfully",
-                      showConfirmButton: false,
-                      showCloseButton: true,
-                      customClass: {
-                        popup: "custom-modal-class",
-                        icon: "custom-icon-class",
-                        title: "custom-title-class",
-                        content: "custom-text-class",
-                        closeButton: "custom-close-button-class",
-                      },
-                      showClass: {
-                        popup: "swal2-show",
-                        backdrop: "swal2-backdrop-show",
-                        icon: "swal2-icon-show",
-                      },
-                      hideClass: {
-                        popup: "swal2-hide",
-                        backdrop: "swal2-backdrop-hide",
-                        icon: "swal2-icon-hide",
-                      },
-                      didOpen: () => {
-                        // Apply custom styles directly to the modal elements
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.width = "400px"; // Set your desired width
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.height = "250px"; // Set your desired height
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.transition = "all 0.5s ease";
-                        document.querySelector(
-                          ".custom-icon-class"
-                        ).style.fontSize = "10px"; // Set your desired icon size
-                        document.querySelector(
-                          ".custom-icon-class"
-                        ).style.transition = "all o.5s ease";
-                        document.querySelector(
-                          ".custom-title-class"
-                        ).style.fontSize = "1.5em"; // Set your desired title size
-                        document.querySelector(
-                          ".custom-text-class"
-                        ).style.fontSize = "1em"; // Set your desired text size
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.backgroundColor = "#f44336"; // Red background color
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.color = "white"; // White text color
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.borderRadius = "0"; // Rounded corners
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.padding = "5px"; // Padding around the close button
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.fontSize = "20px"; // Font size of the close button
-                      },
-                    });
+                selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+                  var lenghtSelect = turf.length(
+                    selectCoordinatesDataSingle.features[0].geometry,
+                    { units: "meters" }
+                  );
 
                   var payload = JSON.stringify({
                     geoJSON: JSON.stringify(selectCoordinatesDataSingle),
@@ -601,26 +545,26 @@
                         (coordinates) => coordinates.slice().reverse()
                       )
                     )
-                  )
-                );
-                formData.append("road_no", struct_no);
-                formData.append("user_id", user_id);
-                formData.append("length", area);
-                formData.append("width", width);
+                  );
+                  formData.append("road_no", struct_no);
+                  formData.append("user_id", user_id);
+                  formData.append("length", lenghtSelect);
+                  formData.append("width", width);
 
-                $.ajax({
-                  type: "POST",
-                  url: "https://iwms.punecorporation.org/api/gis-data",
-                  data: formData,
-                  processData: false,
-                  contentType: false,
-                  success: function (response) {
-                    console.log(response);
-                    window.location.href = response.data.redirect_Url;
-                  },
-                  error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
-                  },
+                  $.ajax({
+                    type: "POST",
+                    url: "https://iwms.punecorporation.org/api/gis-data",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                      console.log(response);
+                      window.location.href = response.data.redirect_Url;
+                    },
+                    error: function (xhr, status, error) {
+                      console.error("Save failed:", error);
+                    },
+                  });
                 });
               });
           }
@@ -646,6 +590,33 @@
         };
       }
 
+      function updatePopup(layer) {
+        let content;
+        console.log(layer);
+        var coordinates = layer._latlngs[0];
+        console.log(coordinates);
+        var turfCoords = coordinates.map(function (coord) {
+          return [coord.lng, coord.lat];
+        });
+
+        if (layer instanceof L.Polyline) {
+          var line = turf.lineString(turfCoords);
+          var length = turf.length(line, { units: "meters" });
+          content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+        } else if (layer instanceof L.Polygon) {
+          var polygon = turf.polygon([turfCoords]);
+          var area = turf.area(polygon);
+          content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+        }
+
+        if (!layer._popup) {
+          layer.bindPopup(content);
+        } else {
+          layer.setPopupContent(content);
+        }
+        layer.openPopup();
+      }
+
       document
         .getElementById("editFeatureButton")
         .addEventListener("click", function (event) {
@@ -654,10 +625,17 @@
           selectedFeature.eachLayer(function (layer) {
             if (layer.editing) {
               layer.editing.enable();
+              layer.on("edit", function () {
+                updatePopup(layer);
+              });
             } else {
               layer.on("click", function () {
                 if (this.editing) {
                   this.editing.enable();
+                  updatePopup(this);
+                  this.on("edit", function () {
+                    updatePopup(this);
+                  });
                 }
               });
             }
@@ -675,6 +653,8 @@
           editableLayers.removeLayer(selectedFeature);
           selectedFeature = null;
         });
+
+      // ----------------------
 
       editControl.onAdd = function (map) {
         var button = L.DomUtil.create("button", "custom-button");
@@ -723,27 +703,6 @@
         };
         return button;
       };
-
-      // code for image on perform button
-
-      //     editControl.onAdd = function (map) {
-      //   var button = L.DomUtil.create('button', 'custom-button');
-      //   var img = document.createElement('img');
-      //   img.src = './png/003-selection.png';
-      //   img.style.width = '25px'; // Example width
-      //   img.style.height = '25px'; // Example height
-      //   button.appendChild(img);
-      //   button.innerHTML += ' Perform Task';
-      //   button.onclick = function () {
-      //     if (button.innerHTML.includes('Perform Task')) {
-      //       button.innerHTML = button.innerHTML.replace('Perform Task', 'Stop Task');
-      //       performTask();
-      //     } else {
-      //       button.innerHTML = button.innerHTML.replace('Stop Task', 'Perform Task');
-      //     }
-      //   };
-      //   return button;
-      // };
 
       // Add the control to the map
 
@@ -869,7 +828,7 @@ document.getElementById('prevButton').addEventListener('click', playPreviousVide
 
     <script>
       function openHelpPage() {
-        window.open("project_help.html", "_blank");
+        window.open("help.html", "_blank");
       }
     </script>
 

@@ -1825,11 +1825,7 @@ function handleMouseMove(event) {
     if (drawTimeout) clearTimeout(drawTimeout);
     lastDrawnPoint = event.latlng;
     drawTimeout = setTimeout(() => {
-<<<<<<< HEAD
-      getClosestRoadPointLast(lastDrawnPoint);
-=======
     getClosestRoadPointLast(lastDrawnPoint);
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
     }, 100); // Adjust the delay as needed
   }
 }
@@ -2235,8 +2231,6 @@ function Savedata(lastDrawnPolylineId) {
   if (formDataTemp) {
       localStorage.setItem("conceptual_form_data", formDataTemp);
   }
-<<<<<<< HEAD
-=======
    
 // have to check and remote this code in future 
 
@@ -2252,7 +2246,6 @@ selectCoordinatesData.forEach((geom, index) => {
 }
 
 
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
 
   var roadLenght = lenght;
   var bufferWidth = width;
@@ -2269,16 +2262,10 @@ selectCoordinatesData.forEach((geom, index) => {
       roadLength: roadLenght,
       bufferWidth: bufferWidth,
       gis_id: lastInsertedId,
-<<<<<<< HEAD
-      department: department,
-      selectCoordinatesData: selectCoordinatesData,
-      area: area 
-=======
       department: department, 
       selectCoordinatesData: geom,
       area: area ,
       geometryType: geom.geometry.type
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
   });
 
  
@@ -2301,32 +2288,13 @@ if (editMode) {
         selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type,
        }),
       success: function (response) {
-<<<<<<< HEAD
-          console.log(response);
-       //  window.location.href = `geometry_page.html?id=` + response.lastInsertIdIWMS + `&department=Road` + `&lastInsertedId=` + lastInsertedId;
-      },
-      error: function (xhr, status, error) {
-          console.error("Save failed:", error);
-=======
           alert('Data saved successfully!');
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
       },
       error: function (error) {
           console.error('Save request failed:', error);
       }
   });
 
-<<<<<<< HEAD
-  console.log(selectCoordinatesData[1].geometry.coordinates);
-
-  var formData = new FormData();
-  formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[1].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[1].geometry.coordinates[0][0]);
-  formData.append('polygon_area', 0);
-  formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
-=======
 
 }else {
   $.ajax({
@@ -2355,7 +2323,6 @@ if (editMode) {
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
   formData.append('geometry', JSON.stringify(geom.geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
   formData.append('length', area);
