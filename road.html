@@ -269,56 +269,75 @@
       var selectedFeature = null;
 
       function performTask() {
-        map.on("click", function (e) {
-          let size = map.getSize();
-          let bbox = map.getBounds().toBBoxString();
-        
 
-        let layers = ["pmc:Exist_Road", "pmc:OSM_Road"];
-        let queryLayers = layers.join(',');
+          map.on("click", function (e) {
+              let size = map.getSize();
+              let bbox = map.getBounds().toBBoxString();
+              let layers = ["pmc:Exist_Road", "pmc:OSM_Road"];
+              let queryLayers = layers.join(',');
 
-        var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-          e.containerPoint.x
-        )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+              var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+                e.containerPoint.x
+              )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-
-
-                
-
-          fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-              highlightFeature(data);
-            });
-        });
-
-        function highlightFeature(featureData) {
-          // Check if any features are present in the featureData
-          if (
-            !featureData ||
-            !featureData.features ||
-            featureData.features.length === 0
-          )
-            // Clear existing editable layers
-            editableLayers.clearLayers();
-
-          // Get the first feature from the featureData
-          var feature = featureData.features[0];
-
-          var geojsonLayer = L.geoJSON(feature, {
-            style: {
-              color: "red",
-              weight: 3,
-              opacity: 1,
-              fillOpacity: 0.5,
-            },
+              fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                  addUniqueFeatures(data);
+                });
           });
 
-          editableLayers.addLayer(geojsonLayer);
 
-          if (editableLayers.getLayers().length > 0) {
-            map.fitBounds(editableLayers.getBounds());
-          }
+                  
+
+          function addUniqueFeatures(data) {
+            console.log(data);
+            if (data.features.length === 0) return; // Return if no features
+
+            // Take the first feature
+            const feature = data.features[0];
+            
+            // Check if the feature already exists in editableLayers
+            let isDuplicate = editableLayers.getLayers().some((layer) => {
+              let existingFeature = layer.toGeoJSON().features[0];
+            
+              return existingFeature.id === feature.id;
+            });
+
+            if (!isDuplicate) {
+             
+              highlightFeature(data);
+            }
+} 
+
+        function highlightFeature(featureData) {
+          console.log(featureData);
+             // Check if any features are present in the featureData
+                if (
+                  !featureData ||
+                  !featureData.features ||
+                  featureData.features.length === 0
+                )
+                  // Clear existing editable layers
+                  editableLayers.clearLayers();
+
+                // Get the first feature from the featureData
+                var feature = featureData.features[0];
+
+                var geojsonLayer = L.geoJSON(feature, {
+                  style: {
+                    color: "red",
+                    weight: 3,
+                    opacity: 1,
+                    fillOpacity: 0.5,
+                  },
+                });
+
+                editableLayers.addLayer(geojsonLayer);
+
+                if (editableLayers.getLayers().length > 0) {
+                  map.fitBounds(editableLayers.getBounds());
+                }
         }
 
         editableLayers.on("contextmenu", function (e) {
@@ -327,245 +346,190 @@
           toggleSelectLayerButton(true);
 
           if (editableLayers.getLayers().length > 0) {
-            selectedFeature = editableLayers.getLayers()[1];
+            console.log(editableLayers);
+              selectedFeature = editableLayers.getLayers()[1];
 
-            // Get the coordinates of the right-clicked point
-            var latlng = e.latlng;
-            var popupContent = "<h5>Selected Feature</h5>";
+              // Get the coordinates of the right-clicked point
+              var latlng = e.latlng;
+              var popupContent = "<h5>Selected Feature</h5>";
 
-            if (localStorage.getItem("conceptual_form_data_temp")) {
-              const formDataFromStorage = JSON.parse(
-                localStorage.getItem("conceptual_form_data_temp")
-              );
-
-              $("#table-container").show();
-              console.log(formDataFromStorage);
-              let contentData = "<tr>";
-              for (const property in formDataFromStorage) {
-                contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-              }
-              contentData += "</tr>";
-              $("#workTableData").html(contentData);
-            }
-            document
-              .getElementById("saveDataButton")
-              .addEventListener("click", function () {
-                var featureData = selectedFeature.toGeoJSON();
-
-                var featureId = featureData.features[0].id;
-                let formDataFromStorage;
-                let formDataTemp = localStorage.getItem(
-                  "conceptual_form_data_temp"
-                );
-                if (formDataTemp) {
-                  localStorage.setItem("conceptual_form_data", formDataTemp);
-                  formDataFromStorage = JSON.parse(formDataTemp);
-                }
-
-                var roadLength =
-                  formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Length")
-                    ? formDataFromStorage.Length
-                    : 10;
-
-                var bufferWidth =
-                  formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Width")
-                    ? formDataFromStorage.Width
-                    : 20;
-
-                let selectCoordinatesData = editableLayers
-                  .getLayers()
-                  .map((layer) => layer.toGeoJSON());
-
-                localStorage.setItem(
-                  "selectCoordinatesData",
-                  JSON.stringify(selectCoordinatesData)
-                );
-
-                //       selectCoordinatesData = selectCoordinatesData.filter(function (el) {
-                //     return el.geometry.coordinates.length > 0;
-                // });
-
-                selectCoordinatesData = selectCoordinatesData.filter(function (
-                  el
-                ) {
-                  return el.features.length > 0;
-                });
-
-                selectCoordinatesData.map((selectCoordinatesDataSingle) => {
-                  var lenghtSelect = turf.length(
-                    selectCoordinatesDataSingle.features[0].geometry,
-                    { units: "meters" }
+              if (localStorage.getItem("conceptual_form_data_temp")) {
+                  const formDataFromStorage = JSON.parse(
+                    localStorage.getItem("conceptual_form_data_temp")
                   );
 
-                  var payload = JSON.stringify({
-                    geoJSON: JSON.stringify(selectCoordinatesDataSingle),
-                    roadLength: lenghtSelect,
-                    bufferWidth: bufferWidth,
-                    gis_id: lastInsertedId,
-                    department: department,
-                    selectCoordinatesData: selectCoordinatesDataSingle.features,
-                    geometryType:
-                      selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1]
-                        .geometry.type,
-                  });
-                  if (editMode) {
-
-                let editIdTemp = editId.split(".")[ 1 ];
-                let geometryTypeTemp = editId.split(".")[ 0 ];
-
-                console.log('selectCoordinatesData', selectCoordinatesData);
-
-                $.ajax({
-                  url: 'APIS/Update_Geometry.php', // Path to your PHP save script
-                  type: 'POST',
-                  contentType: 'application/json',
-                  data: JSON.stringify({
-                    selectCoordinatesData: selectCoordinatesDataSingle.features,
-                    fid: editIdTemp,
-                    geometryType:
-                      selectCoordinatesDataSingle.features[ selectCoordinatesDataSingle.features.length - 1 ]
-                        .geometry.type,
-                  }),
-                  success: function (response) {
-                    alert('Data saved successfully!');
-                  },
-                  error: function (error) {
-                    console.error('Save request failed:', error);
+                  $("#table-container").show();
+                  let contentData = "<tr>";
+                  for (const property in formDataFromStorage) {
+                    contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
                   }
-                });
+                  contentData += "</tr>";
+                  $("#workTableData").html(contentData);
+              }
+              
+              document.getElementById("saveDataButton").addEventListener("click", function () {
+                  var featureData = selectedFeature.toGeoJSON();
+                  var featureId = featureData.features[0].id;
+                  let formDataFromStorage;
+                  let formDataTemp = localStorage.getItem( "conceptual_form_data_temp");
+                  if (formDataTemp) {
+                    localStorage.setItem("conceptual_form_data", formDataTemp);
+                    formDataFromStorage = JSON.parse(formDataTemp);
+                  }
 
-                }
-                else {
-                  $.ajax({
-                    type: "POST",
-                    url: "APIS/gis_update.php",
-                    data: payload,
-                    contentType: "application/json",
-                    success: function (response) {
-                      Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Success",
-                        text: "Saved Successfully",
-                        showConfirmButton: false,
-                        showCloseButton: true,
-                        customClass: {
-                          popup: "custom-modal-class",
-                          icon: "custom-icon-class",
-                          title: "custom-title-class",
-                          content: "custom-text-class",
-                          closeButton: "custom-close-button-class",
+                  var roadLength =formDataFromStorage && formDataFromStorage.hasOwnProperty("Length") ? formDataFromStorage.Length : 10;
+                  var bufferWidth =formDataFromStorage &&formDataFromStorage.hasOwnProperty("Width")  ? formDataFromStorage.Width: 20;
+                  let selectCoordinatesData = editableLayers.getLayers().map((layer) => layer.toGeoJSON());
+                  localStorage.setItem("selectCoordinatesData",JSON.stringify(selectCoordinatesData));
+
+                  console.log(selectCoordinatesData);
+
+                  selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+                    return el.features.length > 0;
+                  });
+                  console.log(selectCoordinatesData);
+
+
+                  selectCoordinatesData.map((selectCoordinatesDataSingle) => {  
+                    
+                    var lenghtSelect = turf.length( selectCoordinatesDataSingle.features[0].geometry, { units: "meters" } );
+                    var payload = JSON.stringify({
+                      geoJSON: JSON.stringify(selectCoordinatesDataSingle),
+                      roadLength: lenghtSelect,
+                      bufferWidth: bufferWidth,
+                      gis_id: lastInsertedId,
+                      department: department,
+                      selectCoordinatesData: selectCoordinatesDataSingle.features,
+                      geometryType:selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1].geometry.type,
+                    });
+                    if (editMode) {
+                          let editIdTemp = editId.split(".")[ 1 ];
+                          let geometryTypeTemp = editId.split(".")[ 0 ];
+                          $.ajax({
+                            url: 'APIS/Update_Geometry.php', // Path to your PHP save script
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                              selectCoordinatesData: selectCoordinatesDataSingle.features,
+                              fid: editIdTemp,
+                              geometryType:selectCoordinatesDataSingle.features[selectCoordinatesDataSingle.features.length - 1].geometry.type,
+                            }),
+                            success: function (response) {
+                              alert('Data saved successfully!');
+                            },
+                            error: function (error) {
+                              console.error('Save request failed:', error);
+                            }
+                          });
+                          }
+                    else {
+                      $.ajax({
+                        type: "POST",
+                        url: "APIS/gis_update.php",
+                        data: payload,
+                        contentType: "application/json",
+                        success: function (response) {
+                          Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Success",
+                            text: "Saved Successfully",
+                            showConfirmButton: false,
+                            showCloseButton: true,
+                            customClass: {
+                              popup: "custom-modal-class",
+                              icon: "custom-icon-class",
+                              title: "custom-title-class",
+                              content: "custom-text-class",
+                              closeButton: "custom-close-button-class",
+                            },
+                            showClass: {
+                              popup: "swal2-show",
+                              backdrop: "swal2-backdrop-show",
+                              icon: "swal2-icon-show",
+                            },
+                            hideClass: {
+                              popup: "swal2-hide",
+                              backdrop: "swal2-backdrop-hide",
+                              icon: "swal2-icon-hide",
+                            },
+                            didOpen: () => {
+                              // Apply custom styles directly to the modal elements
+                              document.querySelector(
+                                ".custom-modal-class"
+                              ).style.width = "400px"; // Set your desired width
+                              document.querySelector(
+                                ".custom-modal-class"
+                              ).style.height = "250px"; // Set your desired height
+                              document.querySelector(
+                                ".custom-modal-class"
+                              ).style.transition = "all 0.5s ease";
+                              document.querySelector(
+                                ".custom-icon-class"
+                              ).style.fontSize = "10px"; // Set your desired icon size
+                              document.querySelector(
+                                ".custom-icon-class"
+                              ).style.transition = "all o.5s ease";
+                              document.querySelector(
+                                ".custom-title-class"
+                              ).style.fontSize = "1.5em"; // Set your desired title size
+                              document.querySelector(
+                                ".custom-text-class"
+                              ).style.fontSize = "1em"; // Set your desired text size
+                              document.querySelector(
+                                ".custom-close-button-class"
+                              ).style.backgroundColor = "#f44336"; // Red background color
+                              document.querySelector(
+                                ".custom-close-button-class"
+                              ).style.color = "white"; // White text color
+                              document.querySelector(
+                                ".custom-close-button-class"
+                              ).style.borderRadius = "0"; // Rounded corners
+                              document.querySelector(
+                                ".custom-close-button-class"
+                              ).style.padding = "5px"; // Padding around the close button
+                              document.querySelector(
+                                ".custom-close-button-class"
+                              ).style.fontSize = "20px"; // Font size of the close button
+                            },
+                          });
+                          setTimeout(() => {
+                            //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
+                          }, 2100);
                         },
-                        showClass: {
-                          popup: "swal2-show",
-                          backdrop: "swal2-backdrop-show",
-                          icon: "swal2-icon-show",
-                        },
-                        hideClass: {
-                          popup: "swal2-hide",
-                          backdrop: "swal2-backdrop-hide",
-                          icon: "swal2-icon-hide",
-                        },
-                        didOpen: () => {
-                          // Apply custom styles directly to the modal elements
-                          document.querySelector(
-                            ".custom-modal-class"
-                          ).style.width = "400px"; // Set your desired width
-                          document.querySelector(
-                            ".custom-modal-class"
-                          ).style.height = "250px"; // Set your desired height
-                          document.querySelector(
-                            ".custom-modal-class"
-                          ).style.transition = "all 0.5s ease";
-                          document.querySelector(
-                            ".custom-icon-class"
-                          ).style.fontSize = "10px"; // Set your desired icon size
-                          document.querySelector(
-                            ".custom-icon-class"
-                          ).style.transition = "all o.5s ease";
-                          document.querySelector(
-                            ".custom-title-class"
-                          ).style.fontSize = "1.5em"; // Set your desired title size
-                          document.querySelector(
-                            ".custom-text-class"
-                          ).style.fontSize = "1em"; // Set your desired text size
-                          document.querySelector(
-                            ".custom-close-button-class"
-                          ).style.backgroundColor = "#f44336"; // Red background color
-                          document.querySelector(
-                            ".custom-close-button-class"
-                          ).style.color = "white"; // White text color
-                          document.querySelector(
-                            ".custom-close-button-class"
-                          ).style.borderRadius = "0"; // Rounded corners
-                          document.querySelector(
-                            ".custom-close-button-class"
-                          ).style.padding = "5px"; // Padding around the close button
-                          document.querySelector(
-                            ".custom-close-button-class"
-                          ).style.fontSize = "20px"; // Font size of the close button
+                        error: function (xhr, status, error) {
+                          console.error("Save failed:", error);
                         },
                       });
+                    }
 
-                      setTimeout(() => {
-                        //  window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Road`+`&lastInsertedId=`+lastInsertedId;
-                      }, 2100);
-                    },
-                    error: function (xhr, status, error) {
-                      console.error("Save failed:", error);
-                    },
-                  });
-                }
-
-                  area = turf.length(
-                    selectCoordinatesDataSingle.features[0].geometry,
-                    { units: "meters" }
-                  );
-                  var formData = new FormData();
-                  formData.append("proj_id", worksAaApprovalId);
-                  formData.append(
-                    "latitude",
-                    selectCoordinatesDataSingle.features[0].geometry
-                      .coordinates[0][1]
-                  );
-                  formData.append(
-                    "longitude",
-                    selectCoordinatesDataSingle.features[0].geometry
-                      .coordinates[0][0]
-                  );
-                  formData.append("polygon_area", 0);
-                  formData.append("polygon_centroid", 0);
-                  formData.append(
-                    "geometry",
-                    JSON.stringify(
-                      selectCoordinatesDataSingle.features[0].geometry.coordinates?.map(
-                        (coordinates) => coordinates.slice().reverse()
-                      )
-                    )
-                  );
-                  formData.append("road_no", struct_no);
-                  formData.append("user_id", user_id);
-                  formData.append("length", lenghtSelect);
-                  formData.append("width", width);
-
-                  $.ajax({
-                    type: "POST",
-                    url: "https://iwms.punecorporation.org/api/gis-data",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                      console.log(response);
-                      window.location.href = response.data.redirect_Url;
-                    },
-                    error: function (xhr, status, error) {
-                      console.error("Save failed:", error);
-                    },
+                    area = turf.length(selectCoordinatesDataSingle.features[0].geometry,{ units: "meters" });
+                    var formData = new FormData();
+                    formData.append("proj_id", worksAaApprovalId);
+                    formData.append("latitude",selectCoordinatesDataSingle.features[0].geometry.coordinates[0][1]);
+                    formData.append("longitude",selectCoordinatesDataSingle.features[0].geometry.coordinates[0][0]);
+                    formData.append("polygon_area", 0);
+                    formData.append("polygon_centroid", 0);
+                    formData.append("geometry",JSON.stringify( selectCoordinatesDataSingle.features[0].geometry.coordinates?.map((coordinates) => coordinates.slice().reverse())) );
+                    formData.append("road_no", struct_no);
+                    formData.append("user_id", user_id);
+                    formData.append("length", lenghtSelect);
+                    formData.append("width", width);
+                      $.ajax({
+                        type: "POST",
+                        url: "https://iwms.punecorporation.org/api/gis-data",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                          //window.location.href = response.data.redirect_Url;
+                        },
+                        error: function (xhr, status, error) {
+                          console.error("Save failed:", error);
+                        },
+                      });
                   });
                 });
-              });
           }
         });
 
@@ -668,12 +632,7 @@
             button.innerHTML = "Finish";
             performTask();
 
-            // Remove the draw control if it's currently added
-            if (isDrawControlAdded) {
-              map.removeControl(drawControl);
-              isDrawControlAdded = false;
-            }
-
+       
             if (drawFeatureButton) {
               drawFeatureButton.setAttribute("disabled", true);
             } else {
@@ -687,12 +646,7 @@
               drawFeatureButton.setAttribute("disabled", false);
             }
 
-            // button.innerHTML = 'Select Feature';
-            // Add the draw control back if it's not currently added
-            if (!isDrawControlAdded) {
-              map.addControl(drawControl);
-              isDrawControlAdded = true;
-            }
+          
 
             // Show the custom draw controls button
             if (drawFeatureButton) {

@@ -1895,33 +1895,56 @@ map.on("draw:created", function (e) {
 
           // Prompt for buffer width
           Swal.fire({
-              title: 'Enter  Diameter in meters',
-              input: 'number',
-              inputAttributes: {
-                  autocapitalize: 'off'
-              },
-              showCancelButton: true,
-              confirmButtonText: 'Create Diameter',
-              showLoaderOnConfirm: true,
-              preConfirm: (bufferWidth) => {
-                  return new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                          if (bufferWidth <= 0) {
-                              reject('Invalid Diameter! Please enter a positive number.');
-                          } else {
-                              resolve(bufferWidth);
-                          }
-                      }, 1000);
-                  });
-              },
-              allowOutsideClick: () => !Swal.isLoading()
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  var bufferWidth = result.value;
-                  createBufferAndDashedLine(layer, roadLenght, bufferWidth);
-                  widthValues.push({ id: lastDrawnPolylineIdSave, width: bufferWidth });
-              }
-          });
+            title: 'Enter Diameter in mm',
+            input: 'number',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            html:
+                '<label>Material:</label><br>' +
+        '<div style="display: inline-block; margin-right: 10px;">' +
+        '<label for="ci">CI</label>' +
+        '<input type="radio" id="ci" name="material" value="CI"></div>' +
+        '<div style="display: inline-block; margin-right: 10px;">' +
+        '<label for="di">DI</label>' +
+        '<input type="radio" id="di" name="material" value="DI"></div>' +
+        '<div style="display: inline-block; margin-right: 10px;">' +
+        '<label for="ductileIron">Ductile Iron</label>' +
+        '<input type="radio" id="ductileIron" name="material" value="Ductile Iron"></div>' +
+        '<div style="display: inline-block; margin-right: 10px;">' +
+        '<label for="gi">GI</label>' +
+        '<input type="radio" id="gi" name="material" value="GI"></div>' +
+        '<div style="display: inline-block; margin-right: 10px;">' +
+        '<label for="ms">MS</label>' +
+        '<input type="radio" id="ms" name="material" value="MS"></div>',
+            showCancelButton: true,
+            confirmButtonText: 'Create Diameter',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+              const bufferWidthMm = Swal.getInput().value;
+              const bufferWidthM = bufferWidthMm / 1000; // Convert mm to meters
+              const materialElement = document.querySelector('input[name="material"]:checked');
+              return new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                      if (bufferWidthM <= 0 || !materialElement) {
+                          reject('Invalid input! Please enter a positive number and select a material.');
+                      } else {
+                          const material = materialElement.value;
+                          resolve({ bufferWidth: bufferWidthM, material: material });
+                      }
+                  }, 1000);
+              });
+          },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var bufferWidth = result.value.bufferWidth;
+                var material = result.value.material;
+                createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+                widthValues.push({ id: lastDrawnPolylineIdSave, width: bufferWidth, material: material });
+            }
+        });
+        
 
       } else {
           var layer = e.layer;
@@ -2225,7 +2248,7 @@ function Savedata(lastDrawnPolylineId) {
   }
 
   let widthDiameter = widthValues[index]?.width;
-
+  let  material = widthValues[index]?.material ;
 
   var payload = 
   JSON.stringify( {
@@ -2236,7 +2259,8 @@ function Savedata(lastDrawnPolylineId) {
     department: department,
     selectCoordinatesData:geom,
     area:area,
-    geometryType: geom.geometry.type
+    geometryType: geom.geometry.type,
+    material: material
   });
 
   if (editMode) {

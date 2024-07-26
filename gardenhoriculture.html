@@ -627,9 +627,29 @@
 				fetch(url)
 					.then((response) => response.json())
 					.then((data) => {
-						highlightFeature(data);
+						addUniqueFeatures(data);
 					});
 			});
+
+			function addUniqueFeatures(data) {
+            console.log(data);
+            if (data.features.length === 0) return; // Return if no features
+
+            // Take the first feature
+            const feature = data.features[0];
+            
+            // Check if the feature already exists in editableLayers
+            let isDuplicate = editableLayers.getLayers().some((layer) => {
+              let existingFeature = layer.toGeoJSON().features[0];
+            
+              return existingFeature.id === feature.id;
+            });
+
+            if (!isDuplicate) {
+             
+              highlightFeature(data);
+            }
+} 
 
 			function highlightFeature(featureData) {
         // Check if any features are present in the featureData
