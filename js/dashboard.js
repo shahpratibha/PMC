@@ -273,7 +273,8 @@ function DataTableFilter(cql_filter1) {
   var cqlFilter = cql_filter1;
   var geoServerURL =
     `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(cqlFilter)}`;
-  var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
+  // var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
+  var headers = ['PID','Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At','Status'];
 
   showtable(typeName, geoServerURL, cqlFilter, headers);
 
@@ -621,7 +622,9 @@ document.getElementById('openTableBtn').addEventListener('click', showTable);
       var filteredData = data;
       console.log(filteredData, "ggggggggggggggggggg");
       // filteredData.features.properties.Work_ID
-      const work_id =[];
+      // const work_id =[];
+      const pid =[];
+
       var exampleData = filteredData.features.map(feature => {
         let mappedData = {};
         headers.forEach(header => {
@@ -630,12 +633,16 @@ document.getElementById('openTableBtn').addEventListener('click', showTable);
           mappedData[propertyName] = feature.properties[header];
         });
         mappedData.geometry = feature.geometry; 
-        work_id.push(feature.properties.Work_ID)
+        // work_id.push(feature.properties.Work_ID)
+        pid.push(feature.properties.PID)
+
         // Ensure geometry is included
         return mappedData;
       });
-      console.log(work_id.length, "lllllllllllll")
-      updateTableStats(`Total Projects: ${work_id.length}`);
+      console.log(pid.length, "lllllllllllll")
+      // updateTableStats(`Total Projects: ${work_id.length}`);
+      updateTableStats(`Total Projects: ${pid.length}`);
+
       createTable(exampleData, headers);
     });
   }
@@ -657,7 +664,9 @@ $(document).ready(function() {
 
 
   document.addEventListener('DOMContentLoaded', (event) => {
-    var columns = {"Work_ID":"Work ID", "Budget_Code":"Budget Code", "Name_of_Work":"Name of Work", "Scope_of_Work":"Scope of Work", "Name_of_JE":"Name of JE", "Agency":"Agency"};
+    // var columns = {"Work_ID":"Work ID", "Budget_Code":"Budget Code", "Name_of_Work":"Name of Work", "Scope_of_Work":"Scope of Work", "Name_of_JE":"Name of JE", "Agency":"Agency"};
+    var columns = {"PID":"PID","Work_ID":"Work ID", "Budget_Code":"Budget Code", "Name_of_Work":"Name of Work", "Scope_of_Work":"Scope of Work", "Name_of_JE":"Name of JE", "Agency":"Agency"};
+   
     var select = document.getElementById("search_type");
    
     // Populate dropdown with column names
