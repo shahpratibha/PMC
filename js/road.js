@@ -51,43 +51,10 @@ var ward_admin_boundary = L.tileLayer.wms(
   }
 ).addTo(map);
 
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
-
-
-const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
-const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
-const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardName');
-const department = getQueryParam('department');
-const workType = getQueryParam('workType');
-const struct_no = getQueryParam('struct_no') ;
-const user_id = getQueryParam('user_id') ;
-const worksAaApprovalId = getQueryParam('proj_id');
-let wardNames = wardname.split(',').map(id => id.trim());
-let ward_id =  getQueryParam('ward_id') ;
-let zone_id =  getQueryParam('zone_id') ;
-let prabhag_id =  getQueryParam('prabhag_id') ;
-let editMode =  getQueryParam('edit') ;
-let editId =  getQueryParam('editId') ;
-
-
-
-var wardBoundary = null ;
-
-
-var lastDrawnPolylineIdSave = null;
-
-
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
 }).addTo(map);
-
-
 
 var wms_layer1 = L.tileLayer.wms(
   baseURL,
@@ -101,8 +68,6 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }
 ).addTo(map);
-
-
 
 
 var Esri_WorldImagery = L.tileLayer(
@@ -284,22 +249,47 @@ var northArrowControl = L.Control.extend({
 });
 map.addControl(new northArrowControl());
 
-
-
-
-// Now continue with your remaining JavaScript code...
-// GeoServer URL
-// var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
-
+const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
+const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
+const lastInsertedId = getQueryParam('lastInsertedId');
+const wardname = getQueryParam('wardName');
+const department = getQueryParam('department');
+const workType = getQueryParam('workType');
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
+let wardNames = wardname.split(',').map(id => id.trim());
+let ward_id =  getQueryParam('ward_id') ;
+let zone_id =  getQueryParam('zone_id') ;
+let prabhag_id =  getQueryParam('prabhag_id') ;
+let editMode =  getQueryParam('edit') ;
+let editId =  getQueryParam('editId') ;
+var wardBoundary = null ;
+var lastDrawnPolylineIdSave = null;
 var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
-
 var workspace = "Road";
-
-// Variable to keep track of legend visibility
 var legendVisible = true;
 var processedLayers = [];
-// Add the WMS Legend control to the map
 var legendControl = L.control({ position: "topright" });
+var collapseButton = L.control({ position: "topright" });
+
+let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
+let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
+let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
+let cql_filterm = '';
+
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+
+
+
+
+
+
+
 
 legendControl.onAdd = function (map) {
   var div = L.DomUtil.create("div", "info legend");
@@ -384,7 +374,6 @@ legendControl.onAdd = function (map) {
 };
 // -----------------------------------------------------
 // Add collapsible button
-var collapseButton = L.control({ position: "topright" });
 
 collapseButton.onAdd = function (map) {
   var button = L.DomUtil.create("button", "collapse-button");
@@ -619,11 +608,6 @@ map.on(L.Draw.Event.EDITED, function (event) {
 
 
 
-let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
-let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
-let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
-
-let cql_filterm = '';
 
 if (zone_ids.length > 0) {
   cql_filterm = `zone_id IN(${zone_ids.map(id => `'${id}'`).join(",")})`;
@@ -691,10 +675,6 @@ searchControl.on("results", function (data) {
 
 
 
-//******** draw controls */
-
-
-
 var drawControlRoad = new L.Control.Draw({
   draw: {
     polyline: {
@@ -731,20 +711,14 @@ if (workType == "New") {
     return div;
   };
 
-  // Add the control to the map
   customDrawControls.addTo(map);
 
 }
 
 
-//var customToolSelector = L.control({ position: 'topleft' });
-
-
 let mapMode = 'snapping';
 
-//   customToolSelector.addTo(map);
 
-// }
 var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
@@ -753,8 +727,6 @@ customSaveButton.onAdd = function (map) {
   customDrawControlsContainer = div;
   return div;
 };
-
-
 customSaveButton.addTo(map);
 
 // save data button 
@@ -767,8 +739,6 @@ customSaveEditButton.onAdd = function (map) {
   customDrawControlsContainer = div;
   return div;
 };
-
-
 customSaveEditButton.addTo(map);
 
 if(editMode){
@@ -1087,10 +1057,6 @@ function toggleSaveButton(show) {
 }
 
 
-
-
-
-
 // Button Click Event to Show SweetAlert Success Popup
 document.getElementById("save-button").addEventListener("click", function () {
 
@@ -1125,7 +1091,7 @@ function toggleDrawControl() {
 // Event listener for map zoomend event
 //map.on("zoomend", toggleDrawControl);
 
-
+if (workType == "New") {
 document.querySelector('.draw_feature').addEventListener('click', function (event) {
   event.preventDefault();
   // Toggle draw control when the "Draw Feature" button is clicked
@@ -1185,14 +1151,12 @@ document.querySelector('.draw_feature').addEventListener('click', function (even
 
   }
 });
+}
 
 
 document.querySelector('#save-button').addEventListener('click', function (event) {
   Savedata(lastDrawnPolylineIdSave);
 });
-
-
-
 
 
 // function for added buffer
@@ -1318,11 +1282,6 @@ function createRectangularBuffer(geoJSON, bufferWidth, units) {
   var bufferedPolygon = turf.polygon([bufferedCoords]);
   return turf.featureCollection([bufferedPolygon]);
 }
-
-
-
-
-
 
 
 
@@ -1614,6 +1573,7 @@ function highlightFeature(featureData) {
 var lastPointMarker = null;
 
 function getClosestRoadPointLast(latlng) {
+  console.log(latlng);
   var buffer = 10; // Buffer distance in meters, adjust as necessary
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, { units: 'meters' });
@@ -1728,14 +1688,14 @@ var drawControlAdded = false;
 map.on('mousemove', function(e) {
   var isInside = checkIfInsideWard(e.latlng);
   
- if (isInside) {
+ if (isInside && workType == "New") {
         map.getContainer().style.cursor = 'crosshair';
         // Add draw control if not already added
         if (!drawControlAdded) {
           map.addControl(drawControlRoad);
           drawControlAdded = true;
         }
-      } else {
+      } else if (workType == "New") {
         map.getContainer().style.cursor = 'not-allowed';
         // Remove draw control if currently added
         if (drawControlAdded) {
@@ -2771,144 +2731,3 @@ function getWardNameById(wardId, wardData) {
   }
 }
 
-
-// // script.js
-
-// // Define the base URL of your video folder
-// const baseVideoFolder = 'http://localhost/iwms/video/road/';
-
-// // Define the array of video filenames
-// const videos = [
-//     '1 Recording coordinates.mp4',
-//     '2 Gis mapping.mp4',
-//     '3 Editing.mp4',
-//     '4. Delete.mp4',
-//     '5 selection of whole Ward.mp4',
-//     '6 Repair road.mp4',
-//     '7 length restriction.mp4'
-//     // Add more video filenames as needed
-// ];
-
-// // Function to open a new tab with the video dropdown selection
-// function openVideoSelectionWindow() {
-//     const windowFeatures = 'width=800,height=600';
-//     const videoSelectionWindow = window.open('', '_blank', windowFeatures);
-
-//     // Build the HTML content for the new window
-//     let videoSelectionHtml = `
-//         <!DOCTYPE html>
-//         <html lang="en">
-//         <head>
-//             <meta charset="UTF-8">
-//             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//             <title>Road Department</title>
-//             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-//             <style>
-//                 body {
-//                     font-family: Arial, sans-serif;
-//                     display: flex;
-//                     flex-direction: column;
-//                     align-items: center;
-//                     padding: 20px;
-//                 }
-//                 h1 {
-//                     margin-bottom: 20px;
-//                     color: blue;
-//                 }
-//                 .video-select {
-//                     margin-bottom: 20px;
-//                     font-size: 16px;
-//                     padding: 10px;
-//                     border-radius: 10px;
-//                     border: 2px solid blue;
-//                     width: 300px;
-//                 }
-//                 .control-buttons {
-//                     margin-top: 10px;
-//                 }
-//                 .control-button {
-//                     background-color: white;
-//                     border: 1px solid black;
-//                     color: black;
-//                     padding: 10px;
-//                     border-radius: 5px;
-//                     cursor: pointer;
-//                     margin: 0 10px;
-//                 }
-//                 .control-button i {
-//                     font-size: 16px;
-//                 }
-//                 #videoPlayer {
-//                     width: 100%;
-//                     height: auto;
-//                     margin-top: 20px;
-//                 }
-//             </style>
-//         </head>
-//         <body>
-//             <h1>Road Department</h1>
-//             <select id="videoSelect" class="video-select">
-//                 ${videos.map((video, index) => `
-//                     <option value="${index}">${video}</option>
-//                 `).join('')}
-//             </select>
-//             <video id="videoPlayer" controls autoplay>
-//                 Your browser does not support the video tag.
-//             </video>
-//             <div class="control-buttons">
-//                 <button id="prevButton" class="control-button">
-//                     <i class="fas fa-backward"></i>
-//                 </button>
-//                 <button id="nextButton" class="control-button">
-//                     <i class="fas fa-forward"></i>
-//                 </button>
-//             </div>
-//             <script>
-//                 const baseVideoFolder = '${baseVideoFolder}';
-//                 const videos = ${JSON.stringify(videos)};
-//                 let currentVideoIndex = 0;
-
-//                 const videoPlayer = document.getElementById('videoPlayer');
-//                 const videoSelect = document.getElementById('videoSelect');
-
-//                 function playVideo(index) {
-//                     currentVideoIndex = index;
-//                     const videoSource = baseVideoFolder + videos[currentVideoIndex];
-//                     videoPlayer.src = videoSource;
-//                     videoPlayer.load();
-//                     videoPlayer.play();
-//                 }
-
-//                 videoSelect.addEventListener('change', function() {
-//                     const index = parseInt(this.value);
-//                     playVideo(index);
-//                 });
-
-//                 document.getElementById('nextButton').addEventListener('click', function() {
-//                     currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-//                     playVideo(currentVideoIndex);
-//                     videoSelect.value = currentVideoIndex;
-//                 });
-
-//                 document.getElementById('prevButton').addEventListener('click', function() {
-//                     currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
-//                     playVideo(currentVideoIndex);
-//                     videoSelect.value = currentVideoIndex;
-//                 });
-
-//                 // Play the first video when the window loads
-//                 playVideo(0);
-//                 videoSelect.value = 0;
-//             </script>
-//         </body>
-//         </html>
-//     `;
-
-//     // Write the HTML content to the new window
-//     videoSelectionWindow.document.write(videoSelectionHtml);
-// }
-
-// // Event listener for clicking the help button
-// document.getElementById('helpButton').addEventListener('click', function() {
-//     openVideoSelectionWindow();
-// });
