@@ -477,28 +477,7 @@ left: 2%;
 }
 
 
-#autocomplete-list{
-position: absolute;
-z-index: 9999;
-margin-left: 5px;
-height: auto;
-/* font-weight: lighter; */
-border-radius: 10px;
-width: auto;
-/* position: absolute; */
-z-index: 9999;
-top: 6.5%;
-left: 15.700%;
-background-color: #fff;
-width: 250px;
-max-width: 250px;
-max-height: 400px;
-overflow-x: hidden;
-overflow-y: scroll;
-scrollbar-width: thin;
-line-height: 2.5;
 
-}
 /* table css */
 .dataTables_info{
   font-weight: bold !important;
@@ -734,6 +713,55 @@ padding-left: 10px; /* Add padding to move text slightly left */
 left: 15%;
 border: 2px solid darkblue;
 }
+/* Add this to your CSS file */
+.autocomplete-items li {
+ cursor: pointer;
+ text-decoration: none;
+ list-style-type: circle; 
+
+}
+
+.autocomplete-items li:hover {
+  background-color: #9393d633;  
+}
+#autocomplete-list {
+  position: absolute;
+  z-index: 9999;
+  margin-left: 5px;
+  height: auto;
+  border-radius: 10px;
+  width: auto;
+  top: 6.5%;
+  left: 14.200%;
+  background-color: #fff;
+  width: 250px;
+  max-width: 250px;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #9393d633 #f1f1f1; /* For Firefox */
+  line-height: 2.5;
+}
+
+/* Scrollbar styles for WebKit browsers */
+#autocomplete-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+#autocomplete-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#autocomplete-list::-webkit-scrollbar-thumb {
+  background-color:#9393d633;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+
+
+
 
 
 
