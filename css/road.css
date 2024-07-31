@@ -306,9 +306,9 @@
     font-size: 15px;
     height: 37px;
     width: 37px;
-    left: 59.4%;
+    left: 59.400%;
   }
-  /* #saveDataButton {
+  #saveDataButton {
     border: 2px solid #2b13bb;
     border-bottom: 2px solid #2b13bb;
     border-top: 2px solid #2b13bb;
@@ -317,13 +317,13 @@
     position: fixed;
     color: black;
     padding: 5px 5px;
-    display: none !important;
+
     top: 91%;
     font-size: 17px;
     height: 37px;
     width: 37px;
-    left: 56.8%;
-  } */
+    left: 56.8% !important;
+  }
 
   #saveEditGeomButton {
     border: 2px solid #2b13bb;

@@ -753,7 +753,7 @@ if (workType == "New") {
   // Define the HTML content for the control
   customDrawControls.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #2B13BB; position:absolute; margin-top: 600px; margin-left: 685px; border-radius:5px; background-color:white; padding: 5px; width: 37px; height: 37px; ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+    div.innerHTML = '<button class="draw_feature"" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
     customDrawControlsContainer = div;
     return div;
   };

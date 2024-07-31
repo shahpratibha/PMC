@@ -64,33 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-<<<<<<< HEAD
-// });
-
-// toggleFilterend---------------------------------------------------------
-document.addEventListener("DOMContentLoaded", function () {
-  const filters = document.getElementById("filters");
-  const map = document.getElementById("map");
-  const tableBtn = document.getElementById("openTableBtn");
-  const tableinfo = document.getElementById("tablecontainer");
-
-  const button = document.getElementById("toggleFilters");
-
-  // const button = document.getElementById('toggleFilters');
-
-  // Set the title attribute
-  button.setAttribute("title", "Filter");
-
-  // Apply CSS styles
-  // button.style.backgroundColor = 'white';
-  // button.style.color = 'darkblue';
-  // button.style.border = '2px solid darkblue';
-  // button.style.fontSize = '12px';
-  // button.style.padding = '8px';
-  // button.style.borderRadius = '5px';
-  // button.style.cursor = 'pointer';
-
-=======
 
 
 // toggleFilterend---------------------------------------------------------
@@ -109,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
 button.setAttribute('title', 'Filter');
 
  
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
   let filtersVisible = false;
 
   button.addEventListener("click", function () {
@@ -233,13 +205,7 @@ $(document).ready(function () {
     ]; //accordn column names , if want add one more filter criteria add here
 
     filternames.forEach(function (filtername) {
-<<<<<<< HEAD
-      var url = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon&propertyName=${filtername}&outputFormat=application/json&cql_filter=${encodeURIComponent(
-        cql_filter
-      )}`;
-=======
       var url = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon,GIS_Ward_Layer&propertyName=${filtername}&outputFormat=application/json&cql_filter=${encodeURIComponent(cql_filter)}`;
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
       console.log(url);
       $.getJSON(url, function (data) {
         var projectFiSet = new Set();
@@ -305,13 +271,8 @@ $(document).ready(function () {
 });
 
 function DataTableFilter(cql_filter1) {
-<<<<<<< HEAD
-  var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon"];
-  var typeName = layers.join(",");
-=======
   var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon","pmc:GIS_Ward_Layer"];
   var typeName = layers.join(',');
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
   var cqlFilter = cql_filter1;
   var geoServerURL = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(
     cqlFilter
@@ -422,16 +383,12 @@ function FilterAndZoom(filter) {
     CQL_FILTER: filter,
     maxZoom: 19.5,
   }).addTo(map);
-<<<<<<< HEAD
-}
-=======
   GIS_Ward_Layer.setParams({
     CQL_FILTER: filter,
     maxZoom: 19.5,
   }).addTo(map);
 };
 
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
 
 
 function fitbous(filter) {
@@ -712,38 +669,23 @@ $(document).ready(function () {
 
 // for search button
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  var columns = {
-    Work_ID: "Work ID",
-    Budget_Code: "Budget Code",
-    Name_of_Work: "Name of Work",
-    Scope_of_Work: "Scope of Work",
-    Name_of_JE: "Name of JE",
-    Agency: "Agency",
-  };
-  var select = document.getElementById("search_type");
-  const input = document.getElementById("searchInputDashboard");
+// document.addEventListener("DOMContentLoaded", (event) => {
+//   var columns = {
+//     Work_ID: "Work ID",
+//     Budget_Code: "Budget Code",
+//     Name_of_Work: "Name of Work",
+//     Scope_of_Work: "Scope of Work",
+//     Name_of_JE: "Name of JE",
+//     Agency: "Agency",
+//   };
+//   var select = document.getElementById("search_type");
+//   const input = document.getElementById("searchInputDashboard");
 
 
-<<<<<<< HEAD
-  // Populate dropdown with column names
-  for (var key in columns) {
-    if (columns.hasOwnProperty(key)) {
-      var option = document.createElement("option");
-      option.text = columns[key];
-      option.value = key;
-
-      select.appendChild(option);
-    }
-  }
-
-  // Initialize selected value variable
-  let selectedValue;
-=======
   document.addEventListener('DOMContentLoaded', (event) => {
     var columns = {"Work_ID":"Work ID", "Budget_Code":"Budget Code", "Name_of_Work":"Name of Work", "Scope_of_Work":"Scope of Work", "Name_of_JE":"Name of JE", "Agency":"Agency"};
     var select = document.getElementById("search_type");
-   
+    const input = document.getElementById("searchInputDashboard");
     // Populate dropdown with column names
    for (var key in columns) {
       if (columns.hasOwnProperty(key)) {
@@ -757,7 +699,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         
       }
     }
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
 
         
        
@@ -779,24 +720,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     input.placeholder = "Search " + selectedText;
     input.value = "";
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
     // Call autocomplete with empty array and selected column
     autocomplete(input, [], selectedValue);
 
     // Trigger search based on the selected column immediately after selecting
     if (selectedValue) {
-<<<<<<< HEAD
-      getValues(function (data) {
-        autocomplete(input, data, selectedValue); // Call autocomplete with fetched data and selected column
-      });
-=======
         getValues(function (data) {
             autocomplete(input, data, selectedValue); // Call autocomplete with fetched data and selected column
         });
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
     }
 
     function getValues(callback) {
@@ -840,35 +771,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
   });
 });
 
-<<<<<<< HEAD
-// autocomplete function
-function autocomplete(input, arr, selectedColumn) {
-  let currentFocus;
-  input.addEventListener("input", function () {
-    let list,
-      item,
-      i,
-      val = this.value.toLowerCase(); // Convert input value to lowercase for case-insensitive comparison
-    closeAllLists();
-    if (!val) return false;
-    currentFocus = -1;
-    list = document.createElement("ul");
-    list.setAttribute("id", "autocomplete-list");
-    list.setAttribute("class", "autocomplete-items");
-    document.getElementById("autocompleteSuggestions").appendChild(list);
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i].toLowerCase().includes(val)) {
-        // Check if the suggestion contains the input value
-        item = document.createElement("li");
-        item.innerHTML = arr[i].replace(
-          new RegExp(val, "gi"),
-          (match) => `<strong>${match}</strong>`
-        ); // Highlight matching letters
-        item.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-        item.addEventListener("click", function () {
-          selectedValue = this.getElementsByTagName("input")[0].value; // Store the selected value
-          console.log(selectedValue, "ppppppppppppppppp");
-=======
   // autocomplete function
   function autocomplete(input, arr, selectedColumn) {
     let currentFocus;
@@ -889,7 +791,6 @@ function autocomplete(input, arr, selectedColumn) {
           item.addEventListener("click", function () {
             selectedValue = this.getElementsByTagName("input")[0].value; // Store the selected value
             console.log(selectedValue, "ppppppppppppppppp")
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
 
           var searchtypefield = $("#search_type").val();
           console.log(searchtypefield, "ppppppppppppppppp99999999");
@@ -899,12 +800,6 @@ function autocomplete(input, arr, selectedColumn) {
 
           console.log(cqlFilter, "cqlFilter");
 
-<<<<<<< HEAD
-          IWMS_point.setParams({
-            CQL_FILTER: cqlFilter,
-            maxZoom: 19.5,
-            styles: "IWMS_points",
-=======
 
 
             IWMS_point.setParams({
@@ -944,7 +839,6 @@ function autocomplete(input, arr, selectedColumn) {
 
             input.value = selectedValue;
             closeAllLists();
->>>>>>> 8cf0efec101dd98630a87aea698539c6657656cd
           });
 
           IWMS_line.setParams({
