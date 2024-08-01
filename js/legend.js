@@ -100,7 +100,8 @@ collapseButton.onAdd = function (map) {
   button.style.transition = "background-color 0.3s ease-in-out"; // Add transition for smooth animation
 
   // Toggle legend visibility when the button is clicked
-  button.onclick = function () {
+  button.onclick = function (e) {
+    e.stopPropagation(); // Stop event from propagating to document click
     var legendDiv = document.querySelector(".info.legend");
     if (!legendVisible) {
       legendDiv.style.height = "40vh"; // Maximize the legend
@@ -115,20 +116,21 @@ collapseButton.onAdd = function (map) {
 };
 
 collapseButton.addTo(map);
-
-// Hide the legend when the map is clicked
-map.on('click', function (e) {
+// Function to hide the legend when clicking on the map
+function hideLegend(e) {
   var legendDiv = document.querySelector(".info.legend");
-  if (legendVisible && legendDiv) {
-    // Check if the click event target is outside the legend
-    if (!legendDiv.contains(e.originalEvent.target)) {
-      legendDiv.style.height = "0"; // Minimize the legend
-      legendVisible = false;
-    }
-  } else {
-    console.log("Legend not visible or not found");
+  if (legendVisible && legendDiv && !legendDiv.contains(e.target)) {
+    legendDiv.style.height = "0"; // Minimize the legend
+    legendVisible = false;
   }
-});
+}
+
+// Add event listener to the document to hide the legend when clicking outside of it and the collapse button
+map.on('click', hideLegend);
+
+
+
+
 
 // North Image and scale
 
@@ -149,15 +151,3 @@ var northArrowControl = L.Control.extend({
 });
 
 map.addControl(new northArrowControl());
-
-// Handle legend visibility based on map interaction
-map.on('click', function (e) {
-  var legendDiv = document.querySelector(".info.legend");
-  if (legendVisible && legendDiv) {
-    // Check if the click event target is outside the legend
-    if (!legendDiv.contains(e.originalEvent.target)) {
-      legendDiv.style.height = "0"; // Minimize the legend
-      legendVisible = false;
-    }
-  }
-});
