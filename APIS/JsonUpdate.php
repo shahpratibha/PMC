@@ -22,6 +22,15 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     exit;
 }
 
+// Filter the data to keep only required fields
+$filteredData = array_map(function($item) {
+    return [
+        'works_aa_approval_id' => $item['works_aa_approval_id'],
+        'budget_amount' => $item['budget_amount'],
+        'used_amt' => $item['used_amt']
+    ];
+}, $dataArray);
+
 // Define the function to build the SQL query
 function buildUpdateSQL($table, $data, $configId) {
     $fields = [];
@@ -34,55 +43,28 @@ function buildUpdateSQL($table, $data, $configId) {
 
 // Define the fields to update
 $fieldsToUpdate = [
-    'tender_amo',
-    'Budget_Year',
-    'Agency',
-    'Budget_Code',
-    'Status',
-    'Pid',
+    'budget_amount',
+    'used_amt',
 ];
 
 try {
     $pdo->beginTransaction();
 
-    // Loop through each item in the JSON data
-    foreach ($dataArray as $data) {
+    // Loop through each item in the filtered data
+    foreach ($filteredData as $data) {
         $configId = $data['works_aa_approval_id'] ?? null;
-        $pid = $data['works_ts_aproval_id'] ?? null;
-        $tender_amount = $data['tender_amount'] ?? null;
-        $agency = $data['agency'] ?? null;
-        $status = $data['status'] ?? null;
-        $budget_code = $data['budget_code'] ?? null;
-        $budget_year = $data['budget_year'] ?? null;
-
-
-
+        $budget_amount = $data['budget_amount'] ?? null;
+        $used_amt = $data['used_amt'] ?? null;
 
         if (empty($configId)) {
-            echo json_encode(["error" => "No project ID provided"]);
-            exit;
+            continue; // Skip if no project ID provided
         }
 
         // Prepare update data
-        $updateData = array_filter(
-            $data,
-            function ($key) use ($fieldsToUpdate) {
-                return in_array($key, $fieldsToUpdate);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
-        // Add Pid to the update data
-        $updateData['Pid'] = $pid;
-        $updateData['tender_amo'] = $tender_amount;
-        $updateData['Budget_Year'] = $budget_year;
-        $updateData['Agency'] = $agency;
-        $updateData['Budget_Code'] = $budget_code;
-        $updateData['Status'] = $status;
-
-
-        
-
+        $updateData = [
+            'Budget_Amount' => $budget_amount,
+            'Used_Amount' => $used_amt
+        ];
 
         if (empty($updateData)) {
             continue; // Skip if no valid fields are provided for this item
