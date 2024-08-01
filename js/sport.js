@@ -816,6 +816,7 @@ return div;
 
 customSaveEditButton.addTo(map);
 
+if (editMode) {
 
 var saveEditGeomButton = L.control({ position: 'topleft' });
 saveEditGeomButton.onAdd = function (map) {
@@ -947,6 +948,7 @@ document.getElementById('deleteEditGeomButton').addEventListener('click', functi
 });
 
 
+}
 
 
 var customEditLayerButton = L.control({ position: 'topleft' });

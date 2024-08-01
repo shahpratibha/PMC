@@ -51,8 +51,9 @@ try {
     $zoneId = $formDataArray['zoneId'] ?? null;
     $departmentId = $formDataArray['departmentId'] ?? null;
     $stage = $formDataArray['stage'] ?? null;
+    $entryTime = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_office, junior_engineer_name, contact_no, date_in, zone, ward, width, length, budgetCode, works_approval_id, created_at, conceptual_no, con_appr_date, created_date, tender_amount, updated_date, gis_id, no_of_road, area, measure_in, project_from, budget_year, agency, work_completion_date,struct_no,user_id,ward_id,zone_id,d_id,stage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?, ?,?,?)";
+    $sql = "INSERT INTO conceptual_form (project_no, work_name, work_type, scope_of_work, project_financial_year, department, project_office, junior_engineer_name, contact_no, date_in, zone, ward, width, length, budgetCode, works_approval_id, created_at, conceptual_no, con_appr_date, created_date, tender_amount, updated_date, gis_id, no_of_road, area, measure_in, project_from, budget_year, agency, work_completion_date,struct_no,user_id,ward_id,zone_id,d_id,stage,entry_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?, ?,?,?,?)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -92,6 +93,7 @@ try {
         $zoneId,
         $departmentId,
         $stage,
+        $entryTime
     ]);
 
     $lastInsertId = $pdo->lastInsertId();

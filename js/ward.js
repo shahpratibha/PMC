@@ -430,6 +430,8 @@ customSaveButton.addTo(map);
 
 // save data button
 
+if(editMode){
+
 var customSaveEditButton = L.control({ position: "topleft" });
 customSaveEditButton.onAdd = function (map) {
   var div = L.DomUtil.create("div", "saveDataButton");
@@ -561,6 +563,7 @@ document.getElementById('deleteEditGeomButton').addEventListener('click', functi
       }
   });
 });
+}
 
 
 var customEditLayerButton = L.control({ position: "topleft" });

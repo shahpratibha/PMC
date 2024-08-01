@@ -1459,7 +1459,6 @@ function distance(latlng1, latlng2) {
   return latlng1Rad.distanceTo(latlng2Rad);
 }
 
-
 // for vertex mapping
 
 let firstClickPoints = [];
@@ -2366,7 +2365,7 @@ if (editMode) {
       contentType: false,
       success: function (response) {
  
-         window.location.href = response.data.redirect_Url;
+        // window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
           console.error("Save failed:", error);
