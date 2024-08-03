@@ -430,8 +430,6 @@ customSaveButton.addTo(map);
 
 // save data button
 
-if(editMode){
-
 var customSaveEditButton = L.control({ position: "topleft" });
 customSaveEditButton.onAdd = function (map) {
   var div = L.DomUtil.create("div", "saveDataButton");
@@ -442,6 +440,10 @@ customSaveEditButton.onAdd = function (map) {
 };
 
 customSaveEditButton.addTo(map);
+
+
+if(editMode){
+
 
 
 

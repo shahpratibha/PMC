@@ -3,6 +3,7 @@ require 'config.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('max_execution_time', 300); // Increase execution time if needed
 
 header('Content-Type: application/json');
 
@@ -61,10 +62,19 @@ try {
         }
 
         // Prepare update data
-        $updateData = [
-            'Budget_Amount' => $budget_amount,
-            'Used_Amount' => $used_amt
-        ];
+        $updateData = array_filter(
+            $data,
+            function ($key) use ($fieldsToUpdate) {
+                return in_array($key, $fieldsToUpdate);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+
+        
+
+        $updateData['Used_Amount'] = $used_amt;
+        $updateData['Budget_Amount'] = $budget_amount;
+
 
         if (empty($updateData)) {
             continue; // Skip if no valid fields are provided for this item
