@@ -153,6 +153,7 @@
       height: 37px !important;
       width: 37px !important;
       top: 92%!important;
+      display: none !important;
       padding: 2px !important;
       border: 2px solid #2b13bb;
       border-radius: 5px 5px 5px 5px !important;
@@ -430,6 +431,7 @@
         height: 37px !important;
         width: 37px !important;
         top: 92%!important;
+        display: none !important;
         padding: 2px !important;
         border: 2px solid #2b13bb;
         border-radius: 5px 5px 5px 5px !important;
@@ -459,17 +461,18 @@
   #helpButton {
       position: absolute;
       top: 15%;
-      left: 1.5%;
+    left: 2.1%;
+
       transform: translateX(-50%);
       background-color: white;
-      border: 1px solid black;
+      border: 2px solid darkblue;
       border-radius: 5px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
+      width: 35px;
+      height: 35px;
       z-index: 1000;
       padding: 10px; 
   }
@@ -477,8 +480,9 @@
   #helpButton:hover::after {
       content: "HELP"; 
       position: absolute;
-      top: calc(100% + 5px); 
-      left: 50%; 
+      top:2%; 
+    left: 170%; 
+
       transform: translateX(-50%);
       background-color: black;
       color: white;

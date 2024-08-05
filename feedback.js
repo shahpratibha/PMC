@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 33px;
-            height: 33px;
+            width: 35px;
+            height: 35px;
             z-index: 1000;
             padding: 10px;
         }
@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function() {
         #feedbackButton {
         top: 18%;
         left: 96%;
-        width: 32px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         padding: 8px;
         }
 
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 @media only screen and (min-width: 1440px) {
 #feedbackButton {
-        top: 16%;
+        top: 14.800%;
         left: 98.3%;
         width: 32px;
         }

@@ -116,10 +116,10 @@ a {
   transition: height 0.3s ease, opacity 0.3s ease;
 }
 
-#toggle-btn {
-  display: none; /* Hide initially */
+/* #toggle-btn {
+  display: none; 
   position: absolute;
-  top: 0; /* Adjust based on needs */
+  top: 0; 
   right: 10px;
   background-color: white;
   border: 2px solid blue;
@@ -129,11 +129,11 @@ a {
   height: 31px;
   font-size: 18px;
   text-align: center;
-  line-height: 30px; /* Center the icon vertically */
+  line-height: 30px;
   cursor: pointer;
   z-index: 10000;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
+} */
 
 #table-container.show {
   display: block;
@@ -141,7 +141,7 @@ a {
 }
 
 #table-container.show #toggle-btn {
-  display: block;
+  display: none;
 }
 
 #table-container.minimized {
@@ -156,10 +156,10 @@ a {
 #table-container.minimized table {
   display: none;
 }
-#toggle-btn:hover {
+/* #toggle-btn:hover {
   background-color: lightblue;
   color: darkblue;
-}
+} */
 
 
 /* 
@@ -330,14 +330,6 @@ a {
   top: 60px;
   left: 5px;
   padding: 10px;
-}
-.leaflet-touch .geocoder-control-input {
-  height: 35px;
-  width: 35px;
-  line-height: 30px;
-  background-size: 30px;
-  left: -5px;
-  border: 2px solid darkblue;
 }
 
 /* 
@@ -601,14 +593,6 @@ td {
 } */
 
 
-.leaflet-touch .geocoder-control-input {
-  height: 30px;
-  line-height: 30px;
-  background-size: 30px;
-  border: 2px solid darkblue;
-  width: 30px;
-}
-
 .leaflet-touch .geocoder-control-input:focus {
   width: 300px;
 }
@@ -669,7 +653,7 @@ width: 37px;
   /* background: rgba(0, 0, 0, 0.5) !important; */
   /* color: #fff !important; */
   /* box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4) !important; */
-  width: 20vh !important;
+  width: 28vh !important;
   /* transform: translate3d(1378px, 611px, 0px) !important; */
 
 }
@@ -686,10 +670,9 @@ width: 37px;
   /* scrollbar-width: thin; */
 /* } */
 .leaflet-touch .geocoder-control-input {
-  height: 30px;
+  height: 35px !important;
+  width: 35px;
   line-height: 30px;
   background-size: 30px;
   border: 2px solid darkblue !important;
 }
-
-

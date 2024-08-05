@@ -7,7 +7,7 @@ var map = L.map("map", {
   minZoom:10,
   maxZoom:19,
   zoomSnap:0.5,
-  zoomDelta:0.5,
+  zoomDelta:0.5
 });
  
 var googleSat = L.tileLayer(
@@ -447,8 +447,8 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="12%";
-      legendDiv.style.right ="2%";
+      legendDiv.style.top ="9%";
+      legendDiv.style.right ="3%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
       // legendDiv.style.borderRadius= "20px";
@@ -549,6 +549,16 @@ legend.onAdd = function (map) {
 legend.addTo(map);
 
 
+legend.addTo(map);
+map.on('mousemove', function () {
+  var legendDiv = document.querySelector(".info.legend");
+  if (legendDiv.style.display === "block") {
+    legendDiv.style.display = "none";
+    var button = document.querySelector(".collapse-button");
+    button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+    button.style.backgroundColor = "white"; // Change color to indicate action
+  }
+});
 
 
 
