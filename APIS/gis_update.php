@@ -31,7 +31,7 @@ $currentDateTime = date('Y-m-d H:i:s');
 if ($isWardSelection){
     
     $selectCoordinatesData = $data['selectCoordinatesData'];
-    $selectedGeometry = $selectCoordinatesData[0]['geometry'];
+    $selectedGeometry = $selectCoordinatesData['geometry'];
     $selectedGeometryJson = json_encode($selectedGeometry);
 
     $area =  isset($data['area']) ? $data['area'] : 0;
@@ -92,7 +92,7 @@ if ($isWardSelection){
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
       
         $stmtUpdate->execute();
-        echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
+        echo json_encode(["message" => "Data successfully saved to both tables"]);
     } catch (PDOException $e) {
       
         echo json_encode(["error" => $e->getMessage()]);
@@ -178,7 +178,7 @@ if ($isWardSelection){
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
       
         $stmtUpdate->execute();
-        echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
+        echo json_encode(["message" => "Data successfully saved to both tables"]);
     } catch (PDOException $e) {
       
         echo json_encode(["error" => $e->getMessage()]);
@@ -251,7 +251,7 @@ if ($isWardSelection){
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
       
         $stmtUpdate->execute();
-        echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
+        echo json_encode(["message" => "Data successfully saved to both tables"]);
     } catch (PDOException $e) {
       
         echo json_encode(["error" => $e->getMessage()]);
@@ -330,7 +330,7 @@ if ($isWardSelection){
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
       
         $stmtUpdate->execute();
-        echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
+        echo json_encode(["message" => "Data successfully saved to both tables"]);
     } catch (PDOException $e) {
       
         echo json_encode(["error" => $e->getMessage()]);
