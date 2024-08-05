@@ -1917,6 +1917,7 @@ function truncateLineToLength(geojson, maxLength) {
             '<div style="display: inline-block; margin-right: 5px;">' +
             '<label for="ms">MS</label>' +
             '<input type="radio" id="ms" name="material" value="MS" style="margin-left: 10px;"></div></div>' +
+            
             '<br><label>Diameter in mm:</label><br>',
         showCancelButton: true,
         confirmButtonText: 'Create Diameter',
