@@ -1088,4 +1088,3 @@ map.on("contextmenu", async (e) => {
     }
   }
 });
-

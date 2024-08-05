@@ -8,10 +8,53 @@
   <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css" />
   <style>
+    .swal2-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1.8em;
+    font-size: 11px !important;
+}
+    .swal2-content {
+    z-index: 1;
+    justify-content: center;
+    margin: 0;
+    padding: 0 1.6em;
+    font-size: 1.125em;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left !important;
+    word-wrap: break-word;
+}
+.swal2-input[type=number] {
+    max-width: 5em !important;
+    height: 35px;
+}
+.swal2-file, .swal2-input, .swal2-textarea {
+   
+    margin-top: -25px !important;
+    margin-left: 98px !important;
+    transition: border-color .3s, box-shadow .3s;
+    border: 1px solid #d9d9d9;
+    border-radius: .1875em;
+    background: inherit;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .06);
+    color: inherit;
+    font-size: 1.125em;
+}
+.swal2-actions {
+    display: flex;
+    z-index: 1;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 12px !important;
+    margin: 0px !important;
+    padding: 0;
+}
     @media (min-width: 768px){
-      /* .draw_feature{
-        display: none;
-      } */
       #saveDataButton{
         display: none;
       }
@@ -21,9 +64,7 @@
       #deleteFeatureButton{
         display: none;
       }
-      /* .save-button{
-        display: none;
-      } */
+      
     }
     @media only screen and (min-width: 992px){
   .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
@@ -457,17 +498,17 @@
 #helpButton {
     position: absolute;
     top: 15%;
-    left: 1.5%;
+    left: 2.1%;
     transform: translateX(-50%);
     background-color: white;
-    border: 1px solid black;
+    border: 2px solid darkblue;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 35px;
+    height: 35px;
     z-index: 1000;
     padding: 10px; 
 }
@@ -475,8 +516,8 @@
 #helpButton:hover::after {
     content: "HELP"; 
     position: absolute;
-    top: calc(100% + 5px); 
-    left: 50%; 
+    top:2%; 
+    left: 170%; 
     transform: translateX(-50%);
     background-color: black;
     color: white;
@@ -492,6 +533,7 @@
 #helpButton:hover::after {
     display: block; 
 }
+
     </style>
 
  
@@ -704,11 +746,13 @@ function toggleSelectLayerButton(show) {
           let layers = ["pmc:storm_water", "pmc:Reservations"];
 let queryLayers = layers.join(',');
 
-var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+var baseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"
+
+var url =  baseUrl + `?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
   e.containerPoint.x
-)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-
+)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+  size.x
+}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
 
             fetch(url)
@@ -1311,7 +1355,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {

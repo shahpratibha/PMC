@@ -477,27 +477,135 @@ left: 2%;
 }
 
 
-#autocomplete-list{
+
+/* table css */
+.dataTables_info{
+  font-weight: bold !important;
+}
+#data-table_filter{
+  font-weight: bold !important;
+  
+}
+#tablecontainer {
+z-index: 9999;
+position: absolute;
+width: 53%;
+bottom: 20%;
+font-weight: bold;
+right: 1%;
+opacity: 0.88;
+/* background-color: white !important; */
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+max-height: 200px;
+font-size: 10px;
+transition: all 0.3s ease;
+
+}
+.tableDetail {
+    max-height: 550px;
+    overflow-y: auto;
+    opacity: 0.88;
+    /* margin-top: 10px; */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    font: 16px / 24px Tahoma, Verdana, sans-serif;
+    color: red !important;
+    text-decoration: none;
+    background: transparent;
+}
+
+
+
+
+
+
+
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 2px solid darkblue;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1000;
+  top: 2%;
+/* border-radius: 10px 10px 10px 10px; */
+  height: 4%;
+  background-color: white;
+  position: absolute;
+  left: 10%;
+  width: 17%; /* Adjust the width as needed */
+}
+
+.dropdown-icon,
+.search-icon {
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  border-right: 1px solid #ccc;
+}
+
+.search-input {
+  border: none;
+  border-right: 2px solid darkblue;
+  border-left: 2px solid darkblue;
+  padding: 10px;
+  outline: none;
+  flex-grow: 1;
+  width: 100%; /* Take up remaining space */
+}
+
+
+.SearchBar #searchInputDashboard {
+margin-left: 5px;
+height: 4.5%;
+border-radius: 10px;
+
+/* border-radius: 10px; */
+width: 16%;
 position: absolute;
 z-index: 9999;
-margin-left: 5px;
-height: auto;
-/* font-weight: lighter; */
-border-radius: 10px;
-width: auto;
-/* position: absolute; */
-z-index: 9999;
-top: 6.5%;
-left: 15.700%;
-background-color: #fff;
-width: 245px;
-max-width: 250px;
-max-height: 400px;
-overflow-x: hidden;
-overflow-y: scroll;
-scrollbar-width: thin;
-line-height: 2.5;
+top: 2%;
+text-align: left; /* Center align text */
+padding-left: 15px; /* Add padding to move text slightly left */
+left: 14%;
+border: 2px solid darkblue;
+}
 
+/* Placeholder styling */
+#searchInputDashboard::placeholder {
+text-align: center; 
+}
+
+
+input::-webkit-input-placeholder {
+color: #aaa; 
+text-align: center; 
+}
+input::-moz-placeholder {
+color: #aaa; 
+text-align: center; 
+}
+input:-ms-input-placeholder {
+color: #aaa; 
+text-align: center; 
+}
+input:-moz-placeholder {
+color: #aaa;
+text-align: center; 
 }
 /* table css */
 .dataTables_info{
@@ -602,29 +710,84 @@ z-index: 9999;
 top: 2%;
 text-align: center; /* Center align text */
 padding-left: 10px; /* Add padding to move text slightly left */
-left: 14%;
+left: 15%;
 border: 2px solid darkblue;
 }
+/* Add this to your CSS file */
+.autocomplete-items li {
+ cursor: pointer;
+ text-decoration: none;
+ list-style-type: circle; 
 
-/* Placeholder styling */
-#searchInputDashboard::placeholder {
-text-align: center; 
+}
+
+.autocomplete-items li:hover {
+  background-color: #9393d633;  
+}
+#autocomplete-list {
+  position: absolute;
+  z-index: 9999;
+  margin-left: 5px;
+  height: auto;
+  border-radius: 10px;
+  width: auto;
+  top: 6.5%;
+  left: 14.200%;
+  background-color: #fff;
+  width: 250px;
+  max-width: 250px;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #9393d633 #f1f1f1; /* For Firefox */
+  line-height: 2.5;
+}
+
+/* Scrollbar styles for WebKit browsers */
+#autocomplete-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+#autocomplete-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#autocomplete-list::-webkit-scrollbar-thumb {
+  background-color:#9393d633;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
 }
 
 
-input::-webkit-input-placeholder {
-color: #aaa; 
-text-align: center; 
+
+  #data-table tbody tr:hover {
+    background-color: #9393d633; 
+    cursor: pointer; 
+  }
+
+ 
+  #data-table th, #data-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+  }
+
+  #data-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  
+  #data-table thead tr {
+    background-color:#9393d633;
+  }
+
+
+/* Style for checkboxes */
+.leaflet-control-layers input[type="checkbox"] {
+  accent-color: blue; /* Change checkbox color to blue when checked */
 }
-input::-moz-placeholder {
-color: #aaa; 
-text-align: center; 
-}
-input:-ms-input-placeholder {
-color: #aaa; 
-text-align: center; 
-}
-input:-moz-placeholder {
-color: #aaa;
-text-align: center; 
-}
+
+
+
+

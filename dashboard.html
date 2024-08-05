@@ -48,21 +48,19 @@
 
         
         <!-- search bar -->
-      
-        <button class="SearchBar">
+        <div class="SearchBar">
 
 
-          <select class="form-select ms-auto" aria-label="Select search category" id="search_type"class="custom-dropdown">
+          <select class="form-select ms-auto" aria-label="Select search category" id="search_type">
+            <option value=""> search type</option>
+          </select>
 
-        
-          </select >
-
-          <input class="form-contro ms-2" type="" placeholder="Search Work ID" aria-label="Search"
-            id="searchInputDashboard" style=" border: 2px solid darkblue;" />
+          <input class="form-contro ms-2" type="search" placeholder="Search" aria-label="Search"
+            id="searchInputDashboard"  />
           <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
 
-        </button>
-    
+        </div>
+        <!-- search bar -->
       </div>
           <!-- search bar -->
 
@@ -154,8 +152,9 @@
     <script src="js/dashboard.js"></script>
     <script src="js/mainmodal/legend.js"></script>
     
+    
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+   
 
 </body>
 

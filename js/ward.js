@@ -252,7 +252,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = prabhag_ids.length > 0 ? "PMC_wards_admin_boundary" : "ward_boundary1";
   var urlm =
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+     geoserverUrl + "/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -1007,8 +1007,7 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
-
+var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
 var workspace = "Road";
 
 // Variable to keep track of legend visibility
@@ -1136,7 +1135,7 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
       legendDiv.style.top = "12%";
-      legendDiv.style.right = "2%";
+      legendDiv.style.right = "3%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor = "#163140 white";
       // legendDiv.style.borderRadius= "20px";
@@ -1185,7 +1184,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -1237,3 +1236,14 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
+
+legend.addTo(map);
+map.on('mousemove', function () {
+  var legendDiv = document.querySelector(".info.legend");
+  if (legendDiv.style.display === "block") {
+    legendDiv.style.display = "none";
+    var button = document.querySelector(".collapse-button");
+    button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+    button.style.backgroundColor = "white"; // Change color to indicate action
+  }
+});

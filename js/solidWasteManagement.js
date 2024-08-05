@@ -311,7 +311,8 @@ map.addControl(new northArrowControl());
 // legend start
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
+var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
+
 
 var workspace = "Bhavan";
 
@@ -435,8 +436,8 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="12%";
-      legendDiv.style.right ="2%";
+      legendDiv.style.top ="9%";
+      legendDiv.style.right ="3%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
       // legendDiv.style.borderRadius= "20px";
@@ -483,7 +484,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -537,6 +538,16 @@ legend.onAdd = function (map) {
 legend.addTo(map);
 
 
+legend.addTo(map);
+map.on('mousemove', function () {
+  var legendDiv = document.querySelector(".info.legend");
+  if (legendDiv.style.display === "block") {
+    legendDiv.style.display = "none";
+    var button = document.querySelector(".collapse-button");
+    button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+    button.style.backgroundColor = "white"; // Change color to indicate action
+  }
+});
 
 
 
@@ -1329,7 +1340,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
