@@ -78,10 +78,11 @@ if ($isWardSelection){
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
-        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime , exit_time = :currentDateTime   WHERE id = :id");
         $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
         $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+      
         $stmtUpdate->execute();
         echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
@@ -127,7 +128,7 @@ else if ($department == "Road") {
     ) VALUES (
         ST_Force3D(ST_GeomFromGeoJSON(:geometry)), :je_name, :name_of_wo, :project_fi, :scope_of_w, :ward, :work_type, :zone, :contact_no, :length, :width,
         :conceptual, :conc_appr_, :created_at, :tender_amo, :update_dat, :gis_id, :no_of_road, :measure_in, :Project_Office_Id, :Project_Office,
-        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id,material
+        :Budget_Year, :Agency, :Work_Completion_Date , :departme_1,:Budget_Code,:works_aa_a,:length_1,:department,:stage,:zone_id,:ward_id,:material
     )");
 
     $stmtIWMS->bindParam(':geometry', $selectedGeometryJson, PDO::PARAM_STR);
@@ -170,9 +171,12 @@ else if ($department == "Road") {
     try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
-        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET  \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :exitTime , exit_time = :currentDateTime   WHERE id = :id");
+        $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
         $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':exitTime', $currentDateTime, PDO::PARAM_STR);
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+      
         $stmtUpdate->execute();
         echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
@@ -267,22 +271,22 @@ else if (   $department == "Water Supply" ||   $department == "Building" ||  $de
         $stmtIWMS->bindParam(':material', $material, PDO::PARAM_STR);
     
         
-            try {
-                $stmtIWMS->execute();
-                $lastInsertIdIWMSDrainage = $pdo->lastInsertId();
-                $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
-                $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
-                $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
-                $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
-                $stmtUpdate->execute();
-                // Respond with success message, including IDs from both insert operations
-                echo json_encode(["message" => "Data successfully saved  tables","lastInsertIdIWMS" => $lastInsertIdIWMSDrainage]);
-            } catch (PDOException $e) {
-                // If the insert into IWMS_polygon fails, consider how you want to handle the error.
-                // This could include rolling back the insert into geodata, if appropriate.
-                echo json_encode(["error" => $e->getMessage()]);
-                exit;
-            }
+        try {
+            $stmtIWMS->execute();
+            $lastInsertIdIWMS = $pdo->lastInsertId();
+            $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :exitTime , exit_time = :currentDateTime   WHERE id = :id");
+            $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
+            $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+            $stmtUpdate->bindParam(':exitTime', $currentDateTime, PDO::PARAM_STR);
+            $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+          
+            $stmtUpdate->execute();
+            echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
+        } catch (PDOException $e) {
+          
+            echo json_encode(["error" => $e->getMessage()]);
+            exit;
+        }
         
        }
        else if ($geometryType == "Polygon"){
@@ -427,16 +431,16 @@ else if (   $department == "Water Supply" ||   $department == "Building" ||  $de
         try {
             $stmtIWMS->execute();
             $lastInsertIdIWMS = $pdo->lastInsertId();
-            // Respond with success message, including IDs from both insert operations
-            $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
+            $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :exitTime , exit_time = :currentDateTime   WHERE id = :id");
             $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
             $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+            $stmtUpdate->bindParam(':exitTime', $currentDateTime, PDO::PARAM_STR);
             $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+          
             $stmtUpdate->execute();
-            echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdIWMS" => $lastInsertIdIWMS]);
+            echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
         } catch (PDOException $e) {
-            // If the insert into IWMS_polygon fails, consider how you want to handle the error.
-            // This could include rolling back the insert into geodata, if appropriate.
+          
             echo json_encode(["error" => $e->getMessage()]);
             exit;
         }
@@ -500,17 +504,19 @@ else if (  $department == "Market" ) {
     $stmtIWMS->bindParam(':stage', $configData['stage'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':zone_id', $configData['zone_id'], PDO::PARAM_STR);
     $stmtIWMS->bindParam(':ward_id', $configData['ward_id'], PDO::PARAM_STR);
-     try {
+    try {
         $stmtIWMS->execute();
         $lastInsertIdIWMS = $pdo->lastInsertId();
-        // Respond with success message, including IDs from both insert operations
-        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :currentDateTime WHERE id = :id");
+        $stmtUpdate = $pdo->prepare("UPDATE conceptual_form SET area = :area, \"updatedAt\" = :exitTime , exit_time = :currentDateTime   WHERE id = :id");
         $stmtUpdate->bindParam(':area', $area, PDO::PARAM_STR);
         $stmtUpdate->bindParam(':currentDateTime', $currentDateTime, PDO::PARAM_STR);
+        $stmtUpdate->bindParam(':exitTime', $currentDateTime, PDO::PARAM_STR);
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
+      
         $stmtUpdate->execute();
-        echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdIWMS" => $lastInsertIdIWMS]);
+        echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
+      
         echo json_encode(["error" => $e->getMessage()]);
         exit;
     }

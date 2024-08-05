@@ -13,6 +13,7 @@ $fid = isset($data['fid']) ? (int) $data['fid'] : 0;
 $selectCoordinatesData = $data['selectCoordinatesData'];
 $roadLength = isset($data['roadLength']) && $data['roadLength'] !== "" ? $data['roadLength'] : null;
 $bufferWidth = isset($data['bufferWidth']) && $data['bufferWidth'] !== "" ? $data['bufferWidth'] : null;
+$geometryType = isset($data['geometryType']) ? $data['geometryType'] : "LineString";
 
 $selectedGeometry = null;
 if (!empty($selectCoordinatesData)) {
@@ -20,15 +21,21 @@ if (!empty($selectCoordinatesData)) {
     $selectedGeometry = isset($lastElement['geometry']) ? $lastElement['geometry'] : null;
 }
 
-if ($selectedGeometry === null) {
+if ($selectedGeometry === null &&( $geometryType == "LineString" || $geometryType == "MultiLineString")) {
     $selectedGeometry = isset($selectCoordinatesData[1]['geometry']) ? $selectCoordinatesData[1]['geometry'] : (isset($selectCoordinatesData[0]['geometry']) ? $selectCoordinatesData[0]['geometry'] : null);
 }
+else if ($selectedGeometry === null &&( $geometryType == "Polygon" || $geometryType == "MultiPolygon")){
+    $selectedGeometry = isset($selectCoordinatesData['geometry']) ? $selectCoordinatesData['geometry'] : (isset($selectCoordinatesData['geometry']) ? $selectCoordinatesData['geometry'] : null); 
+}
+else if ($selectedGeometry === null && $geometryType == "Point" ) {
+    $selectedGeometry = isset($selectCoordinatesData[1]['geometry']) ? $selectCoordinatesData[1]['geometry'] : (isset($selectCoordinatesData[0]['geometry']) ? $selectCoordinatesData[0]['geometry'] : null);
+}
+
 
 $selectedGeometryJson = json_encode($selectedGeometry);
 $area = isset($data['area']) ? $data['area'] : 0;
 $geometryType = isset($data['geometryType']) ? $data['geometryType'] : "LineString";
 
-print_r($selectedGeometryJson);
 
 try {
     if ($geometryType == "LineString" || $geometryType == "MultiLineString") {
