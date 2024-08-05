@@ -600,8 +600,8 @@ width: 16%;
 position: absolute;
 z-index: 9999;
 top: 2%;
-text-align: center; /* Center align text */
-padding-left: 10px; /* Add padding to move text slightly left */
+text-align: left; /* Center align text */
+padding-left: 15px; /* Add padding to move text slightly left */
 left: 14%;
 border: 2px solid darkblue;
 }

@@ -1,20 +1,24 @@
 <?php
 require 'config.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header('Content-Type: application/json');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-
+if (json_last_error() !== JSON_ERROR_NONE) {
+    echo json_encode(["error" => "Invalid JSON received"]);
+    exit;
+}
 
 $configId = $data['project_id'] ?? null;
 
 if (empty($configId)) {
-    echo json_encode(["error" => "No project_id provided"]);
+    echo json_encode(["error" => "No project ID provided"]);
     exit;
 }
-
-
 
 function buildUpdateSQL($table, $data, $configId) {
     $fields = [];
@@ -24,7 +28,6 @@ function buildUpdateSQL($table, $data, $configId) {
     $fields = implode(', ', $fields);
     return "UPDATE \"$table\" SET $fields WHERE works_aa_a = :configId";
 }
-
 
 $fieldsToUpdate = [
     'tender_amo',
@@ -65,7 +68,7 @@ try {
     $pdo->commit();
 
     echo json_encode([
-        'success' => true,
+        'status' => true,
         'message' => 'Data updated successfully.',
     ]);
 } catch (Exception $e) {

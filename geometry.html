@@ -257,7 +257,8 @@
 
         var highlightLayer;
 
-        // const API_URL = "http://localhost/pmc_test/";
+        //  const API_URL = "http://localhost/pmc_test/";
+        //const API_URL = "http://localhost/PMC/IWMS_main/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
 
@@ -510,7 +511,11 @@ window.location.href = baseURL + queryString;
                 const layerDetails = [ "id", "Work_ID", "Name_of_Work", "Department", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "length_1", "width", "area", "geometry" ];
 
                 layers.forEach(function (layerName) {
+<<<<<<< HEAD
                     const urlm =  geoserverUrl + "/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+=======
+                    const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName="+
+>>>>>>> 7bc09673a26e6bc28b64100f642ce3ca2f3fca3c
                         layerName +
                         "&CQL_FILTER=" +
                         filters +

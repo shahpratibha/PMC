@@ -642,9 +642,9 @@ if (editMode) {
               layer.on('click', function () {
                   if (layer.editing) {
                       layer.editing.enable();
-                      updatePopup(layer); // Example function call for updating popup
+                      updatePopupEdit(layer); // Example function call for updating popup
                       layer.on('edit', function () {
-                          updatePopup(layer); // Example function call for updating popup
+                        updatePopupEdit(layer); // Example function call for updating popup
                       });
                   }
               });
@@ -1368,6 +1368,9 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
   });
 }
 
+let widthValues = [];
+
+
 function createRectangularBuffer(geoJSON, bufferWidth, units) {
   if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
       console.error("Invalid GeoJSON format or empty GeoJSON");
@@ -1627,7 +1630,7 @@ function getClosestRoadPoint(latlng) {
                   var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
                   var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
                   // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
-                  closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+                  // closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
                   closestPointv = closestVertex(clickedPoint,line)
                   // (lat,lng,distance)
                   
@@ -1885,157 +1888,69 @@ function truncateLineToLength(geojson, maxLength) {
     getGeodataFeatures().then(function (geodataFeatures) {
       var isAllowed = checkOverlapWithGeodata(newFeature, geodataFeatures);
 
-      if (isAllowed) {
-        // Add the feature to the map if overlap is 10% or less
-        // drawnItems.addLayer(e.layer);
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Oops...",
-          text: "Road overlaps more than 10% with existing Road.",
-          showConfirmButton: false,
-          showCloseButton: true,
-          customClass: {
-            popup: "custom-modal-class",
-            icon: "custom-icon-class",
-            title: "custom-title-class",
-            content: "custom-text-class",
-            closeButton: "custom-close-button-class",
-          },
-          showClass: {
-            popup: "swal2-show",
-            backdrop: "swal2-backdrop-show",
-            icon: "swal2-icon-show",
-          },
-          hideClass: {
-            popup: "swal2-hide",
-            backdrop: "swal2-backdrop-hide",
-            icon: "swal2-icon-hide",
-          },
-          didOpen: () => {
-            // Apply custom styles directly to the modal elements
-            document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-            document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-            document.querySelector(".custom-modal-class").style.transition ="all 0.5s ease";
-            document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-            document.querySelector(".custom-icon-class").style.transition ="all 0.5s ease";
-            document.querySelector(".custom-title-class").style.fontSize =
-              "1.5em"; // Set your desired title size
-            document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-            document.querySelector(
-              ".custom-close-button-class"
-            ).style.backgroundColor = "#f44336"; // Red background color
-            document.querySelector(".custom-close-button-class").style.color =
-              "white"; // White text color
-            document.querySelector(
-              ".custom-close-button-class"
-            ).style.borderRadius = "0"; // Rounded corners
-            document.querySelector(".custom-close-button-class").style.padding =
-              "5px"; // Padding around the close button
-            document.querySelector(".custom-close-button-class").style.fontSize =
-              "20px"; // Font size of the close button
-          },
-        });
-        return ;
-      }
+     
     });
     if (e.layerType === "polyline") {
       var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
-      var roadLenght = lenght;
-      if (length > roadLenght) {
-        
-        var truncatedCoordinates = truncateLineToLength(e.layer.toGeoJSON(), roadLenght);
-      // its returning array of coordinates convert it to geojson
-    
-      var truncatedLineGeoJSON = {
-        type: 'Feature',
-        color: 'blue',
-        geometry: {
-          type: 'LineString',
-          coordinates: truncatedCoordinates,
-        },
-      };
-    
-      // add to drawn items
-    
-      var geoJsonLayer = L.geoJSON(truncatedLineGeoJSON, {
-        style: function (feature) {
-            return { color: 'blue' };
-        }
-    }).addTo(drawnItems);
-      
-      var layer = L.geoJSON(truncatedLineGeoJSON);
-    
-      var tempGeoJSON = currentPolyline.toGeoJSON();
-        
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Oops...",
-        text:  `The Road is longer than ${roadLenght} kilometers. `,
-        showConfirmButton: false,
-        showCloseButton: true,
-        
-        customClass: {
-          popup: "custom-modal-class",
-          icon: "custom-icon-class",
-          title: "custom-title-class",
-          content: "custom-text-class",
-          closeButton: "custom-close-button-class",
-        },
-        showClass: {
-          popup: "swal2-show",
-          backdrop: "swal2-backdrop-show",
-          icon: "swal2-icon-show",
-        },
-        hideClass: {
-          popup: "swal2-hide",
-          backdrop: "swal2-backdrop-hide",
-          icon: "swal2-icon-hide",
-        },
-        didOpen: () => {
-          // Apply custom styles directly to the modal elements
-          document.querySelector(".custom-modal-class").style.width = "400px"; // Set your desired width
-          document.querySelector(".custom-modal-class").style.height = "250px"; // Set your desired height
-          document.querySelector(".custom-modal-class").style.transition = "all 0.5s ease";
-          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-          document.querySelector(".custom-icon-class").style.fontSize = "10px"; // Set your desired icon size
-          
-          document.querySelector(".custom-icon-class").style.transition = "all 0.5s ease";
-          document.querySelector(".custom-title-class").style.fontSize =
-            "1.5em"; // Set your desired title size
-          document.querySelector(".custom-text-class").style.fontSize = "1em"; // Set your desired text size
-          document.querySelector(
-            ".custom-close-button-class"
-          ).style.backgroundColor = "#f44336"; // Red background color
-          document.querySelector(".custom-close-button-class").style.color =
-            "white"; // White text color
-          document.querySelector(
-            ".custom-close-button-class"
-          ).style.borderRadius = "0"; // Rounded corners
-          document.querySelector(".custom-close-button-class").style.padding =
-            "5px"; // Padding around the close button
-          document.querySelector(".custom-close-button-class").style.fontSize =
-            "20px"; // Font size of the close button
-        },
-      });
-      
-      }else {
-    
-        var layer = e.layer;
-    
-    
-        drawnItems.addLayer(layer);
-        var geoJSON = layer.toGeoJSON();
-        var tempGeoJSON = geoJSON;
-    
-      }
+      var roadLenght = length;
 
-      
-  var bufferWidth = width;
-  createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+      var layer = e.layer;
+
+      drawnItems.addLayer(layer);
+      var geoJSON = layer.toGeoJSON();
+      var tempGeoJSON = geoJSON;
+
+      // Prompt for buffer width
+      Swal.fire({
+        title: 'Enter Diameter in mm',
+        input: 'number',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        html:
+            '<label>Material:</label><br> <br>' +
+            '<div style="text-align: left;">' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="ci">CI</label>' +
+            '<input type="radio" id="ci" name="material" value="CI" checked style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="di">DI</label>' +
+            '<input type="radio" id="di" name="material" value="DI" style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="ductileIron">Ductile Iron</label>' +
+            '<input type="radio" id="ductileIron" name="material" value="Ductile Iron" style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="gi">GI</label>' +
+            '<input type="radio" id="gi" name="material" value="GI" style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="ms">MS</label>' +
+            '<input type="radio" id="ms" name="material" value="MS" style="margin-left: 10px;"></div></div>' +
+            '<br><label>Diameter:</label><br>',
+        showCancelButton: true,
+        confirmButtonText: 'Create Diameter',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            const bufferWidthMm = Swal.getInput().value;
+            const bufferWidthM = bufferWidthMm / 1000; // Convert mm to meters
+            const materialElement = document.querySelector('input[name="material"]:checked');
     
+            if (bufferWidthM <= 0 || !materialElement) {
+                Swal.showValidationMessage('Invalid input! Please enter a positive number and select a material.');
+                return false;
+            } else {
+                const material = materialElement.value;
+                return { bufferWidth: bufferWidthM, material: material };
+            }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var bufferWidth = result.value.bufferWidth;
+            var material = result.value.material;
+            createBufferAndDashedLine(layer, roadLenght, bufferWidth);
+            widthValues.push({ id: lastDrawnPolylineIdSave, width: bufferWidth, material: material });
+        }
+    });
     }else {
     
       var layer = e.layer;
@@ -2276,15 +2191,15 @@ function Savedata(lastDrawnPolylineId) {
   var geoJSONString;
   let selectCoordinatesData ;
   var geoJSONStringJson
-  var area = 0; 
+  var area = 0; // Initialize area variable
+  var centroid = 0 ;
+
 
   if(mapMode == 'tracing'){
    
     geoJSONString = currentPolyline ? JSON.stringify(currentPolyline.toGeoJSON()) : '{}';
     geoJSONStringJson = JSON.parse(geoJSONString);
     selectCoordinatesData = [geoJSONStringJson];
-
-    
     if (currentPolyline) {
       area = turf.area(geoJSONStringJson); 
     
@@ -2294,17 +2209,15 @@ function Savedata(lastDrawnPolylineId) {
   geoJSONStringJson = JSON.parse(geoJSONString);
   selectCoordinatesData = geoJSONStringJson.features;
 
-  if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
-    const geometry = geoJSONStringJson.features[1].geometry;
-    
-    if (geometry.type === "Polygon") {
-        area = turf.area(geoJSONStringJson.features[1]); 
-      
-    } else if (geometry.type === "LineString") {
-        area = turf.length(geoJSONStringJson.features[1], { units: 'meters' }); 
-    }
-}
 
+  selectCoordinatesData = selectCoordinatesData.filter(function (
+    el
+  ) {
+    return el.geometry.coordinates.length > 0;
+  });
+
+
+  
   }
 
 
@@ -2317,7 +2230,25 @@ function Savedata(lastDrawnPolylineId) {
     localStorage.setItem("conceptual_form_data", formDataTemp);
   }
 
-  var roadLenght = lenght;
+
+
+
+  selectCoordinatesData.forEach((geom, index) => {
+
+    let centroid = null;
+		let polygon_centroid = null;
+		let coordinatesArray = [];
+
+    if (geom.geometry.type === 'Point') {
+			coordinatesArray.push(geom.geometry.coordinates.slice().reverse());
+		} else {
+			area = turf.area(geom.geometry);
+			centroid = turf.centroid(geom.geometry);
+			polygon_centroid = centroid?.geometry?.coordinates;
+			coordinatesArray = geom.geometry.coordinates?.map((coordinates) => coordinates.slice().reverse());
+		}
+
+   var roadLenght = lenght;
   var bufferWidth = width;
 
 
@@ -2329,75 +2260,24 @@ function Savedata(lastDrawnPolylineId) {
   ) {
     var bufferLayer = associatedLayersRegistry[polylineLayerId].bufferLayer;
     bufferGeoJSONString = JSON.stringify(bufferLayer.toGeoJSON());
+   
   }
 
-  
+  let widthDiameter = widthValues[index]?.width;
+  let  material = widthValues[index]?.material ;
 
-
- 
- 
-
-
-let centroid = null;
-let polygon_centroid = null;
-let coordinatesArray = [];
-
-if (selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type === 'Point') {
-    coordinatesArray.push(selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates.slice().reverse());
-} else {
-    area = turf.area(selectCoordinatesData[selectCoordinatesData.length - 1].geometry);
-    centroid = turf.centroid(selectCoordinatesData[selectCoordinatesData.length - 1].geometry);
-    polygon_centroid = centroid?.geometry?.coordinates;
-    coordinatesArray = selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates?.map(coordinates => coordinates.slice().reverse());
-}
-
-var formData = new FormData();
-formData.append('proj_id', worksAaApprovalId);
-
-// Add latitude and longitude for points
-if (selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type === 'Point') {
-    formData.append('latitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[1]);
-    formData.append('longitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0]);
-} else {
-  formData.append('latitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[selectCoordinatesData.length - 1].geometry.coordinates[0][0]);
-}
-
-formData.append('polygon_area', area);
-formData.append('polygon_centroid', JSON.stringify(polygon_centroid));
-formData.append('geometry', JSON.stringify(coordinatesArray));
-formData.append('road_no', struct_no);
-formData.append('user_id', user_id);
-formData.append('length', area); // Assuming area is defined elsewhere
-formData.append('width', width); // Assuming width is defined elsewhere
-
-
-
-  $.ajax({
-    type: "POST",
-    url: "https://iwms.punecorporation.org/api/gis-data",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-     
-        window.location.href = response.data.redirect_Url;
-    },
-    error: function (xhr, status, error) {
-        console.error("Save failed:", error);
-    },
-});
 
   var payload = 
   JSON.stringify( {
     geoJSON: bufferGeoJSONString,
     roadLength: roadLenght,
-    bufferWidth: bufferWidth,
+    bufferWidth: widthDiameter,
     gis_id: lastInsertedId,
     department: department,
+    selectCoordinatesData:geom,
     area:area,
-    selectCoordinatesData:selectCoordinatesData,
-    geometryType: selectCoordinatesData[selectCoordinatesData.length - 1].geometry.type
+    geometryType: geom.geometry.type,
+    material: material
   });
 
   if (editMode) {
@@ -2407,7 +2287,6 @@ formData.append('width', width); // Assuming width is defined elsewhere
     let editIdTemp = editId.split(".")[1];
     let geometryTypeTemp = editId.split(".")[0];
   
-    console.log('selectCoordinatesData', selectCoordinatesData);
   
     $.ajax({
         url: 'APIS/Update_Geometry.php', // Path to your PHP save script
@@ -2435,17 +2314,58 @@ formData.append('width', width); // Assuming width is defined elsewhere
     data: payload,
     contentType: "application/json",
     success: function (response) {
-     
-   // window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Drainage`+`&lastInsertedId=`+lastInsertedId;
+   
+    //window.location.href = "geometry_page.html";
     },
     error: function (xhr, status, error) {
       console.error("Save failed:", error);
     },
   });
-  }
+}
 
+
+  var formData = new FormData();
+  formData.append('proj_id', worksAaApprovalId);
+  if (geom.geometry.type === 'Point') {
+    formData.append('latitude', geom.geometry.coordinates[1]);
+    formData.append('longitude', geom.geometry.coordinates[0]);
+  } else {
+    formData.append('latitude', geom.geometry.coordinates[0][1]);
+    formData.append('longitude', geom.geometry.coordinates[0][0]);
+  }
+  formData.append('polygon_area', 0);
+  formData.append('polygon_centroid', 0);
+  formData.append('geometry', JSON.stringify(coordinatesArray));
+  formData.append('road_no', struct_no);
+  formData.append('user_id', user_id);
+  formData.append('length', area);
+  formData.append('width', width);
+
+  
+  $.ajax({
+      type: "POST",
+      url: "https://iwms.punecorporation.org/api/gis-data",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+       
+         window.location.href = response.data.redirect_Url;
+      },
+      error: function (xhr, status, error) {
+          console.error("Save failed:", error);
+      },
+  });
+
+
+  
+
+  });
+
+  
 
 }
+
 
 function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data

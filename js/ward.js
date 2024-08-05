@@ -308,9 +308,9 @@ if (editMode) {
             layer.on('click', function () {
                 if (layer.editing) {
                     layer.editing.enable();
-                    updatePopup(layer);
+                    updatePopupEdit(layer);
                     layer.on('edit', function () {
-                        updatePopup(layer);
+                      updatePopupEdit(layer);
                     });
                 }
             });
@@ -442,6 +442,10 @@ customSaveEditButton.onAdd = function (map) {
 customSaveEditButton.addTo(map);
 
 
+if(editMode){
+
+
+
 
 var saveEditGeomButton = L.control({ position: 'topleft' });
 saveEditGeomButton.onAdd = function (map) {
@@ -561,6 +565,7 @@ document.getElementById('deleteEditGeomButton').addEventListener('click', functi
       }
   });
 });
+}
 
 
 var customEditLayerButton = L.control({ position: "topleft" });

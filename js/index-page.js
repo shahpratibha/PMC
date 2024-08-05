@@ -473,8 +473,8 @@ async function fetchAndPostData(id) {
       success: function (response) {
 
         const lastInsertedId = response.data.id;
-        const bufferWidth = response.data.width;
-        const roadLength = response.data.lenght;
+        const bufferWidth = width;
+        const roadLength = lenght;
         const wardName = response.data.wardname;
         const workType = project.work_type;
 

@@ -51,43 +51,10 @@ var ward_admin_boundary = L.tileLayer.wms(
   }
 ).addTo(map);
 
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
-
-
-const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
-const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
-const lastInsertedId = getQueryParam('lastInsertedId');
-const wardname = getQueryParam('wardName');
-const department = getQueryParam('department');
-const workType = getQueryParam('workType');
-const struct_no = getQueryParam('struct_no') ;
-const user_id = getQueryParam('user_id') ;
-const worksAaApprovalId = getQueryParam('proj_id');
-let wardNames = wardname.split(',').map(id => id.trim());
-let ward_id =  getQueryParam('ward_id') ;
-let zone_id =  getQueryParam('zone_id') ;
-let prabhag_id =  getQueryParam('prabhag_id') ;
-let editMode =  getQueryParam('edit') ;
-let editId =  getQueryParam('editId') ;
-
-
-
-var wardBoundary = null ;
-
-
-var lastDrawnPolylineIdSave = null;
-
-
 
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
 }).addTo(map);
-
-
 
 var wms_layer1 = L.tileLayer.wms(
   baseURL,
@@ -101,8 +68,6 @@ var wms_layer1 = L.tileLayer.wms(
     opacity: 1,
   }
 ).addTo(map);
-
-
 
 
 var Esri_WorldImagery = L.tileLayer(
@@ -284,22 +249,47 @@ var northArrowControl = L.Control.extend({
 });
 map.addControl(new northArrowControl());
 
-
-
-
-// Now continue with your remaining JavaScript code...
-// GeoServer URL
-// var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
-
-var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
-
+const lenght = getQueryParam('length') !== undefined ? getQueryParam('length') : 1.5;
+const width = getQueryParam('width') !== undefined ? getQueryParam('width') : 10;
+const lastInsertedId = getQueryParam('lastInsertedId');
+const wardname = getQueryParam('wardName');
+const department = getQueryParam('department');
+const workType = getQueryParam('workType');
+const struct_no = getQueryParam('struct_no') ;
+const user_id = getQueryParam('user_id') ;
+const worksAaApprovalId = getQueryParam('proj_id');
+let wardNames = wardname.split(',').map(id => id.trim());
+let ward_id =  getQueryParam('ward_id') ;
+let zone_id =  getQueryParam('zone_id') ;
+let prabhag_id =  getQueryParam('prabhag_id') ;
+let editMode =  getQueryParam('edit') ;
+let editId =  getQueryParam('editId') ;
+var wardBoundary = null ;
+var lastDrawnPolylineIdSave = null;
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 var workspace = "Road";
-
-// Variable to keep track of legend visibility
 var legendVisible = true;
 var processedLayers = [];
-// Add the WMS Legend control to the map
 var legendControl = L.control({ position: "topright" });
+var collapseButton = L.control({ position: "topright" });
+
+let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
+let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
+let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
+let cql_filterm = '';
+
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+
+
+
+
+
+
+
 
 legendControl.onAdd = function (map) {
   var div = L.DomUtil.create("div", "info legend");
@@ -384,7 +374,6 @@ legendControl.onAdd = function (map) {
 };
 // -----------------------------------------------------
 // Add collapsible button
-var collapseButton = L.control({ position: "topright" });
 
 collapseButton.onAdd = function (map) {
   var button = L.DomUtil.create("button", "collapse-button");
@@ -580,9 +569,9 @@ if (editMode) {
             layer.on('click', function () {
                 if (layer.editing) {
                     layer.editing.enable();
-                    updatePopup(layer);
+                    updatePopupEdit(layer);
                     layer.on('edit', function () {
-                        updatePopup(layer);
+                      updatePopupEdit(layer);
                     });
                 }
             });
@@ -619,11 +608,6 @@ map.on(L.Draw.Event.EDITED, function (event) {
 
 
 
-let ward_ids = ward_id ? ward_id.split(',').filter(id => id && id !== 'null') : [];
-let zone_ids = zone_id ? zone_id.split(',').filter(id => id && id !== 'null') : [];
-let prabhag_ids = prabhag_id ? prabhag_id.split(',').filter(id => id && id !== 'null') : [];
-
-let cql_filterm = '';
 
 if (zone_ids.length > 0) {
   cql_filterm = `zone_id IN(${zone_ids.map(id => `'${id}'`).join(",")})`;
@@ -691,10 +675,6 @@ searchControl.on("results", function (data) {
 
 
 
-//******** draw controls */
-
-
-
 var drawControlRoad = new L.Control.Draw({
   draw: {
     polyline: {
@@ -731,20 +711,14 @@ if (workType == "New") {
     return div;
   };
 
-  // Add the control to the map
   customDrawControls.addTo(map);
 
 }
 
 
-//var customToolSelector = L.control({ position: 'topleft' });
-
-
 let mapMode = 'snapping';
 
-//   customToolSelector.addTo(map);
 
-// }
 var customSaveButton = L.control({ position: 'topleft' });
 
 customSaveButton.onAdd = function (map) {
@@ -753,8 +727,6 @@ customSaveButton.onAdd = function (map) {
   customDrawControlsContainer = div;
   return div;
 };
-
-
 customSaveButton.addTo(map);
 
 // save data button 
@@ -767,8 +739,6 @@ customSaveEditButton.onAdd = function (map) {
   customDrawControlsContainer = div;
   return div;
 };
-
-
 customSaveEditButton.addTo(map);
 
 if(editMode){
@@ -1087,10 +1057,6 @@ function toggleSaveButton(show) {
 }
 
 
-
-
-
-
 // Button Click Event to Show SweetAlert Success Popup
 document.getElementById("save-button").addEventListener("click", function () {
 
@@ -1125,7 +1091,7 @@ function toggleDrawControl() {
 // Event listener for map zoomend event
 //map.on("zoomend", toggleDrawControl);
 
-
+if (workType == "New") {
 document.querySelector('.draw_feature').addEventListener('click', function (event) {
   event.preventDefault();
   // Toggle draw control when the "Draw Feature" button is clicked
@@ -1185,14 +1151,12 @@ document.querySelector('.draw_feature').addEventListener('click', function (even
 
   }
 });
+}
 
 
 document.querySelector('#save-button').addEventListener('click', function (event) {
   Savedata(lastDrawnPolylineIdSave);
 });
-
-
-
 
 
 // function for added buffer
@@ -1248,28 +1212,67 @@ function createRectangularBuffer(geoJSON, bufferWidth, units) {
   }
 
   var coords = geoJSON.geometry.coordinates;
-  var bufferedCoords = [];
+  var leftCoords = [];
+  var rightCoords = [];
 
-  coords.forEach(function (coord, index) {
-      if (index < coords.length - 1) {
-          var start = turf.point(coord);
-          var end = turf.point(coords[index + 1]);
-          var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
+  for (var i = 0; i < coords.length - 1; i++) {
+      var start = turf.point(coords[i]);
+      var end = turf.point(coords[i + 1]);
+      var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
 
-          var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
-          var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
+      var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
+      var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
 
-          var leftStart = turf.getCoords(leftOffsetLine)[0];
-          var leftEnd = turf.getCoords(leftOffsetLine)[1];
-          var rightStart = turf.getCoords(rightOffsetLine)[0];
-          var rightEnd = turf.getCoords(rightOffsetLine)[1];
+      var leftStart = turf.getCoords(leftOffsetLine)[0];
+      var leftEnd = turf.getCoords(leftOffsetLine)[1];
+      var rightStart = turf.getCoords(rightOffsetLine)[0];
+      var rightEnd = turf.getCoords(rightOffsetLine)[1];
 
-          bufferedCoords.push(leftStart);
-          bufferedCoords.push(leftEnd);
-          bufferedCoords.push(rightEnd);
-          bufferedCoords.push(rightStart);
+      if (i === 0) {
+          leftCoords.push(leftStart);
+          rightCoords.push(rightStart);
       }
-  });
+
+      leftCoords.push(leftEnd);
+      rightCoords.push(rightEnd);
+
+      // Handle the intersections at turns
+      if (i < coords.length - 2) {
+          var nextStart = turf.point(coords[i + 1]);
+          var nextEnd = turf.point(coords[i + 2]);
+          var nextLine = turf.lineString([nextStart.geometry.coordinates, nextEnd.geometry.coordinates]);
+
+          var nextLeftOffsetLine = turf.lineOffset(nextLine, bufferWidth, { units: units });
+          var nextRightOffsetLine = turf.lineOffset(nextLine, -bufferWidth, { units: units });
+
+          var nextLeftStart = turf.getCoords(nextLeftOffsetLine)[0];
+          var nextRightStart = turf.getCoords(nextRightOffsetLine)[0];
+
+          var intersectionLeft = turf.lineIntersect(leftOffsetLine, nextLeftOffsetLine);
+          var intersectionRight = turf.lineIntersect(rightOffsetLine, nextRightOffsetLine);
+
+          if (intersectionLeft.features.length > 0) {
+              leftCoords.push(intersectionLeft.features[0].geometry.coordinates);
+          } else {
+              leftCoords.push(nextLeftStart);
+          }
+
+          if (intersectionRight.features.length > 0) {
+              rightCoords.push(intersectionRight.features[0].geometry.coordinates);
+          } else {
+              rightCoords.push(nextRightStart);
+          }
+      }
+
+      if (i === coords.length - 2) {
+          leftCoords.push(leftEnd);
+          rightCoords.push(rightEnd);
+      }
+  }
+
+  // Reverse rightCoords and merge with leftCoords
+  rightCoords.reverse();
+  var bufferedCoords = leftCoords.concat(rightCoords);
 
   // Ensure the polygon is closed by adding the first coordinate at the end
   if (bufferedCoords.length > 0) {
@@ -1279,9 +1282,6 @@ function createRectangularBuffer(geoJSON, bufferWidth, units) {
   var bufferedPolygon = turf.polygon([bufferedCoords]);
   return turf.featureCollection([bufferedPolygon]);
 }
-
-
-
 
 
 
@@ -1459,7 +1459,6 @@ function distance(latlng1, latlng2) {
   return latlng1Rad.distanceTo(latlng2Rad);
 }
 
-
 // for vertex mapping
 
 let firstClickPoints = [];
@@ -1488,7 +1487,7 @@ function getClosestRoadPointTrace(latlng) {
           var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
           var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
           // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
-          closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+         // closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
        
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
@@ -1526,7 +1525,7 @@ function getClosestRoadPoint(latlng) {
           var flattenedCoordinates = geometry.coordinates.reduce((acc, val) => acc.concat(val), []);
           var line = flattenedCoordinates.map(coord => L.latLng(coord[1], coord[0]));
           // closestPointL = L.GeometryUtil.closestLayerSnap(map, [line], clickedPoint,50,true);
-          closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
+//          closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
      
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
@@ -1573,6 +1572,7 @@ function highlightFeature(featureData) {
 var lastPointMarker = null;
 
 function getClosestRoadPointLast(latlng) {
+  console.log(latlng);
   var buffer = 10; // Buffer distance in meters, adjust as necessary
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, { units: 'meters' });
@@ -1650,22 +1650,22 @@ let currentPolyline;
 // });
 
 
-// map.on("draw:editvertex", function (e) {
-//   for (const key in e.layers._layers) {
-//     if (e.layers._layers.hasOwnProperty(key)) {
-//       const layer = e.layers._layers[key];
-//       const originalLatlng = layer._latlng;
-//       getClosestRoadPoint(originalLatlng).then(result => {
-//         if (result && result.distance <= 20.0000) {
-//           layer._latlng.lat = result.marker.lat;
-//           layer._latlng.lng = result.marker.lng;
-//           layer.setLatLng(result.marker);
-//         }
-//       });
-//     }
-//   }
+map.on("draw:editvertex", function (e) {
+  for (const key in e.layers._layers) {
+    if (e.layers._layers.hasOwnProperty(key)) {
+      const layer = e.layers._layers[key];
+      const originalLatlng = layer._latlng;
+      getClosestRoadPoint(originalLatlng).then(result => {
+        if (result && result.distance <= 20.0000) {
+          layer._latlng.lat = result.marker.lat;
+          layer._latlng.lng = result.marker.lng;
+          layer.setLatLng(result.marker);
+        }
+      });
+    }
+  }
 
-// });
+});
 
 
 
@@ -1687,14 +1687,14 @@ var drawControlAdded = false;
 map.on('mousemove', function(e) {
   var isInside = checkIfInsideWard(e.latlng);
   
- if (isInside) {
+ if (isInside && workType == "New") {
         map.getContainer().style.cursor = 'crosshair';
         // Add draw control if not already added
         if (!drawControlAdded) {
           map.addControl(drawControlRoad);
           drawControlAdded = true;
         }
-      } else {
+      } else if (workType == "New") {
         map.getContainer().style.cursor = 'not-allowed';
         // Remove draw control if currently added
         if (drawControlAdded) {
@@ -1783,7 +1783,7 @@ function handleMouseMove(event) {
     if (drawTimeout) clearTimeout(drawTimeout);
     lastDrawnPoint = event.latlng;
     drawTimeout = setTimeout(() => {
-   //   getClosestRoadPointLast(lastDrawnPoint);
+    getClosestRoadPointLast(lastDrawnPoint);
     }, 100); // Adjust the delay as needed
   }
 }
@@ -2261,6 +2261,15 @@ function Savedata(lastDrawnPolylineId) {
 // have to check and remote this code in future 
 
 
+selectCoordinatesData.forEach((geom, index) => {
+  
+
+
+  if (geom.geometry.type === "Polygon") {
+    area = turf.area(geom);
+} else if (geom.geometry.type === "LineString") {
+    area = turf.length(geom, { units: 'meters' }); 
+}
 
 
 
@@ -2282,8 +2291,9 @@ function Savedata(lastDrawnPolylineId) {
       bufferWidth: bufferWidth,
       gis_id: lastInsertedId,
       department: department, 
-      selectCoordinatesData: selectCoordinatesData,
-      area: area 
+      selectCoordinatesData: geom,
+      area: area ,
+      geometryType: geom.geometry.type
   });
 
  
@@ -2336,11 +2346,11 @@ if (editMode) {
 
   var formData = new FormData();
   formData.append('proj_id', worksAaApprovalId);
-  formData.append('latitude', selectCoordinatesData[0].geometry.coordinates[0][1]);
-  formData.append('longitude', selectCoordinatesData[0].geometry.coordinates[0][0]);
+  formData.append('latitude', geom.geometry.coordinates[0][1]);
+  formData.append('longitude', geom.geometry.coordinates[0][0]);
   formData.append('polygon_area', 0);
   formData.append('polygon_centroid', 0);
-  formData.append('geometry', JSON.stringify(selectCoordinatesData[0].geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
+  formData.append('geometry', JSON.stringify(geom.geometry.coordinates?.map(coordinates => coordinates.slice().reverse())));
   formData.append('road_no', struct_no);
   formData.append('user_id', user_id);
   formData.append('length', area);
@@ -2355,13 +2365,17 @@ if (editMode) {
       contentType: false,
       success: function (response) {
  
-         window.location.href = response.data.redirect_Url;
+        // window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
           console.error("Save failed:", error);
       },
   });
   
+});
+
+
+ 
 
 }
 
@@ -2716,144 +2730,3 @@ function getWardNameById(wardId, wardData) {
   }
 }
 
-
-// // script.js
-
-// // Define the base URL of your video folder
-// const baseVideoFolder = 'http://localhost/iwms/video/road/';
-
-// // Define the array of video filenames
-// const videos = [
-//     '1 Recording coordinates.mp4',
-//     '2 Gis mapping.mp4',
-//     '3 Editing.mp4',
-//     '4. Delete.mp4',
-//     '5 selection of whole Ward.mp4',
-//     '6 Repair road.mp4',
-//     '7 length restriction.mp4'
-//     // Add more video filenames as needed
-// ];
-
-// // Function to open a new tab with the video dropdown selection
-// function openVideoSelectionWindow() {
-//     const windowFeatures = 'width=800,height=600';
-//     const videoSelectionWindow = window.open('', '_blank', windowFeatures);
-
-//     // Build the HTML content for the new window
-//     let videoSelectionHtml = `
-//         <!DOCTYPE html>
-//         <html lang="en">
-//         <head>
-//             <meta charset="UTF-8">
-//             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//             <title>Road Department</title>
-//             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-//             <style>
-//                 body {
-//                     font-family: Arial, sans-serif;
-//                     display: flex;
-//                     flex-direction: column;
-//                     align-items: center;
-//                     padding: 20px;
-//                 }
-//                 h1 {
-//                     margin-bottom: 20px;
-//                     color: blue;
-//                 }
-//                 .video-select {
-//                     margin-bottom: 20px;
-//                     font-size: 16px;
-//                     padding: 10px;
-//                     border-radius: 10px;
-//                     border: 2px solid blue;
-//                     width: 300px;
-//                 }
-//                 .control-buttons {
-//                     margin-top: 10px;
-//                 }
-//                 .control-button {
-//                     background-color: white;
-//                     border: 1px solid black;
-//                     color: black;
-//                     padding: 10px;
-//                     border-radius: 5px;
-//                     cursor: pointer;
-//                     margin: 0 10px;
-//                 }
-//                 .control-button i {
-//                     font-size: 16px;
-//                 }
-//                 #videoPlayer {
-//                     width: 100%;
-//                     height: auto;
-//                     margin-top: 20px;
-//                 }
-//             </style>
-//         </head>
-//         <body>
-//             <h1>Road Department</h1>
-//             <select id="videoSelect" class="video-select">
-//                 ${videos.map((video, index) => `
-//                     <option value="${index}">${video}</option>
-//                 `).join('')}
-//             </select>
-//             <video id="videoPlayer" controls autoplay>
-//                 Your browser does not support the video tag.
-//             </video>
-//             <div class="control-buttons">
-//                 <button id="prevButton" class="control-button">
-//                     <i class="fas fa-backward"></i>
-//                 </button>
-//                 <button id="nextButton" class="control-button">
-//                     <i class="fas fa-forward"></i>
-//                 </button>
-//             </div>
-//             <script>
-//                 const baseVideoFolder = '${baseVideoFolder}';
-//                 const videos = ${JSON.stringify(videos)};
-//                 let currentVideoIndex = 0;
-
-//                 const videoPlayer = document.getElementById('videoPlayer');
-//                 const videoSelect = document.getElementById('videoSelect');
-
-//                 function playVideo(index) {
-//                     currentVideoIndex = index;
-//                     const videoSource = baseVideoFolder + videos[currentVideoIndex];
-//                     videoPlayer.src = videoSource;
-//                     videoPlayer.load();
-//                     videoPlayer.play();
-//                 }
-
-//                 videoSelect.addEventListener('change', function() {
-//                     const index = parseInt(this.value);
-//                     playVideo(index);
-//                 });
-
-//                 document.getElementById('nextButton').addEventListener('click', function() {
-//                     currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-//                     playVideo(currentVideoIndex);
-//                     videoSelect.value = currentVideoIndex;
-//                 });
-
-//                 document.getElementById('prevButton').addEventListener('click', function() {
-//                     currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
-//                     playVideo(currentVideoIndex);
-//                     videoSelect.value = currentVideoIndex;
-//                 });
-
-//                 // Play the first video when the window loads
-//                 playVideo(0);
-//                 videoSelect.value = 0;
-//             </script>
-//         </body>
-//         </html>
-//     `;
-
-//     // Write the HTML content to the new window
-//     videoSelectionWindow.document.write(videoSelectionHtml);
-// }
-
-// // Event listener for clicking the help button
-// document.getElementById('helpButton').addEventListener('click', function() {
-//     openVideoSelectionWindow();
-// });
