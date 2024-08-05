@@ -1555,24 +1555,6 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
   return overlapPercentage <= 10;
 }
 
-// tracing tool
-
-
-
-
-// for vertex mapping
-
-
-// Example line coordinates
-// var lineCoordinates = [
-//   [51.505, -0.09],
-//   [51.51, -0.1],
-//   [51.515, -0.09]
-// ];
-
-// // Example point
-// var point = L.latLng(51.513, -0.095);
-
 // Function to calculate distance between two points
 function closestVertex(point,lineCoordinates){
 
@@ -1935,7 +1917,7 @@ function truncateLineToLength(geojson, maxLength) {
             '<div style="display: inline-block; margin-right: 5px;">' +
             '<label for="ms">MS</label>' +
             '<input type="radio" id="ms" name="material" value="MS" style="margin-left: 10px;"></div></div>' +
-            '<br><label>Diameter:</label><br>',
+            '<br><label>Diameter in mm:</label><br>',
         showCancelButton: true,
         confirmButtonText: 'Create Diameter',
         showLoaderOnConfirm: true,
