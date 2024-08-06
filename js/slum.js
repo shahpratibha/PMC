@@ -19,7 +19,7 @@ var googleSat = L.tileLayer(
 );
 
 var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-// var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL ="https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
 
 var ward_boundary= L.tileLayer.wms(
   baseURL,
