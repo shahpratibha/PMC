@@ -2137,6 +2137,12 @@ function Savedata(lastDrawnPolylineId) {
       geoJSONStringJson = JSON.parse(geoJSONString);
       selectCoordinatesData = geoJSONStringJson.features;
 
+
+      selectCoordinatesData = selectCoordinatesData.filter(function (el) {
+        return el.geometry.coordinates.length > 0;
+      });
+  
+
     
       if (geoJSONStringJson.features && geoJSONStringJson.features.length > 0) {
         const geometry = geoJSONStringJson.features[1].geometry;
@@ -2149,7 +2155,6 @@ function Savedata(lastDrawnPolylineId) {
      
   }
 
-  console.log(area);
 
   localStorage.setItem("selectCoordinatesData", JSON.stringify(selectCoordinatesData));
   let formDataTemp = localStorage.getItem("conceptual_form_data_temp");
@@ -2158,7 +2163,6 @@ function Savedata(lastDrawnPolylineId) {
   }
    
 // have to check and remote this code in future 
-
 
 selectCoordinatesData.forEach((geom, index) => {
   
@@ -2261,9 +2265,6 @@ if (editMode) {
       processData: false,
       contentType: false,
       success: function (response) {
- 
-        // window.location.href = response.data.redirect_Url;
-          console.log(response);
          window.location.href = response.data.redirect_Url;
       },
       error: function (xhr, status, error) {
