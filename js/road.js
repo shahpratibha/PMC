@@ -896,6 +896,39 @@ function enableEditing(layer) {
 }
 
 
+function updatePopupEdit(layer) {
+  let content;
+
+  
+  var coordinates;
+  if (layer instanceof L.Polyline) {
+      coordinates = layer.getLatLngs();
+  } else if (layer instanceof L.Polygon) {
+      coordinates = layer.getLatLngs()[0];
+  }
+
+  var turfCoords = coordinates.map(function (coord) {
+      return [coord.lng, coord.lat];
+  });
+
+  if (layer instanceof L.Polyline) {
+      var line = turf.lineString(turfCoords);
+      var length = turf.length(line, { units: 'meters' });
+      content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+  } else if (layer instanceof L.Polygon) {
+      var polygon = turf.polygon([turfCoords]);
+      var area = turf.area(polygon);
+      content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+  }
+
+  if (!layer._popup) {
+      layer.bindPopup(content);
+  } else {
+      layer.setPopupContent(content);
+  }
+  layer.openPopup();
+}
+
 
 if (workType == "New") {
   // Currently selected layer for editing
@@ -933,7 +966,14 @@ if (workType == "New") {
             layer.setStyle({ color: 'green', weight: 7 });
 
             enableEditing(layer); // Enable editing on the clicked layer
+            updatePopupEdit(layer);
+            
           });
+
+          layer.on('edit', function () {
+            updatePopupEdit(layer);
+        });
+          
         });
       } else {
         map.editEnabled = false;
@@ -1598,22 +1638,22 @@ let traceLayer = L.layerGroup().addTo(map);
 let currentPolyline;
 
 
-map.on("draw:drawvertex", function (e) {
-  vertexClickCount++;
-  for (const key in e.layers._layers) {
-    if (e.layers._layers.hasOwnProperty(key)) {
-      const layer = e.layers._layers[key];
-      const originalLatlng = layer._latlng;
-      getClosestRoadPoint(originalLatlng).then(result => {
-        if (result && result.distance <= 20.0000) {
-          layer._latlng.lat = result.marker.lat;
-          layer._latlng.lng = result.marker.lng;
-          layer.setLatLng(result.marker);
-        }
-      });
-    }
-  }
-});
+// map.on("draw:drawvertex", function (e) {
+//   vertexClickCount++;
+//   for (const key in e.layers._layers) {
+//     if (e.layers._layers.hasOwnProperty(key)) {
+//       const layer = e.layers._layers[key];
+//       const originalLatlng = layer._latlng;
+//       getClosestRoadPoint(originalLatlng).then(result => {
+//         if (result && result.distance <= 20.0000) {
+//           layer._latlng.lat = result.marker.lat;
+//           layer._latlng.lng = result.marker.lng;
+//           layer.setLatLng(result.marker);
+//         }
+//       });
+//     }
+//   }
+// });
 
 
 map.on("draw:editvertex", function (e) {
@@ -1838,6 +1878,7 @@ map.on("draw:created", function (e) {
     if (e.layerType === "polyline") {
       var length = turf.length(e.layer.toGeoJSON(), { units: "kilometers" });
       var roadLenght = lenght;
+    }
       if (length > roadLenght) {
         Swal.fire({
           position: "center",
