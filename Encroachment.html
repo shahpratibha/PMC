@@ -673,12 +673,12 @@
             let size = map.getSize();
             let bbox = map.getBounds().toBBoxString();
             let layer = "pmc:PMC_Boundary";
-         console.log(zone_ids)
+
           if (zone_ids.length != 5) {
             layer = "PMC_wards_admin_boundary";
           }
 
-          var baseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"
+             var baseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms"
 
 var url =  baseUrl + `?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
   e.containerPoint.x
