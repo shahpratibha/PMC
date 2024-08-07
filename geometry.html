@@ -257,8 +257,8 @@
 
         var highlightLayer;
 
-        // const API_URL = "http://localhost/pmc_test/";
-        const API_URL = "http://localhost/PMC/IWMS_main/";
+        const API_URL = "http://localhost/pmc_test/";
+        //const API_URL = "http://localhost/PMC/IWMS_main/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
 
@@ -531,6 +531,7 @@ window.location.href = baseURL + queryString;
                                     filteredData[ key ] = JSON.stringify(feature[ key ]);
                                 }
                             });
+                            filteredData.id = feature.id ;
                             filteredData.geometry = feature.geometry;
                             return filteredData;
                         });
@@ -585,8 +586,7 @@ window.location.href = baseURL + queryString;
                     editButtonCell.colSpan = 2;
                     editButtonCell.style.textAlign = 'center';
                     const department = data[ page-1 ].Department.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    const id = data[ page-1 ].id.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    console.log(data[ page-1 ]);
+                     const id = data[ page-1 ]?.id?.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     const Work_ID = data[ page-1 ].Work_ID;
 
 
@@ -672,7 +672,7 @@ window.location.href = baseURL + queryString;
                             opacity: 0.65
                         }
                     }).addTo(map);
-                    map.fitBounds(highlightLayer.getBounds());
+                   map.fitBounds(highlightLayer.getBounds());
                 }
 
                 // Display initial page
