@@ -348,7 +348,9 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
+
+
 var workspace = "Road";
 
 // Variable to keep track of legend visibility
@@ -1332,12 +1334,29 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 let widthValues = [];
 
 function createRectangularBuffer(geoJSON, bufferWidth, units) {
-  if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
-      console.error("Invalid GeoJSON format or empty GeoJSON");
+  let feature;
+    
+  if (geoJSON.type === "FeatureCollection") {
+      if (!geoJSON.features || geoJSON.features.length === 0) {
+          console.error("Empty GeoJSON FeatureCollection");
+          return null;
+      }
+      // Extract the first feature from the FeatureCollection
+      feature = geoJSON.features[0];
+  } else if (geoJSON.type === "Feature") {
+      feature = geoJSON;
+  } else {
+      console.error("Invalid GeoJSON format");
       return null;
   }
 
-  var coords = geoJSON.geometry.coordinates;
+  // Validate the feature's geometry
+  if (!feature || !feature.geometry || !feature.geometry.coordinates) {
+      console.error("Invalid GeoJSON feature or empty geometry");
+      return null;
+  }
+
+  var coords = feature.geometry.coordinates;
   var leftCoords = [];
   var rightCoords = [];
 

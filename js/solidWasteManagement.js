@@ -311,7 +311,9 @@ map.addControl(new northArrowControl());
 // legend start
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
+
+
 
 
 var workspace = "Bhavan";

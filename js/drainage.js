@@ -322,7 +322,9 @@ map.addControl(new northArrowControl());
 // legend start
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
+
+
 
 
 var workspace = "Drainage";
@@ -1382,34 +1384,90 @@ let widthValues = [];
 
 
 function createRectangularBuffer(geoJSON, bufferWidth, units) {
-  if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
-      console.error("Invalid GeoJSON format or empty GeoJSON");
+  let feature;
+    
+  if (geoJSON.type === "FeatureCollection") {
+      if (!geoJSON.features || geoJSON.features.length === 0) {
+          console.error("Empty GeoJSON FeatureCollection");
+          return null;
+      }
+      // Extract the first feature from the FeatureCollection
+      feature = geoJSON.features[0];
+  } else if (geoJSON.type === "Feature") {
+      feature = geoJSON;
+  } else {
+      console.error("Invalid GeoJSON format");
       return null;
   }
 
-  var coords = geoJSON.geometry.coordinates;
-  var bufferedCoords = [];
+  // Validate the feature's geometry
+  if (!feature || !feature.geometry || !feature.geometry.coordinates) {
+      console.error("Invalid GeoJSON feature or empty geometry");
+      return null;
+  }
 
-  coords.forEach(function (coord, index) {
-      if (index < coords.length - 1) {
-          var start = turf.point(coord);
-          var end = turf.point(coords[index + 1]);
-          var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
+  var coords = feature.geometry.coordinates;
+  var leftCoords = [];
+  var rightCoords = [];
 
-          var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
-          var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
+  for (var i = 0; i < coords.length - 1; i++) {
+      var start = turf.point(coords[i]);
+      var end = turf.point(coords[i + 1]);
+      var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
 
-          var leftStart = turf.getCoords(leftOffsetLine)[0];
-          var leftEnd = turf.getCoords(leftOffsetLine)[1];
-          var rightStart = turf.getCoords(rightOffsetLine)[0];
-          var rightEnd = turf.getCoords(rightOffsetLine)[1];
+      var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
+      var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
 
-          bufferedCoords.push(leftStart);
-          bufferedCoords.push(leftEnd);
-          bufferedCoords.push(rightEnd);
-          bufferedCoords.push(rightStart);
+      var leftStart = turf.getCoords(leftOffsetLine)[0];
+      var leftEnd = turf.getCoords(leftOffsetLine)[1];
+      var rightStart = turf.getCoords(rightOffsetLine)[0];
+      var rightEnd = turf.getCoords(rightOffsetLine)[1];
+
+      if (i === 0) {
+          leftCoords.push(leftStart);
+          rightCoords.push(rightStart);
       }
-  });
+
+      leftCoords.push(leftEnd);
+      rightCoords.push(rightEnd);
+
+      // Handle the intersections at turns
+      if (i < coords.length - 2) {
+          var nextStart = turf.point(coords[i + 1]);
+          var nextEnd = turf.point(coords[i + 2]);
+          var nextLine = turf.lineString([nextStart.geometry.coordinates, nextEnd.geometry.coordinates]);
+
+          var nextLeftOffsetLine = turf.lineOffset(nextLine, bufferWidth, { units: units });
+          var nextRightOffsetLine = turf.lineOffset(nextLine, -bufferWidth, { units: units });
+
+          var nextLeftStart = turf.getCoords(nextLeftOffsetLine)[0];
+          var nextRightStart = turf.getCoords(nextRightOffsetLine)[0];
+
+          var intersectionLeft = turf.lineIntersect(leftOffsetLine, nextLeftOffsetLine);
+          var intersectionRight = turf.lineIntersect(rightOffsetLine, nextRightOffsetLine);
+
+          if (intersectionLeft.features.length > 0) {
+              leftCoords.push(intersectionLeft.features[0].geometry.coordinates);
+          } else {
+              leftCoords.push(nextLeftStart);
+          }
+
+          if (intersectionRight.features.length > 0) {
+              rightCoords.push(intersectionRight.features[0].geometry.coordinates);
+          } else {
+              rightCoords.push(nextRightStart);
+          }
+      }
+
+      if (i === coords.length - 2) {
+          leftCoords.push(leftEnd);
+          rightCoords.push(rightEnd);
+      }
+  }
+
+  // Reverse rightCoords and merge with leftCoords
+  rightCoords.reverse();
+  var bufferedCoords = leftCoords.concat(rightCoords);
 
   // Ensure the polygon is closed by adding the first coordinate at the end
   if (bufferedCoords.length > 0) {

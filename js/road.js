@@ -528,7 +528,6 @@ function fitbou(filter) {
     "&CQL_FILTER=" +
     filter +
     "&outputFormat=application/json";
-    console.log(urlm)
   $.getJSON(urlm, function (data) {
     geojson = L.geoJson(data, {});
     wardBoundary = data;
@@ -607,8 +606,7 @@ map.on(L.Draw.Event.EDITED, function (event) {
   layers.eachLayer(function (layer) {
       // Here you can save the updated geometry back to your server
       const updatedGeoJSON = layer.toGeoJSON();
-      console.log('Updated geometry:', updatedGeoJSON);
-      // Perform your AJAX call to save the updated geometry
+
   });
 });
 
@@ -689,7 +687,7 @@ var drawControlRoad = new L.Control.Draw({
   drawcreate: function(e) {
     var layer = e.layer; // Get the drawn layer
 
-    console.log(layer);
+
   }
 });
 
@@ -882,7 +880,7 @@ customDeleteLayerButton.addTo(map);
 
 
 function enableEditing(layer) {
-  console.log(layer);
+
   drawnItems.eachLayer(function (otherLayer) {
     if (otherLayer !== layer && otherLayer.editing && otherLayer.editing.enabled()) {
       otherLayer.editing.disable();
@@ -1012,7 +1010,6 @@ if (workType == "New") {
         button.style.backgroundColor = 'red';
         drawnItems.eachLayer(function (layer) {
           layer.on('click', function () {
-            console.log("hello")
             selectedPolylineId = layer;
             layer.setStyle({ color: 'green', weight: 7 });
 
@@ -1029,7 +1026,6 @@ if (workType == "New") {
 }
 
 function handleDeletePolyline(polylineId) {
-  console.log(polylineId);
   removeAssociatedLayers(polylineId);
 }
 
@@ -1204,12 +1200,29 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 
 
 function createRectangularBuffer(geoJSON, bufferWidth, units) {
-  if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
-      console.error("Invalid GeoJSON format or empty GeoJSON");
+  let feature;
+    
+  if (geoJSON.type === "FeatureCollection") {
+      if (!geoJSON.features || geoJSON.features.length === 0) {
+          console.error("Empty GeoJSON FeatureCollection");
+          return null;
+      }
+      // Extract the first feature from the FeatureCollection
+      feature = geoJSON.features[0];
+  } else if (geoJSON.type === "Feature") {
+      feature = geoJSON;
+  } else {
+      console.error("Invalid GeoJSON format");
       return null;
   }
 
-  var coords = geoJSON.geometry.coordinates;
+  // Validate the feature's geometry
+  if (!feature || !feature.geometry || !feature.geometry.coordinates) {
+      console.error("Invalid GeoJSON feature or empty geometry");
+      return null;
+  }
+
+  var coords = feature.geometry.coordinates;
   var leftCoords = [];
   var rightCoords = [];
 
@@ -1301,9 +1314,9 @@ function updateAssociatedLayers(polylineId, bufferWidth) {
 }
 
 function removeAssociatedLayers(layerId) {
-  console.log(layerId);
+
   var associatedLayers = associatedLayersRegistry[layerId];
-  console.log(associatedLayersRegistry);
+
   if (layerId) {
     drawnItems.removeLayer(layerId);
   }
@@ -1423,7 +1436,6 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
 // Function to calculate distance between two points
 function closestVertex(point, lineCoordinates) {
-  console.log(lineCoordinates)
 
   // Initialize variables to store the closest vertex and its distance
   var closestVertex = null;
@@ -1431,9 +1443,9 @@ function closestVertex(point, lineCoordinates) {
 
   // Iterate over line vertices
   lineCoordinates.forEach(function (coord) {
-    // console.log(coord,"coord")
+  
     var vertex = L.latLng(coord.lat, coord.lng);
-    // console.log(vertex,"vertex,",point,"point")
+
     var dist = distance(vertex, point);
     if (dist < closestDistance) {
       closestVertex = vertex;
@@ -1447,8 +1459,7 @@ function closestVertex(point, lineCoordinates) {
     distance: closestDistance
   };
 
-  console.log("Closest vertex:", closestVertex);
-  console.log("Distance:", closestDistance);
+
 
   return result
 
@@ -1473,13 +1484,13 @@ function getClosestRoadPointTrace(latlng) {
   layer = "pmc:Exist_Road";
 
   var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
-  console.log("burl", url);
+
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(response => response.json())
       .then(data => {
         firstClickPoints = data;
-        console.log(data);
+
         //  highlightFeature(data);
         var closestPoint = null;
         var closestPointv = null;
@@ -1492,7 +1503,7 @@ function getClosestRoadPointTrace(latlng) {
          // closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
           // (lat,lng,distance)
-          console.log(closestPoint, "closestPoint", closestPointv, "closestPointv")
+  
 
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
         }
@@ -1516,7 +1527,7 @@ function getClosestRoadPoint(latlng) {
   layer = "pmc:Exist_Road";
 
   var url = `https://iwmsgis.pmc.gov.in//geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layer}&outputFormat=application/json&bbox=${bbox.join(',')},EPSG:4326`;
-  console.log("burl", url);
+
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(response => response.json())
@@ -1532,8 +1543,7 @@ function getClosestRoadPoint(latlng) {
 //          closestPoint = L.GeometryUtil.closest(map, line, clickedPoint);
           closestPointv = closestVertex(clickedPoint, line)
           // (lat,lng,distance)
-          console.log(closestPoint, "closestPoint", closestPointv, "closestPointv")
-
+      
           distance = turf.distance(turf.point([clickedPoint.lng, clickedPoint.lat]), turf.point([closestPointv.lng, closestPointv.lat]), { units: 'meters' });
         }
         resolve({ marker: closestPointv, distance: distance });
@@ -1548,7 +1558,7 @@ function getClosestRoadPoint(latlng) {
 
 
 function highlightFeature(featureData) {
-  console.log(featureData);
+
   // Check if any features are present in the featureData
   if (!featureData || !featureData.features || featureData.features.length === 0)
     // Clear existing editable layers
@@ -1578,7 +1588,7 @@ function highlightFeature(featureData) {
 var lastPointMarker = null;
 
 function getClosestRoadPointLast(latlng) {
-  console.log(latlng);
+
   var buffer = 10; // Buffer distance in meters, adjust as necessary
   var clickedPoint = latlng;
   var bufferedPoint = turf.buffer(turf.point([clickedPoint.lng, clickedPoint.lat]), buffer, { units: 'meters' });
@@ -1759,6 +1769,14 @@ map.on('draw:deleted', function (e) {
 
 });
 
+function truncateLineToLength(geojson, maxLength) {
+  // Calculate the truncated line
+  var truncatedLine = turf.lineSliceAlong(geojson, 0, maxLength, { units: 'kilometers' });
+
+  // Return coordinates only
+  return truncatedLine.geometry.coordinates;
+}
+
 
 
 function handleMouseMove(event) {
@@ -1779,8 +1797,7 @@ function handleMouseMove(event) {
           vertexClickCount++;
         } else {
           const lastPoint = currentPolyline.getLatLngs().slice(-1)[0];
-          console.log(turf.distance(turf.point([lastPoint.lng, lastPoint.lat]), turf.point([result.marker.lng, result.marker.lat]), { units: 'meters' }));
-         
+
           currentPolyline.addLatLng(result.marker);
           currentPolyline.redraw();
         }
@@ -1884,8 +1901,7 @@ map.on("draw:created", function (e) {
       
       var truncatedCoordinates = truncateLineToLength(e.layer.toGeoJSON(), roadLenght);
 		// its returning array of coordinates convert it to geojson
-		console.log('truncatedCoordinates', truncatedCoordinates);
-
+	
 		var truncatedLineGeoJSON = {
 			type: 'Feature',
       color: 'red',
@@ -1904,6 +1920,7 @@ map.on("draw:created", function (e) {
   }).addTo(drawnItems);
 
 		var layer = L.geoJSON(truncatedLineGeoJSON);
+    
 
 		var tempGeoJSON = currentPolyline.toGeoJSON();
       
@@ -2212,7 +2229,6 @@ function Savedata(lastDrawnPolylineId) {
 
       if (currentPolyline) {
           area = turf.area(geoJSONStringJson); 
-          console.log(area);
       }
      
   } else {
@@ -2288,7 +2304,6 @@ if (editMode) {
   let editIdTemp = editId.split(".")[1];
   let geometryTypeTemp = editId.split(".")[0];
 
-  console.log('selectCoordinatesData', selectCoordinatesData);
 
   $.ajax({
       url: 'APIS/Update_Geometry.php', // Path to your PHP save script
@@ -2405,7 +2420,6 @@ function toGISformat() {
     }
   }
 
-  // console.log(data);
 
   // Get GeoJSON representation of the drawn layer
   var geoJSON = drawnItems.toGeoJSON();

@@ -665,6 +665,7 @@ window.location.href = baseURL + queryString;
                     if (highlightLayer) {
                         map.removeLayer(highlightLayer);
                     }
+                    console.log(geometry);
                     highlightLayer = L.geoJSON(geometry, {
                         style: {
                             color: '#0000FF',
