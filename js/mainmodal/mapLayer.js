@@ -249,6 +249,7 @@ var WMSlayers = {
   "Esri": Esri_WorldImagery,
   "Satellite": googleSat,
   Boundary: wms_layer12,
+  GIS_Ward_Layer: GIS_Ward_Layer,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
@@ -258,7 +259,9 @@ var WMSlayers = {
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
-  GIS_Ward_Layer: GIS_Ward_Layer,
+  IWMS_line:IWMS_line,
+  IWMS_polygon:IWMS_polygon,
+  IWMS_point:IWMS_point,
   Geodata:Geodata,
 };
 
