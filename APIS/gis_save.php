@@ -281,7 +281,7 @@ else if (   $department == "Water Supply" ||   $department == "Building" ||  $de
             $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
           
             $stmtUpdate->execute();
-            echo json_encode(["message" => "Data successfully saved "]);
+            echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
         } catch (PDOException $e) {
           
             echo json_encode(["error" => $e->getMessage()]);
@@ -438,7 +438,7 @@ else if (   $department == "Water Supply" ||   $department == "Building" ||  $de
             $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
           
             $stmtUpdate->execute();
-            echo json_encode(["message" => "Data successfully saved "]);
+            echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
         } catch (PDOException $e) {
           
             echo json_encode(["error" => $e->getMessage()]);
@@ -514,7 +514,7 @@ else if (  $department == "Market" ) {
         $stmtUpdate->bindParam(':id', $configId, PDO::PARAM_INT);
       
         $stmtUpdate->execute();
-        echo json_encode(["message" => "Data successfully saved " ]);
+        echo json_encode(["message" => "Data successfully saved to both tables", "lastInsertIdGeodata" => $lastInsertId, "lastInsertIdIWMS" => $lastInsertIdIWMS]);
     } catch (PDOException $e) {
       
         echo json_encode(["error" => $e->getMessage()]);

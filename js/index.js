@@ -304,7 +304,7 @@ map.addControl(new northArrowControl());
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-     geoserverUrl + "/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -448,7 +448,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1747,7 +1747,7 @@ map.on("dblclick", function (e) {
 
 //   // Fetch capabilities to get all layers in the 'pmc' workspace
 //   fetch(
-//      geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
+//     "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
 //   )
 //     .then((response) => response.text())
 //     .then((data) => {

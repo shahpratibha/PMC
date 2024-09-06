@@ -324,9 +324,6 @@ map.addControl(new northArrowControl());
 // GeoServer URL
 var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
 
-
-
-
 var workspace = "Drainage";
 
 // Variable to keep track of legend visibility
@@ -497,7 +494,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -1384,90 +1381,34 @@ let widthValues = [];
 
 
 function createRectangularBuffer(geoJSON, bufferWidth, units) {
-  let feature;
-    
-  if (geoJSON.type === "FeatureCollection") {
-      if (!geoJSON.features || geoJSON.features.length === 0) {
-          console.error("Empty GeoJSON FeatureCollection");
-          return null;
-      }
-      // Extract the first feature from the FeatureCollection
-      feature = geoJSON.features[0];
-  } else if (geoJSON.type === "Feature") {
-      feature = geoJSON;
-  } else {
-      console.error("Invalid GeoJSON format");
+  if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
+      console.error("Invalid GeoJSON format or empty GeoJSON");
       return null;
   }
 
-  // Validate the feature's geometry
-  if (!feature || !feature.geometry || !feature.geometry.coordinates) {
-      console.error("Invalid GeoJSON feature or empty geometry");
-      return null;
-  }
+  var coords = geoJSON.geometry.coordinates;
+  var bufferedCoords = [];
 
-  var coords = feature.geometry.coordinates;
-  var leftCoords = [];
-  var rightCoords = [];
+  coords.forEach(function (coord, index) {
+      if (index < coords.length - 1) {
+          var start = turf.point(coord);
+          var end = turf.point(coords[index + 1]);
+          var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
 
-  for (var i = 0; i < coords.length - 1; i++) {
-      var start = turf.point(coords[i]);
-      var end = turf.point(coords[i + 1]);
-      var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
+          var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
+          var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
 
-      var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
-      var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
+          var leftStart = turf.getCoords(leftOffsetLine)[0];
+          var leftEnd = turf.getCoords(leftOffsetLine)[1];
+          var rightStart = turf.getCoords(rightOffsetLine)[0];
+          var rightEnd = turf.getCoords(rightOffsetLine)[1];
 
-      var leftStart = turf.getCoords(leftOffsetLine)[0];
-      var leftEnd = turf.getCoords(leftOffsetLine)[1];
-      var rightStart = turf.getCoords(rightOffsetLine)[0];
-      var rightEnd = turf.getCoords(rightOffsetLine)[1];
-
-      if (i === 0) {
-          leftCoords.push(leftStart);
-          rightCoords.push(rightStart);
+          bufferedCoords.push(leftStart);
+          bufferedCoords.push(leftEnd);
+          bufferedCoords.push(rightEnd);
+          bufferedCoords.push(rightStart);
       }
-
-      leftCoords.push(leftEnd);
-      rightCoords.push(rightEnd);
-
-      // Handle the intersections at turns
-      if (i < coords.length - 2) {
-          var nextStart = turf.point(coords[i + 1]);
-          var nextEnd = turf.point(coords[i + 2]);
-          var nextLine = turf.lineString([nextStart.geometry.coordinates, nextEnd.geometry.coordinates]);
-
-          var nextLeftOffsetLine = turf.lineOffset(nextLine, bufferWidth, { units: units });
-          var nextRightOffsetLine = turf.lineOffset(nextLine, -bufferWidth, { units: units });
-
-          var nextLeftStart = turf.getCoords(nextLeftOffsetLine)[0];
-          var nextRightStart = turf.getCoords(nextRightOffsetLine)[0];
-
-          var intersectionLeft = turf.lineIntersect(leftOffsetLine, nextLeftOffsetLine);
-          var intersectionRight = turf.lineIntersect(rightOffsetLine, nextRightOffsetLine);
-
-          if (intersectionLeft.features.length > 0) {
-              leftCoords.push(intersectionLeft.features[0].geometry.coordinates);
-          } else {
-              leftCoords.push(nextLeftStart);
-          }
-
-          if (intersectionRight.features.length > 0) {
-              rightCoords.push(intersectionRight.features[0].geometry.coordinates);
-          } else {
-              rightCoords.push(nextRightStart);
-          }
-      }
-
-      if (i === coords.length - 2) {
-          leftCoords.push(leftEnd);
-          rightCoords.push(rightEnd);
-      }
-  }
-
-  // Reverse rightCoords and merge with leftCoords
-  rightCoords.reverse();
-  var bufferedCoords = leftCoords.concat(rightCoords);
+  });
 
   // Ensure the polygon is closed by adding the first coordinate at the end
   if (bufferedCoords.length > 0) {
@@ -1533,7 +1474,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
- const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in//geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1612,6 +1553,24 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
   return overlapPercentage <= 10;
 }
+
+// tracing tool
+
+
+
+
+// for vertex mapping
+
+
+// Example line coordinates
+// var lineCoordinates = [
+//   [51.505, -0.09],
+//   [51.51, -0.1],
+//   [51.515, -0.09]
+// ];
+
+// // Example point
+// var point = L.latLng(51.513, -0.095);
 
 // Function to calculate distance between two points
 function closestVertex(point,lineCoordinates){
@@ -1978,7 +1937,6 @@ function truncateLineToLength(geojson, maxLength) {
   '</div>' +
   '<br><label>Diameter:</label><br>',
   showCancelButton: true,
-
         confirmButtonText: 'Create Diameter',
         showLoaderOnConfirm: true,
         preConfirm: () => {

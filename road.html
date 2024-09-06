@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -162,7 +161,7 @@
     </div>
 
     <div id="table-container">
-      <!-- <button id="toggle-btn"><i class="fas fa-minus"></i></button> -->
+      <button id="toggle-btn"><i class="fas fa-minus"></i></button>
       <table
         id="workTable"
         class="table table-bordered table-hover"
@@ -677,7 +676,18 @@
       // added for on click of button only saleection edit vertices will work
 
       // Add click event listeners to the buttons
-   
+      document
+        .getElementById("drawButton")
+        .addEventListener("click", function () {
+          this.style.backgroundColor = "#ccc"; // Change background color when clicked
+        });
+
+      document
+        .getElementById("editButton")
+        .addEventListener("click", function () {
+          this.style.backgroundColor = "#ccc"; // Change background color when clicked
+        });
+
       //
       // Customize the zoom control position
       map.zoomControl.setPosition("bottomright");
@@ -763,9 +773,19 @@ document.getElementById('helpButton').addEventListener('click', function() {
     playVideo(currentVideoIndex);
 });
 
+// Event listener for playing the next video
+document.getElementById('nextButton').addEventListener('click', playNextVideo);
+
+// Event listener for playing the previous video
+document.getElementById('prevButton').addEventListener('click', playPreviousVideo);
+
 
  
-    
+      document
+        .getElementById("feedbackButton")
+        .addEventListener("click", function () {
+          document.getElementById("sidebar").classList.toggle("open");
+        });
     
     </script>
 

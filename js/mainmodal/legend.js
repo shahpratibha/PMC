@@ -1,3 +1,7 @@
+
+
+
+// Now continue with your remaining JavaScript code...
 // GeoServer URL
 var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 
@@ -88,14 +92,6 @@ legendControl.onAdd = function (map) {
   // Add event listener to the legend control
   div.addEventListener('click', toggleLegend);
 
-  // Event listener to close legend when mouse moves over the map
-  map.on('mousemove', function() {
-    if (legendVisible) {
-      div.style.height = "0";
-      legendVisible = false;
-    }
-  });
-
   return div;
 };
 // -----------------------------------------------------
@@ -126,10 +122,12 @@ collapseButton.onAdd = function (map) {
     var legendDiv = document.querySelector(".info.legend");
     if (
       legendDiv.style.height === "0px" || legendDiv.style.display === "none") {
+
+
       legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="9%";
+      legendDiv.style.top ="12%";
       legendDiv.style.right ="4%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
@@ -177,7 +175,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -236,4 +234,24 @@ legend.addTo(map);
 // scale
 map.options.scale = true; 
 
-L.control
+L.control.scale().addTo(map);
+
+// Create a custom control for the north arrow
+var northArrowControl = L.Control.extend({
+  options: {
+    position: "bottomleft",
+  },
+
+  onAdd: function (map) {
+    var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+    container.innerHTML =
+      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px; background-color: white; border:2px solid darkblue; ">';
+    return container;
+  },
+});
+
+
+map.addControl(new northArrowControl());
+
+
+

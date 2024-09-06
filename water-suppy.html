@@ -752,14 +752,10 @@
           let layers = ["pmc:Water_data", "pmc:Reservations"];
 let queryLayers = layers.join(',');
 
-   var baseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms"
-
-
-   var url =  baseUrl + `?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
   e.containerPoint.x
-)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-  size.x
-}&HEIGHT=${size.y}&BBOX=${bbox}`;
+)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
 
 
             fetch(url)
@@ -1162,6 +1158,18 @@ let queryLayers = layers.join(',');
 
     // added for on click of button only saleection edit vertices will work
 
+    // Add click event listeners to the buttons
+    document
+      .getElementById("drawButton")
+      .addEventListener("click", function () {
+        this.style.backgroundColor = "#ccc"; // Change background color when clicked
+      });
+
+    document
+      .getElementById("editButton")
+      .addEventListener("click", function () {
+        this.style.backgroundColor = "#ccc"; // Change background color when clicked
+      });
 
     // GeoServer URL
     var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";

@@ -20,7 +20,7 @@ var googleSat = L.tileLayer(
 
 
 var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-// var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL ="https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
 
 var ward_boundary= L.tileLayer.wms(
   baseURL,
@@ -348,9 +348,7 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
-
-
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 var workspace = "Road";
 
 // Variable to keep track of legend visibility
@@ -1334,29 +1332,12 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 let widthValues = [];
 
 function createRectangularBuffer(geoJSON, bufferWidth, units) {
-  let feature;
-    
-  if (geoJSON.type === "FeatureCollection") {
-      if (!geoJSON.features || geoJSON.features.length === 0) {
-          console.error("Empty GeoJSON FeatureCollection");
-          return null;
-      }
-      // Extract the first feature from the FeatureCollection
-      feature = geoJSON.features[0];
-  } else if (geoJSON.type === "Feature") {
-      feature = geoJSON;
-  } else {
-      console.error("Invalid GeoJSON format");
+  if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
+      console.error("Invalid GeoJSON format or empty GeoJSON");
       return null;
   }
 
-  // Validate the feature's geometry
-  if (!feature || !feature.geometry || !feature.geometry.coordinates) {
-      console.error("Invalid GeoJSON feature or empty geometry");
-      return null;
-  }
-
-  var coords = feature.geometry.coordinates;
+  var coords = geoJSON.geometry.coordinates;
   var leftCoords = [];
   var rightCoords = [];
 
@@ -1482,7 +1463,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/demo/wms"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1952,8 +1933,7 @@ map.on("draw:created", function (e) {
             '<input type="radio" id="pvc" name="material" value="6" style="margin-left: 10px;"></div>' +
             '</div>' +
             '<br><label>Diameter:</label><br>',
-            showCancelButton: true,
-            confirmButtonText: 'Create Diameter',
+            showCancelButton: true,            confirmButtonText: 'Create Diameter',
             showLoaderOnConfirm: true,
             preConfirm: () => {
                 const bufferWidthMm = Swal.getInput().value;

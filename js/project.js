@@ -20,7 +20,7 @@ var googleSat = L.tileLayer(
 );
 
 var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-// var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL ="https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
 
 var ward_boundary = L.tileLayer.wms(
   baseURL,
@@ -288,8 +288,7 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
-
+var geoserverUrl = "https://iwmsgis.pmc.gov.in//geoserver";
 
 var workspace = "Road";
 
@@ -413,8 +412,8 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="9%";
-      legendDiv.style.right ="3%";
+      legendDiv.style.top ="12%";
+      legendDiv.style.right ="2%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
       // legendDiv.style.borderRadius= "20px";
@@ -461,7 +460,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://iwmsgis.pmc.gov.in//geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -513,17 +512,6 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
-
-legend.addTo(map);
-map.on('mousemove', function () {
-  var legendDiv = document.querySelector(".info.legend");
-  if (legendDiv.style.display === "block") {
-    legendDiv.style.display = "none";
-    var button = document.querySelector(".collapse-button");
-    button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-    button.style.backgroundColor = "white"; // Change color to indicate action
-  }
-});
 
 // ---------------
 
@@ -765,7 +753,7 @@ if (workType == "New") {
   // Define the HTML content for the control
   customDrawControls.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'draw-control');
-    div.innerHTML = '<button class="draw_feature"" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+    div.innerHTML = '<button class="draw_feature"  style="border:2px solid #2B13BB; position:absolute; margin-top: 600px; margin-left: 685px; border-radius:5px; background-color:white; padding: 5px; width: 37px; height: 37px; ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
     customDrawControlsContainer = div;
     return div;
   };
@@ -1302,90 +1290,34 @@ function createBufferAndDashedLine(polylineLayer, roadLength, bufferWidth) {
 
 
 function createRectangularBuffer(geoJSON, bufferWidth, units) {
-  let feature;
-    
-  if (geoJSON.type === "FeatureCollection") {
-      if (!geoJSON.features || geoJSON.features.length === 0) {
-          console.error("Empty GeoJSON FeatureCollection");
-          return null;
-      }
-      // Extract the first feature from the FeatureCollection
-      feature = geoJSON.features[0];
-  } else if (geoJSON.type === "Feature") {
-      feature = geoJSON;
-  } else {
-      console.error("Invalid GeoJSON format");
+  if (!geoJSON || !geoJSON.geometry || !geoJSON.geometry.coordinates) {
+      console.error("Invalid GeoJSON format or empty GeoJSON");
       return null;
   }
 
-  // Validate the feature's geometry
-  if (!feature || !feature.geometry || !feature.geometry.coordinates) {
-      console.error("Invalid GeoJSON feature or empty geometry");
-      return null;
-  }
+  var coords = geoJSON.geometry.coordinates;
+  var bufferedCoords = [];
 
-  var coords = feature.geometry.coordinates;
-  var leftCoords = [];
-  var rightCoords = [];
+  coords.forEach(function (coord, index) {
+      if (index < coords.length - 1) {
+          var start = turf.point(coord);
+          var end = turf.point(coords[index + 1]);
+          var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
 
-  for (var i = 0; i < coords.length - 1; i++) {
-      var start = turf.point(coords[i]);
-      var end = turf.point(coords[i + 1]);
-      var line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
+          var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
+          var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
 
-      var leftOffsetLine = turf.lineOffset(line, bufferWidth, { units: units });
-      var rightOffsetLine = turf.lineOffset(line, -bufferWidth, { units: units });
+          var leftStart = turf.getCoords(leftOffsetLine)[0];
+          var leftEnd = turf.getCoords(leftOffsetLine)[1];
+          var rightStart = turf.getCoords(rightOffsetLine)[0];
+          var rightEnd = turf.getCoords(rightOffsetLine)[1];
 
-      var leftStart = turf.getCoords(leftOffsetLine)[0];
-      var leftEnd = turf.getCoords(leftOffsetLine)[1];
-      var rightStart = turf.getCoords(rightOffsetLine)[0];
-      var rightEnd = turf.getCoords(rightOffsetLine)[1];
-
-      if (i === 0) {
-          leftCoords.push(leftStart);
-          rightCoords.push(rightStart);
+          bufferedCoords.push(leftStart);
+          bufferedCoords.push(leftEnd);
+          bufferedCoords.push(rightEnd);
+          bufferedCoords.push(rightStart);
       }
-
-      leftCoords.push(leftEnd);
-      rightCoords.push(rightEnd);
-
-      // Handle the intersections at turns
-      if (i < coords.length - 2) {
-          var nextStart = turf.point(coords[i + 1]);
-          var nextEnd = turf.point(coords[i + 2]);
-          var nextLine = turf.lineString([nextStart.geometry.coordinates, nextEnd.geometry.coordinates]);
-
-          var nextLeftOffsetLine = turf.lineOffset(nextLine, bufferWidth, { units: units });
-          var nextRightOffsetLine = turf.lineOffset(nextLine, -bufferWidth, { units: units });
-
-          var nextLeftStart = turf.getCoords(nextLeftOffsetLine)[0];
-          var nextRightStart = turf.getCoords(nextRightOffsetLine)[0];
-
-          var intersectionLeft = turf.lineIntersect(leftOffsetLine, nextLeftOffsetLine);
-          var intersectionRight = turf.lineIntersect(rightOffsetLine, nextRightOffsetLine);
-
-          if (intersectionLeft.features.length > 0) {
-              leftCoords.push(intersectionLeft.features[0].geometry.coordinates);
-          } else {
-              leftCoords.push(nextLeftStart);
-          }
-
-          if (intersectionRight.features.length > 0) {
-              rightCoords.push(intersectionRight.features[0].geometry.coordinates);
-          } else {
-              rightCoords.push(nextRightStart);
-          }
-      }
-
-      if (i === coords.length - 2) {
-          leftCoords.push(leftEnd);
-          rightCoords.push(rightEnd);
-      }
-  }
-
-  // Reverse rightCoords and merge with leftCoords
-  rightCoords.reverse();
-  var bufferedCoords = leftCoords.concat(rightCoords);
+  });
 
   // Ensure the polygon is closed by adding the first coordinate at the end
   if (bufferedCoords.length > 0) {
@@ -1395,6 +1327,7 @@ function createRectangularBuffer(geoJSON, bufferWidth, units) {
   var bufferedPolygon = turf.polygon([bufferedCoords]);
   return turf.featureCollection([bufferedPolygon]);
 }
+
 
 
 
@@ -1454,7 +1387,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
- const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in//geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",

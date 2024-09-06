@@ -1,25 +1,38 @@
 <?php
 require 'config.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 header('Content-Type: application/json');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (json_last_error() !== JSON_ERROR_NONE) {
-    echo json_encode(["error" => "Invalid JSON received"]);
-    exit;
-}
-
 $configId = $data['project_id'] ?? null;
 
 if (empty($configId)) {
-    echo json_encode(["error" => "No project ID provided"]);
+    echo json_encode(["error" => "No project_id provided"]);
     exit;
 }
 
+if (!is_int($configId)) {
+    if (ctype_digit($configId)) {
+        $configId = (int) $configId;
+    } else {
+        echo json_encode(["error" => "Invalid project_id provided"]);
+        exit;
+    }
+}
+
+
+if (isset($data['Pid'])) {
+    $pid = $data['Pid'];
+    if (!is_int($pid)) {
+        if (ctype_digit($pid)) {
+            $data['Pid'] = (int) $pid;
+        } else {
+            echo json_encode(["error" => "Invalid Pid provided"]);
+            exit;
+        }
+    }
+}
 function buildUpdateSQL($table, $data, $configId) {
     $fields = [];
     foreach ($data as $key => $value) {
@@ -27,6 +40,12 @@ function buildUpdateSQL($table, $data, $configId) {
     }
     $fields = implode(', ', $fields);
     return "UPDATE \"$table\" SET $fields WHERE works_aa_a = :configId";
+}
+
+function buildInsertSQL($table, $data) {
+    $fields = implode(', ', array_map(fn($key) => "\"$key\"", array_keys($data)));
+    $placeholders = implode(', ', array_map(fn($key) => ":$key", array_keys($data)));
+    return "INSERT INTO \"$table\" ($fields) VALUES ($placeholders)";
 }
 
 $fieldsToUpdate = [
@@ -54,15 +73,29 @@ if (empty($updateData)) {
 try {
     $pdo->beginTransaction();
 
-    $tables = ["IWMS_line", "Polygon_data", "IWMS_point"];
+    $tables = ["IWMS_line", "Polygon_data", "IWMS_point", "check"];
     foreach ($tables as $table) {
-        $updateSQL = buildUpdateSQL($table, $updateData, $configId);
-        $stmtUpdate = $pdo->prepare($updateSQL);
-        foreach ($updateData as $key => $value) {
-            $stmtUpdate->bindValue(":$key", $value);
+        if ($table === "check") {
+            // Add current timestamp for the "time" field
+            $updateData['time'] = date('Y-m-d H:i:sO');
+
+            // Build the INSERT SQL
+            $insertSQL = buildInsertSQL($table, $updateData);
+            $stmtInsert = $pdo->prepare($insertSQL);
+            foreach ($updateData as $key => $value) {
+                $stmtInsert->bindValue(":$key", $value);
+            }
+            $stmtInsert->execute();
+        } else {
+            // Build the UPDATE SQL
+            $updateSQL = buildUpdateSQL($table, $updateData, $configId);
+            $stmtUpdate = $pdo->prepare($updateSQL);
+            foreach ($updateData as $key => $value) {
+                $stmtUpdate->bindValue(":$key", $value);
+            }
+            $stmtUpdate->bindValue(':configId', $configId, PDO::PARAM_INT);
+            $stmtUpdate->execute();
         }
-        $stmtUpdate->bindValue(':configId', $configId, PDO::PARAM_INT);
-        $stmtUpdate->execute();
     }
 
     $pdo->commit();

@@ -396,14 +396,14 @@
         left: 7.5%;
         transform: translateX(-50%);
         background-color: white;
-        border: 2px solid darkblue;
+        border: 1px solid black;
         border-radius: 5px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 35px;
-        height: 35px;
+        width: 32px;
+        height: 32px;
         z-index: 1000;
         padding: 10px;
       }
@@ -411,9 +411,8 @@
       #helpButton:hover::after {
         content: "HELP";
         position: absolute;
-        top:2%; 
-        left: 170%; 
-
+        top: calc(100% + 5px);
+        left: 50%;
         transform: translateX(-50%);
         background-color: black;
         color: white;
@@ -472,15 +471,14 @@
 @media only screen and (min-width: 1440px) {
   #helpButton {
     top: 15%;
-    left: 2.100%;
+    left: 1.5%;
   }
   
   #helpButton:hover::after {
-    top:2%; 
-    left: 170%; 
+    top: 15%;
+    left: 1.5%;
   }
 }
-
   </style>
 	
 
@@ -673,18 +671,16 @@
             let size = map.getSize();
             let bbox = map.getBounds().toBBoxString();
             let layer = "pmc:PMC_Boundary";
-
+         console.log(zone_ids)
           if (zone_ids.length != 5) {
             layer = "PMC_wards_admin_boundary";
           }
 
-             var baseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms"
-
-var url =  baseUrl + `?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-  e.containerPoint.x
-)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
-  size.x
-}&HEIGHT=${size.y}&BBOX=${bbox}`;
+          var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+            e.containerPoint.x
+          )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+            size.x
+          }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
 
             fetch(url)
@@ -1083,7 +1079,19 @@ var url =  baseUrl + `?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=i
 
       // added for on click of button only saleection edit vertices will work
 
-   
+      // Add click event listeners to the buttons
+      document
+        .getElementById("drawButton")
+        .addEventListener("click", function () {
+          this.style.backgroundColor = "#ccc"; // Change background color when clicked
+        });
+
+      document
+        .getElementById("editButton")
+        .addEventListener("click", function () {
+          this.style.backgroundColor = "#ccc"; // Change background color when clicked
+        });
+
       // Customize the zoom control position
       map.zoomControl.setPosition("bottomright");
     </script>

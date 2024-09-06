@@ -203,9 +203,8 @@
         var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19
         }).addTo(map);
-
         var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-       
+        // var demoURL ="https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
         var IWMS_line = L.tileLayer.wms(baseURL, {
             layers: "IWMS_line",
             format: "image/png",
@@ -257,9 +256,9 @@
 
         var highlightLayer;
 
-        const API_URL = "http://localhost/pmc_test/";
-        //const API_URL = "http://localhost/PMC/IWMS_main/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
+        // const API_URL = "http://localhost/pmc_test/";
+        // const API_URL = "http://localhost/PMC/IWMS_main/";
+const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
 // const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
 
         async function onClickEdit(department, id, Work_ID) {
@@ -531,7 +530,6 @@ window.location.href = baseURL + queryString;
                                     filteredData[ key ] = JSON.stringify(feature[ key ]);
                                 }
                             });
-                            filteredData.id = feature.id ;
                             filteredData.geometry = feature.geometry;
                             return filteredData;
                         });
@@ -586,7 +584,9 @@ window.location.href = baseURL + queryString;
                     editButtonCell.colSpan = 2;
                     editButtonCell.style.textAlign = 'center';
                     const department = data[ page-1 ].Department.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                     const id = data[ page-1 ]?.id?.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    const id = data[ page-1 ].id
+                    //.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    console.log(data[ page-1 ]);
                     const Work_ID = data[ page-1 ].Work_ID;
 
 
@@ -665,7 +665,6 @@ window.location.href = baseURL + queryString;
                     if (highlightLayer) {
                         map.removeLayer(highlightLayer);
                     }
-                    console.log(geometry);
                     highlightLayer = L.geoJSON(geometry, {
                         style: {
                             color: '#0000FF',
@@ -673,7 +672,7 @@ window.location.href = baseURL + queryString;
                             opacity: 0.65
                         }
                     }).addTo(map);
-                   map.fitBounds(highlightLayer.getBounds());
+                    map.fitBounds(highlightLayer.getBounds());
                 }
 
                 // Display initial page
