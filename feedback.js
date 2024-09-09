@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 33px;
-            height: 33px;
+            width: 35px;
+            height: 35px;
             z-index: 1000;
             padding: 10px;
         }
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
              position: absolute;
             right: calc(100% + 5px); 
             transform: translatey(-50%)
-             top: 70%;
+             top: 60%;
             background-color: black;
             color: white;
             border: 1px solid;
@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function() {
         #feedbackButton {
         top: 18%;
         left: 96%;
-        width: 32px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         padding: 8px;
         }
 
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function() {
         #feedbackButton {
         top: 18%;
         left: 96%;
-        width: 32px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         padding: 8px;
         }
 
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
         #feedbackButton {
         top: 18%;
         left: 97%;
-        width: 32px;
+       
         }
 
      #feedbackButton::after {
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
 #feedbackButton {
         top: 18%;
         left: 98%;
-        width: 32px;
+
         }
 
      #feedbackButton::after {
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
 #feedbackButton {
         top: 16%;
         left: 98.3%;
-        width: 32px;
+    
         }
 
      #feedbackButton::after {

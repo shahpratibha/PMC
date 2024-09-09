@@ -1,3 +1,5 @@
+
+
 @media screen and (max-width: 768px) {
   #editFeatureButton {
     display: none !important;
@@ -438,8 +440,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
+  width: 35px !important;
+  height: 35px !important;
   z-index: 1000;
   padding: 10px;
 }

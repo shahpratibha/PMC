@@ -155,18 +155,20 @@
     <div>
       <img src="png/pmcjpeg.png" alt="" class="logopng1" />
     </div>
-
     <div id="table-container">
+      <button id="toggle-btn"><img src="png/dtabasetable.png"  alt="" class="tablebtn">></button>
       <table
         id="workTable"
         class="table table-bordered table-hover"
-        style="width: 100% !important; font-size: 10px"
-      >
+        style="width: 100% !important; font-size: 10px">
         <thead></thead>
 
         <tbody id="workTableData"></tbody>
       </table>
     </div>
+
+
+
 
     <button id="helpButton" onclick="openHelpPage()">
       <i class="fas fa-question icon"></i>
@@ -686,6 +688,40 @@ e.containerPoint.x
       function openHelpPage() {
         window.open("project_help.html", "_blank");
       }
+    </script>
+    <script>
+      $(document).ready(function() {
+    // Initially hide the toggle button
+    $("#toggle-btn").hide();
+
+    // Function to toggle between minimized and maximized states
+    $("#toggle-btn").click(function() {
+        $("#table-container").toggleClass("minimized");
+        if ($("#table-container").hasClass("minimized")) {
+          $("#toggle-btn").html('<img src="png/dtabasetable.png" alt="" class="tablebtn" />');
+        } else {
+            $("#toggle-btn").html('<i class="fas fa-minus"></i>'); // Use minus icon when maximized
+        }
+    });
+
+    // Function to show the table container with the toggle button
+    function showTableContainer() {
+        $("#table-container").show().addClass("show");
+        $("#toggle-btn").show().html('<img src="png/dtabasetable.png" alt="" class="tablebtn" />'); // Set to minus icon initially
+    }
+
+    // Simulate dynamic data loading and show the table container
+    setTimeout(function() {
+        let formDataFromStorage = {}; // Your dynamic data here
+        let contentData = "";
+        for (const property in formDataFromStorage) {
+            contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+        }
+        $("#workTableData").html(contentData);
+        showTableContainer();
+    }, 1000);
+});
+
     </script>
   </body>
 </html>
