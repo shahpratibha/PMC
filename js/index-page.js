@@ -19,7 +19,7 @@ var googleSat = L.tileLayer(
 );
 
 var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-// var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL ="https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
 
 var ward_boundary = L.tileLayer.wms(
   baseURL,
@@ -473,8 +473,8 @@ async function fetchAndPostData(id) {
       success: function (response) {
 
         const lastInsertedId = response.data.id;
-        const bufferWidth = width;
-        const roadLength = lenght;
+        const bufferWidth = response.data.width;
+        const roadLength = response.data.lenght;
         const wardName = response.data.wardname;
         const workType = project.work_type;
 
@@ -1033,7 +1033,7 @@ map.addLayer(drawnItems);
 function fitbou(filter) {
   var layer = "pmc:ward_boundary1";
   var urlm =
-     geoserverUrl + "/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -1611,7 +1611,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",

@@ -20,7 +20,7 @@ var googleSat = L.tileLayer(
 
 
 var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-// var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL ="https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
 
 var ward_boundary= L.tileLayer.wms(
   baseURL,
@@ -348,7 +348,7 @@ map.addControl(new northArrowControl());
 
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver";
 var workspace = "Road";
 
 // Variable to keep track of legend visibility
@@ -1463,7 +1463,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
-  const geoserverBaseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in/geoserver/demo/wms"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1911,26 +1911,29 @@ map.on("draw:created", function (e) {
                 autocapitalize: 'off'
             },
             html:
-                '<label>Material:</label><br> <br>' +
-                '<div style="text-align: left;">' +
-                '<div style="display: inline-block; margin-right: 5px;">' +
-                '<label for="ci">CI</label>' +
-                '<input type="radio" id="ci" name="material" value="CI" checked style="margin-left: 10px;"></div>' +
-                '<div style="display: inline-block; margin-right: 5px;">' +
-                '<label for="di">DI</label>' +
-                '<input type="radio" id="di" name="material" value="DI" style="margin-left: 10px;"></div>' +
-                '<div style="display: inline-block; margin-right: 5px;">' +
-                '<label for="ductileIron">Ductile Iron</label>' +
-                '<input type="radio" id="ductileIron" name="material" value="Ductile Iron" style="margin-left: 10px;"></div>' +
-                '<div style="display: inline-block; margin-right: 5px;">' +
-                '<label for="gi">GI</label>' +
-                '<input type="radio" id="gi" name="material" value="GI" style="margin-left: 10px;"></div>' +
-                '<div style="display: inline-block; margin-right: 5px;">' +
-                '<label for="ms">MS</label>' +
-                '<input type="radio" id="ms" name="material" value="MS" style="margin-left: 10px;"></div></div>' +
-                '<br><label>Diameter in mm :</label><br>',
-            showCancelButton: true,
-            confirmButtonText: 'Create Diameter',
+            '<label>Material:</label><br> <br>' +
+            '<div style="text-align: left;">' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="ci">CI</label>' +
+            '<input type="radio" id="ci" name="material" value="1" checked style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="di">DI</label>' +
+            '<input type="radio" id="di" name="material" value="2" style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="gi">GI</label>' +
+            '<input type="radio" id="gi" name="material" value="3" style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="ms">MS</label>' +
+            '<input type="radio" id="ms" name="material" value="4" style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="hdpe">HDPE</label>' +
+            '<input type="radio" id="hdpe" name="material" value="5" style="margin-left: 10px;"></div>' +
+            '<div style="display: inline-block; margin-right: 5px;">' +
+            '<label for="pvc">PVC</label>' +
+            '<input type="radio" id="pvc" name="material" value="6" style="margin-left: 10px;"></div>' +
+            '</div>' +
+            '<br><label>Diameter:</label><br>',
+            showCancelButton: true,            confirmButtonText: 'Create Diameter',
             showLoaderOnConfirm: true,
             preConfirm: () => {
                 const bufferWidthMm = Swal.getInput().value;

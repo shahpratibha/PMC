@@ -359,14 +359,14 @@
         left: 7.5%;
         transform: translateX(-50%);
         background-color: white;
-        border: 2px solid darkblue;
+        border: 1px solid black;
         border-radius: 5px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 35px;
-        height: 35px;
+        width: 32px;
+        height: 32px;
         z-index: 1000;
         padding: 10px;
       }
@@ -470,12 +470,12 @@
 @media only screen and (min-width: 1440px) {
   #helpButton {
     top: 15%;
-    left: 2.100%;
+    left: 1.5%;
   }
   
   #helpButton:hover::after {
-    top:2%; 
-    left: 170%; 
+    top: 15%;
+    left: 1.5%;
   }
 }
     </style>
@@ -1338,7 +1338,7 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
 
         // Fetch capabilities to get all layers in the 'pmc' workspace
         fetch(
-           geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
+          "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
         )
           .then((response) => response.text())
           .then((data) => {

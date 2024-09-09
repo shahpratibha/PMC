@@ -322,8 +322,7 @@ map.addControl(new northArrowControl());
 // legend start
 // Now continue with your remaining JavaScript code...
 // GeoServer URL
-var geoserverUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1";
-
+var geoserverUrl = "https://iwmsgis.pmc.gov.in/geoserver/";
 
 var workspace = "Drainage";
 
@@ -495,7 +494,7 @@ legend.onAdd = function (map) {
 
   // Fetch capabilities to get all layers in the 'pmc' workspace
   fetch(
-     geoserverUrl + "/ows?service=wms&version=1.3.0&request=GetCapabilities"
+    "https://iwmsgis.pmc.gov.in/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
   )
     .then((response) => response.text())
     .then((data) => {
@@ -1475,7 +1474,7 @@ function checkPolylineIntersection(newPolyline) {
 }
 
 function getWFSUrl() {
- const geoserverBaseUrl = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms"; // Adjust this URL to your GeoServer OWS endpoint
+  const geoserverBaseUrl = "https://iwmsgis.pmc.gov.in//geoserver/pmc/ows"; // Adjust this URL to your GeoServer OWS endpoint
   const params = {
     service: "WFS",
     version: "1.0.0",
@@ -1554,6 +1553,24 @@ function checkOverlapWithGeodata(newFeature, geodataFeatures) {
 
   return overlapPercentage <= 10;
 }
+
+// tracing tool
+
+
+
+
+// for vertex mapping
+
+
+// Example line coordinates
+// var lineCoordinates = [
+//   [51.505, -0.09],
+//   [51.51, -0.1],
+//   [51.515, -0.09]
+// ];
+
+// // Example point
+// var point = L.latLng(51.513, -0.095);
 
 // Function to calculate distance between two points
 function closestVertex(point,lineCoordinates){
@@ -1900,26 +1917,26 @@ function truncateLineToLength(geojson, maxLength) {
             autocapitalize: 'off'
         },
         html:
-            '<label>Material:</label><br> <br>' +
-            '<div style="text-align: left;">' +
-            '<div style="display: inline-block; margin-right: 5px;">' +
-            '<label for="ci">CI</label>' +
-            '<input type="radio" id="ci" name="material" value="CI" checked style="margin-left: 10px;"></div>' +
-            '<div style="display: inline-block; margin-right: 5px;">' +
-            '<label for="di">DI</label>' +
-            '<input type="radio" id="di" name="material" value="DI" style="margin-left: 10px;"></div>' +
-            '<div style="display: inline-block; margin-right: 5px;">' +
-            '<label for="ductileIron">Ductile Iron</label>' +
-            '<input type="radio" id="ductileIron" name="material" value="Ductile Iron" style="margin-left: 10px;"></div>' +
-            '<div style="display: inline-block; margin-right: 5px;">' +
-            '<label for="gi">GI</label>' +
-            '<input type="radio" id="gi" name="material" value="GI" style="margin-left: 10px;"></div>' +
-            '<div style="display: inline-block; margin-right: 5px;">' +
-            '<label for="ms">MS</label>' +
-            '<input type="radio" id="ms" name="material" value="MS" style="margin-left: 10px;"></div></div>' +
-            
-            '<br><label>Diameter in mm:</label><br>',
-        showCancelButton: true,
+  '<label>Material:</label><br> <br>' +
+  '<div style="text-align: left;">' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="rcc">RCC</label>' +
+  '<input type="radio" id="rcc" name="material" value="1" checked style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="np1">NP1</label>' +
+  '<input type="radio" id="np1" name="material" value="2" style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="np2">NP2</label>' +
+  '<input type="radio" id="np2" name="material" value="3" style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="np3">NP3</label>' +
+  '<input type="radio" id="np3" name="material" value="4" style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="di">DI</label>' +
+  '<input type="radio" id="di" name="material" value="5" style="margin-left: 10px;"></div>' +
+  '</div>' +
+  '<br><label>Diameter:</label><br>',
+  showCancelButton: true,
         confirmButtonText: 'Create Diameter',
         showLoaderOnConfirm: true,
         preConfirm: () => {
