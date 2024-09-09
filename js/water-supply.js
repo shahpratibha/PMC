@@ -1439,7 +1439,7 @@ function removeAssociatedLayers(layerId) {
       map.removeLayer(associatedLayers.bufferLayer);
     if (associatedLayers.dashedLineLayer)
       map.removeLayer(associatedLayers.dashedLineLayer);
-    delete associatedLayersRegistry[layerId]; // Clear the registryÂ entry
+    delete associatedLayersRegistry[layerId]; // Clear the registry entry
   }
 }
 
@@ -2142,7 +2142,7 @@ function UpdateArea(geoJSON) {
     var area = turf.area(geoJSON);
     var formattedArea = (area / 100).toFixed(2);
     popupContent +=
-      "<tr><td>Area in MÂ²</td><td>" + formattedArea + "</td></tr>";
+      "<tr><td>Area in M²</td><td>" + formattedArea + "</td></tr>";
   } else if (
     geometryType === "LineString" ||
     geometryType === "MultiLineString"
@@ -2155,7 +2155,7 @@ function UpdateArea(geoJSON) {
   } else if (geometryType === "CircleMarker" || geometryType === "Circle") {
     var radius = layer.getRadius(); // Get the radius of the circle
     var area = Math.PI * Math.pow(radius, 2); // Calculate area for a circle
-    var formattedArea = (area / 100).toFixed(2) + " mÂ²";
+    var formattedArea = (area / 100).toFixed(2) + " m²";
     popupContent += "<tr><td>Area</td><td>" + formattedArea + "</td></tr>";
   }
   return popupContent;

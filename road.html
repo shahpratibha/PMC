@@ -99,7 +99,6 @@
     />
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
 
@@ -162,19 +161,17 @@
     </div>
 
     <div id="table-container">
-      <button id="toggle-btn"><img src="png/dtabasetable.png"  alt="" class="tablebtn">></button>
+      <button id="toggle-btn"><i class="fas fa-minus"></i></button>
       <table
         id="workTable"
         class="table table-bordered table-hover"
-        style="width: 100% !important; font-size: 10px">
+        style="width: 100% !important; font-size: 10px"
+      >
         <thead></thead>
 
         <tbody id="workTableData"></tbody>
       </table>
     </div>
- 
-    
-    
 
     <button id="helpButton" onclick="openHelpPage()">
       <i class="fas fa-question icon"></i>
@@ -800,39 +797,37 @@ document.getElementById('prevButton').addEventListener('click', playPreviousVide
 
 
     <script> 
-   $(document).ready(function() {
-    // Initially hide the toggle button
-    $("#toggle-btn").hide();
-
-    // Function to toggle between minimized and maximized states
-    $("#toggle-btn").click(function() {
+      
+      $(document).ready(function() {
+      // Function to toggle between minimized and maximized states
+      $("#toggle-btn").click(function() {
         $("#table-container").toggleClass("minimized");
         if ($("#table-container").hasClass("minimized")) {
-          $("#toggle-btn").html('<img src="png/dtabasetable.png" alt="" class="tablebtn" />');
+          $("#toggle-btn").html('<i class="fas fa-plus"></i>'); // Use plus icon when minimized
         } else {
-            $("#toggle-btn").html('<i class="fas fa-minus"></i>'); // Use minus icon when maximized
+          $("#toggle-btn").html('<i class="fas fa-minus"></i>'); // Use minus icon when maximized
         }
-    });
+      });
 
-    // Function to show the table container with the toggle button
-    function showTableContainer() {
+      // Function to show the table container with the toggle button and scrollbar
+      function showTableContainer() {
         $("#table-container").show().addClass("show");
-        $("#toggle-btn").show().html('<img src="png/dtabasetable.png" alt="" class="tablebtn" />'); // Set to minus icon initially
-    }
+        $("#toggle-btn").html('<i class="fas fa-minus"></i>').show(); // Set to minus icon initially
+      }
 
-    // Simulate dynamic data loading and show the table container
-    setTimeout(function() {
-        let formDataFromStorage = {}; // Your dynamic data here
+      // Simulate dynamic data loading and show the table container
+      setTimeout(function() {
+        let formDataFromStorage = {
+          
+        };
         let contentData = "";
         for (const property in formDataFromStorage) {
-            contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+          contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
         }
         $("#workTableData").html(contentData);
         showTableContainer();
-    }, 1000);
-});
-
-
+      }, 1000);
+    });
  </script>
   </body>
 </html>

@@ -1,5 +1,4 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC/iwms/";
 
 var map = L.map("map", {
   center:[18.52, 73.89],
@@ -40,12 +39,8 @@ var Esri_WorldImagery = L.tileLayer(
 );
 var baseLayers = {};
 
-
-var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-// var demoURL ="http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
-
 var wms_layer1 = L.tileLayer.wms(
-  baseURL,
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Roads",
     format: "image/png",
@@ -58,7 +53,7 @@ var wms_layer1 = L.tileLayer.wms(
 );
 
 var wms_layer12 = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "PMC_Boundary",
     format: "image/png",
     transparent: true,
@@ -69,7 +64,7 @@ var wms_layer12 = L.tileLayer
       }).addTo(map);
 
 var wms_layer11 = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Reservations",
     format: "image/png",
     transparent: true,
@@ -80,7 +75,7 @@ var wms_layer11 = L.tileLayer
   });
 
 var wms_layer13 = L.tileLayer.wms(
-  baseURL,
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Drainage_data",
     format: "image/png",
@@ -93,7 +88,7 @@ var wms_layer13 = L.tileLayer.wms(
 );
 
 var wms_layer14 = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Data",
     format: "image/png",
     transparent: true,
@@ -104,7 +99,7 @@ var wms_layer14 = L.tileLayer
   });
 
 var wms_layer15 = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Revenue",
     format: "image/png",
     transparent: true,
@@ -115,7 +110,7 @@ var wms_layer15 = L.tileLayer
   });
 
 var wms_layer17 = L.tileLayer.wms(
-  baseURL,
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Village_Boundary",
     format: "image/png",
@@ -127,7 +122,7 @@ var wms_layer17 = L.tileLayer.wms(
   }
 );
 var wms_layer3 = L.tileLayer.wms(
-  baseURL,
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "PMC_Layers",
     format: "image/png",
@@ -139,10 +134,39 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
+var Geotagged = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  {
+    layers: "output_data",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  }
+).addTo(map);
+
+
+
+ 
+var Geotaggedlive = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in/geoserver/PMC_test/wms",
+  {
+    layers: "geotagphoto",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  }
+).addTo(map);
+
 
 
 var IWMS_point = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "IWMS_point",
     format: "image/png",
     transparent: true,
@@ -153,7 +177,7 @@ var IWMS_point = L.tileLayer
   });
 
 var IWMS_line = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "IWMS_line",
     format: "image/png",
     transparent: true,
@@ -164,7 +188,7 @@ var IWMS_line = L.tileLayer
   });
 
   var IWMS_polygon = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "IWMS_polygon",
     format: "image/png",
     transparent: true,
@@ -173,9 +197,30 @@ var IWMS_line = L.tileLayer
     maxZoom: 21,
     opacity: 1,
   });
+
+  var GIS_Ward_Layer = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "GIS_Ward_Layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   
+  var Geodata = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Geodata",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   var wms_layer21 = L.tileLayer
-  .wms(baseURL, {
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Bhavan",
     format: "image/png",
     transparent: true,
@@ -187,7 +232,7 @@ var IWMS_line = L.tileLayer
   });
 
 var wms_layer16 = L.tileLayer.wms(
-  baseURL,
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "OSM_Road",
     format: "image/png",
@@ -203,7 +248,7 @@ var wardname = localStorage.getItem("wardname");
 console.log(wardname, "wardname");
 
 var ward_boundary= L.tileLayer.wms(
-  baseURL,
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "ward_boundary1",
     format: "image/png",
@@ -216,7 +261,7 @@ var ward_boundary= L.tileLayer.wms(
 );
 
 var Zone_layer= L.tileLayer.wms(
-  baseURL,
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
     layers: "Zone_layer",
     format: "image/png",
@@ -238,16 +283,23 @@ var WMSlayers = {
   Village: wms_layer17,
   PMC: wms_layer3,
   Amenity: wms_layer11,
+  
   Bhavan: wms_layer21,
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
+  GIS_Ward_Layer: GIS_Ward_Layer,
+  Geodata:Geodata,
+  "IWMS Point": IWMS_point,
+  "IWMS Line": IWMS_line,
+  "IWMS Polygon": IWMS_polygon,
+  "GIS Ward Layer": GIS_Ward_Layer,
+  Geotagged: Geotagged,
+  Geotaggedlive:Geotaggedlive,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
-
-
 
 
 // kml
@@ -263,7 +315,7 @@ map.on("dblclick", function (e) {
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
     }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-  // you can use this url for further processing such as fetching data from server or showing it on the map
+ 
 
   if (urrr) {
     fetch(urrr)
@@ -441,14 +493,12 @@ function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
   var blob = new Blob([kmlContent], {
     type: "application/vnd.google-earth.kml+xml",
-  }); // Set MIME type to KML
-
-  // Create a download link for the KML file
+  }); 
+  
   var a = document.createElement("a");
   a.href = window.URL.createObjectURL(blob);
-  a.download = "output.kml"; // Set file extension to .kml
-
-  // Append the link to the document and trigger a click event to start the download
+  a.download = "output.kml"; 
+ 
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

@@ -20,7 +20,7 @@ var googleSat = L.tileLayer(
 
 
 var baseURL = "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms";
-// var demoURL = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL = "https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
 
 var ward_boundary = L.tileLayer.wms(
   baseURL,
@@ -415,8 +415,8 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="9%";
-      legendDiv.style.right ="3%";
+      legendDiv.style.top ="12%";
+      legendDiv.style.right ="2%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
       // legendDiv.style.borderRadius= "20px";
@@ -516,16 +516,6 @@ legend.onAdd = function (map) {
 
 legend.addTo(map);
 
-legend.addTo(map);
-map.on('mousemove', function () {
-  var legendDiv = document.querySelector(".info.legend");
-  if (legendDiv.style.display === "block") {
-    legendDiv.style.display = "none";
-    var button = document.querySelector(".collapse-button");
-    button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-    button.style.backgroundColor = "white"; // Change color to indicate action
-  }
-});
 
 
 
@@ -739,7 +729,7 @@ var customDrawControls = L.control({ position: 'topleft' });
 // Define the HTML content for the control
 customDrawControls.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'draw-control');
-  div.innerHTML = '<button class="draw_feature"  style="" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
+  div.innerHTML = '<button class="draw_feature"  style="border:2px solid darkblue;  margin-top:85%; border-radius:5px; background-color:white; padding: 5px ;" title="Draw New Feature"> <img src="png/006-drawing.png" style="width: 20px; height: 20px; padding:0px 3px;"></button>';
   customDrawControlsContainer = div;
   return div;
 };
@@ -1063,7 +1053,6 @@ var editControl = L.control({position: 'topleft'});
     var controlUI = L.DomUtil.create('a', 'leaflet-control-edit-interior', controlDiv);
     controlUI.title = 'Edit features';
     controlUI.href = '#';
-    controlUI.style.display='none';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
     // controlUI.style.fontSize='18px';
     // controlUI.style.position='absolute';

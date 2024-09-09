@@ -183,6 +183,8 @@ height: 20px;
 
 table.dataTable tbody th, table.dataTable tbody td {
 padding: 30px 10px;
+font-weight: bolder;
+
 }
 
 /*search bar  */
@@ -429,18 +431,13 @@ overflow: visible;
 
 /* table------------------------------------------- */
 .leaflet-popup-content-wrapper {
-padding: 1px;
-text-align: left;
-height: auto;
-max-height: 400px;
-border-radius: 12px;
-overflow-y: scroll;
-overflow-x: hidden;
-scrollbar-width: thin;
-width: auto;
-max-width: 400px;
-font-size: 10px;
-}
+
+  border-radius: 12px;
+ 
+  font-size: 10px;
+  font-weight: bold;
+  }
+
 
 .leaflet-popup-content-wrapper tr,
 td {
@@ -452,6 +449,117 @@ margin-left: 2px;
 .leaflet-popup-content-wrapper tr td:not(:last-child) {
 border-right: 1px solid;
 }
+
+/* geotag popup */
+
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  border: 2px solid #6c757d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  background-color: white;
+  display: flex;
+  height:  auto;
+  max-height: 500px;
+  width: auto;
+
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+ 
+
+}
+
+
+/* For WebKit browsers (Chrome, Safari) */
+.leaflet-popup-content-wrapper::-webkit-scrollbar {
+  width: 0px;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.leaflet-popup-content-wrapper:hover::-webkit-scrollbar {
+  width: 5px;  /* Show scrollbar when hovered */
+}
+
+.leaflet-popup-content-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);  /* Custom scrollbar color */
+  border-radius: 12px;
+}
+
+.pagination-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#prevIcon {
+  left: 10px;
+}
+
+#nextIcon {
+  right: 10px;
+}
+
+.pagination-icon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+#popupImage{
+  width: 268px;
+  height: 282px;
+  display: flex;
+  border-radius: 12px;
+}
+.popuptable {
+    width: 100%;
+    /* margin-right: 5px; */
+    margin-top: 5px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 9px;
+}
+
+.popuptable td {
+  border: 1px solid #ddd;
+  font-weight: bold;
+  padding: 5px 0.5px;
+
+}
+
+#featureTitle{
+text-align: left;
+/* padding: 10px; */
+font-weight: bold;
+color: #262626;
+font-size: 13px;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  position: absolute;
+  top: 2px !important;
+  right: 5px !important;
+
+  border: none; 
+  text-align: center;
+  font: 16px / 24px Tahoma, Verdana, sans-serif;
+  color: red;
+  text-decoration: none;
+  background: transparent;
+  font-size: 25px !important;
+  font-weight: bold !important;
+}
+/* geotag */
 
 
 .geopulseaname {
@@ -477,15 +585,13 @@ left: 2%;
 }
 
 
-#autocomplete-list{
+/* #autocomplete-list{
 position: absolute;
 z-index: 9999;
 margin-left: 5px;
 height: auto;
-/* font-weight: lighter; */
 border-radius: 10px;
 width: auto;
-/* position: absolute; */
 z-index: 9999;
 top: 6.5%;
 left: 15.700%;
@@ -498,6 +604,56 @@ overflow-y: scroll;
 scrollbar-width: thin;
 line-height: 2.5;
 
+} */
+
+
+#autocomplete-list {
+  position: absolute;
+  z-index: 9999;
+  margin-left:5px;
+  height: auto;
+  border-radius: 10px;
+  width: auto;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 9999;
+  top: 6.5%;
+  left:15.700%;
+  text-align: left;
+  background-color: #fff;
+  width: 250px;
+  max-width: 230px;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  /* scrollbar-color: #8ac0ee #f1f1f1;  */
+  /* scrollbar-width: thin; */
+  line-height: 2.5;
+ }
+ #autocomplete-list:hover {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8ac0ee #f1f1f1;
+
+}
+.autocomplete-items li {
+  cursor: pointer;
+  list-style: circle;
+}
+
+ /* Scrollbar styles for WebKit browsers */
+#autocomplete-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+#autocomplete-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#autocomplete-list::-webkit-scrollbar-thumb {
+  background-color:#8ac0ee;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
 }
 /* table css */
 .dataTables_info{
@@ -530,19 +686,6 @@ transition: all 0.3s ease;
     /* margin-top: 10px; */
     border: 1px solid #ccc;
     background-color: #f9f9f9;
-}
-.leaflet-container a.leaflet-popup-close-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: none;
-    text-align: center;
-    width: 24px;
-    height: 24px;
-    font: 16px / 24px Tahoma, Verdana, sans-serif;
-    color: red !important;
-    text-decoration: none;
-    background: transparent;
 }
 
 
@@ -593,16 +736,16 @@ transition: all 0.3s ease;
 .SearchBar #searchInputDashboard {
 margin-left: 5px;
 height: 4.5%;
-border-radius: 10px;
+border-radius: 15px;
 
 /* border-radius: 10px; */
 width: 16%;
 position: absolute;
 z-index: 9999;
 top: 2%;
-text-align: center; /* Center align text */
-padding-left: 10px; /* Add padding to move text slightly left */
-left: 14%;
+text-align: left; /* Center align text */
+padding-left: 18px; /* Add padding to move text slightly left */
+left: 14.5%;
 border: 2px solid darkblue;
 }
 
@@ -627,4 +770,76 @@ text-align: center;
 input:-moz-placeholder {
 color: #aaa;
 text-align: center; 
+}
+
+
+.leaflet-popup-pane, .leaflet-control {
+  cursor: pointer;
+}
+
+.leaflet-popup-content {
+  /* width: 181px; */
+}
+
+.popup-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.popup-table td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+}
+
+.popup-table img {
+  max-height: 350px;
+  max-width: 250px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+.popup-table tr:first-child td {
+  text-align: left;
+  font-weight: bold;
+}
+
+.popup-table tr:last-child td {
+  padding-top: 12px;
+}
+
+.popup-table tr:nth-child(2) td {
+  background-color: #f8f9fa;
+}
+
+.popup-table tr:nth-child(odd) td {
+  background-color: #f8f9fa;
+}
+.leaflet-popup-tip {
+  width: 17px;
+  height: 17px;
+  padding: 1px;
+  margin: -10px 0 0 -10px;
+  pointer-events: auto;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  left: 50%;
+  bottom: 100%; /* Moves the tip above the popup */
+  margin-left: -8px; /* Centers the tip horizontally */
+  margin-bottom: -8px; /* Adjusts the tip's vertical position */
+}
+
+.leaflet-popup-content-wrapper tr, td {
+  border-bottom: 1px solid !important;
+  padding: 5px;
+  margin-left: 2px;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: white;
+  color: #333;
+  border: none;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
 }

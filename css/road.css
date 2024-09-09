@@ -1,5 +1,3 @@
-
-
 @media screen and (max-width: 768px) {
   #editFeatureButton {
     display: none !important;
@@ -16,7 +14,6 @@
 }
 
 @media only screen and (min-width: 992px) {
-  
   .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
     background-position: 3px 2px !important;
   }
@@ -309,9 +306,9 @@
     font-size: 15px;
     height: 37px;
     width: 37px;
-    left: 56.850%;
+    left: 59.4%;
   }
-  #saveDataButton {
+  /* #saveDataButton {
     border: 2px solid #2b13bb;
     border-bottom: 2px solid #2b13bb;
     border-top: 2px solid #2b13bb;
@@ -320,14 +317,13 @@
     position: fixed;
     color: black;
     padding: 5px 5px;
-    display: none;
+    display: none !important;
     top: 91%;
     font-size: 17px;
     height: 37px;
     width: 37px;
-    left: 59.500%;
-}
-
+    left: 56.8%;
+  } */
 
   #saveEditGeomButton {
     border: 2px solid #2b13bb;
@@ -395,8 +391,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   z-index: 1000;
   padding: 10px;
 }
@@ -434,14 +430,14 @@
   left: 97.7%;
   transform: translateX(-50%);
   background-color: white;
-  border: 2px solid darkblue;
-  border-radius: 3px;
+  border: 1px solid black;
+  border-radius: 5px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px !important;
-  height: 35px !important;
+  width: 32px;
+  height: 32px;
   z-index: 1000;
   padding: 10px;
 }
@@ -520,16 +516,14 @@
   }
 }
 
-
-
 @media only screen and (min-width: 1440px) {
   #helpButton {
     top: 15%;
-    left: 2.1%;
+    left: 1.5%;
   }
   
   #helpButton:hover::after {
-    top:2%; 
-    left: 170%; 
+    top: 15%;
+    left: 1.5%;
   }
 }

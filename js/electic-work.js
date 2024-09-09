@@ -20,7 +20,7 @@ var googleSat = L.tileLayer(
 
 
 var baseURL = "https://iwmsgis.pmc.gov.in//geoserver/pmc/wms";
-// var demoURL = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
+// var demoURL = "https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
 
 var ward_boundary = L.tileLayer.wms(
   baseURL,
@@ -415,8 +415,8 @@ collapseButton.onAdd = function (map) {
       legendDiv.style.display = "block";
       legendDiv.style.height = "40vh";
       legendDiv.style.width = "200px";
-      legendDiv.style.top ="9%";
-      legendDiv.style.right ="3%";
+      legendDiv.style.top ="12%";
+      legendDiv.style.right ="2%";
       legendDiv.style.scrollbarWidth = "thin";
       legendDiv.style.scrollbarColor =  "#163140 white";
       // legendDiv.style.borderRadius= "20px";
@@ -516,16 +516,6 @@ legend.onAdd = function (map) {
 
 legend.addTo(map);
 
-legend.addTo(map);
-map.on('mousemove', function () {
-  var legendDiv = document.querySelector(".info.legend");
-  if (legendDiv.style.display === "block") {
-    legendDiv.style.display = "none";
-    var button = document.querySelector(".collapse-button");
-    button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
-    button.style.backgroundColor = "white"; // Change color to indicate action
-  }
-});
 
 
 
@@ -1060,7 +1050,6 @@ var editControl = L.control({position: 'topleft'});
     var controlUI = L.DomUtil.create('a', 'leaflet-control-edit-interior', controlDiv);
     controlUI.title = 'Edit features';
     controlUI.href = '#';
-    controlUI.style.display='none';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
    
     L.DomEvent.addListener(controlUI, 'click', function (e) {
@@ -1171,25 +1160,18 @@ function toggleSaveButton(show) {
   var saveBtn = document.getElementById('save-button');
   if (saveBtn) {
       saveBtn.style.display = show ? 'block' : 'none';
-      
-
   }
 }
 
 
 function toggleEditDeleteButton(show) {
   var saveBtns = document.getElementsByClassName('delete-button');
-
-  
   var editBtn = document.getElementsByClassName('leaflet-control-edit-interior');
   for (let i = 0; i < saveBtns.length; i++) {
-
       saveBtns[i].style.display = show ? 'block' : 'none';
       editBtn[i].style.display = show ? 'block' : 'none';
   }
 }
-
-
 
 
 // Button Click Event to Show SweetAlert Success Popup

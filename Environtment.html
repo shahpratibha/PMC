@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <!-- <link rel="stylesheet" href="Encroachment.html"/> -->
     <style>
-         @media screen and (max-width: 768px) {
+      @media screen and (max-width: 768px) {
         #editFeatureButton {
           display: none !important;
         }
@@ -26,13 +26,6 @@
       @media only screen and (min-width: 992px) {
         .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
           background-position: -27px 2px !important;
-        }
-        .leaflet-draw-draw-polyline{
-          display: none !important;
-        }
-        .leaflet-draw-draw-circle{
-          display: none !important;
-
         }
         .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circlemarker {
           background-position: -269px 2px !important;
@@ -116,42 +109,41 @@
           background: white;
           border-bottom: 2px solid #2b13bb;
         }
-
         #saveEditGeomButton {
-			border: 2px solid #2b13bb;
-			border-bottom: 2px solid #2b13bb;
-			border-top: 2px solid #2b13bb;
-			border-radius: 5px 5px 5px 5px;
-      background-color: green;
-			position: fixed;
-			color: black;
-			padding: 0px 5px;
-      top: 85%;
-			/* changed from 683px */
-			font-size: 19px;
-			height: 37px;
-			width: 37px;
-			left: 50%;
-			/* changed from 865px */
-		}
+    border: 2px solid #2b13bb;
+    border-bottom: 2px solid #2b13bb;
+    border-top: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px;
+    background-color: green;
+    position: fixed;
+    color: black;
+    padding: 0px 5px;
+    top: 85%;
+    /* changed from 683px */
+    font-size: 19px;
+    height: 37px;
+    width: 37px;
+    left: 50%;
+    /* changed from 865px */
+  }
 
-		#deleteEditGeomButton {
-			border: 2px solid #2b13bb;
-			border-bottom: 2px solid #2b13bb;
-			border-top: 2px solid #2b13bb;
-			border-radius: 5px 5px 5px 5px;
-			background-color: green;
-			position: fixed;
-			color: black;
-			padding: 0px 5px;
-      top: 85%;
-			/* changed from 683px */
-			font-size: 19px;
-			height: 37px;
-			width: 37px;
-			left: 47%;
-			/* changed from 865px */
-		}
+  #deleteEditGeomButton {
+    border: 2px solid #2b13bb;
+    border-bottom: 2px solid #2b13bb;
+    border-top: 2px solid #2b13bb;
+    border-radius: 5px 5px 5px 5px;
+    background-color: green;
+    position: fixed;
+    color: black;
+    padding: 0px 5px;
+    top: 85%;
+    /* changed from 683px */
+    font-size: 19px;
+    height: 37px;
+    width: 37px;
+    left: 47%;
+    /* changed from 865px */
+  }
         #deleteFeatureButton {
           border: 2px solid #2b13bb;
           border-top: 2px solid #2b13bb;
@@ -397,39 +389,40 @@
       }
 
       #helpButton {
-    position: absolute;
-    top: 15%;
-    left: 2.1%;
-    transform: translateX(-50%);
-    background-color: white;
-    border: 2px solid darkblue;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 35px;
-    height: 35px;
-    z-index: 1000;
-    padding: 10px; 
-}
+        position: absolute;
+        top: 18%;
+        left: 7.5%;
+        transform: translateX(-50%);
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        z-index: 1000;
+        padding: 10px;
+      }
 
-#helpButton:hover::after {
-    content: "HELP"; 
-    position: absolute;
-    top:2%; 
-    left: 170%; 
-    transform: translateX(-50%);
-    background-color: black;
-    color: white;
-    border: 1px solid black;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 12px;
-    white-space: nowrap; 
-    z-index: 1000; 
-    display: none; 
-}
+      #helpButton:hover::after {
+        content: "HELP";
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: black;
+        color: white;
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 1000;
+        display: none;
+      }
+
       #helpButton:hover::after {
         display: block;
       }
@@ -476,15 +469,14 @@
 @media only screen and (min-width: 1440px) {
   #helpButton {
     top: 15%;
-    left: 2.100%;
+    left: 1.5%;
   }
   
   #helpButton:hover::after {
-    top:2%; 
-    left: 170%; 
+    top: 15%;
+    left: 1.5%;
   }
 }
-
     </style>
     <!-- bootstrap -->
     <link

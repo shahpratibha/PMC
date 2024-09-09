@@ -20,7 +20,7 @@
   position: absolute;
   left: 96vw;
   top: 85vh;
-  border: 2px solid darkblue !important;
+  border: 2px solid darkblue;
 }
 
 .leaflet-touch .leaflet-control-layers,
@@ -103,10 +103,63 @@ a {
 } */
 
 
-/* #toggle-btn:hover {
+#table-container {
+  display: none; 
+  position: absolute;
+  width: 30%;
+  height: 40%;
+  top: 55%;
+  right: 1%;
+  overflow: hidden; 
+  scrollbar-width: thin;
+  z-index: 9999;
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+#toggle-btn {
+  display: none; /* Hide initially */
+  position: absolute;
+  top: 0; /* Adjust based on needs */
+  right: 10px;
+  background-color: white;
+  border: 2px solid blue;
+  color: blue;
+  border-radius: 10%;
+  width: 31px;
+  height: 31px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 30px; /* Center the icon vertically */
+  cursor: pointer;
+  z-index: 10000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#table-container.show {
+  display: block;
+  overflow: auto; 
+}
+
+#table-container.show #toggle-btn {
+  display: block;
+}
+
+#table-container.minimized {
+  height: 40px;
+  overflow: hidden;
+}
+
+#table-container.minimized #toggle-btn {
+  top: 0;
+}
+
+#table-container.minimized table {
+  display: none;
+}
+#toggle-btn:hover {
   background-color: lightblue;
   color: darkblue;
-} */
+}
 
 
 /* 
@@ -134,62 +187,6 @@ a {
   background-color: transparent;
   border-radius: 5px;
 } */
-#table-container {
-  display: none; 
-  position: absolute;
-  width: 30%;
-  height: 40%;
-  top: 55%;
-  right: 1%;
-  overflow: hidden; 
-  scrollbar-width: thin;
-  z-index: 9999;
-  transition: height 0.3s ease, opacity 0.3s ease;
-}
-#toggle-btn {
-  display: none ; /* Hide initially */
-  position: fixed;
-  top: 22%; 
-  right: 8px;
-  background-color: white;
-  border: 2px solid darkblue;
-  color: darkblue;
-  border-radius: 10%;
-  width: 35px;
-  height: 35px;
-  font-size: 18px;
-  text-align: center;
-  line-height: 30px;
-  cursor: pointer;
-  z-index: 10000;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-.tablebtn {
-  height: 20px;
-  width: 20px;
-  margin-left: 2px;
-  margin-top: -4px;
-}
-
-#toggle-btn.show {
-  display: block; /* Show when needed */
-}
-
-
-#table-container.show {
-  display: block;
-  overflow: auto; 
-}
-
-#table-container.minimized {
-  height: 40px;
-  overflow: hidden;
-}
-
-#table-container.minimized table {
-  display: none;
-}
-
 
 .ui-autocomplete {
   max-height: 200px;
@@ -333,6 +330,14 @@ a {
   top: 60px;
   left: 5px;
   padding: 10px;
+}
+.leaflet-touch .geocoder-control-input {
+  height: 35px;
+  width: 35px;
+  line-height: 30px;
+  background-size: 30px;
+  left: -5px;
+  border: 2px solid darkblue;
 }
 
 /* 
@@ -596,6 +601,14 @@ td {
 } */
 
 
+.leaflet-touch .geocoder-control-input {
+  height: 30px;
+  line-height: 30px;
+  background-size: 30px;
+  border: 2px solid darkblue;
+  width: 30px;
+}
+
 .leaflet-touch .geocoder-control-input:focus {
   width: 300px;
 }
@@ -656,7 +669,7 @@ width: 37px;
   /* background: rgba(0, 0, 0, 0.5) !important; */
   /* color: #fff !important; */
   /* box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4) !important; */
-  width: 28vh !important;
+  width: 20vh !important;
   /* transform: translate3d(1378px, 611px, 0px) !important; */
 
 }
@@ -673,23 +686,10 @@ width: 37px;
   /* scrollbar-width: thin; */
 /* } */
 .leaflet-touch .geocoder-control-input {
-  height: 35px !important;
-  width: 35px;
+  height: 30px;
   line-height: 30px;
   background-size: 30px;
   border: 2px solid darkblue !important;
 }
-
-/* Style for checkboxes */
-.leaflet-control-layers input[type="checkbox"] {
-  accent-color: blue; /* Change checkbox color to dark blue when checked */
-}
-
-/* Ensure text color remains unchanged */
-.leaflet-control-layers label {
-  color: initial; /* or specify the desired color */
-}
-
-
 
 

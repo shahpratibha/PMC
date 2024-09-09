@@ -4,7 +4,7 @@ var map = L.map("map", {
   center:[18.52, 73.89],
   zoom: 11.66,
   minZoom: 10,
-  maxZoom: 19,
+  maxZoom: 17.2,
   preferCanvas:true,
   boxZoom: true,
   trackResize: true,
@@ -27,9 +27,15 @@ var googleSat = L.tileLayer(
   }
 );
 
+var stamen = L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+  , ).addTo(map);
+  
+  
+
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:19,
-}).addTo(map);
+})
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -137,7 +143,7 @@ var wms_layer3 = L.tileLayer.wms(
 var Geotagged = L.tileLayer.wms(
   "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
   {
-    layers: "Geotagged_photo",
+    layers: "output_data",
     format: "image/png",
     transparent: true,
     tiled: true,
@@ -145,7 +151,23 @@ var Geotagged = L.tileLayer.wms(
     maxZoom: 21,
     opacity: 1,
   }
-);
+).addTo(map);
+
+
+
+ 
+var Geotaggedlive = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in/geoserver/PMC_test/wms",
+  {
+    layers: "geotagphoto",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  }
+).addTo(map);
 
 
 
@@ -261,19 +283,26 @@ var WMSlayers = {
   "OSM": osm,
   "Esri": Esri_WorldImagery,
   "Satellite": googleSat,
+  "Esri_Topo":stamen,
   Boundary: wms_layer12,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
   Amenity: wms_layer11,
-  Geotagged: Geotagged,
+  
   Bhavan: wms_layer21,
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
   GIS_Ward_Layer: GIS_Ward_Layer,
   Geodata:Geodata,
+  "IWMS Point": IWMS_point,
+  "IWMS Line": IWMS_line,
+  "IWMS Polygon": IWMS_polygon,
+  "GIS Ward Layer": GIS_Ward_Layer,
+  Geotagged: Geotagged,
+  Geotaggedlive:Geotaggedlive,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);

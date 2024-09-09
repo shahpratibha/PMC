@@ -18,7 +18,7 @@ var googleSat = L.tileLayer(
   }
 );
 var baseURL = "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms";
-var demoURL = "https://iwmsgis.pmc.gov.in/geoserver/demo/wms";
+var demoURL = "http://iwmsgis.pmc.gov.in:8080/geoserver1/demo/wms";
 var ward_boundary= L.tileLayer.wms(
   baseURL,
   {
@@ -1917,28 +1917,26 @@ function truncateLineToLength(geojson, maxLength) {
             autocapitalize: 'off'
         },
         html:
-      
-        '<label>Material:</label><br> <br>' +
-        '<div style="text-align: left;">' +
-        '<div style="display: inline-block; margin-right: 5px;">' +
-        '<label for="rcc">RCC</label>' +
-        '<input type="radio" id="rcc" name="material" value="1" checked style="margin-left: 10px;"></div>' +
-        '<div style="display: inline-block; margin-right: 5px;">' +
-        '<label for="np1">NP1</label>' +
-        '<input type="radio" id="np1" name="material" value="2" style="margin-left: 10px;"></div>' +
-        '<div style="display: inline-block; margin-right: 5px;">' +
-        '<label for="np2">NP2</label>' +
-        '<input type="radio" id="np2" name="material" value="3" style="margin-left: 10px;"></div>' +
-        '<div style="display: inline-block; margin-right: 5px;">' +
-        '<label for="np3">NP3</label>' +
-        '<input type="radio" id="np3" name="material" value="4" style="margin-left: 10px;"></div>' +
-        '<div style="display: inline-block; margin-right: 5px;">' +
-        '<label for="di">DI</label>' +
-        '<input type="radio" id="di" name="material" value="5" style="margin-left: 10px;"></div>' +
-        '</div>' +
-            
-            '<br><label>Diameter in mm:</label><br>',
-        showCancelButton: true,
+  '<label>Material:</label><br> <br>' +
+  '<div style="text-align: left;">' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="rcc">RCC</label>' +
+  '<input type="radio" id="rcc" name="material" value="1" checked style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="np1">NP1</label>' +
+  '<input type="radio" id="np1" name="material" value="2" style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="np2">NP2</label>' +
+  '<input type="radio" id="np2" name="material" value="3" style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="np3">NP3</label>' +
+  '<input type="radio" id="np3" name="material" value="4" style="margin-left: 10px;"></div>' +
+  '<div style="display: inline-block; margin-right: 5px;">' +
+  '<label for="di">DI</label>' +
+  '<input type="radio" id="di" name="material" value="5" style="margin-left: 10px;"></div>' +
+  '</div>' +
+  '<br><label>Diameter:</label><br>',
+  showCancelButton: true,
         confirmButtonText: 'Create Diameter',
         showLoaderOnConfirm: true,
         preConfirm: () => {
