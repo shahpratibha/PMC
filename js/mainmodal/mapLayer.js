@@ -295,7 +295,7 @@ var WMSlayers = {
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
-  GIS_Ward_Layer: GIS_Ward_Layer,
+  // GIS_Ward_Layer: GIS_Ward_Layer,
   Geodata:Geodata,
   "IWMS Point": IWMS_point,
   "IWMS Line": IWMS_line,
