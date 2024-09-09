@@ -3,6 +3,7 @@ var main_url = "https://iwmsgis.pmc.gov.in/geoserver/"
 // html page code ......................
 
 
+
 function toggleFilter(label) {
   const input = label.nextElementSibling; // Get the input element next to the label
   const ul = input.nextElementSibling; // Get the ul element next to the input
@@ -71,47 +72,45 @@ document.addEventListener('DOMContentLoaded', function () {
   const map = document.getElementById('map');
   const tableBtn = document.getElementById('openTableBtn');
   const tableinfo = document.getElementById('tablecontainer');
-
   const button = document.getElementById('toggleFilters');
 
-
-  // const button = document.getElementById('toggleFilters');
-
-  // Set the title attribute
   button.setAttribute('title', 'Filter');
-
 
   let filtersVisible = false;
 
   button.addEventListener('click', function () {
     if (!filtersVisible) {
-      filters.style.marginLeft = '0';
-      filters.style.opacity = '1';
-      map.style.width = '81vw';
-      button.style.top = "15vh";
-      button.style.right = 'calc(0.8vw )';
+      filters.classList.add('active');
+      map.style.transform = 'translateY(0vh)'; // Move map up
       button.innerHTML = '<i class="fa-solid fa-filter-circle-xmark"></i>';
-      tableBtn.style.right = 'calc(0.8vw)';
-      tableBtn.style.top = '22vh';
-      tableinfo.style.right = 'calc(20vw - 1px)';
     } else {
-      filters.style.marginLeft = '-35vw';
-      filters.style.opacity = '0';
-      map.style.width = '100vw';
-      button.style.top = "15vh";
-      // button.style.right = '40px';
-      button.style.right = '10px';
+      filters.classList.remove('active');
+      map.style.transform = 'translateY(0)'; // Reset map position
+      button.style.bottom = '15px'; // Reset button position
       button.innerHTML = '<i class="fa-solid fa-filter"></i>';
-      tableBtn.style.right = '40px';
-      tableBtn.style.top = '22vh';
-      tableBtn.style.right = '10px';
-      tableinfo.style.right = '10px'; // Adjusted position for tableinfo
     }
     filtersVisible = !filtersVisible;
   });
-  // -------------------------------------------------------------------------
+});
 
+document.addEventListener('DOMContentLoaded', function () {
+  const closeButton = document.getElementById('closeFilters');
+  const filters = document.getElementById('filters');
 
+  closeButton.addEventListener('click', function () {
+      // Hide filter input fields and lists
+      document.querySelectorAll('.filter-input').forEach(input => {
+          input.classList.remove('active');
+          input.style.display = 'none'; // Ensure the input fields are hidden
+      });
+      document.querySelectorAll('.filter-group ul').forEach(ul => {
+          ul.classList.remove('active');
+          ul.style.display = 'none'; // Ensure the filter lists are hidden
+      });
+
+      // Close the filters container
+      filters.classList.remove('active');
+  });
 });
 
 
@@ -124,136 +123,6 @@ function updateTableStats(stats) {
 
 $(document).ready(function () {
   // search()
-
-
-
-var departments = {};
-
-// Define colors for each department
-var departmentColors = {
-    "Road": "#e53c3d",
-    "Building": "#f05224", // orange
-    "Electric": "#fcb300",
-    "Drainage": "#218be6",
-    "Water Supply": "#5155d4",
-    "Garden": "#7e0488",
-    "Garden Horticulture": "#7e0488",
-    "Slum": "#bbb",
-    "City Engineer Office": "#262626",
-    "Education Department": "darkblue",
-    "Environment": "#000000",
-    "Project Work": "#5639b3",
-    "Solid waste Management": "#49a44c",
-    "Market":"yellow",
-    "Encrochment": "#198754",
-    "Sport":"#d63384",
-    // Add more departments and colors as needed
-};
-
-// Function to create custom cluster icons with colors based on the department
-function createClusterIcon(cluster) {
-    var childCount = cluster.getChildCount();
-    var department = cluster.getAllChildMarkers()[0].feature.properties.Department;
-    var color = departmentColors[department] || ''; // Default to green if department color is not found
-
-    var size = Math.max(Math.sqrt(childCount) * 5, 20); // Ensure a minimum size of 20px
-    return L.divIcon({
-        html: '<div class="bufferColor cluster-text" style="background-color: ' + color + '; width: ' + size + 'px; height: ' + size + 'px; line-height: ' + size + 'px;">' + childCount + '</div>',
-        className: 'custom-cluster-icon',
-        iconSize: [size, size] // Adjust the size based on the number of markers
-    });
-}
-
-// Function to load and process GeoJSON data
-function loadAndProcessGeoJSON(main_url, layername, filter) {
-    const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layername}&CQL_FILTER=${filter}&outputFormat=application/json`;
-    $.getJSON(urlm, function (geojsonData) {
-        if (!geojsonData.features || !Array.isArray(geojsonData.features)) {
-            console.error('Invalid GeoJSON data structure:', geojsonData);
-            return;
-        }
-
-        // Group features by department
-        geojsonData.features.forEach(function (feature) {
-            if (feature && feature.geometry && feature.properties && feature.properties.Department) {
-                var department = feature.properties.Department;
-                if (!departments[department]) {
-                    departments[department] = L.markerClusterGroup({
-                        iconCreateFunction: createClusterIcon
-                    });
-                }
-                
-                var processedFeatures = processFeature(feature);
-                if (processedFeatures.length) {
-                    L.geoJSON(processedFeatures, {
-                        pointToLayer: function (feature, latlng) {
-                            var color = departmentColors[feature.properties.Department] || 'green'; // Default to green if department color is not found
-                            return L.marker(latlng, {
-                                icon: L.divIcon({
-                                    className: 'custom-marker-icon',
-                                    html: '<div style="background-color:' + color + '; width: 10px; height: 10px; border-radius: 50%;"></div>'
-                                })
-                            });
-                        }
-                    }).addTo(departments[department]);
-                }
-            }
-        });
-
-        // Add each department's marker cluster group to the map
-        Object.keys(departments).forEach(function (department) {
-            map.addLayer(departments[department]);
-        });
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        console.error('Error loading GeoJSON:', textStatus, errorThrown);
-    });
-}
-
-// Function to process a single feature and return an array of processed features
-function processFeature(feature) {
-    switch (feature.geometry.type) {
-        case 'Polygon':
-        case 'MultiPolygon':
-            var centroid = turf.centroid(feature);
-            return [{
-                type: 'Feature',
-                geometry: centroid.geometry,
-                properties: feature.properties
-            }];
-        case 'Point':
-            return [feature];
-        case 'MultiPoint':
-            return feature.geometry.coordinates.map(function (coords) {
-                return {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: coords
-                    },
-                    properties: feature.properties
-                };
-            });
-        default:
-            console.warn('Unsupported geometry type:', feature.geometry.type);
-            return [];
-    }
-}
-
-// Example usage of the function
-const layername = "IWMS_polygon,IWMS_line,IWMS_point";
-const main_url = "https://iwmsgis.pmc.gov.in/geoserver/";
-const filter = ""; // Add any additional filter if required
-
-loadAndProcessGeoJSON(main_url, layername, filter);
-
-
-
-
-
-
-
-
 
   var start =  moment('2024-04-01');
   var end = moment();
@@ -1100,255 +969,122 @@ function combineFilters(cql_filter123, filterString) {
 //   let cqlFilter123 = "";
 
 //   if (searchtypefield1) {
-//       cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
+//     cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
 //   } else {
-//       cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
+//     cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
 
-//       if (filterString.trim() !== "") {
-//           cqlFilter123 = combineFilters(cqlFilter123, filterString);
-//       }
+//     if (filterString.trim() !== "") {
+//       cqlFilter123 = combineFilters(cqlFilter123, filterString);
+//     }
 //   }
 
 //   console.log(cqlFilter123, "cqlFilter123");
 
 //   for (let layer in layerDetails) {
-//       let selectedKeys = layerDetails[layer];
-//       let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
+//     let selectedKeys = layerDetails[layer];
+//     let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
   
-//       try {
-//           let response = await fetch(urrr);
-//           let html = await response.json();
-//           var htmldata = html.features[0].properties;
-//           let txtk1 = "";
-//           let qrData = "";
-//           let workID = htmldata["Work_ID"]; // Extract Work_ID
+//     try {
+//       let response = await fetch(urrr);
+//       let html = await response.json();
+//       var htmldata = html.features[0].properties;
+//       let txtk1 = "";
+//       let qrData = "";
+//       let workID = htmldata["Work_ID"]; // Extract Work_ID
 
-//           for (let key of selectedKeys) {
-//               if (htmldata.hasOwnProperty(key)) {
-//                   let value = htmldata[key];
-//                   let label = labelMapping[key] || key; // Use the mapping or the original key if not found
-//                   txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
-//               }
-//           }
-
-//           // Generate the URL with Work_ID
-//           let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/geometry_page.html?Work_ID=${workID}`;
-//           qrData = qrURL; // Use the URL for QR code
-
-//           let detaildata1 = `
-//               <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
-//                   <div style='display: flex; justify-content: space-between;'>
-//                       <button id="generateQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                                            Generate QR Code
-//                           <i class="fas fa-qrcode" style="margin-right: 5px;"></i>
-
-//                       </button>
-//                   </div>
-//                   <table style='width:100%; border-collapse: collapse;' class='popup-table'>
-//                       ${txtk1}
-//                       </td></tr><tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
-//                   </table>
-//               </div>
-//           `;
-      
-//           const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      
-//           // Generate QR code when the button is clicked
-//           document.getElementById('generateQR').addEventListener('click', () => {
-//               let qrPopupContent = `
-//                   <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; align-items: center; gap: 10px;'>
-//                       <div id="qrcode"></div>
-//                       <button id="downloadQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-                         
-//                           Download QR Code
-//                            <i class="fas fa-download" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//               `;
-
-//               // Open a new popup for the QR code
-//               let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
-
-//               // Generate the QR code
-//               new QRCode(document.getElementById('qrcode'), {
-//                   text: qrData,
-//                   width: 128,
-//                   height: 128,
-//               });
-
-//               // Add click event for downloading the QR code
-//               document.getElementById('downloadQR').addEventListener('click', () => {
-//                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-//                   if (qrCanvas) {
-//                       let qrImage = qrCanvas.toDataURL("image/png");
-//                       let a = document.createElement('a');
-//                       a.href = qrImage;
-//                       a.download = `QRCode_WorkID_${workID}.png`;
-//                       a.click();
-//                   }
-//               });
-//           });
-
-//       } catch (error) {
-//           console.error("Error fetching data:", error);
+//       for (let key of selectedKeys) {
+//         if (htmldata.hasOwnProperty(key)) {
+//           let value = htmldata[key];
+//           let label = labelMapping[key] || key; // Use the mapping or the original key if not found
+//           txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
+//         }
 //       }
-//   }
-// });
-// ------------------------------------
-// map.on("contextmenu", async (e) => {
-//   let bbox = map.getBounds().toBBoxString();
-//   let size = map.getSize();
 
-//   let daterangeValue = $('#daterange').val();
-//   let dates = daterangeValue.split(' - ');
-//   let startDate = moment(dates[0], 'MMMM D, YYYY').format('YYYY-MM-DD');
-//   let endDate = moment(dates[1], 'MMMM D, YYYY').format('YYYY-MM-DD');
+//       // Generate the URL with Work_ID
+//       let qrURL = `https://iwmsgis.pmc.gov.in/gis/test/geometry_page.html?Work_ID=${workID}`;
+//       qrData = qrURL; // Use the URL for QR code
 
-//   let filterString = await getCheckedValuesforpopuups();
-
-//   var searchtypefield = $("#search_type").val();
-//   var searchtypefield1 = $("#searchInputDashboard").val();
-
-//   let cqlFilter123 = "";
-
-//   if (searchtypefield1) {
-//       cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
-//   } else {
-//       cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
-
-//       if (filterString.trim() !== "") {
-//           cqlFilter123 = combineFilters(cqlFilter123, filterString);
-//       }
-//   }
-
-//   console.log(cqlFilter123, "cqlFilter123");
-
-//   for (let layer in layerDetails) {
-//       let selectedKeys = layerDetails[layer];
-//       let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
+//       let detaildata1 = `
+//         <div style='max-height: 350px; height:auto;'>
+//           <button id="generateQR" style='margin-bottom: 10px;'>Generate QR Code</button>
+//           <div id="qrcode"></div>
+//           <div id="downloadQRContainer" style="display: none;">
+//             <button id="downloadQR" style='margin-top: 10px;'>Download QR Code</button>
+//           </div>
+//           <table style='width:100%;' class='popup-table'>
+//             ${txtk1}
+//             </td></tr><tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
+//           </table>
+//         </div>
+//       `;
   
-//       try {
-//           let response = await fetch(urrr);
-//           let html = await response.json();
-//           var htmldata = html.features[0].properties;
-//           let txtk1 = "";
-//           let qrData = "";
-//           let workID = htmldata["Work_ID"]; // Extract Work_ID
+//       L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+  
+//       // Generate QR code when the button is clicked
+//       document.getElementById('generateQR').addEventListener('click', () => {
+//         let qrCodeContainer = document.getElementById('qrcode');
+//         qrCodeContainer.innerHTML = ""; // Clear previous QR code
 
-//           for (let key of selectedKeys) {
-//               if (htmldata.hasOwnProperty(key)) {
-//                   let value = htmldata[key];
-//                   let label = labelMapping[key] || key; // Use the mapping or the original key if not found
-//                   txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
-//               }
+//         let qrcode = new QRCode(qrCodeContainer, {
+//           text: qrData, // Use the `qrURL` to generate QR code with the redirect URL
+//           width: 128,
+//           height: 128,
+//         });
+
+//         // Show download button after generating the QR code
+//         document.getElementById('downloadQRContainer').style.display = 'block';
+
+//         // Add click event for downloading the QR code
+//         document.getElementById('downloadQR').addEventListener('click', () => {
+//           let qrCanvas = qrCodeContainer.querySelector('canvas');
+//           if (qrCanvas) {
+//             let qrImage = qrCanvas.toDataURL("image/png");
+//             let a = document.createElement('a');
+//             a.href = qrImage;
+//             a.download = `QRCode_WorkID_${workID}.png`;
+//             a.click();
 //           }
-
-//           // Generate the URL with Work_ID
-//           let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/geometry_page.html?Work_ID=${workID}`;
-//           qrData = qrURL; // Use the URL for QR code
-
-//           let detaildata1 = `
-//               <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
-//                   <div style='display: flex; justify-content: space-between;'>
-//                       <button id="generateQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                           Generate QR Code
-//                           <i class="fas fa-qrcode" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//                   <table style='width:100%; border-collapse: collapse;' class='popup-table'>
-//                       ${txtk1}
-//                       </td></tr><tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
-//                   </table>
-//               </div>
-//           `;
+//         });
+//       });
       
-//           const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      
-//           // Generate QR code when the button is clicked
-//           document.getElementById('generateQR').addEventListener('click', () => {
-//               let qrPopupContent = `
-//                   <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; align-items: center; gap: 10px;'>
-//                       <div id="qrcode"></div>
-//                       <button id="downloadQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                           Download QR Code
-//                           <i class="fas fa-download" style="margin-right: 5px;"></i>
-//                       </button>
-//                       <button id="shareQR" style="background-color: #25D366; color: white; border: none; border-radius: 8px; padding: 5px 10px; margin-top: 10px;">
-//                           Share on WhatsApp
-//                           <i class="fas fa-share-alt" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//               `;
-
-//               // Open a new popup for the QR code
-//               let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
-
-//               // Generate the QR code
-//               new QRCode(document.getElementById('qrcode'), {
-//                   text: qrData,
-//                   width: 128,
-//                   height: 128,
-//               });
-
-//               // Add click event for downloading the QR code
-//               document.getElementById('downloadQR').addEventListener('click', () => {
-//                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-//                   if (qrCanvas) {
-//                       let qrImage = qrCanvas.toDataURL("image/png");
-//                       let a = document.createElement('a');
-//                       a.href = qrImage;
-//                       a.download = `QRCode_WorkID_${workID}.png`;
-//                       a.click();
-//                   }
-//               });
-
-//               // Share QR code link on WhatsApp when the share button is clicked
-//               document.getElementById('shareQR').addEventListener('click', () => {
-//                   let whatsappURL = `https://wa.me/?text=Check%20out%20this%20Work%20ID:%20${workID}%20here:%20${encodeURIComponent(qrURL)}`;
-//                   window.open(whatsappURL, '_blank');
-//               });
-//           });
-
-//       } catch (error) {
-//           console.error("Error fetching data:", error);
-//       }
+//     } catch (error) {
+//       console.error("Error fetching data:", error);
+//     }
 //   }
 // });
 
-
-// --------------------------------------
 map.on("contextmenu", async (e) => {
   let bbox = map.getBounds().toBBoxString();
   let size = map.getSize();
-
+ 
   let daterangeValue = $('#daterange').val();
   let dates = daterangeValue.split(' - ');
   let startDate = moment(dates[0], 'MMMM D, YYYY').format('YYYY-MM-DD');
   let endDate = moment(dates[1], 'MMMM D, YYYY').format('YYYY-MM-DD');
-
+ 
   let filterString = await getCheckedValuesforpopuups();
-
+ 
   var searchtypefield = $("#search_type").val();
   var searchtypefield1 = $("#searchInputDashboard").val();
-
+ 
   let cqlFilter123 = "";
-
+ 
   if (searchtypefield1) {
       cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
   } else {
       cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
-
+ 
       if (filterString.trim() !== "") {
           cqlFilter123 = combineFilters(cqlFilter123, filterString);
       }
   }
-
+ 
   console.log(cqlFilter123, "cqlFilter123");
-
+ 
   for (let layer in layerDetails) {
       let selectedKeys = layerDetails[layer];
       let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
-  
+ 
       try {
           let response = await fetch(urrr);
           let html = await response.json();
@@ -1356,7 +1092,7 @@ map.on("contextmenu", async (e) => {
           let txtk1 = "";
           let qrData = "";
           let workID = htmldata["Work_ID"]; // Extract Work_ID
-
+ 
           for (let key of selectedKeys) {
               if (htmldata.hasOwnProperty(key)) {
                   let value = htmldata[key];
@@ -1364,11 +1100,11 @@ map.on("contextmenu", async (e) => {
                   txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
               }
           }
-
+ 
           // Generate the URL with Work_ID
-          let qrURL = `https://iwmsgis.pmc.gov.in/gis/test/geometry_page.html?Work_ID=${workID}`;
+          let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/geometry_page.html?Work_ID=${workID}`;
           qrData = qrURL; // Use the URL for QR code
-
+ 
           let detaildata1 = `
               <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
                   <div style='display: flex; justify-content: space-between;'>
@@ -1383,9 +1119,9 @@ map.on("contextmenu", async (e) => {
                   </table>
               </div>
           `;
-      
+     
           const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      
+     
           // Generate QR code when the button is clicked
           document.getElementById('generateQR').addEventListener('click', () => {
               let qrPopupContent = `
@@ -1401,17 +1137,17 @@ map.on("contextmenu", async (e) => {
                       </button>
                   </div>
               `;
-
+ 
               // Open a new popup for the QR code
               let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
-
+ 
               // Generate the QR code
               let qrcode = new QRCode(document.getElementById('qrcode'), {
                   text: qrData,
                   width: 128,
                   height: 128,
               });
-
+ 
               // Add click event for downloading the QR code
               document.getElementById('downloadQR').addEventListener('click', () => {
                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
@@ -1423,7 +1159,7 @@ map.on("contextmenu", async (e) => {
                       a.click();
                   }
               });
-
+ 
               // Share QR code image on WhatsApp when the share button is clicked
               document.getElementById('shareQR').addEventListener('click', () => {
                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
@@ -1434,13 +1170,12 @@ map.on("contextmenu", async (e) => {
                   }
               });
           });
-
+ 
       } catch (error) {
           console.error("Error fetching data:", error);
       }
   }
 });
-
 // // geotag
 
 map.on("click", async (e) => {
@@ -1816,13 +1551,3 @@ map.on("click", async (e) => {
 //     }
 //   }
 // });
-
-
-
-
-
-
-
-
-
-

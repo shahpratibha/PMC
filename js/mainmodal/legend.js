@@ -245,7 +245,7 @@ var northArrowControl = L.Control.extend({
   onAdd: function (map) {
     var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
     container.innerHTML =
-      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 25px;  height:35px; background-color: white; border:2px solid darkblue; ">';
+      '<img  src="png/002-cardinal-point.png" class="border-0;" alt="" style="width: 30px;  height:50px; background-color: white; border:2px solid darkblue; ">';
     return container;
   },
 });
