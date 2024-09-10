@@ -4,7 +4,7 @@ var map = L.map("map", {
   center:[18.52, 73.89],
   zoom: 11.66,
   minZoom: 10,
-  maxZoom: 17.2,
+  maxZoom:21,
   preferCanvas:true,
   boxZoom: true,
   trackResize: true,
@@ -295,7 +295,7 @@ var WMSlayers = {
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
-  GIS_Ward_Layer: GIS_Ward_Layer,
+  // GIS_Ward_Layer: GIS_Ward_Layer,
   Geodata:Geodata,
   "IWMS Point": IWMS_point,
   "IWMS Line": IWMS_line,
@@ -308,6 +308,19 @@ var WMSlayers = {
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
+map.on("zoomend", function() {
+  if (map.getZoom() > 17.2) {
+    if (!map.hasLayer( googleSat)) {
+      map.removeLayer(stamen);
+      map.addLayer( googleSat);
+    }
+  } else {
+    if (!map.hasLayer(stamen)) {
+      map.removeLayer( googleSat  );
+      map.addLayer(stamen);
+    }
+  }
+});
 
 // kml
 
