@@ -20,11 +20,15 @@ if (empty($configId)) {
     exit;
 }
 
-function buildUpdateSQL($table, $data, $configId) {
+function buildUpdateSQL($table, $data) {
     $fields = [];
     foreach ($data as $key => $value) {
         $fields[] = "\"$key\" = :$key";
     }
+    
+    // Add the Project_Time field with the current timestamp
+    $fields[] = "\"Project_Time\" = NOW()";
+    
     $fields = implode(', ', $fields);
     return "UPDATE \"$table\" SET $fields WHERE works_aa_a = :configId";
 }
@@ -54,9 +58,9 @@ if (empty($updateData)) {
 try {
     $pdo->beginTransaction();
 
-    $tables = ["IWMS_line", "Polygon_data", "IWMS_point"];
+    $tables = ["IWMS_line", "Polygon_data", "IWMS_point", "GIS_Ward_Layer"];
     foreach ($tables as $table) {
-        $updateSQL = buildUpdateSQL($table, $updateData, $configId);
+        $updateSQL = buildUpdateSQL($table, $updateData);
         $stmtUpdate = $pdo->prepare($updateSQL);
         foreach ($updateData as $key => $value) {
             $stmtUpdate->bindValue(":$key", $value);
@@ -75,3 +79,4 @@ try {
     $pdo->rollBack();
     echo json_encode(['error' => true, 'message' => $e->getMessage()]);
 }
+?>
