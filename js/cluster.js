@@ -2,8 +2,8 @@ var departments = {};
 
 // Define colors for each department
 var departmentColors = {
-    "Road": "#e53c3d",
-    "Building": "#f05224", // orange
+    "Road": "#FF004F",
+    "Building": "#99EDC3", // orange
     "Electric": "#fcb300",
     "Drainage": "#218be6",
     "Water Supply": "#5155d4",
