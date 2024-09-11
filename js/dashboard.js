@@ -121,140 +121,21 @@ function updateTableStats(stats) {
 }
 
 
+// --------------------------------------------------------------------
+
 
 $(document).ready(function () {
-  // search()
+  // ----------------------------------
 
 
+  // ---------------------------------
+ 
+  // Example usage of the function
+  const layername = "pmc:IWMS_polygon,pmc:IWMS_line,pmc:IWMS_point";
+  const main_url = "https://iwmsgis.pmc.gov.in/geoserver/";
+  // const filter = ""; // Add any additional filter if required
 
-var departments = {};
-
-// Define colors for each department
-var departmentColors = {
-    "Road": "#e53c3d",
-    "Building": "#f05224", // orange
-    "Electric": "#fcb300",
-    "Drainage": "#218be6",
-    "Water Supply": "#5155d4",
-    "Garden": "#7e0488",
-    "Garden Horticulture": "#7e0488",
-    "Slum": "#bbb",
-    "City Engineer Office": "#262626",
-    "Education Department": "darkblue",
-    "Environment": "#000000",
-    "Project Work": "#5639b3",
-    "Solid waste Management": "#49a44c",
-    "Market":"yellow",
-    "Encrochment": "#198754",
-    "Sport":"#d63384",
-    // Add more departments and colors as needed
-};
-
-// Function to create custom cluster icons with colors based on the department
-function createClusterIcon(cluster) {
-    var childCount = cluster.getChildCount();
-    var department = cluster.getAllChildMarkers()[0].feature.properties.Department;
-    var color = departmentColors[department] || ''; // Default to green if department color is not found
-
-    var size = Math.max(Math.sqrt(childCount) * 5, 20); // Ensure a minimum size of 20px
-    return L.divIcon({
-        html: '<div class="bufferColor cluster-text" style="background-color: ' + color + '; width: ' + size + 'px; height: ' + size + 'px; line-height: ' + size + 'px;">' + childCount + '</div>',
-        className: 'custom-cluster-icon',
-        iconSize: [size, size] // Adjust the size based on the number of markers
-    });
-}
-
-// Function to load and process GeoJSON data
-function loadAndProcessGeoJSON(main_url, layername, filter) {
-    const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layername}&CQL_FILTER=${filter}&outputFormat=application/json`;
-    $.getJSON(urlm, function (geojsonData) {
-        if (!geojsonData.features || !Array.isArray(geojsonData.features)) {
-            console.error('Invalid GeoJSON data structure:', geojsonData);
-            return;
-        }
-
-        // Group features by department
-        geojsonData.features.forEach(function (feature) {
-            if (feature && feature.geometry && feature.properties && feature.properties.Department) {
-                var department = feature.properties.Department;
-                if (!departments[department]) {
-                    departments[department] = L.markerClusterGroup({
-                        iconCreateFunction: createClusterIcon
-                    });
-                }
-                
-                var processedFeatures = processFeature(feature);
-                if (processedFeatures.length) {
-                    L.geoJSON(processedFeatures, {
-                        pointToLayer: function (feature, latlng) {
-                            var color = departmentColors[feature.properties.Department] || 'green'; // Default to green if department color is not found
-                            return L.marker(latlng, {
-                                icon: L.divIcon({
-                                    className: 'custom-marker-icon',
-                                    html: '<div style="background-color:' + color + '; width: 10px; height: 10px; border-radius: 50%;"></div>'
-                                })
-                            });
-                        }
-                    }).addTo(departments[department]);
-                }
-            }
-        });
-
-        // Add each department's marker cluster group to the map
-        Object.keys(departments).forEach(function (department) {
-            map.addLayer(departments[department]);
-        });
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        console.error('Error loading GeoJSON:', textStatus, errorThrown);
-    });
-}
-
-// Function to process a single feature and return an array of processed features
-function processFeature(feature) {
-    switch (feature.geometry.type) {
-        case 'Polygon':
-        case 'MultiPolygon':
-            var centroid = turf.centroid(feature);
-            return [{
-                type: 'Feature',
-                geometry: centroid.geometry,
-                properties: feature.properties
-            }];
-        case 'Point':
-            return [feature];
-        case 'MultiPoint':
-            return feature.geometry.coordinates.map(function (coords) {
-                return {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: coords
-                    },
-                    properties: feature.properties
-                };
-            });
-        default:
-            console.warn('Unsupported geometry type:', feature.geometry.type);
-            return [];
-    }
-}
-
-// Example usage of the function
-const layername = "IWMS_polygon,IWMS_line,IWMS_point";
-const main_url = "https://iwmsgis.pmc.gov.in/geoserver/";
-const filter = ""; // Add any additional filter if required
-
-loadAndProcessGeoJSON(main_url, layername, filter);
-
-
-
-
-
-
-
-
-
+  // loadAndProcessGeoJSON(main_url, layername,cql_filter1 );
   var start =  moment('2024-04-01');
   var end = moment();
   var cql_filter1; // Declare the variable in the outer scope
@@ -285,31 +166,36 @@ loadAndProcessGeoJSON(main_url, layername, filter);
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
     console.log(cql_filter1, "lll")
 
+
+    loadAndProcessGeoJSON(main_url, layername,cql_filter1);
     DataTableFilter(cql_filter1)
 
-
     loadinitialData(cql_filter1);
+    // const cluster_layerName = "IWMS_polygon,IWMS_line,IWMS_point,"; // Verify this layer name in your GeoServer
+    // const cluster_url = "https://iwmsgis.pmc.gov.in/geoserver/";
+
     // const cql_filter = getCqlFilter();
+
+   
+    console.log(cql_filter1,"cql_filter1")
     getCheckedValues(function (filterString) {
 
 
       const mainfilter = combineFilters(cql_filter1, filterString);
+      loadAndProcessGeoJSON(main_url, layername,mainfilter );
+      // console.log(mainfilter,"cql_filter1")
+ 
+
       console.log("Main Filterfor checking:", mainfilter);
 
 
       FilterAndZoom(mainfilter);
       DataTableFilter(mainfilter)
-
     });
-
   }
-
   $('#calendarIcon').on('click', function () {
     $('#daterange').click();
   });
-
-
-
   $('#daterange').on('apply.daterangepicker', function (ev, picker) {
     var startDate = picker.startDate.format('YYYY-MM-DD');
     var endDate = picker.endDate.format('YYYY-MM-DD');
@@ -399,13 +285,12 @@ loadAndProcessGeoJSON(main_url, layername, filter);
   }
 
   initialize();
-
-
-
 });
 
 
 
+
+// -------------------------------------------
 function DataTableFilter(cql_filter1) {
   var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"];
   var typeName = layers.join(',');
@@ -418,10 +303,6 @@ function DataTableFilter(cql_filter1) {
   showtable(typeName, geoServerURL, cqlFilter, headers);
 
 }
-
-
-
-
 function populateDropdown(dropdownId, data) {
   var ul = $("#" + dropdownId);
   ul.empty();
@@ -486,11 +367,6 @@ function getCheckedValues(callback) {
     });
   });
 }
-
-
-
-
-
 function FilterAndZoom(filter) {
   fitbous(filter)
   IWMS_point.setParams({
@@ -510,20 +386,19 @@ function FilterAndZoom(filter) {
     maxZoom: 19.5,
   }).addTo(map);
 };
-
-
-
 function fitbous(filter) {
   var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"];
   var bounds = null;
 
   var processLayer = function (layerName, callback) {
-    var urlm =
-      main_url + "ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-      layerName +
-      "&CQL_FILTER=" +
-      filter +
-      "&outputFormat=application/json";
+    // var urlm =
+    //   main_url + "ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    //   layerName +
+    //   "&CQL_FILTER=" +
+    //   filter +
+    //   "&outputFormat=application/json";
+    const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layerName}&CQL_FILTER=${filter}&outputFormat=application/json`;
+
 
     $.getJSON(urlm, function (data) {
       var geojson = L.geoJson(data);
@@ -550,29 +425,18 @@ function fitbous(filter) {
     });
   });
 }
-
-
 // for dashboard table dynamic
-
-
 function showtable(typeName, geoServerURL, cqlFilter, headers) {
-
-
   tableData(typeName, geoServerURL, cqlFilter, headers);
-
   var currentPage = 1;
   var rowsPerPage = 10;
   var buttonsToShow = 3;
-
   function setupPagination(data, rowsPerPage, headers, tableContainer) {
     var paginationContainer = document.createElement('div');
     paginationContainer.id = 'pagination';
-
     var pageCount = Math.ceil(data.length / rowsPerPage);
-
     function renderPageButtons(startPage) {
       paginationContainer.innerHTML = ""; // Clear any existing content
-
       // Previous Button
       var prevButton = document.createElement('button');
       prevButton.innerText = 'Previous';
@@ -585,7 +449,6 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
         }
       });
       paginationContainer.appendChild(prevButton);
-
       // Page Buttons
       var endPage = Math.min(startPage + buttonsToShow - 1, pageCount);
       for (var i = startPage; i <= endPage; i++) {
@@ -601,7 +464,6 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
         });
         paginationContainer.appendChild(pageButton);
       }
-
       // Next Button
       var nextButton = document.createElement('button');
       nextButton.innerText = 'Next';
@@ -619,10 +481,6 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
     renderPageButtons(1);
     tableContainer.appendChild(paginationContainer); // Append paginationContainer after rendering buttons
   }
-
-
-
-
   function createTable(data, headers) {
     var tableContainer = document.getElementById('tablecontainer');
     if (!tableContainer) {
@@ -630,7 +488,6 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
       return;
     }
     tableContainer.innerHTML = ""; // Clear any existing content
-
     // Create minimize button
     var minimizeButton = document.createElement('button');
     minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
@@ -654,17 +511,12 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
     var tableDetail = document.createElement('div');
     tableDetail.className = 'tableDetail';
     tableContainer.appendChild(tableDetail);
-
     var table = document.createElement('table');
     table.className = 'data-table'; // Add a class for styling
     table.id = 'data-table'; // Add an ID for DataTables initialization
-
     var thead = document.createElement('thead');
     var headerRow = document.createElement('tr');
-
-    // Add 'Serial No' as the first header
     headers.unshift('Sr_no');
-
     // Create header cells
     headers.forEach(headerText => {
       var th = document.createElement('th');
@@ -673,18 +525,14 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
-
     var tbody = document.createElement('tbody');
-
     // Populate table rows with data
     data.forEach((item, index) => {
       var row = document.createElement('tr');
-
       // Add serial number as the first column
       var serialNumberCell = document.createElement('td');
       serialNumberCell.textContent = index + 1;
       row.appendChild(serialNumberCell);
-
       // Add other data columns
       headers.slice(1).forEach(header => { // Exclude the first header (Serial No)
         if (header !== 'Serial No' && header !== 'geometry') {
@@ -1084,237 +932,6 @@ function combineFilters(cql_filter123, filterString) {
 
 // popupshow
 
-// map.on("contextmenu", async (e) => {
-//   let bbox = map.getBounds().toBBoxString();
-//   let size = map.getSize();
-
-//   let daterangeValue = $('#daterange').val();
-//   let dates = daterangeValue.split(' - ');
-//   let startDate = moment(dates[0], 'MMMM D, YYYY').format('YYYY-MM-DD');
-//   let endDate = moment(dates[1], 'MMMM D, YYYY').format('YYYY-MM-DD');
-
-//   let filterString = await getCheckedValuesforpopuups();
-
-//   var searchtypefield = $("#search_type").val();
-//   var searchtypefield1 = $("#searchInputDashboard").val();
-
-//   let cqlFilter123 = "";
-
-//   if (searchtypefield1) {
-//       cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
-//   } else {
-//       cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
-
-//       if (filterString.trim() !== "") {
-//           cqlFilter123 = combineFilters(cqlFilter123, filterString);
-//       }
-//   }
-
-//   console.log(cqlFilter123, "cqlFilter123");
-
-//   for (let layer in layerDetails) {
-//       let selectedKeys = layerDetails[layer];
-//       let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
-  
-//       try {
-//           let response = await fetch(urrr);
-//           let html = await response.json();
-//           var htmldata = html.features[0].properties;
-//           let txtk1 = "";
-//           let qrData = "";
-//           let workID = htmldata["Work_ID"]; // Extract Work_ID
-
-//           for (let key of selectedKeys) {
-//               if (htmldata.hasOwnProperty(key)) {
-//                   let value = htmldata[key];
-//                   let label = labelMapping[key] || key; // Use the mapping or the original key if not found
-//                   txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
-//               }
-//           }
-
-//           // Generate the URL with Work_ID
-//           let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/geometry_page.html?Work_ID=${workID}`;
-//           qrData = qrURL; // Use the URL for QR code
-
-//           let detaildata1 = `
-//               <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
-//                   <div style='display: flex; justify-content: space-between;'>
-//                       <button id="generateQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                                            Generate QR Code
-//                           <i class="fas fa-qrcode" style="margin-right: 5px;"></i>
-
-//                       </button>
-//                   </div>
-//                   <table style='width:100%; border-collapse: collapse;' class='popup-table'>
-//                       ${txtk1}
-//                       </td></tr><tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
-//                   </table>
-//               </div>
-//           `;
-      
-//           const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      
-//           // Generate QR code when the button is clicked
-//           document.getElementById('generateQR').addEventListener('click', () => {
-//               let qrPopupContent = `
-//                   <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; align-items: center; gap: 10px;'>
-//                       <div id="qrcode"></div>
-//                       <button id="downloadQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-                         
-//                           Download QR Code
-//                            <i class="fas fa-download" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//               `;
-
-//               // Open a new popup for the QR code
-//               let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
-
-//               // Generate the QR code
-//               new QRCode(document.getElementById('qrcode'), {
-//                   text: qrData,
-//                   width: 128,
-//                   height: 128,
-//               });
-
-//               // Add click event for downloading the QR code
-//               document.getElementById('downloadQR').addEventListener('click', () => {
-//                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-//                   if (qrCanvas) {
-//                       let qrImage = qrCanvas.toDataURL("image/png");
-//                       let a = document.createElement('a');
-//                       a.href = qrImage;
-//                       a.download = `QRCode_WorkID_${workID}.png`;
-//                       a.click();
-//                   }
-//               });
-//           });
-
-//       } catch (error) {
-//           console.error("Error fetching data:", error);
-//       }
-//   }
-// });
-// ------------------------------------
-// map.on("contextmenu", async (e) => {
-//   let bbox = map.getBounds().toBBoxString();
-//   let size = map.getSize();
-
-//   let daterangeValue = $('#daterange').val();
-//   let dates = daterangeValue.split(' - ');
-//   let startDate = moment(dates[0], 'MMMM D, YYYY').format('YYYY-MM-DD');
-//   let endDate = moment(dates[1], 'MMMM D, YYYY').format('YYYY-MM-DD');
-
-//   let filterString = await getCheckedValuesforpopuups();
-
-//   var searchtypefield = $("#search_type").val();
-//   var searchtypefield1 = $("#searchInputDashboard").val();
-
-//   let cqlFilter123 = "";
-
-//   if (searchtypefield1) {
-//       cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
-//   } else {
-//       cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
-
-//       if (filterString.trim() !== "") {
-//           cqlFilter123 = combineFilters(cqlFilter123, filterString);
-//       }
-//   }
-
-//   console.log(cqlFilter123, "cqlFilter123");
-
-//   for (let layer in layerDetails) {
-//       let selectedKeys = layerDetails[layer];
-//       let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
-  
-//       try {
-//           let response = await fetch(urrr);
-//           let html = await response.json();
-//           var htmldata = html.features[0].properties;
-//           let txtk1 = "";
-//           let qrData = "";
-//           let workID = htmldata["Work_ID"]; // Extract Work_ID
-
-//           for (let key of selectedKeys) {
-//               if (htmldata.hasOwnProperty(key)) {
-//                   let value = htmldata[key];
-//                   let label = labelMapping[key] || key; // Use the mapping or the original key if not found
-//                   txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
-//               }
-//           }
-
-//           // Generate the URL with Work_ID
-//           let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/geometry_page.html?Work_ID=${workID}`;
-//           qrData = qrURL; // Use the URL for QR code
-
-//           let detaildata1 = `
-//               <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
-//                   <div style='display: flex; justify-content: space-between;'>
-//                       <button id="generateQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                           Generate QR Code
-//                           <i class="fas fa-qrcode" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//                   <table style='width:100%; border-collapse: collapse;' class='popup-table'>
-//                       ${txtk1}
-//                       </td></tr><tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
-//                   </table>
-//               </div>
-//           `;
-      
-//           const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      
-//           // Generate QR code when the button is clicked
-//           document.getElementById('generateQR').addEventListener('click', () => {
-//               let qrPopupContent = `
-//                   <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; align-items: center; gap: 10px;'>
-//                       <div id="qrcode"></div>
-//                       <button id="downloadQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                           Download QR Code
-//                           <i class="fas fa-download" style="margin-right: 5px;"></i>
-//                       </button>
-//                       <button id="shareQR" style="background-color: #25D366; color: white; border: none; border-radius: 8px; padding: 5px 10px; margin-top: 10px;">
-//                           Share on WhatsApp
-//                           <i class="fas fa-share-alt" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//               `;
-
-//               // Open a new popup for the QR code
-//               let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
-
-//               // Generate the QR code
-//               new QRCode(document.getElementById('qrcode'), {
-//                   text: qrData,
-//                   width: 128,
-//                   height: 128,
-//               });
-
-//               // Add click event for downloading the QR code
-//               document.getElementById('downloadQR').addEventListener('click', () => {
-//                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-//                   if (qrCanvas) {
-//                       let qrImage = qrCanvas.toDataURL("image/png");
-//                       let a = document.createElement('a');
-//                       a.href = qrImage;
-//                       a.download = `QRCode_WorkID_${workID}.png`;
-//                       a.click();
-//                   }
-//               });
-
-//               // Share QR code link on WhatsApp when the share button is clicked
-//               document.getElementById('shareQR').addEventListener('click', () => {
-//                   let whatsappURL = `https://wa.me/?text=Check%20out%20this%20Work%20ID:%20${workID}%20here:%20${encodeURIComponent(qrURL)}`;
-//                   window.open(whatsappURL, '_blank');
-//               });
-//           });
-
-//       } catch (error) {
-//           console.error("Error fetching data:", error);
-//       }
-//   }
-// });
 
 
 // --------------------------------------
@@ -1577,254 +1194,3 @@ map.on("click", async (e) => {
     console.log("No features found");
   }
 });
-
-
-// map.on("click", async (e) => {
-//   let bbox = map.getBounds().toBBoxString();
-//   let size = map.getSize();
-  
-
-//   workspace = 'PMC_test';
-
-//   const layerDetails1 = {
-//     "PMC_test:geotagphoto": ['photo','category', 'createdAt', 'works_aa_approval_id', 'timestamp', 'imagepath'],
-//   };
-
-
-//   for (let layer in layerDetails1) {
-//     let selectedKeys = layerDetails1[layer];
-//     let urrr = `${main_url}${workspace}/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-//     try {
-//       let response = await fetch(urrr);
-//       let html = await response.json();
-//       let features = html.features;
-//       let imageUrls = [];
-//       let detailsArray = [];
-
-//       features.forEach((feature, index) => {
-//         let htmldata = feature.properties;
-//         let txtk1 = "";
-//         let imageUrl = "";
-//         let category = htmldata['category'] || 'N/A'; // Get the category
-
-//         for (let key of selectedKeys) {
-//           if (htmldata.hasOwnProperty(key)) {
-//             let value = htmldata[key];
-//             if (key === "imagepath") {
-//               // Construct the image URL relative to the 'imgs' folder
-//               var imagename  = htmldata["photo"]
-//               imageUrl = `${value}${imagename}`;
-//               console.log(imageUrl,"imageurl")
-//               imageUrls.push(imageUrl);
-//             } else if (key === "longitude" || key === "latitude") {
-//               // Format latitude and longitude to 4 decimal places
-//               value = parseFloat(value).toFixed(4);
-//               txtk1 += `<tr><td style="background-color: #9393d633; width:30px;">${key}</td><td>${value}</td></tr>`;
-//             } else {
-//               txtk1 += `<tr><td style="background-color: #9393d633; width:30px;">${key}</td><td>${value}</td></tr>`;
-//             }
-//           }
-//         }
-//         detailsArray.push({
-//           index: index + 1,
-//           category: category,
-//           txtk1: txtk1,
-//           imageUrl: imageUrl,
-//           // pdfUrl: pdfUrl
-//         });
-//       });
-
-//       let currentIndex = 0;
-
-//       function updatePopup() {
-//         let imageElement = document.getElementById('popupImage');
-//         let tableBodyElement = document.getElementById('popupTableBody');
-//         let featureTitleElement = document.getElementById('featureTitle');
-//         let prevIcon = document.getElementById('prevIcon');
-//         let nextIcon = document.getElementById('nextIcon');
-
-//         if (detailsArray[currentIndex].imageUrl) {
-//           imageElement.src = detailsArray[currentIndex].imageUrl;
-//           imageElement.style.display = 'block';
-//           // pdfElement.style.display = 'none';
-//         } 
-
-//         tableBodyElement.innerHTML = detailsArray[currentIndex].txtk1;
-//         featureTitleElement.textContent = `Feature ${detailsArray[currentIndex].index} - ${detailsArray[currentIndex].category}`;
-
-//         prevIcon.disabled = currentIndex === 0;
-//         nextIcon.disabled = currentIndex === detailsArray.length - 1;
-//       }
-
-//       let detaildata = `<div style='max-height: 350px; max-width: 270px; position: relative;'>
-//         <button id='prevIcon' class='pagination-icon' style='left: 10px;' disabled>
-//           <i class='fas fa-chevron-left'></i>
-//         </button>
-//         <h6 id="featureTitle">Feature 1 - ${detailsArray[0].category}</h6>
-//         <img id="popupImage" src="${detailsArray[0].imageUrl}" alt="Image" style="display: ${detailsArray[0].imageUrl ? 'block' : 'none'};">
-       
-//         <button id='nextIcon' class='pagination-icon' style='right: 10px;' ${detailsArray.length > 1 ? '' : 'disabled'}>
-//           <i class='fas fa-chevron-right'></i>
-//         </button>
-//         <table class='popuptable'>
-//           <tbody id="popupTableBody">
-//             ${detailsArray[0].txtk1}
-//           </tbody>
-//         </table>
-//       </div>`;
-
-//       L.popup().setLatLng(e.latlng).setContent(detaildata).openOn(map);
-
-//       document.getElementById('prevIcon').addEventListener('click', () => {
-//         if (currentIndex > 0) {
-//           currentIndex--;
-//           updatePopup();
-//         }
-//       });
-
-//       document.getElementById('nextIcon').addEventListener('click', () => {
-//         if (currentIndex < detailsArray.length - 1) {
-//           currentIndex++;
-//           updatePopup();
-//         }
-//       });
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   }
-// });
-
-// map.on("click", async (e) => {
-//   let bbox = map.getBounds().toBBoxString();
-//   let size = map.getSize();
-
-//   workspace = 'pmc';
-
-//   const layerDetails1 = {
-//     "pmc:output_data": ['proj_id', 'category', 'file', 'verify_role_id', 'image_url', 'verify_by']
-//   };
-
-//   for (let layer in layerDetails1) {
-//     let selectedKeys = layerDetails1[layer];
-//     let urrr = `${main_url}${workspace}/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-//     try {
-//       let response = await fetch(urrr);
-//       let html = await response.json();
-//       let features = html.features;
-//       let imageUrls = [];
-//       let pdfUrls = [];
-//       let detailsArray = [];
-
-//       features.forEach((feature, index) => {
-//         let htmldata = feature.properties;
-//         let txtk1 = "";
-//         let imageUrl = "";
-//         let pdfUrl = "";
-//         let category = htmldata['category'] || 'N/A'; // Get the category
-
-//         for (let key of selectedKeys) {
-//           if (htmldata.hasOwnProperty(key)) {
-//             let value = htmldata[key];
-//             if (key === "image_url") {
-//               // Determine the file type based on the URL
-//               if (value.endsWith(".png") || value.endsWith(".jpeg") || value.endsWith(".jpg")) {
-//                 imageUrl = value;
-//                 imageUrls.push(imageUrl);
-//               } else if (value.endsWith(".pdf")) {
-//                 pdfUrl = value;
-//                 pdfUrls.push(pdfUrl);
-//               }
-//             } else if (key === "longitude" || key === "latitude") {
-//               value = parseFloat(value).toFixed(4);
-//               txtk1 += `<tr><td style="background-color: #9393d633; width:30px;">${key}</td><td>${value}</td></tr>`;
-//             } else {
-//               txtk1 += `<tr><td style="background-color: #9393d633; width:30px;">${key}</td><td>${value}</td></tr>`;
-//             }
-//           }
-//         }
-
-//         detailsArray.push({
-//           index: index + 1,
-//           category: category,
-//           txtk1: txtk1,
-//           imageUrl: imageUrl,
-//           pdfUrl: pdfUrl
-//         });
-//       });
-
-//       let currentIndex = 0;
-
-//       function updatePopup() {
-//         let imageElement = document.getElementById('popupImage');
-//         let pdfElement = document.getElementById('popupPdf');
-//         let tableBodyElement = document.getElementById('popupTableBody');
-//         let featureTitleElement = document.getElementById('featureTitle');
-//         let prevIcon = document.getElementById('prevIcon');
-//         let nextIcon = document.getElementById('nextIcon');
-
-//         if (detailsArray[currentIndex].imageUrl) {
-//           imageElement.src = detailsArray[currentIndex].imageUrl;
-//           imageElement.style.display = 'block';
-//           pdfElement.style.display = 'none';
-//         } else if (detailsArray[currentIndex].pdfUrl) {
-//           pdfElement.src = detailsArray[currentIndex].pdfUrl;
-//           pdfElement.style.display = 'block';
-//           imageElement.style.display = 'none';
-//         }
-
-//         tableBodyElement.innerHTML = detailsArray[currentIndex].txtk1;
-//         featureTitleElement.textContent = `Feature ${detailsArray[currentIndex].index} - ${detailsArray[currentIndex].category}`;
-
-//         prevIcon.disabled = currentIndex === 0;
-//         nextIcon.disabled = currentIndex === detailsArray.length - 1;
-//       }
-
-//       let detaildata = `<div style='max-height: 350px; max-width: 270px; position: relative;'>
-//         <button id='prevIcon' class='pagination-icon' style='left: 10px;' disabled>
-//           <i class='fas fa-chevron-left'></i>
-//         </button>
-//         <h6 id="featureTitle">Feature 1 - ${detailsArray[0].category}</h6>
-//         <img id="popupImage" src="${detailsArray[0].imageUrl}" alt="Image" style="display: ${detailsArray[0].imageUrl ? 'block' : 'none'};">
-//         <iframe id="popupPdf" src="${detailsArray[0].pdfUrl}" style="display: ${detailsArray[0].pdfUrl ? 'block' : 'none'};" width="100%" height="200px"></iframe>
-//         <button id='nextIcon' class='pagination-icon' style='right: 10px;' ${detailsArray.length > 1 ? '' : 'disabled'}>
-//           <i class='fas fa-chevron-right'></i>
-//         </button>
-//         <table class='popuptable'>
-//           <tbody id="popupTableBody">
-//             ${detailsArray[0].txtk1}
-//           </tbody>
-//         </table>
-//       </div>`;
-
-//       L.popup().setLatLng(e.latlng).setContent(detaildata).openOn(map);
-
-//       document.getElementById('prevIcon').addEventListener('click', () => {
-//         if (currentIndex > 0) {
-//           currentIndex--;
-//           updatePopup();
-//         }
-//       });
-
-//       document.getElementById('nextIcon').addEventListener('click', () => {
-//         if (currentIndex < detailsArray.length - 1) {
-//           currentIndex++;
-//           updatePopup();
-//         }
-//       });
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
