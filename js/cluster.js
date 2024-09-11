@@ -21,6 +21,35 @@ var departmentColors = {
     // Add more departments and colors as needed
 };
 
+
+    // Get the legend container
+    var legendContainer = document.getElementById('cluster_legend');
+
+    // Loop through the department colors and create the legend items
+    for (var department in departmentColors) {
+        if (departmentColors.hasOwnProperty(department)) {
+            // Create a new div for the legend item
+            var legendItem = document.createElement('div');
+            legendItem.className = 'cluster_legend-item';
+
+            // Create the color box
+            var colorBox = document.createElement('div');
+            colorBox.className = 'cluster_legend-color';
+            colorBox.style.backgroundColor = departmentColors[department];
+
+            // Create the label
+            var label = document.createElement('span');
+            label.textContent = department;
+
+            // Append the color box and label to the legend item
+            legendItem.appendChild(colorBox);
+            legendItem.appendChild(label);
+
+            // Append the legend item to the legend container
+            legendContainer.appendChild(legendItem);
+        }
+    }
+
 // Function to create custom cluster icons with colors based on the department
 function createClusterIcon(cluster) {
     var childCount = cluster.getChildCount();
@@ -36,12 +65,12 @@ var totalTenderAmountCr = totalTenderAmountK / 10000;
     // var department = cluster.getAllChildMarkers()[0].feature.properties.Department;
     var department = childMarkers[0].feature.properties.Department;
     console.log(department,"department")
-    var color = departmentColors[department] || 'lightpink'; // Default to green if department color is not found
+    var color = departmentColors[department] || ''; // Default to green if department color is not found
     
     var zoomLevel = map.getZoom();
     var size = Math.max(Math.sqrt(childCount) * 5, 20); // Ensure a minimum size of 20px
     
-    var adjustedSize = Math.min(totalTenderAmountCr, 70);// Adjust the divisor to scale size
+    var adjustedSize = Math.min(totalTenderAmountCr, 100);// Adjust the divisor to scale size
     var dynamicSize = Math.min(size * (zoomLevel /5), adjustedSize); 
     // var adjustedColor = color; // You can customize color based on tender_amount if needed
 
@@ -123,78 +152,7 @@ function clearClusters() {
   departments = {}; // Reset the departments object
 }
 
-// function loadAndProcessGeoJSON(main_url, layername, filter) {
-//   clearClusters(); 
-//     // const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layername}&CQL_FILTER=${filter}&outputFormat=application/json`;
-//     const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layername}&CQL_FILTER=${encodeURIComponent(filter)}&outputFormat=application/json`;
-//     console.log("GeoServer Request URL cluster:", urlm,"filter",filter);
 
-//     $.getJSON(urlm, function (geojsonData) {
-//       console.log('GeoJSON Response:', geojsonData); 
-//       try {
-//         // Log the received data for debugging
-//         // console.log('GeoJSON Response:', geojsonData);
-
-//         if (!geojsonData.features || !Array.isArray(geojsonData.features)) {
-//             console.error('Invalid GeoJSON data structure:', geojsonData);
-//             return;
-//         }
-
-//       // if (!geojsonData.features || !Array.isArray(geojsonData.features)) {
-//       //       console.error('Invalid GeoJSON data structure:', geojsonData);
-//       //       return;
-//       //   }
-
-//         // Group features by department
-//         geojsonData.features.forEach(function (feature) {
-//             if (feature && feature.geometry && feature.properties && feature.properties.Department) {
-//                 var department = feature.properties.Department;
-//                 if (!departments[department]) {
-//                     departments[department] = L.markerClusterGroup({
-//                         iconCreateFunction: createClusterIcon
-//                     });
-//                 }
-                
-//                 var processedFeatures = processFeature(feature);
-//                 if (processedFeatures.length) {
-//                     L.geoJSON(processedFeatures, {
-//                         pointToLayer: function (feature, latlng) {
-//                             var color = departmentColors[feature.properties.Department] || 'green'; // Default to green if department color is not found
-//                             return L.marker(latlng, {
-//                                 icon: L.divIcon({
-//                                     className: 'custom-marker-icon',
-//                                     html: '<div style="background-color:' + color + '; width: 10px; height: 10px; border-radius: 50%;"></div>'
-//                                 })
-//                             });
-//                         }
-//                     }).addTo(departments[department]);
-//                 }
-//             }
-//         });
-
-//         // Add each department's marker cluster group to the map
-//         Object.keys(departments).forEach(function (department) {
-//           console.log('Adding layer for department:', department); // Debug statement
-//           console.log('Cluster group contains markers:', departments[department].getLayers().length); // Debug statement
-//           map.addLayer(departments[department]);
-//         });
-//       } catch (error) {
-//         console.error('Error processing GeoJSON data:', error);
-//     }
-//     })
-//     .fail(function (jqXHR, textStatus, errorThrown) {
-//         console.error('Error loading GeoJSON:', textStatus, errorThrown);
-//     });
-    
-// }
-//   map.on('zoomend', function () {
-//     // Recreate clusters to adjust size based on new zoom level
-//     Object.keys(departments).forEach(function (department) {
-//         departments[department].clearLayers(); // Clear existing clusters
-//         // Reload the clusters
-//         loadAndProcessGeoJSON(main_url, layername, cql_filter1);
-//     });
-// });
 
 map.on('zoomend', function () {
   clearClusters();

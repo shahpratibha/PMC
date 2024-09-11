@@ -122,7 +122,13 @@ function updateTableStats(stats) {
 
 
 // --------------------------------------------------------------------
+
+
 $(document).ready(function () {
+  // ----------------------------------
+
+
+  // ---------------------------------
  
   // Example usage of the function
   const layername = "pmc:IWMS_polygon,pmc:IWMS_line,pmc:IWMS_point";
