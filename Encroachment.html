@@ -95,6 +95,42 @@
         width: 37px;
         left: 69.1%;
       }
+      #saveEditGeomButton {
+			border: 2px solid #2b13bb;
+			border-bottom: 2px solid #2b13bb;
+			border-top: 2px solid #2b13bb;
+			border-radius: 5px 5px 5px 5px;
+      background-color: green;
+			position: fixed;
+			color: black;
+			padding: 0px 5px;
+      top: 85%;
+			/* changed from 683px */
+			font-size: 19px;
+			height: 37px;
+			width: 37px;
+			left: 50%;
+			/* changed from 865px */
+		}
+
+		#deleteEditGeomButton {
+			border: 2px solid #2b13bb;
+			border-bottom: 2px solid #2b13bb;
+			border-top: 2px solid #2b13bb;
+			border-radius: 5px 5px 5px 5px;
+			background-color: green;
+			position: fixed;
+			color: black;
+			padding: 0px 5px;
+      top: 85%;
+			/* changed from 683px */
+			font-size: 19px;
+			height: 37px;
+			width: 37px;
+			left: 47%;
+			/* changed from 865px */
+		}
+
       #editFeatureButton {
         border: 2px solid #2b13bb;
         border-radius: 5px 5px 5px 5px;
@@ -602,17 +638,23 @@
     <script src="js/Enchrochment.js"></script>
 
     <script>
-      function toggleSelectLayerButton(show) {
-        var saveBtn = document.getElementById("editFeatureButton");
-        var editBtn = document.getElementById("saveDataButton");
-        var deleteBtn = document.getElementById("deleteFeatureButton");
-        if (saveBtn && editBtn) {
-          saveBtn.style.display = show ? "block" : "none";
-          editBtn.style.display = show ? "block" : "none";
-          deleteBtn.style.display = show ? "block" : "none";
-        }
+  function toggleSelectLayerButton(show) {
+      var saveBtn = document.getElementById('editFeatureButton');
+      var editBtn = document.getElementById('saveDataButton');
+      var deleteBtn = document.getElementById('deleteFeatureButton');
+      var deleteBtnEdit = document.getElementById('deleteEditGeomButton');
+      var saveBtnEdit = document.getElementById('saveEditGeomButton');
+      if (saveBtn && editBtn) {
+        saveBtn.style.display = show ? 'block' : 'none';
+        editBtn.style.display = show ? 'block' : 'none';
+        deleteBtn.style.display = show ? 'block' : 'none';
+        
       }
-
+      if(deleteBtnEdit && saveBtnEdit ){
+        deleteBtnEdit.style.display = show ? 'none' : 'block'
+        saveBtnEdit.style.display = show ? 'none' : 'block'
+      }
+    }
       // Create a custom control
       var editControl = L.control({ position: "topleft" });
 
@@ -620,14 +662,17 @@
 
       var editableLayers = new L.FeatureGroup().addTo(map);
       var selectedFeature = null;
+      let coordinatesData = [];
+      let uniqueIds = [];
+
 
       function performTask() {
-        map.on("click", function (e) {
-          let size = map.getSize();
-          let bbox = map.getBounds().toBBoxString();
-          let layer = "pmc:PMC_Boundary";
-
-          if (zone_ids != 5) {
+          map.on("click", function (e) {
+            let size = map.getSize();
+            let bbox = map.getBounds().toBBoxString();
+            let layer = "pmc:PMC_Boundary";
+         console.log(zone_ids)
+          if (zone_ids.length != 5) {
             layer = "PMC_wards_admin_boundary";
           }
 
@@ -637,253 +682,295 @@
             size.x
           }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-          fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-              highlightFeature(data);
-            });
-        });
 
-        function highlightFeature(featureData) {
-          // Check if any features are present in the featureData
-          if (
-            !featureData ||
-            !featureData.features ||
-            featureData.features.length === 0
-          )
-            // Clear existing editable layers
-            editableLayers.clearLayers();
-
-          // Get the first feature from the featureData
-          var feature = featureData.features[0];
-
-          var geojsonLayer = L.geoJSON(feature, {
-            style: {
-              color: "red",
-              weight: 3,
-              opacity: 1,
-              fillOpacity: 0.5,
-            },
+            fetch(url)
+              .then((response) => response.json())
+              .then((data) => {
+                addUniqueFeatures(data);
+              });
           });
 
-          editableLayers.addLayer(geojsonLayer);
+          function addUniqueFeatures(data) {
+              if (data.features.length === 0) return; // Return if no features
+              const feature = data.features[0];
+              let isDuplicate = uniqueIds.some((layer) => {
+                return layer === feature.id;
+              });
 
-          if (editableLayers.getLayers().length > 0) {
-            map.fitBounds(editableLayers.getBounds());
-          }
-        }
-
-        editableLayers.on("contextmenu", function (e) {
-          // Check if there is a selected feature
-
-          toggleSelectLayerButton(true);
-
-          if (editableLayers.getLayers().length > 0) {
-            selectedFeature = editableLayers.getLayers()[1];
-
-            // Get the coordinates of the right-clicked point
-            var latlng = e.latlng;
-            var popupContent = "<h5>Selected Feature</h5>";
-
-            if (localStorage.getItem("conceptual_form_data_temp")) {
-              const formDataFromStorage = JSON.parse(
-                localStorage.getItem("conceptual_form_data_temp")
-              );
-
-              $("#table-container").show();
-              console.log(formDataFromStorage);
-              let contentData = "<tr>";
-              for (const property in formDataFromStorage) {
-                contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+              if (!isDuplicate) {
+                highlightFeature(data);
               }
-              contentData += "</tr>";
-              $("#workTableData").html(contentData);
-            }
-            document
-              .getElementById("saveDataButton")
-              .addEventListener("click", function () {
-                var featureData = selectedFeature.toGeoJSON();
+            } 
 
-                var featureId = featureData.features[0].id;
-                let formDataFromStorage;
-                let formDataTemp = localStorage.getItem(
-                  "conceptual_form_data_temp"
-                );
-                if (formDataTemp) {
-                  localStorage.setItem("conceptual_form_data", formDataTemp);
-                  formDataFromStorage = JSON.parse(formDataTemp);
-                }
+          function highlightFeature(featureData) {
+            // Check if any features are present in the featureData
+            if (
+              !featureData ||
+              !featureData.features ||
+              featureData.features.length === 0
+            )
+              // Clear existing editable layers
+            editableLayers.clearLayers();
+            var feature = featureData.features[0];
+            uniqueIds.push(feature.id);
 
-                var roadLength =
-                  formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Length")
-                    ? formDataFromStorage.Length
-                    : 10;
-
-                var bufferWidth =
-                  formDataFromStorage &&
-                  formDataFromStorage.hasOwnProperty("Width")
-                    ? formDataFromStorage.Width
-                    : 20;
-
-                let selectCoordinatesData = featureData.features;
-                localStorage.setItem(
-                  "selectCoordinatesData",
-                  JSON.stringify(selectCoordinatesData)
-                );
-
-                var payload = JSON.stringify({
-                  geoJSON: JSON.stringify(featureData),
-                  roadLength: roadLength,
-                  bufferWidth: bufferWidth,
-                  gis_id: lastInsertedId,
-                  department: department,
-                  selectCoordinatesData: selectCoordinatesData,
-                });
-
-                $.ajax({
-                  type: "POST",
-                  url: "APIS/gis_update.php",
-                  data: payload,
-                  contentType: "application/json",
-                  success: function (response) {
-                    Swal.fire({
-                      position: "center",
-                      icon: "success",
-                      title: "Success",
-                      text: "Saved Successfully",
-                      showConfirmButton: false,
-                      showCloseButton: true,
-                      customClass: {
-                        popup: "custom-modal-class",
-                        icon: "custom-icon-class",
-                        title: "custom-title-class",
-                        content: "custom-text-class",
-                        closeButton: "custom-close-button-class",
-                      },
-                      showClass: {
-                        popup: "swal2-show",
-                        backdrop: "swal2-backdrop-show",
-                        icon: "swal2-icon-show",
-                      },
-                      hideClass: {
-                        popup: "swal2-hide",
-                        backdrop: "swal2-backdrop-hide",
-                        icon: "swal2-icon-hide",
-                      },
-                      didOpen: () => {
-                        // Apply custom styles directly to the modal elements
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.width = "400px"; // Set your desired width
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.height = "250px"; // Set your desired height
-                        document.querySelector(
-                          ".custom-modal-class"
-                        ).style.transition = "all 0.5s ease";
-                        document.querySelector(
-                          ".custom-icon-class"
-                        ).style.fontSize = "10px"; // Set your desired icon size
-                        document.querySelector(
-                          ".custom-icon-class"
-                        ).style.transition = "all o.5s ease";
-                        document.querySelector(
-                          ".custom-title-class"
-                        ).style.fontSize = "1.5em"; // Set your desired title size
-                        document.querySelector(
-                          ".custom-text-class"
-                        ).style.fontSize = "1em"; // Set your desired text size
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.backgroundColor = "#f44336"; // Red background color
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.color = "white"; // White text color
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.borderRadius = "0"; // Rounded corners
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.padding = "5px"; // Padding around the close button
-                        document.querySelector(
-                          ".custom-close-button-class"
-                        ).style.fontSize = "20px"; // Font size of the close button
-                      },
-                    });
-
-                    setTimeout(() => {
-                      //	window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Building`+`&lastInsertedId=`+lastInsertedId;
-                    }, 2100);
-                  },
-                  error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
-                  },
-                });
-
-                let area = turf.area(selectCoordinatesData[0]);
-                let centroid = turf.centroid(selectCoordinatesData[0]);
-                var formData = new FormData();
-                formData.append("proj_id", worksAaApprovalId);
-                formData.append(
-                  "latitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][0][0]
-                );
-                formData.append(
-                  "longitude",
-                  selectCoordinatesData[0].geometry.coordinates[0][0][1]
-                );
-                formData.append("polygon_area", area);
-                formData.append(
-                  "polygon_centroid",
-                  JSON.stringify(centroid.geometry.coordinates)
-                );
-                formData.append(
-                  "geometry",
-                  JSON.stringify(
-                    selectCoordinatesData[0].geometry.coordinates?.map(
-                      (coordinates) => coordinates.slice().reverse()
-                    )
-                  )
-                );
-                formData.append("road_no", struct_no);
-                formData.append("user_id", user_id);
-
-                $.ajax({
-                  type: "POST",
-                  url: "https://iwms.punecorporation.org/api/gis-data",
-                  data: formData,
-                  processData: false,
-                  contentType: false,
-                  success: function (response) {
-                    window.location.href = response.data.redirect_Url;
-                  },
-                  error: function (xhr, status, error) {
-                    console.error("Save failed:", error);
-                  },
-                });
+                if (feature.geometry.type == 'Polygon') {
+              // Handle single Polygon
+              coordinatesData.push(
+                  L.polygon(feature.geometry.coordinates[0].map((coord) => [coord[1], coord[0]]))
+              );
+          } else if (feature.geometry.type === 'MultiPolygon') {
+              // Handle MultiPolygon
+              feature.geometry.coordinates.forEach((polygonCoords) => {
+                  coordinatesData.push(L.polygon(polygonCoords[0].map((coord) => [coord[1], coord[0]])));
+              });
+          } else if (feature.geometry.type === 'LineString') {
+              // Handle single LineString
+              let coordinates = feature.geometry.coordinates.map((coord) => [coord[1], coord[0]]);
+              coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
+          } else if (feature.geometry.type === 'MultiLineString') {
+              // Handle MultiLineString
+              feature.geometry.coordinates.forEach((lineCoords) => {
+                  let coordinates = lineCoords.map((coord) => [coord[1], coord[0]]);
+                  coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
               });
           }
-        });
 
-        // Change the button text to "Finish"
-        var button = document.querySelector(".custom-button");
-        button.innerHTML = "Finish";
 
-        // Change the button's onclick function to stop the task
-        button.onclick = function () {
-          button.innerHTML =
-            '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
-          // Remove the click event listener from the map
-          var drawFeatureButton = document.querySelector(".draw_feature");
-          if (drawFeatureButton) {
-            drawFeatureButton.removeAttribute("disabled");
+
+
+                
+
+
+
+              coordinatesData.forEach((layer) => {
+                // Set the style to red
+                layer.setStyle({ color: 'red',weight: 3, opacity: 1, fillOpacity: 0.5, });
+                editableLayers.addLayer(layer);
+            });
+
+            if (editableLayers.getLayers().length > 0) {
+              map.fitBounds(editableLayers.getBounds());
+            }
           }
+          editableLayers.on("contextmenu", function (e) {
+            // Check if there is a selected feature
 
-          map.off("click");
-          toggleSelectLayerButton(false);
-          // Reset any ongoing operation here
-        };
+            toggleSelectLayerButton(true);
+
+            if (editableLayers.getLayers().length > 0) {
+              selectedFeature = editableLayers.getLayers()[0];
+  
+              // Get the coordinates of the right-clicked point
+              var latlng = e.latlng;
+              var popupContent = "<h5>Selected Feature</h5>";
+
+              if (localStorage.getItem("conceptual_form_data_temp")) {
+                const formDataFromStorage = JSON.parse(
+                  localStorage.getItem("conceptual_form_data_temp")
+                );
+
+                $("#table-container").show();
+                let contentData = "<tr>";
+                for (const property in formDataFromStorage) {
+                  contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+                }
+                contentData += "</tr>";
+                $("#workTableData").html(contentData);
+              }
+              document
+                .getElementById("saveDataButton")
+                .addEventListener("click", function () {
+                  var featureData = selectedFeature.toGeoJSON();
+                //  var featureId = featureData.features[0].id;
+                  let formDataFromStorage;
+                  let formDataTemp = localStorage.getItem("conceptual_form_data_temp");
+                  if (formDataTemp) {
+                    localStorage.setItem("conceptual_form_data", formDataTemp);
+                    formDataFromStorage = JSON.parse(formDataTemp);
+                  }
+
+                  var roadLength = formDataFromStorage && formDataFromStorage.hasOwnProperty("Length")? formDataFromStorage.Length: 10;
+                  var bufferWidth = formDataFromStorage &&  formDataFromStorage.hasOwnProperty("Width") ? formDataFromStorage.Width : 20;
+                  let selectCoordinatesData = editableLayers.getLayers().map((layer) => layer.toGeoJSON());
+                  localStorage.setItem("selectCoordinatesData",JSON.stringify(selectCoordinatesData));
+
+                  selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+                    let area = turf.area(selectCoordinatesDataSingle);
+                    var payload = JSON.stringify({
+                      geoJSON: JSON.stringify(selectCoordinatesDataSingle),
+                      roadLength: roadLength,
+                      bufferWidth: bufferWidth,
+                      gis_id: lastInsertedId,
+                      department: department,
+                      selectCoordinatesData: selectCoordinatesDataSingle,
+                      area: area,
+                      geometryType:selectCoordinatesDataSingle.geometry.type,
+                    });
+
+                    if (editMode) {
+                          let editIdTemp = editId.split(".")[ 1 ];
+                          let geometryTypeTemp = editId.split(".")[ 0 ];
+                          $.ajax({
+                            url: 'APIS/Update_Geometry.php', // Path to your PHP save script
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                              selectCoordinatesData: selectCoordinatesDataSingle,
+                              fid: editIdTemp,
+                              geometryType:selectCoordinatesDataSingle.geometry.type,
+                            }),
+                            success: function (response) {
+                              alert('Data saved successfully!');
+                            },
+                            error: function (error) {
+                              console.error('Save request failed:', error);
+                            }
+                          });
+                          }
+                    else {
+
+                    $.ajax({
+                      type: "POST",
+                      url: "APIS/gis_update.php",
+                      data: payload,
+                      contentType: "application/json",
+                      success: function (response) {
+                        Swal.fire({
+                          position: "center",
+                          icon: "success",
+                          title: "Success",
+                          text: "Saved Successfully",
+                          showConfirmButton: false,
+                          showCloseButton: true,
+                          customClass: {
+                            popup: "custom-modal-class",
+                            icon: "custom-icon-class",
+                            title: "custom-title-class",
+                            content: "custom-text-class",
+                            closeButton: "custom-close-button-class",
+                          },
+                          showClass: {
+                            popup: "swal2-show",
+                            backdrop: "swal2-backdrop-show",
+                            icon: "swal2-icon-show",
+                          },
+                          hideClass: {
+                            popup: "swal2-hide",
+                            backdrop: "swal2-backdrop-hide",
+                            icon: "swal2-icon-hide",
+                          },
+                          didOpen: () => {
+                            // Apply custom styles directly to the modal elements
+                            document.querySelector(
+                              ".custom-modal-class"
+                            ).style.width = "400px"; // Set your desired width
+                            document.querySelector(
+                              ".custom-modal-class"
+                            ).style.height = "250px"; // Set your desired height
+                            document.querySelector(
+                              ".custom-modal-class"
+                            ).style.transition = "all 0.5s ease";
+                            document.querySelector(
+                              ".custom-icon-class"
+                            ).style.fontSize = "10px"; // Set your desired icon size
+                            document.querySelector(
+                              ".custom-icon-class"
+                            ).style.transition = "all o.5s ease";
+                            document.querySelector(
+                              ".custom-title-class"
+                            ).style.fontSize = "1.5em"; // Set your desired title size
+                            document.querySelector(
+                              ".custom-text-class"
+                            ).style.fontSize = "1em"; // Set your desired text size
+                            document.querySelector(
+                              ".custom-close-button-class"
+                            ).style.backgroundColor = "#f44336"; // Red background color
+                            document.querySelector(
+                              ".custom-close-button-class"
+                            ).style.color = "white"; // White text color
+                            document.querySelector(
+                              ".custom-close-button-class"
+                            ).style.borderRadius = "0"; // Rounded corners
+                            document.querySelector(
+                              ".custom-close-button-class"
+                            ).style.padding = "5px"; // Padding around the close button
+                            document.querySelector(
+                              ".custom-close-button-class"
+                            ).style.fontSize = "20px"; // Font size of the close button
+                          },
+                        });
+
+                        setTimeout(() => {
+                          //	window.location.href = `geometry_page.html?id=`+response.lastInsertIdIWMS+`&department=Building`+`&lastInsertedId=`+lastInsertedId;
+                        }, 2100);
+                      },
+                      error: function (xhr, status, error) {
+                        console.error("Save failed:", error);
+                      },
+                    });
+                  }
+
+         
+
+                    let centroid = turf.centroid(selectCoordinatesDataSingle);
+                    var formData = new FormData();
+                    formData.append("proj_id", worksAaApprovalId);
+                   if (selectCoordinatesDataSingle.geometry.type === 'Point') {
+                    formData.append('latitude', selectCoordinatesDataSingle.geometry.coordinates[1]);
+                    formData.append('longitude', selectCoordinatesDataSingle.geometry.coordinates[0]);
+                  } else if (selectCoordinatesDataSingle.geometry.type === 'MultiLineString' || selectCoordinatesDataSingle.geometry.type === 'LineString') {
+                    formData.append('latitude', selectCoordinatesDataSingle.geometry.coordinates[0][1]);
+                    formData.append('longitude', selectCoordinatesDataSingle.geometry.coordinates[0][0]);
+                    var lenghtSelect = turf.length( selectCoordinatesDataSingle.geometry, { units: "meters" } );
+                    formData.append("length", lenghtSelect);
+                  }
+                  else if (selectCoordinatesDataSingle.geometry.type === 'Polygon' || selectCoordinatesDataSingle.geometry.type === 'MultiPolygon'){
+                    formData.append("latitude",selectCoordinatesDataSingle.geometry.coordinates[0][0][0]);
+                    formData.append("longitude",selectCoordinatesDataSingle.geometry.coordinates[0][0][1]);               
+                    formData.append("polygon_area", area);
+                    formData.append("polygon_centroid",JSON.stringify(centroid.geometry.coordinates));
+                  }
+
+                    formData.append(  "geometry",JSON.stringify(selectCoordinatesDataSingle.geometry.coordinates?.map((coordinates) => coordinates.slice().reverse())));
+                    formData.append("road_no", struct_no);
+                    formData.append("user_id", user_id);
+                    $.ajax({
+                      type: "POST",
+                      url: "https://iwms.punecorporation.org/api/gis-data",
+                      data: formData,
+                      processData: false, 
+                      contentType: false,
+                      success: function (response) {
+                        window.location.href = response.data.redirect_Url;
+                      },
+                      error: function (xhr, status, error) {
+                        console.error("Save failed:", error);
+                      },
+                    });
+                  });
+                });
+            }
+          });
+
+          // Change the button text to "Finish"
+          var button = document.querySelector(".custom-button");
+          button.innerHTML = "Finish";
+
+          // Change the button's onclick function to stop the task
+          button.onclick = function () {
+            button.innerHTML =
+              '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
+            // Remove the click event listener from the map
+            var drawFeatureButton = document.querySelector(".draw_feature");
+            if (drawFeatureButton) {
+              drawFeatureButton.removeAttribute("disabled");
+            }
+
+            map.off("click");
+            toggleSelectLayerButton(false);
+            // Reset any ongoing operation here
+          };
       }
 
       function updatePopup(layer) {
@@ -911,30 +998,21 @@
         layer.openPopup();
       }
 
-      document
-        .getElementById("editFeatureButton")
-        .addEventListener("click", function (event) {
+    
+      document.getElementById("editFeatureButton").addEventListener("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
-          selectedFeature.eachLayer(function (layer) {
-            if (layer.editing) {
-              layer.editing.enable();
-              layer.on("edit", function () {
-                updatePopup(layer);
-              });
-            } else {
-              layer.on("click", function () {
-                if (this.editing) {
-                  this.editing.enable();
-                  updatePopup(this);
-                  this.on("edit", function () {
-                    updatePopup(this);
-                  });
-                }
-              });
-            }
-          });
+          // coordinatesData.forEach((layer) => {
+          //   if (layer.editing) {
+          //           layer.editing.enable();
+          //           updatePopupEdit(layer);
+          //           layer.on('edit', function () {
+          //             updatePopupEdit(layer);
+          //           });
+          //       }
+          //   });
         });
+
       document
         .getElementById("deleteFeatureButton")
         .addEventListener("click", function () {

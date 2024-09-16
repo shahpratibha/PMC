@@ -1,11 +1,10 @@
 var map, geojson;
-const API_URL = "http://localhost/PMC4/";
 
 var map = L.map("map", {
   center:[18.52, 73.89],
   zoom: 11.66,
   minZoom: 10,
-  maxZoom: 19,
+  maxZoom:21,
   preferCanvas:true,
   boxZoom: true,
   trackResize: true,
@@ -28,9 +27,15 @@ var googleSat = L.tileLayer(
   }
 );
 
+var stamen = L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+  , ).addTo(map);
+  
+  
+
 var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:19,
-}).addTo(map);
+})
 
 var Esri_WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -135,6 +140,35 @@ var wms_layer3 = L.tileLayer.wms(
   }
 );
 
+var Geotagged = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in/geoserver/pmc/wms",
+  {
+    layers: "output_data",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  }
+).addTo(map);
+
+
+
+ 
+var Geotaggedlive = L.tileLayer.wms(
+  "https://iwmsgis.pmc.gov.in/geoserver/PMC_test/wms",
+  {
+    layers: "geotagphoto",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  }
+).addTo(map);
+
 
 
 var IWMS_point = L.tileLayer
@@ -169,7 +203,28 @@ var IWMS_line = L.tileLayer
     maxZoom: 21,
     opacity: 1,
   });
+
+  var GIS_Ward_Layer = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "GIS_Ward_Layer",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   
+  var Geodata = L.tileLayer
+  .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
+    layers: "Geodata",
+    format: "image/png",
+    transparent: true,
+    tiled: true,
+    version: "1.1.0",
+    maxZoom: 21,
+    opacity: 1,
+  });
   var wms_layer21 = L.tileLayer
   .wms("https://iwmsgis.pmc.gov.in/geoserver/pmc/wms", {
     layers: "Bhavan",
@@ -228,24 +283,44 @@ var WMSlayers = {
   "OSM": osm,
   "Esri": Esri_WorldImagery,
   "Satellite": googleSat,
+  "Esri_Topo":stamen,
   Boundary: wms_layer12,
   Data: wms_layer14,
   Revenue: wms_layer15,
   Village: wms_layer17,
   PMC: wms_layer3,
   Amenity: wms_layer11,
+  
   Bhavan: wms_layer21,
   Drainage: wms_layer13,
   Roads: wms_layer1,
   OSMRoad: wms_layer16,
+  // GIS_Ward_Layer: GIS_Ward_Layer,
+  Geodata:Geodata,
+  "IWMS Point": IWMS_point,
+  "IWMS Line": IWMS_line,
+  "IWMS Polygon": IWMS_polygon,
+  "GIS Ward Layer": GIS_Ward_Layer,
+  Geotagged: Geotagged,
+  Geotaggedlive:Geotaggedlive,
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 control.setPosition('topright');
 
-
-
-//// var layers = ["pmc:Data", "pmc:Roads", "pmc:Reservations"]
+map.on("zoomend", function() {
+  if (map.getZoom() > 17.2) {
+    if (!map.hasLayer( googleSat)) {
+      map.removeLayer(stamen);
+      map.addLayer( googleSat);
+    }
+  } else {
+    if (!map.hasLayer(stamen)) {
+      map.removeLayer( googleSat  );
+      map.addLayer(stamen);
+    }
+  }
+});
 
 // kml
 
@@ -260,7 +335,7 @@ map.on("dblclick", function (e) {
   )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x
     }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-  // you can use this url for further processing such as fetching data from server or showing it on the map
+ 
 
   if (urrr) {
     fetch(urrr)
@@ -438,14 +513,12 @@ function SavetoKML() {
   var kmlContent = toKMLFormat(); // Get KML data
   var blob = new Blob([kmlContent], {
     type: "application/vnd.google-earth.kml+xml",
-  }); // Set MIME type to KML
-
-  // Create a download link for the KML file
+  }); 
+  
   var a = document.createElement("a");
   a.href = window.URL.createObjectURL(blob);
-  a.download = "output.kml"; // Set file extension to .kml
-
-  // Append the link to the document and trigger a click event to start the download
+  a.download = "output.kml"; 
+ 
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
