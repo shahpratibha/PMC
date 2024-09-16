@@ -167,7 +167,7 @@ $(document).ready(function () {
     console.log(cql_filter1, "lll")
 
 
-    // loadAndProcessGeoJSON(main_url, layername,cql_filter1);
+    loadAndProcessGeoJSON(main_url, layername,cql_filter1);
     DataTableFilter(cql_filter1)
 
     loadinitialData(cql_filter1);
@@ -182,7 +182,7 @@ $(document).ready(function () {
 
 
       const mainfilter = combineFilters(cql_filter1, filterString);
-      // loadAndProcessGeoJSON(main_url, layername,mainfilter );
+      loadAndProcessGeoJSON(main_url, layername,mainfilter );
       // console.log(mainfilter,"cql_filter1")
  
 
