@@ -1111,7 +1111,7 @@ map.on("contextmenu", async (e) => {
       // Generate the URL with Work_ID for both localhost and production
       // let qrURL = `http://localhost/PMC/IWMS/IWMS_test/geometry_page.html?Work_ID=${workID}`;
       // Generate the URL with Work_ID for both localhost and production
-let qrURL = `http://localhost/PMC/IWMS/IWMS_test/login/login.php?work_id=${workID}`; // Use login.php with work_id
+let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
 qrData = qrURL;
 
       qrData = qrURL;
@@ -1142,10 +1142,11 @@ qrData = qrURL;
                     Download QR Code
                     <i class="fas fa-download" style="margin-right: 5px;"></i>
                 </button>
-                <button id="shareQR" style="background-color: #25D366; color: white; border: none; border-radius: 8px; padding: 5px 10px; margin-top:1px;'>
-                    Share on WhatsApp
-                    <i class="fas fa-share-alt" style="margin-right: 5px;"></i>
-                </button>
+                <button id="shareQR" style="background-color: #25D366; color: white; border: none; border-radius: 8px; padding: 5px 10px; margin-top: 1px;">
+              Share on WhatsApp
+              <i class="fas fa-share-alt" style="margin-left: 5px;"></i>
+              </button>
+
             </div>
         `;
 

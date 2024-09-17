@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+
+<?php
+session_start();
+require_once '../APIS/db.php'; // Database connection
+
+// Retrieve Work_ID from the session or query string
+$workID = $_SESSION['Work_ID'] ?? $_GET['work_id'] ?? '';
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -49,11 +56,13 @@
                     </div>
                     <!-- Occupation field is commented out -->
                     <div class="form-control">
-                        <i class="fa-solid fa-phone"></i>
+                        <i class="fa-solid fa-phone icon"></i>
                         <input type="tel" name="contact_no" placeholder="Contact Number" required>
                     </div>
                     <button type="submit" value="Register">Register</button>
-                    <p class="endline"><a href="login.php" class="btn">I am already a member</a></p>
+                    <p class="endline">
+                        <a href="login.php?work_id=<?php echo htmlspecialchars($workID); ?>" class="btn">I am already a member</a>
+                    </p>
                 </form>
 
             </div>

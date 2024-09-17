@@ -1,6 +1,6 @@
 <?php
 // Include the database connection file
-require_once './APIS/db.php';
+require_once '../APIS/db.php';
 
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Execute the query
         if ($stmt->execute()) {
-            echo "<script>alert('Registration successful!'); window.location.href = 'login1.php';</script>";
+            echo "<script>alert('Registration successful!'); window.location.href = 'login.php';</script>";
         } else {
             echo "<script>alert('Registration failed. Please try again.'); window.location.href = 'register.php';</script>";
         }

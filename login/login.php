@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect to geometry page with Work_ID if available
             if (!empty($workID)) {
-                $redirectURL = "http://localhost/PMC/IWMS/IWMS_test/geometry_page.html?Work_ID={$workID}";
+                $redirectURL = "http://localhost/IWMS_test2/geometry_page.html?Work_ID={$workID}";
                 header('Location: ' . $redirectURL);
                 exit;
             } else {
@@ -55,14 +55,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PMC Login</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="login.css">
+     
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <h2>Login</h2>
         <form action="login.php" method="post">
-            <input type="text" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <div class="input-container">
+                <i class="fa fa-envelope icon"></i> 
+                <input type="text" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-container">
+                <i class="fa fa-lock icon"></i> 
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
             <button type="submit">Login</button>
         </form>
         <?php
@@ -71,6 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION['login_status']);
         }
         ?>
+
+         <!-- Register Button -->
+         <div class="register-button-container">
+            <a href="register.php?work_id=<?php echo htmlspecialchars($_SESSION['Work_ID'] ?? ''); ?>" class="register-button">Register</a>
+        </div>
     </div>
 </body>
 </html>
