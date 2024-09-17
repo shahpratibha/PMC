@@ -167,7 +167,7 @@ $(document).ready(function () {
     console.log(cql_filter1, "lll")
 
 
-    // loadAndProcessGeoJSON(main_url, layername,cql_filter1);
+    loadAndProcessGeoJSON(main_url, layername,cql_filter1);
     DataTableFilter(cql_filter1)
 
     loadinitialData(cql_filter1);
@@ -182,7 +182,7 @@ $(document).ready(function () {
 
 
       const mainfilter = combineFilters(cql_filter1, filterString);
-      // loadAndProcessGeoJSON(main_url, layername,mainfilter );
+      loadAndProcessGeoJSON(main_url, layername,mainfilter );
       // console.log(mainfilter,"cql_filter1")
  
 
@@ -298,7 +298,7 @@ function DataTableFilter(cql_filter1) {
   var geoServerURL =
     `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(cqlFilter)}`;
   // var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
-  var headers = ['PID', 'Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Project_Time', 'Status'];
+  var headers = ['PID', 'Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At', 'Status'];
 
   showtable(typeName, geoServerURL, cqlFilter, headers);
 
@@ -935,131 +935,6 @@ function combineFilters(cql_filter123, filterString) {
 
 
 // --------------------------------------
-// map.on("contextmenu", async (e) => {
-//   let bbox = map.getBounds().toBBoxString();
-//   let size = map.getSize();
-
-//   let daterangeValue = $('#daterange').val();
-//   let dates = daterangeValue.split(' - ');
-//   let startDate = moment(dates[0], 'MMMM D, YYYY').format('YYYY-MM-DD');
-//   let endDate = moment(dates[1], 'MMMM D, YYYY').format('YYYY-MM-DD');
-
-//   let filterString = await getCheckedValuesforpopuups();
-
-//   var searchtypefield = $("#search_type").val();
-//   var searchtypefield1 = $("#searchInputDashboard").val();
-
-//   let cqlFilter123 = "";
-
-//   if (searchtypefield1) {
-//       cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
-//   } else {
-//       cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
-
-//       if (filterString.trim() !== "") {
-//           cqlFilter123 = combineFilters(cqlFilter123, filterString);
-//       }
-//   }
-
-//   console.log(cqlFilter123, "cqlFilter123");
-
-//   for (let layer in layerDetails) {
-//       let selectedKeys = layerDetails[layer];
-//       let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
-  
-//       try {
-//           let response = await fetch(urrr);
-//           let html = await response.json();
-//           var htmldata = html.features[0].properties;
-//           let txtk1 = "";
-//           let qrData = "";
-//           let workID = htmldata["Work_ID"]; // Extract Work_ID
-
-//           for (let key of selectedKeys) {
-//               if (htmldata.hasOwnProperty(key)) {
-//                   let value = htmldata[key];
-//                   let label = labelMapping[key] || key; // Use the mapping or the original key if not found
-//                   txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
-//               }
-//           }
-
-//           // Generate the URL with Work_ID
-//           // let qrURL = `https://iwmsgis.pmc.gov.in/gis/test/geometry_page.html?Work_ID=${workID}`;
-//           let qrURL = `http://localhost/PMC/IWMS/IWMS_test/geometry_page.html?Work_ID=${workID}`;
-//           qrData = qrURL; // Use the URL for QR code
-
-//           let detaildata1 = `
-//               <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
-//                   <div style='display: flex; justify-content: space-between;'>
-//                       <button id="generateQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                           Generate QR Code
-//                           <i class="fas fa-qrcode" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//                   <table style='width:100%; border-collapse: collapse;' class='popup-table'>
-//                       ${txtk1}
-//                       </td></tr><tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
-//                   </table>
-//               </div>
-//           `;
-      
-//           const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-      
-//           // Generate QR code when the button is clicked
-//           document.getElementById('generateQR').addEventListener('click', () => {
-//               let qrPopupContent = `
-//                   <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; align-items: center; gap: 10px;'>
-//                       <div id="qrcode"></div>
-//                       <button id="downloadQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-//                           Download QR Code
-//                           <i class="fas fa-download" style="margin-right: 5px;"></i>
-//                       </button>
-//                       <button id="shareQR" style="background-color: #25D366; color: white; border: none; border-radius: 8px; padding: 5px 10px; margin-top:1px;">
-//                           Share on WhatsApp
-//                           <i class="fas fa-share-alt" style="margin-right: 5px;"></i>
-//                       </button>
-//                   </div>
-//               `;
-
-//               // Open a new popup for the QR code
-//               let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
-
-//               // Generate the QR code
-//               let qrcode = new QRCode(document.getElementById('qrcode'), {
-//                   text: qrData,
-//                   width: 128,
-//                   height: 128,
-//               });
-
-//               // Add click event for downloading the QR code
-//               document.getElementById('downloadQR').addEventListener('click', () => {
-//                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-//                   if (qrCanvas) {
-//                       let qrImage = qrCanvas.toDataURL("image/png");
-//                       let a = document.createElement('a');
-//                       a.href = qrImage;
-//                       a.download = `QRCode_WorkID_${workID}.png`;
-//                       a.click();
-//                   }
-//               });
-
-//               // Share QR code image on WhatsApp when the share button is clicked
-//               document.getElementById('shareQR').addEventListener('click', () => {
-//                   let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-//                   if (qrCanvas) {
-//                       let qrImage = qrCanvas.toDataURL("image/png");
-//                       let whatsappURL = `https://wa.me/?text=${encodeURIComponent(qrURL)}&media=${encodeURIComponent(qrImage)}`;
-//                       window.open(whatsappURL, '_blank');
-//                   }
-//               });
-//           });
-
-//       } catch (error) {
-//           console.error("Error fetching data:", error);
-//       }
-//   }
-// });
-
 map.on("contextmenu", async (e) => {
   let bbox = map.getBounds().toBBoxString();
   let size = map.getSize();
@@ -1077,118 +952,114 @@ map.on("contextmenu", async (e) => {
   let cqlFilter123 = "";
 
   if (searchtypefield1) {
-    cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
+      cqlFilter123 = `${searchtypefield} IN ('${searchtypefield1}')`;
   } else {
-    cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
+      cqlFilter123 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
 
-    if (filterString.trim() !== "") {
-      cqlFilter123 = combineFilters(cqlFilter123, filterString);
-    }
+      if (filterString.trim() !== "") {
+          cqlFilter123 = combineFilters(cqlFilter123, filterString);
+      }
   }
 
   console.log(cqlFilter123, "cqlFilter123");
 
   for (let layer in layerDetails) {
-    let selectedKeys = layerDetails[layer];
-    let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
+      let selectedKeys = layerDetails[layer];
+      let urrr = `${main_url}pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}&CQL_FILTER=${cqlFilter123}`;
+  
+      try {
+          let response = await fetch(urrr);
+          let html = await response.json();
+          var htmldata = html.features[0].properties;
+          let txtk1 = "";
+          let qrData = "";
+          let workID = htmldata["Work_ID"]; // Extract Work_ID
 
-    try {
-      let response = await fetch(urrr);
-      let html = await response.json();
-      var htmldata = html.features[0].properties;
-      let txtk1 = "";
-      let qrData = "";
-      let workID = htmldata["Work_ID"]; // Extract Work_ID
+          for (let key of selectedKeys) {
+              if (htmldata.hasOwnProperty(key)) {
+                  let value = htmldata[key];
+                  let label = labelMapping[key] || key; // Use the mapping or the original key if not found
+                  txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
+              }
+          }
 
-      for (let key of selectedKeys) {
-        if (htmldata.hasOwnProperty(key)) {
-          let value = htmldata[key];
-          let label = labelMapping[key] || key; // Use the mapping or the original key if not found
-          txtk1 += "<tr><td style='font-weight:bold;'>" + label + "</td><td>" + value + "</td></tr>";
-        }
-      }
+          // Generate the URL with Work_ID
+          let qrURL = `https://iwmsgis.pmc.gov.in/gis/test/geometry_page.html?Work_ID=${workID}`;
+          qrData = qrURL; // Use the URL for QR code
 
-      // Generate the URL with Work_ID for both localhost and production
-      // let qrURL = `http://localhost/PMC/IWMS/IWMS_test/geometry_page.html?Work_ID=${workID}`;
-      // Generate the URL with Work_ID for both localhost and production
-let qrURL = `http://localhost/PMC/IWMS/IWMS_test/login/login.php?work_id=${workID}`; // Use login.php with work_id
-qrData = qrURL;
-
-      qrData = qrURL;
-
-      let detaildata1 = `
-          <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
-              <div style='display: flex; justify-content: space-between;'>
-                  <button id="generateQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-                      Generate QR Code
-                      <i class="fas fa-qrcode" style="margin-right: 5px;"></i>
-                  </button>
+          let detaildata1 = `
+              <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; gap: 10px;'>
+                  <div style='display: flex; justify-content: space-between;'>
+                      <button id="generateQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
+                          Generate QR Code
+                          <i class="fas fa-qrcode" style="margin-right: 5px;"></i>
+                      </button>
+                  </div>
+                  <table style='width:100%; border-collapse: collapse;' class='popup-table'>
+                      ${txtk1}
+                      </td></tr><tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
+                  </table>
               </div>
-              <table style='width:100%; border-collapse: collapse;' class='popup-table'>
-                  ${txtk1}
-                  <tr><td style='font-weight:bold;'>Co-Ordinates</td><td>${e.latlng}</td></tr>
-              </table>
-          </div>
-      `;
+          `;
+      
+          const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+      
+          // Generate QR code when the button is clicked
+          document.getElementById('generateQR').addEventListener('click', () => {
+              let qrPopupContent = `
+                  <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; align-items: center; gap: 10px;'>
+                      <div id="qrcode"></div>
+                      <button id="downloadQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
+                          Download QR Code
+                          <i class="fas fa-download" style="margin-right: 5px;"></i>
+                      </button>
+                      <button id="shareQR" style="background-color: #25D366; color: white; border: none; border-radius: 8px; padding: 5px 10px; margin-top:1px;">
+                          Share on WhatsApp
+                          <i class="fas fa-share-alt" style="margin-right: 5px;"></i>
+                      </button>
+                  </div>
+              `;
 
-      const popup = L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+              // Open a new popup for the QR code
+              let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
 
-      // Generate QR code when the button is clicked
-      document.getElementById('generateQR').addEventListener('click', () => {
-        let qrPopupContent = `
-            <div style='max-height: 350px; height:auto; display: flex; flex-direction: column; align-items: center; gap: 10px;'>
-                <div id="qrcode"></div>
-                <button id="downloadQR" style="background-color: #20B2AA; color: white; border: none; border-radius: 8px; padding: 5px 10px;">
-                    Download QR Code
-                    <i class="fas fa-download" style="margin-right: 5px;"></i>
-                </button>
-                <button id="shareQR" style="background-color: #25D366; color: white; border: none; border-radius: 8px; padding: 5px 10px; margin-top:1px;'>
-                    Share on WhatsApp
-                    <i class="fas fa-share-alt" style="margin-right: 5px;"></i>
-                </button>
-            </div>
-        `;
+              // Generate the QR code
+              let qrcode = new QRCode(document.getElementById('qrcode'), {
+                  text: qrData,
+                  width: 128,
+                  height: 128,
+              });
 
-        // Open a new popup for the QR code
-        let qrPopup = L.popup().setLatLng(e.latlng).setContent(qrPopupContent).openOn(map);
+              // Add click event for downloading the QR code
+              document.getElementById('downloadQR').addEventListener('click', () => {
+                  let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
+                  if (qrCanvas) {
+                      let qrImage = qrCanvas.toDataURL("image/png");
+                      let a = document.createElement('a');
+                      a.href = qrImage;
+                      a.download = `QRCode_WorkID_${workID}.png`;
+                      a.click();
+                  }
+              });
 
-        // Generate the QR code
-        let qrcode = new QRCode(document.getElementById('qrcode'), {
-          text: qrData,
-          width: 128,
-          height: 128,
-        });
+              // Share QR code image on WhatsApp when the share button is clicked
+              document.getElementById('shareQR').addEventListener('click', () => {
+                  let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
+                  if (qrCanvas) {
+                      let qrImage = qrCanvas.toDataURL("image/png");
+                      let whatsappURL = `https://wa.me/?text=${encodeURIComponent(qrURL)}&media=${encodeURIComponent(qrImage)}`;
+                      window.open(whatsappURL, '_blank');
+                  }
+              });
+          });
 
-        // Add click event for downloading the QR code
-        document.getElementById('downloadQR').addEventListener('click', () => {
-          let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-          if (qrCanvas) {
-            let qrImage = qrCanvas.toDataURL("image/png");
-            let a = document.createElement('a');
-            a.href = qrImage;
-            a.download = `QRCode_WorkID_${workID}.png`;
-            a.click();
-          }
-        });
-
-        // Share QR code image on WhatsApp when the share button is clicked
-        document.getElementById('shareQR').addEventListener('click', () => {
-          let qrCanvas = document.getElementById('qrcode').querySelector('canvas');
-          if (qrCanvas) {
-            let qrImage = qrCanvas.toDataURL("image/png");
-            let whatsappURL = `https://wa.me/?text=${encodeURIComponent(qrURL)}&media=${encodeURIComponent(qrImage)}`;
-            window.open(whatsappURL, '_blank');
-          }
-        });
-      });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+      } catch (error) {
+          console.error("Error fetching data:", error);
+      }
   }
 });
 
 
-// -------------------------------------------
 // // geotag
 
 map.on("click", async (e) => {

@@ -12,32 +12,15 @@ if (empty($configId)) {
     exit;
 }
 
-if (!is_int($configId)) {
-    if (ctype_digit($configId)) {
-        $configId = (int) $configId;
-    } else {
-        echo json_encode(["error" => "Invalid project_id provided"]);
-        exit;
-    }
-}
-
-
-if (isset($data['Pid'])) {
-    $pid = $data['Pid'];
-    if (!is_int($pid)) {
-        if (ctype_digit($pid)) {
-            $data['Pid'] = (int) $pid;
-        } else {
-            echo json_encode(["error" => "Invalid Pid provided"]);
-            exit;
-        }
-    }
-}
-function buildUpdateSQL($table, $data, $configId) {
+function buildUpdateSQL($table, $data) {
     $fields = [];
     foreach ($data as $key => $value) {
         $fields[] = "\"$key\" = :$key";
     }
+    
+    // Add the Project_Time field with the current timestamp
+    $fields[] = "\"Project_Time\" = NOW()";
+    
     $fields = implode(', ', $fields);
     return "UPDATE \"$table\" SET $fields WHERE works_aa_a = :configId";
 }
@@ -73,28 +56,12 @@ if (empty($updateData)) {
 try {
     $pdo->beginTransaction();
 
-    $tables = ["IWMS_line", "Polygon_data", "IWMS_point", "check"];
+    $tables = ["IWMS_line", "Polygon_data", "IWMS_point", "GIS_Ward_Layer"];
     foreach ($tables as $table) {
-        if ($table === "check") {
-            // Add current timestamp for the "time" field
-            $updateData['time'] = date('Y-m-d H:i:sO');
-
-            // Build the INSERT SQL
-            $insertSQL = buildInsertSQL($table, $updateData);
-            $stmtInsert = $pdo->prepare($insertSQL);
-            foreach ($updateData as $key => $value) {
-                $stmtInsert->bindValue(":$key", $value);
-            }
-            $stmtInsert->execute();
-        } else {
-            // Build the UPDATE SQL
-            $updateSQL = buildUpdateSQL($table, $updateData, $configId);
-            $stmtUpdate = $pdo->prepare($updateSQL);
-            foreach ($updateData as $key => $value) {
-                $stmtUpdate->bindValue(":$key", $value);
-            }
-            $stmtUpdate->bindValue(':configId', $configId, PDO::PARAM_INT);
-            $stmtUpdate->execute();
+        $updateSQL = buildUpdateSQL($table, $updateData);
+        $stmtUpdate = $pdo->prepare($updateSQL);
+        foreach ($updateData as $key => $value) {
+            $stmtUpdate->bindValue(":$key", $value);
         }
     }
 
@@ -108,3 +75,4 @@ try {
     $pdo->rollBack();
     echo json_encode(['error' => true, 'message' => $e->getMessage()]);
 }
+?>

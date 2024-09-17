@@ -70,7 +70,7 @@ var totalTenderAmountCr = totalTenderAmountK / 10000;
     var zoomLevel = map.getZoom();
     var size = Math.max(Math.sqrt(childCount) * 5, 20); // Ensure a minimum size of 20px
     
-    var adjustedSize = Math.min(totalTenderAmountCr, 100);// Adjust the divisor to scale size
+    var adjustedSize = Math.min(totalTenderAmountCr, 70);// Adjust the divisor to scale size
     var dynamicSize = Math.min(size * (zoomLevel /5), adjustedSize); 
     // var adjustedColor = color; // You can customize color based on tender_amount if needed
 
