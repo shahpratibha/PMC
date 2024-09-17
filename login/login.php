@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect to geometry page with Work_ID if available
             if (!empty($workID)) {
-                $redirectURL = "http://localhost/PMC/IWMS/IWMS_test/geometry_page.html?Work_ID={$workID}";
+                $redirectURL = "http://localhost/PMC/IWMS/IWMS_test/geometry_page.php?Work_ID={$workID}";
                 header('Location: ' . $redirectURL);
                 exit;
             } else {
-                header('Location: geometry_page.html');
+                header('Location: geometry_page.php');
                 exit;
             }
         } else {
