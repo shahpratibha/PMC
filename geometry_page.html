@@ -152,7 +152,10 @@
 
 </head>
 
+
 <body class="bg-light">
+
+    <p id="workIDInfo">Loading...</p>
     <img src="png/pmcjpeg.png" alt="" class="logopng1" />
     <div id="content" style="width: 100%" class="container">
         <div id="button-container" class=""></div>
@@ -288,6 +291,21 @@
 
 
     <script src="js/geometry_page.js"></script>
+    <script>
+        // Function to retrieve Work_ID from the URL
+        function getWorkID() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('Work_ID');
+        }
+
+        // Display Work_ID on the page
+        const workID = getWorkID();
+        if (workID) {
+            document.getElementById('workIDInfo').textContent = `Work ID: ${workID}`;
+        } else {
+            document.getElementById('workIDInfo').textContent = 'No Work ID provided.';
+        }
+    </script>
 
     <script>
 
