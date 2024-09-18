@@ -12,7 +12,7 @@ $workID = $_SESSION['Work_ID'] ?? $_GET['work_id'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pmc</title>
-    <link rel="icon" href="png/pmcjpeg.png" type="image/x-icon">
+    <link rel="icon" href="../png/pmcjpeg.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="register.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -39,6 +39,7 @@ $workID = $_SESSION['Work_ID'] ?? $_GET['work_id'] ?? '';
                 <!-- <a href="index.html">
                     <i class="fa-solid fa-house icon-top-10"></i>
                 </a> -->
+                <h2>Register</h2>
                 <form class="login-form" action="register_process.php" method="post" onsubmit="return validateEmail()">
                     <h2 class="login-title"><img src="" class="logo" alt="" style=""></h2>
                     <div class="form-control">
@@ -69,5 +70,4 @@ $workID = $_SESSION['Work_ID'] ?? $_GET['work_id'] ?? '';
         </div>
     </div>
 </body>
-
 </html>
