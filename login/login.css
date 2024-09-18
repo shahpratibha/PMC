@@ -1,0 +1,151 @@
+/* General page and form styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers form vertically and horizontally */
+    background-color: #f4f4f4; /* Background color for the page */
+}
+/* General page and form styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers form vertically and horizontally */
+    background-color: #f4f4f4; /* Background color for the page */
+}
+
+.container {
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced box shadow */
+    border-radius: 8px;
+    width: 100%; /* Ensures responsiveness */
+    box-sizing: border-box; /* Includes padding and border in the element’s total width and height */
+}
+
+/* Center heading text */
+.container h2 {
+    text-align: center; /* Center text horizontally */
+    margin-bottom: 20px;
+}
+
+/* Style for input containers */
+.input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 10px 10px 40px; /* Add padding-left to make room for the icon */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.input-container .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the icon */
+    color: black;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced box shadow */
+    border-radius: 8px;
+    width: 100%; /* Ensures responsiveness */
+    box-sizing: border-box; /* Includes padding and border in the element’s total width and height */
+}
+
+/* Center heading text */
+.container h2 {
+    text-align: center; /* Center text horizontally */
+    margin-bottom: 20px;
+}
+
+/* Style for input containers */
+.input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 10px 10px 40px; 
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.input-container .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: black;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Register button styling */
+.register-button-container {
+    margin-top: 20px; 
+    text-align: center; 
+}
+
+.register-button {
+    display: inline-block;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007BFF; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    text-decoration: none; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+.register-button:hover {
+    background-color: #0056b3; 
+}
+

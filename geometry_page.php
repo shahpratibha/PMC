@@ -158,6 +158,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             left: 19px;
             top: 30vh;
         }
+        #workIDInfo{
+            display: none;
+        }
     </style>
 
 </head>
