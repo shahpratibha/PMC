@@ -717,5 +717,5 @@ input:-moz-placeholder {
 
 /* Style for checkboxes */
 .leaflet-control-layers input[type="checkbox"] {
-  accent-color: blue; /* Change checkbox color to blue when checked */
+  accent-color: blue; 
 }

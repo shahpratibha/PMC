@@ -557,7 +557,7 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
 
       // Filter out features where pid is null
       var exampleData = filteredData.features
-        // .filter(feature => feature.properties.PID !== null) // Filter out null PIDs
+        .filter(feature => feature.properties.PID !== null) // Filter out null PIDs
        
         .map(feature => {
           let mappedData = {};
