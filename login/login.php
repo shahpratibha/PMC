@@ -1,0 +1,89 @@
+<?php
+session_start();
+require_once '../APIS/db.php'; // Database connection
+
+// Check if work_id is present in the query string and store it in the session
+if (isset($_GET['work_id'])) {
+    $_SESSION['Work_ID'] = $_GET['work_id'];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $workID = $_SESSION['Work_ID'] ?? ''; // Retrieve Work_ID from the session
+
+    if (empty($email) || empty($password)) {
+        $_SESSION['login_status'] = 'failed';
+        header('Location: login.php');
+        exit;
+    }
+
+    try {
+        $sql = "SELECT * FROM users_login WHERE email = :email";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['user_id'] = $user['user_id']; // Store user ID in session
+
+            // Redirect to geometry page with Work_ID if available
+            if (!empty($workID)) {
+                $redirectURL = "http://localhost/PMC/IWMS/IWMS_test/geometry_page.php?Work_ID={$workID}";
+                header('Location: ' . $redirectURL);
+                exit;
+            } else {
+                header('Location: geometry_page.php');
+                exit;
+            }
+        } else {
+            $_SESSION['login_status'] = 'failed';
+            header('Location: login.php');
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMC Login</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" href="../png/pmcjpeg.png" type="image/x-icon">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="login.php" method="post">
+            <div class="input-container">
+                <i class="fa fa-envelope icon"></i> 
+                <input type="text" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-container">
+                <i class="fa fa-lock icon"></i> 
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <?php
+        if (isset($_SESSION['login_status']) && $_SESSION['login_status'] == 'failed') {
+            echo '<p style="color: red;">Invalid email or password. Please try again.</p>';
+            unset($_SESSION['login_status']);
+        }
+        ?>
+
+         <!-- Register Button -->
+         <div class="register-button-container">
+            <a href="register.php?work_id=<?php echo htmlspecialchars($_SESSION['Work_ID'] ?? ''); ?>" class="register-button">Create an account </a>
+        </div>
+    </div>
+</body>
+</html>

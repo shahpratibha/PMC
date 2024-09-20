@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // If the user is not logged in, redirect them to the login page
+    // header("Location:login/login.php");
+    header("Location: login/login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,11 +158,17 @@
             left: 19px;
             top: 30vh;
         }
+        #workIDInfo{
+            display: none;
+        }
     </style>
 
 </head>
 
+
 <body class="bg-light">
+
+    <p id="workIDInfo">Loading...</p>
     <img src="png/pmcjpeg.png" alt="" class="logopng1" />
     <div id="content" style="width: 100%" class="container">
         <div id="button-container" class=""></div>
@@ -288,6 +304,21 @@
 
 
     <script src="js/geometry_page.js"></script>
+    <script>
+        // Function to retrieve Work_ID from the URL
+        function getWorkID() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('Work_ID');
+        }
+
+        // Display Work_ID on the page
+        const workID = getWorkID();
+        if (workID) {
+            document.getElementById('workIDInfo').textContent = `Work ID: ${workID}`;
+        } else {
+            document.getElementById('workIDInfo').textContent = 'No Work ID provided.';
+        }
+    </script>
 
     <script>
 

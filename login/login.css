@@ -1,0 +1,130 @@
+
+/* General page and form styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers form vertically and horizontally */
+    background-color: #f4f4f4; /* Background color for the page */
+}
+
+/* Center heading text */
+.container h2 {
+    text-align: center; /* Center text horizontally */
+    margin-bottom: 20px;
+    color: #383899;
+}
+
+/* Style for input containers */
+.input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 10px 10px 40px; 
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.input-container .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: black;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #383899;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #383899;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px 40px;
+    border-radius: 15px;
+    margin-top: -76px;
+    box-shadow: 0 10px 25px rgb(10 75 90);
+    margin-left: -3px;
+    width: 65%; 
+}
+
+/* Center heading text */
+.container h2 {
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+/* Style for input containers */
+.input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 10px 10px 40px; 
+    font-size: 16px;
+     border: 2px solid #00569f1c;
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: rgb(50, 73, 94); 
+    transition: all 0.3s ease-in-out 0s;
+}
+    
+.input-container .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: grey;
+}
+
+button {
+         width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
+        background-color: #383899;
+        color: white;
+        font-size: 17px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+button:hover {
+    background-color: #383899;
+}
+
+/* Register button styling */
+.register-button-container {
+    margin-top: 20px; 
+    text-align: center; 
+}
+
+.register-button {
+    text-decoration: none;
+}
+
+.register-button:hover {
+    background-color: #383899; 
+}
+
