@@ -1,8 +1,5 @@
 var main_url = "https://iwmsgis.pmc.gov.in/geoserver/"
 
-// html page code ......................
-
-
 function toggleFilter(label) {
   const input = label.nextElementSibling; // Get the input element next to the label
   const ul = input.nextElementSibling; // Get the ul element next to the input
@@ -62,9 +59,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
-
-
-
 // toggleFilterend---------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function () {
   const filters = document.getElementById('filters');
@@ -74,15 +68,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const button = document.getElementById('toggleFilters');
 
-
-  // const button = document.getElementById('toggleFilters');
-
   // Set the title attribute
   button.setAttribute('title', 'Filter');
-
-
   let filtersVisible = false;
-
   button.addEventListener('click', function () {
     if (!filtersVisible) {
       filters.style.marginLeft = '0';
@@ -110,32 +98,17 @@ document.addEventListener('DOMContentLoaded', function () {
     filtersVisible = !filtersVisible;
   });
   // -------------------------------------------------------------------------
-
-
 });
-
-
-
 function updateTableStats(stats) {
   document.getElementById('tablestats').innerText = stats;
 }
 
-
 // --------------------------------------------------------------------
-
-
 $(document).ready(function () {
-  // ----------------------------------
-
-
-  // ---------------------------------
- 
-  // Example usage of the function
+   // Example usage of the function
   const layername = "pmc:IWMS_polygon,pmc:IWMS_line,pmc:IWMS_point";
   const main_url = "https://iwmsgis.pmc.gov.in/geoserver/";
-  // const filter = ""; // Add any additional filter if required
 
-  // loadAndProcessGeoJSON(main_url, layername,cql_filter1 );
   var start =  moment('2024-04-01');
   var end = moment();
   var cql_filter1; // Declare the variable in the outer scope
@@ -166,29 +139,15 @@ $(document).ready(function () {
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
     console.log(cql_filter1, "lll")
 
-
-    // loadAndProcessGeoJSON(main_url, layername,cql_filter1);
     DataTableFilter(cql_filter1)
 
     loadinitialData(cql_filter1);
-    // const cluster_layerName = "IWMS_polygon,IWMS_line,IWMS_point,"; // Verify this layer name in your GeoServer
-    // const cluster_url = "https://iwmsgis.pmc.gov.in/geoserver/";
-
-    // const cql_filter = getCqlFilter();
-
+   
    
     console.log(cql_filter1,"cql_filter1")
     getCheckedValues(function (filterString) {
-
-
       const mainfilter = combineFilters(cql_filter1, filterString);
-      // loadAndProcessGeoJSON(main_url, layername,mainfilter );
-      // console.log(mainfilter,"cql_filter1")
- 
-
       console.log("Main Filterfor checking:", mainfilter);
-
-
       FilterAndZoom(mainfilter);
       DataTableFilter(mainfilter)
     });
@@ -247,9 +206,6 @@ $(document).ready(function () {
     FilterAndZoom(cql_filter)
   }
 
-  // function combineFilters(cql_filter, filterString) {
-  //   return `(${cql_filter}) AND (${filterString})`;
-  // }
   function combineFilters(cql_filter123, filterString) {
     if (filterString !== null && filterString !== undefined && filterString !== '') {
       return `${cql_filter123} AND ${filterString}`;
@@ -286,9 +242,6 @@ $(document).ready(function () {
 
   initialize();
 });
-
-
-
 
 // -------------------------------------------
 function DataTableFilter(cql_filter1) {
@@ -391,15 +344,7 @@ function fitbous(filter) {
   var bounds = null;
 
   var processLayer = function (layerName, callback) {
-    // var urlm =
-    //   main_url + "ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-    //   layerName +
-    //   "&CQL_FILTER=" +
-    //   filter +
-    //   "&outputFormat=application/json";
     const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layerName}&CQL_FILTER=${filter}&outputFormat=application/json`;
-
-
     $.getJSON(urlm, function (data) {
       var geojson = L.geoJson(data);
       var layerBounds = geojson.getBounds();
@@ -672,17 +617,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     }
   }
-
-
-
-
   // Initialize selected value variable
   let selectedValue;
-
-
-
-
-
   // Event listener for dropdown change
   $("#search_type").change(function () {
     var selectedValue = $(this).val();
@@ -920,9 +856,6 @@ function getCheckedValuesforpopuups() {
   });
 }
 
-// function combineFilters(cql_filter123, filterString) {
-//   return `${cql_filter123} AND ${filterString}`;
-// }
 function combineFilters(cql_filter123, filterString) {
   if (filterString !== null && filterString !== undefined && filterString !== '') {
     return `${cql_filter123} AND ${filterString}`;
@@ -932,12 +865,6 @@ function combineFilters(cql_filter123, filterString) {
 }
 
 // popupshow
-
-
-
-// --------------------------------------
-
-
 map.on("contextmenu", async (e) => {
   let bbox = map.getBounds().toBBoxString();
   let size = map.getSize();
@@ -988,7 +915,6 @@ map.on("contextmenu", async (e) => {
 
       // Generate the URL with Work_ID for both localhost and production
       // let qrURL = `http://localhost/PMC/IWMS/IWMS_test/geometry_page.html?Work_ID=${workID}`;
-      // Generate the URL with Work_ID for both localhost and production
 let qrURL = `http://localhost/PMC/IWMS/IWMS_test/login/login.php?work_id=${workID}`; // Use login.php with work_id
 qrData = qrURL;
 
@@ -1065,8 +991,6 @@ qrData = qrURL;
     }
   }
 });
-
-
 // -------------------------------------------
 // // geotag
 
