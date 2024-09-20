@@ -293,7 +293,7 @@ var WMSlayers = {
   "IWMS Point": IWMS_point,
   "IWMS Line": IWMS_line,
   "IWMS Polygon": IWMS_polygon,
-  "GIS Ward Layer": GIS_Ward_Layer,
+  // "GIS Ward Layer": GIS_Ward_Layer,
   Geotagged: Geotagged,
   Geotaggedlive:Geotaggedlive,
 };
