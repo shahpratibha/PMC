@@ -178,15 +178,11 @@ table.dataTable tbody td {
   margin-right: 5px;
   font-size: 12px;
   font-weight: bold;
-  width: 1% !important;
   height: 4.5%;
   position: absolute;
   top: 2%;
   left: 12.8%;
-  border-left: 2px solid darkblue !important;
-  border-right: 2px solid darkblue !important;
-  border-top: 2px solid darkblue !important;
-  border-bottom: 2px solid darkblue !important;
+  border:  none;
   z-index: 9999999;
   border-radius: 0;
   border-top-left-radius: 10px;
@@ -316,10 +312,10 @@ thead th {
 #tablecontainer {
   z-index: 9999;
   position: absolute;
-  width: 53%;
-  bottom: 20%;
+  width: 31%;
+  bottom: 13%;
   right: 1%;
-  background-color: white;
+  /* background-color: white; */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-height: 200px;
@@ -327,13 +323,6 @@ thead th {
   transition: all 0.3s ease;
 }
 
-.tableDetail {
-  max-height: 550px;
-  overflow-y: auto;
-  /* margin-top: 10px;  */
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-}
 
 .minimize-button {
   background-color: darkblue;
@@ -383,8 +372,11 @@ thead th {
   overflow: auto;
   scrollbar-width: thin;
   text-align: center;
-  height: 248px;
-  max-height: 248px; /* Match this with the tableDetail max-height */
+  /* height: 248px; */
+ 
+}
+.dataTables_scrollBody{
+  max-height: 196px !important;
 }
 
 .dataTables_wrapper .dataTables_scrollFoot {
@@ -445,29 +437,7 @@ td {
 #data-table_filter {
   font-weight: bold !important;
 }
-#tablecontainer {
-  z-index: 9999;
-  position: absolute;
-  width: 53%;
-  bottom: 20%;
-  font-weight: bold;
-  right: 1%;
-  opacity: 0.88;
-  /* background-color: white !important; */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-height: 200px;
-  font-size: 10px;
-  transition: all 0.3s ease;
-}
-.tableDetail {
-  max-height: 550px;
-  overflow-y: auto;
-  opacity: 0.88;
-  /* margin-top: 10px; */
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-}
+
 .leaflet-container a.leaflet-popup-close-button {
   position: absolute;
   top: 0;
@@ -562,21 +532,6 @@ input:-moz-placeholder {
 #data-table_filter {
   font-weight: bold !important;
 }
-#tablecontainer {
-  z-index: 9999;
-  position: absolute;
-  width: 53%;
-  bottom: 20%;
-  font-weight: bold;
-  right: 1%;
-  opacity: 0.88;
-  /* background-color: white !important; */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-height: 200px;
-  font-size: 10px;
-  transition: all 0.3s ease;
-}
 .tableDetail {
   max-height: 550px;
   overflow-y: auto;
@@ -668,7 +623,7 @@ input:-moz-placeholder {
   border-radius: 10px;
   width: auto;
   top: 6.5%;
-  left: 14.2%;
+  left: 15.2%;
   background-color: #fff;
   width: 250px;
   max-width: 250px;
@@ -709,6 +664,11 @@ input:-moz-placeholder {
 #data-table {
   border-collapse: collapse;
   width: 100%;
+  min-height: 50px; 
+  max-height: 400px;
+  overflow-y: auto; 
+  border-collapse: collapse;
+
 }
 
 #data-table thead tr {
@@ -718,4 +678,30 @@ input:-moz-placeholder {
 /* Style for checkboxes */
 .leaflet-control-layers input[type="checkbox"] {
   accent-color: blue; 
+}
+
+#search_type {
+  appearance: none; /* Remove default browser styles */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+  padding-right: 60px; /* Adjust padding to make space for the icon */
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path d="M0 0h10L5 6z" fill="black"/></svg>') no-repeat; /* Custom SVG arrow */
+  background-position: right 6px center; /* Default position */
+  background-size: 13px; /* Size of the icon */
+  border: none; /* Remove the default border */
+  border-right: 2px solid darkblue; /* Add a border only to the right side */
+  /* padding: 8px; */
+  width: 23px;
+  border-radius: 0px; /* No rounded corners */
+  outline: none; /* Remove the outline (focus border) when clicked */
+  background-position: right 5px 45%; /* Move icon slightly upward */
+}
+
+
+/* Prevent background change on click */
+#search_type:focus,
+#search_type:active {
+  background-color: transparent; /* Keeps background transparent when focused or clicked */
+  box-shadow: none; /* Removes any outline or shadow */
+  outline: none; /* Ensures no focus outline appears */
 }
