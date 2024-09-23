@@ -654,12 +654,12 @@ input:-moz-placeholder {
   background-color: #9393d633;
   cursor: pointer;
 }
-
+/* 
 #data-table th,
 #data-table td {
-  padding: 8px 12px;
+  padding: 0px 2px;
   border: 1px solid #ddd;
-}
+} */
 
 #data-table {
   border-collapse: collapse;
