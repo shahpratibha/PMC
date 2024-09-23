@@ -410,6 +410,11 @@ text-transform: uppercase;
 font-weight: bold;
 }
 
+#data-table tbody tr:hover {
+  background-color: #9393d633;
+  cursor: pointer;
+}
+
 
 .dataTables_wrapper .dataTables_scrollHead {
 overflow: visible;

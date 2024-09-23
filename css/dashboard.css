@@ -654,8 +654,8 @@ input:-moz-placeholder {
   background-color: #9393d633;
   cursor: pointer;
 }
-/* 
-#data-table th,
+
+/* #data-table th,
 #data-table td {
   padding: 0px 2px;
   border: 1px solid #ddd;
