@@ -206,11 +206,11 @@ width: 1% !important;
 height: 4.5%;
 position: absolute;
 top: 2%;
-left: 12.800%;
-border-left: 2px solid darkblue !important;
+left: 12.8%;
+/* border-left: 2px solid darkblue !important;
 border-right: 2px solid darkblue !important;
 border-top: 2px solid darkblue !important;
-border-bottom: 2px solid darkblue !important;
+border-bottom: 2px solid darkblue !important; */
 z-index: 9999999;
 border-radius: 0;
 border-top-left-radius: 10px;
@@ -364,7 +364,7 @@ transition: all 0.3s ease;
 .tableDetail {
 max-height: 550px; 
 overflow-y: auto; 
-/* margin-top: 10px;  */
+
 border: 1px solid #ccc; 
 background-color: #f9f9f9; 
 
@@ -424,10 +424,14 @@ overflow: visible;
 overflow: auto;
 scrollbar-width: thin;
 text-align: center;
-height: 248px;
-max-height: 248px; /* Match this with the tableDetail max-height */
+/* height: 248px;
+max-height: 248px;  */
 }
 
+
+.dataTables_scrollBody{
+  max-height: 196px !important;
+}
 .dataTables_wrapper .dataTables_scrollFoot {
 overflow: visible;
 }
@@ -590,27 +594,6 @@ left: 2%;
 }
 
 
-/* #autocomplete-list{
-position: absolute;
-z-index: 9999;
-margin-left: 5px;
-height: auto;
-border-radius: 10px;
-width: auto;
-z-index: 9999;
-top: 6.5%;
-left: 15.700%;
-background-color: #fff;
-width: 245px;
-max-width: 250px;
-max-height: 400px;
-overflow-x: hidden;
-overflow-y: scroll;
-scrollbar-width: thin;
-line-height: 2.5;
-
-} */
-
 
 #autocomplete-list {
   position: absolute;
@@ -623,7 +606,7 @@ line-height: 2.5;
   font-weight: bold;
   z-index: 9999;
   top: 6.5%;
-  left:15.700%;
+  left:13.700%;
   text-align: left;
   background-color: #fff;
   width: 250px;
@@ -638,7 +621,7 @@ line-height: 2.5;
  #autocomplete-list:hover {
   overflow: auto;
   scrollbar-width: thin;
-  scrollbar-color: #8ac0ee #f1f1f1;
+  scrollbar-color: #9393d633;
 
 }
 .autocomplete-items li {
@@ -671,8 +654,8 @@ line-height: 2.5;
 #tablecontainer {
 z-index: 9999;
 position: absolute;
-width: 31%;
-bottom: 20%;
+width: 32%;
+bottom: 14%;
 font-weight: bold;
 right: 1%;
 opacity: 0.88;
@@ -739,10 +722,20 @@ transition: all 0.3s ease;
 }
 
 
+.autocomplete-items li:hover {
+  background-color: #9393d633;
+}
+
+
+#data-table tbody tr:hover {
+  background-color: #9393d633;
+  cursor: pointer;
+}
+
 .SearchBar #searchInputDashboard {
 margin-left: 5px;
 height: 4.5%;
-border-radius: 15px;
+border-radius: 10px;
 
 /* border-radius: 10px; */
 width: 16%;
@@ -750,8 +743,8 @@ position: absolute;
 z-index: 9999;
 top: 2%;
 text-align: left; /* Center align text */
-padding-left: 18px; /* Add padding to move text slightly left */
-left: 14.5%;
+padding-left: 27px; /* Add padding to move text slightly left */
+left: 12.5%;
 border: 2px solid darkblue;
 }
 
@@ -848,4 +841,66 @@ text-align: center;
   color: #333;
   border: none;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+}
+
+#data-table {
+ 
+  width: 100%;
+  min-height: 50px; 
+  max-height: 300px;
+  overflow-y: auto; 
+ 
+}
+
+#data-table thead tr {
+  background-color: #9393d633;
+}
+#search_type {
+  appearance: none; /* Remove default browser styles */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+  padding-right: 25px; /* Adjust padding to make space for the icon */
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path d="M0 0h10L5 6z" fill="black"/></svg>') no-repeat; /* Custom SVG arrow */
+  background-position: right 5px center; /* Default position */
+  background-size: 13px; /* Size of the icon */
+  border: none; /* Remove the default border */
+  border-right: 2px solid darkblue; /* Add a border only to the right side */
+  /* padding: 8px; */
+  width: 23px;
+  border-radius: 0px; /* No rounded corners */
+  outline: none; /* Remove the outline (focus border) when clicked */
+  background-position: right 5px 45%; /* Move icon slightly upward */
+}
+
+
+/* Prevent background change on click */
+#search_type:focus,
+#search_type:active {
+  background-color: transparent; /* Keeps background transparent when focused or clicked */
+  box-shadow: none; /* Removes any outline or shadow */
+  outline: none; /* Ensures no focus outline appears */
+}
+
+#search_type {
+  padding: 7px 15px;
+}
+
+
+
+
+.dataTables_scrollBody {
+  position: relative;
+  width: 100%;
+  max-height: 70vh; /* Set max height as per your requirement */
+  overflow-y: auto; /* Enables vertical scrolling when content exceeds */
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse; /* Ensure it takes full width without extra spaces */
+}
+
+.data-table th, .data-table td {
+  padding: 8px 12px; /* Consistent padding for readability */
+  text-align: left;
 }
