@@ -661,15 +661,6 @@ input:-moz-placeholder {
   border: 1px solid #ddd;
 } */
 
-#data-table {
-  border-collapse: collapse;
-  width: 100%;
-  min-height: 50px; 
-  max-height: 400px;
-  overflow-y: auto; 
-  border-collapse: collapse;
-
-}
 
 #data-table thead tr {
   background-color: #9393d633;
