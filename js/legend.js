@@ -229,6 +229,25 @@ legend.onAdd = function (map) {
 legend.addTo(map);
 
 
+// Add event listener to close legend when the mouse moves over the map
+map.on('mousemove', function () {
+  var legendDiv = document.querySelector(".info.legend");
+  if (legendDiv && legendVisible) {
+    legendDiv.style.display = "none"; // Hide the legend
+    legendVisible = false; // Update visibility state
+
+    // Update the collapse button appearance
+    var button = document.querySelector(".collapse-button");
+    if (button) {
+      button.innerHTML = "<i class='fa-solid fa-list' style='color:darkblue;'></i>";
+      button.style.backgroundColor = "white"; // Change the button's background color
+    }
+  }
+});
+
+
+
+
 // North Image and scale
 
 // scale

@@ -904,3 +904,7 @@ text-align: center;
   padding: 8px 12px; /* Consistent padding for readability */
   text-align: left;
 }
+#data-table_filter{
+  margin-right: 40px;
+
+}
