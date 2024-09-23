@@ -6,7 +6,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: login/login.php");
     exit;
 }
+
+// Retrieve the logged-in user's username from the session
+// Retrieve the username from the session
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,9 +48,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
     <style>
-        body{
+        body {
             overflow: hidden;
         }
+
         /* Modal styles */
         .modal-content {
             font-size: 14px;
@@ -65,7 +71,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             padding: 0 1rem;
         }
 
-        .rate{
+        .rate {
             display: flex;
         }
 
@@ -85,7 +91,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             cursor: pointer;
             font-size: 1rem;
             color: #ddd;
-            /* Gray color for unselected stars */
             transition: color 0.2s;
         }
 
@@ -99,8 +104,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         /* Ensure the map container has a height */
         #map {
-            height: 50vh;
-            /* Adjust as needed */
+            height: 45vh;
             width: 100%;
         }
 
@@ -132,34 +136,126 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             font-size: 10px !important;
         }
 
-#department, #fid, #workId{
-    
-    border: none;
-    background: white;
+        #department,
+        #fid,
+        #workId {
 
-}
-.abc1{
-    display: flex;
-    /* text-align: center; */
-    gap: 10;
-}
+            border: none;
+            background: white;
 
-.xyz{
-    font-size: 12px;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-}
+        }
+
+        .abc1 {
+            display: flex;
+            gap: 10;
+        }
+
+        .xyz {
+            font-size: 12px;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
         #successModal {
             display: block;
             position: absolute;
-            /* margin: 69% auto; */
             width: 285px;
             left: 19px;
             top: 30vh;
         }
-        #workIDInfo{
+
+        #workIDInfo {
             display: none;
+        }
+
+        /* Header styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 7px;
+            color: white;
+        }
+
+        .header-logo img {
+            width: 40px;
+        }
+
+        .user-info {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-menu {
+            right: 0;
+            left: auto;
+        }
+
+        .user-info .dropdown-toggle::after {
+            margin-left: 5px;
+        }
+
+        .user-name {
+            margin-right: 5px;
+            font-size: 12px;
+            color: black;
+        }
+
+        .btn-outline-light.dropdown-toggle {
+            padding: 3px 8px;
+            font-size: 12px;
+            border-radius: 5px;
+            color: black;
+            background-color: white;
+            border: 1px solid black;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            display: none;
+            min-width: 6rem;
+            padding: .25rem 0;
+            margin: .125rem 0 0;
+            font-size: 0.85rem;
+            color: #212529;
+            text-align: left;
+            list-style: none;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, .15);
+            border-radius: .2rem;
+        }
+
+        .btn-outline-light.dropdown-toggle {
+            padding: 2px 6px;
+            font-size: 0.85rem;
+            border-radius: 3px;
+            border-color: #333;
+        }
+        @media only screen and (min-width: 1400px) {
+            .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 7px;
+            /* margin: 0 20px; */
+            color: white;
+        }
+        .header-logo{
+           margin-left: 3%;
+        }
+        .user-info{
+            margin-right: 5%;
+        }
         }
     </style>
 
@@ -168,8 +264,27 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 <body class="bg-light">
 
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <div class="header-logo">
+            <img src="png/pmcjpeg.png" alt="PMC Logo">
+        </div>
+
+        <!-- User Info and Dropdown -->
+        <div class="user-info dropdown">
+            <span class="user-name"><?php echo htmlspecialchars($username); ?></span>
+            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Account
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="./login/logout.php">Logout <i class="fa fa-sign-out" style="color: red;"></i></a></li>
+            </ul>
+        </div>
+    </header>
+
     <p id="workIDInfo">Loading...</p>
-    <img src="png/pmcjpeg.png" alt="" class="logopng1" />
+    <!-- <img src="png/pmcjpeg.png" alt="" class="logopng1" /> -->
     <div id="content" style="width: 100%" class="container">
         <div id="button-container" class=""></div>
 
@@ -223,25 +338,25 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <div class="modal-body">
                     <form id="workDetailsForm" method="POST" action="APIS/save_form_work.php">
                         <div class="abc1">
-                        <div class=" abc">
-                        <label for="fid" class="form-label xyz">FID </label>
-                        <input class="form-control" id="fid" name="fid" readonly>
-                         
-                    </div>
-                    <hr>
-                    <div class="abc">
-                        <label for="workId" class="form-label xyz">Work ID </label>
-                        <input type="text" class="form-control" id="workId" name="workId" readonly>
-                    </div>
-                    <hr>
-                    <div class=" abc">
-                        <label for="department" class="form-label xyz">Department </label>
-                        <!-- <input type="text" class="form-control" id="department" name="department" readonly> -->
-                        <input type="text" class="form-control" id="department" name="department" readonly>
+                            <div class=" abc">
+                                <label for="fid" class="form-label xyz">FID </label>
+                                <input class="form-control" id="fid" name="fid" readonly>
 
-                    </div>
-                </div>
-                <hr>
+                            </div>
+                            <hr>
+                            <div class="abc">
+                                <label for="workId" class="form-label xyz">Work ID </label>
+                                <input type="text" class="form-control" id="workId" name="workId" readonly>
+                            </div>
+                            <hr>
+                            <div class=" abc">
+                                <label for="department" class="form-label xyz">Department </label>
+                                <!-- <input type="text" class="form-control" id="department" name="department" readonly> -->
+                                <input type="text" class="form-control" id="department" name="department" readonly>
+
+                            </div>
+                        </div>
+                        <hr>
                         <div class="mb-3 fw-bold">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username"
@@ -258,21 +373,21 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 placeholder="Enter your comments" required></textarea>
                         </div>
                         <div class="rate">
-                        <P class="fw-bold">Rate Us:</P>
-                        <div class="rating">
-                            <input type="radio" name="rating" id="5-stars" value="5" />
-                            <label for="5-stars" class="star" data-rating="5">&#9733;</label>
-                            <input type="radio" name="rating" id="4-stars" value="4" />
-                            <label for="4-stars" class="star" data-rating="4">&#9733;</label>
-                            <input type="radio" name="rating" id="3-stars" value="3" />
-                            <label for="3-stars" class="star" data-rating="3">&#9733;</label>
-                            <input type="radio" name="rating" id="2-stars" value="2" />
-                            <label for="2-stars" class="star" data-rating="2">&#9733;</label>
-                            <input type="radio" name="rating" id="1-star" value="1" />
-                            <label for="1-star" class="star" data-rating="1">&#9733;</label>
+                            <P class="fw-bold">Rate Us:</P>
+                            <div class="rating">
+                                <input type="radio" name="rating" id="5-stars" value="5" />
+                                <label for="5-stars" class="star" data-rating="5">&#9733;</label>
+                                <input type="radio" name="rating" id="4-stars" value="4" />
+                                <label for="4-stars" class="star" data-rating="4">&#9733;</label>
+                                <input type="radio" name="rating" id="3-stars" value="3" />
+                                <label for="3-stars" class="star" data-rating="3">&#9733;</label>
+                                <input type="radio" name="rating" id="2-stars" value="2" />
+                                <label for="2-stars" class="star" data-rating="2">&#9733;</label>
+                                <input type="radio" name="rating" id="1-star" value="1" />
+                                <label for="1-star" class="star" data-rating="1">&#9733;</label>
+                            </div>
+                            <div id="rating-label" class="text-center mt-2"></div>
                         </div>
-                        <div id="rating-label" class="text-center mt-2"></div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -321,9 +436,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     </script>
 
     <script>
-
-        let depData = [
-            {
+        let depData = [{
                 department_id: '1',
                 department_name: 'Road',
                 department_marathi_name: 'पथ',
@@ -431,9 +544,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         let userIP = '';
         let userLocation = '';
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
 
-            
+
             // Ensure that geolocation is supported
             if ("geolocation" in navigator) {
                 const options = {
@@ -442,26 +555,26 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     maximumAge: 2000,
                 };
 
-                navigator.geolocation.getCurrentPosition(function (position) {
+                navigator.geolocation.getCurrentPosition(function(position) {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
                     userLocation = `${lat},${lng}`;
                     console.log(`Live Location: ${userLocation}`);
-                }, function (error) {
+                }, function(error) {
                     console.error("Geolocation error: ", error);
                 }, options);
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
 
-            $.getJSON('https://api.ipify.org?format=json', function (data) {
+            $.getJSON('https://api.ipify.org?format=json', function(data) {
                 userIP = data.ip;
                 console.log(userIP, "userIP");
             });
 
             // Fetch the Work_ID dynamically from the URL or wherever it is stored
             const urlParams = new URLSearchParams(window.location.search);
-            const workId = urlParams.get('Work_ID');  // Assuming Work_ID is passed in the URL
+            const workId = urlParams.get('Work_ID'); // Assuming Work_ID is passed in the URL
             console.log('Work_ID:', workId);
 
             // Function to find the department name based on d_id
@@ -476,12 +589,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     url: `https://iwms.punecorporation.org/api/project-gis-data?proj_id=${workId}`, // Correctly format the URL
                     method: 'GET',
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         // Extract the necessary data from the response
                         if (response && response.data) {
-                            const fid = response.gis_data[0].gis_id || '';  // Using sys_aa_id as FID
-                            const d_id = response.data.d_id || '';  // Get the d_id from the response
-                            const department = getDepartmentNameById(d_id);  // Map d_id to department name
+                            const fid = response.gis_data[0].gis_id || ''; // Using sys_aa_id as FID
+                            const d_id = response.data.d_id || ''; // Get the d_id from the response
+                            const department = getDepartmentNameById(d_id); // Map d_id to department name
                             const workID = response.data.works_aa_approval_id || '';
 
                             // Populate the form fields
@@ -492,7 +605,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             console.error('Unexpected response structure:', response);
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error fetching data:', status, error);
                     }
                 });
@@ -528,18 +641,24 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             // Function to get color based on rating
             function getColorForRating(rating) {
                 switch (rating) {
-                    case '1': return '#e53c3d'; // Poor
-                    case '2': return '#f05224'; // Satisfactory
-                    case '3': return '#fcb300'; // Good
-                    case '4': return '#218be6'; // Very Good
-                    case '5': return '#5155d4'; // Excellent
-                    default: return '#ddd'; // Default color
+                    case '1':
+                        return '#e53c3d'; // Poor
+                    case '2':
+                        return '#f05224'; // Satisfactory
+                    case '3':
+                        return '#fcb300'; // Good
+                    case '4':
+                        return '#218be6'; // Very Good
+                    case '5':
+                        return '#5155d4'; // Excellent
+                    default:
+                        return '#ddd'; // Default color
                 }
             }
 
             // Add event listeners to each star
             stars.forEach(star => {
-                star.addEventListener('change', function () {
+                star.addEventListener('change', function() {
                     const rating = this.value;
                     updateStars(rating);
                 });
@@ -548,7 +667,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             // Initialize stars
             updateStars(0);
 
-            document.getElementById('saveChangesBtn').addEventListener('click', function (e) {
+            document.getElementById('saveChangesBtn').addEventListener('click', function(e) {
                 const rating = document.querySelector('input[name="rating"]:checked');
                 if (!rating) {
                     e.preventDefault();
@@ -567,13 +686,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 formData.append('ip_address', userIP);
 
                 fetch('APIS/save_form_work.php', {
-                    method: 'POST',
-                    body: formData
-                })
+                        method: 'POST',
+                        body: formData
+                    })
                     .then(response => response.text())
                     .then(data => {
                         $('#successModal').modal('show');
-                        setTimeout(function () {
+                        setTimeout(function() {
                             $('#successModal').modal('hide');
                             // Optionally, redirect or reset the page/form here
                         }, 3000);
@@ -587,7 +706,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     .catch(error => console.error('Error:', error));
             });
         });
-
     </script>
 
 </body>
