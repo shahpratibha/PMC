@@ -134,8 +134,8 @@ $(document).ready(function () {
 
   function cb(start, end) {
     // $('#daterange').val(start.format('2023') + ' - ' + end.format('YYYY'));
-    var formattedStartDate = start.format('M/D/YY, h:mm A');;
-    var formattedEndDate = end.format('M/D/YY, h:mm A');;
+    var formattedStartDate = start.format('M/D/YY, h:mm A');
+    var formattedEndDate = end.format('M/D/YY, h:mm A');
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
     console.log(cql_filter1, "lll")
 
@@ -252,7 +252,7 @@ function DataTableFilter(cql_filter1) {
     `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(cqlFilter)}`;
   // var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
   var headers = ['PID', 'Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Project_Time', 'Status'];
-
+console.log(geoServerURL,"geoserver_url")
   showtable(typeName, geoServerURL, cqlFilter, headers);
 
 }
@@ -337,7 +337,7 @@ function FilterAndZoom(filter) {
   GIS_Ward_Layer.setParams({
     CQL_FILTER: filter,
     maxZoom: 19.5,
-  }).addTo(map);
+  });
 };
 function fitbous(filter) {
   var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"];
@@ -426,6 +426,9 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
     renderPageButtons(1);
     tableContainer.appendChild(paginationContainer); // Append paginationContainer after rendering buttons
   }
+
+
+
   function createTable(data, headers) {
     var tableContainer = document.getElementById('tablecontainer');
     if (!tableContainer) {
@@ -456,11 +459,14 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
     var tableDetail = document.createElement('div');
     tableDetail.className = 'tableDetail';
     tableContainer.appendChild(tableDetail);
+
     var table = document.createElement('table');
     table.className = 'data-table'; // Add a class for styling
     table.id = 'data-table'; // Add an ID for DataTables initialization
+   
     var thead = document.createElement('thead');
     var headerRow = document.createElement('tr');
+
     headers.unshift('Sr_no');
     // Create header cells
     headers.forEach(headerText => {
@@ -468,23 +474,61 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
       th.textContent = headerText;
       headerRow.appendChild(th);
     });
+
     thead.appendChild(headerRow);
     table.appendChild(thead);
+
     var tbody = document.createElement('tbody');
     // Populate table rows with data
     data.forEach((item, index) => {
       var row = document.createElement('tr');
       // Add serial number as the first column
+
       var serialNumberCell = document.createElement('td');
       serialNumberCell.textContent = index + 1;
       row.appendChild(serialNumberCell);
+      
       // Add other data columns
-      headers.slice(1).forEach(header => { // Exclude the first header (Serial No)
-        if (header !== 'Serial No' && header !== 'geometry') {
+      // headers.slice(1).forEach(header => { // Exclude the first header (Serial No)
+      //   if (header !== 'Serial No' && header !== 'geometry') {
+      //     var cell = document.createElement('td');
+      //     // update code
+      //     if (header === 'Project_Time') {
+      //       // Format the Project_Time date using Moment.js
+      //       cell.textContent = moment(item[header]).format('DD/MM/YYYY HH:mm');
+      //     } else {
+      //       cell.textContent = item[header] || ''; // Handle undefined values
+      //     }
+      //     // update code 
+      //     // cell.textContent = item[header] || ''; // Handle cases where item[header] might be undefined
+      //     row.appendChild(cell);
+
+        //  }
+
+
+        // update code-----------
+
+        headers.slice(1).forEach(header => {
           var cell = document.createElement('td');
-          cell.textContent = item[header] || ''; // Handle cases where item[header] might be undefined
+          if (header === 'Project_Time') {
+            let projectTime = item[header] ? moment(item[header]) : null;
+    
+            if (projectTime && projectTime.isValid()) {
+              // Format the date for display
+              cell.textContent = projectTime.format('DD/MM/YYYY HH:mm');
+              // Store the raw date value for sorting
+              cell.setAttribute('data-sort', projectTime.toISOString());
+            } else {
+              // Handle invalid or missing dates
+              cell.textContent = 'N/A';
+              cell.setAttribute('data-sort', ''); // For empty sorting
+            }
+          } else {
+            cell.textContent = item[header] || ''; // Handle undefined values
+          }
           row.appendChild(cell);
-        }
+
+        // update code -------------
       });
 
       // Add click listener to highlight the geometry on the map
@@ -529,7 +573,17 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
         scrollY: 400,
         scrollX: true,
         scrollCollapse: true,
-        fixedHeader: true
+        fixedHeader: true,
+        order: [[1, 'desc']],    
+        columnDefs: [
+          {
+            targets: 10,          // Update the target index for the Project_Time column
+            type: 'date',         // Ensure DataTables treats this column as date
+            orderData: [1],      // Sort based on raw date
+          }
+        ]
+      
+      
       });
     });
   }
@@ -732,7 +786,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
               CQL_FILTER: cqlFilter,
               maxZoom: 19.5,
               styles: "IWMS_polygon"
-            });
+            }).addTo(map);
 
 
             console.log("Adding IWMS_point, IWMS_line, and IWMS_polygon layers with filter:", cqlFilter);
