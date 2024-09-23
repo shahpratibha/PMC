@@ -581,7 +581,7 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
       createTable(exampleData, headers);
     });
   }
-
+ 
 
 };
 
