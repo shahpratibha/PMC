@@ -590,7 +590,28 @@ window.location.href = baseURL + queryString;
                     const Work_ID = data[ page-1 ].Work_ID;
 
 
-                    editButtonCell.innerHTML = `<button type="button" onclick="onClickEdit('${department}', '${id}','${Work_ID}')" class="edit-button"><i class="fas fa-pen"></i>&nbsp;Edit</button>`;
+                    // editButtonCell.innerHTML = `<button type="button" onclick="onClickEdit('${department}', '${id}','${Work_ID}')" class="edit-button"><i class="fas fa-pen"></i>&nbsp;Edit</button>`;
+
+
+                    
+
+                    // Create the button element
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'edit-button';
+                    button.innerHTML = `<i class="fas fa-pen"></i>&nbsp;Edit`;
+
+                    // Attach the click event listener
+                    button.addEventListener('click', function () {
+                        onClickEdit(department, id, Work_ID);
+                    });
+
+                    // Append the button to the editButtonCell
+                    editButtonCell.appendChild(button);
+
+
+
+
 
 
 

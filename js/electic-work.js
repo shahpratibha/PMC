@@ -520,6 +520,7 @@ legend.addTo(map);
 
 
 
+
 // ----------------------
 // FeatureGroup to store drawn items
 var drawnItems = new L.FeatureGroup();

@@ -1054,7 +1054,6 @@ var editControl = L.control({position: 'topleft'});
     var controlUI = L.DomUtil.create('a', 'leaflet-control-edit-interior', controlDiv);
     controlUI.title = 'Edit features';
     controlUI.href = '#';
-    controlUI.style.display='none';
     controlUI.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
     // controlUI.style.fontSize='18px';
     // controlUI.style.position='absolute';

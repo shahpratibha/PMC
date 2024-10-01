@@ -488,25 +488,7 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
       serialNumberCell.textContent = index + 1;
       row.appendChild(serialNumberCell);
       
-      // Add other data columns
-      // headers.slice(1).forEach(header => { // Exclude the first header (Serial No)
-      //   if (header !== 'Serial No' && header !== 'geometry') {
-      //     var cell = document.createElement('td');
-      //     // update code
-      //     if (header === 'Project_Time') {
-      //       // Format the Project_Time date using Moment.js
-      //       cell.textContent = moment(item[header]).format('DD/MM/YYYY HH:mm');
-      //     } else {
-      //       cell.textContent = item[header] || ''; // Handle undefined values
-      //     }
-      //     // update code 
-      //     // cell.textContent = item[header] || ''; // Handle cases where item[header] might be undefined
-      //     row.appendChild(cell);
-
-        //  }
-
-
-        // update code-----------
+            // update code-----------
 
         headers.slice(1).forEach(header => {
           var cell = document.createElement('td');
@@ -967,8 +949,11 @@ map.on("contextmenu", async (e) => {
       }
 
       // Generate the URL with Work_ID for both localhost and production
-      // let qrURL = `http://localhost/PMC/IWMS/IWMS_test/geometry_page.html?Work_ID=${workID}`;
-let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
+      // let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/login/login.php?work_id=${workID}`;
+
+      let qrURL = `http://localhost/PMC/IWMS/IWMS_test/login/login.php?work_id=${workID}`;
+      //      let qrURL = `http://localhost/PMC/IWMS/update_dashboard/login/login.php?work_id=${workID}`;
+// let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
 qrData = qrURL;
 
       qrData = qrURL;
@@ -1046,7 +1031,6 @@ qrData = qrURL;
 });
 // -------------------------------------------
 // // geotag
-
 map.on("click", async (e) => {
   let bbox = map.getBounds().toBBoxString();
   let size = map.getSize();
@@ -1054,7 +1038,8 @@ map.on("click", async (e) => {
   // Define the workspaces and their respective layer details
   const workspaceLayers = {
     'PMC_test': {
-      "PMC_test:geotagphoto": ['photo', 'category', 'createdAt', 'works_aa_approval_id', 'timestamp', 'imagepath'],
+      "PMC_test:geotagphoto": ['photo', 'category', 'createdAt', 'works_aa_approval_id', 'timestamp', 'imagepath','distance_calc'],
+    
     },
     'pmc': {
       "pmc:output_data": ['proj_id', 'category', 'file', 'verify_role_id', 'image_url', 'verify_by'],
@@ -1179,3 +1164,137 @@ map.on("click", async (e) => {
     console.log("No features found");
   }
 });
+
+
+// map.on("click", async (e) => {
+//   let bbox = map.getBounds().toBBoxString();
+//   let size = map.getSize();
+
+//   // Define the workspaces and their respective layer details
+//   const workspaceLayers = {
+//     'PMC_test': {
+//       "PMC_test:geotagphoto": ['photo', 'category', 'createdAt', 'works_aa_approval_id', 'timestamp', 'imagepath'],
+//     },
+//     'pmc': {
+//       "pmc:output_data": ['proj_id', 'category', 'file', 'verify_role_id', 'image_url', 'verify_by'],
+//     }
+//   };
+
+//   let detailsArray = [];
+
+//   for (let workspace in workspaceLayers) {
+//     for (let layer in workspaceLayers[workspace]) {
+//       let selectedKeys = workspaceLayers[workspace][layer];
+//       let urrr = `${main_url}${workspace}/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(e.containerPoint.x)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+
+//       try {
+//         let response = await fetch(urrr);
+//         let html = await response.json();
+//         let features = html.features;
+
+//         features.forEach((feature, index) => {
+//           let htmldata = feature.properties;
+//           let txtk1 = "";
+//           let imageUrl = "";
+//           let pdfUrl = "";
+//           let category = htmldata['category'] || 'N/A'; // Get the category
+
+//           for (let key of selectedKeys) {
+//             if (htmldata.hasOwnProperty(key)) {
+//               let value = htmldata[key];
+//               if (key === "imagepath") {
+//                 // Construct the image URL relative to the 'imgs' folder
+//                 let imagename = htmldata["photo"];
+//                 imageUrl = `${value}${imagename}`;
+//               } else if (key === "image_url") {
+//                 // Determine the file type based on the URL
+//                 if (value.endsWith(".png") || value.endsWith(".jpeg") || value.endsWith(".jpg")) {
+//                   imageUrl = value;
+//                 } else if (value.endsWith(".pdf")) {
+//                   pdfUrl = value;
+//                 }
+//               } else if (key === "longitude" || key === "latitude") {
+//                 value = parseFloat(value).toFixed(4);
+//               }
+//               txtk1 += `<tr><td style="background-color: #9393d633; width:30px;">${key}</td><td>${value}</td></tr>`;
+//             }
+//           }
+
+//           detailsArray.push({
+//             index: index + 1,
+//             category: category,
+//             txtk1: txtk1,
+//             imageUrl: imageUrl,
+//             pdfUrl: pdfUrl
+//           });
+//         });
+//       } catch (error) {
+//         console.error(`Error fetching data for layer ${layer} in workspace ${workspace}:`, error);
+//       }
+//     }
+//   }
+
+//   if (detailsArray.length > 0) {
+//     let currentIndex = 0;
+
+//     function updatePopup() {
+//       let imageElement = document.getElementById('popupImage');
+//       let pdfElement = document.getElementById('popupPdf');
+//       let tableBodyElement = document.getElementById('popupTableBody');
+//       let featureTitleElement = document.getElementById('featureTitle');
+//       let prevIcon = document.getElementById('prevIcon');
+//       let nextIcon = document.getElementById('nextIcon');
+
+//       if (detailsArray[currentIndex].imageUrl) {
+//         imageElement.src = detailsArray[currentIndex].imageUrl;
+//         imageElement.style.display = 'block';
+//         pdfElement.style.display = 'none';
+//       } else if (detailsArray[currentIndex].pdfUrl) {
+//         pdfElement.src = detailsArray[currentIndex].pdfUrl;
+//         pdfElement.style.display = 'block';
+//         imageElement.style.display = 'none';
+//       }
+
+//       tableBodyElement.innerHTML = detailsArray[currentIndex].txtk1;
+//       featureTitleElement.textContent = `Feature ${detailsArray[currentIndex].index} - ${detailsArray[currentIndex].category}`;
+
+//       prevIcon.disabled = currentIndex === 0;
+//       nextIcon.disabled = currentIndex === detailsArray.length - 1;
+//     }
+
+//     let detaildata = `<div style='max-height: 350px; max-width: 270px; position: relative;'>
+//       <button id='prevIcon' class='pagination-icon' style='left: 10px;' disabled>
+//         <i class='fas fa-chevron-left'></i>
+//       </button>
+//       <h6 id="featureTitle">Feature 1 - ${detailsArray[0].category}</h6>
+//       <img id="popupImage" src="${detailsArray[0].imageUrl}" alt="Image" style="display: ${detailsArray[0].imageUrl ? 'block' : 'none'};">
+//       <iframe id="popupPdf" src="${detailsArray[0].pdfUrl}" style="display: ${detailsArray[0].pdfUrl ? 'block' : 'none'};" width="100%" height="200px"></iframe>
+//       <button id='nextIcon' class='pagination-icon' style='right: 10px;' ${detailsArray.length > 1 ? '' : 'disabled'}>
+//         <i class='fas fa-chevron-right'></i>
+//       </button>
+//       <table class='popuptable'>
+//         <tbody id="popupTableBody">
+//           ${detailsArray[0].txtk1}
+//         </tbody>
+//       </table>
+//     </div>`;
+
+//     L.popup().setLatLng(e.latlng).setContent(detaildata).openOn(map);
+
+//     document.getElementById('prevIcon').addEventListener('click', () => {
+//       if (currentIndex > 0) {
+//         currentIndex--;
+//         updatePopup();
+//       }
+//     });
+
+//     document.getElementById('nextIcon').addEventListener('click', () => {
+//       if (currentIndex < detailsArray.length - 1) {
+//         currentIndex++;
+//         updatePopup();
+//       }
+//     });
+//   } else {
+//     console.log("No features found");
+//   }
+// });

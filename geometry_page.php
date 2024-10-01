@@ -1,16 +1,38 @@
+
+
 <?php
 session_start();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    // If the user is not logged in, redirect them to the login page
-    // header("Location:login/login.php");
     header("Location: login/login.php");
     exit;
 }
 
-// Retrieve the logged-in user's username from the session
-// Retrieve the username from the session
-$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+// Database connection
+require_once 'APIS/db.php';
+
+// Fetch user details from the database
+$username = $_SESSION['username']; // Assuming this is set during login
+$userData = null;
+
+try {
+    $stmt = $pdo->prepare("SELECT username, contact_no FROM users_login WHERE username = :username");
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+// If user data is not found, handle it accordingly
+if (!$userData) {
+    // Handle case where user data is not found
+    $userData = [
+        'username' => 'Unknown User',
+        'contact_no' => 'N/A'
+    ];
+}
 ?>
+
 
 
 <!DOCTYPE html>
@@ -48,215 +70,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
     <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
     <style>
-        body {
-            overflow: hidden;
-        }
 
-        /* Modal styles */
-        .modal-content {
-            font-size: 14px;
-        }
-
-        .modal-header {
-            background-color: #007bff;
-            color: white;
-            position: sticky !important;
-            top: 0px;
-            z-index: 9999999;
-        }
-
-        .modal-body {
-            position: relative;
-            flex: 1 1 auto;
-            padding: 0 1rem;
-        }
-
-        .rate {
-            display: flex;
-        }
-
-        .rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-            padding: 0 20px;
-
-        }
-
-        .rating input {
-            display: none;
-        }
-
-        .rating label {
-            cursor: pointer;
-            font-size: 1rem;
-            color: #ddd;
-            transition: color 0.2s;
-        }
-
-
-        #rating-label {
-            font-size: 10px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        /* Ensure the map container has a height */
-        #map {
-            height: 45vh;
-            width: 100%;
-        }
-
-        #workDetailsModalLabel {
-            font-size: 14px;
-            text-align: center;
-            justify-content: center;
-            margin-left: 43px;
-        }
-
-        #workDetailsModal {
-            position: absolute;
-            z-index: 99999;
-            height: 76vh;
-            top: 71px;
-            overflow: auto;
-            scrollbar-width: thin;
-        }
-
-        button,
-        input,
-        optgroup,
-        select,
-        textarea {
-            margin: 0;
-            font-family: inherit;
-            font-size: inherit;
-            line-height: inherit;
-            font-size: 10px !important;
-        }
-
-        #department,
-        #fid,
-        #workId {
-
-            border: none;
-            background: white;
-
-        }
-
-        .abc1 {
-            display: flex;
-            gap: 10;
-        }
-
-        .xyz {
-            font-size: 12px;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        #successModal {
-            display: block;
-            position: absolute;
-            width: 285px;
-            left: 19px;
-            top: 30vh;
-        }
-
-        #workIDInfo {
-            display: none;
-        }
-
-        /* Header styles */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 7px;
-            color: white;
-        }
-
-        .header-logo img {
-            width: 40px;
-        }
-
-        .user-info {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .dropdown-menu {
-            right: 0;
-            left: auto;
-        }
-
-        .user-info .dropdown-toggle::after {
-            margin-left: 5px;
-        }
-
-        .user-name {
-            margin-right: 5px;
-            font-size: 12px;
-            color: black;
-        }
-
-        .btn-outline-light.dropdown-toggle {
-            padding: 3px 8px;
-            font-size: 12px;
-            border-radius: 5px;
-            color: black;
-            background-color: white;
-            border: 1px solid black;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            z-index: 1000;
-            display: none;
-            min-width: 6rem;
-            padding: .25rem 0;
-            margin: .125rem 0 0;
-            font-size: 0.85rem;
-            color: #212529;
-            text-align: left;
-            list-style: none;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid rgba(0, 0, 0, .15);
-            border-radius: .2rem;
-        }
-
-        .btn-outline-light.dropdown-toggle {
-            padding: 2px 6px;
-            font-size: 0.85rem;
-            border-radius: 3px;
-            border-color: #333;
-        }
-        @media only screen and (min-width: 1400px) {
-            .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 7px;
-            /* margin: 0 20px; */
-            color: white;
-        }
-        .header-logo{
-           margin-left: 3%;
-        }
-        .user-info{
-            margin-right: 5%;
-        }
-        }
     </style>
 
 </head>
@@ -273,12 +87,12 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
         <!-- User Info and Dropdown -->
         <div class="user-info dropdown">
-            <span class="user-name"><?php echo htmlspecialchars($username); ?></span>
-            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                Account
+
+            <button class="btn btn-border-none dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="user-name"><?php echo htmlspecialchars(strtoupper($userData['username'])); ?></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="./login/logout.php">Logout <i class="fa fa-sign-out" style="color: red;"></i></a></li>
+                <li><a class="dropdown-item border-none" href="./login/logout.php">Logout <i class="fa fa-sign-out" style="color: red;"></i></a></li>
             </ul>
         </div>
     </header>
@@ -327,8 +141,9 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
     </div>
 
     <!-- Modal Structure -->
-    <div class="modal fade" id="workDetailsModal" tabindex="-1" aria-labelledby="workDetailsModalLabel"
-        aria-hidden="true">
+
+
+    <div class="modal fade" id="workDetailsModal" tabindex="-1" aria-labelledby="workDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -337,43 +152,45 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
                 </div>
                 <div class="modal-body">
                     <form id="workDetailsForm" method="POST" action="APIS/save_form_work.php">
+                        
+                    <div class="abcd">
+                            <div class="abc">
+                                <label for="username" class="form-label xyz">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars(strtoupper($userData['username'])); ?>" readonly>
+                            </div>
+                            <div class="abc">
+                                <label for="contact" class="form-label xyz">Contact Number</label>
+                                <input type="tel" class="form-control" id="contact" name="contact" value="<?php echo htmlspecialchars($userData['contact_no']); ?>" readonly>
+                            </div>
+                        </div>
                         <div class="abc1">
-                            <div class=" abc">
-                                <label for="fid" class="form-label xyz">FID </label>
+                            <div class="abc">
+                                <label for="fid" class="form-label xyz">FID</label>
                                 <input class="form-control" id="fid" name="fid" readonly>
-
                             </div>
                             <hr>
                             <div class="abc">
-                                <label for="workId" class="form-label xyz">Work ID </label>
+                                <label for="workId" class="form-label xyz">Work ID</label>
                                 <input type="text" class="form-control" id="workId" name="workId" readonly>
                             </div>
                             <hr>
-                            <div class=" abc">
-                                <label for="department" class="form-label xyz">Department </label>
-                                <!-- <input type="text" class="form-control" id="department" name="department" readonly> -->
+                            <div class="abc">
+                                <label for="department" class="form-label xyz">Department</label>
                                 <input type="text" class="form-control" id="department" name="department" readonly>
-
                             </div>
+                            
+
+
                         </div>
-                        <hr>
-                        <div class="mb-3 fw-bold">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                placeholder="Enter your name" required>
-                        </div>
-                        <div class="mb-3 fw-bold">
-                            <label for="contact" class="form-label">Contact Number</label>
-                            <input type="tel" class="form-control" id="contact" name="contact"
-                                placeholder="Enter your contact number" required>
-                        </div>
+
+                        <!-- <hr> -->
+
                         <div class="mb-3 fw-bold">
                             <label for="comments" class="form-label">Comments</label>
-                            <textarea class="form-control" id="comments" name="comments" rows="3"
-                                placeholder="Enter your comments" required></textarea>
+                            <textarea class="form-control" id="comments" name="comments" rows="3" placeholder="Enter your comments" required></textarea>
                         </div>
                         <div class="rate">
-                            <P class="fw-bold">Rate Us:</P>
+                            <p class="fw-bold">Rate Us:</p>
                             <div class="rating">
                                 <input type="radio" name="rating" id="5-stars" value="5" />
                                 <label for="5-stars" class="star" data-rating="5">&#9733;</label>
@@ -397,7 +214,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
             </div>
         </div>
     </div>
-
+    </div>
 
     <!-- Success Message Modal -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">

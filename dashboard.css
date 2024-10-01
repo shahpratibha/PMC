@@ -381,7 +381,7 @@ z-index: 2;
 #tablecontainer {
 z-index: 9999;
 position: absolute;
-width: 31%;
+width: 45%;
 bottom: 0%;
 right: 20%;
 background-color: white;
@@ -479,6 +479,7 @@ position: absolute;
 bottom: 0%;
 right: 1%;
 }
+
 /* Pagination buttons */
 #pagination button {
 background-color: #007bff;
@@ -530,18 +531,3 @@ background-color: white;
 }
 
 
-
-table.dataTable tbody th, table.dataTable tbody td {
-  padding: 30px 10px;
-  font-weight: bolder;
-  
-  }
-  .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td {
-    vertical-align: middle;
-    border-bottom: 1px solid black;
-    font-weight: bold;
-}
-
-#search_type {
-  padding: 7px 15px;
-}

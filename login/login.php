@@ -46,7 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect to geometry page with Work_ID if available
             if (!empty($workID)) {
-                $redirectURL = "http://localhost/IWMS_test2/geometry_page.php?Work_ID={$workID}";
+                // https://iwmsgis.pmc.gov.in/gis/iwms/login/login.php
+                // $redirectURL = "https://iwmsgis.pmc.gov.in/gis/iwms/geometry_page.php?Work_ID={$workID}";
+
+                 $redirectURL = "http://localhost/PMC/IWMS/IWMS_test/geometry_page.php?Work_ID={$workID}";
+                // $redirectURL = "http://localhost/IWMS_test2/geometry_page.php?Work_ID={$workID}";
                 header('Location: ' . $redirectURL);
                 exit;
             } else {
