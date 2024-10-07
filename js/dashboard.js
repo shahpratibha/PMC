@@ -1078,7 +1078,7 @@ map.on("contextmenu", async (e) => {
 
       let qrURL = `http://localhost/PMC/IWMS/IWMS_test/login/login.php?work_id=${workID}`;
       //      let qrURL = `http://localhost/PMC/IWMS/update_dashboard/login/login.php?work_id=${workID}`;
-    let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
+    // let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
 qrData = qrURL;
 
       qrData = qrURL;
