@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="css/geom.css" />
 
     <!-- External JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -128,9 +129,9 @@
             margin-right: 10px;
         }
 
-        .leaflet-interactive {
+        /* .leaflet-interactive {
             transform: scale(1.2);
-        }
+        } */
     </style>
 
 
@@ -176,7 +177,7 @@
 
     <script>
         var map = L.map("map", {
-            center: [ 18.52, 73.89 ],
+            center: [18.52, 73.89],
             zoom: 8,
             minZoom: 9,
             maxZoom: 16,
@@ -193,7 +194,7 @@
 
         var googleSat = L.tileLayer("http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
             maxZoom: 20,
-            subdomains: [ "mt0", "mt1", "mt2", "mt3" ]
+            subdomains: ["mt0", "mt1", "mt2", "mt3"]
         });
 
         var Esri_WorldImagery = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
@@ -248,7 +249,7 @@
             "IWMS_line": IWMS_line,
             "IWMS_polygon": IWMS_polygon,
             "IWMS_point": IWMS_point,
-            "Ward_layer":Ward_layer
+            "Ward_layer": Ward_layer
         };
 
         var control = new L.control.layers({}, WMSlayers).addTo(map);
@@ -256,13 +257,13 @@
 
         var highlightLayer;
 
-        // const API_URL = "http://localhost/pmc_test/";
+        const API_URL = "http://localhost/IWMS_test2/";
         // const API_URL = "http://localhost/PMC/IWMS_main/";
-const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
-// const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
+        // const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
+        // const API_URL = "https://iwmsgis.pmc.gov.in/gis/test/";  
 
         async function onClickEdit(department, id, Work_ID) {
-  
+
             const response = await fetch(`https://iwms.punecorporation.org/api/project-gis-data?proj_id=${Work_ID}`);
 
             //  const response = await fetch('api-responses/all-project-data.json');
@@ -276,22 +277,23 @@ const API_URL = "https://iwmsgis.pmc.gov.in/gis/iwms/";
             if (conceptualData.struct_no > 10) {
 
 
-const baseURL = "ward.html";
+                const baseURL = "ward.html";
 
-// Create the query string
-const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                // Create the query string
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
-// Redirect to the new URL with query parameters
-window.location.href = baseURL + queryString;
-}
+                // Redirect to the new URL with query parameters
+                window.location.href = baseURL + queryString;
+            }
 
             if (department == "Road") {
 
 
                 const baseURL = "road.html";
 
+                console.log(id, "idd")
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -303,7 +305,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "building.html";
 
                 // Create the query string
-              const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -316,7 +318,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "drainage.html";
 
                 // Create the query string
-              const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -328,7 +330,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "water-suppy.html";
 
                 // Create the query string
-              const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -342,7 +344,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "electric-work.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -354,7 +356,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "project.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -366,7 +368,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "solidWasteManagement.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -378,7 +380,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "garden.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -391,7 +393,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "gardenhoriculture.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -403,7 +405,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "Encroachment.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -415,7 +417,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "Education.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -427,7 +429,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "market.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -440,7 +442,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "Environtment.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -452,7 +454,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "sport.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -464,7 +466,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "ceo.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -478,7 +480,7 @@ window.location.href = baseURL + queryString;
                 const baseURL = "slum.html";
 
                 // Create the query string
-                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id.replace(/"/g, ''))}`;
+                const queryString = `?proj_id=${encodeURIComponent(Work_ID)}&lastInsertedId=${encodeURIComponent(conceptualData.id)}&width=${encodeURIComponent(conceptualData.width)}&length=${encodeURIComponent(conceptualData.length)}&wardName=${encodeURIComponent(conceptualData.ward)}&department=${encodeURIComponent(department)}&workType=${encodeURIComponent(conceptualData.work_type)}&struct_no=${encodeURIComponent(conceptualData.struct_no)}&user_id=${encodeURIComponent(conceptualData.struct_no)}&zone_id=${encodeURIComponent(project.gis_zone_id)}&ward_id=${encodeURIComponent(project.gis_ward_id)}&prabhag_id=${encodeURIComponent(project.gis_prabhag_id)}&edit="true"&editId=${encodeURIComponent(id ? String(id).replace(/"/g, '') : '')}`;
 
                 // Redirect to the new URL with query parameters
                 window.location.href = baseURL + queryString;
@@ -505,12 +507,12 @@ window.location.href = baseURL + queryString;
             getdata(filter);
 
             function getdata(filters) {
-                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" ,"pmc:GIS_Ward_Layer"];
+                const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point", "pmc:GIS_Ward_Layer"];
                 const promises = [];
-                const layerDetails = [ "id", "Work_ID", "Name_of_Work", "Department", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "length_1", "width", "area", "geometry" ];
+                const layerDetails = ["id", "Work_ID", "Name_of_Work", "Department", "Project_Office", "zone", "ward", "Tender_Amount", "Name_of_JE", "length_1", "width", "area", "geometry"];
 
                 layers.forEach(function (layerName) {
-                    const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName="+
+                    const urlm = "https://iwmsgis.pmc.gov.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
                         layerName +
                         "&CQL_FILTER=" +
                         filters +
@@ -523,11 +525,11 @@ window.location.href = baseURL + queryString;
                             const properties = feature.properties;
                             let filteredData = {};
                             layerDetails.forEach(key => {
-                                if (properties[ key ] !== undefined && properties[ key ] !== null) {
-                                    filteredData[ key ] = properties[ key ];
-                                } else if (feature[ key ] !== undefined) {
+                                if (properties[key] !== undefined && properties[key] !== null) {
+                                    filteredData[key] = properties[key];
+                                } else if (feature[key] !== undefined) {
                                     // console.log("hhhhhhhhhhhhh", feature)
-                                    filteredData[ key ] = JSON.stringify(feature[ key ]);
+                                    filteredData[key] = JSON.stringify(feature[key]);
                                 }
                             });
                             filteredData.geometry = feature.geometry;
@@ -568,8 +570,8 @@ window.location.href = baseURL + queryString;
                     const start = (page - 1) * itemsPerPage;
                     const end = Math.min(start + itemsPerPage, data.length);
                     for (let i = start; i < end; i++) {
-                        const item = data[ i ];
-                        for (const [ key, value ] of Object.entries(item)) {
+                        const item = data[i];
+                        for (const [key, value] of Object.entries(item)) {
                             if (key !== "geometry") {
                                 const row = document.createElement('tr');
                                 const displayValue = key === 'length_1' ? parseFloat(value).toFixed(2) : value;
@@ -583,17 +585,17 @@ window.location.href = baseURL + queryString;
                     const editButtonCell = document.createElement('td');
                     editButtonCell.colSpan = 2;
                     editButtonCell.style.textAlign = 'center';
-                    const department = data[ page-1 ].Department.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    const id = data[ page-1 ].id
+                    const department = data[page - 1].Department.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    const id = data[page - 1].id
                     //.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    console.log(data[ page-1 ]);
-                    const Work_ID = data[ page-1 ].Work_ID;
+                    console.log(data[page - 1]);
+                    const Work_ID = data[page - 1].Work_ID;
 
 
                     // editButtonCell.innerHTML = `<button type="button" onclick="onClickEdit('${department}', '${id}','${Work_ID}')" class="edit-button"><i class="fas fa-pen"></i>&nbsp;Edit</button>`;
 
 
-                    
+
 
                     // Create the button element
                     const button = document.createElement('button');
@@ -620,7 +622,7 @@ window.location.href = baseURL + queryString;
 
                     const paginationControls = document.getElementById('pagination-controls');
                     paginationControls.innerHTML = '';
-                    highlightFeature(data[ start ].geometry);
+                    highlightFeature(data[start].geometry);
                     updatePagination(page);
 
                 }
@@ -687,7 +689,7 @@ window.location.href = baseURL + queryString;
                         map.removeLayer(highlightLayer);
                     }
                     highlightLayer = L.geoJSON(geometry, {
-                        style: {
+                        styles: {
                             color: '#0000FF',
                             weight: 5,
                             opacity: 0.65
@@ -701,12 +703,12 @@ window.location.href = baseURL + queryString;
             }
 
             function FitbouCustomiseRevenue(filter) {
-                const layers = [ "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point" , "pmc:GIS_Ward_Layer" ];
+                const layers = ["pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:IWMS_point", "pmc:GIS_Ward_Layer"];
                 let bounds = L.latLngBounds();
                 let pendingRequests = layers.length;
 
                 layers.forEach(function (layerName) {
-                    const urlm =  geoserverUrl + "/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+                    const urlm = geoserverUrl + "/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
                         layerName +
                         "&CQL_FILTER=" +
                         filter +
