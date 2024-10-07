@@ -132,14 +132,14 @@ $(document).ready(function () {
   }, cb);
   cb(start, end);
 
-  function cb(start, end) {
+  async function cb(start, end) {
     // $('#daterange').val(start.format('2023') + ' - ' + end.format('YYYY'));
     var formattedStartDate = start.format('M/D/YY, h:mm A');
     var formattedEndDate = end.format('M/D/YY, h:mm A');
     cql_filter1 = `conc_appr_ >= '${formattedStartDate}' AND conc_appr_ < '${formattedEndDate}'`;
     console.log(cql_filter1, "lll")
 
-    DataTableFilter(cql_filter1)
+    await DataTableFilter(cql_filter1)
 
     loadinitialData(cql_filter1);
    
@@ -149,6 +149,7 @@ $(document).ready(function () {
       const mainfilter = combineFilters(cql_filter1, filterString);
       console.log("Main Filterfor checking:", mainfilter);
       FilterAndZoom(mainfilter);
+      fitbous(mainfilter)
       DataTableFilter(mainfilter)
     });
   }
@@ -162,10 +163,11 @@ $(document).ready(function () {
     cql_filter1 = `conc_appr_ >= '${startDate}' AND conc_appr_ < '${endDate}'`;
     loadinitialData(cql_filter1);
     const cql_filter = getCqlFilter();
-    getCheckedValues(function (filterString) {
+     getCheckedValues(function (filterString) {
       const mainfilter = combineFilters(cql_filter1, filterString);
       console.log("Main Filterfor checking:", mainfilter);
       FilterAndZoom(mainfilter);
+      fitbous(mainfilter)
       DataTableFilter(mainfilter);
     });
   });
@@ -176,6 +178,7 @@ $(document).ready(function () {
   }
 
   function loadinitialData(cql_filter) {
+    FilterAndZoom(cql_filter)
     const filternames = ["Project_Office", "project_fi", "zone", "ward", "Department", "stage", "Work_Type"]; //accordn column names , if want add one more filter criteria add here
 
     filternames.forEach(function (filtername) {
@@ -203,7 +206,8 @@ $(document).ready(function () {
       });
     });
 
-    FilterAndZoom(cql_filter)
+    // FilterAndZoom(cql_filter)
+    fitbous(cql_filter)
   }
 
   function combineFilters(cql_filter123, filterString) {
@@ -233,7 +237,7 @@ $(document).ready(function () {
         console.log("Main Filterfor checking:", mainfilter);
 
         FilterAndZoom(mainfilter);
-
+        fitbous(mainfilter)
         DataTableFilter(mainfilter)
 
       });
@@ -244,7 +248,23 @@ $(document).ready(function () {
 });
 
 // -------------------------------------------
-function DataTableFilter(cql_filter1) {
+// function DataTableFilter(cql_filter1) {
+//   var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"];
+//   var typeName = layers.join(',');
+//   var cqlFilter = cql_filter1;
+//   var geoServerURL =
+//     `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json&CQL_FILTER=${encodeURIComponent(cqlFilter)}`;
+//   // var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
+//   var headers = ['PID', 'Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Project_Time', 'Status'];
+// console.log(geoServerURL,"geoserver_url")
+//   showtable(typeName, geoServerURL, cqlFilter, headers);
+
+// }
+
+
+
+
+async function DataTableFilter(cql_filter1) {
   var layers = ["pmc:IWMS_line", "pmc:IWMS_point", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"];
   var typeName = layers.join(',');
   var cqlFilter = cql_filter1;
@@ -253,9 +273,30 @@ function DataTableFilter(cql_filter1) {
   // var headers = ['Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Created_At'];
   var headers = ['PID', 'Work_ID', 'Name_of_Work', 'Department', 'Budget_Code', 'Work_Type', 'Name_of_JE', 'Agency', 'stage', 'Tender_Amount', 'Project_Time', 'Status'];
 console.log(geoServerURL,"geoserver_url")
-  showtable(typeName, geoServerURL, cqlFilter, headers);
+ await showtable(typeName, geoServerURL, cqlFilter, headers);
+  
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function populateDropdown(dropdownId, data) {
   var ul = $("#" + dropdownId);
   ul.empty();
@@ -321,7 +362,7 @@ function getCheckedValues(callback) {
   });
 }
 function FilterAndZoom(filter) {
-  fitbous(filter)
+  
   IWMS_point.setParams({
     CQL_FILTER: filter,
     maxZoom: 19.5,
@@ -338,40 +379,102 @@ function FilterAndZoom(filter) {
     CQL_FILTER: filter,
     maxZoom: 19.5,
   });
+
+ 
 };
+
+
 function fitbous(filter) {
+  // Start the overall timer
+  console.time("fitbous execution time");
+
   var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"];
   var bounds = null;
 
-  var processLayer = function (layerName, callback) {
-    const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layerName}&CQL_FILTER=${filter}&outputFormat=application/json`;
-    $.getJSON(urlm, function (data) {
-      var geojson = L.geoJson(data);
-      var layerBounds = geojson.getBounds();
-      if (bounds) {
-        bounds.extend(layerBounds);
-      } else {
-        bounds = layerBounds;
-      }
-      callback();
-    });
-  };
+  var promises = layers.map(function (layerName) {
 
-  var layersProcessed = 0;
-  layers.forEach(function (layerName) {
-    processLayer(layerName, function () {
-      layersProcessed++;
-      if (layersProcessed === layers.length) {
-        // Apply the combined bounds to the map after all layers are processed
-        if (bounds) {
-          map.fitBounds(bounds);
-        }
+    const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layerName}&CQL_FILTER=${filter}&outputFormat=application/json&propertyName=geom`;
+
+    // Return a promise for each layer
+    return $.getJSON(urlm).then(function (data) {
+
+      var bbox = turf.bbox(data); // Returns [minX, minY, maxX, maxY]
+
+      var layerBounds = [[bbox[1], bbox[0]], [bbox[3], bbox[2]]];
+
+      // Combine the bounds
+      if (bounds) {
+        bounds = bounds.extend(layerBounds);
+      } else {
+        bounds = L.latLngBounds(layerBounds);
       }
+
     });
   });
+
+  // Execute all promises in parallel
+  Promise.all(promises).then(function () {
+    // Stop timer for data fetching (after all promises are resolved)
+    console.timeEnd("Data fetching");
+
+    if (bounds) {
+      // Start timer for fitting bounds to the map
+      console.time("Map fitting");
+
+      // Apply the combined bounds to the map after all layers are processed
+      map.fitBounds(bounds);
+
+      // Stop timer for fitting bounds to the map
+      console.timeEnd("Map fitting");
+    }
+
+    // Stop the overall timer
+    console.timeEnd("fitbous execution time");
+  });
 }
+
+
+
+
+// function fitbous(filter) {
+//   // Start the timer
+//   console.time("fitbous execution time");
+
+//   // var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"];
+//   var layers = ["pmc:IWMS_point", "pmc:IWMS_line", "pmc:IWMS_polygon", "pmc:GIS_Ward_Layer"]
+//   var bounds = null;
+
+//   // Array to hold promises
+//   var promises = layers.map(function (layerName) {
+//     const urlm = `${main_url}ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${layerName}&CQL_FILTER=${filter}&outputFormat=application/json`;
+
+//     // Return a promise for each layer
+//     return $.getJSON(urlm).then(function (data) {
+//       var geojson = L.geoJson(data);
+//       var layerBounds = geojson.getBounds();
+//       if (bounds) {
+//         bounds.extend(layerBounds);
+//       } else {
+//         bounds = layerBounds;
+//       }
+//     });
+//   });
+
+//   // Execute all promises in parallel
+//   Promise.all(promises).then(function () {
+//     if (bounds) {
+//       // Apply the combined bounds to the map after all layers are processed
+//       map.fitBounds(bounds);
+//     }
+//     // Stop the timer and log the time
+//     console.timeEnd("fitbous execution time");
+//   });
+// }
+
+
 // for dashboard table dynamic
-function showtable(typeName, geoServerURL, cqlFilter, headers) {
+
+async function showtable(typeName, geoServerURL, cqlFilter, headers) {
   tableData(typeName, geoServerURL, cqlFilter, headers);
   var currentPage = 1;
   var rowsPerPage = 10;
@@ -429,146 +532,323 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
 
 
 
-  function createTable(data, headers) {
-    var tableContainer = document.getElementById('tablecontainer');
-    if (!tableContainer) {
+function createTable(data, headers) {
+  var tableContainer = document.getElementById('tablecontainer');
+  if (!tableContainer) {
       console.error("Table container not found");
       return;
-    }
-    tableContainer.innerHTML = ""; // Clear any existing content
-    // Create minimize button
-    var minimizeButton = document.createElement('button');
-    minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
-    minimizeButton.className = 'minimize-button';
-    minimizeButton.addEventListener('click', function () {
+  }
+  tableContainer.innerHTML = ""; // Clear any existing content
+
+  // Create minimize button
+  var minimizeButton = document.createElement('button');
+  minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
+  minimizeButton.className = 'minimize-button';
+  minimizeButton.addEventListener('click', function () {
       var tableDetail = document.querySelector('.tableDetail');
       if (tableDetail.style.display === 'none') {
-        tableDetail.style.display = 'block';
-        minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
-        document.getElementById('openTableBtn').style.display = 'none'; // Hide the show button
+          tableDetail.style.display = 'block';
+          minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
+          document.getElementById('openTableBtn').style.display = 'none'; // Hide the show button
       } else {
-        tableDetail.style.display = 'none';
-        minimizeButton.style.display = 'none';
-        // minimizeButton.innerText = '+';
-        document.getElementById('openTableBtn').style.display = 'block'; // Show the show button
+          tableDetail.style.display = 'none';
+          minimizeButton.style.display = 'none';
+          document.getElementById('openTableBtn').style.display = 'block'; // Show the show button
       }
-    });
-    tableContainer.appendChild(minimizeButton);
+  });
+  tableContainer.appendChild(minimizeButton);
 
-    // Create tableDetail div
-    var tableDetail = document.createElement('div');
-    tableDetail.className = 'tableDetail';
-    tableContainer.appendChild(tableDetail);
+  // Create tableDetail div
+  var tableDetail = document.createElement('div');
+  tableDetail.className = 'tableDetail';
+  tableContainer.appendChild(tableDetail);
 
-    var table = document.createElement('table');
-    table.className = 'data-table'; // Add a class for styling
-    table.id = 'data-table'; // Add an ID for DataTables initialization
-   
-    var thead = document.createElement('thead');
-    var headerRow = document.createElement('tr');
+  var table = document.createElement('table');
+  table.className = 'data-table'; // Add a class for styling
+  table.id = 'data-table'; // Add an ID for DataTables initialization
 
-    headers.unshift('Sr_no');
-    // Create header cells
-    headers.forEach(headerText => {
+  var thead = document.createElement('thead');
+  var headerRow = document.createElement('tr');
+
+  headers.unshift('Sr_no'); // Add serial number column
+  // Create header cells
+  headers.forEach(headerText => {
       var th = document.createElement('th');
       th.textContent = headerText;
+
+if (headerText === 'Name_of_Work') {
+  th.style.minWidth = '300px'; // Adjust as needed
+}
       headerRow.appendChild(th);
-    });
 
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
 
-    var tbody = document.createElement('tbody');
-    // Populate table rows with data
-    data.forEach((item, index) => {
+  });
+
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  var tbody = document.createElement('tbody');
+  // Populate table rows with data
+  data.forEach((item, index) => {
       var row = document.createElement('tr');
       // Add serial number as the first column
-
       var serialNumberCell = document.createElement('td');
       serialNumberCell.textContent = index + 1;
       row.appendChild(serialNumberCell);
       
-            // update code-----------
-
-        headers.slice(1).forEach(header => {
+      headers.slice(1).forEach(header => {
           var cell = document.createElement('td');
           if (header === 'Project_Time') {
-            let projectTime = item[header] ? moment(item[header]) : null;
-    
-            if (projectTime && projectTime.isValid()) {
-              // Format the date for display
-              cell.textContent = projectTime.format('DD/MM/YYYY HH:mm');
-              // Store the raw date value for sorting
-              cell.setAttribute('data-sort', projectTime.toISOString());
-            } else {
-              // Handle invalid or missing dates
-              cell.textContent = 'N/A';
-              cell.setAttribute('data-sort', ''); // For empty sorting
-            }
+              let projectTime = item[header] ? moment(item[header]) : null;
+
+              if (projectTime && projectTime.isValid()) {
+                  // Format the date for display
+                  cell.textContent = projectTime.format('DD/MM/YYYY HH:mm');
+                  // Store the raw date value for sorting
+                  cell.setAttribute('data-sort', projectTime.toISOString());
+              } else {
+                  // Handle invalid or missing dates
+                  cell.textContent = 'N/A';
+                  cell.setAttribute('data-sort', ''); // For empty sorting
+
+              }
           } else {
-            cell.textContent = item[header] || ''; // Handle undefined values
+              cell.textContent = item[header] || ''; // Handle undefined values
+
+if (header === 'Name_of_Work') {
+  cell.style.minWidth = '300px'; // Adjust as needed
+}
           }
           row.appendChild(cell);
-
-        // update code -------------
       });
 
       // Add click listener to highlight the geometry on the map
       row.addEventListener('click', function () {
-        console.log(item);
-        var boundsLayer = L.geoJSON(item.geometry, {
-          style: {
-            fillColor: "blue", // Fill color
-            fillOpacity: 0.3, // Fill opacity
-            color: "blue", // Border color
-            weight: 2, // Border weight
-          },
-        }).addTo(map); // Add the bounds layer to the map
+          var boundsLayer = L.geoJSON(item.geometry, {
+              style: {
+                  fillColor: "blue", // Fill color
+                  fillOpacity: 0.3, // Fill opacity
+                  color: "blue", // Border color
+                  weight: 2, // Border weight
+              },
+          }).addTo(map); // Add the bounds layer to the map
 
-        var bounds = boundsLayer.getBounds();
-        map.fitBounds(bounds);
+          var bounds = boundsLayer.getBounds();
+          map.fitBounds(bounds);
 
-        // Remove the bounds layer after 5 seconds
-        setTimeout(function () {
-          map.removeLayer(boundsLayer);
-        }, 5000);
+          // Remove the bounds layer after 5 seconds
+          setTimeout(function () {
+              map.removeLayer(boundsLayer);
+          }, 5000);
       });
 
       tbody.appendChild(row);
-    });
+  });
 
-    table.appendChild(tbody);
-    tableDetail.appendChild(table);
+  table.appendChild(tbody);
+  tableDetail.appendChild(table);
 
-    // Initialize DataTables after rendering the table
-    $(document).ready(function () {
+  // Initialize DataTables after rendering the table
+  $(document).ready(function () {
       if ($.fn.DataTable.isDataTable('#data-table')) {
-        $('#data-table').DataTable().destroy(); // Destroy existing DataTable if initialized
+          $('#data-table').DataTable().destroy(); // Destroy existing DataTable if initialized
       }
+      
+      // Find the index of 'Project_Time'
+      const projectTimeIndex = headers.indexOf('Project_Time'); 
+
       $('#data-table').DataTable({
-        paging: true, // Enable pagination
-        lengthChange: true, // Enable the 'Show X entries' dropdown
-        searching: true, // Enable search box
-        ordering: true, // Enable column sorting
-        info: true, // Enable showing 'Showing X of Y entries' info
-        autoWidth: false, // Disable auto width calculation
-        scrollY: 400,
-        scrollX: true,
-        scrollCollapse: true,
-        fixedHeader: true,
-        order: [[1, 'desc']],    
-        columnDefs: [
-          {
-            targets: 10,          // Update the target index for the Project_Time column
-            type: 'date',         // Ensure DataTables treats this column as date
-            orderData: [1],      // Sort based on raw date
-          }
-        ]
-      
-      
+          paging: true, // Enable pagination
+          lengthChange: true, // Enable the 'Show X entries' dropdown
+          searching: true, // Enable search box
+          ordering: true, // Enable column sorting
+          info: true, // Enable showing 'Showing X of Y entries' info
+          autoWidth: false, // Disable auto width calculation
+          scrollY: 400,
+          scrollX: true,
+          scrollCollapse: true,
+          fixedHeader: true,
+          order: [[projectTimeIndex, 'desc']], // Initial sort on the Project_Time column (latest first)
+          columnDefs: [
+              {
+                  targets: projectTimeIndex, // Ensure this matches the index of the Project_Time column
+                  type: 'date', // Ensure DataTables treats this column as a date
+                  orderData: [projectTimeIndex], // Sort based on the raw date
+              }
+          ]
       });
-    });
-  }
+  });
+}
+
+
+
+
+
+// function createTable(data, headers) {
+//   var tableContainer = document.getElementById('tablecontainer');
+//   if (!tableContainer) {
+//       console.error("Table container not found");
+//       return;
+//   }
+//   tableContainer.innerHTML = ""; // Clear any existing content
+
+//   // Create minimize button
+//   var minimizeButton = document.createElement('button');
+//   minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
+//   minimizeButton.className = 'minimize-button';
+//   minimizeButton.addEventListener('click', function () {
+//       var tableDetail = document.querySelector('.tableDetail');
+//       if (tableDetail.style.display === 'none') {
+//           tableDetail.style.display = 'block';
+//           minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
+//           document.getElementById('openTableBtn').style.display = 'none'; // Hide the show button
+//       } else {
+//           tableDetail.style.display = 'none';
+//           minimizeButton.style.display = 'none';
+//           document.getElementById('openTableBtn').style.display = 'block'; // Show the show button
+//       }
+//   });
+//   tableContainer.appendChild(minimizeButton);
+
+//   // Create tableDetail div
+//   var tableDetail = document.createElement('div');
+//   tableDetail.className = 'tableDetail';
+//   tableContainer.appendChild(tableDetail);
+
+//   var table = document.createElement('table');
+//   table.className = 'data-table'; // Add a class for styling
+//   table.id = 'data-table'; // Add an ID for DataTables initialization
+
+//   var thead = document.createElement('thead');
+//   var headerRow = document.createElement('tr');
+
+//   headers.unshift('Sr_no'); // Add serial number column
+//   // Create header cells
+//   headers.forEach((headerText, index) => {
+//       var th = document.createElement('th');
+//       th.textContent = headerText;
+
+//       // Set the width for the "Name_of_Work" column
+//       if (headerText === 'Name_of_Work') {
+//           th.style.minWidth = '300px'; // Adjust as needed
+//       }
+
+//       headerRow.appendChild(th);
+//   });
+
+//   thead.appendChild(headerRow);
+//   table.appendChild(thead);
+
+//   var tbody = document.createElement('tbody');
+//   // Populate table rows with data
+//   data.forEach((item, index) => {
+//       var row = document.createElement('tr');
+//       // Add serial number as the first column
+//       var serialNumberCell = document.createElement('td');
+//       serialNumberCell.textContent = index + 1;
+//       row.appendChild(serialNumberCell);
+      
+//       headers.slice(1).forEach(header => {
+//           var cell = document.createElement('td');
+//           if (header === 'Project_Time') {
+//               let projectTime = item[header] ? moment(item[header]) : null;
+
+//               if (projectTime && projectTime.isValid()) {
+//                   // Format the date for display
+//                   cell.textContent = projectTime.format('DD/MM/YYYY HH:mm');
+//                   // Store the raw date value for sorting
+//                   cell.setAttribute('data-sort', projectTime.toISOString());
+//               } else {
+//                   // Handle invalid or missing dates
+//                   cell.textContent = 'N/A';
+//                   cell.setAttribute('data-sort', ''); // For empty sorting
+//               }
+//           } else {
+//               cell.textContent = item[header] || ''; // Handle undefined values
+//               // Set the width for the "Name_of_Work" column in the rows
+//               if (header === 'Name_of_Work') {
+//                   cell.style.minWidth = '300px'; // Adjust as needed
+//               }
+//           }
+//           row.appendChild(cell);
+//       });
+
+//       // Add click listener to highlight the geometry on the map
+//       row.addEventListener('click', function () {
+//           var boundsLayer = L.geoJSON(item.geometry, {
+//               style: {
+//                   fillColor: "blue", // Fill color
+//                   fillOpacity: 0.3, // Fill opacity
+//                   color: "blue", // Border color
+//                   weight: 2, // Border weight
+//               },
+//           }).addTo(map); // Add the bounds layer to the map
+
+//           var bounds = boundsLayer.getBounds();
+//           map.fitBounds(bounds);
+
+//           // Remove the bounds layer after 5 seconds
+//           setTimeout(function () {
+//               map.removeLayer(boundsLayer);
+//           }, 5000);
+//       });
+
+//       tbody.appendChild(row);
+//   });
+
+//   table.appendChild(tbody);
+//   tableDetail.appendChild(table);
+
+//   // Initialize DataTables after rendering the table
+//   $(document).ready(function () {
+//       if ($.fn.DataTable.isDataTable('#data-table')) {
+//           $('#data-table').DataTable().destroy(); // Destroy existing DataTable if initialized
+//       }
+//       $('#data-table').DataTable({
+//           paging: true, // Enable pagination
+//           lengthChange: true, // Enable the 'Show X entries' dropdown
+//           searching: true, // Enable search box
+//           ordering: true, // Enable column sorting
+//           info: true, // Enable showing 'Showing X of Y entries' info
+//           autoWidth: false, // Disable auto width calculation
+//           scrollY: 400,
+//           scrollX: true,
+//           scrollCollapse: true,
+//           fixedHeader: true,
+//           order: [[1, 'desc']], // Initial sort on the first data column
+//           columnDefs: [
+//               {
+//                   targets: headers.indexOf('Project_Time'), // Ensure this matches the index of the Project_Time column
+//                   type: 'date', // Ensure DataTables treats this column as a date
+//                   orderData: [1], // Sort based on raw date (adjust this index if necessary)
+//               }
+//           ]
+//       });
+//   });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Function to show the hidden table
   function showTable() {
@@ -587,37 +867,52 @@ function showtable(typeName, geoServerURL, cqlFilter, headers) {
   // -------------------------------------------------------------
   function tableData(typeName, geoServerURL, cqlFilter, headers) {
     $.getJSON(geoServerURL, function (data) {
-      var filteredData = data;
+        var filteredData = data;
 
-      const pid = [];
+        const pid = [];
 
-      // Filter out features where pid is null
-      var exampleData = filteredData.features
-        .filter(feature => feature.properties.PID !== null) // Filter out null PIDs
-       
-        .map(feature => {
-          let mappedData = {};
-          headers.forEach(header => {
-            // Convert header to camelCase or other naming convention if necessary
-            let propertyName = header.replace(/ /g, '');
-            mappedData[propertyName] = feature.properties[header];
-          });
-          mappedData.geometry = feature.geometry;
-          pid.push(feature.properties.PID);
+        // Filter out features where PID is null
+        var exampleData = filteredData.features
+            .filter(feature => feature.properties.PID !== null) // Filter out null PIDs
+            .map(feature => {
+                let mappedData = {};
+                headers.forEach(header => {
+                    // Convert header to camelCase or other naming convention if necessary
+                    let propertyName = header.replace(/ /g, ''); // Remove spaces for property names
+                    mappedData[propertyName] = feature.properties[header]; // Map property correctly
+                });
+                mappedData.geometry = feature.geometry;
+                pid.push(feature.properties.PID);
 
-          // Ensure geometry is included
-          return mappedData;
+                // Ensure geometry is included
+                return mappedData;
+            });
+
+        const uniquePIDs = new Set(pid);
+
+        // Update the table stats with the count of unique PIDs
+        updateTableStats(`Total Projects:  ${uniquePIDs.size}`);
+
+        // console.log(exampleData,"before")
+        // Sort exampleData by Project_Time in descending order (latest first)
+        exampleData.sort((a, b) => {
+            // Access Project_Time using the mapped property name
+            let dateA = new Date(a.Project_Time); // Ensure this matches your header
+            let dateB = new Date(b.Project_Time);
+
+            // Handle invalid dates
+            if (isNaN(dateA)) return 1; // Treat invalid dates as later
+            if (isNaN(dateB)) return -1; // Treat invalid dates as earlier
+
+            return dateB - dateA; // Sort in descending order
         });
+        // console.log(exampleData,"after")
 
-      const uniquePIDs = new Set(pid);
-
-      // Update the table stats with the count of unique PIDs
-      updateTableStats(`Total Projects:  ${uniquePIDs.size}`);
-
-      createTable(exampleData, headers);
+        // Create the table with the sorted data
+        createTable(exampleData, headers);
     });
-  }
- 
+}
+
 
 };
 
@@ -678,7 +973,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function getValues(callback) {
       var geoServerURL = `${main_url}pmc/wms?service=WFS&version=1.1.0&request=GetFeature&typeName=IWMS_line,IWMS_point,IWMS_polygon,GIS_Ward_Layer&propertyName=${selectedValue}&outputFormat=application/json`;
-      console.log(geoServerURL, "geoServerURLsearch");
+      // console.log(geoServerURL, "geoServerURLsearch");
 
       $.getJSON(geoServerURL, function (data) {
         var workTypeSet = new Set();
@@ -698,7 +993,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // Convert the Set to an array
         var uniqueWorkTypes = Array.from(workTypeSet);
-        console.log(uniqueWorkTypes, "uniqueWorkTypes");
+        // console.log(uniqueWorkTypes, "uniqueWorkTypes");
 
         // Call the callback function with the uniqueWorkTypes array
         callback(uniqueWorkTypes);
@@ -715,7 +1010,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 
   // autocomplete function
-  function autocomplete(input, arr, selectedColumn) {
+  async function autocomplete(input, arr, selectedColumn) {
     let currentFocus;
     input.addEventListener("input", function () {
       let list, item, i, val = this.value.toLowerCase(); // Convert input value to lowercase for case-insensitive comparison
@@ -733,16 +1028,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
           item.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
           item.addEventListener("click", function () {
             selectedValue = this.getElementsByTagName("input")[0].value; // Store the selected value
-            console.log(selectedValue, "ppppppppppppppppp")
-
+     
 
             var searchtypefield = $("#search_type").val();
-            console.log(searchtypefield, "ppppppppppppppppp99999999")
+            // console.log(searchtypefield, "ppppppppppppppppp99999999")
             let cqlFilter;
 
             cqlFilter = `${searchtypefield} IN ('${selectedValue}')`;
 
-            console.log(cqlFilter, "cqlFilter")
+            // console.log(cqlFilter, "cqlFilter")
 
 
 
@@ -951,7 +1245,7 @@ map.on("contextmenu", async (e) => {
       // Generate the URL with Work_ID for both localhost and production
       // let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/login/login.php?work_id=${workID}`;
 
-      // let qrURL = `http://localhost/PMC/IWMS/IWMS_test/login/login.php?work_id=${workID}`;
+      // let qrURL = `http://localhost/PMC/IWMS/update_dashboard/login/login.php?work_id=${workID}`;
       //      let qrURL = `http://localhost/PMC/IWMS/update_dashboard/login/login.php?work_id=${workID}`;
     let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
 qrData = qrURL;
