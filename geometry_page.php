@@ -1,5 +1,3 @@
-
-
 <?php
 session_start();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -70,7 +68,98 @@ if (!$userData) {
     <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
     <style>
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            font-size: 11px !important;
+        }
 
+        .form-control-sm,
+        .form-select-sm {
+            padding: 0.25rem 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #subcategory-wrapper,
+        #otherTextWrapper {
+            display: none;
+        }
+
+        .modal-footer {
+            padding-top: 0.5rem;
+        }
+
+        .rating .star {
+            font-size: 1.25rem;
+        }
+
+        /* Ensure proper alignment of the form rows */
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            /* Aligns the label and input sides */
+            align-items: center;
+            /* Vertically center align */
+        }
+
+        .form-row .form-label {
+            flex: 1;
+            /* Allow label to take space */
+            text-align: left;
+            /* Align text to left */
+        }
+
+        .form-row .form-control,
+        .form-row .form-select {
+            flex: 2;
+            /* Allow input to take more space */
+            margin-left: 10px;
+            /* Space between label and input */
+        }
+
+        #department,
+        #fid,
+        #workId,
+        #username,
+        #contact {
+            border: none;
+            background: white;
+            border: 1px solid;
+        }
+
+        .form-select {
+            display: block;
+            width: 70%;
+            padding: .375rem 1.75rem .375rem .75rem;
+            background-size: 16px 12px;
+            border-radius: .25rem;
+            border: 1px solid !important;
+
+        }
+
+        .form-select1 {
+            margin-left: 77px !important;
+            margin-top: -19px;
+            width: 111%;
+            border: 1px solid !important;
+        }
+
+        #subcategory-wrapper {
+            width: 150px !important;
+            /* Adjust width as needed */
+            height: 30px;
+            /* Adjust height as needed */
+            font-size: 14px;
+            /* Adjust font size if necessary */
+        }
+
+        #otherText {
+            width: 66%;
+            margin-left: 80px;
+            margin-top: -21px;
+            border: 1px solid;
+        }
+    </style>
     </style>
 
 </head>
@@ -96,6 +185,8 @@ if (!$userData) {
             </ul>
         </div>
     </header>
+
+    <div id="loader" style="display:none;">Loading...</div>
 
     <p id="workIDInfo">Loading...</p>
     <!-- <img src="png/pmcjpeg.png" alt="" class="logopng1" /> -->
@@ -141,57 +232,84 @@ if (!$userData) {
     </div>
 
     <!-- Modal Structure -->
-
-
+    <!-- Modal Structure -->
     <div class="modal fade" id="workDetailsModal" tabindex="-1" aria-labelledby="workDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="workDetailsModalLabel">Work Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
                     <form id="workDetailsForm" method="POST" action="APIS/save_form_work.php">
-                        
-                    <div class="abcd">
-                            <div class="abc">
-                                <label for="username" class="form-label xyz">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars(strtoupper($userData['username'])); ?>" readonly>
-                            </div>
-                            <div class="abc">
-                                <label for="contact" class="form-label xyz">Contact Number</label>
-                                <input type="tel" class="form-control" id="contact" name="contact" value="<?php echo htmlspecialchars($userData['contact_no']); ?>" readonly>
-                            </div>
+
+                        <!-- Row 1: Username and Contact Number -->
+                        <div class="form-row mb-2">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars(strtoupper($userData['username'])); ?>" readonly>
                         </div>
-                        <div class="abc1">
-                            <div class="abc">
-                                <label for="fid" class="form-label xyz">FID</label>
-                                <input class="form-control" id="fid" name="fid" readonly>
-                            </div>
-                            <hr>
-                            <div class="abc">
-                                <label for="workId" class="form-label xyz">Work ID</label>
-                                <input type="text" class="form-control" id="workId" name="workId" readonly>
-                            </div>
-                            <hr>
-                            <div class="abc">
-                                <label for="department" class="form-label xyz">Department</label>
-                                <input type="text" class="form-control" id="department" name="department" readonly>
-                            </div>
+
+                        <div class="form-row mb-2">
+                            <label for="contact" class="form-label">Contact</label>
+                            <input type="tel" class="form-control" id="contact" name="contact" value="<?php echo htmlspecialchars($userData['contact_no']); ?>" readonly>
+                        </div>
+
+                        <!-- Row 2: FID, Work ID, Department -->
+                        <div class="form-row mb-2">
+                            <label for="fid" class="form-label">FID</label>
+                            <input class="form-control" id="fid" name="fid" readonly>
+                        </div>
+                        <div class="form-row mb-2">
+                            <label for="workId" class="form-label">Work ID</label>
+                            <input type="text" class="form-control" id="workId" name="workId" readonly>
+                        </div>
+                        <div class="form-row mb-2">
+                            <label for="department" class="form-label">Department</label>
+                            <input type="text" class="form-control" id="department" name="department" readonly>
+                        </div>
+
+                        <!-- Category and Subcategory -->
+                        <div class="form-row mb-2">
+                            <label for="category" class="form-label">Category</label>
                             
-
-
+                            <select class="form-select scrollable-select" id="category" name="category" required>
+                                <option value="">-- Select Category --</option>
+                                <option value="1">रस्ते</option>
+                                <option value="2">फूटपाथ</option>
+                                <option value="3">भवन</option>
+                                <option value="4">मलनिःसारण</option>
+                                <option value="5">पाणीपुरवठा</option>
+                                <option value="6">विद्युत</option>
+                                <option value="6">अतिक्रमण</option>
+                                <option value="6">उद्यान</option>
+                                <option value="6">घनकचरा</option>
+                                <option value="6">पर्यावरण</option>
+                                <option value="6">क्रिडा</option>
+                                <option value="6">झोपडपट्टी</option>
+                                <option value="6">प्राथमिक शिक्षण</option>
+                                <option value="6">वृक्ष प्राधिकरण</option>
+                                <option value="6">मुख्य अभियंता प्रकल्प</option>
+                                
+                            </select>
                         </div>
 
-                        <!-- <hr> -->
-
-                        <div class="mb-3 fw-bold">
-                            <label for="comments" class="form-label">Comments</label>
-                            <textarea class="form-control" id="comments" name="comments" rows="3" placeholder="Enter your comments" required></textarea>
+                        <div class="form-row mb-2" id="subcategory-wrapper" style="display:none;">
+                            <label for="subcategory" class="form-label">Subcategory</label>
+                            <select class="form-select form-select1" id="subcategory" name="subcategory" required>
+                                <!-- Subcategories populated dynamically -->
+                            </select>
                         </div>
-                        <div class="rate">
-                            <p class="fw-bold">Rate Us:</p>
-                            <div class="rating">
+
+                        <div class="form-row mb-2 " id="otherTextWrapper" style="display:none;">
+                            <label for="otherText" class="form-label">Please specify</label>
+                            <input type="text" class="form-control" id="otherText" name="otherText" placeholder="Enter details" />
+                        </div>
+
+                        <!-- Rate Us -->
+                        <div class="rate mb-2">
+                            <p class="fw-bold mt-2">Rate Us:</p>
+                            <div class="rating d-flex justify-content-between">
                                 <input type="radio" name="rating" id="5-stars" value="5" />
                                 <label for="5-stars" class="star" data-rating="5">&#9733;</label>
                                 <input type="radio" name="rating" id="4-stars" value="4" />
@@ -205,15 +323,15 @@ if (!$userData) {
                             </div>
                             <div id="rating-label" class="text-center mt-2"></div>
                         </div>
+
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="saveChangesBtn">Submit</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="saveChangesBtn">Submit</button>
-                </div>
-                </form>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- Success Message Modal -->
@@ -233,7 +351,6 @@ if (!$userData) {
             </div>
         </div>
     </div>
-
 
     <script src="js/geometry_page.js"></script>
     <script>
@@ -484,23 +601,146 @@ if (!$userData) {
             // Initialize stars
             updateStars(0);
 
+
+            document.getElementById('category').addEventListener('change', function() {
+                const subcategoryWrapper = document.getElementById('subcategory-wrapper');
+                const subcategory = document.getElementById('subcategory');
+                const otherTextWrapper = document.getElementById('otherTextWrapper');  
+                const otherText = document.getElementById('otherText'); 
+                subcategory.innerHTML = ''; 
+                otherTextWrapper.style.display = 'none'; 
+                otherText.value = ''; 
+
+                const selectedCategory = this.value;
+                subcategoryWrapper.style.display = 'none';
+                if (selectedCategory == "1") {
+                    subcategoryWrapper.style.display = 'block';
+                    subcategory.innerHTML = `
+            <option value="">-- Select Option --</option>
+            <option value="1">नव्याने केलेल्या रस्त्यावर पाणी साठत आहे.</option>
+            <option value="2">रस्त्याच्या बाजूला पावसाळी लाईन नाही. </option>
+            <option value="3">स्त्याचा उतार पावसाळी लाईन कडे ठेवला नाही.  </option>
+            <option value="4">नव्याने केलेल्या रस्त्यावर खड्डे झाले आहेत. </option>
+            <option value="5">नव्याने केलेला रस्ता धसला आहे. </option>
+            <option value="6">नवीन केलेल्या रस्त्यावर भुंगिर दिसत आहे. </option>
+            <option value="7">चेंबर / म्यानहोल कवर रस्त्याच्या समपातळीत उचलले नाही.</option>
+            <option value="8">चेंबर / म्यानहोल कवर तुटले आहे.</option>
+            option value="9">नव्याने केलेल्या रस्त्यावर क्रॉस-कट केले आहेत. </option>
+            option value="10">नव्याने केलेल्या सीमेंट कौंक्रीट रस्त्याला तडे पडले आहेत. </option>
+            option value="11">नव्याने केलेल्या सीमेंट कौंक्रीट रस्त्याला ग्रूव कटिंग केले नाही. </option>
+            option value="12">नव्याने केलेल्या सीमेंट कौंक्रीट रस्त्याच्या ग्रूव कटिंग मध्ये सिलंट भरले नाही.</option>
+            option value="13">नव्याने केलेला रस्ता खोदला आहे, परंतु तो सुस्थितीत पुन्हा दुरूस्त केला नाही. </option>
+            option value="14">नवीन रास्ता ओबड-धोबड केला आहे. </option>
+            option value="15">नवीन रस्त्यावर तुरंत वाहतूक सुरू केली आहे. </option>
+            option value="16">रस्त्याच्या बाजूला पार्क केलेल्या वाहनांच्यामुळे नवीन रस्ता त्या जागी केला जात नाही. </option>
+            option value="17">स्पीडब्रेकर वरील पेंट केला नाही.</option>
+            option value="18">नवीन रस्त्याच्या बाजूला खोदाईतील राडारोडा पडले आहे. </option>
+            option value="19">रस्त्यावरील खोदाईच्या बाजूला सेफ्टी ब्यारिगेट लावले नाहीत. </option>
+            <option value="20">other</option>
+        `;
+                } else if (selectedCategory == "2") {
+                    subcategoryWrapper.style.display = 'block';
+                    subcategory.innerHTML = `
+            <option value="">-- Select Option --</option>
+            <option value="1">नव्याने केलेल्या फूटपाथ मधील पेविंग ब्लॉक उखडले आहेत. </option>
+            <option value="2">नव्याने केलेल्या फूटपाथचे कर्ब-स्टोन तुटले आहेत. </option>
+            <option value="3">नव्याने केलेला फूटपाथ धसला आहे. </option>
+            <option value="4">नव्याने केलेल्या फूटपाथवरुन दुचाकी वाहतूक होत आहे. </option>
+            <option value="5">नव्याने केलेल्या फूटपाथवर अडथळे आहेत. </option>
+            <option value="6">फूटपाथवर फेरीवाले आणि इतर विक्रेते बसत आहेत.</option>
+            <option value="20">other</option>
+            
+        `;
+                } else if (selectedCategory == "3") {
+                    subcategoryWrapper.style.display = 'block';
+                    subcategory.innerHTML = `
+            <option value="">-- Select Option --</option>
+            <option value="1">इमारतीच्या सीमेंट कौंक्रीटला पाण्याने पुरेसे क्युरिंग केले जात नाही.</option>
+            <option value="2">इमारतीच्या सीमेंट कौंक्रीटला तडे गेले आहेत./option>
+                <option value="3">इमारतीच्या केलेल्या प्लास्टरला पाण्याने क्युरिंग केले जात नाही. </option>
+                <option value="4">इमारतीच्या केलेल्या प्लास्टरला तडे गेले आहेत.</option>
+                <option value="5">इमारतीच्या काम सुरू असताना सेफ्टीनेट लावले नाहीत.</option>
+                <option value="6">साईटवर काम करणार्‍या मजूराला सेफ्टी साठीचे पीपीईस (PPE’S) दिले नाहीत.</option>
+                <option value="20">other</option>
+        `;
+                } else if (selectedCategory == "4") {
+                    subcategoryWrapper.style.display = 'block';
+                    subcategory.innerHTML = `
+            <option value="">-- Select Option --</option>
+            <option value="1">ड्रेनेज लाइन मधून लिकेज होत आहे.</option>
+            <option value="2">डॅमेज झालेल्या आरसीसी पाईप वापरल्या जात आहेत.</option>
+            <option value="3">ड्रेनेज लाइन टाकताना रस्त्यावरील खोदाईच्या बाजूला सेफ्टी ब्यारिगेट लावले नाहीत.</option>
+            <option value="4">खोदाई केलेला राडारोडा उचलला नाही.</option>
+            <option value="5">ड्रेनेज लाइनचे चेंबर ब्लॉक झाले आहे.</option>
+            <option value="6">ड्रेनेज लाइनचे चेंबर कवर तुटले आहे. </option>
+            <option value="20">other</option>
+
+        `;
+                } else if (selectedCategory == "5") {
+                    subcategoryWrapper.style.display = 'block';
+                    subcategory.innerHTML = `
+            <option value="">-- Select Option --</option>
+            <option value="1">पिण्याच्या पाण्याच्या लाइन मधून लिकेज होत आहे.</option>
+            <option value="2">पिण्याच्या पाण्याची लाइन टाकताना रस्त्यावरील खोदाईच्या बाजूला सेफ्टी ब्यारिगेट लावले नाहीत.</option>
+            <option value="3">खोदाई केलेला राडारोडा उचलला नाही.</option>
+            <option value="4">पिण्याच्या पाण्याच्या लाइनवर बसविलेले स्लुस-वाल्हला पेटी बांधली नाही. </option>
+            <option value="5">पिण्याच्या पाण्याच्या लाइनवर बसविलेले स्लुस-वाल्हला पेटीवर झाकण नाही. </option>
+            <option value="6">पिण्याच्या पाण्याच्या लाइनवर बसविलेले स्लुस-वाल्ह रस्त्याच्या वर आला आहे. </option>
+            <option value="20">other</option>
+        `;
+                }else if (selectedCategory == "6") {
+                    subcategoryWrapper.style.display = 'block';
+                    subcategory.innerHTML = `
+            <option value="">-- Select Option --</option>
+            <option value="20">other</option>
+        `;
+                }
+                
+            });
+
+            document.getElementById('subcategory').addEventListener('change', function() {
+                const otherTextWrapper = document.getElementById('otherTextWrapper');
+                if (this.value === '20') { // Show input field if 'other' is selected
+                    otherTextWrapper.style.display = 'block';
+                } else {
+                    otherTextWrapper.style.display = 'none';
+                }
+            });
+
             document.getElementById('saveChangesBtn').addEventListener('click', function(e) {
                 const rating = document.querySelector('input[name="rating"]:checked');
-                if (!rating) {
+                const categoryElement = document.getElementById('category');
+                const subcategoryElement = document.getElementById('subcategory');
+
+                // Get the selected text for category and subcategory
+                const category = categoryElement.options[categoryElement.selectedIndex].text;
+                const subcategory = subcategoryElement.options[subcategoryElement.selectedIndex].text;
+
+                const otherText = document.getElementById('otherText').value;
+
+                // Ensure all required fields are filled
+                if (!rating || !category || (!subcategory && !otherText)) {
                     e.preventDefault();
-                    alert('Please select a rating.');
+                    alert('Please fill in all required fields.');
                     return;
                 }
-
                 // Disable the submit button to prevent multiple submissions
                 this.disabled = true;
 
+document.getElementById('loader').style.display = 'block';  // Show loader
                 // Append form data and submit
                 const form = document.getElementById('workDetailsForm');
                 const formData = new FormData(form);
                 formData.append('rating', rating.value);
                 formData.append('live_location', userLocation);
                 formData.append('ip_address', userIP);
+                formData.append('category', category);
+                formData.append('subcategory', subcategory);
+
+                if (subcategory === '20') { // Append 'other' text if 'other' option is selected
+                    formData.append('otherText', otherText);
+                }
+
 
                 fetch('APIS/save_form_work.php', {
                         method: 'POST',
@@ -508,23 +748,22 @@ if (!$userData) {
                     })
                     .then(response => response.text())
                     .then(data => {
+                        // Hide loader
+            document.getElementById('loader').style.display = 'none';
                         $('#successModal').modal('show');
                         setTimeout(function() {
                             $('#successModal').modal('hide');
-                            // Optionally, redirect or reset the page/form here
                         }, 3000);
-                        // Optionally, you might want to reset the form or close the existing modal
                         form.reset();
                         $('#workDetailsModal').modal('hide');
 
-                        // Re-enable the submit button after the process is complete
+                        // Hide loader and re-enable the button if there's an error
+            document.getElementById('loader').style.display = 'none';
                         this.disabled = false;
                     })
                     .catch(error => console.error('Error:', error));
             });
         });
     </script>
-
 </body>
-
 </html>
