@@ -1189,6 +1189,7 @@ map.on("click", async (e) => {
           let txtk1 = "";
           let imageUrl = "";
           let pdfUrl = "";
+          console.log(imageUrl,"imgurl")
           let Is_Panoromic = true;  // Flag to track panoramic images
           let category = htmldata['category'] || 'N/A'; // Get the category
 
@@ -1215,6 +1216,9 @@ map.on("click", async (e) => {
               } else if (key === "longitude" || key === "latitude") {
                 value = parseFloat(value).toFixed(4);
               }
+              
+              var imgggurl1 = getImageDimensions(imageUrl);
+              console.log(imageUrl,imgggurl1,"imgggurl")
               txtk1 += `<tr><td style="background-color: #9393d633; width:30px;">${key}</td><td>${value}</td></tr>`;
             }
           }
@@ -1334,3 +1338,41 @@ map.on("click", async (e) => {
     console.log("No features found");
   }
 });
+
+
+
+// ----------------
+function getImageDimensions(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = url;
+
+    img.onload = function() {
+      const width = img.width;
+      const height = img.height;
+      const ratio = width / height;
+      console.log(`Image URL: ${url}, Width: ${width}, Height: ${height}, Ratio: ${ratio}`);
+      
+      resolve({ width, height, ratio });
+    };
+
+    img.onerror = function() {
+      reject(`Error loading image at ${url}`);
+    };
+  });
+}
+
+// function getImageDimensions(url) {
+//   const img = new Image();
+//   img.src = url;
+
+//   img.onload = function() {
+//     const width = img.width;
+//     const height = img.height;
+//     console.log(`Image URL: ${url}, Width: ${width}, Height: ${height}`);
+//   };
+
+//   img.onerror = function() {
+//     console.error(`Error loading image at ${url}.`);
+//   };
+// }
