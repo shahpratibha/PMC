@@ -1077,8 +1077,8 @@ map.on("contextmenu", async (e) => {
       // let qrURL = `https://iwmsgis.pmc.gov.in/gis/iwms/login/login.php?work_id=${workID}`;
 
       let qrURL = `http://localhost/PMC/IWMS/IWMS_test/login/login.php?work_id=${workID}`;
-      //      let qrURL = `http://localhost/PMC/IWMS/update_dashboard/login/login.php?work_id=${workID}`;
-    let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
+      
+    // let qrURL = `http://localhost/IWMS_test2/login/login.php?work_id=${workID}`; // Use login.php with work_id
 qrData = qrURL;
 
       qrData = qrURL;
@@ -1156,6 +1156,8 @@ qrData = qrURL;
 });
 // -------------------------------------------
 // // geotag
+
+
 map.on("click", async (e) => {
   let bbox = map.getBounds().toBBoxString();
   let size = map.getSize();
@@ -1164,10 +1166,9 @@ map.on("click", async (e) => {
   const workspaceLayers = {
     'PMC_test': {
       "PMC_test:geotagphoto": ['photo', 'category', 'createdAt', 'works_aa_approval_id', 'timestamp', 'imagepath','distance_calc'],
-    
     },
     'pmc': {
-      "pmc:output_data": ['proj_id', 'category', 'file', 'verify_role_id', 'image_url', 'verify_by'],
+      "pmc:output_data": ['proj_id', 'category', 'file', 'verify_role_id', 'image_url', 'Name_of_Work'],
     }
   };
 
@@ -1188,20 +1189,27 @@ map.on("click", async (e) => {
           let txtk1 = "";
           let imageUrl = "";
           let pdfUrl = "";
+          let Is_Panoromic = true;  // Flag to track panoramic images
           let category = htmldata['category'] || 'N/A'; // Get the category
 
           for (let key of selectedKeys) {
             if (htmldata.hasOwnProperty(key)) {
               let value = htmldata[key];
               if (key === "imagepath") {
-                // Construct the image URL relative to the 'imgs' folder
                 let imagename = htmldata["photo"];
                 imageUrl = `${value}${imagename}`;
+
+                // Check if the image is panoramic based on its name or other conditions
+                if (imagename.toLowerCase().includes("panorama") || imagename.toLowerCase().includes("360")) {
+                  Is_Panoromic = false;  // Set the flag if it's a panoramic image
+                }
               } else if (key === "image_url") {
-                // Determine the file type based on the URL
-                if (value.endsWith(".png") || value.endsWith(".jpeg") || value.endsWith(".jpg")) {
+                if (value.toLowerCase().endsWith(".png") || value.toLowerCase().endsWith(".jpeg") || value.toLowerCase().endsWith(".jpg")) {
                   imageUrl = value;
-                } else if (value.endsWith(".pdf")) {
+                  if (value.toLowerCase().includes("panorama") || value.toLowerCase().includes("360")) {
+                    Is_Panoromic = true;  // Set the flag if it's a panoramic image
+                  }
+                } else if (value.toLowerCase().endsWith(".pdf")) {
                   pdfUrl = value;
                 }
               } else if (key === "longitude" || key === "latitude") {
@@ -1216,7 +1224,8 @@ map.on("click", async (e) => {
             category: category,
             txtk1: txtk1,
             imageUrl: imageUrl,
-            pdfUrl: pdfUrl
+            pdfUrl: pdfUrl,
+            Is_Panoromic: Is_Panoromic // Track if the image is panoramic
           });
         });
       } catch (error) {
@@ -1231,18 +1240,41 @@ map.on("click", async (e) => {
     function updatePopup() {
       let imageElement = document.getElementById('popupImage');
       let pdfElement = document.getElementById('popupPdf');
+      let panoElement = document.getElementById('panoramaViewer'); // Panoramic viewer container
       let tableBodyElement = document.getElementById('popupTableBody');
       let featureTitleElement = document.getElementById('featureTitle');
       let prevIcon = document.getElementById('prevIcon');
       let nextIcon = document.getElementById('nextIcon');
 
-      if (detailsArray[currentIndex].imageUrl) {
+      // Clear existing Pannellum viewer to prevent multiple instances
+      if (window.panoViewer) {
+        window.panoViewer.destroy();
+        window.panoViewer = null;
+      }
+
+      if (detailsArray[currentIndex].Is_Panoromic) {
+        panoElement.style.display = 'block';
+        imageElement.style.display = 'none';
+        pdfElement.style.display = 'none';
+
+        // Initialize Pannellum viewer
+        window.panoViewer = pannellum.viewer('panoramaViewer', {
+          type: 'equirectangular',
+          panorama: detailsArray[currentIndex].imageUrl,
+          autoLoad: true,
+          autoRotate: 0,
+          showFullscreenCtrl: false,
+          // Add more Pannellum configurations as needed
+        });
+      } else if (detailsArray[currentIndex].imageUrl) {
         imageElement.src = detailsArray[currentIndex].imageUrl;
         imageElement.style.display = 'block';
+        panoElement.style.display = 'none';
         pdfElement.style.display = 'none';
       } else if (detailsArray[currentIndex].pdfUrl) {
         pdfElement.src = detailsArray[currentIndex].pdfUrl;
         pdfElement.style.display = 'block';
+        panoElement.style.display = 'none';
         imageElement.style.display = 'none';
       }
 
@@ -1253,13 +1285,21 @@ map.on("click", async (e) => {
       nextIcon.disabled = currentIndex === detailsArray.length - 1;
     }
 
-    let detaildata = `<div style='max-height: 350px; max-width: 270px; position: relative;'>
+    let detaildata = `<div id="popup-content" style='max-height: 350px; max-width: 270px; position: relative;'>
       <button id='prevIcon' class='pagination-icon' style='left: 10px;' disabled>
         <i class='fas fa-chevron-left'></i>
       </button>
       <h6 id="featureTitle">Feature 1 - ${detailsArray[0].category}</h6>
-      <img id="popupImage" src="${detailsArray[0].imageUrl}" alt="Image" style="display: ${detailsArray[0].imageUrl ? 'block' : 'none'};">
-      <iframe id="popupPdf" src="${detailsArray[0].pdfUrl}" style="display: ${detailsArray[0].pdfUrl ? 'block' : 'none'};" width="100%" height="200px"></iframe>
+      
+      <!-- Container for Panoramic Viewer -->
+      <div id="panoramaViewer" style="width: 100%; height: 200px; display: ${detailsArray[0].Is_Panoromic ? 'block' : 'none'};"></div>
+      
+      <!-- Image Element for Normal Images -->
+      <img id="popupImage" src="${detailsArray[0].imageUrl}" alt="Image" style="width: 100%; height: auto; display: ${detailsArray[0].imageUrl && !detailsArray[0].Is_Panoromic ? 'block' : 'none'};">
+      
+      <!-- Iframe for PDF Display -->
+      <iframe id="popupPdf" src="${detailsArray[0].pdfUrl}" style="width: 100%; height: 200px; display: ${detailsArray[0].pdfUrl ? 'block' : 'none'};"></iframe>
+      
       <button id='nextIcon' class='pagination-icon' style='right: 10px;' ${detailsArray.length > 1 ? '' : 'disabled'}>
         <i class='fas fa-chevron-right'></i>
       </button>
@@ -1270,8 +1310,13 @@ map.on("click", async (e) => {
       </table>
     </div>`;
 
+    // Set the popup content and open it
     L.popup().setLatLng(e.latlng).setContent(detaildata).openOn(map);
 
+    // After the popup is added to the DOM, initialize the popup content
+    updatePopup();
+
+    // Event listeners for navigation buttons
     document.getElementById('prevIcon').addEventListener('click', () => {
       if (currentIndex > 0) {
         currentIndex--;
