@@ -68,99 +68,120 @@ if (!$userData) {
     <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
     <style>
-        .form-label {
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-            font-size: 11px !important;
-        }
+       /* General Modal Styles */
+/* Modal Dialog: Adjust width and remove extra margins */
+.modal-dialog {
+    max-width: 500px; 
+    margin: 1rem auto; 
+}
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    padding: 1rem; 
+}
 
-        .form-control-sm,
-        .form-select-sm {
-            padding: 0.25rem 0.5rem;
-            margin-bottom: 0.5rem;
-        }
+.modal-header {
+    background-color: #0077DA;
+    color: white;
+    border-bottom: none;
+    padding: 0.75rem 1rem; 
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
 
-        #subcategory-wrapper,
-        #otherTextWrapper {
-            display: none;
-        }
+.modal-title {
+    font-size: 1.125rem; 
+    font-weight: 600;
+}
 
-        .modal-footer {
-            padding-top: 0.5rem;
-        }
+.btn-close {
+    border: none;
+    color: white;
+    font-size: 1rem;
+    opacity: 0.8;
+}
 
-        .rating .star {
-            font-size: 1.25rem;
-        }
+.modal-body {
+    padding: 1rem; 
+}
 
-        /* Ensure proper alignment of the form rows */
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            /* Aligns the label and input sides */
-            align-items: center;
-            /* Vertically center align */
-        }
+.form-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.25rem;
+}
 
-        .form-row .form-label {
-            flex: 1;
-            /* Allow label to take space */
-            text-align: left;
-            /* Align text to left */
-        }
+.form-control, .form-select {
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    color: #495057;
+}
 
-        .form-row .form-control,
-        .form-row .form-select {
-            flex: 2;
-            /* Allow input to take more space */
-            margin-left: 10px;
-            /* Space between label and input */
-        }
+.modal-footer {
+    padding: 0.5rem 1rem; 
+    border-top: none;
+    display: flex;
+    justify-content: space-between;
+}
 
-        #department,
-        #fid,
-        #workId,
-        #username,
-        #contact {
-            border: none;
-            background: white;
-            border: 1px solid;
-        }
+.modal-footer .btn {
+    padding: 0.5rem 1rem; 
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
 
-        .form-select {
-            display: block;
-            width: 70%;
-            padding: .375rem 1.75rem .375rem .75rem;
-            background-size: 16px 12px;
-            border-radius: .25rem;
-            border: 1px solid !important;
+.btn-secondary, .btn-primary {
+    min-width: 100px; 
+}
 
-        }
+#workDetailsModal {
+    position: absolute;
+    z-index: 99999;
+    height: 100vh;
+    top: 76px;
+    overflow: auto;
+    scrollbar-width: thin;
+}
 
-        .form-select1 {
-            margin-left: 77px !important;
-            margin-top: -19px;
-            width: 111%;
-            border: 1px solid !important;
-        }
+@media (max-width: 768px) {
+    .modal-dialog {
+        max-width: 100%;
+        margin: 0.5rem auto; 
+    }
 
-        #subcategory-wrapper {
-            width: 150px !important;
-            /* Adjust width as needed */
-            height: 30px;
-            /* Adjust height as needed */
-            font-size: 14px;
-            /* Adjust font size if necessary */
-        }
+    .modal-content {
+        padding: 0.75rem; 
+    }
 
-        #otherText {
-            width: 66%;
-            margin-left: 80px;
-            margin-top: -21px;
-            border: 1px solid;
-        }
+    .modal-header, .modal-footer {
+        padding: 0.5rem 1rem; 
+    }
+
+    .modal-body {
+        padding: 0.5rem; 
+    }
+}
+
+#successModal .modal-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+}
+
+#successModal .modal-content {
+    margin: auto; 
+}
+
     </style>
-    </style>
+    
 
 </head>
 
@@ -232,7 +253,6 @@ if (!$userData) {
     </div>
 
     <!-- Modal Structure -->
-    <!-- Modal Structure -->
     <div class="modal fade" id="workDetailsModal" tabindex="-1" aria-labelledby="workDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -244,7 +264,7 @@ if (!$userData) {
                 <div class="modal-body">
                     <form id="workDetailsForm" method="POST" action="APIS/save_form_work.php">
 
-                        <!-- Row 1: Username and Contact Number -->
+
                         <div class="form-row mb-2">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars(strtoupper($userData['username'])); ?>" readonly>
@@ -255,7 +275,7 @@ if (!$userData) {
                             <input type="tel" class="form-control" id="contact" name="contact" value="<?php echo htmlspecialchars($userData['contact_no']); ?>" readonly>
                         </div>
 
-                        <!-- Row 2: FID, Work ID, Department -->
+
                         <div class="form-row mb-2">
                             <label for="fid" class="form-label">FID</label>
                             <input class="form-control" id="fid" name="fid" readonly>
@@ -269,11 +289,12 @@ if (!$userData) {
                             <input type="text" class="form-control" id="department" name="department" readonly>
                         </div>
 
-                        <!-- Category and Subcategory -->
+
+
                         <div class="form-row mb-2">
                             <label for="category" class="form-label">Category</label>
-                            
-                            <select class="form-select scrollable-select" id="category" name="category" required>
+
+                            <select class="form-select form-select1" id="category" name="category" required>
                                 <option value="">-- Select Category --</option>
                                 <option value="1">रस्ते</option>
                                 <option value="2">फूटपाथ</option>
@@ -290,14 +311,15 @@ if (!$userData) {
                                 <option value="6">प्राथमिक शिक्षण</option>
                                 <option value="6">वृक्ष प्राधिकरण</option>
                                 <option value="6">मुख्य अभियंता प्रकल्प</option>
-                                
+
                             </select>
                         </div>
 
                         <div class="form-row mb-2" id="subcategory-wrapper" style="display:none;">
                             <label for="subcategory" class="form-label">Subcategory</label>
-                            <select class="form-select form-select1" id="subcategory" name="subcategory" required>
-                                <!-- Subcategories populated dynamically -->
+                            <select class="form-select form-select2" id="subcategory" name="subcategory" required>
+
+
                             </select>
                         </div>
 
@@ -306,7 +328,8 @@ if (!$userData) {
                             <input type="text" class="form-control" id="otherText" name="otherText" placeholder="Enter details" />
                         </div>
 
-                        <!-- Rate Us -->
+
+
                         <div class="rate mb-2">
                             <p class="fw-bold mt-2">Rate Us:</p>
                             <div class="rating d-flex justify-content-between">
@@ -605,11 +628,11 @@ if (!$userData) {
             document.getElementById('category').addEventListener('change', function() {
                 const subcategoryWrapper = document.getElementById('subcategory-wrapper');
                 const subcategory = document.getElementById('subcategory');
-                const otherTextWrapper = document.getElementById('otherTextWrapper');  
-                const otherText = document.getElementById('otherText'); 
-                subcategory.innerHTML = ''; 
-                otherTextWrapper.style.display = 'none'; 
-                otherText.value = ''; 
+                const otherTextWrapper = document.getElementById('otherTextWrapper');
+                const otherText = document.getElementById('otherText');
+                subcategory.innerHTML = '';
+                otherTextWrapper.style.display = 'none';
+                otherText.value = '';
 
                 const selectedCategory = this.value;
                 subcategoryWrapper.style.display = 'none';
@@ -688,14 +711,14 @@ if (!$userData) {
             <option value="6">पिण्याच्या पाण्याच्या लाइनवर बसविलेले स्लुस-वाल्ह रस्त्याच्या वर आला आहे. </option>
             <option value="20">other</option>
         `;
-                }else if (selectedCategory == "6") {
+                } else if (selectedCategory == "6") {
                     subcategoryWrapper.style.display = 'block';
                     subcategory.innerHTML = `
             <option value="">-- Select Option --</option>
             <option value="20">other</option>
         `;
                 }
-                
+
             });
 
             document.getElementById('subcategory').addEventListener('change', function() {
@@ -727,7 +750,7 @@ if (!$userData) {
                 // Disable the submit button to prevent multiple submissions
                 this.disabled = true;
 
-document.getElementById('loader').style.display = 'block';  // Show loader
+                document.getElementById('loader').style.display = 'block'; // Show loader
                 // Append form data and submit
                 const form = document.getElementById('workDetailsForm');
                 const formData = new FormData(form);
@@ -749,7 +772,7 @@ document.getElementById('loader').style.display = 'block';  // Show loader
                     .then(response => response.text())
                     .then(data => {
                         // Hide loader
-            document.getElementById('loader').style.display = 'none';
+                        document.getElementById('loader').style.display = 'none';
                         $('#successModal').modal('show');
                         setTimeout(function() {
                             $('#successModal').modal('hide');
@@ -758,7 +781,7 @@ document.getElementById('loader').style.display = 'block';  // Show loader
                         $('#workDetailsModal').modal('hide');
 
                         // Hide loader and re-enable the button if there's an error
-            document.getElementById('loader').style.display = 'none';
+                        document.getElementById('loader').style.display = 'none';
                         this.disabled = false;
                     })
                     .catch(error => console.error('Error:', error));
@@ -766,4 +789,5 @@ document.getElementById('loader').style.display = 'block';  // Show loader
         });
     </script>
 </body>
+
 </html>
