@@ -8,530 +8,533 @@
     <link rel="stylesheet" href="css/style.css" />
     <!-- <link rel="stylesheet" href="C_form.css" /> -->
     <style>
-      @media (min-width: 768px){
+      @media (min-width: 768px) {
         /* .draw_feature{
           display: none;
         } */
-        #saveDataButton{
+        #saveDataButton {
           display: none;
         }
-        #editFeatureButton{
+        #editFeatureButton {
           display: none;
         }
-        #deleteFeatureButton{
+        #deleteFeatureButton {
           display: none;
         }
         /* .save-button{
           display: none;
         } */
       }
-      @media only screen and (min-width: 992px){
-    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
-      background-position: 2px 2px !important;
-    }
-    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
-      background-position: -28px 2px !important;
-    }
-    .leaflet-draw-toolbar .leaflet-bar .leaflet-draw-toolbar-top {
-      display: none !important;
-    }
-    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circle {
-      background-position: -89px 2px !important;
-  }
-    .leaflet-container .leaflet-control-attribution {
-      display: none;
-    }
-    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circlemarker {
-      /* background-position: -271px -1px; */
-      display: none !important;
-     
-  }
-    .draw_feature {
-      top: 92% !important;
-      left: 57%;
-      position: fixed;
-      height: 37px;
-      width: 37px;
-      border: 2px solid #2b13bb;
-      border-radius: 5px 5px 5px 5px;
-    }
-    .custom-button {
-      width: auto;
-      padding: 7px 5px;
-      background-color: #fff;
-      /* color: darkblue; */
-      font-weight: bold;
-      font-size: 9px !important;
-      border: 2px solid #2b13bb;
-      border-radius: 5px !important;
-      cursor: pointer;
-      position:fixed !important;
-      top: 90.600% !important;
-      left: 59.800% !important;
-      height: 37px !important;
-      width: 37px !important;
-      transition: background-color 0.1s;
-    }
-    
-    .leaflet-draw-draw-polyline {
-      top: 92%;
-      position: fixed!important;
-      left: 53.200% !important;
-      border: 2px solid #2b13bb !important;
-      border-bottom: 2px solid darkblue;
-      height: 37px !important;
-      width: 37px !important;
-      border-radius: 5px 5px 5px 5px !important;
-    }
-    .leaflet-draw-draw-polygon {
-      left: 49.40% !important;
-      position:fixed!important;
-      top: 92%!important;
-      height: 37px !important;
-      width: 37px !important;
-      border-bottom: 2px solid #2b13bb !important;
-      border-top: 2px solid #2b13bb !important;
-      border-left: 2px solid #2b13bb !important;
-      border-right: 2px solid #2b13bb !important;
-      border-radius: 5px 5px 5px 5px !important;
-    }
-    .leaflet-draw-draw-circle {
-      position: fixed;
-      top: 92%;
-      left: 45.50%;
-      border-bottom: 2px solid #2b13bb !important;
-      border-top: 2px solid #2b13bb !important;
-      border-left: 2px solid #2b13bb !important;
-      border-right: 2px solid #2b13bb !important;
-      border-top: none;
-      width: 37px !important;
-      height: 37px !important;
-      border-radius: 5px 5px 5px 5px !important;
-    }
-    #save-button {
-      /* border: 2px solid rgb(187, 187, 187); */
-      border-radius: 5px 5px 5px 5px;
-      background-color: white;
-      color: black;
-      padding: 7px;
-      display: none;
-      position: fixed;
-      border: 2px solid #2b13bb;
-      border-top: 2px solid #2b13bb;
-      border-bottom: 2px solid #2b13bb;
-      top: 92%;
-      height: 37px;
-      width: 37px;
-      left: 41.66%;
-      font-size: 15px;
-      border-bottom: 2px solid #2b13bb;
-    }
-    .delete-button {
-      border: 2px solid #2b13bb;
-      padding: 6px 7.3px;
-      font-size: 14px;
-      border-radius: 5px 5px 5px 5px;
-      display: block;
-      background-color: white;
-      color: black;
-      cursor: pointer;
-      left: 34%;
-      position:fixed;
-      top: 92%;
-      height: 37px;
-      width: 37px;
-      display: none;
-      border-top: 2px solid #2b13bb !important;
-      border-bottom: 2px solid #2b13bb !important;
-      border-left: 2px solid #2b13bb !important;
-      border-right: 2px solid #2b13bb !important;
-    }
-    
-    .leaflet-control-edit-interior {
-      font-size: 15px;
-      position: fixed!important;
-      height: 37px !important;
-      width: 37px !important;
-      top: 92%!important;
-      padding: 2px !important;
-      border: 2px solid #2b13bb;
-      border-radius: 5px 5px 5px 5px !important;
-      /* display: none !important ; */
-      left: 37.70% !important;
-      border-bottom: 2px solid #2b13bb !important;
-    }
-    #saveDataButton {
-      border: 2px solid #2b13bb;
-      border-bottom: 2px solid #2b13bb;
-      border-top: 2px solid #2b13bb;
-      border-radius: 5px 5px 5px 5px;
-      background-color: white;
-      position: fixed;
-      color: black;
-      padding: 5px 5px;
-      padding: 7px !important;
-      display: none;
-      top:92%;
-      font-size: 15px !important;
-      height: 37px;
-      width: 37px;
-      left: 68.350% !important;
-    }
-    #deleteFeatureButton {
-      border: 2px solid #2b13bb;
-      border-top: 2px solid #2b13bb;
-      border-radius: 5px 5px 5px 5px;
-      background-color: white;
-      color: black;
-      padding: 3px 7px;
-      display: none;
-      position: fixed;
-      top:92%;
-      font-size: 14px;
-      height: 37px;
-      width: 37px;
-      left: 72.20%;
-  
-    }
-    #editFeatureButton {
-      border: 2px solid #2b13bb;
-      border-radius: 5px 5px 5px 5px;
-      height: 37px !important;
-      width: 37px !important;
-      display: none;
-      position: fixed !important;
-      top: 92%;
-      left: 64.60%;
-      padding: 3px 5px !important;
-      background: white;
-      font-size: 15px;
-      border-bottom: 2px solid #2b13bb;
-    }
-    .leaflet-draw-actions {
-      display: none;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      position: fixed !important;
-      left: 40% !important;
-      top: 85%!important;
-      white-space: nowrap;
-    }
-  }
-    @media only screen and (min-width: 1400px){
-      .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
-        background-position: 2px 2px !important;
-    }
-      .draw_feature {
-        top: 92% !important;
-        left: 48%;
-        position: fixed;
-        height: 37px !important;
-        width: 37px !important;
-        border: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
+      @media only screen and (min-width: 992px) {
+        .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
+          background-position: 2px 2px !important;
+        }
+        .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+          background-position: -28px 2px !important;
+        }
+        .leaflet-draw-toolbar .leaflet-bar .leaflet-draw-toolbar-top {
+          display: none !important;
+        }
+        .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circle {
+          background-position: -89px 2px !important;
+        }
+        .leaflet-container .leaflet-control-attribution {
+          display: none;
+        }
+        .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circlemarker {
+          /* background-position: -271px -1px; */
+          display: none !important;
+        }
+        .draw_feature {
+          top: 92% !important;
+          left: 57%;
+          position: fixed;
+          height: 37px;
+          width: 37px;
+          border: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+        }
+        .custom-button {
+          width: auto;
+          padding: 7px 5px;
+          background-color: #fff;
+          /* color: darkblue; */
+          font-weight: bold;
+          font-size: 9px !important;
+          border: 2px solid #2b13bb;
+          border-radius: 5px !important;
+          cursor: pointer;
+          position: fixed !important;
+          top: 90.6% !important;
+          left: 59.8% !important;
+          height: 37px !important;
+          width: 37px !important;
+          transition: background-color 0.1s;
+        }
+
+        .leaflet-draw-draw-polyline {
+          top: 92%;
+          position: fixed !important;
+          left: 53.2% !important;
+          border: 2px solid #2b13bb !important;
+          border-bottom: 2px solid darkblue;
+          height: 37px !important;
+          width: 37px !important;
+          border-radius: 5px 5px 5px 5px !important;
+        }
+        .leaflet-draw-draw-polygon {
+          left: 49.4% !important;
+          position: fixed !important;
+          top: 92% !important;
+          height: 37px !important;
+          width: 37px !important;
+          border-bottom: 2px solid #2b13bb !important;
+          border-top: 2px solid #2b13bb !important;
+          border-left: 2px solid #2b13bb !important;
+          border-right: 2px solid #2b13bb !important;
+          border-radius: 5px 5px 5px 5px !important;
+        }
+        .leaflet-draw-draw-circle {
+          position: fixed;
+          top: 92%;
+          left: 45.5%;
+          border-bottom: 2px solid #2b13bb !important;
+          border-top: 2px solid #2b13bb !important;
+          border-left: 2px solid #2b13bb !important;
+          border-right: 2px solid #2b13bb !important;
+          border-top: none;
+          width: 37px !important;
+          height: 37px !important;
+          border-radius: 5px 5px 5px 5px !important;
+        }
+        #save-button {
+          /* border: 2px solid rgb(187, 187, 187); */
+          border-radius: 5px 5px 5px 5px;
+          background-color: white;
+          color: black;
+          padding: 7px;
+          display: none;
+          position: fixed;
+          border: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-bottom: 2px solid #2b13bb;
+          top: 92%;
+          height: 37px;
+          width: 37px;
+          left: 41.66%;
+          font-size: 15px;
+          border-bottom: 2px solid #2b13bb;
+        }
+        .delete-button {
+          border: 2px solid #2b13bb;
+          padding: 6px 7.3px;
+          font-size: 14px;
+          border-radius: 5px 5px 5px 5px;
+          display: block;
+          background-color: white;
+          color: black;
+          cursor: pointer;
+          left: 34%;
+          position: fixed;
+          top: 92%;
+          height: 37px;
+          width: 37px;
+          display: none;
+          border-top: 2px solid #2b13bb !important;
+          border-bottom: 2px solid #2b13bb !important;
+          border-left: 2px solid #2b13bb !important;
+          border-right: 2px solid #2b13bb !important;
+        }
+
+        .leaflet-control-edit-interior {
+          font-size: 15px;
+          position: fixed !important;
+          height: 37px !important;
+          width: 37px !important;
+          top: 92% !important;
+          padding: 2px !important;
+          border: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px !important;
+          /* display: none !important ; */
+          left: 37.7% !important;
+          border-bottom: 2px solid #2b13bb !important;
+        }
+        #saveDataButton {
+          border: 2px solid #2b13bb;
+          border-bottom: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          background-color: white;
+          position: fixed;
+          color: black;
+          padding: 5px 5px;
+          padding: 7px !important;
+          display: none;
+          top: 92%;
+          font-size: 15px !important;
+          height: 37px;
+          width: 37px;
+          left: 68.35% !important;
+        }
+        #deleteFeatureButton {
+          border: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          background-color: white;
+          color: black;
+          padding: 3px 7px;
+          display: none;
+          position: fixed;
+          top: 92%;
+          font-size: 14px;
+          height: 37px;
+          width: 37px;
+          left: 72.2%;
+        }
+        #editFeatureButton {
+          border: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          height: 37px !important;
+          width: 37px !important;
+          display: none;
+          position: fixed !important;
+          top: 92%;
+          left: 64.6%;
+          padding: 3px 5px !important;
+          background: white;
+          font-size: 15px;
+          border-bottom: 2px solid #2b13bb;
+        }
+        .leaflet-draw-actions {
+          display: none;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          position: fixed !important;
+          left: 40% !important;
+          top: 85% !important;
+          white-space: nowrap;
+        }
       }
-      #traceToolButton {
-        width: auto;
-        padding: 1px 2px;
-        background-color: #fff;
-        color: darkblue;
-        font-weight: bold;
-        font-size: 10px !important;
-        border: 2px solid #2b13bb;
-        border-radius: 5px !important;
-        cursor: pointer;
-        position:fixed!important;
-        top: 92%;
-        left: 50.500%;
-        height: 37px !important;
-        width: 37px !important;
-        border-radius: 5px 5px 5px 5px;
-      }
-      .custom-button {
-        width: auto;
-        padding: 7px 5px;
-        background-color: #fff;
-        /* color: darkblue; */
-        font-weight: bold;
-        font-size: 9px !important;
-        border: 2px solid #2b13bb;
-        border-radius: 5px !important;
-        cursor: pointer;
-        position:fixed !important;
-        top: 90.600%;
-        left: 49.900% !important;
-        height: 37px !important;
-        width: 37px !important;
-        transition: background-color 0.1s;
-      }
-      #editFeatureButton {
-        border: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
-        height: 37px !important;
-        width: 37px !important;
-        display: none;
-        position: fixed !important;
-        top: 92%;
-        left: 53.20%;
-        padding: 3px 5px !important;
-        background: white;
-        font-size: 15px;
-        border-bottom: 2px solid #2b13bb;
-      }
-      #saveDataButton {
-        border: 2px solid #2b13bb;
-        border-bottom: 2px solid #2b13bb;
-        border-top: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
-        background-color: white;
-        position: fixed !important;
-        color: black;
-        padding: 5px 5px;
-        display: none;
-        padding: 7px !important;
-        top:92%;
-        font-size: 15px !important;
-        height: 37px;
-        width: 37px;
-        left: 55.800% !important;
+      @media only screen and (min-width: 1400px) {
+        .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polyline {
+          background-position: 2px 2px !important;
+        }
+        .draw_feature {
+          top: 92% !important;
+          left: 48%;
+          position: fixed;
+          height: 37px !important;
+          width: 37px !important;
+          border: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+        }
+        #traceToolButton {
+          width: auto;
+          padding: 1px 2px;
+          background-color: #fff;
+          color: darkblue;
+          font-weight: bold;
+          font-size: 10px !important;
+          border: 2px solid #2b13bb;
+          border-radius: 5px !important;
+          cursor: pointer;
+          position: fixed !important;
+          top: 92%;
+          left: 50.5%;
+          height: 37px !important;
+          width: 37px !important;
+          border-radius: 5px 5px 5px 5px;
+        }
+        .custom-button {
+          width: auto;
+          padding: 7px 5px;
+          background-color: #fff;
+          /* color: darkblue; */
+          font-weight: bold;
+          font-size: 9px !important;
+          border: 2px solid #2b13bb;
+          border-radius: 5px !important;
+          cursor: pointer;
+          position: fixed !important;
+          top: 90.6%;
+          left: 49.9% !important;
+          height: 37px !important;
+          width: 37px !important;
+          transition: background-color 0.1s;
+        }
+        #editFeatureButton {
+          border: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          height: 37px !important;
+          width: 37px !important;
+          display: none;
+          position: fixed !important;
+          top: 92%;
+          left: 53.2%;
+          padding: 3px 5px !important;
+          background: white;
+          font-size: 15px;
+          border-bottom: 2px solid #2b13bb;
+        }
+        #saveDataButton {
+          border: 2px solid #2b13bb;
+          border-bottom: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          background-color: white;
+          position: fixed !important;
+          color: black;
+          padding: 5px 5px;
+          display: none;
+          padding: 7px !important;
+          top: 92%;
+          font-size: 15px !important;
+          height: 37px;
+          width: 37px;
+          left: 55.8% !important;
+        }
+
+        #saveEditGeomButton {
+          border: 2px solid #2b13bb;
+          border-bottom: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          background-color: green;
+          position: fixed;
+          color: black;
+          padding: 0px 5px;
+          top: 85%;
+          /* changed from 683px */
+          font-size: 19px;
+          height: 37px;
+          width: 37px;
+          left: 50%;
+          /* changed from 865px */
+        }
+
+        #deleteEditGeomButton {
+          border: 2px solid #2b13bb;
+          border-bottom: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          background-color: green;
+          position: fixed;
+          color: black;
+          padding: 0px 5px;
+          top: 85%;
+          /* changed from 683px */
+          font-size: 19px;
+          height: 37px;
+          width: 37px;
+          left: 47%;
+          /* changed from 865px */
+        }
+
+        #deleteFeatureButton {
+          border: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px;
+          background-color: white;
+          color: black;
+          padding: 6px 7.3px;
+          display: none;
+          position: fixed;
+          top: 92%;
+          font-size: 14px;
+          height: 37px;
+          width: 37px;
+          left: 58.4%;
+        }
+        .leaflet-draw-draw-polyline {
+          top: 92%;
+          position: fixed !important;
+          left: 43% !important;
+          border: 2px solid #2b13bb !important;
+          border-bottom: 2px solid darkblue;
+          height: 37px !important;
+          width: 37px !important;
+          /* display: none !important; */
+          border-radius: 5px 5px 5px 5px !important;
+        }
+        .leaflet-draw-draw-polygon {
+          left: 40.4% !important;
+          position: fixed !important;
+          top: 92% !important;
+          height: 37px !important;
+          width: 37px !important;
+          border-bottom: 2px solid #2b13bb !important;
+          border-top: 2px solid #2b13bb !important;
+          border-left: 2px solid #2b13bb !important;
+          border-right: 2px solid #2b13bb !important;
+          border-radius: 5px 5px 5px 5px !important;
+        }
+        .leaflet-draw-draw-circle {
+          position: fixed;
+          top: 92%;
+          left: 45.5%;
+          border-bottom: 2px solid #2b13bb !important;
+          border-top: 2px solid #2b13bb !important;
+          border-left: 2px solid #2b13bb !important;
+          border-right: 2px solid #2b13bb !important;
+          border-top: none;
+          width: 37px !important;
+          height: 37px !important;
+          border-radius: 5px 5px 5px 5px !important;
+        }
+        #save-button {
+          /* border: 2px solid rgb(187, 187, 187); */
+          border-radius: 5px 5px 5px 5px;
+          background-color: white;
+          color: black;
+          padding: 7px;
+          display: none;
+          position: fixed;
+          border: 2px solid #2b13bb;
+          border-top: 2px solid #2b13bb;
+          border-bottom: 2px solid #2b13bb;
+          top: 92%;
+          height: 37px;
+          width: 37px;
+          left: 35.4%;
+          font-size: 15px;
+          border-bottom: 2px solid #2b13bb;
+        }
+        .delete-button {
+          border: 2px solid #2b13bb;
+          padding: 6px 7.3px;
+          font-size: 14px;
+          border-radius: 5px 5px 5px 5px;
+          display: block;
+          background-color: white;
+          color: black;
+          cursor: pointer;
+          left: 32.8%;
+          position: fixed;
+          top: 92%;
+          height: 37px;
+          width: 37px;
+          display: none;
+          border-top: 2px solid #2b13bb !important;
+          border-bottom: 2px solid #2b13bb !important;
+          border-left: 2px solid #2b13bb !important;
+          border-right: 2px solid #2b13bb !important;
+        }
+
+        .leaflet-control-edit-interior {
+          font-size: 15px !important;
+          position: fixed !important;
+          height: 37px !important;
+          width: 37px !important;
+          top: 92% !important;
+          padding: 2px !important;
+          border: 2px solid #2b13bb;
+          border-radius: 5px 5px 5px 5px !important;
+          /* display: none !important; */
+          left: 37.9% !important;
+          border-bottom: 2px solid #2b13bb !important;
+        }
+        .leaflet-draw-actions {
+          display: none;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          position: fixed !important;
+          left: 40% !important;
+          top: 86% !important;
+          white-space: nowrap;
+        }
       }
 
-      #saveEditGeomButton {
-			border: 2px solid #2b13bb;
-			border-bottom: 2px solid #2b13bb;
-			border-top: 2px solid #2b13bb;
-			border-radius: 5px 5px 5px 5px;
-      background-color: green;
-			position: fixed;
-			color: black;
-			padding: 0px 5px;
-      top: 85%;
-			/* changed from 683px */
-			font-size: 19px;
-			height: 37px;
-			width: 37px;
-			left: 50%;
-			/* changed from 865px */
-		}
+      #helpButton .icon {
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
+      }
 
-		#deleteEditGeomButton {
-			border: 2px solid #2b13bb;
-			border-bottom: 2px solid #2b13bb;
-			border-top: 2px solid #2b13bb;
-			border-radius: 5px 5px 5px 5px;
-			background-color: green;
-			position: fixed;
-			color: black;
-			padding: 0px 5px;
-      top: 85%;
-			/* changed from 683px */
-			font-size: 19px;
-			height: 37px;
-			width: 37px;
-			left: 47%;
-			/* changed from 865px */
-		}
-
-      #deleteFeatureButton {
-        border: 2px solid #2b13bb;
-        border-top: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px;
+      #helpButton {
+        position: absolute;
+        top: 15%;
+        left: 1.5%;
+        transform: translateX(-50%);
         background-color: white;
-        color: black;
-        padding: 6px 7.3px ;
-        display: none;
-        position: fixed;
-        top:92%;
-        font-size: 14px;
-        height: 37px;
-        width: 37px;
-        left: 58.400%;
-    
-      }
-      .leaflet-draw-draw-polyline {
-        top: 92%;
-        position: fixed!important;
-        left: 43% !important;
-        border: 2px solid #2b13bb !important;
-        border-bottom: 2px solid darkblue;
-        height: 37px !important;
-        width: 37px !important;
-        /* display: none !important; */
-        border-radius: 5px 5px 5px 5px !important;
-      }
-      .leaflet-draw-draw-polygon {
-        left: 40.400% !important;
-        position:fixed!important;
-        top: 92%!important;
-        height: 37px !important;
-        width: 37px !important;
-        border-bottom: 2px solid #2b13bb !important;
-        border-top: 2px solid #2b13bb !important;
-        border-left: 2px solid #2b13bb !important;
-        border-right: 2px solid #2b13bb !important;
-        border-radius: 5px 5px 5px 5px !important;
-      }
-      .leaflet-draw-draw-circle {
-        position: fixed;
-        top: 92%;
-        left: 45.50%;
-        border-bottom: 2px solid #2b13bb !important;
-        border-top: 2px solid #2b13bb !important;
-        border-left: 2px solid #2b13bb !important;
-        border-right: 2px solid #2b13bb !important;
-        border-top: none;
-        width: 37px !important;
-        height: 37px !important;
-        border-radius: 5px 5px 5px 5px !important;
-      }
-      #save-button {
-        /* border: 2px solid rgb(187, 187, 187); */
-        border-radius: 5px 5px 5px 5px;
-        background-color: white;
-        color: black;
-        padding: 7px;
-        display: none;
-        position: fixed;
-        border: 2px solid #2b13bb;
-        border-top: 2px solid #2b13bb;
-        border-bottom: 2px solid #2b13bb;
-        top: 92%;
-        height: 37px;
-        width: 37px;
-        left: 35.40%;
-        font-size: 15px;
-        border-bottom: 2px solid #2b13bb;
-      }
-      .delete-button {
-        border: 2px solid #2b13bb;
-        padding: 6px 7.3px;
-        font-size: 14px;
-        border-radius: 5px 5px 5px 5px;
-        display: block;
-        background-color: white;
-        color: black;
+        border: 1px solid black;
+        border-radius: 5px;
         cursor: pointer;
-        left: 32.800%;
-        position:fixed;
-        top: 92%;
-        height: 37px;
-        width: 37px;
-        display: none;
-        border-top: 2px solid #2b13bb !important;
-        border-bottom: 2px solid #2b13bb !important;
-        border-left: 2px solid #2b13bb !important;
-        border-right: 2px solid #2b13bb !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        z-index: 1000;
+        padding: 10px;
       }
-      
-      .leaflet-control-edit-interior {
-        font-size: 15px !important;
-        position: fixed!important;
-        height: 37px !important;
-        width: 37px !important;
-        top: 92%!important;
-        padding: 2px !important;
-        border: 2px solid #2b13bb;
-        border-radius: 5px 5px 5px 5px !important;
-        /* display: none !important; */
-        left: 37.90% !important;
-        border-bottom: 2px solid #2b13bb !important;
-      }
-      .leaflet-draw-actions {
-        display: none;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        position: fixed !important;
-        left: 40% !important;
-        top: 86%!important;
+
+      #helpButton:hover::after {
+        content: "HELP";
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: black;
+        color: white;
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 12px;
         white-space: nowrap;
+        z-index: 1000;
+        display: none;
       }
-  }
-  
-        
-  #helpButton .icon {
-      font-size: 10px;
-      width: 16px;
-      height: 16px;
-  }
-  
-  #helpButton {
-      position: absolute;
-      top: 15%;
-      left: 1.5%;
-      transform: translateX(-50%);
-      background-color: white;
-      border: 1px solid black;
-      border-radius: 5px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      z-index: 1000;
-      padding: 10px; 
-  }
-  
-  #helpButton:hover::after {
-      content: "HELP"; 
-      position: absolute;
-      top: calc(100% + 5px); 
-      left: 50%; 
-      transform: translateX(-50%);
-      background-color: black;
-      color: white;
-      border: 1px solid black;
-      padding: 5px;
-      border-radius: 5px;
-      font-size: 12px;
-      white-space: nowrap; 
-      z-index: 1000; 
-      display: none; 
-  }
-  
-  #helpButton:hover::after {
-      display: block; 
-  }
-</style>
- 
+
+      #helpButton:hover::after {
+        display: block;
+      }
+    </style>
+
     <!-- bootstrap -->
-    <link
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
-    />
-    <link
+    /> -->
+    <link rel="stylesheet" href="cdn/css/bootstrap.min.css" />
+
+    <!-- <link
       rel="stylesheet"
       href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
-    />
+    /> -->
+    <link rel="stylesheet" href="cdn1/datatables.1.13.7.css" />
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
 
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    />
+    /> -->
+    <link rel="stylesheet" href="cdn1/font awesome6.5.1.css" />
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
       integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
-    />
+    /> -->
+    <link rel="stylesheet" href="cdn1/leaflet1.9.css" />
 
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -543,21 +546,24 @@
 
     <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
 
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    />
-    <link
+    /> -->
+    <link rel="stylesheet" href="cdn1/pro.fontawesome.css" />
+
+    <!-- <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    />
+    /> -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- <link rel="stylesheet" href="cdn/css/leaflet.css"> -->
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
@@ -565,6 +571,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"
     />
+    <!-- <link role="stylesheet"  href="cdn1/leaflet-draw.css"> -->
 
     <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
@@ -577,6 +584,7 @@
       type="text/css"
       href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css"
     />
+    <!-- <link rel="stylesheet" href="cdn/css/leaflet_geocoder.css"> -->
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -595,23 +603,29 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-    />
+    /> -->
+    <link rel="stylesheet" href="cdn1/themes.css" />
 
     <script src="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css"
-    />
+    /> -->
+    <link rel="stylesheet" href="cdn/css/mouseposition.css" />
 
-    <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" />
+    <!-- <link rel="stylesheet" href="libs/polyline-measure/line-measure.css" /> -->
+    <link rel="stylesheet" href="cdn1/line-measure.css" />
+
     <script src="libs/polyline-measure/line-measure.js"></script>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="libs/leaflet-measure-master/leaflet-measure.css"
-    />
+    /> -->
+    <link rel="stylesheet" href="cdn1/leaflet-measure.css" />
+
     <script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.3/src/leaflet.geometryutil.min.js"></script>
 
@@ -656,24 +670,22 @@
     <script src="js/ceo.js"></script>
 
     <script>
-  function toggleSelectLayerButton(show) {
-      var saveBtn = document.getElementById('editFeatureButton');
-      var editBtn = document.getElementById('saveDataButton');
-      var deleteBtn = document.getElementById('deleteFeatureButton');
-      var deleteBtnEdit = document.getElementById('deleteEditGeomButton');
-      var saveBtnEdit = document.getElementById('saveEditGeomButton');
-      if (saveBtn && editBtn) {
-        saveBtn.style.display = show ? 'block' : 'none';
-        editBtn.style.display = show ? 'block' : 'none';
-        deleteBtn.style.display = show ? 'block' : 'none';
-        
+      function toggleSelectLayerButton(show) {
+        var saveBtn = document.getElementById("editFeatureButton");
+        var editBtn = document.getElementById("saveDataButton");
+        var deleteBtn = document.getElementById("deleteFeatureButton");
+        var deleteBtnEdit = document.getElementById("deleteEditGeomButton");
+        var saveBtnEdit = document.getElementById("saveEditGeomButton");
+        if (saveBtn && editBtn) {
+          saveBtn.style.display = show ? "block" : "none";
+          editBtn.style.display = show ? "block" : "none";
+          deleteBtn.style.display = show ? "block" : "none";
+        }
+        if (deleteBtnEdit && saveBtnEdit) {
+          deleteBtnEdit.style.display = show ? "none" : "block";
+          saveBtnEdit.style.display = show ? "none" : "block";
+        }
       }
-      if(deleteBtnEdit && saveBtnEdit ){
-        deleteBtnEdit.style.display = show ? 'none' : 'block'
-        saveBtnEdit.style.display = show ? 'none' : 'block'
-      }
-    }
-
 
       $(document).ready(function () {
         $("#searchInputDashboard").autocomplete({
@@ -731,169 +743,189 @@
       let coordinatesData = [];
       let uniqueIds = [];
 
-
       function performTask() {
-          map.on("click", function (e) {
-            let size = map.getSize();
-            let bbox = map.getBounds().toBBoxString();
-            let layer = "pmc:Exist_Road";
+        map.on("click", function (e) {
+          let size = map.getSize();
+          let bbox = map.getBounds().toBBoxString();
+          let layer = "pmc:Exist_Road";
 
-let layers = ["pmc:Exist_Road", "pmc:Bhavan"];
-let queryLayers = layers.join(',');
+          let layers = ["pmc:Exist_Road", "pmc:Bhavan"];
+          let queryLayers = layers.join(",");
 
-var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-e.containerPoint.x
-)}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+          var url = `https://iwmsgis.pmc.gov.in/geoserver/pmc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${queryLayers}&STYLES&LAYERS=${queryLayers}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+            e.containerPoint.x
+          )}&Y=${Math.round(e.containerPoint.y)}&SRS=EPSG%3A4326&WIDTH=${
+            size.x
+          }&HEIGHT=${size.y}&BBOX=${bbox}`;
 
+          fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+              addUniqueFeatures(data);
+            });
+        });
 
-
-            fetch(url)
-              .then((response) => response.json())
-              .then((data) => {
-                addUniqueFeatures(data);
-              });
+        function addUniqueFeatures(data) {
+          if (data.features.length === 0) return; // Return if no features
+          const feature = data.features[0];
+          let isDuplicate = uniqueIds.some((layer) => {
+            return layer === feature.id;
           });
 
-          function addUniqueFeatures(data) {
-              if (data.features.length === 0) return; // Return if no features
-              const feature = data.features[0];
-              let isDuplicate = uniqueIds.some((layer) => {
-                return layer === feature.id;
-              });
+          if (!isDuplicate) {
+            highlightFeature(data);
+          }
+        }
 
-              if (!isDuplicate) {
-                highlightFeature(data);
-              }
-            } 
-
-          function highlightFeature(featureData) {
-            // Check if any features are present in the featureData
-            if (
-              !featureData ||
-              !featureData.features ||
-              featureData.features.length === 0
-            )
-              // Clear existing editable layers
+        function highlightFeature(featureData) {
+          // Check if any features are present in the featureData
+          if (
+            !featureData ||
+            !featureData.features ||
+            featureData.features.length === 0
+          )
+            // Clear existing editable layers
             editableLayers.clearLayers();
-            var feature = featureData.features[0];
-            uniqueIds.push(feature.id);
+          var feature = featureData.features[0];
+          uniqueIds.push(feature.id);
 
-                if (feature.geometry.type == 'Polygon') {
-              // Handle single Polygon
+          if (feature.geometry.type == "Polygon") {
+            // Handle single Polygon
+            coordinatesData.push(
+              L.polygon(
+                feature.geometry.coordinates[0].map((coord) => [
+                  coord[1],
+                  coord[0],
+                ])
+              )
+            );
+          } else if (feature.geometry.type === "MultiPolygon") {
+            // Handle MultiPolygon
+            feature.geometry.coordinates.forEach((polygonCoords) => {
               coordinatesData.push(
-                  L.polygon(feature.geometry.coordinates[0].map((coord) => [coord[1], coord[0]]))
+                L.polygon(polygonCoords[0].map((coord) => [coord[1], coord[0]]))
               );
-          } else if (feature.geometry.type === 'MultiPolygon') {
-              // Handle MultiPolygon
-              feature.geometry.coordinates.forEach((polygonCoords) => {
-                  coordinatesData.push(L.polygon(polygonCoords[0].map((coord) => [coord[1], coord[0]])));
-              });
-          } else if (feature.geometry.type === 'LineString') {
-              // Handle single LineString
-              let coordinates = feature.geometry.coordinates.map((coord) => [coord[1], coord[0]]);
-              coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
-          } else if (feature.geometry.type === 'MultiLineString') {
-              // Handle MultiLineString
-              feature.geometry.coordinates.forEach((lineCoords) => {
-                  let coordinates = lineCoords.map((coord) => [coord[1], coord[0]]);
-                  coordinatesData.push(L.polyline(coordinates, { color: 'red' }));
-              });
-          }
-
-
-
-
-                
-
-
-
-              coordinatesData.forEach((layer) => {
-                // Set the style to red
-                layer.setStyle({ color: 'red',weight: 3, opacity: 1, fillOpacity: 0.5, });
-                editableLayers.addLayer(layer);
             });
-
-            if (editableLayers.getLayers().length > 0) {
-              map.fitBounds(editableLayers.getBounds());
-            }
+          } else if (feature.geometry.type === "LineString") {
+            // Handle single LineString
+            let coordinates = feature.geometry.coordinates.map((coord) => [
+              coord[1],
+              coord[0],
+            ]);
+            coordinatesData.push(L.polyline(coordinates, { color: "red" }));
+          } else if (feature.geometry.type === "MultiLineString") {
+            // Handle MultiLineString
+            feature.geometry.coordinates.forEach((lineCoords) => {
+              let coordinates = lineCoords.map((coord) => [coord[1], coord[0]]);
+              coordinatesData.push(L.polyline(coordinates, { color: "red" }));
+            });
           }
-          editableLayers.on("contextmenu", function (e) {
-            // Check if there is a selected feature
 
-            toggleSelectLayerButton(true);
+          coordinatesData.forEach((layer) => {
+            // Set the style to red
+            layer.setStyle({
+              color: "red",
+              weight: 3,
+              opacity: 1,
+              fillOpacity: 0.5,
+            });
+            editableLayers.addLayer(layer);
+          });
 
-            if (editableLayers.getLayers().length > 0) {
-              selectedFeature = editableLayers.getLayers()[0];
-  
-              // Get the coordinates of the right-clicked point
-              var latlng = e.latlng;
-              var popupContent = "<h5>Selected Feature</h5>";
+          if (editableLayers.getLayers().length > 0) {
+            map.fitBounds(editableLayers.getBounds());
+          }
+        }
+        editableLayers.on("contextmenu", function (e) {
+          // Check if there is a selected feature
 
-              if (localStorage.getItem("conceptual_form_data_temp")) {
-                const formDataFromStorage = JSON.parse(
-                  localStorage.getItem("conceptual_form_data_temp")
+          toggleSelectLayerButton(true);
+
+          if (editableLayers.getLayers().length > 0) {
+            selectedFeature = editableLayers.getLayers()[0];
+
+            // Get the coordinates of the right-clicked point
+            var latlng = e.latlng;
+            var popupContent = "<h5>Selected Feature</h5>";
+
+            if (localStorage.getItem("conceptual_form_data_temp")) {
+              const formDataFromStorage = JSON.parse(
+                localStorage.getItem("conceptual_form_data_temp")
+              );
+
+              $("#table-container").show();
+              let contentData = "<tr>";
+              for (const property in formDataFromStorage) {
+                contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
+              }
+              contentData += "</tr>";
+              $("#workTableData").html(contentData);
+            }
+            document
+              .getElementById("saveDataButton")
+              .addEventListener("click", function () {
+                var featureData = selectedFeature.toGeoJSON();
+                //  var featureId = featureData.features[0].id;
+                let formDataFromStorage;
+                let formDataTemp = localStorage.getItem(
+                  "conceptual_form_data_temp"
+                );
+                if (formDataTemp) {
+                  localStorage.setItem("conceptual_form_data", formDataTemp);
+                  formDataFromStorage = JSON.parse(formDataTemp);
+                }
+
+                var roadLength =
+                  formDataFromStorage &&
+                  formDataFromStorage.hasOwnProperty("Length")
+                    ? formDataFromStorage.Length
+                    : 10;
+                var bufferWidth =
+                  formDataFromStorage &&
+                  formDataFromStorage.hasOwnProperty("Width")
+                    ? formDataFromStorage.Width
+                    : 20;
+                let selectCoordinatesData = editableLayers
+                  .getLayers()
+                  .map((layer) => layer.toGeoJSON());
+                localStorage.setItem(
+                  "selectCoordinatesData",
+                  JSON.stringify(selectCoordinatesData)
                 );
 
-                $("#table-container").show();
-                let contentData = "<tr>";
-                for (const property in formDataFromStorage) {
-                  contentData += `<tr><th>${property}</th><td>${formDataFromStorage[property]}</td></tr>`;
-                }
-                contentData += "</tr>";
-                $("#workTableData").html(contentData);
-              }
-              document
-                .getElementById("saveDataButton")
-                .addEventListener("click", function () {
-                  var featureData = selectedFeature.toGeoJSON();
-                //  var featureId = featureData.features[0].id;
-                  let formDataFromStorage;
-                  let formDataTemp = localStorage.getItem("conceptual_form_data_temp");
-                  if (formDataTemp) {
-                    localStorage.setItem("conceptual_form_data", formDataTemp);
-                    formDataFromStorage = JSON.parse(formDataTemp);
-                  }
+                selectCoordinatesData.map((selectCoordinatesDataSingle) => {
+                  let area = turf.area(selectCoordinatesDataSingle);
+                  var payload = JSON.stringify({
+                    geoJSON: JSON.stringify(selectCoordinatesDataSingle),
+                    roadLength: roadLength,
+                    bufferWidth: bufferWidth,
+                    gis_id: lastInsertedId,
+                    department: department,
+                    selectCoordinatesData: selectCoordinatesDataSingle,
+                    area: area,
+                    geometryType: selectCoordinatesDataSingle.geometry.type,
+                  });
 
-                  var roadLength = formDataFromStorage && formDataFromStorage.hasOwnProperty("Length")? formDataFromStorage.Length: 10;
-                  var bufferWidth = formDataFromStorage &&  formDataFromStorage.hasOwnProperty("Width") ? formDataFromStorage.Width : 20;
-                  let selectCoordinatesData = editableLayers.getLayers().map((layer) => layer.toGeoJSON());
-                  localStorage.setItem("selectCoordinatesData",JSON.stringify(selectCoordinatesData));
-
-                  selectCoordinatesData.map((selectCoordinatesDataSingle) => {
-                    let area = turf.area(selectCoordinatesDataSingle);
-                    var payload = JSON.stringify({
-                      geoJSON: JSON.stringify(selectCoordinatesDataSingle),
-                      roadLength: roadLength,
-                      bufferWidth: bufferWidth,
-                      gis_id: lastInsertedId,
-                      department: department,
-                      selectCoordinatesData: selectCoordinatesDataSingle,
-                      area: area,
-                      geometryType:selectCoordinatesDataSingle.geometry.type,
+                  if (editMode) {
+                    let editIdTemp = editId.split(".")[1];
+                    let geometryTypeTemp = editId.split(".")[0];
+                    $.ajax({
+                      url: "APIS/Update_Geometry.php", // Path to your PHP save script
+                      type: "POST",
+                      contentType: "application/json",
+                      data: JSON.stringify({
+                        selectCoordinatesData: selectCoordinatesDataSingle,
+                        fid: editIdTemp,
+                        geometryType: selectCoordinatesDataSingle.geometry.type,
+                      }),
+                      success: function (response) {
+                        alert("Data saved successfully!");
+                      },
+                      error: function (error) {
+                        console.error("Save request failed:", error);
+                      },
                     });
-
-                    if (editMode) {
-                          let editIdTemp = editId.split(".")[ 1 ];
-                          let geometryTypeTemp = editId.split(".")[ 0 ];
-                          $.ajax({
-                            url: 'APIS/Update_Geometry.php', // Path to your PHP save script
-                            type: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                              selectCoordinatesData: selectCoordinatesDataSingle,
-                              fid: editIdTemp,
-                              geometryType:selectCoordinatesDataSingle.geometry.type,
-                            }),
-                            success: function (response) {
-                              alert('Data saved successfully!');
-                            },
-                            error: function (error) {
-                              console.error('Save request failed:', error);
-                            }
-                          });
-                          }
-                    else {
-
+                  } else {
                     $.ajax({
                       type: "POST",
                       url: "APIS/gis_update.php",
@@ -975,107 +1007,142 @@ e.containerPoint.x
                     });
                   }
 
-         
-
-                    let centroid = turf.centroid(selectCoordinatesDataSingle);
-                    var formData = new FormData();
-                    formData.append("proj_id", worksAaApprovalId);
-                   if (selectCoordinatesDataSingle.geometry.type === 'Point') {
-                    formData.append('latitude', selectCoordinatesDataSingle.geometry.coordinates[1]);
-                    formData.append('longitude', selectCoordinatesDataSingle.geometry.coordinates[0]);
-                  } else if (selectCoordinatesDataSingle.geometry.type === 'MultiLineString' || selectCoordinatesDataSingle.geometry.type === 'LineString') {
-                    formData.append('latitude', selectCoordinatesDataSingle.geometry.coordinates[0][1]);
-                    formData.append('longitude', selectCoordinatesDataSingle.geometry.coordinates[0][0]);
-                    var lenghtSelect = turf.length( selectCoordinatesDataSingle.geometry, { units: "meters" } );
+                  let centroid = turf.centroid(selectCoordinatesDataSingle);
+                  var formData = new FormData();
+                  formData.append("proj_id", worksAaApprovalId);
+                  if (selectCoordinatesDataSingle.geometry.type === "Point") {
+                    formData.append(
+                      "latitude",
+                      selectCoordinatesDataSingle.geometry.coordinates[1]
+                    );
+                    formData.append(
+                      "longitude",
+                      selectCoordinatesDataSingle.geometry.coordinates[0]
+                    );
+                  } else if (
+                    selectCoordinatesDataSingle.geometry.type ===
+                      "MultiLineString" ||
+                    selectCoordinatesDataSingle.geometry.type === "LineString"
+                  ) {
+                    formData.append(
+                      "latitude",
+                      selectCoordinatesDataSingle.geometry.coordinates[0][1]
+                    );
+                    formData.append(
+                      "longitude",
+                      selectCoordinatesDataSingle.geometry.coordinates[0][0]
+                    );
+                    var lenghtSelect = turf.length(
+                      selectCoordinatesDataSingle.geometry,
+                      { units: "meters" }
+                    );
                     formData.append("length", lenghtSelect);
-                  }
-                  else if (selectCoordinatesDataSingle.geometry.type === 'Polygon' || selectCoordinatesDataSingle.geometry.type === 'MultiPolygon'){
-                    formData.append("latitude",selectCoordinatesDataSingle.geometry.coordinates[0][0][0]);
-                    formData.append("longitude",selectCoordinatesDataSingle.geometry.coordinates[0][0][1]);               
+                  } else if (
+                    selectCoordinatesDataSingle.geometry.type === "Polygon" ||
+                    selectCoordinatesDataSingle.geometry.type === "MultiPolygon"
+                  ) {
+                    formData.append(
+                      "latitude",
+                      selectCoordinatesDataSingle.geometry.coordinates[0][0][0]
+                    );
+                    formData.append(
+                      "longitude",
+                      selectCoordinatesDataSingle.geometry.coordinates[0][0][1]
+                    );
                     formData.append("polygon_area", area);
-                    formData.append("polygon_centroid",JSON.stringify(centroid.geometry.coordinates));
+                    formData.append(
+                      "polygon_centroid",
+                      JSON.stringify(centroid.geometry.coordinates)
+                    );
                   }
 
-                    formData.append(  "geometry",JSON.stringify(selectCoordinatesDataSingle.geometry.coordinates?.map((coordinates) => coordinates.slice().reverse())));
-                    formData.append("road_no", struct_no);
-                    formData.append("user_id", user_id);
-                    $.ajax({
-                      type: "POST",
-                      url: "https://iwms.punecorporation.org/api/gis-data",
-                      data: formData,
-                      processData: false, 
-                      contentType: false,
-                      success: function (response) {
-                        window.location.href = response.data.redirect_Url;
-                      },
-                      error: function (xhr, status, error) {
-                        console.error("Save failed:", error);
-                      },
-                    });
+                  formData.append(
+                    "geometry",
+                    JSON.stringify(
+                      selectCoordinatesDataSingle.geometry.coordinates?.map(
+                        (coordinates) => coordinates.slice().reverse()
+                      )
+                    )
+                  );
+                  formData.append("road_no", struct_no);
+                  formData.append("user_id", user_id);
+                  $.ajax({
+                    type: "POST",
+                    url: "https://iwms.punecorporation.org/api/gis-data",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                      window.location.href = response.data.redirect_Url;
+                    },
+                    error: function (xhr, status, error) {
+                      console.error("Save failed:", error);
+                    },
                   });
                 });
-            }
-          });
+              });
+          }
+        });
 
-          // Change the button text to "Finish"
-          var button = document.querySelector(".custom-button");
-          button.innerHTML = "Finish";
+        // Change the button text to "Finish"
+        var button = document.querySelector(".custom-button");
+        button.innerHTML = "Finish";
 
-          // Change the button's onclick function to stop the task
-          button.onclick = function () {
-            button.innerHTML =
-              '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
-            // Remove the click event listener from the map
-            var drawFeatureButton = document.querySelector(".draw_feature");
-            if (drawFeatureButton) {
-              drawFeatureButton.removeAttribute("disabled");
-            }
+        // Change the button's onclick function to stop the task
+        button.onclick = function () {
+          button.innerHTML =
+            '<img src="png/003-selection.png" alt="" style="width:20px; height:20px;" title="SELECT-FEATURE">';
+          // Remove the click event listener from the map
+          var drawFeatureButton = document.querySelector(".draw_feature");
+          if (drawFeatureButton) {
+            drawFeatureButton.removeAttribute("disabled");
+          }
 
-            map.off("click");
-            toggleSelectLayerButton(false);
-            // Reset any ongoing operation here
-          };
+          map.off("click");
+          toggleSelectLayerButton(false);
+          // Reset any ongoing operation here
+        };
       }
 
-
       function updatePopup(layer) {
-  let content;
-  var coordinates = layer._latlngs[0];
-  var turfCoords = coordinates.map(function (coord) {
-    return [coord.lng, coord.lat];
-  });
+        let content;
+        var coordinates = layer._latlngs[0];
+        var turfCoords = coordinates.map(function (coord) {
+          return [coord.lng, coord.lat];
+        });
 
-  if (layer instanceof L.Polyline) {
-    var line = turf.lineString(turfCoords);
-    var length = turf.length(line, { units: 'meters' });
-    content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
-  } else if (layer instanceof L.Polygon) {
-    var polygon = turf.polygon([turfCoords]);
-    var area = turf.area(polygon);
-    content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
-  }
+        if (layer instanceof L.Polyline) {
+          var line = turf.lineString(turfCoords);
+          var length = turf.length(line, { units: "meters" });
+          content = length.toFixed(2) + " M"; // Fixed length to 2 decimal places
+        } else if (layer instanceof L.Polygon) {
+          var polygon = turf.polygon([turfCoords]);
+          var area = turf.area(polygon);
+          content = area.toFixed(2) + " SQM"; // Fixed area to 2 decimal places
+        }
 
-  if (!layer._popup) {
-    layer.bindPopup(content);
-  } else {
-    layer.setPopupContent(content);
-  }
-  layer.openPopup();
-}
+        if (!layer._popup) {
+          layer.bindPopup(content);
+        } else {
+          layer.setPopupContent(content);
+        }
+        layer.openPopup();
+      }
 
-
-document.getElementById("editFeatureButton").addEventListener("click", function (event) {
+      document
+        .getElementById("editFeatureButton")
+        .addEventListener("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
           coordinatesData.forEach((layer) => {
             if (layer.editing) {
-                    layer.editing.enable();
-                    updatePopupEdit(layer);
-                    layer.on('edit', function () {
-                      updatePopupEdit(layer);
-                    });
-                }
-            });
+              layer.editing.enable();
+              updatePopupEdit(layer);
+              layer.on("edit", function () {
+                updatePopupEdit(layer);
+              });
+            }
+          });
         });
 
       document
@@ -1407,10 +1474,10 @@ document.getElementById("editFeatureButton").addEventListener("click", function 
       map.zoomControl.setPosition("bottomright");
     </script>
 
-<script>
-	function openHelpPage() {
-		window.open('electrical_help.html', '_blank');
-	}
-  </script>
+    <script>
+      function openHelpPage() {
+        window.open("electrical_help.html", "_blank");
+      }
+    </script>
   </body>
 </html>
